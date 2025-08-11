@@ -10,7 +10,7 @@ import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 import { CriticalCSS } from "@/components/CriticalCSS";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import { usePerformanceOptimization } from "@/hooks/usePerformanceOptimization";
+
 import "./utils/cleanConsole";
 
 // Lazy load all page components for better performance
@@ -59,8 +59,6 @@ const PageLoader = () => (
 );
 
 const App = () => {
-  usePerformanceOptimization();
-  
   return (
     <ErrorBoundary>
       <HelmetProvider>
