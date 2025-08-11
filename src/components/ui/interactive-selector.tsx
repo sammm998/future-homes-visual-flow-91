@@ -124,7 +124,7 @@ const InteractiveSelector = () => {
                 }} className="text-white">
                           <h3 className="text-2xl lg:text-3xl font-bold mb-1">{option.title}</h3>
                           <p className="text-white/80 text-sm lg:text-base mb-2">{option.description}</p>
-                          <p className="text-primary-glow font-semibold text-sm mb-3">{option.propertyCount}</p>
+                          <p className="font-semibold text-sm mb-3 text-slate-50">{option.propertyCount}</p>
                           <button className="bg-primary hover:bg-primary-glow text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors" onClick={e => {
                     e.stopPropagation();
                     navigate(option.path);
