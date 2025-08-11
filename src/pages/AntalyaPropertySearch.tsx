@@ -96,7 +96,8 @@ const AntalyaPropertySearch = () => {
       status: 'available',
       image: prop.image,
       images: prop.images,
-      description: prop.description
+      description: prop.description,
+      coordinates: { lat: 0, lng: 0 }, // Add default coordinates
     }));
 
     if (showFiltered) {

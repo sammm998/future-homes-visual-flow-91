@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => ({
       },
     },
     target: 'esnext',
-    minify: 'esbuild',
+    minify: false,
     sourcemap: false,
     cssCodeSplit: true,
   },

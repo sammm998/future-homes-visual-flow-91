@@ -13,7 +13,7 @@ export interface PropertyFilters {
 }
 
 export interface Property {
-  id: number;
+  id: string | number;
   refNo?: string;
   title: string;
   location: string;
@@ -23,8 +23,10 @@ export interface Property {
   area: string;
   status: string;
   image: string;
-  coordinates: [number, number];
+  coordinates: [number, number] | { lat: number; lng: number };
   features?: string[];
+  images?: string[];
+  description?: string;
 }
 
 export const filterProperties = (properties: Property[], filters: PropertyFilters): Property[] => {
@@ -181,9 +183,13 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
           const priceB2 = parseInt(b.price.replace(/[€$£,]/g, '')) || 0;
           return priceB2 - priceA2;
         case 'newest':
-          return b.id - a.id; // Newer properties have higher IDs
+          const idA = typeof a.id === 'string' ? parseInt(a.id.slice(-6)) : a.id;
+          const idB = typeof b.id === 'string' ? parseInt(b.id.slice(-6)) : b.id;
+          return idB - idA; // Newer properties have higher IDs
         case 'oldest':
-          return a.id - b.id; // Older properties have lower IDs
+          const idA2 = typeof a.id === 'string' ? parseInt(a.id.slice(-6)) : a.id;
+          const idB2 = typeof b.id === 'string' ? parseInt(b.id.slice(-6)) : b.id;
+          return idA2 - idB2; // Older properties have lower IDs
         case 'area-large':
           const areaA = parseInt(a.area.split(' <> ')[0]);
           const areaB = parseInt(b.area.split(' <> ')[0]);
@@ -202,7 +208,9 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
           return bedroomsA2 - bedroomsB2; // Least bedrooms first
         case 'ref':
         default:
-          return a.id - b.id;
+          const defaultIdA = typeof a.id === 'string' ? parseInt(a.id.slice(-6)) : a.id;
+          const defaultIdB = typeof b.id === 'string' ? parseInt(b.id.slice(-6)) : b.id;
+          return defaultIdA - defaultIdB;
       }
     });
   }
