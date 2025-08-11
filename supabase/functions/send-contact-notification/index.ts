@@ -82,7 +82,7 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "Future Homes Turkey <noreply@futurehomesturkey.com>",
+      from: "Future Homes Turkey <info@futurehomesturkey.com>",
       to: ["info@futurehomesturkey.com"],
       subject: `New Contact Inquiry from ${name}`,
       html: emailContent,

@@ -37,7 +37,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send notification email to info@futurehomesturkey.com
     const emailResponse = await resend.emails.send({
-      from: "Newsletter <noreply@futurehomesturkey.com>",
+      from: "Future Homes Turkey <info@futurehomesturkey.com>",
       to: ["info@futurehomesturkey.com"],
       subject: "New Newsletter Subscription",
       html: `
