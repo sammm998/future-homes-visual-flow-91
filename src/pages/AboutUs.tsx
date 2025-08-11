@@ -218,14 +218,23 @@ const AboutUs = () => {
                 <Card key={member.id || index} className="text-center hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <div className="w-24 h-24 mx-auto mb-4">
-                      <img 
-                        src={member.image_url} 
-                        alt={member.name}
-                        className="w-full h-full rounded-full object-cover"
-                        onError={(e) => {
-                          console.log(`Failed to load image for ${member.name}:`, member.image_url);
-                        }}
-                      />
+                      {member.image_url ? (
+                        <img 
+                          src={member.image_url} 
+                          alt={member.name}
+                          className="w-full h-full rounded-full object-cover"
+                          onError={(e) => {
+                            console.log(`Failed to load image for ${member.name}:`, member.image_url);
+                            e.currentTarget.style.display = 'none';
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full rounded-full bg-primary/10 flex items-center justify-center">
+                          <span className="text-2xl font-bold text-primary">
+                            {member.name.split(' ').map(n => n[0]).join('')}
+                          </span>
+                        </div>
+                      )}
                     </div>
                     <CardTitle className="text-xl">{member.name}</CardTitle>
                     <p className="text-primary font-medium">{member.position}</p>
