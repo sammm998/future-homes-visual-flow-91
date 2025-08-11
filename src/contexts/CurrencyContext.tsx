@@ -27,11 +27,14 @@ export const currencies: Currency[] = [
 // Language to currency mapping
 const languageToCurrency: { [key: string]: string } = {
   'en': 'EUR',
-  'fr': 'EUR',
-  'es': 'EUR',
   'sv': 'SEK',
-  'da': 'EUR',
+  'no': 'NOK',
+  'da': 'DKK',
   'tr': 'TRY',
+  'ur': 'AED',
+  'fa': 'IRR',
+  'ar': 'AED',
+  'ru': 'RUB',
 };
 
 interface CurrencyContextType {
@@ -82,8 +85,8 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const updateCurrencyFromLanguage = (languageCode: string, autoChange: boolean = false) => {
-    if (!autoChange) return; // Currency changes are now manual by default
+  const updateCurrencyFromLanguage = (languageCode: string, autoChange: boolean = true) => {
+    if (!autoChange) return;
     
     const currencyCode = languageToCurrency[languageCode];
     if (currencyCode) {
@@ -91,6 +94,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (currency && currency.code !== selectedCurrency.code) {
         console.log(`Language changed to ${languageCode}, updating currency to ${currencyCode}`);
         setSelectedCurrency(currency);
+        localStorage.setItem('currency', currencyCode);
       }
     }
   };
