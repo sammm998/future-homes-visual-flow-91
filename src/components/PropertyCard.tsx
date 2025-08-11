@@ -11,27 +11,32 @@ import { useMemoizedStatus, useMemoizedPrice } from '@/utils/memoization';
 
 interface PropertyCardProps {
   property: {
-    id: number;
+    id: string;
     refNo?: string;
     title: string;
     location: string;
     price: string;
-    bedrooms: string;
-    bathrooms: string;
-    area: string;
-    status: string;
+    bedrooms: number | string;
+    bathrooms: number | string;
+    size?: string;
+    area?: string;
+    status?: string;
     image: string;
+    images?: string[];
+    type?: string;
+    slug?: string;
   };
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
   const { formatPrice } = useCurrency();
   
-  const statusInfo = useMemoizedStatus(property.status);
+  const statusInfo = useMemoizedStatus(property.status || 'available');
   const formattedPrice = useMemoizedPrice(property.price, formatPrice);
+  const area = property.size || property.area || '0';
 
   return (
-    <Link to={`/property/${property.id}`} state={{ from: window.location.pathname + window.location.search }} className="block w-full">
+    <Link to={`/property/${property.slug || property.id}`} state={{ from: window.location.pathname + window.location.search }} className="block w-full">
       <Card className="group overflow-hidden hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full">
         <div className="relative">
           <LazyImage 
@@ -77,7 +82,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
             </div>
             <div className="flex flex-col items-center text-center">
               <Square size={20} className="text-primary mb-2" />
-              <div className="font-bold text-sm mb-1 truncate">{property.area}</div>
+              <div className="font-bold text-sm mb-1 truncate">{area}</div>
               <div className="text-xs text-muted-foreground">m²</div>
             </div>
           </div>

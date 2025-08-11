@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Timeline } from "@/components/ui/timeline";
 import { Grid } from "lucide-react";
-import { antalyaProperties } from '@/data/antalyaProperties';
+import { useFilteredProperties } from '@/hooks/useSupabaseProperties';
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
@@ -34,6 +34,15 @@ const AntalyaPropertySearch = () => {
   });
   const [showFiltered, setShowFiltered] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
+  
+  // Get properties from Supabase with real-time updates
+  const { properties: supabaseProperties, loading, error } = useFilteredProperties({
+    location: 'Antalya',
+    minPrice: filters.minPrice ? parseInt(filters.minPrice) : undefined,
+    maxPrice: filters.maxPrice ? parseInt(filters.maxPrice) : undefined,
+    bedrooms: filters.bedrooms ? parseInt(filters.bedrooms) : undefined,
+    propertyType: filters.propertyType || undefined
+  });
 
   // Load filters from URL parameters and location state on mount
   useEffect(() => {
@@ -72,11 +81,29 @@ const AntalyaPropertySearch = () => {
   }, [searchParams, location.state]);
 
   const filteredProperties = useMemo(() => {
+    if (loading || error) return [];
+    
+    // Convert Supabase properties to match the expected format
+    const convertedProperties = supabaseProperties.map(prop => ({
+      id: prop.id,
+      refNo: prop.refNo,
+      title: prop.title,
+      location: prop.location,
+      price: prop.price,
+      bedrooms: prop.bedrooms.toString(),
+      bathrooms: prop.bathrooms.toString(),
+      area: prop.size,
+      status: 'available',
+      image: prop.image,
+      images: prop.images,
+      description: prop.description
+    }));
+
     if (showFiltered) {
-      return filterProperties(antalyaProperties, filters);
+      return filterProperties(convertedProperties, filters);
     }
-    return antalyaProperties;
-  }, [antalyaProperties, filters, showFiltered]);
+    return convertedProperties;
+  }, [supabaseProperties, filters, showFiltered, loading, error]);
 
   const handleFilterChange = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
@@ -89,7 +116,7 @@ const AntalyaPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${property.id}`, { 
+    navigate(`/property/${property.slug || property.id}`, { 
       state: { from: '/antalya' }
     });
   };
@@ -175,7 +202,7 @@ const AntalyaPropertySearch = () => {
             Properties In Antalya
           </h1>
           <p className="text-muted-foreground">
-            {antalyaProperties.length} properties found
+            {loading ? 'Loading...' : error ? 'Error loading properties' : `${filteredProperties.length} properties found`}
           </p>
         </div>
 
@@ -220,7 +247,7 @@ const AntalyaPropertySearch = () => {
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-4">
               <span className="text-sm text-muted-foreground">
-                Showing {filteredProperties.length} of {antalyaProperties.length} properties
+                {loading ? 'Loading...' : `Showing ${filteredProperties.length} of ${supabaseProperties.length} properties`}
               </span>
             </div>
           </div>
