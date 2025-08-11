@@ -26,7 +26,7 @@ const Newsletter = memo(() => {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://hnmcetxfrjkwtyzzflkl.supabase.co/functions/v1/subscribe-newsletter', {
+      const response = await fetch('https://kiogiyemoqbnuvclneoe.supabase.co/functions/v1/subscribe-newsletter', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
