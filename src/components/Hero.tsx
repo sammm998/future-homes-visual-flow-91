@@ -124,7 +124,27 @@ const Hero: React.FC<HeroProps> = ({
       'France': '/france'
     };
     
-    const targetRoute = locationRoutes[location] || '/properties';
+    // Determine route based on reference number or location
+    let targetRoute = '/antalya'; // Default to Antalya
+    
+    if (refNo) {
+      // Determine city based on reference number patterns
+      const refNumber = parseInt(refNo);
+      if (refNumber >= 3000 && refNumber <= 4999) {
+        targetRoute = '/antalya';
+      } else if (refNumber >= 4500 && refNumber <= 4699) {
+        targetRoute = '/dubai';
+      } else if (refNumber >= 5000 && refNumber <= 5999) {
+        targetRoute = '/cyprus';
+      } else if (refNumber >= 6000 && refNumber <= 6999) {
+        targetRoute = '/mersin';
+      } else if (refNumber >= 7000 && refNumber <= 7999) {
+        targetRoute = '/france';
+      }
+    } else if (location) {
+      targetRoute = locationRoutes[location] || '/antalya';
+    }
+    
     navigate(`${targetRoute}?${searchParams.toString()}`);
   };
 
