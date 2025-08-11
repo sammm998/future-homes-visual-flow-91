@@ -78,6 +78,7 @@ const MersinPropertySearch = () => {
       property.location?.toLowerCase().includes('mersin')
     ).map(property => ({
       id: parseInt(property.ref_no) || parseInt(property.id),
+      refNo: property.ref_no, // Add this mapping for reference number filtering
       title: property.title,
       location: property.location,
       price: property.price,
