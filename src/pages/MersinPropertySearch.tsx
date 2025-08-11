@@ -9,12 +9,11 @@ import { Switch } from "@/components/ui/switch";
 import { Timeline } from "@/components/ui/timeline";
 import { Eye, Grid } from "lucide-react";
 import { useProperties } from "@/hooks/useProperties";
-import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
-import { useSEOLanguage } from "@/hooks/useSEOLanguage";
+
+import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 
 const MersinPropertySearch = () => {
-  const { canonicalUrl, hreflangUrls } = useSEOLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -76,28 +75,50 @@ const MersinPropertySearch = () => {
   const mersinProperties = useMemo(() => {
     return allProperties.filter(property => 
       property.location?.toLowerCase().includes('mersin')
-    ).map(property => ({
-      id: parseInt(property.ref_no) || parseInt(property.id),
-      title: property.title,
-      location: property.location,
-      price: property.price,
-      bedrooms: property.bedrooms,
-      bathrooms: property.bathrooms,
-      area: property.sizes_m2,
-      status: property.status,
-      image: property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
-      coordinates: [36.7987, 34.6420] as [number, number] // Default Mersin coordinates
-    }));
-  }, [allProperties]);
+    ).map(property => {
+      // Extract status from facilities - prioritize certain statuses
+      let status = 'available';
+      const facilities = property.property_facilities || [];
+      const facilitiesString = property.facilities || '';
+      
+      // Combine all facility sources
+      const allFacilities = [...facilities, ...facilitiesString.split(',').map(f => f.trim())];
+      
+      // Check for key status indicators in priority order
+      if (allFacilities.some(f => f.toLowerCase().includes('under construction'))) {
+        status = 'Under Construction';
+      } else if (allFacilities.some(f => f.toLowerCase().includes('ready to move'))) {
+        status = 'Ready to Move';
+      } else if (allFacilities.some(f => f.toLowerCase().includes('sea view'))) {
+        status = 'Sea View';
+      } else if (allFacilities.some(f => f.toLowerCase().includes('private pool'))) {
+        status = 'Private Pool';
+      } else if (allFacilities.some(f => f.toLowerCase().includes('for residence permit'))) {
+        status = 'For Residence Permit';
+      }
 
-  const properties = mersinProperties;
+      return {
+        id: parseInt(property.ref_no) || parseInt(property.id),
+        refNo: property.ref_no,
+        title: property.title,
+        location: property.location,
+        price: property.price,
+        bedrooms: property.bedrooms,
+        bathrooms: property.bathrooms,
+        area: property.sizes_m2,
+        status: status,
+        image: property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
+        coordinates: [36.8121, 34.6415] as [number, number] // Default Mersin coordinates
+      };
+    });
+  }, [allProperties]);
 
   const filteredProperties = useMemo(() => {
     if (showFiltered) {
-      return filterProperties(properties, filters);
+      return filterProperties(mersinProperties, filters);
     }
-    return properties;
-  }, [properties, filters, showFiltered]);
+    return mersinProperties;
+  }, [mersinProperties, filters, showFiltered]);
 
   const handleFilterChange = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
@@ -118,69 +139,17 @@ const MersinPropertySearch = () => {
 
   const handlePropertyClick = (property: any) => {
     navigate(`/property/${property.id}`, { 
-      state: { from: '/mersin' }
+      state: { from: '/mersin' } 
     });
   };
 
-  // Timeline data using ALL Mersin properties
-  const timelineData = filteredProperties.map((property, index) => ({
-    title: property.title,
-    content: (
-      <div>
-        <p className="text-foreground text-xs md:text-sm font-normal mb-4">
-          Premium Mersin property with sea views and modern Mediterranean lifestyle.
-        </p>
-        <div className="mb-6">
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            📍 {property.location}
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            💰 {property.price}
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            🏠 {property.bedrooms} | 📐 {property.area}m²
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            ✅ {property.status}
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <img
-            src={property.image}
-            alt={`${property.title} - Image 1`}
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = `/lovable-uploads/000f440d-ddb1-4c1b-9202-eef1ef588a8c.png`;
-            }}
-          />
-          <img
-            src="/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png"
-            alt="Property placeholder"
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-          />
-          <img
-            src="/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png"
-            alt="Property placeholder"
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-          />
-          <img
-            src="/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.png"
-            alt="Property placeholder"
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-          />
-        </div>
-      </div>
-    ),
-  }));
+  const displayedProperties = showTimeline ? filteredProperties : filteredProperties.slice(0, 12);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center">Loading Mersin properties...</div>
-        </div>
+        <div className="pt-24 text-center">Loading properties...</div>
       </div>
     );
   }
@@ -189,88 +158,186 @@ const MersinPropertySearch = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-destructive">Error loading properties: {error}</div>
-        </div>
+        <div className="pt-24 text-center text-red-600">Error loading properties: {error}</div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
-        title="Mersin Properties & Turkish Citizenship | Future Homes"
-        description="Turkish citizenship via Mersin properties. Mediterranean coastline real estate with investment opportunities. Expert guidance included."
-        keywords="Mersin properties, Turkish citizenship, property investment Mersin, Mediterranean real estate, Mersin apartments"
-        canonicalUrl={canonicalUrl}
-        hreflang={hreflangUrls}
+      <SEOHead 
+        title="Properties For Sale in Mersin, Turkey - Future Homes"
+        description="Discover luxury apartments and villas for sale in Mersin, Turkey. Mediterranean coast properties with modern amenities, close to beach and city center."
+        keywords="Mersin properties, Turkey real estate, Mediterranean apartments, Mersin villas, properties for sale Turkey"
       />
-      <Navigation />
       
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Properties in Mersin
-          </h1>
-          <p className="text-muted-foreground">
-            {filteredProperties.length} properties found
-          </p>
-        </div>
+      <Navigation />
+      <ElevenLabsWidget />
+      
+      <div className="pt-20 pb-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+              Properties In Mersin
+            </h1>
+            <p className="text-xl text-muted-foreground">
+              {mersinProperties.length} properties found
+            </p>
+          </div>
 
-        {/* Filter at top */}
-        <div className="mb-6">
-          <PropertyFilter 
+          <PropertyFilter
             filters={filters}
             onFilterChange={handleFilterChange}
             onSearch={handleSearch}
-            horizontal={true}
           />
-        </div>
 
-        {/* Timeline Toggle */}
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <Switch isSelected={showTimeline} onChange={setShowTimeline}>
-            <span className="text-sm text-muted-foreground">Timeline View</span>
-          </Switch>
-        </div>
+          {showFiltered && (
+            <div className="mb-4 text-center">
+              <p className="text-sm text-muted-foreground">
+                Showing {filteredProperties.length} of {mersinProperties.length} properties
+              </p>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => {
+                  setFilters({
+                    propertyType: '',
+                    bedrooms: '',
+                    location: 'Mersin',
+                    district: '',
+                    minPrice: '',
+                    maxPrice: '',
+                    minSquareFeet: '',
+                    maxSquareFeet: '',
+                    facilities: [],
+                    sortBy: 'ref',
+                    referenceNo: ''
+                  });
+                  setShowFiltered(false);
+                }}
+                className="mt-2"
+              >
+                Clear Filters
+              </Button>
+            </div>
+          )}
 
-        {/* Timeline Component - Only show when toggle is enabled */}
-        {showTimeline && (
-          <div className="mb-8">
-            <Timeline data={timelineData} location="Mersin" />
+          <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-muted-foreground">
+                Showing {displayedProperties.length} of {filteredProperties.length} properties
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant={!showTimeline ? "default" : "outline"}
+                size="sm"
+                onClick={() => setShowTimeline(false)}
+                className="flex items-center gap-2"
+              >
+                <Grid size={16} />
+                Grid View
+              </Button>
+              <Button
+                variant={showTimeline ? "default" : "outline"}
+                size="sm"
+                onClick={() => setShowTimeline(true)}
+                className="flex items-center gap-2"
+              >
+                <Eye size={16} />
+                Timeline View
+              </Button>
+            </div>
           </div>
-        )}
 
-        {/* Mobile Layout: One property per screen */}
-        <div className="block md:hidden">
-          <div className="space-y-6">
-            {filteredProperties.map((property) => (
-              <div key={property.id} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
-                <div className="w-full max-w-sm mx-auto">
-                  <PropertyCard property={property} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
-        <div className="hidden md:block">
-          {!showTimeline && (
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredProperties.map((property) => (
-                <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+          {filteredProperties.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="text-6xl mb-4">🏠</div>
+              <h3 className="text-xl font-semibold mb-2">No Properties Found</h3>
+              <p className="text-muted-foreground mb-4">Try adjusting your search criteria to find more properties.</p>
+              <Button onClick={() => {
+                setFilters({
+                  propertyType: '',
+                  bedrooms: '',
+                  location: 'Mersin',
+                  district: '',
+                  minPrice: '',
+                  maxPrice: '',
+                  minSquareFeet: '',
+                  maxSquareFeet: '',
+                  facilities: [],
+                  sortBy: 'ref',
+                  referenceNo: ''
+                });
+                setShowFiltered(false);
+              }}>
+                Clear Filters
+              </Button>
+            </div>
+          ) : showTimeline ? (
+            <Timeline 
+              data={filteredProperties.map((property, index) => ({
+                title: property.title,
+                content: (
+                  <div>
+                    <p className="text-foreground text-xs md:text-sm font-normal mb-4">
+                      Premium property with modern amenities and excellent location in Mersin.
+                    </p>
+                    <div className="mb-6">
+                      <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
+                        📍 {property.location}
+                      </div>
+                      <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
+                        💰 {property.price}
+                      </div>
+                      <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
+                        🏠 {property.bedrooms} | 📐 {property.area}m²
+                      </div>
+                      <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
+                        🏷️ {property.status}
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                      <img 
+                        src={property.image} 
+                        alt={property.title}
+                        className="w-full h-24 object-cover rounded-lg"
+                      />
+                    </div>
+                    <Button 
+                      onClick={() => handlePropertyClick(property)}
+                      className="w-full"
+                      size="sm"
+                    >
+                      View Details
+                    </Button>
+                  </div>
+                )
+              }))}
+            />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {displayedProperties.map((property) => (
+                <div key={property.id} onClick={() => handlePropertyClick(property)}>
                   <PropertyCard property={property} />
                 </div>
               ))}
             </div>
           )}
+
+          {!showTimeline && filteredProperties.length > 12 && displayedProperties.length < filteredProperties.length && (
+            <div className="text-center mt-8">
+              <Button 
+                onClick={() => setShowTimeline(true)}
+                variant="outline"
+                size="lg"
+              >
+                View All {filteredProperties.length} Properties
+              </Button>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* ElevenLabs Widget */}
-      <ElevenLabsWidget />
     </div>
   );
 };
