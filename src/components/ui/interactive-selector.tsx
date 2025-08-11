@@ -9,7 +9,7 @@ const InteractiveSelector = () => {
   const options = [{
     title: "Antalya",
     description: "Turkish Riviera Paradise",
-    propertyCount: "45+ Properties",
+    propertyCount: "80+ Properties",
     image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png",
     icon: <FaUmbrellaBeach size={20} className="text-white" />,
     path: "/antalya"
