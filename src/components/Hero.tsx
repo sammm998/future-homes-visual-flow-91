@@ -130,7 +130,7 @@ const Hero: React.FC<HeroProps> = ({
     if (refNo) {
       // Determine city based on reference number patterns
       const refNumber = parseInt(refNo);
-      if (refNumber >= 1000 && refNumber <= 2999) {
+      if ((refNumber >= 1000 && refNumber <= 2999) || (refNumber >= 10000 && refNumber <= 29999)) {
         targetRoute = '/dubai';
       } else if (refNumber >= 3000 && refNumber <= 4999) {
         targetRoute = '/antalya';
