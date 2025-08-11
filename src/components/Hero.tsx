@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Search, MapPin, Home, Building, Store, Filter } from "lucide-react";
 import { Spotlight } from "@/components/ui/spotlight";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { findPropertyLocationByRefNo } from "@/utils/propertyRouting";
 
 
 
@@ -58,7 +59,7 @@ const Hero: React.FC<HeroProps> = ({
     }));
   }, [selectedCurrency, formatPrice]);
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     // Build search parameters from form using same logic as PropertyFilter
     const searchParams = new URLSearchParams();
     
@@ -128,19 +129,8 @@ const Hero: React.FC<HeroProps> = ({
     let targetRoute = '/antalya'; // Default to Antalya
     
     if (refNo) {
-      // Determine city based on reference number patterns
-      const refNumber = parseInt(refNo);
-      if ((refNumber >= 1000 && refNumber <= 2999) || (refNumber >= 10000 && refNumber <= 29999)) {
-        targetRoute = '/dubai';
-      } else if (refNumber >= 3000 && refNumber <= 4999) {
-        targetRoute = '/antalya';
-      } else if (refNumber >= 5000 && refNumber <= 5999) {
-        targetRoute = '/cyprus';
-      } else if (refNumber >= 6000 && refNumber <= 6999) {
-        targetRoute = '/mersin';
-      } else if (refNumber >= 7000 && refNumber <= 7999) {
-        targetRoute = '/france';
-      }
+      // Use the new utility function to find the correct location
+      targetRoute = await findPropertyLocationByRefNo(refNo);
     } else if (location) {
       targetRoute = locationRoutes[location] || '/antalya';
     }
