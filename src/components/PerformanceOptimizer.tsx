@@ -24,7 +24,7 @@ export const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
           imageObserver.unobserve(img);
         }
       });
-    });
+    }, { rootMargin: '50px' });
 
     images.forEach(img => imageObserver.observe(img));
 
@@ -41,6 +41,30 @@ export const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
       document.head.appendChild(link);
     });
   }, [preloadImages]);
+
+  useEffect(() => {
+    // Enable resource hints for faster loading
+    const enableResourceHints = () => {
+      // Critical CSS preload
+      const criticalFonts = [
+        '/fonts/inter-400.woff2',
+        '/fonts/inter-500.woff2',
+        '/fonts/inter-600.woff2',
+      ];
+      
+      criticalFonts.forEach(font => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'font';
+        link.type = 'font/woff2';
+        link.crossOrigin = 'anonymous';
+        link.href = font;
+        document.head.appendChild(link);
+      });
+    };
+
+    enableResourceHints();
+  }, []);
 
   return (
     <Helmet>

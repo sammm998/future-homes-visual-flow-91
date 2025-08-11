@@ -7,8 +7,10 @@ import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
+import { CriticalCSS } from "@/components/CriticalCSS";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { usePerformanceOptimization } from "@/hooks/usePerformanceOptimization";
 import "./utils/cleanConsole";
 
 // Lazy load all page components for better performance
@@ -33,13 +35,17 @@ const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
 
 
-// Optimized query client with better caching
+// Optimized query client with aggressive caching
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes  
+      staleTime: 10 * 60 * 1000, // 10 minutes
+      gcTime: 30 * 60 * 1000, // 30 minutes  
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      retry: 1,
+    },
+    mutations: {
       retry: 1,
     },
   },
@@ -52,18 +58,26 @@ const PageLoader = () => (
   </div>
 );
 
-const App = () => (
-  <ErrorBoundary>
-    <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
+const App = () => {
+  usePerformanceOptimization();
+  
+  return (
+    <ErrorBoundary>
+      <HelmetProvider>
+        <CriticalCSS />
+        <PerformanceOptimizer 
+          preloadImages={['/hero-image.jpg', '/logo.png']}
+          prefetchRoutes={['/antalya', '/dubai', '/cyprus']}
+        />
+        <QueryClientProvider client={queryClient}>
           <CurrencyProvider>
             <TooltipProvider>
               <Toaster />
               <Sonner />
               <BrowserRouter>
-              <ScrollToTop />
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
+                <ScrollToTop />
+                <Suspense fallback={<PageLoader />}>
+                  <Routes>
                   <Route path="/" element={<><Index /><Newsletter /></>} />
                   
                   <Route path="/property-wizard" element={<PropertyWizard />} />
@@ -83,14 +97,15 @@ const App = () => (
                   <Route path="/articles/:slug" element={<ArticlePage />} />
                   <Route path="/sitemap.xml" element={<SitemapXML />} />
                   <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
-          </TooltipProvider>
-        </CurrencyProvider>
-  </QueryClientProvider>
-  </HelmetProvider>
-  </ErrorBoundary>
-);
+                  </Routes>
+                </Suspense>
+              </BrowserRouter>
+            </TooltipProvider>
+          </CurrencyProvider>
+        </QueryClientProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
+  );
+};
 
 export default App;
