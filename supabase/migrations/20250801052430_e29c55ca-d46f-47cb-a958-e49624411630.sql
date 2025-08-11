@@ -1,0 +1,1 @@
+DELETE FROM properties WHERE created_at > NOW() - INTERVAL '10 minutes';

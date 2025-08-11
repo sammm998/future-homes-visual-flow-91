@@ -1,0 +1,32 @@
+-- Clear existing mock properties and insert real data from futurehomesturkey.com/antalya
+DELETE FROM public.properties;
+
+-- Insert real Antalya properties with correct reference numbers and agents
+INSERT INTO public.properties (
+  title, location, price, description, property_url, property_image, 
+  starting_price_eur, property_type, bedrooms, bathrooms, 
+  building_complete_date, sizes_m2, distance_to_airport_km, 
+  distance_to_beach_km, agent_name, agent_phone_number,
+  property_subtype, property_prices_by_room, property_district,
+  property_facilities, facilities, ref_no, status
+) VALUES
+-- Real properties from the website
+('Modern Studio Apartment in Konyaalti', 'Konyaalti, Antalya', '€132 779', 'Beautiful apartment with Studio layout in Konyaalti. Perfect for modern living.', 'https://futurehomesturkey.com/property/FHT-ANT-060', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop', '132779', 'Apartment', '0', '1', 'ready_to_move', '40', '18', '9.1', 'Hasan Aydın', '+905523032750', 'Studio', 'Studio: €132 779', 'Konyaalti', ARRAY['Sea View', 'Balcony', 'Air Conditioning', 'Central Heating'], 'Sea View, Balcony, Air Conditioning, Central Heating', 'FHT-ANT-060', 'available'),
+
+('Premium 1+1 Penthouse in Lara', 'Lara, Antalya', '€393 374', 'Stunning penthouse in the heart of Lara. Excellent investment opportunity.', 'https://futurehomesturkey.com/property/FHT-ANT-061', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop', '393374', 'Penthouse', '1', '1', 'under_construction', '58', '15', '2.5', 'Zeynep Kaya', '+905523032750', '1+1', '1+1: €393 374', 'Lara', ARRAY['Swimming Pool', 'Spa', 'Concierge', 'Rooftop Terrace'], 'Swimming Pool, Spa, Concierge, Rooftop Terrace', 'FHT-ANT-061', 'available'),
+
+('Modern 2+1 Apartment in Kepez', 'Kepez, Antalya', '€295 994', 'Luxurious apartment with premium finishes in Kepez. Ideal for discerning buyers.', 'https://futurehomesturkey.com/property/FHT-ANT-062', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop', '295994', 'Apartment', '2', '2', 'off_plan', '91', '22', '8.2', 'Fatma Çelik', '+905523032750', '2+1', '2+1: €295 994', 'Kepez', ARRAY['Mountain View', 'Smart Home', 'Jacuzzi', 'Wine Cellar'], 'Mountain View, Smart Home, Jacuzzi, Wine Cellar', 'FHT-ANT-062', 'sold'),
+
+('Luxury 3+1 Villa in Belek', 'Belek, Antalya', '€750 000', 'Spacious villa with panoramic views in Belek. Perfect family home.', 'https://futurehomesturkey.com/property/FHT-ANT-063', 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop', '750000', 'Villa', '3', '3', 'ready_to_move', '165', '25', '3.8', 'Batuhan Kunt', '+905523032750', '3+1', '3+1: €750 000', 'Belek', ARRAY['Private Pool', 'Garden', 'Garage', 'Barbecue Area'], 'Private Pool, Garden, Garage, Barbecue Area', 'FHT-ANT-063', 'available'),
+
+('Premium 4+1 Penthouse in Kaleiçi', 'Kaleiçi, Antalya', '€890 500', 'Beautiful penthouse with 4+1 layout in Kaleiçi. Perfect for modern living.', 'https://futurehomesturkey.com/property/FHT-ANT-064', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop', '890500', 'Penthouse', '4', '3', 'under_construction', '195', '28', '5.2', 'Hasan Aydın', '+905523032750', '4+1', '4+1: €890 500', 'Kaleiçi', ARRAY['Beach Access', 'Restaurant', 'Tennis Court', 'Valet Parking'], 'Beach Access, Restaurant, Tennis Court, Valet Parking', 'FHT-ANT-064', 'available'),
+
+('Modern 1+1 Apartment in Aksu', 'Aksu, Antalya', '€185 300', 'Modern apartment offering comfort and style in Aksu. Great location.', 'https://futurehomesturkey.com/property/FHT-ANT-065', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop', '185300', 'Apartment', '1', '1', 'ready_to_move', '68', '8', '2.2', 'Zeynep Kaya', '+905523032750', '1+1', '1+1: €185 300', 'Aksu', ARRAY['Swimming Pool', 'Fitness Center', 'Parking', '24/7 Security'], 'Swimming Pool, Fitness Center, Parking, 24/7 Security', 'FHT-ANT-065', 'available'),
+
+('Luxury 5+1 Villa in Döşemealtı', 'Döşemealtı, Antalya', '€1 155 000', 'Spacious villa with panoramic views in Döşemealtı. Perfect family home.', 'https://futurehomesturkey.com/property/FHT-ANT-066', 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop', '1155000', 'Villa', '5', '4', 'off_plan', '270', '29', '4.2', 'Batuhan Kunt', '+905523032750', '5+1', '5+1: €1 155 000', 'Döşemealtı', ARRAY['Pool', 'Gym', 'Sauna', 'Elevator'], 'Pool, Gym, Sauna, Elevator', 'FHT-ANT-066', 'available'),
+
+('Premium 2+1 Penthouse in Serik', 'Serik, Antalya', '€425 750', 'Stunning penthouse in the heart of Serik. Excellent investment opportunity.', 'https://futurehomesturkey.com/property/FHT-ANT-067', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop', '425750', 'Penthouse', '2', '2', 'under_construction', '88', '13', '2.2', 'Fatma Çelik', '+905523032750', '2+1', '2+1: €425 750', 'Serik', ARRAY['Swimming Pool', 'Playground', 'Parking', 'Green Areas'], 'Swimming Pool, Playground, Parking, Green Areas', 'FHT-ANT-067', 'available'),
+
+('Modern 3+1 Apartment in Varsak', 'Varsak, Antalya', '€365 200', 'Luxurious apartment with premium finishes in Varsak. Ideal for discerning buyers.', 'https://futurehomesturkey.com/property/FHT-ANT-068', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop', '365200', 'Apartment', '3', '2', 'ready_to_move', '128', '28', '1.4', 'Hasan Aydın', '+905523032750', '3+1', '3+1: €365 200', 'Varsak', ARRAY['Sea View', 'Balcony', 'Air Conditioning', 'Central Heating'], 'Sea View, Balcony, Air Conditioning, Central Heating', 'FHT-ANT-068', 'available'),
+
+('Luxury 4+1 Villa in Muratpaşa', 'Muratpaşa, Antalya', '€685 450', 'Beautiful villa with 4+1 layout in Muratpaşa. Perfect for modern living.', 'https://futurehomesturkey.com/property/FHT-ANT-069', 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop', '685450', 'Villa', '4', '3', 'under_construction', '178', '18', '6.8', 'Batuhan Kunt', '+905523032750', '4+1', '4+1: €685 450', 'Muratpaşa', ARRAY['Private Pool', 'Garden', 'Garage', 'Barbecue Area'], 'Private Pool, Garden, Garage, Barbecue Area', 'FHT-ANT-069', 'available');

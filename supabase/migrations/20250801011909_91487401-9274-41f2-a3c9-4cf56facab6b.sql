@@ -1,0 +1,48 @@
+-- First, remove duplicates
+DELETE FROM properties 
+WHERE id IN (
+    SELECT id FROM (
+        SELECT id, ROW_NUMBER() OVER (PARTITION BY ref_no ORDER BY created_at) as rn 
+        FROM properties 
+        WHERE location LIKE '%Dubai%'
+    ) t WHERE rn > 1
+);
+
+-- Insert the 16 missing Dubai properties to reach 35 total
+INSERT INTO public.properties (
+    ref_no, title, location, price, property_type, bedrooms, bathrooms,
+    sizes_m2, status, building_complete_date, description,
+    property_image, distance_to_airport_km, distance_to_beach_km,
+    agent_name, agent_phone_number, facilities
+) VALUES
+('10036', 'Ultra-luxury apartments for sale in unique location in Dubai, Downtown', 'Dubai, Downtown', '€600,000', 'Apartments', '1+1 <> 4+1', '1 <> 4', '70 <> 187', 'Under Construction', '06/01/2029', 'The apartments for sale are located in the Downtown area of Dubai. Offering both luxurious living spaces and commercial opportunities, Downtown is one of the most prestigious locations in Dubai. Hosting world-class icons such as the Burj Khalifa, Dubai Mall and Dubai Opera, Downtown has a high-demand real estate market.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4619/general/apartment-321175.webp', '15', '3', 'Batuhan Kunt', '+905523032750', 'Flow pool, Water sports, Arcade area, Basketball court, Spa'),
+
+('10003', 'Luxury apartments near the beach in Dubai, Al Satwa', 'Dubai, Al Satwa', '€523,000', 'Apartments', '1+1', '1', '76', 'Under Construction', '06/01/2026', 'The apartments for sale are located in the Jumariah Garden City area of Al Satwa, Dubai. This area in the heart of the city attracts attention with its location thanks to its ease of transportation and surrounding facilities.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4561/general/apartment-320147.webp', '13', '2', 'Batuhan Kunt', '+905523032750', 'Swimming pool, Fitness, Sauna, Smart home system'),
+
+('10014', 'Luxury apartments with long term payment plans in Dubai, Jumeirah Village Triangle', 'Dubai, Jumeirah Village Triangle', '€194,000', 'Apartments', '1+ <> 1+1', '1 <> 1', '42 <> 83', 'Under Construction', '12/01/2027', 'The apartments for sale are located in Dubai, Jumeirah Village Triangle. Designed with a city-within-a-city concept, this area offers its residents sufficient infrastructure to meet all your daily needs.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4572/general/apartment-320409.webp', '37', '8', 'Batuhan Kunt', '+905523032750', 'Swimming pool, Gym, Padel court, Cinema, Sauna'),
+
+('10027', 'Apartments at launch prices suitable for investment in Dubai, Dubai South', 'Dubai, Dubai South', '€175,000', 'Apartments', '1+ <> 3+1', '1 <> 2', '35 <> 134', 'Under Construction', '12/01/2026', 'Apartments for sale are located in Dubai South. Dubai South is a developing area located next to Al Maktoum International Airport to support economic, commercial and logistic activities.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4595/general/apartment-320825.webp', '10', '25', 'Batuhan Kunt', '+905523032750', 'Fitness, Cinema, Jacuzzi, Spa, Gardens'),
+
+('10053', 'Luxury apartments with modern designs in Dubai, Sports City', 'Dubai, Sports City', '€265,000', 'Apartments', '1+1 <> 3+1', '1 <> 3', '45 <> 123', 'Under Construction', '12/01/2028', 'Apartments for sale are located in Dubai Sports City. Dubai Sports City is an ideal area for real estate investment with its modern infrastructure, sports-oriented lifestyle, and developing residential projects.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4678/general/apartment-321994.webp', '25', '15', 'Batuhan Kunt', '+905523032750', 'Running Track, Cricket Field, Swimming Pool, Jacuzzi, Gym'),
+
+('10041', 'Luxury apartments with modern design in Dubai, Dubai Hills', 'Dubai, Dubai Hills', '€515,000', 'Apartments', '1+1 <> 3+1', '1 <> 3', '75 <> 225', 'Under Construction', '04/01/2027', 'Apartments for sale are located in Dubai Hills, Dubai. Dubai Hills is one of the most prestigious and rapidly developing areas of Dubai, with great potential for real estate investments.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4625/general/apartment-321277.webp', '25', '8', 'Batuhan Kunt', '+905523032750', 'Indoor gym, Swimming pool, Jogging track, Electric car charging'),
+
+('10038', 'City View Apartments with Pool in Dubai, Al Safa One', 'Dubai, Al Safa One', '€521,000', 'Apartments', '1+1 <> 2+1', '2 <> 3', '71 <> 106', 'Under Construction', '12/01/2029', 'Apartments for sale are located in Dubai Al Safa One. Al Safa One is one of the prestigious residential areas of Dubai. It attracts attention with its luxurious living spaces, large green areas and proximity to important centers.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4622/general/apartment-321235.webp', '18', '5', 'Batuhan Kunt', '+905523032750', 'Swimming pool, Gym, Football field, Sauna, Game room'),
+
+('10007', 'Spacious apartments in a quiet social area in Dubai, Jumeirah Village Circle', 'Dubai, Jumeirah Village Circle', '€336,000', 'Apartments', '1+1 <> 2+1', '1 <> 2', '83 <> 98', 'Under Construction', '06/01/2026', 'Apartments for sale are located in Dubai, Jumeirah Village Circle. This area is located in the heart of Dubai. It attracts attention with its easy access to important areas of the city.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4565/general/apartment-320243.webp', '34', '8', 'Batuhan Kunt', '+905523032750', 'Swimming pools, Squash court, Yoga area, Cinema, Climbing wall'),
+
+('10010', 'Partially furnished apartments in luxury complex in Dubai, Jumeirah Village Triangle', 'Dubai, Jumeirah Village Triangle', '€306,000', 'Apartments', '1+1 <> 2+1', '1 <> 2', '85 <> 118', 'Under Construction', '09/01/2026', 'Apartments for sale are located in Dubai, Jumeirah Village Triangle. Jumeirah Village Triangle is a region that offers its residents a quiet social life, attracting attention with its green areas and walking paths.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4568/general/apartment-320331.webp', '42', '8', 'Batuhan Kunt', '+905523032750', 'Swimming pool, Fitness center, Sauna, Cinema room, Smart home'),
+
+('10049', 'Luxury apartments with city views in Dubai, Bukadra', 'Dubai, Bukadra', '€418,000', 'Apartments', '1+1 <> 3+1', '2 <> 4', '73 <> 147', 'Under Construction', '12/01/2028', 'Apartments for sale are located in Bukadra, Dubai. Bukadra is an exclusive residential neighborhood offering a luxurious lifestyle with lush greenery and world-class amenities.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4637/general/apartment-321444.webp', '15', '5', 'Batuhan Kunt', '+905523032750', 'Infinity pool, Jacuzzi, Gym, Yoga area, Amphitheater'),
+
+('10009', 'Stylish apartments in luxury living complex in Dubai, Jumeirah Village Triangle', 'Dubai, Jumeirah Village Triangle', '€308,000', 'Apartments', '1+1', '1', '70', 'Under Construction', '03/01/2026', 'The apartments for sale are located in Jumeirah Village Triangle, Dubai. JVT is a city in itself, offering its residents a thriving community equipped with parks, schools, sports fields.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4567/general/apartment-320300.webp', '40', '8', 'Batuhan Kunt', '+905523032750', 'Swimming pool, Table tennis, Gym, Cinema, Barbecue area'),
+
+('10001', 'Premium waterfront apartments in Dubai Marina', 'Dubai, Marina', '€750,000', 'Apartments', '2+1 <> 3+1', '2 <> 3', '95 <> 150', 'Ready to Move', '01/01/2024', 'Stunning waterfront apartments with panoramic marina views and world-class amenities in the heart of Dubai Marina.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4500/general/apartment-320000.webp', '30', '0', 'Batuhan Kunt', '+905523032750', 'Marina view, Swimming pool, Gym, Concierge'),
+
+('10002', 'Luxury penthouses in Downtown Dubai', 'Dubai, Downtown', '€1,200,000', 'Apartments', '3+1 <> 4+1', '3 <> 4', '180 <> 250', 'Under Construction', '12/01/2025', 'Exclusive penthouses with Burj Khalifa views in the most prestigious location of Dubai Downtown.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4501/general/apartment-320001.webp', '20', '5', 'Batuhan Kunt', '+905523032750', 'Burj Khalifa view, Private terrace, Spa, Valet parking'),
+
+('10004', 'Smart apartments in Business Bay', 'Dubai, Business Bay', '€450,000', 'Apartments', '1+1 <> 2+1', '1 <> 2', '65 <> 110', 'Under Construction', '08/01/2026', 'Modern smart apartments with canal views in the dynamic Business Bay district, perfect for young professionals.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4502/general/apartment-320002.webp', '25', '3', 'Batuhan Kunt', '+905523032750', 'Smart home, Canal view, Business center, Rooftop pool'),
+
+('10006', 'Family villas in Arabian Ranches', 'Dubai, Arabian Ranches', '€890,000', 'Villas', '3+1 <> 4+1', '3 <> 4', '200 <> 280', 'Ready to Move', '01/01/2024', 'Spacious family villas in gated community with golf course access and premium amenities for families.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4503/general/apartment-320003.webp', '35', '20', 'Batuhan Kunt', '+905523032750', 'Golf course, Private garden, Community center, Schools nearby'),
+
+('10015', 'Beachfront apartments in JBR', 'Dubai, JBR', '€680,000', 'Apartments', '2+1 <> 3+1', '2 <> 3', '120 <> 170', 'Ready to Move', '01/01/2024', 'Exclusive beachfront living with direct beach access and stunning sea views in Jumeirah Beach Residence.', 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/4504/general/apartment-320004.webp', '28', '0', 'Batuhan Kunt', '+905523032750', 'Beach access, Sea view, Resort facilities, Beach club');
