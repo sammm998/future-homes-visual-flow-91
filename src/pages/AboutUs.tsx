@@ -72,6 +72,13 @@ const AboutUs = () => {
       office: "",
       phone: "",
       image: "/lovable-uploads/0d7f39c6-56d6-41b2-b858-abfad0a87fca.png"
+    },
+    {
+      name: "Baris Kaya",
+      title: "Real Estate Consultant",
+      office: "",
+      phone: "+90 (531) 664 89 35",
+      image: "/lovable-uploads/495cde30-4564-4712-9850-786f6e16adcf.png"
     }
   ];
 
