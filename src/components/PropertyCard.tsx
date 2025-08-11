@@ -54,37 +54,28 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
           </div>
         </div>
         
-        <CardContent className="p-4 sm:p-5 md:p-6 space-y-4">
-          {/* Title Section */}
-          <div className="space-y-2">
-            <h3 className="font-bold text-lg sm:text-xl md:text-2xl line-clamp-2 group-hover:text-primary transition-colors duration-300 leading-tight">
-              {property.title}
-            </h3>
-            
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <MapPin size={16} className="flex-shrink-0 text-primary/70" />
-              <span className="text-sm sm:text-base font-medium truncate">{property.location}</span>
-            </div>
+        <CardContent className="p-4 sm:p-5 md:p-6">
+          <h3 className="font-bold text-lg sm:text-xl md:text-2xl mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-300 leading-tight">
+            {property.title}
+          </h3>
+          
+          <div className="flex items-center gap-2 text-muted-foreground mb-4">
+            <MapPin size={16} className="flex-shrink-0" />
+            <span className="text-sm sm:text-base truncate">{property.location}</span>
           </div>
 
-          {/* Property Features */}
-          <div className="border-t border-border/50 pt-4">
-            <div className="grid grid-cols-3 gap-3 sm:gap-4">
-              <div className="flex flex-col items-center gap-2 p-2 rounded-lg bg-secondary/20 hover:bg-secondary/30 transition-colors">
-                <Bed size={18} className="text-primary" />
-                <span className="font-semibold text-sm text-foreground">{property.bedrooms}</span>
-                <span className="text-xs text-muted-foreground">Sovrum</span>
-              </div>
-              <div className="flex flex-col items-center gap-2 p-2 rounded-lg bg-secondary/20 hover:bg-secondary/30 transition-colors">
-                <Bath size={18} className="text-primary" />
-                <span className="font-semibold text-sm text-foreground">{property.bathrooms}</span>
-                <span className="text-xs text-muted-foreground">Badrum</span>
-              </div>
-              <div className="flex flex-col items-center gap-2 p-2 rounded-lg bg-secondary/20 hover:bg-secondary/30 transition-colors">
-                <Square size={18} className="text-primary" />
-                <span className="font-semibold text-sm text-foreground truncate">{property.area}</span>
-                <span className="text-xs text-muted-foreground">m²</span>
-              </div>
+          <div className="grid grid-cols-3 gap-4 pt-3 border-t border-border/30">
+            <div className="flex items-center gap-2">
+              <Bed size={16} className="text-primary flex-shrink-0" />
+              <span className="font-medium text-sm">{property.bedrooms}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Bath size={16} className="text-primary flex-shrink-0" />
+              <span className="font-medium text-sm">{property.bathrooms}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Square size={16} className="text-primary flex-shrink-0" />
+              <span className="font-medium text-sm truncate">{property.area}</span>
             </div>
           </div>
         </CardContent>
