@@ -336,6 +336,8 @@ export type Database = {
         Row: {
           agent_name: string | null
           agent_phone_number: string | null
+          amenities: string[] | null
+          apartment_types: Json | null
           bathrooms: string | null
           bedrooms: string | null
           building_complete_date: string | null
@@ -360,6 +362,7 @@ export type Database = {
           property_url: string | null
           ref_no: string | null
           sizes_m2: string | null
+          slug: string | null
           starting_price_eur: string | null
           status: string | null
           title: string
@@ -368,6 +371,8 @@ export type Database = {
         Insert: {
           agent_name?: string | null
           agent_phone_number?: string | null
+          amenities?: string[] | null
+          apartment_types?: Json | null
           bathrooms?: string | null
           bedrooms?: string | null
           building_complete_date?: string | null
@@ -392,6 +397,7 @@ export type Database = {
           property_url?: string | null
           ref_no?: string | null
           sizes_m2?: string | null
+          slug?: string | null
           starting_price_eur?: string | null
           status?: string | null
           title: string
@@ -400,6 +406,8 @@ export type Database = {
         Update: {
           agent_name?: string | null
           agent_phone_number?: string | null
+          amenities?: string[] | null
+          apartment_types?: Json | null
           bathrooms?: string | null
           bedrooms?: string | null
           building_complete_date?: string | null
@@ -424,6 +432,7 @@ export type Database = {
           property_url?: string | null
           ref_no?: string | null
           sizes_m2?: string | null
+          slug?: string | null
           starting_price_eur?: string | null
           status?: string | null
           title?: string
@@ -496,6 +505,51 @@ export type Database = {
           scraped_at?: string
           title?: string | null
           url?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          bio: string | null
+          created_at: string
+          display_order: number
+          email: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          linkedin_url: string | null
+          name: string
+          phone: string | null
+          position: string
+          updated_at: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          display_order?: number
+          email?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          linkedin_url?: string | null
+          name: string
+          phone?: string | null
+          position: string
+          updated_at?: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          display_order?: number
+          email?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          linkedin_url?: string | null
+          name?: string
+          phone?: string | null
+          position?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -741,9 +795,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_property_slug: {
+        Args: { title_param: string; id_param: string }
+        Returns: string
+      }
       is_admin: {
         Args: { user_id?: string }
         Returns: boolean
+      }
+      normalize_price_to_eur: {
+        Args: { price_string: string }
+        Returns: string
       }
       translate_text: {
         Args: { text_to_translate: string; target_language?: string }
