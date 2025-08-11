@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Timeline } from "@/components/ui/timeline";
 import { Grid } from "lucide-react";
-import { useProperties } from "@/hooks/useProperties";
+import { antalyaProperties } from '@/data/antalyaProperties';
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
@@ -18,7 +18,6 @@ const AntalyaPropertySearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { properties: allProperties, loading, error } = useProperties();
   
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',
@@ -71,48 +70,6 @@ const AntalyaPropertySearch = () => {
     
     setShowFiltered(hasFilters);
   }, [searchParams, location.state]);
-
-  // Filter properties to only show Antalya properties
-  const antalyaProperties = useMemo(() => {
-    return allProperties.filter(property => 
-      property.location?.toLowerCase().includes('antalya')
-    ).map(property => {
-      // Extract status from facilities - prioritize certain statuses
-      let status = 'available';
-      const facilities = property.property_facilities || [];
-      const facilitiesString = property.facilities || '';
-      
-      // Combine all facility sources
-      const allFacilities = [...facilities, ...facilitiesString.split(',').map(f => f.trim())];
-      
-      // Check for key status indicators in priority order
-      if (allFacilities.some(f => f.toLowerCase().includes('under construction'))) {
-        status = 'Under Construction';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('ready to move'))) {
-        status = 'Ready to Move';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('sea view'))) {
-        status = 'Sea View';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('private pool'))) {
-        status = 'Private Pool';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('for residence permit'))) {
-        status = 'For Residence Permit';
-      }
-
-      return {
-        id: parseInt(property.ref_no) || parseInt(property.id),
-        refNo: property.ref_no, // Add this mapping
-        title: property.title,
-        location: property.location,
-        price: property.price,
-        bedrooms: property.bedrooms,
-        bathrooms: property.bathrooms,
-        area: property.sizes_m2,
-        status: status,
-        image: property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
-        coordinates: [36.8969, 30.7133] as [number, number] // Default Antalya coordinates
-      };
-    });
-  }, [allProperties]);
 
   const filteredProperties = useMemo(() => {
     if (showFiltered) {
