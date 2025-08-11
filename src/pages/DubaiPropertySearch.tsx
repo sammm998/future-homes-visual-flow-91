@@ -99,6 +99,7 @@ const DubaiPropertySearch = () => {
 
       return {
         id: parseInt(property.ref_no) || parseInt(property.id),
+        refNo: property.ref_no, // Add this mapping
         title: property.title,
         location: property.location,
         price: property.price,
