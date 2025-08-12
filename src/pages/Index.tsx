@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import { motion } from "motion/react";
 import { LazyComponent, LazyTestimonials, LazyShuffleGrid, LazyPropertyShowcase, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
-import Newsletter from "@/components/Newsletter";
+import SimpleNewsletter from "@/components/SimpleNewsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
@@ -365,6 +365,8 @@ const Index = () => {
           </div>
         </DialogContent>
       </Dialog>
+      
+      <SimpleNewsletter />
     </div>
   );
 };

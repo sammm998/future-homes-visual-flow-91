@@ -53,7 +53,7 @@ const App = () => (
           <BrowserRouter>
             <Suspense fallback={<PageLoader />}>
               <Routes>
-                <Route path="/" element={<><Index /><Newsletter /></>} />
+                <Route path="/" element={<Index />} />
                 
                 <Route path="/property-wizard" element={<PropertyWizard />} />
                 <Route path="/ai-property-search" element={<AIPropertySearch />} />
