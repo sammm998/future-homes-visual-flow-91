@@ -5,7 +5,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import { CurrencyProvider } from "@/contexts/CurrencyContext";
+// import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -56,7 +56,7 @@ const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
     {/* <QueryClientProvider client={queryClient}> */}
-          <CurrencyProvider>
+          {/* <CurrencyProvider> */}
             {/* <TooltipProvider> */}
               <Toaster />
               <Sonner />
@@ -87,7 +87,7 @@ const App = () => (
               </Suspense>
             </BrowserRouter>
           {/* </TooltipProvider> */}
-        </CurrencyProvider>
+        {/* </CurrencyProvider> */}
   {/* </QueryClientProvider> */}
   </HelmetProvider>
   </ErrorBoundary>
