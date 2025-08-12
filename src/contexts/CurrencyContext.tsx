@@ -48,13 +48,13 @@ interface CurrencyContextType {
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(currencies[0]); // EUR as default
-
+  // Simplified provider without hooks for now to avoid React initialization issues
+  const selectedCurrency = currencies[0]; // Default to EUR
+  
   const convertPrice = (price: number, fromCurrency: string = 'EUR'): number => {
     if (fromCurrency === 'EUR') {
       return price * selectedCurrency.rate;
     }
-    // If converting from another currency, first convert to EUR, then to target
     const fromCurrencyData = currencies.find(c => c.code === fromCurrency);
     if (!fromCurrencyData) return price;
     
@@ -65,54 +65,29 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const formatPrice = (price: number): string => {
     const convertedPrice = convertPrice(price);
     
-    // Format number based on currency
     const formatter = new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: selectedCurrency.code === 'IRR' ? 0 : 0,
-      maximumFractionDigits: selectedCurrency.code === 'IRR' ? 0 : 0,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     });
 
     const formattedNumber = formatter.format(Math.round(convertedPrice));
     
-    // Different positioning for different currencies
     if (selectedCurrency.code === 'USD') {
       return `$${formattedNumber}`;
     } else if (selectedCurrency.code === 'EUR') {
       return `€${formattedNumber}`;
-    } else if (selectedCurrency.code === 'NOK' || selectedCurrency.code === 'SEK') {
-      return `${formattedNumber} ${selectedCurrency.symbol}`;
     } else {
       return `${selectedCurrency.symbol}${formattedNumber}`;
     }
   };
 
   const updateCurrencyFromLanguage = (languageCode: string, autoChange: boolean = true) => {
-    if (!autoChange) return;
-    
-    const currencyCode = languageToCurrency[languageCode];
-    if (currencyCode) {
-      const currency = currencies.find(c => c.code === currencyCode);
-      if (currency && currency.code !== selectedCurrency.code) {
-        console.log(`Language changed to ${languageCode}, updating currency to ${currencyCode}`);
-        setSelectedCurrency(currency);
-        localStorage.setItem('currency', currencyCode);
-      }
-    }
+    // Simplified - do nothing for now
   };
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const storedCurrencyCode = localStorage.getItem('currency');
-      if (storedCurrencyCode && storedCurrencyCode !== selectedCurrency.code) {
-        const currency = currencies.find(c => c.code === storedCurrencyCode);
-        if (currency) {
-          setSelectedCurrency(currency);
-        }
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, [selectedCurrency.code]);
+  const setSelectedCurrency = (currency: Currency) => {
+    // Simplified - do nothing for now
+  };
 
   return (
     <CurrencyContext.Provider value={{
