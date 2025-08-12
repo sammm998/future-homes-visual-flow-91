@@ -1,9 +1,15 @@
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
-import { SimpleCurrencyProvider } from "@/contexts/SimpleCurrencyContext";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
+import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import "./utils/cleanConsole";
 
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -14,6 +20,7 @@ const DubaiPropertySearch = lazy(() => import("./pages/DubaiPropertySearch"));
 const CyprusPropertySearch = lazy(() => import("./pages/CyprusPropertySearch"));
 const MersinPropertySearch = lazy(() => import("./pages/MersinPropertySearch"));
 const FrancePropertySearch = lazy(() => import("./pages/FrancePropertySearch"));
+const SwipePage = lazy(() => import("./pages/SwipePage"));
 
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const Testimonials = lazy(() => import("./pages/Testimonials"));
@@ -25,6 +32,7 @@ const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
+
 
 // Optimized query client with better caching
 const queryClient = new QueryClient({
@@ -48,36 +56,42 @@ const PageLoader = () => (
 const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <SimpleCurrencyProvider>
-          <BrowserRouter>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                
-                <Route path="/property-wizard" element={<PropertyWizard />} />
-                <Route path="/ai-property-search" element={<AIPropertySearch />} />
-                <Route path="/antalya" element={<AntalyaPropertySearch />} />
-                <Route path="/dubai" element={<DubaiPropertySearch />} />
-                <Route path="/cyprus" element={<CyprusPropertySearch />} />
-                <Route path="/mersin" element={<MersinPropertySearch />} />
-                <Route path="/france" element={<FrancePropertySearch />} />
-                
-                <Route path="/property/:id" element={<PropertyDetail />} />
-                <Route path="/testimonials" element={<Testimonials />} />
-                <Route path="/information" element={<Information />} />
-                <Route path="/about-us" element={<AboutUs />} />
-                <Route path="/contact-us" element={<ContactUs />} />
-                <Route path="/article/:id" element={<Article />} />
-                <Route path="/articles/:slug" element={<ArticlePage />} />
-                <Route path="/sitemap.xml" element={<SitemapXML />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </SimpleCurrencyProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+          <CurrencyProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+              <ScrollToTop />
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<><Index /><Newsletter /></>} />
+                  
+                  <Route path="/property-wizard" element={<PropertyWizard />} />
+                  <Route path="/ai-property-search" element={<AIPropertySearch />} />
+                  <Route path="/swipe" element={<SwipePage />} />
+                  <Route path="/antalya" element={<AntalyaPropertySearch />} />
+                  <Route path="/dubai" element={<DubaiPropertySearch />} />
+                  <Route path="/cyprus" element={<CyprusPropertySearch />} />
+                  <Route path="/mersin" element={<MersinPropertySearch />} />
+                  <Route path="/france" element={<FrancePropertySearch />} />
+                  
+                  <Route path="/property/:id" element={<PropertyDetail />} />
+                  <Route path="/testimonials" element={<Testimonials />} />
+                  <Route path="/information" element={<Information />} />
+                  <Route path="/about-us" element={<AboutUs />} />
+                  <Route path="/contact-us" element={<ContactUs />} />
+                  <Route path="/article/:id" element={<Article />} />
+                  <Route path="/articles/:slug" element={<ArticlePage />} />
+                  <Route path="/sitemap.xml" element={<SitemapXML />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </TooltipProvider>
+        </CurrencyProvider>
+  </QueryClientProvider>
+  </HelmetProvider>
   </ErrorBoundary>
 );
 

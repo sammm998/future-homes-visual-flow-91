@@ -4,9 +4,9 @@ import Hero from "@/components/Hero";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import { motion } from "motion/react";
 import { LazyComponent, LazyTestimonials, LazyShuffleGrid, LazyPropertyShowcase, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
-import SimpleNewsletter from "@/components/SimpleNewsletter";
+import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
-import SimpleInteractiveSelector from "@/components/SimpleInteractiveSelector";
+import InteractiveSelector from "@/components/ui/interactive-selector";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import SEOHead from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
@@ -16,7 +16,7 @@ import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
-import SimplePopularCities from "@/components/SimplePopularCities";
+
 
 const Index = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
@@ -246,7 +246,7 @@ const Index = () => {
       
       {/* Interactive City Selector */}
       <div className="w-full">
-        <SimpleInteractiveSelector />
+        <InteractiveSelector />
       </div>
       
       {/* Featured Properties - Shuffle Grid */}
@@ -258,11 +258,6 @@ const Index = () => {
       <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
         <LazyPropertyShowcase />
       </LazyComponent>
-      
-      {/* Popular Cities */}
-      <div className="w-full">
-        <SimplePopularCities />
-      </div>
       
       {/* Testimonials Columns */}
       <section className="bg-background my-20 relative">
@@ -365,8 +360,6 @@ const Index = () => {
           </div>
         </DialogContent>
       </Dialog>
-      
-      <SimpleNewsletter />
     </div>
   );
 };

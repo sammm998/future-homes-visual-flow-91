@@ -233,10 +233,8 @@ const AntalyaPropertySearch = () => {
               ))}
             </div>
           )}
-        </div>
 
-        {/* Mobile Layout: Show empty state for both mobile and desktop */}
-        <div className="block md:hidden">
+          {/* Empty State */}
           {filteredProperties.length === 0 && (
             <div className="text-center py-16">
               <div className="max-w-md mx-auto">
@@ -272,42 +270,6 @@ const AntalyaPropertySearch = () => {
             </div>
           )}
         </div>
-
-        {/* Common Empty State for both layouts */}
-        {filteredProperties.length === 0 && (
-          <div className="hidden md:block text-center py-16">
-            <div className="max-w-md mx-auto">
-              <Grid className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-foreground mb-2">
-                No Properties Found
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Try adjusting your search criteria to find more properties.
-              </p>
-              <Button 
-                onClick={() => {
-                  setFilters({
-                    propertyType: '',
-                    bedrooms: '',
-                    location: 'Antalya',
-                    district: '',
-                    minPrice: '',
-                    maxPrice: '',
-                    minSquareFeet: '',
-                    maxSquareFeet: '',
-                    facilities: [],
-                    sortBy: 'ref',
-                    referenceNo: ''
-                  });
-                  setShowFiltered(false);
-                }}
-                variant="outline"
-              >
-                Clear Filters
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* ElevenLabs Widget */}
