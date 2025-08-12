@@ -6,10 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
-import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
+
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import "./utils/cleanConsole";
 
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -55,12 +54,12 @@ const PageLoader = () => (
 const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-          <CurrencyProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <CurrencyProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
               <ScrollToTop />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
@@ -88,8 +87,8 @@ const App = () => (
             </BrowserRouter>
           </TooltipProvider>
         </CurrencyProvider>
-  </QueryClientProvider>
-  </HelmetProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   </ErrorBoundary>
 );
 

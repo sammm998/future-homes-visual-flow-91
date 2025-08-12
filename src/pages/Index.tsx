@@ -16,7 +16,7 @@ import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
-
+import PopularCities from "@/components/PopularCities";
 
 const Index = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
@@ -258,6 +258,11 @@ const Index = () => {
       <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
         <LazyPropertyShowcase />
       </LazyComponent>
+      
+      {/* Popular Cities */}
+      <div className="w-full">
+        <PopularCities />
+      </div>
       
       {/* Testimonials Columns */}
       <section className="bg-background my-20 relative">
