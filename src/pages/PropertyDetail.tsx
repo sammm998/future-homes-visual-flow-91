@@ -5831,8 +5831,8 @@ const PropertyDetail = () => {
                       <div className="text-xs text-muted-foreground">{item.size}</div>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <div className="text-lg font-bold text-primary">199.999</div>
-                      <div className="text-xs text-muted-foreground">Starting price</div>
+                      <div className="text-lg font-bold text-primary">{formatPrice(item.price)}</div>
+                      <div className="text-xs text-muted-foreground">Price</div>
                     </div>
                   </div>
                 </div>
