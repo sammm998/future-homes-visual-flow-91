@@ -57,10 +57,10 @@ const App = () => (
       <QueryClientProvider client={queryClient}>
         <CurrencyProvider>
           <TooltipProvider>
-            <Toaster />
-            <Sonner />
             <BrowserRouter>
               <ScrollToTop />
+              <Toaster />
+              <Sonner />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
                   <Route path="/" element={<><Index /><Newsletter /></>} />
