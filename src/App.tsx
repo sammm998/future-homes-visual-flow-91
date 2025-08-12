@@ -1,11 +1,5 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import { HelmetProvider } from "react-helmet-async";
-import { SimpleCurrencyProvider } from "@/contexts/SimpleCurrencyContext";
-
-import SimpleScrollToTop from "@/components/SimpleScrollToTop";
-import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -29,17 +23,6 @@ const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
 
 
-// Optimized query client with better caching
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes  
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
-  },
-});
 
 // Minimal loading component
 const PageLoader = () => (
@@ -49,40 +32,31 @@ const PageLoader = () => (
 );
 
 const App = () => (
-  <ErrorBoundary>
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <SimpleCurrencyProvider>
-          <BrowserRouter>
-            <SimpleScrollToTop />
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<><Index /><Newsletter /></>} />
-                
-                <Route path="/property-wizard" element={<PropertyWizard />} />
-                <Route path="/ai-property-search" element={<AIPropertySearch />} />
-                <Route path="/antalya" element={<AntalyaPropertySearch />} />
-                <Route path="/dubai" element={<DubaiPropertySearch />} />
-                <Route path="/cyprus" element={<CyprusPropertySearch />} />
-                <Route path="/mersin" element={<MersinPropertySearch />} />
-                <Route path="/france" element={<FrancePropertySearch />} />
-                
-                <Route path="/property/:id" element={<PropertyDetail />} />
-                <Route path="/testimonials" element={<Testimonials />} />
-                <Route path="/information" element={<Information />} />
-                <Route path="/about-us" element={<AboutUs />} />
-                <Route path="/contact-us" element={<ContactUs />} />
-                <Route path="/article/:id" element={<Article />} />
-                <Route path="/articles/:slug" element={<ArticlePage />} />
-                <Route path="/sitemap.xml" element={<SitemapXML />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </SimpleCurrencyProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
-  </ErrorBoundary>
+  <BrowserRouter>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/" element={<><Index /><Newsletter /></>} />
+        
+        <Route path="/property-wizard" element={<PropertyWizard />} />
+        <Route path="/ai-property-search" element={<AIPropertySearch />} />
+        <Route path="/antalya" element={<AntalyaPropertySearch />} />
+        <Route path="/dubai" element={<DubaiPropertySearch />} />
+        <Route path="/cyprus" element={<CyprusPropertySearch />} />
+        <Route path="/mersin" element={<MersinPropertySearch />} />
+        <Route path="/france" element={<FrancePropertySearch />} />
+        
+        <Route path="/property/:id" element={<PropertyDetail />} />
+        <Route path="/testimonials" element={<Testimonials />} />
+        <Route path="/information" element={<Information />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/article/:id" element={<Article />} />
+        <Route path="/articles/:slug" element={<ArticlePage />} />
+        <Route path="/sitemap.xml" element={<SitemapXML />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
+  </BrowserRouter>
 );
 
 export default App;
