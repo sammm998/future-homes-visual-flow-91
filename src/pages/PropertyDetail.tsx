@@ -4139,7 +4139,7 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       area: "70 <> 100m²",
       propertyType: "Apartments",
       refNo: "1163",
-      buildingComplete: "06/01/2025",
+      buildingComplete: "30/09/2025",
       description: "Spacious apartments in a featured complex with modern amenities in Tarsus.",
       features: ["Spacious Design", "Featured Complex", "Under Construction"],
       pricing: [
