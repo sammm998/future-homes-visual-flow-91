@@ -30,12 +30,26 @@ export default defineConfig(({ mode }) => ({
     global: "globalThis",
   },
   optimizeDeps: {
-    include: ["react", "react-dom", "react/jsx-runtime"],
+    include: [
+      "react", 
+      "react-dom", 
+      "react/jsx-runtime",
+      "@radix-ui/react-tooltip",
+      "@radix-ui/react-slot",
+      "@radix-ui/react-accordion",
+      "@radix-ui/react-dialog"
+    ],
     force: true,
     esbuildOptions: {
       define: {
         global: "globalThis",
       },
+    },
+  },
+  build: {
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true,
     },
   },
 }));
