@@ -3200,7 +3200,9 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       buildingComplete: "06/01/2024",
       description: "Apartments for sale are located in Antalya, Finike. Finike; It is one of the central districts of Antalya, established right next to the sea, which contains all daily needs such as hospitals, banks, shopping markets, parks, walking paths, pharmacies, and public transportation. Finike region, located in the west of Antalya, is close to all the touristic holiday centers of the region such as Adrasan, Olympos and Çıralı. The project where the apartments for sale are located consists of 2+1 flats with a net area of 57 m². There are flats with terraces in the project, which includes different types of flats. Swimming pool in the project. There are facilities such as children's swimming pool, security camera system, security at the site entrances, car parking, fitness center, sauna, children's playgrounds, multi-purpose (basketball, volleyball) sports field, walking paths and camellias, generator, doorman and site attendant. In the apartments, features such as triple built-in appliances, kitchen cabinets, cloakroom, bathroom fixtures and shower cabin, air conditioning in each room, underfloor heating system and electric blinds will be delivered to the buyers ready for use.",
       features: ["Near the Sea", "Swimming Pool", "Multi-purpose Sports Field", "Fitness Center", "Sauna", "Walking Distance to Sea"],
-      pricing: [{ type: "2+1 Flat", size: "68m²", price: "€135,000" }],
+      pricing: [
+        { type: "2+1 Flat", size: "68m²", price: "€135,000" }
+      ],
       images: [
         "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/3216/general/property-antalya-finike-general-3216-0.webp",
         "https://cdn.futurehomesturkey.com/uploads/pages/3216/general/property-antalya-finike-general-3216-4.webp",
@@ -3229,7 +3231,9 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       buildingComplete: "12/01/2023",
       description: "Apartments for sale are located in Antalya, Altıntaş region. Altıntaş region, which meets the growth needs of the city with its new zoning plan, is close to Kundu, Lara district center and Lara beach, was established next to Antalya International Airport, and will have its name written among the elite districts of Antalya in a few years thanks to the close completion dates of its housing projects. is a region. The project where the flats for sale are located consists of 25 2+1 flats and 14 1+1 flats. There are two swimming pools, indoor car parking lot, fitness center, sauna, children's playgrounds, outdoor sports fields, camellias and walking paths, security camera system, security at the entrance and exit of the site, generator and central heating system in the project with a total of 39 apartments. The apartments will be delivered to their prospective buyers with features such as built-in kitchen trio, heat and sound insulation, all bathroom fixtures, shower cabin, ready to use. The apartments are 4 km to Lara beach, 7 km to Lara district center, 6 km to shopping centers such as Mall of Antalya, Agora and Ikea, and only 3 km to Antalya International Airport.",
       features: ["Under Construction", "Two Swimming Pools", "Indoor Parking", "Fitness Center", "Sauna", "Luxury Project"],
-      pricing: [{ type: "2+1 Flat", size: "91m²", price: "€200,000" }],
+      pricing: [
+        { type: "2+1 Flat", size: "91m²", price: "€200,000" }
+      ],
       images: [
         "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/3212/general/property-antalya-aksu-general-3212-0.webp",
         "https://cdn.futurehomesturkey.com/uploads/pages/3212/general/property-antalya-aksu-general-3212-6.webp",
@@ -3258,7 +3262,9 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       buildingComplete: "12/01/2023",
       description: "Apartments for sale are located in Antalya, Altıntaş region. Altıntaş district, which has made a name for itself as the new luxury residential district of the city, is the region of greatest interest to investors. The original architecture of the housing constructions in the region and the luxury facilities to serve their buyers will make the region one of the most valuable settlements in Antalya in a few years. Established right next to Antalya Airport, the region is also close to Lara and Kundu districts. The project, where there are apartments for sale, offers a safe and peaceful life opportunity with its modern designed architecture and facilities prepared for the comfort of people. The project consists of 14 1+1 flats, 26 2+1 flats and 2 3+1 flats. The apartments on the top floor have their own private terrace area. In the project, 24/7 security camera system, site security personnel, 2 outdoor swimming pools, fitness, sauna, children's playground and sports fields, multi-purpose (basketball and volleyball) sports field, walking paths, camellias, service to Lara beach at certain times of the day. service, generator and central heating system. In the apartments, features such as kitchen cabinets, triple built-in kitchen set, cloakroom at the entrance of the apartment, heat and sound insulation, bathroom fixtures, shower cabin will be delivered to the buyers ready to use. Stylish apartments are 8 km from Lara beach, 6 km from the city's major shopping centers, 10 km from the city center and 4 km from Antalya International Airport.",
       features: ["Ready to Move", "Under Construction", "Hotel Facilities", "2 Outdoor Swimming Pools", "Private Terrace", "Beach Service"],
-      pricing: [{ type: "1+1 Flat", size: "80m²", price: "€200,000" }],
+      pricing: [
+        { type: "1+1 Flat", size: "80m²", price: "€200,000" }
+      ],
       images: [
         "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/3207/general/property-antalya-aksu-general-3207-0.webp",
         "https://cdn.futurehomesturkey.com/uploads/pages/3207/general/property-antalya-aksu-general-3207-1.webp",
@@ -3319,7 +3325,9 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       buildingComplete: "12/01/2023",
       description: "Villas for sale are located in Antalya, Altıntaş region. Golden stone; It is a region where the most innovative architectural projects of Antalya take place, which will become the most interesting region of the city thanks to these projects and will put its name among the elite names of the city. The construction of housing and villa projects in the region continues rapidly. The fact that the delivery dates of these constructions are close to each other has accelerated the infrastructure works in the region. The project, where there are twin villas for sale, consists of 12 twin villas built on an area of 2.489 m². Each of the villas, designed to be 6+2, has a usage area of 347 m². There are facilities such as swimming pool, indoor car parking, fitness, sauna, 24/7 security and security camera system, site management service, service to the sea in the villa site. In luxury villas, there are features such as kitchen cabinets, built-in kitchen set, cloakroom, underfloor heating and air conditioners in each room, electric blinds and smart home system, en-suite bathrooms, jacuzzi, terrace and balconies, laundry rooms. As a location, it is 9 km to Lara beaches, 12 km to Kundu beach, 7 km to shopping centers such as Mall of Antalya and Agora, 10 km to Lara district center and 5 km to Antalya International Airport.",
       features: ["Under Construction", "Twin Villas", "Luxury Complex", "Smart Home System", "Jacuzzi", "En-suite Bathrooms", "Sea Service"],
-      pricing: [{ type: "6+1 Villa", size: "347m²", price: "€1,196,000" }],
+      pricing: [
+        { type: "6+1 Villa", size: "347m²", price: "€1,196,000" }
+      ],
       images: [
         "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/3206/general/property-antalya-aksu-general-3206-4.webp",
         "https://cdn.futurehomesturkey.com/uploads/pages/3206/general/property-antalya-aksu-general-3206-19.webp",
@@ -3380,7 +3388,9 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       buildingComplete: "01/01/2022",
       description: "The complex for sale is located in Antalya, Olympos. Olympus; It is one of the most famous recreation and holiday regions of Antalya. The region takes its name from the Ancient City of Olympos. Çıralı and Olympos region have been the resting and holiday area of people throughout the year. The region consists entirely of bungalow sites and camping areas. There are 18 fully furnished tree houses for sale in the bungalow complex for sale. The complex built in nature also has a cafe and restaurant. Rental service is available throughout the year in the complex. The complex draws attention with its sitting areas, walking paths, closeness to the ancient city, and its structure intertwined with nature. Olympos region, which is 65 km away from Antalya city center, is a very important region for tourism. The region, which has an easy access to public life from Antalya, has many historical sites and natural beauties nearby. Its distance to Antalya Airport is 90 km.",
       features: ["Ready to Move", "Furnished", "Tree Houses", "Cafe & Restaurant", "Year-round Rental", "Tourism Area"],
-      pricing: [{ type: "2+1 House", size: "30m²", price: "€1,250,000" }],
+      pricing: [
+        { type: "2+1 House", size: "30m²", price: "€1,250,000" }
+      ],
       images: [
         "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/3178/general/property-antalya-kumluca-general-3178-0.webp",
         "https://cdn.futurehomesturkey.com/uploads/pages/3178/general/property-antalya-kumluca-general-3178-17.webp",
@@ -3441,7 +3451,9 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       buildingComplete: "12/01/2023",
       description: "Apartments for sale are located in Antalya, Konyaaltı, in Uncalı Mahallesi. Konyaalti; Established next to the long blue beaches of Antalya, it is a region that attracts attention with its socio-cultural structure, where all daily needs such as hospitals, pharmacies, banks, markets, shopping malls are located, as well as the city's oldest and most developed, luxury restaurants, cafes and hotels. The complex with flats for sale is built on an area of 7500 m² and will consist of 6 4-storey blocks. There are a total of 48 apartments with 3 bedrooms and separate kitchens on the site. 5500 m² garden area, three-lane outdoor swimming pool, heated indoor swimming pool and jacuzzi, professional gym, sauna, 24/7 security, indoor parking lot with 2 cars for each flat, 5 m² storage area for each flat in the basement. There will be facilities specially designed for the residents such as soundproofed generator for all flats and common areas, wi-fi for all common areas, intercom for security communication in elevators. In luxury apartments, intercom and smart home system, remotely controlled heating and cooling via internet, Mitsubishi brand split air conditioner in every room, built-in ceiling air conditioner in living room and kitchen, Rehau underfloor heating system, Viessmann gas boiler for each apartment, heat and sound insulation in all apartments, There will be parquet-flooring, fingerprinted steel entrance doors, Volkswagen shutter system, Bosh brand built-in set and dishwasher, all wet floors will be tile and marble, all bathrooms will have luxury vitrifieds. In Uncalı Neighborhood; Located in this most preferred location of Antalya, the apartments have been carefully designed for the residents to spend their lives comfortably. The scarcity of such projects in the region also makes the project a good investment opportunity. The apartments are located 2.5 km from Konyaaltı Beach, within walking distance of all daily needs, 2 km from Konyaaltı district center and 22.5 km from Antalya International Airport.",
       features: ["Ready to Move", "For Residence Permit", "Smart Home System", "Heated Indoor Pool", "Jacuzzi", "Professional Gym", "2 Car Parking per Flat"],
-      pricing: [{ type: "3+1 Flat", size: "175m²", price: "€670,000" }],
+      pricing: [
+        { type: "3+1 Flat", size: "175m²", price: "€670,000" }
+      ],
       images: [
         "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/3130/general/property-antalya-konyaalti-general-3130-0.webp",
         "https://cdn.futurehomesturkey.com/uploads/pages/3130/general/property-antalya-konyaalti-general-3130-2.webp",
@@ -3502,7 +3514,9 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       buildingComplete: "12/01/2023",
       description: "Apartments for sale are located in Antalya, Altıntaş. Altıntaş is the region most valued by investors in the province of Antalya, which hosts many housing projects, close to Antalya Airport, close to the Lara region and the famous Antalya shopping centers, due to its newly-planned area. The fact that many housing projects have been implemented in the region together with the zoning planning has enabled the region to develop rapidly and made the region one of the new luxury districts of Antalya such as Konyaaltı and Lara. The project, where the apartments for sale are located, consists of a specially designed block with 11 floors and 105 apartments and 12 villas around it. There are 1+1, 2+1 and 4+1 villa type apartments in the project. All apartments are south facing and have a children's pool, outdoor pool, elevated pool, cloakrooms in the apartments, automatic shutter system, indoor parking lot, waterfall, botanical garden, children's playground, fitness, security camera system, underfloor heating in all apartments, Turkish bath, sauna, 3 units. There are many features such as elevator, generator, double wall system and sound insulation between apartments, thermal insulation on the exterior, kitchen counters, lacquer painted doors, laminate-ceramic-parquet flooring, 3-piece built-in kitchen set, bathroom fixtures.",
       features: ["For Residence Permit", "Ready to Move", "Luxury Complex", "Botanical Garden", "Waterfall", "Turkish Bath", "Automatic Shutter System"],
-      pricing: [{ type: "1+1 Flat", size: "48m²", price: "€213,000" }],
+      pricing: [
+        { type: "1+1 Flat", size: "48m²", price: "€213,000" }
+      ],
       images: [
         "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/3081/general/property-antalya-aksu-general-3081-0.webp",
         "https://cdn.futurehomesturkey.com/uploads/pages/3081/general/property-antalya-aksu-general-3081-19.webp",
