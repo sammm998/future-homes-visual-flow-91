@@ -20,7 +20,6 @@ const DubaiPropertySearch = lazy(() => import("./pages/DubaiPropertySearch"));
 const CyprusPropertySearch = lazy(() => import("./pages/CyprusPropertySearch"));
 const MersinPropertySearch = lazy(() => import("./pages/MersinPropertySearch"));
 const FrancePropertySearch = lazy(() => import("./pages/FrancePropertySearch"));
-const SwipePage = lazy(() => import("./pages/SwipePage"));
 
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const Testimonials = lazy(() => import("./pages/Testimonials"));
@@ -69,7 +68,6 @@ const App = () => (
                   
                   <Route path="/property-wizard" element={<PropertyWizard />} />
                   <Route path="/ai-property-search" element={<AIPropertySearch />} />
-                  <Route path="/swipe" element={<SwipePage />} />
                   <Route path="/antalya" element={<AntalyaPropertySearch />} />
                   <Route path="/dubai" element={<DubaiPropertySearch />} />
                   <Route path="/cyprus" element={<CyprusPropertySearch />} />
