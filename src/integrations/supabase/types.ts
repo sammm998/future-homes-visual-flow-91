@@ -448,6 +448,39 @@ export type Database = {
           },
         ]
       }
+      property_audit_log: {
+        Row: {
+          action: string
+          changed_by: string | null
+          changed_fields: Json | null
+          created_at: string
+          id: string
+          new_values: Json | null
+          old_values: Json | null
+          property_id: string
+        }
+        Insert: {
+          action: string
+          changed_by?: string | null
+          changed_fields?: Json | null
+          created_at?: string
+          id?: string
+          new_values?: Json | null
+          old_values?: Json | null
+          property_id: string
+        }
+        Update: {
+          action?: string
+          changed_by?: string | null
+          changed_fields?: Json | null
+          created_at?: string
+          id?: string
+          new_values?: Json | null
+          old_values?: Json | null
+          property_id?: string
+        }
+        Relationships: []
+      }
       scan_sessions: {
         Row: {
           created_at: string
@@ -505,6 +538,39 @@ export type Database = {
           scraped_at?: string
           title?: string | null
           url?: string
+        }
+        Relationships: []
+      }
+      sync_failures: {
+        Row: {
+          created_at: string
+          error_message: string
+          event_type: string
+          id: string
+          property_id: string
+          resolved_at: string | null
+          retry_count: number
+          sync_data: Json
+        }
+        Insert: {
+          created_at?: string
+          error_message: string
+          event_type: string
+          id?: string
+          property_id: string
+          resolved_at?: string | null
+          retry_count?: number
+          sync_data: Json
+        }
+        Update: {
+          created_at?: string
+          error_message?: string
+          event_type?: string
+          id?: string
+          property_id?: string
+          resolved_at?: string | null
+          retry_count?: number
+          sync_data?: Json
         }
         Relationships: []
       }
