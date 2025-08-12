@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import Navigation from "@/components/Navigation";
 import PropertyFilter from "@/components/PropertyFilter";
@@ -11,7 +12,6 @@ import { useProperties } from "@/hooks/useProperties";
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 
 const MersinPropertySearch = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
@@ -74,22 +74,20 @@ const MersinPropertySearch = () => {
   
   // Filter properties to only show Mersin properties
   const mersinProperties = useMemo(() => {
-    if (!allProperties || allProperties.length === 0) return [];
-    
     return allProperties.filter(property => 
       property.location?.toLowerCase().includes('mersin')
     ).map(property => ({
-      id: parseInt(property.ref_no) || parseInt(property.id) || 1,
-      refNo: property.ref_no || property.id,
-      title: property.title || 'Property in Mersin',
-      location: property.location || 'Mersin, Turkey',
-      price: property.price || '€250,000',
-      bedrooms: property.bedrooms || '3+1',
-      bathrooms: property.bathrooms || '2',
-      area: property.sizes_m2 || '140',
-      status: property.status || 'Available',
+      id: parseInt(property.ref_no) || parseInt(property.id),
+      refNo: property.ref_no, // Add this mapping for reference number filtering
+      title: property.title,
+      location: property.location,
+      price: property.price,
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
+      area: property.sizes_m2,
+      status: property.status,
       image: property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
-      coordinates: [36.7987, 34.6420] as [number, number]
+      coordinates: [36.7987, 34.6420] as [number, number] // Default Mersin coordinates
     }));
   }, [allProperties]);
 
@@ -107,10 +105,11 @@ const MersinPropertySearch = () => {
     
     // Check if any meaningful filters are applied
     const hasFilters = Object.entries(newFilters).some(([key, value]) => {
-      if (key === 'sortBy' || key === 'location') return false;
+      if (key === 'sortBy' || key === 'location') return false; // Don't count sortBy or default location
       return value && value !== '' && value !== 'Mersin';
     });
     
+    // Auto-trigger filtering when filters are applied
     setShowFiltered(hasFilters);
   };
 
@@ -161,6 +160,16 @@ const MersinPropertySearch = () => {
             alt="Property placeholder"
             className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
           />
+          <img
+            src="/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png"
+            alt="Property placeholder"
+            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
+          />
+          <img
+            src="/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.png"
+            alt="Property placeholder"
+            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
+          />
         </div>
       </div>
     ),
@@ -208,10 +217,6 @@ const MersinPropertySearch = () => {
           <p className="text-muted-foreground">
             {filteredProperties.length} properties found
           </p>
-          {/* Debug info */}
-          <div className="text-xs text-muted-foreground mt-1">
-            Timeline: {showTimeline ? 'ON' : 'OFF'} | Total from DB: {allProperties?.length || 0} | Mersin filtered: {properties.length}
-          </div>
         </div>
 
         {/* Filter at top */}
@@ -238,22 +243,31 @@ const MersinPropertySearch = () => {
           </div>
         )}
 
-        {/* Properties Grid */}
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredProperties.map((property) => (
-            <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-              <PropertyCard property={property} />
-            </div>
-          ))}
+        {/* Mobile Layout: One property per screen */}
+        <div className="block md:hidden">
+          <div className="space-y-6">
+            {filteredProperties.map((property) => (
+              <div key={property.id} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+                <div className="w-full max-w-sm mx-auto">
+                  <PropertyCard property={property} />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Show message if no properties found */}
-        {filteredProperties.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No Mersin properties found in database.</p>
-            <p className="text-sm text-muted-foreground mt-2">Total properties in DB: {allProperties?.length || 0}</p>
-          </div>
-        )}
+        {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
+        <div className="hidden md:block">
+          {!showTimeline && (
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {filteredProperties.map((property) => (
+                <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                  <PropertyCard property={property} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ElevenLabs Widget */}
