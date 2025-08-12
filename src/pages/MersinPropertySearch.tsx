@@ -194,6 +194,10 @@ const MersinPropertySearch = () => {
           <p className="text-muted-foreground">
             {filteredProperties.length} properties found
           </p>
+          {/* Debug info - remove later */}
+          <div className="text-xs text-muted-foreground mt-1">
+            Timeline: {showTimeline ? 'ON' : 'OFF'} | Properties: {filteredProperties.length}
+          </div>
         </div>
 
         {/* Filter at top */}
@@ -233,17 +237,15 @@ const MersinPropertySearch = () => {
           </div>
         </div>
 
-        {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
+        {/* Desktop Layout: Properties Grid */}
         <div className="hidden md:block">
-          {!showTimeline && (
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredProperties.map((property) => (
-                <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                  <PropertyCard property={property} />
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredProperties.map((property) => (
+              <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                <PropertyCard property={property} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
