@@ -54,28 +54,28 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
           </div>
         </div>
         
-        <CardContent className="p-4 sm:p-5 md:p-6">
-          <h3 className="font-bold text-lg sm:text-xl md:text-2xl mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-300 leading-tight">
+        <CardContent className="p-3 sm:p-4 md:p-5">
+          <h3 className="font-bold text-sm sm:text-lg md:text-xl mb-2 sm:mb-3 line-clamp-2 group-hover:text-primary transition-colors leading-tight">
             {property.title}
           </h3>
           
-          <div className="flex items-center gap-2 text-muted-foreground mb-4">
-            <MapPin size={16} className="flex-shrink-0" />
-            <span className="text-sm sm:text-base truncate">{property.location}</span>
+          <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground mb-3 sm:mb-4">
+            <MapPin size={14} className="sm:w-4 sm:h-4 flex-shrink-0" />
+            <span className="text-xs sm:text-sm md:text-base truncate">{property.location}</span>
           </div>
 
-          <div className="grid grid-cols-3 gap-4 pt-3 border-t border-border/30">
-            <div className="flex items-center gap-2">
-              <Bed size={16} className="text-primary flex-shrink-0" />
-              <span className="font-medium text-sm">{property.bedrooms}</span>
+          <div className="grid grid-cols-3 gap-1 sm:gap-2 text-xs sm:text-sm md:text-base text-muted-foreground">
+            <div className="flex flex-col sm:flex-row items-center gap-1">
+              <Bed size={14} className="sm:w-4 sm:h-4 flex-shrink-0" />
+              <span className="font-medium text-center sm:text-left">{property.bedrooms}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Bath size={16} className="text-primary flex-shrink-0" />
-              <span className="font-medium text-sm">{property.bathrooms}</span>
+            <div className="flex flex-col sm:flex-row items-center gap-1">
+              <Bath size={14} className="sm:w-4 sm:h-4 flex-shrink-0" />
+              <span className="font-medium text-center sm:text-left">{property.bathrooms}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Square size={16} className="text-primary flex-shrink-0" />
-              <span className="font-medium text-sm truncate">{property.area}</span>
+            <div className="flex flex-col sm:flex-row items-center gap-1">
+              <Square size={14} className="sm:w-4 sm:h-4 flex-shrink-0" />
+              <span className="font-medium truncate text-center sm:text-left">{property.area}</span>
             </div>
           </div>
         </CardContent>

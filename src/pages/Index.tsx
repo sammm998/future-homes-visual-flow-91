@@ -8,8 +8,6 @@ import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
-import DynamicCitiesGrid from "@/components/DynamicCitiesGrid";
-import PopularCities from "@/components/PopularCities";
 import SEOHead from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 import { useSEO } from "@/hooks/useSEO";
@@ -250,12 +248,6 @@ const Index = () => {
       <div className="w-full">
         <InteractiveSelector />
       </div>
-      
-      {/* Cities Grid */}
-      <DynamicCitiesGrid />
-      
-      {/* Popular Cities */}
-      <PopularCities />
       
       {/* Featured Properties - Shuffle Grid */}
       <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
