@@ -1,15 +1,63 @@
-import React from 'react';
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MersinPropertySearch from "./pages/MersinPropertySearch";
-import './index.css';
+import { Suspense, lazy } from "react";
+import { HelmetProvider } from "react-helmet-async";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
+import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import "./utils/cleanConsole";
+
+// Lazy load page components for better performance
+const Index = lazy(() => import("./pages/Index"));
+const MersinPropertySearch = lazy(() => import("./pages/MersinPropertySearch"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+// Optimized query client with better caching
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes  
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
+
+// Minimal loading component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  </div>
+);
 
 const App = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/mersin" element={<MersinPropertySearch />} />
-      <Route path="*" element={<div className="p-8">Page not found</div>} />
-    </Routes>
-  </BrowserRouter>
+  <ErrorBoundary>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <CurrencyProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <ScrollToTop />
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/mersin" element={<MersinPropertySearch />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </TooltipProvider>
+        </CurrencyProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  </ErrorBoundary>
 );
 
 export default App;
