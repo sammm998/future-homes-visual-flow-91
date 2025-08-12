@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Timeline } from "@/components/ui/timeline";
 import { Eye, Grid } from "lucide-react";
-import { useProperties } from "@/hooks/useProperties";
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
+import { allMersinProperties } from "@/data/allPropertiesData";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 
@@ -18,7 +18,7 @@ const MersinPropertySearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { properties: allProperties, loading, error } = useProperties();
+  const allProperties = allMersinProperties;
   
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',
@@ -72,22 +72,20 @@ const MersinPropertySearch = () => {
     setShowFiltered(hasFilters);
   }, [searchParams, location.state]);
   
-  // Filter properties to only show Mersin properties
+  // Use the local Mersin properties data directly
   const mersinProperties = useMemo(() => {
-    return allProperties.filter(property => 
-      property.location?.toLowerCase().includes('mersin')
-    ).map(property => ({
-      id: parseInt(property.ref_no) || parseInt(property.id),
-      refNo: property.ref_no, // Add this mapping for reference number filtering
+    return allProperties.map(property => ({
+      id: property.id,
+      refNo: property.refNo,
       title: property.title,
       location: property.location,
       price: property.price,
       bedrooms: property.bedrooms,
       bathrooms: property.bathrooms,
-      area: property.sizes_m2,
+      area: property.area,
       status: property.status,
-      image: property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
-      coordinates: [36.7987, 34.6420] as [number, number] // Default Mersin coordinates
+      image: property.image,
+      coordinates: property.coordinates
     }));
   }, [allProperties]);
 
@@ -175,27 +173,6 @@ const MersinPropertySearch = () => {
     ),
   }));
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center">Loading Mersin properties...</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-destructive">Error loading properties: {error}</div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background">
