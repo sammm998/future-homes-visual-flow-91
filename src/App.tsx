@@ -1,4 +1,3 @@
-import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -60,9 +59,6 @@ const PageLoader = () => (
 );
 
 const App = () => {
-  console.log('App component - React:', typeof React, React);
-  console.log('App component - window.React:', typeof window.React);
-  
   return (
     <ErrorBoundary>
       <HelmetProvider>

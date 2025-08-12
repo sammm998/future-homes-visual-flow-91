@@ -18,23 +18,25 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-    dedupe: ['react', 'react-dom'],
-  },
-  define: {
-    global: 'globalThis',
-  },
-  optimizeDeps: {
-    include: ['react', 'react-dom'],
-    exclude: [],
-    force: true,
   },
   build: {
-    target: 'esnext',
-    sourcemap: true,
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          query: ['@tanstack/react-query'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-select'],
+          motion: ['framer-motion'],
+        },
       },
     },
+    target: 'esnext',
+    minify: false,
+    sourcemap: false,
+    cssCodeSplit: true,
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query'],
   },
 }));

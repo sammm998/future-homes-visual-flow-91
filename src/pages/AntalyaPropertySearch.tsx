@@ -14,9 +14,6 @@ import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 
 const AntalyaPropertySearch = () => {
-  console.log('AntalyaPropertySearch - React available:', typeof React);
-  console.log('AntalyaPropertySearch - window.React:', typeof window.React);
-  
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -120,7 +117,7 @@ const AntalyaPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${property.refNo || property.slug || property.id}`, { 
+    navigate(`/property/${property.slug || property.id}`, { 
       state: { from: '/antalya' }
     });
   };

@@ -121,7 +121,7 @@ const FrancePropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${property.refNo || property.slug || property.id}`, { 
+    navigate(`/property/${property.id}`, { 
       state: { from: '/france' }
     });
   };
