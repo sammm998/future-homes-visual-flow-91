@@ -2467,7 +2467,11 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       contactEmail: "info@futurehomesturkey.com",
       distanceToAirport: "15 km",
       distanceToBeach: "20 km",
-      facilities: ["Garden", "Pool", "Cable TV - Satellite", "City view", "City Center", "Smart-Home System", "Hot Offer", "From Developer", "New Building"]
+      facilities: ["Garden", "Pool", "Cable TV - Satellite", "City view", "City Center", "Smart-Home System", "Hot Offer", "From Developer", "New Building"],
+      pricing: [
+        { type: "1+1 Flat", size: "73m²", price: "€235,000" },
+        { type: "2+1 Flat", size: "95m²", price: "€295,000" }
+      ]
     },
     "4629": {
       id: "4629",
@@ -5831,7 +5835,7 @@ const PropertyDetail = () => {
                       <div className="text-xs text-muted-foreground">{item.size}</div>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <div className="text-lg font-bold text-primary">{formatPrice(item.price)}</div>
+                      <div className="text-lg font-bold text-primary">{formatPropertyPrice(item.price)}</div>
                       <div className="text-xs text-muted-foreground">Price</div>
                     </div>
                   </div>
