@@ -78,7 +78,6 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                   <SelectValue placeholder="Any" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="0">Studio</SelectItem>
                   <SelectItem value="1">1</SelectItem>
                   <SelectItem value="2">2</SelectItem>
                   <SelectItem value="3">3</SelectItem>
@@ -259,7 +258,6 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectValue placeholder="Select Bedrooms" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="0">Studio</SelectItem>
                 <SelectItem value="1">1</SelectItem>
                 <SelectItem value="2">2</SelectItem>
                 <SelectItem value="3">3</SelectItem>

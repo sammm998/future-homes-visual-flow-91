@@ -508,39 +508,6 @@ export type Database = {
         }
         Relationships: []
       }
-      sync_failures: {
-        Row: {
-          created_at: string
-          error_message: string
-          event_type: string
-          id: string
-          property_id: string
-          resolved_at: string | null
-          retry_count: number
-          sync_data: Json
-        }
-        Insert: {
-          created_at?: string
-          error_message: string
-          event_type: string
-          id?: string
-          property_id: string
-          resolved_at?: string | null
-          retry_count?: number
-          sync_data: Json
-        }
-        Update: {
-          created_at?: string
-          error_message?: string
-          event_type?: string
-          id?: string
-          property_id?: string
-          resolved_at?: string | null
-          retry_count?: number
-          sync_data?: Json
-        }
-        Relationships: []
-      }
       team_members: {
         Row: {
           bio: string | null

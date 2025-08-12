@@ -16,7 +16,6 @@ import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
-import PricingList from "@/components/PricingList";
 
 
 const Index = () => {
@@ -259,11 +258,6 @@ const Index = () => {
       <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
         <LazyPropertyShowcase />
       </LazyComponent>
-
-      {/* Live Pricing from Property Feed */}
-      <section className="py-12 bg-muted/30 w-full">
-        <PricingList refNo="10049" title="Live Pricing" />
-      </section>
       
       {/* Testimonials Columns */}
       <section className="bg-background my-20 relative">
