@@ -18,21 +18,23 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    dedupe: ['react', 'react-dom'],
+  },
+  define: {
+    global: 'globalThis',
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+    exclude: [],
+    force: true,
   },
   build: {
+    target: 'esnext',
+    sourcemap: true,
     rollupOptions: {
-      external: [],
       output: {
         manualChunks: undefined,
       },
     },
-    target: 'esnext',
-    minify: false,
-    sourcemap: true,
-    cssCodeSplit: false,
-  },
-  optimizeDeps: {
-    include: ['react', 'react-dom', 'react/jsx-runtime'],
-    force: true,
   },
 }));
