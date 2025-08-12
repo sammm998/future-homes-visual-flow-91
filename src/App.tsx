@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 // import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
@@ -34,7 +34,7 @@ const Newsletter = lazy(() => import("./components/Newsletter"));
 
 
 // Optimized query client with better caching
-const queryClient = new QueryClient({
+/* const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000, // 5 minutes
@@ -43,7 +43,7 @@ const queryClient = new QueryClient({
       retry: 1,
     },
   },
-});
+}); */
 
 // Minimal loading component
 const PageLoader = () => (
@@ -55,7 +55,7 @@ const PageLoader = () => (
 const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
+    {/* <QueryClientProvider client={queryClient}> */}
           <CurrencyProvider>
             {/* <TooltipProvider> */}
               <Toaster />
@@ -88,7 +88,7 @@ const App = () => (
             </BrowserRouter>
           {/* </TooltipProvider> */}
         </CurrencyProvider>
-  </QueryClientProvider>
+  {/* </QueryClientProvider> */}
   </HelmetProvider>
   </ErrorBoundary>
 );
