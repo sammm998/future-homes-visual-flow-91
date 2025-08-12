@@ -114,9 +114,6 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return () => window.removeEventListener('storage', handleStorageChange);
   }, [selectedCurrency.code]);
 
-  console.log('CurrencyProvider - React check:', React);
-  console.log('CurrencyProvider - useState check:', useState);
-
   return (
     <CurrencyContext.Provider value={{
       selectedCurrency,

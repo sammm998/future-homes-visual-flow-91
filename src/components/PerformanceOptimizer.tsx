@@ -10,8 +10,6 @@ export const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
   preloadImages = [],
   prefetchRoutes = []
 }) => {
-  console.log('PerformanceOptimizer - React check:', React);
-  console.log('PerformanceOptimizer - useEffect check:', useEffect);
   
   useEffect(() => {
     // Lazy load images that are not in viewport

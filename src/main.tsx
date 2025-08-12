@@ -1,6 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import SimpleApp from './App-simple.tsx'
+import App from './App.tsx'
 import './index.css'
 
 // Force React to be available globally for debugging
@@ -14,6 +14,6 @@ if (!container) throw new Error('Root element not found');
 
 createRoot(container).render(
   <React.StrictMode>
-    <SimpleApp />
+    <App />
   </React.StrictMode>
 );
