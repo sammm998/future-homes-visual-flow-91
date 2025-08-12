@@ -6,10 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
-import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import "./utils/cleanConsole";
 
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -54,42 +52,40 @@ const PageLoader = () => (
 
 const App = () => (
   <ErrorBoundary>
-    <HelmetProvider>
     <QueryClientProvider client={queryClient}>
-          <CurrencyProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
-              <ScrollToTop />
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route path="/" element={<><Index /><Newsletter /></>} />
-                  
-                  <Route path="/property-wizard" element={<PropertyWizard />} />
-                  <Route path="/ai-property-search" element={<AIPropertySearch />} />
-                  <Route path="/antalya" element={<AntalyaPropertySearch />} />
-                  <Route path="/dubai" element={<DubaiPropertySearch />} />
-                  <Route path="/cyprus" element={<CyprusPropertySearch />} />
-                  <Route path="/mersin" element={<MersinPropertySearch />} />
-                  <Route path="/france" element={<FrancePropertySearch />} />
-                  
-                  <Route path="/property/:id" element={<PropertyDetail />} />
-                  <Route path="/testimonials" element={<Testimonials />} />
-                  <Route path="/information" element={<Information />} />
-                  <Route path="/about-us" element={<AboutUs />} />
-                  <Route path="/contact-us" element={<ContactUs />} />
-                  <Route path="/article/:id" element={<Article />} />
-                  <Route path="/articles/:slug" element={<ArticlePage />} />
-                  <Route path="/sitemap.xml" element={<SitemapXML />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
-          </TooltipProvider>
-        </CurrencyProvider>
-  </QueryClientProvider>
-  </HelmetProvider>
+      <CurrencyProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <ScrollToTop />
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route path="/" element={<><Index /><Newsletter /></>} />
+                
+                <Route path="/property-wizard" element={<PropertyWizard />} />
+                <Route path="/ai-property-search" element={<AIPropertySearch />} />
+                <Route path="/antalya" element={<AntalyaPropertySearch />} />
+                <Route path="/dubai" element={<DubaiPropertySearch />} />
+                <Route path="/cyprus" element={<CyprusPropertySearch />} />
+                <Route path="/mersin" element={<MersinPropertySearch />} />
+                <Route path="/france" element={<FrancePropertySearch />} />
+                
+                <Route path="/property/:id" element={<PropertyDetail />} />
+                <Route path="/testimonials" element={<Testimonials />} />
+                <Route path="/information" element={<Information />} />
+                <Route path="/about-us" element={<AboutUs />} />
+                <Route path="/contact-us" element={<ContactUs />} />
+                <Route path="/article/:id" element={<Article />} />
+                <Route path="/articles/:slug" element={<ArticlePage />} />
+                <Route path="/sitemap.xml" element={<SitemapXML />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
+      </CurrencyProvider>
+    </QueryClientProvider>
   </ErrorBoundary>
 );
 
