@@ -18,6 +18,10 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    dedupe: ['react', 'react-dom'],
+  },
+  define: {
+    global: 'globalThis',
   },
   build: {
     rollupOptions: {
@@ -26,17 +30,15 @@ export default defineConfig(({ mode }) => ({
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
           query: ['@tanstack/react-query'],
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-select'],
-          motion: ['framer-motion'],
         },
       },
     },
     target: 'esnext',
     minify: false,
     sourcemap: false,
-    cssCodeSplit: true,
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query'],
+    force: true,
   },
 }));

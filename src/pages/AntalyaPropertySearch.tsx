@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
-import { useNavigate, Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import Navigation from "@/components/Navigation";
 import PropertyFilter from "@/components/PropertyFilter";
 import PropertyCard from "@/components/PropertyCard";
@@ -123,7 +122,7 @@ const AntalyaPropertySearch = () => {
   };
 
   // Timeline data using ALL properties (not just 6)
-  const timelineData = filteredProperties.map((property, index) => ({
+  const timelineData = filteredProperties.map((property) => ({
     title: property.title,
     content: (
       <div>
@@ -299,9 +298,6 @@ const AntalyaPropertySearch = () => {
           )}
         </div>
       </div>
-
-      {/* ElevenLabs Widget */}
-      <ElevenLabsWidget />
     </div>
   );
 };
