@@ -3694,6 +3694,35 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       distanceToBeach: "12 km",
       facilities: ["Bus Stop", "Private garage", "Caretaker", "Barbeque", "Garage", "Fitness", "Ready to Move", "For Residence Permit", "Smart-Home System"]
     },
+    "3008": {
+      id: "3008",
+      title: "Modern apartments with smart home features in Antalya, Kepez",
+      location: "Antalya, Kepez",
+      price: "€130,000",
+      bedrooms: "1+1 <> 4+1",
+      bathrooms: "1 <> 2",
+      area: "58 <> 135m²",
+      propertyType: "Apartments",
+      refNo: "1041",
+      buildingComplete: "10/01/2024",
+      description: "Modern apartments with smart home system and premium amenities in Kepez area.",
+      features: ["Garden", "Pool", "Cable TV - Satellite", "Smart-Home System", "Ready to Move", "New Building"],
+      pricing: [
+        { type: "1+1 Flat", size: "58m²", price: "€130,000" },
+        { type: "2+1 Flat", size: "85m²", price: "€180,000" },
+        { type: "3+1 Flat", size: "110m²", price: "€235,000" },
+        { type: "4+1 Flat", size: "135m²", price: "€285,000" }
+      ],
+      images: [
+        "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/3008/general/property-antalya-kepez-general-3008-0.webp"
+      ],
+      agent: "Batuhan Kunt",
+      contactPhone: "+905523032750",
+      contactEmail: "info@futurehomesturkey.com",
+      distanceToAirport: "18 km",
+      distanceToBeach: "10 km",
+      facilities: ["Garden", "Pool", "Cable TV - Satellite", "Smart-Home System", "Ready to Move", "New Building"]
+    },
     "3248": {
       id: "3248",
       title: "New apartments with modern architecture in Antalya, Kepez",
