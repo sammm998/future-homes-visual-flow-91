@@ -10,10 +10,14 @@ import { Grid } from "lucide-react";
 import { antalyaProperties } from '@/data/antalyaProperties';
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
-import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 
 const AntalyaPropertySearch = () => {
-  const { canonicalUrl, hreflangUrls } = useSEOLanguage();
+  // Simple canonical URL for Antalya page
+  const canonicalUrl = `${window.location.origin}/antalya`;
+  const hreflangUrls = [
+    { code: 'en', url: `${window.location.origin}/antalya` },
+    { code: 'sv', url: `${window.location.origin}/antalya` }
+  ];
   
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',
