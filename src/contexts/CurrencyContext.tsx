@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from 'react';
+import { useState, useEffect, useContext, createContext } from 'react';
 
 export interface Currency {
   code: string;
@@ -45,10 +46,10 @@ interface CurrencyContextType {
   updateCurrencyFromLanguage: (languageCode: string) => void;
 }
 
-const CurrencyContext = React.createContext<CurrencyContextType | undefined>(undefined);
+const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [selectedCurrency, setSelectedCurrency] = React.useState<Currency>(currencies[0]); // EUR as default
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(currencies[0]); // EUR as default
 
   const convertPrice = (price: number, fromCurrency: string = 'EUR'): number => {
     if (fromCurrency === 'EUR') {
@@ -99,7 +100,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleStorageChange = () => {
       const storedCurrencyCode = localStorage.getItem('currency');
       if (storedCurrencyCode && storedCurrencyCode !== selectedCurrency.code) {
@@ -128,7 +129,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 };
 
 export const useCurrency = () => {
-  const context = React.useContext(CurrencyContext);
+  const context = useContext(CurrencyContext);
   if (context === undefined) {
     throw new Error('useCurrency must be used within a CurrencyProvider');
   }
