@@ -1,13 +1,19 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
+import SimpleApp from './App-simple.tsx'
 import './index.css'
 
-console.log('React import check:', React);
-console.log('React hooks check:', React.useState, React.useEffect);
+// Force React to be available globally for debugging
+window.React = React;
 
-createRoot(document.getElementById("root")!).render(
+console.log('Main - React import check:', React);
+console.log('Main - React hooks check:', React.useState, React.useEffect);
+
+const container = document.getElementById("root");
+if (!container) throw new Error('Root element not found');
+
+createRoot(container).render(
   <React.StrictMode>
-    <App />
+    <SimpleApp />
   </React.StrictMode>
 );

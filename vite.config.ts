@@ -21,22 +21,18 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     rollupOptions: {
+      external: [],
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          query: ['@tanstack/react-query'],
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-select'],
-          motion: ['framer-motion'],
-        },
+        manualChunks: undefined,
       },
     },
     target: 'esnext',
     minify: false,
-    sourcemap: false,
-    cssCodeSplit: true,
+    sourcemap: true,
+    cssCodeSplit: false,
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query'],
+    include: ['react', 'react-dom', 'react/jsx-runtime'],
+    force: true,
   },
 }));
