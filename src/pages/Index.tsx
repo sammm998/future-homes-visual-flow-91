@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 import { LazyComponent, LazyTestimonials, LazyShuffleGrid, LazyPropertyShowcase, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
 import SimpleNewsletter from "@/components/SimpleNewsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
-import InteractiveSelector from "@/components/ui/interactive-selector";
+import SimpleInteractiveSelector from "@/components/SimpleInteractiveSelector";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import SEOHead from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
@@ -16,7 +16,7 @@ import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
-import PopularCities from "@/components/PopularCities";
+import SimplePopularCities from "@/components/SimplePopularCities";
 
 const Index = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
@@ -246,7 +246,7 @@ const Index = () => {
       
       {/* Interactive City Selector */}
       <div className="w-full">
-        <InteractiveSelector />
+        <SimpleInteractiveSelector />
       </div>
       
       {/* Featured Properties - Shuffle Grid */}
@@ -261,7 +261,7 @@ const Index = () => {
       
       {/* Popular Cities */}
       <div className="w-full">
-        <PopularCities />
+        <SimplePopularCities />
       </div>
       
       {/* Testimonials Columns */}
