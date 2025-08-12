@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Timeline } from "@/components/ui/timeline";
 import { Eye, Grid } from "lucide-react";
-import { useProperties } from "@/hooks/useProperties";
+import { dubaiProperties } from "@/data/dubaiProperties";
 import SEOHead from "@/components/SEOHead";
 
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
@@ -17,7 +17,6 @@ const DubaiPropertySearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { properties: allProperties, loading, error } = useProperties();
   
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',
@@ -71,60 +70,40 @@ const DubaiPropertySearch = () => {
     setShowFiltered(hasFilters);
   }, [searchParams, location.state]);
   
-  // Filter properties to only show Dubai properties
-  const dubaiProperties = useMemo(() => {
-    return allProperties.filter(property => 
-      property.location?.toLowerCase().includes('dubai')
-    ).map(property => {
-      // Extract status from facilities - prioritize certain statuses
-      let status = 'available';
-      const facilities = property.property_facilities || [];
-      const facilitiesString = property.facilities || '';
-      
-      // Combine all facility sources
-      const allFacilities = [...facilities, ...facilitiesString.split(',').map(f => f.trim())];
-      
-      // Check for key status indicators in priority order
-      if (allFacilities.some(f => f.toLowerCase().includes('under construction'))) {
-        status = 'Under Construction';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('ready to move'))) {
-        status = 'Ready to Move';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('sea view'))) {
-        status = 'Sea View';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('private pool'))) {
-        status = 'Private Pool';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('for residence permit'))) {
-        status = 'For Residence Permit';
-      }
-
-      return {
-        id: parseInt(property.ref_no) || parseInt(property.id),
-        refNo: property.ref_no, // Add this mapping
-        title: property.title,
-        location: property.location,
-        price: property.price,
-        bedrooms: property.bedrooms,
-        bathrooms: property.bathrooms,
-        area: property.sizes_m2,
-        status: status,
-        image: property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
-        coordinates: [25.0470, 55.2000] as [number, number] // Default Dubai coordinates
-      };
-    });
-  }, [allProperties]);
-
-  const properties = dubaiProperties;
+  // Transform Dubai properties to match expected structure
+  const dubaiPropertiesData = useMemo(() => {
+    return dubaiProperties.map(property => ({
+      id: property.id,
+      ref_no: property.refNo,
+      title: property.title,
+      location: property.location,
+      price: property.price,
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
+      area: property.area,
+      sizes_m2: property.area,
+      status: property.status,
+      image: property.image,
+      property_image: property.image,
+      property_images: property.images,
+      coordinates: property.coordinates,
+      // Add missing fields for compatibility
+      property_facilities: [],
+      facilities: property.status,
+      property_type: 'Apartment',
+      property_district: property.location.split(', ')[1] || 'Dubai'
+    }));
+  }, []);
 
   const filteredProperties = useMemo(() => {
     if (showFiltered) {
-      return filterProperties(properties, filters);
+      return filterProperties(dubaiPropertiesData, filters);
     }
-    return properties;
-  }, [properties, filters, showFiltered]);
+    return dubaiPropertiesData;
+  }, [dubaiPropertiesData, filters, showFiltered]);
 
   const handleFilterChange = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
-    // Auto-trigger filtering for sortBy and other filter changes
     setShowFiltered(true);
   };
 
@@ -138,13 +117,8 @@ const DubaiPropertySearch = () => {
     });
   };
 
-  // Timeline data using ALL Dubai properties
-  const timelineData = filteredProperties.map((property, index) => {
-    // Get the original property data to access property_images array
-    const originalProperty = allProperties.find(p => p.id === property.id.toString());
-    const propertyImages = originalProperty?.property_images || [];
-    
-    // Create array of 4 images, using property images if available, otherwise fallback images
+  // Timeline data using filtered properties
+  const timelineData = filteredProperties.map((property) => {
     const fallbackImages = [
       "/lovable-uploads/000f440d-ddb1-4c1b-9202-eef1ef588a8c.png",
       "/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png",
@@ -155,13 +129,10 @@ const DubaiPropertySearch = () => {
     const images = [];
     for (let i = 0; i < 4; i++) {
       if (i === 0) {
-        // First image: use main property image
-        images.push(property.image);
-      } else if (propertyImages[i - 1]) {
-        // Use additional images from property_images array
-        images.push(propertyImages[i - 1]);
+        images.push(property.property_image);
+      } else if (property.property_images && property.property_images[i - 1]) {
+        images.push(property.property_images[i - 1]);
       } else {
-        // Fallback to placeholder images
         images.push(fallbackImages[i]);
       }
     }
@@ -181,7 +152,7 @@ const DubaiPropertySearch = () => {
               💰 {property.price}
             </div>
             <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-              🏠 {property.bedrooms} | 📐 {property.area}m²
+              🏠 {property.bedrooms} | 📐 {property.sizes_m2}m²
             </div>
             <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
               ✅ {property.status}
@@ -206,28 +177,6 @@ const DubaiPropertySearch = () => {
     };
   });
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center">Loading Dubai properties...</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navigation />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-destructive">Error loading properties: {error}</div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
@@ -245,7 +194,7 @@ const DubaiPropertySearch = () => {
             Properties In Dubai
           </h1>
           <p className="text-muted-foreground">
-            {properties.length} properties found
+            {dubaiPropertiesData.length} properties found
           </p>
         </div>
 
@@ -289,15 +238,61 @@ const DubaiPropertySearch = () => {
         {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
         <div className="hidden md:block">
           {!showTimeline && (
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredProperties.map((property) => (
-                <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                  <PropertyCard property={property} />
+            <>
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center gap-4">
+                  <span className="text-sm text-muted-foreground">
+                    Showing {filteredProperties.length} of {dubaiPropertiesData.length} properties
+                  </span>
                 </div>
-              ))}
-            </div>
+              </div>
+              
+              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {filteredProperties.map((property) => (
+                  <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                    <PropertyCard property={property} />
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
+
+        {/* Empty State */}
+        {filteredProperties.length === 0 && (
+          <div className="text-center py-16">
+            <div className="max-w-md mx-auto">
+              <Grid className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-foreground mb-2">
+                No Properties Found
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                Try adjusting your search criteria to find more properties.
+              </p>
+              <Button 
+                onClick={() => {
+                  setFilters({
+                    propertyType: '',
+                    bedrooms: '',
+                    location: 'Dubai',
+                    district: '',
+                    minPrice: '',
+                    maxPrice: '',
+                    minSquareFeet: '',
+                    maxSquareFeet: '',
+                    facilities: [],
+                    sortBy: 'ref',
+                    referenceNo: ''
+                  });
+                  setShowFiltered(false);
+                }}
+                variant="outline"
+              >
+                Clear Filters
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ElevenLabs Widget */}
