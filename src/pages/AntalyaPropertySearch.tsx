@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
-import { useNavigate, Link, useLocation, useSearchParams } from 'react-router-dom';
 import Navigation from "@/components/Navigation";
 import PropertyFilter from "@/components/PropertyFilter";
 import PropertyCard from "@/components/PropertyCard";
@@ -15,9 +14,6 @@ import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 
 const AntalyaPropertySearch = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [searchParams] = useSearchParams();
   
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',
@@ -35,31 +31,22 @@ const AntalyaPropertySearch = () => {
   const [showFiltered, setShowFiltered] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
 
-  // Load filters from URL parameters and location state on mount
+  // Load filters from URL parameters on mount
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
     const urlFilters: PropertyFilters = {
-      propertyType: searchParams.get('propertyType') || '',
-      bedrooms: searchParams.get('bedrooms') || '',
-      location: searchParams.get('location') || 'Antalya',
-      district: searchParams.get('district') || '',
-      minPrice: searchParams.get('priceMin') || searchParams.get('minPrice') || '',
-      maxPrice: searchParams.get('priceMax') || searchParams.get('maxPrice') || '',
-      minSquareFeet: searchParams.get('areaMin') || searchParams.get('minSquareFeet') || '',
-      maxSquareFeet: searchParams.get('areaMax') || searchParams.get('maxSquareFeet') || '',
-      facilities: searchParams.get('facilities')?.split(',').filter(Boolean) || [],
-      sortBy: (searchParams.get('sortBy') as any) || 'ref',
-      referenceNo: searchParams.get('referenceNumber') || searchParams.get('referenceNo') || ''
+      propertyType: urlParams.get('propertyType') || '',
+      bedrooms: urlParams.get('bedrooms') || '',
+      location: urlParams.get('location') || 'Antalya',
+      district: urlParams.get('district') || '',
+      minPrice: urlParams.get('priceMin') || urlParams.get('minPrice') || '',
+      maxPrice: urlParams.get('priceMax') || urlParams.get('maxPrice') || '',
+      minSquareFeet: urlParams.get('areaMin') || urlParams.get('minSquareFeet') || '',
+      maxSquareFeet: urlParams.get('areaMax') || urlParams.get('maxSquareFeet') || '',
+      facilities: urlParams.get('facilities')?.split(',').filter(Boolean) || [],
+      sortBy: (urlParams.get('sortBy') as any) || 'ref',
+      referenceNo: urlParams.get('referenceNumber') || urlParams.get('referenceNo') || ''
     };
-
-    // Merge with location state if available
-    const stateFilters = location.state?.filters;
-    if (stateFilters) {
-      Object.keys(stateFilters).forEach(key => {
-        if (stateFilters[key] && stateFilters[key] !== '') {
-          urlFilters[key as keyof PropertyFilters] = stateFilters[key];
-        }
-      });
-    }
 
     setFilters(urlFilters);
     
@@ -69,7 +56,7 @@ const AntalyaPropertySearch = () => {
     });
     
     setShowFiltered(hasFilters);
-  }, [searchParams, location.state]);
+  }, []);
 
   const filteredProperties = useMemo(() => {
     if (showFiltered) {
@@ -80,7 +67,6 @@ const AntalyaPropertySearch = () => {
 
   const handleFilterChange = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
-    // Auto-trigger filtering for sortBy and other filter changes
     setShowFiltered(true);
   };
 
@@ -89,9 +75,7 @@ const AntalyaPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${property.id}`, { 
-      state: { from: '/antalya' }
-    });
+    window.location.href = `/property/${property.id}`;
   };
 
   // Timeline data using ALL properties (not just 6)
@@ -175,7 +159,7 @@ const AntalyaPropertySearch = () => {
             Properties In Antalya
           </h1>
           <p className="text-muted-foreground">
-            {antalyaProperties.length} properties found
+            {filteredProperties.length} of {antalyaProperties.length} properties found
           </p>
         </div>
 
@@ -208,7 +192,9 @@ const AntalyaPropertySearch = () => {
           <div className="space-y-6">
             {filteredProperties.map((property) => (
               <div key={property.id} className="w-full">
+                <div onClick={() => handlePropertyClick(property)} className="cursor-pointer">
                   <PropertyCard property={property} />
+                </div>
               </div>
             ))}
           </div>
@@ -229,7 +215,9 @@ const AntalyaPropertySearch = () => {
           {!showTimeline && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredProperties.map((property) => (
-                  <PropertyCard key={property.id} property={property} />
+                <div key={property.id} onClick={() => handlePropertyClick(property)} className="cursor-pointer">
+                  <PropertyCard property={property} />
+                </div>
               ))}
             </div>
           )}
