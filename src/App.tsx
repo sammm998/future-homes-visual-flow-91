@@ -54,40 +54,34 @@ const PageLoader = () => (
 const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <CurrencyProvider>
-          <TooltipProvider>
-            <BrowserRouter>
-              <ScrollToTop />
-              <Toaster />
-              <Sonner />
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route path="/" element={<><Index /><Newsletter /></>} />
-                  
-                  <Route path="/property-wizard" element={<PropertyWizard />} />
-                  <Route path="/ai-property-search" element={<AIPropertySearch />} />
-                  <Route path="/antalya" element={<AntalyaPropertySearch />} />
-                  <Route path="/dubai" element={<DubaiPropertySearch />} />
-                  <Route path="/cyprus" element={<CyprusPropertySearch />} />
-                  <Route path="/mersin" element={<MersinPropertySearch />} />
-                  <Route path="/france" element={<FrancePropertySearch />} />
-                  
-                  <Route path="/property/:id" element={<PropertyDetail />} />
-                  <Route path="/testimonials" element={<Testimonials />} />
-                  <Route path="/information" element={<Information />} />
-                  <Route path="/about-us" element={<AboutUs />} />
-                  <Route path="/contact-us" element={<ContactUs />} />
-                  <Route path="/article/:id" element={<Article />} />
-                  <Route path="/articles/:slug" element={<ArticlePage />} />
-                  <Route path="/sitemap.xml" element={<SitemapXML />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
-          </TooltipProvider>
-        </CurrencyProvider>
-      </QueryClientProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Toaster />
+        <Sonner />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<><Index /><Newsletter /></>} />
+            
+            <Route path="/property-wizard" element={<PropertyWizard />} />
+            <Route path="/ai-property-search" element={<AIPropertySearch />} />
+            <Route path="/antalya" element={<AntalyaPropertySearch />} />
+            <Route path="/dubai" element={<DubaiPropertySearch />} />
+            <Route path="/cyprus" element={<CyprusPropertySearch />} />
+            <Route path="/mersin" element={<MersinPropertySearch />} />
+            <Route path="/france" element={<FrancePropertySearch />} />
+            
+            <Route path="/property/:id" element={<PropertyDetail />} />
+            <Route path="/testimonials" element={<Testimonials />} />
+            <Route path="/information" element={<Information />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/article/:id" element={<Article />} />
+            <Route path="/articles/:slug" element={<ArticlePage />} />
+            <Route path="/sitemap.xml" element={<SitemapXML />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
     </HelmetProvider>
   </ErrorBoundary>
 );
