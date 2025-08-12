@@ -117,7 +117,7 @@ const AntalyaPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${property.slug || property.id}`, { 
+    navigate(`/property/${property.refNo || property.slug || property.id}`, { 
       state: { from: '/antalya' }
     });
   };

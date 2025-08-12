@@ -481,7 +481,7 @@ const CyprusPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${property.id}`, { 
+    navigate(`/property/${property.refNo || property.slug || property.id}`, { 
       state: { from: '/cyprus' }
     });
   };
