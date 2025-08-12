@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
-import { CurrencyProvider } from "@/contexts/CurrencyContext";
+import { SimpleCurrencyProvider } from "@/contexts/SimpleCurrencyContext";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -55,7 +55,7 @@ const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
-        <CurrencyProvider>
+        <SimpleCurrencyProvider>
           <TooltipProvider>
             <BrowserRouter>
               <ScrollToTop />
@@ -86,7 +86,7 @@ const App = () => (
               </Suspense>
             </BrowserRouter>
           </TooltipProvider>
-        </CurrencyProvider>
+        </SimpleCurrencyProvider>
       </QueryClientProvider>
     </HelmetProvider>
   </ErrorBoundary>
