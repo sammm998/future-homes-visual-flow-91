@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { dubaiProperties } from '@/data/dubaiProperties';
+import { useSyncAllData } from './useSyncAllData';
 
 interface SyncStats {
   total: number;
@@ -101,8 +102,13 @@ export const useSyncProperties = () => {
     }
   };
 
+  const { syncAllData, syncAllProperties, syncBlogPosts } = useSyncAllData();
+
   return {
     syncDubaiProperties,
+    syncAllData,
+    syncAllProperties, 
+    syncBlogPosts,
     isSyncing,
     syncStats
   };
