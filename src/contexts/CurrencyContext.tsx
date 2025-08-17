@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useEffect, useContext, createContext } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 
 export interface Currency {
   code: string;
