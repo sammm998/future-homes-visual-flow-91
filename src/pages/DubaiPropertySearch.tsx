@@ -81,25 +81,29 @@ const DubaiPropertySearch = () => {
     const propertiesSource = dubaiProps.length > 0 ? dubaiProps : allProperties;
     
     return propertiesSource.map(property => {
-      // Extract status from facilities - prioritize certain statuses
-      let status = 'available';
-      const facilities = property.property_facilities || [];
-      const facilitiesString = property.facilities || '';
+      // Use database status as primary source, fallback to facilities extraction
+      let status = property.status || 'available';
       
-      // Combine all facility sources
-      const allFacilities = [...facilities, ...facilitiesString.split(',').map(f => f.trim())];
-      
-      // Check for key status indicators in priority order
-      if (allFacilities.some(f => f.toLowerCase().includes('under construction'))) {
-        status = 'Under Construction';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('ready to move'))) {
-        status = 'Ready to Move';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('sea view'))) {
-        status = 'Sea View';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('private pool'))) {
-        status = 'Private Pool';
-      } else if (allFacilities.some(f => f.toLowerCase().includes('for residence permit'))) {
-        status = 'For Residence Permit';
+      // If no status from database, try to extract from facilities
+      if (!property.status || property.status === 'available') {
+        const facilities = property.property_facilities || [];
+        const facilitiesString = property.facilities || '';
+        
+        // Combine all facility sources
+        const allFacilities = [...facilities, ...facilitiesString.split(',').map(f => f.trim())];
+        
+        // Check for exact matches first, then substring matches
+        if (allFacilities.some(f => f === 'Under Construction' || f.toLowerCase().includes('under construction'))) {
+          status = 'Under Construction';
+        } else if (allFacilities.some(f => f === 'Ready to Move' || f.toLowerCase().includes('ready to move'))) {
+          status = 'Ready to Move';
+        } else if (allFacilities.some(f => f.toLowerCase().includes('sea view'))) {
+          status = 'Sea View';
+        } else if (allFacilities.some(f => f.toLowerCase().includes('private pool'))) {
+          status = 'Private Pool';
+        } else if (allFacilities.some(f => f.toLowerCase().includes('for residence permit'))) {
+          status = 'For Residence Permit';
+        }
       }
 
       return {
