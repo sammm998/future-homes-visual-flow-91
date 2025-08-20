@@ -94,7 +94,7 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
   }
 
   // Filter by location
-  if (filters.location && filters.location !== '') {
+  if (filters.location && filters.location !== '' && filters.location !== 'all') {
     const before = filtered.length;
     filtered = filtered.filter(property => 
       property.location.toLowerCase().includes(filters.location.toLowerCase())
