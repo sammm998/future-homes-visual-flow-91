@@ -74,21 +74,33 @@ const MersinPropertySearch = () => {
   
   // Filter properties to only show Mersin properties
   const mersinProperties = useMemo(() => {
-    return allProperties.filter(property => 
+    const filtered = allProperties.filter(property => 
       property.location?.toLowerCase().includes('mersin')
-    ).map(property => ({
-      id: parseInt(property.ref_no) || parseInt(property.id),
-      refNo: property.ref_no, // Add this mapping for reference number filtering
-      title: property.title,
-      location: property.location,
-      price: property.price,
-      bedrooms: property.bedrooms,
-      bathrooms: property.bathrooms,
-      area: property.sizes_m2,
-      status: property.status,
-      image: property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
-      coordinates: [36.7987, 34.6420] as [number, number] // Default Mersin coordinates
-    }));
+    ).map(property => {
+      console.log('Mersin property mapping:', {
+        refNo: property.ref_no,
+        title: property.title,
+        status: property.status,
+        statusType: typeof property.status
+      });
+      
+      return {
+        id: parseInt(property.ref_no) || parseInt(property.id),
+        refNo: property.ref_no, // Add this mapping for reference number filtering
+        title: property.title,
+        location: property.location,
+        price: property.price,
+        bedrooms: property.bedrooms,
+        bathrooms: property.bathrooms,
+        area: property.sizes_m2,
+        status: property.status,
+        image: property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
+        coordinates: [36.7987, 34.6420] as [number, number] // Default Mersin coordinates
+      };
+    });
+    
+    console.log('Filtered Mersin properties:', filtered.length);
+    return filtered;
   }, [allProperties]);
 
   const properties = mersinProperties;
