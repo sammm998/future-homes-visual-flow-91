@@ -64,12 +64,8 @@ const AntalyaPropertySearch = () => {
 
     setFilters(urlFilters);
     
-    // Show filtered results if any filters are applied
-    const hasFilters = Object.entries(urlFilters).some(([key, value]) => {
-      return value && value !== '' && value !== 'ref' && value !== 'Antalya';
-    });
-    
-    setShowFiltered(hasFilters);
+    // Always show all properties by default (don't auto-apply filters)
+    setShowFiltered(false);
   }, [searchParams, location.state]);
 
   // Filter properties by location (Antalya) and active status from database and map to expected format
