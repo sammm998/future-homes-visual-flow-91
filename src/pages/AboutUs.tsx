@@ -9,7 +9,9 @@ import { useTeamMembers } from "@/hooks/useTeamMembers";
 
 
 const AboutUs = () => {
-  const { teamMembers, isLoading: teamLoading } = useTeamMembers();
+  const { teamMembers, isLoading: teamLoading, error: teamError } = useTeamMembers();
+  
+  console.log('Team members state:', { teamMembers, teamLoading, teamError });
 
   const services = [
     { icon: <Plane className="w-8 h-8" />, title: "FREE PROPERTY VISITS", description: "We organize free property visits for our clients" },
@@ -181,9 +183,19 @@ const AboutUs = () => {
             </p>
           </div>
           
+          {teamError && (
+            <div className="flex justify-center items-center py-12">
+              <div className="text-red-500">Error loading team members: {teamError}</div>
+            </div>
+          )}
+          
           {teamLoading ? (
             <div className="flex justify-center items-center py-12">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            </div>
+          ) : teamMembers.length === 0 ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="text-muted-foreground">No team members found</div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -216,7 +228,7 @@ const AboutUs = () => {
                           <Phone className="w-4 h-4 mr-2" />
                           <span className="text-muted-foreground">{member.phone}</span>
                         </div>
-                      )}
+          )}
                       {member.email && (
                         <div className="flex items-center justify-center">
                           <Globe className="w-4 h-4 mr-2" />
