@@ -20,12 +20,9 @@ export const useMemoizedPrice = (price: string, formatPrice: (value: number) => 
 // Memoized status calculation
 export const useMemoizedStatus = (status: string) => {
   return useMemo(() => {
-    console.log('Processing status:', status, 'Type:', typeof status);
-    
     if (!status) return { color: 'bg-gray-500', text: 'Available' };
     
     const normalizedStatus = status.toLowerCase().trim();
-    console.log('Normalized status:', normalizedStatus);
     
     // Handle specific status cases
     if (normalizedStatus.includes('available')) {
@@ -49,7 +46,6 @@ export const useMemoizedStatus = (status: string) => {
     
     // Default case - capitalize first letter
     const capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
-    console.log('Using default status:', capitalizedStatus);
     return { color: 'bg-gray-500', text: capitalizedStatus };
   }, [status]);
 };
