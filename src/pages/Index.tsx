@@ -16,6 +16,7 @@ import { useMemo, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useTestimonials } from "@/hooks/useTestimonials";
+import { PropertySyncButton } from "@/components/PropertySyncButton";
 
 
 const Index = () => {
@@ -77,6 +78,11 @@ const Index = () => {
       />
       <OrganizationSchema />
       <Navigation />
+      
+      {/* Temporary Sync Button - Remove after syncing */}
+      <div className="fixed top-20 right-4 z-50 bg-background border border-border rounded-lg p-4 shadow-lg">
+        <PropertySyncButton />
+      </div>
       
       {/* Hero Section */}
       <div className="w-full">
