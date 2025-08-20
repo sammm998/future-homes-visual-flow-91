@@ -72,11 +72,12 @@ const AntalyaPropertySearch = () => {
     setShowFiltered(hasFilters);
   }, [searchParams, location.state]);
 
-  // Filter properties by location (Antalya) from database and map to expected format
+  // Filter properties by location (Antalya) and active status from database and map to expected format
   const antalyaProperties = useMemo(() => {
     return allProperties
       .filter(property => 
-        property.location?.toLowerCase().includes('antalya')
+        property.location?.toLowerCase().includes('antalya') && 
+        (property as any).is_active === true
       )
       .map(property => ({
         id: parseInt(property.ref_no || '0'),
