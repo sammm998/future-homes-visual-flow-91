@@ -20,18 +20,32 @@ export const useMemoizedPrice = (price: string, formatPrice: (value: number) => 
 // Memoized status calculation
 export const useMemoizedStatus = (status: string) => {
   return useMemo(() => {
-    const statuses = status.split(',').map(s => s.trim());
+    if (!status) return { color: 'bg-gray-500', text: 'Available' };
     
-    if (statuses.some(s => s.includes('Under Construction'))) {
+    const normalizedStatus = status.toLowerCase().trim();
+    
+    // Handle specific status cases
+    if (normalizedStatus.includes('available')) {
+      return { color: 'bg-green-500', text: 'Available' };
+    }
+    if (normalizedStatus.includes('sold')) {
+      return { color: 'bg-red-500', text: 'Sold' };
+    }
+    if (normalizedStatus.includes('under construction')) {
       return { color: 'bg-blue-500', text: 'Under Construction' };
     }
-    if (statuses.some(s => s.includes('Ready to Move'))) {
-      return { color: 'bg-green-500', text: 'Ready To Move' };
+    if (normalizedStatus.includes('reserved')) {
+      return { color: 'bg-orange-500', text: 'Reserved' };
     }
-    if (statuses.some(s => s.includes('For Residence Permit'))) {
+    if (normalizedStatus.includes('ready to move')) {
+      return { color: 'bg-emerald-500', text: 'Ready To Move' };
+    }
+    if (normalizedStatus.includes('for residence permit')) {
       return { color: 'bg-purple-500', text: 'For Residence Permit' };
     }
     
-    return { color: 'bg-gray-500', text: statuses[0] || status };
+    // Default case - capitalize first letter
+    const capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+    return { color: 'bg-gray-500', text: capitalizedStatus };
   }, [status]);
 };
