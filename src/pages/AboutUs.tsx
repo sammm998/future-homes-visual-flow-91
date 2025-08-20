@@ -5,82 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { MapPin, Phone, Globe, Users, Heart, Shield, FileText, Home, CreditCard, Plane, Languages, CheckCircle } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
+import { useTeamMembers } from "@/hooks/useTeamMembers";
 
 
 const AboutUs = () => {
-  
-  const teamMembers = [
-    {
-      name: "Ali Karan",
-      title: "Founder",
-      office: "",
-      phone: "+905523032750",
-      image: "/lovable-uploads/291af508-aad0-496c-b587-75c602468e63.png"
-    },
-    {
-      name: "Cem Çakıroğlu",
-      title: "Business Developer",
-      office: "",
-      phone: "+905071197845",
-      image: "/lovable-uploads/7eed1306-cb84-40d9-9c82-de452c892290.png"
-    },
-    {
-      name: "Tolga Çakıroğlu",
-      title: "General Manager",
-      office: "",
-      phone: "+905071453818",
-      image: "/lovable-uploads/2edf48a9-4185-49c9-9fa0-213a9fe81a9e.png"
-    },
-    {
-      name: "Özgün Baykal",
-      title: "Portfolio Manager",
-      office: "Antalya Office",
-      phone: "+905467879633",
-      image: "/lovable-uploads/3d135184-c1fb-4e60-b81a-ae5a98808420.png"
-    },
-    {
-      name: "Ervina Köksel",
-      title: "Sales Office Supervisor",
-      office: "",
-      phone: "+905454421886",
-      image: "/lovable-uploads/946b687e-98e1-40d1-b419-f9e481a23292.png"
-    },
-    {
-      name: "Fırat Ine",
-      title: "Portfolio Supervisor",
-      office: "Mersin Office",
-      phone: "+905510066804",
-      image: "/lovable-uploads/28a57fc4-229b-4852-b005-4713fcb98245.png"
-    },
-    {
-      name: "Umar",
-      title: "Dubai Office Manager",
-      office: "Dubai Office",
-      phone: "+905538036025",
-      image: "/lovable-uploads/81a7b7cc-0897-4036-a4d9-be6d4d65f621.png"
-    },
-    {
-      name: "Kim Larsson",
-      title: "Real Estate Consultant",
-      office: "",
-      phone: "+4793289931",
-      image: "/lovable-uploads/b560a0ff-8533-41e0-ad8e-c5e4f5e5b1cb.png"
-    },
-    {
-      name: "Batuhan Kunt",
-      title: "Real Estate Consultant",
-      office: "",
-      phone: "",
-      image: "/lovable-uploads/0d7f39c6-56d6-41b2-b858-abfad0a87fca.png"
-    },
-    {
-      name: "Baris Kaya",
-      title: "Real Estate Consultant",
-      office: "",
-      phone: "+90 (531) 664 89 35",
-      image: "/lovable-uploads/495cde30-4564-4712-9850-786f6e16adcf.png"
-    }
-  ];
+  const { teamMembers, isLoading: teamLoading } = useTeamMembers();
 
   const services = [
     { icon: <Plane className="w-8 h-8" />, title: "FREE PROPERTY VISITS", description: "We organize free property visits for our clients" },
@@ -252,35 +181,56 @@ const AboutUs = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="w-24 h-24 mx-auto mb-4">
-                    <img 
-                      src={member.image} 
-                      alt={member.name}
-                      className="w-full h-full rounded-full object-cover"
-                      onError={(e) => {
-                        console.log(`Failed to load image for ${member.name}:`, member.image);
-                      }}
-                    />
-                  </div>
-                  <CardTitle className="text-xl">{member.name}</CardTitle>
-                  <p className="text-primary font-medium">{member.title}</p>
-                  {member.office && (
-                    <p className="text-muted-foreground text-sm">{member.office}</p>
-                  )}
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-center">
-                    <Phone className="w-4 h-4 mr-2" />
-                    <span className="text-muted-foreground">{member.phone}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {teamLoading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {teamMembers.map((member) => (
+                <Card key={member.id} className="text-center hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <div className="w-24 h-24 mx-auto mb-4">
+                      <img 
+                        src={member.image_url || '/placeholder.svg'} 
+                        alt={member.name}
+                        className="w-full h-full rounded-full object-cover"
+                        onError={(e) => {
+                          const target = e.currentTarget as HTMLImageElement;
+                          if (target.src !== '/placeholder.svg') {
+                            target.src = '/placeholder.svg';
+                          }
+                        }}
+                      />
+                    </div>
+                    <CardTitle className="text-xl">{member.name}</CardTitle>
+                    <p className="text-primary font-medium">{member.position}</p>
+                    {member.bio && (
+                      <p className="text-muted-foreground text-sm mt-2">{member.bio}</p>
+                    )}
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      {member.phone && (
+                        <div className="flex items-center justify-center">
+                          <Phone className="w-4 h-4 mr-2" />
+                          <span className="text-muted-foreground">{member.phone}</span>
+                        </div>
+                      )}
+                      {member.email && (
+                        <div className="flex items-center justify-center">
+                          <Globe className="w-4 h-4 mr-2" />
+                          <a href={`mailto:${member.email}`} className="text-muted-foreground hover:text-primary">
+                            {member.email}
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       
