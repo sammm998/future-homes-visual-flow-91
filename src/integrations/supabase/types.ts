@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -334,6 +334,7 @@ export type Database = {
       }
       properties: {
         Row: {
+          agent_id: string | null
           agent_name: string | null
           agent_phone_number: string | null
           amenities: string[] | null
@@ -348,6 +349,7 @@ export type Database = {
           facilities: string | null
           google_maps_embed: string | null
           id: string
+          is_active: boolean
           language_code: string | null
           location: string
           parent_property_id: string | null
@@ -369,6 +371,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          agent_id?: string | null
           agent_name?: string | null
           agent_phone_number?: string | null
           amenities?: string[] | null
@@ -383,6 +386,7 @@ export type Database = {
           facilities?: string | null
           google_maps_embed?: string | null
           id?: string
+          is_active?: boolean
           language_code?: string | null
           location: string
           parent_property_id?: string | null
@@ -404,6 +408,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          agent_id?: string | null
           agent_name?: string | null
           agent_phone_number?: string | null
           amenities?: string[] | null
@@ -418,6 +423,7 @@ export type Database = {
           facilities?: string | null
           google_maps_embed?: string | null
           id?: string
+          is_active?: boolean
           language_code?: string | null
           location?: string
           parent_property_id?: string | null
@@ -440,13 +446,87 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "properties_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "property_agents"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "properties_parent_property_id_fkey"
             columns: ["parent_property_id"]
             isOneToOne: false
             referencedRelation: "properties"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "properties_parent_property_id_fkey"
+            columns: ["parent_property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_public"
+            referencedColumns: ["id"]
+          },
         ]
+      }
+      property_agents: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          phone_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          phone_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          phone_number?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      property_audit_log: {
+        Row: {
+          action: string
+          changed_by: string | null
+          changed_fields: Json | null
+          created_at: string
+          id: string
+          new_values: Json | null
+          old_values: Json | null
+          property_id: string
+        }
+        Insert: {
+          action: string
+          changed_by?: string | null
+          changed_fields?: Json | null
+          created_at?: string
+          id?: string
+          new_values?: Json | null
+          old_values?: Json | null
+          property_id: string
+        }
+        Update: {
+          action?: string
+          changed_by?: string | null
+          changed_fields?: Json | null
+          created_at?: string
+          id?: string
+          new_values?: Json | null
+          old_values?: Json | null
+          property_id?: string
+        }
+        Relationships: []
       }
       scan_sessions: {
         Row: {
@@ -505,6 +585,39 @@ export type Database = {
           scraped_at?: string
           title?: string | null
           url?: string
+        }
+        Relationships: []
+      }
+      sync_failures: {
+        Row: {
+          created_at: string
+          error_message: string
+          event_type: string
+          id: string
+          property_id: string
+          resolved_at: string | null
+          retry_count: number
+          sync_data: Json
+        }
+        Insert: {
+          created_at?: string
+          error_message: string
+          event_type: string
+          id?: string
+          property_id: string
+          resolved_at?: string | null
+          retry_count?: number
+          sync_data: Json
+        }
+        Update: {
+          created_at?: string
+          error_message?: string
+          event_type?: string
+          id?: string
+          property_id?: string
+          resolved_at?: string | null
+          retry_count?: number
+          sync_data?: Json
         }
         Relationships: []
       }
@@ -792,11 +905,96 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      properties_public: {
+        Row: {
+          agent_name: string | null
+          amenities: string[] | null
+          apartment_types: Json | null
+          bathrooms: string | null
+          bedrooms: string | null
+          building_complete_date: string | null
+          created_at: string | null
+          description: string | null
+          distance_to_airport_km: string | null
+          distance_to_beach_km: string | null
+          facilities: string | null
+          google_maps_embed: string | null
+          id: string | null
+          is_active: boolean | null
+          language_code: string | null
+          location: string | null
+          parent_property_id: string | null
+          price: string | null
+          property_district: string | null
+          property_facilities: string[] | null
+          property_image: string | null
+          property_images: string[] | null
+          property_prices_by_room: string | null
+          property_subtype: string | null
+          property_type: string | null
+          property_url: string | null
+          ref_no: string | null
+          sizes_m2: string | null
+          slug: string | null
+          starting_price_eur: string | null
+          status: string | null
+          title: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "properties_parent_property_id_fkey"
+            columns: ["parent_property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "properties_parent_property_id_fkey"
+            columns: ["parent_property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_members_public: {
+        Row: {
+          bio: string | null
+          created_at: string | null
+          display_order: number | null
+          id: string | null
+          image_url: string | null
+          is_active: boolean | null
+          name: string | null
+          position: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          id?: string | null
+          image_url?: string | null
+          is_active?: boolean | null
+          name?: string | null
+          position?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          id?: string | null
+          image_url?: string | null
+          is_active?: boolean | null
+          name?: string | null
+          position?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       generate_property_slug: {
-        Args: { title_param: string; id_param: string }
+        Args: { id_param: string; title_param: string }
         Returns: string
       }
       is_admin: {
@@ -808,7 +1006,7 @@ export type Database = {
         Returns: string
       }
       translate_text: {
-        Args: { text_to_translate: string; target_language?: string }
+        Args: { target_language?: string; text_to_translate: string }
         Returns: string
       }
     }

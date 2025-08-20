@@ -10,8 +10,6 @@ import { useTeamMembers } from "@/hooks/useTeamMembers";
 
 const AboutUs = () => {
   const { teamMembers, isLoading: teamLoading, error: teamError } = useTeamMembers();
-  
-  console.log('Team members state:', { teamMembers, teamLoading, teamError });
 
   const services = [
     { icon: <Plane className="w-8 h-8" />, title: "FREE PROPERTY VISITS", description: "We organize free property visits for our clients" },
