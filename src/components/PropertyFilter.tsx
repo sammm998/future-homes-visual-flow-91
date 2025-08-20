@@ -10,7 +10,6 @@ import { GlowCard } from "@/components/ui/spotlight-card";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Eye } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
-import { useLocations } from "@/hooks/useLocations";
 
 
 interface PropertyFilterProps {
@@ -23,7 +22,6 @@ interface PropertyFilterProps {
 const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange, onSearch, horizontal = false }) => {
   const navigate = useNavigate();
   const { selectedCurrency } = useCurrency();
-  const { locations, loading: locationsLoading } = useLocations();
   
   const handleFilterUpdate = (key: string, value: string | string[]) => {
     const newFilters = { ...filters, [key]: value };
@@ -97,10 +95,11 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                   <SelectValue placeholder="Select Location" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Locations</SelectItem>
-                  {locations.map((location) => (
-                    <SelectItem key={location} value={location}>{location}</SelectItem>
-                  ))}
+                  <SelectItem value="Antalya">Antalya</SelectItem>
+                  <SelectItem value="Mersin">Mersin</SelectItem>
+                  <SelectItem value="Dubai">Dubai</SelectItem>
+                  <SelectItem value="Cyprus">Cyprus</SelectItem>
+                  <SelectItem value="France">France</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -276,10 +275,11 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectValue placeholder="Select Location" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Locations</SelectItem>
-                {locations.map((location) => (
-                  <SelectItem key={location} value={location}>{location}</SelectItem>
-                ))}
+                <SelectItem value="Antalya">Antalya</SelectItem>
+                <SelectItem value="Mersin">Mersin</SelectItem>
+                <SelectItem value="Dubai">Dubai</SelectItem>
+                <SelectItem value="Cyprus">Cyprus</SelectItem>
+                <SelectItem value="France">France</SelectItem>
               </SelectContent>
             </Select>
           </div>
