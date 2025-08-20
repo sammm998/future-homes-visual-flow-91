@@ -13,7 +13,7 @@ import { useSEO } from "@/hooks/useSEO";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
-import { useSyncProperties } from "@/hooks/useSyncProperties";
+import { useSyncAllData } from "@/hooks/useSyncAllData";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useTestimonials } from "@/hooks/useTestimonials";
@@ -25,16 +25,16 @@ const Index = () => {
   const currentCanonicalUrl = useCanonicalUrl();
   const [showPopup, setShowPopup] = useState(false);
   const { testimonials: dynamicTestimonials, loading: testimonialsLoading } = useTestimonials();
-  const { syncDubaiProperties } = useSyncProperties();
+  const { syncAllProperties } = useSyncAllData();
 
-  // Auto-sync Dubai properties on first load
+  // Auto-sync all properties (Dubai, Mersin, etc.) on first load
   useEffect(() => {
-    const hasAutoSynced = localStorage.getItem('dubaiPropertiesAutoSynced');
+    const hasAutoSynced = localStorage.getItem('allPropertiesAutoSynced');
     if (!hasAutoSynced) {
-      syncDubaiProperties();
-      localStorage.setItem('dubaiPropertiesAutoSynced', 'true');
+      syncAllProperties();
+      localStorage.setItem('allPropertiesAutoSynced', 'true');
     }
-  }, [syncDubaiProperties]);
+  }, [syncAllProperties]);
 
   // 30-second popup timer
   useEffect(() => {
