@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Timeline } from "@/components/ui/timeline";
 import { Grid } from "lucide-react";
-import { antalyaProperties } from '@/data/antalyaProperties';
+import { useProperties } from '@/hooks/useProperties';
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
@@ -18,6 +18,7 @@ const AntalyaPropertySearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+  const { properties: allProperties, loading } = useProperties();
   
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',
@@ -70,6 +71,32 @@ const AntalyaPropertySearch = () => {
     
     setShowFiltered(hasFilters);
   }, [searchParams, location.state]);
+
+  // Filter properties by location (Antalya) from database and map to expected format
+  const antalyaProperties = useMemo(() => {
+    return allProperties
+      .filter(property => 
+        property.location?.toLowerCase().includes('antalya')
+      )
+      .map(property => ({
+        id: parseInt(property.ref_no || '0'),
+        refNo: property.ref_no,
+        title: property.title,
+        location: property.location,
+        price: property.price,
+        bedrooms: property.bedrooms || '',
+        bathrooms: property.bathrooms || '',
+        area: property.sizes_m2 || '',
+        status: property.status || 'available',
+        image: property.property_image || '',
+        coordinates: [0, 0] as [number, number], // Default coordinates
+        features: property.property_facilities || [],
+        // Additional fields for PropertyCard compatibility
+        images: property.property_images || [],
+        description: property.description || '',
+        facilities: property.property_facilities?.join(', ') || ''
+      }));
+  }, [allProperties]);
 
   const filteredProperties = useMemo(() => {
     if (showFiltered) {
@@ -175,7 +202,7 @@ const AntalyaPropertySearch = () => {
             Properties In Antalya
           </h1>
           <p className="text-muted-foreground">
-            {antalyaProperties.length} properties found
+            {loading ? 'Loading...' : `${antalyaProperties.length} properties found`}
           </p>
         </div>
 
