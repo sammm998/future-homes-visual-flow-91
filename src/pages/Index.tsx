@@ -13,10 +13,10 @@ import { useSEO } from "@/hooks/useSEO";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
+import { useSyncProperties } from "@/hooks/useSyncProperties";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useTestimonials } from "@/hooks/useTestimonials";
-import { PropertySyncButton } from "@/components/PropertySyncButton";
 
 
 const Index = () => {
@@ -25,6 +25,16 @@ const Index = () => {
   const currentCanonicalUrl = useCanonicalUrl();
   const [showPopup, setShowPopup] = useState(false);
   const { testimonials: dynamicTestimonials, loading: testimonialsLoading } = useTestimonials();
+  const { syncDubaiProperties } = useSyncProperties();
+
+  // Auto-sync Dubai properties on first load
+  useEffect(() => {
+    const hasAutoSynced = localStorage.getItem('dubaiPropertiesAutoSynced');
+    if (!hasAutoSynced) {
+      syncDubaiProperties();
+      localStorage.setItem('dubaiPropertiesAutoSynced', 'true');
+    }
+  }, [syncDubaiProperties]);
 
   // 30-second popup timer
   useEffect(() => {
@@ -78,11 +88,6 @@ const Index = () => {
       />
       <OrganizationSchema />
       <Navigation />
-      
-      {/* Temporary Sync Button - Remove after syncing */}
-      <div className="fixed top-20 right-4 z-50 bg-background border border-border rounded-lg p-4 shadow-lg">
-        <PropertySyncButton />
-      </div>
       
       {/* Hero Section */}
       <div className="w-full">
