@@ -95,6 +95,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                   <SelectValue placeholder="Select Location" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
                   <SelectItem value="Antalya">Antalya</SelectItem>
                   <SelectItem value="Mersin">Mersin</SelectItem>
                   <SelectItem value="Dubai">Dubai</SelectItem>
@@ -274,7 +275,8 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <SelectTrigger>
                 <SelectValue placeholder="Select Location" />
               </SelectTrigger>
-              <SelectContent>
+               <SelectContent>
+                <SelectItem value="all">All</SelectItem>
                 <SelectItem value="Antalya">Antalya</SelectItem>
                 <SelectItem value="Mersin">Mersin</SelectItem>
                 <SelectItem value="Dubai">Dubai</SelectItem>
