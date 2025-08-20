@@ -71,11 +71,16 @@ const DubaiPropertySearch = () => {
     setShowFiltered(hasFilters);
   }, [searchParams, location.state]);
   
-  // Filter properties to only show Dubai properties
+  // Filter properties to show Dubai properties, fallback to other locations if none found
   const dubaiProperties = useMemo(() => {
-    return allProperties.filter(property => 
+    const dubaiProps = allProperties.filter(property => 
       property.location?.toLowerCase().includes('dubai')
-    ).map(property => {
+    );
+    
+    // If no Dubai properties found, get properties from other locations
+    const propertiesSource = dubaiProps.length > 0 ? dubaiProps : allProperties;
+    
+    return propertiesSource.map(property => {
       // Extract status from facilities - prioritize certain statuses
       let status = 'available';
       const facilities = property.property_facilities || [];
