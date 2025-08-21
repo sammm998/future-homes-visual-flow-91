@@ -60,9 +60,13 @@ const FrancePropertySearch = () => {
     }
   }, [location.search, location.state]);
 
-  // Collect properties from France
+  // Collect properties from France and normalize image structure
   const allProperties = useMemo(() => {
-    return franceProperties;
+    return franceProperties.map(property => ({
+      ...property,
+      image: property.image || '/placeholder.svg',
+      property_images: (property as any).property_images || []
+    }));
   }, []);
 
   const filteredProperties = useMemo(() => {
