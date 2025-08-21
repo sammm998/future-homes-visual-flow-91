@@ -85,7 +85,7 @@ const AntalyaPropertySearch = () => {
         bathrooms: property.bathrooms || '',
         area: property.sizes_m2 || '',
         status: property.status || 'available',
-        image: (property.property_images && property.property_images[0]) || property.property_image || '',
+        image: property.property_image || (property.property_images && property.property_images[0]) || '',
         coordinates: [0, 0] as [number, number], // Default coordinates
         features: property.property_facilities || [],
         // Additional fields for PropertyCard compatibility

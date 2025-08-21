@@ -113,7 +113,7 @@ const DubaiPropertySearch = () => {
         bathrooms: property.bathrooms,
         area: property.sizes_m2,
         status: status,
-        image: (property.property_images && property.property_images[0]) || property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
+        image: property.property_image || (property.property_images && property.property_images[0]) || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
         property_images: property.property_images || [], // Use correct field name
         coordinates: [25.0470, 55.2000] as [number, number], // Default Dubai coordinates
         // Store original UUID for navigation
