@@ -245,11 +245,12 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
   
   // Try database lookup for newer properties (only if not found in static data)
   try {
-    // Try to find by ref_no first
+    // Try to find by ref_no first - use .limit(1).single() to handle potential duplicates
     let { data: dbProperty, error } = await supabase
       .from('properties')
       .select('*')
       .eq('ref_no', id)
+      .limit(1)
       .maybeSingle();
 
     console.log('getPropertyData: Database lookup by ref_no result:', { dbProperty, error });
