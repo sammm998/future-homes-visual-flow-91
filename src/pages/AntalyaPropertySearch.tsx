@@ -75,8 +75,8 @@ const AntalyaPropertySearch = () => {
         property.location?.toLowerCase().includes('antalya') && 
         (property as any).is_active === true
       )
-      .map(property => ({
-        id: parseInt(property.ref_no || '0'),
+      .map((property, index) => ({
+        id: parseInt(property.ref_no || index.toString()), // Use ref_no as numeric ID, fallback to index
         refNo: property.ref_no,
         title: property.title,
         location: property.location,
@@ -85,13 +85,15 @@ const AntalyaPropertySearch = () => {
         bathrooms: property.bathrooms || '',
         area: property.sizes_m2 || '',
         status: property.status || 'available',
-        image: property.property_image || '',
+        image: (property.property_images && property.property_images[0]) || property.property_image || '',
         coordinates: [0, 0] as [number, number], // Default coordinates
         features: property.property_facilities || [],
         // Additional fields for PropertyCard compatibility
-        images: property.property_images || [],
+        property_images: property.property_images || [], // Use correct field name
         description: property.description || '',
-        facilities: property.property_facilities?.join(', ') || ''
+        facilities: property.property_facilities?.join(', ') || '',
+        // Store original UUID for navigation
+        uuid: property.id
       }));
   }, [allProperties]);
 
@@ -113,7 +115,7 @@ const AntalyaPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${property.id}`, { 
+    navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, { 
       state: { from: '/antalya' }
     });
   };
@@ -141,7 +143,7 @@ const AntalyaPropertySearch = () => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {(property as any).images?.slice(0, 4).map((image: string, imgIndex: number) => (
+          {(property as any).property_images?.slice(0, 4).map((image: string, imgIndex: number) => (
             <img
               key={imgIndex}
               src={image}
@@ -230,8 +232,8 @@ const AntalyaPropertySearch = () => {
         {/* Mobile Layout: One property per screen */}
         <div className="block md:hidden">
           <div className="space-y-6">
-            {filteredProperties.map((property) => (
-              <div key={property.id} className="w-full">
+            {filteredProperties.map((property, propertyIndex) => (
+              <div key={`${property.id}-${propertyIndex}`} className="w-full">
                   <PropertyCard property={property} />
               </div>
             ))}
@@ -252,8 +254,8 @@ const AntalyaPropertySearch = () => {
           {/* Properties Grid - Show when Timeline is OFF */}
           {!showTimeline && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProperties.map((property) => (
-                  <PropertyCard key={property.id} property={property} />
+              {filteredProperties.map((property, propertyIndex) => (
+                  <PropertyCard key={`${property.id}-${propertyIndex}`} property={property} />
               ))}
             </div>
           )}

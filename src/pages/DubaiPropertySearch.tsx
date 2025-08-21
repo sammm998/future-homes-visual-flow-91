@@ -77,7 +77,7 @@ const DubaiPropertySearch = () => {
       property.location?.toLowerCase().includes('dubai')
     );
     
-    return dubaiProps.map(property => {
+    return dubaiProps.map((property, index) => {
       // Use database status as primary source, fallback to facilities extraction
       let status = property.status || 'available';
       
@@ -104,7 +104,7 @@ const DubaiPropertySearch = () => {
       }
 
       return {
-        id: parseInt(property.ref_no) || parseInt(property.id),
+        id: parseInt(property.ref_no || index.toString()), // Use ref_no as numeric ID, fallback to index
         refNo: property.ref_no, // Add this mapping
         title: property.title,
         location: property.location,
@@ -113,8 +113,11 @@ const DubaiPropertySearch = () => {
         bathrooms: property.bathrooms,
         area: property.sizes_m2,
         status: status,
-        image: property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
-        coordinates: [25.0470, 55.2000] as [number, number] // Default Dubai coordinates
+        image: (property.property_images && property.property_images[0]) || property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
+        property_images: property.property_images || [], // Use correct field name
+        coordinates: [25.0470, 55.2000] as [number, number], // Default Dubai coordinates
+        // Store original UUID for navigation
+        uuid: property.id
       };
     });
   }, [allProperties]);
@@ -139,7 +142,7 @@ const DubaiPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${property.id}`, { 
+    navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, { 
       state: { from: '/dubai' } 
     });
   };
@@ -147,7 +150,7 @@ const DubaiPropertySearch = () => {
   // Timeline data using ALL Dubai properties
   const timelineData = filteredProperties.map((property, index) => {
     // Get the original property data to access property_images array
-    const originalProperty = allProperties.find(p => p.id === property.id.toString());
+    const originalProperty = allProperties.find(p => p.id === property.id);
     const propertyImages = originalProperty?.property_images || [];
     
     // Create array of 4 images, using property images if available, otherwise fallback images
@@ -162,7 +165,7 @@ const DubaiPropertySearch = () => {
     for (let i = 0; i < 4; i++) {
       if (i === 0) {
         // First image: use main property image
-        images.push(property.image);
+        images.push(property.property_images?.[0] || fallbackImages[0]);
       } else if (propertyImages[i - 1]) {
         // Use additional images from property_images array
         images.push(propertyImages[i - 1]);
@@ -282,8 +285,8 @@ const DubaiPropertySearch = () => {
         {/* Mobile Layout: One property per screen */}
         <div className="block md:hidden">
           <div className="space-y-6">
-            {filteredProperties.map((property) => (
-              <div key={property.id} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+            {filteredProperties.map((property, propertyIndex) => (
+              <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
                 <div className="w-full max-w-sm mx-auto">
                   <PropertyCard property={property} />
                 </div>
@@ -296,8 +299,8 @@ const DubaiPropertySearch = () => {
         <div className="hidden md:block">
           {!showTimeline && (
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredProperties.map((property) => (
-                <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+              {filteredProperties.map((property, propertyIndex) => (
+                <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                   <PropertyCard property={property} />
                 </div>
               ))}
