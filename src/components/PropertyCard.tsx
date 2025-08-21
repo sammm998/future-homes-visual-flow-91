@@ -20,7 +20,6 @@ interface PropertyCardProps {
     bathrooms: string;
     area: string;
     status: string;
-    image: string;
     property_images?: string[];
   };
 }
@@ -36,7 +35,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
       <Card className="group overflow-hidden hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full">
         <div className="relative">
           <LazyImage 
-            src={property.image || (property.property_images && property.property_images[0]) || '/placeholder.svg'} 
+            src={(property.property_images && property.property_images.length > 0) ? property.property_images[0] : '/placeholder.svg'} 
             alt={property.title}
             className="w-full h-40 sm:h-48 md:h-52 object-cover group-hover:scale-105 transition-transform duration-300"
           />
