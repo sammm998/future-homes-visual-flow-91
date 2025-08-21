@@ -86,7 +86,8 @@ const MersinPropertySearch = () => {
       bathrooms: property.bathrooms,
       area: property.sizes_m2,
       status: property.status,
-      image: property.property_image || "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp",
+      image: property.property_image || (property.property_images && property.property_images.length > 0 ? property.property_images[0] : "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp"),
+      property_images: property.property_images,
       coordinates: [36.7987, 34.6420] as [number, number] // Default Mersin coordinates
     }));
     
