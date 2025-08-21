@@ -73,11 +73,17 @@ const DubaiPropertySearch = () => {
   
   // Filter properties to show Dubai properties only
   const dubaiProperties = useMemo(() => {
-    const dubaiProps = allProperties.filter(property => 
+    const filteredProperties = allProperties.filter(property => 
       property.location?.toLowerCase().includes('dubai')
     );
     
-    return dubaiProps.map((property, index) => {
+    // Deduplicate by ref_no, keeping the most recent one (last in array)
+    const uniqueProperties = filteredProperties.reduce((acc, property) => {
+      acc[property.ref_no || property.id] = property;
+      return acc;
+    }, {} as Record<string, any>);
+    
+    return Object.values(uniqueProperties).map((property, index) => {
       // Use database status as primary source, fallback to facilities extraction
       let status = property.status || 'available';
       

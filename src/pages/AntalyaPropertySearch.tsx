@@ -70,11 +70,19 @@ const AntalyaPropertySearch = () => {
 
   // Filter properties by location (Antalya) and active status from database and map to expected format
   const antalyaProperties = useMemo(() => {
-    return allProperties
+    const filteredProperties = allProperties
       .filter(property => 
         property.location?.toLowerCase().includes('antalya') && 
         (property as any).is_active === true
-      )
+      );
+
+    // Deduplicate by ref_no, keeping the most recent one (last in array)
+    const uniqueProperties = filteredProperties.reduce((acc, property) => {
+      acc[property.ref_no || property.id] = property;
+      return acc;
+    }, {} as Record<string, any>);
+
+    return Object.values(uniqueProperties)
       .map((property, index) => ({
         id: parseInt(property.ref_no || index.toString()), // Use ref_no as numeric ID, fallback to index
         refNo: property.ref_no,
