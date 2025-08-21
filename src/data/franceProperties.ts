@@ -19,7 +19,7 @@ export const franceProperties = [
     agent: "France Sales Team",
     contactPhone: "+33612345678",
     contactEmail: "info@futurehomesturkey.com",
-    image: "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/7001/general/france-chateau-bordeaux.webp",
+    image: "/placeholder.svg",
     coordinates: [44.8378, -0.5792] as [number, number]
   },
   {
@@ -41,7 +41,7 @@ export const franceProperties = [
     agent: "France Sales Team",
     contactPhone: "+33612345678",
     contactEmail: "info@futurehomesturkey.com",
-    image: "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/7002/general/paris-apartment-historic.webp",
+    image: "/placeholder.svg",
     coordinates: [48.8566, 2.3522] as [number, number]
   }
 ];
