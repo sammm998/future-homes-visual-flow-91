@@ -30,11 +30,8 @@ export interface Property {
 export const filterProperties = (properties: Property[], filters: PropertyFilters): Property[] => {
   let filtered = [...properties];
   
-  console.log('Filtering properties:', { totalProperties: properties.length, filters, filteredCount: filtered.length });
-
   // Filter by property type
   if (filters.propertyType && filters.propertyType !== '') {
-    const before = filtered.length;
     filtered = filtered.filter(property => {
       const type = filters.propertyType.toLowerCase();
       const title = property.title.toLowerCase();
@@ -50,12 +47,10 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
       }
       return true;
     });
-    console.log(`Property type filter (${filters.propertyType}): ${before} -> ${filtered.length}`);
   }
 
   // Filter by bedrooms
   if (filters.bedrooms && filters.bedrooms !== '') {
-    const before = filtered.length;
     filtered = filtered.filter(property => {
       const bedroomFilter = parseInt(filters.bedrooms);
       const propertyBedrooms = property.bedrooms.toLowerCase();
@@ -90,16 +85,13 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
         }
       }
     });
-    console.log(`Bedrooms filter (${filters.bedrooms}): ${before} -> ${filtered.length}`);
   }
 
   // Filter by location
   if (filters.location && filters.location !== '' && filters.location !== 'all') {
-    const before = filtered.length;
     filtered = filtered.filter(property => 
       property.location.toLowerCase().includes(filters.location.toLowerCase())
     );
-    console.log(`Location filter (${filters.location}): ${before} -> ${filtered.length}`);
   }
 
   // Filter by district
@@ -112,16 +104,13 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
 
   // Filter by reference number
   if (filters.referenceNo && filters.referenceNo !== '') {
-    const before = filtered.length;
     filtered = filtered.filter(property => 
       property.refNo && property.refNo.toLowerCase().includes(filters.referenceNo.toLowerCase())
     );
-    console.log(`Reference number filter (${filters.referenceNo}): ${before} -> ${filtered.length}`);
   }
 
   // Filter by price range
   if (filters.minPrice || filters.maxPrice) {
-    const before = filtered.length;
     filtered = filtered.filter(property => {
       const priceStr = property.price.replace(/[€$£,]/g, '');
       const price = parseInt(priceStr);
@@ -133,7 +122,6 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
       
       return price >= minPrice && price <= maxPrice;
     });
-    console.log(`Price filter (${filters.minPrice}-${filters.maxPrice}): ${before} -> ${filtered.length}`);
   }
 
   // Filter by area range
@@ -152,7 +140,6 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
 
   // Filter by facilities
   if (filters.facilities && filters.facilities.length > 0) {
-    const before = filtered.length;
     filtered = filtered.filter(property => {
       if (!property.features) return false;
       
@@ -163,7 +150,6 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
         )
       );
     });
-    console.log(`Facilities filter (${filters.facilities.join(', ')}): ${before} -> ${filtered.length}`);
   }
 
   // Sort results
@@ -207,6 +193,5 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
     });
   }
 
-  console.log('Final filtered properties:', filtered.length);
   return filtered;
 };
