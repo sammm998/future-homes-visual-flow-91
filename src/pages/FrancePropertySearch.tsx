@@ -64,7 +64,7 @@ const FrancePropertySearch = () => {
   const allProperties = useMemo(() => {
     return franceProperties.map(property => ({
       ...property,
-      image: property.image || '/placeholder.svg',
+      image: property.image || ((property as any).property_images && (property as any).property_images.length > 0 ? (property as any).property_images[0] : '/placeholder.svg'),
       property_images: (property as any).property_images || []
     }));
   }, []);
