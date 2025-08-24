@@ -4,6 +4,8 @@ import { FocusCards } from "@/components/ui/focus-cards";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { t } from "@/utils/translations";
+import { useSearchParams } from "react-router-dom";
 
 // Import local testimonial images
 import turgutImg from "@/assets/testimonials/turgut.jpg";
@@ -58,6 +60,8 @@ const localImageMap: Record<string, string> = {
 };
 
 const Testimonials = () => {
+  const [searchParams] = useSearchParams();
+  const language = searchParams.get('lang') || 'en';
   const [selectedTestimonial, setSelectedTestimonial] = useState<CardTestimonial | null>(null);
   const [testimonials, setTestimonials] = useState<CardTestimonial[]>([]);
   const [loading, setLoading] = useState(true);
@@ -135,10 +139,10 @@ const Testimonials = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Customer Testimonials
+              {t('testimonials.title', language)}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Read what our satisfied customers have to say about their experience with Future Homes
+              {t('testimonials.subtitle', language)}
             </p>
           </div>
 

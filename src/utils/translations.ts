@@ -22,6 +22,10 @@ export const translations: Record<string, Record<string, string>> = {
     'nav.currency': 'Currency',
     'nav.menu': 'Menu',
 
+    // Testimonials
+    'testimonials.title': 'Customer Testimonials',
+    'testimonials.subtitle': 'Read what our satisfied customers have to say about their experience with Future Homes',
+
     // Hero section
     'hero.title': 'Your Future Real Estate Partner',
     'hero.subtitle': 'Expert guidance for property investment in Turkey and beyond',
@@ -231,6 +235,10 @@ export const translations: Record<string, Record<string, string>> = {
     'nav.language': 'Språk',
     'nav.currency': 'Valuta',
     'nav.menu': 'Meny',
+
+    // Testimonials
+    'testimonials.title': 'Kundomdömen',
+    'testimonials.subtitle': 'Läs vad våra nöjda kunder har att säga om sin upplevelse med Future Homes',
 
     // Hero section
     'hero.title': 'Din Framtida Fastighetspartner',
@@ -457,6 +465,19 @@ export const translations: Record<string, Record<string, string>> = {
     'nav.france': 'Frankrike',
     'nav.about': 'Om Oss',
     'nav.contact': 'Kontakt Oss',
+    'nav.information': 'Informasjon',
+    'nav.testimonials': 'Kundeomtaler',
+    'nav.ai_help': 'AI Hjelp',
+    'nav.easy_find': 'Enkel Søk',
+    'nav.property_wizard': 'Eiendomsguide',
+    'nav.ai_property_search': 'AI Eiendomssøk',
+    'nav.language': 'Språk',
+    'nav.currency': 'Valuta',
+    'nav.menu': 'Meny',
+
+    // Testimonials
+    'testimonials.title': 'Kundeomtaler',
+    'testimonials.subtitle': 'Les hva våre fornøyde kunder har å si om sin opplevelse med Future Homes',
 
     // Common
     'common.loading': 'Laster',
