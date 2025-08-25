@@ -55,10 +55,18 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
       // Handle studio apartments
       if (filters.bedrooms === 'studio') {
         const propertyBedrooms = property.bedrooms.toLowerCase();
+        const propertyTitle = property.title.toLowerCase();
+        const propertyLocation = property.location.toLowerCase();
+        
+        // Enhanced studio detection
         return propertyBedrooms.includes('studio') || 
                propertyBedrooms === '0' || 
                propertyBedrooms === '0+1' ||
-               property.title.toLowerCase().includes('studio');
+               propertyBedrooms.includes('0+') ||
+               propertyTitle.includes('studio') ||
+               propertyLocation.includes('studio city') ||
+               (propertyBedrooms.includes('<>') && propertyBedrooms.includes('0')) ||
+               propertyBedrooms.match(/^0\+/); // Matches patterns like "0+1"
       }
       
       const bedroomFilter = parseInt(filters.bedrooms);
@@ -66,18 +74,30 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
       
       // Handle ranges like "1+1 <> 2+1" or single values like "2+1"
       if (propertyBedrooms.includes('<>')) {
-        // Properties with ranges should NOT show when filtering for specific bedroom counts
-        // They only show when 5+ bedrooms filter is used and range contains 5+
-        if (bedroomFilter === 5) {
+        // For studio filter, check if range includes studio options
+        if (filters.bedrooms === 'studio') {
           const rangeParts = propertyBedrooms.split('<>').map(part => part.trim());
-          const validCounts = rangeParts.map(part => {
-            const match = part.match(/^(\d+)/);
-            return match ? parseInt(match[1]) : null;
-          }).filter(count => count !== null);
+          return rangeParts.some(part => {
+            const partLower = part.toLowerCase();
+            return partLower.includes('studio') || 
+                   partLower.match(/^0\+/) || 
+                   partLower === '0';
+          });
+        }
+        
+        // For other bedroom counts, include range properties that contain the target bedroom count
+        const rangeParts = propertyBedrooms.split('<>').map(part => part.trim());
+        const validCounts = rangeParts.map(part => {
+          const match = part.match(/^(\d+)/);
+          return match ? parseInt(match[1]) : null;
+        }).filter(count => count !== null);
+        
+        if (bedroomFilter === 5) {
+          // 5+ bedrooms
           return validCounts.some(count => count >= 5);
         } else {
-          // For specific bedroom counts (1, 2, 3, 4), exclude range properties
-          return false;
+          // Include if the range contains the exact bedroom count
+          return validCounts.includes(bedroomFilter);
         }
       } else {
         // Handle single values like "2+1", "3+1", etc.
