@@ -12,6 +12,10 @@ import { useProperties } from "@/hooks/useProperties";
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
+import useImagePreloading from "@/hooks/useImagePreloading";
+import { preloadCriticalImages } from "@/utils/imageOptimization";
+import OptimizedPropertyImage from "@/components/OptimizedPropertyImage";
+import GlobalPerformanceOptimizer from "@/components/GlobalPerformanceOptimizer";
 
 const MersinPropertySearch = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
@@ -96,6 +100,14 @@ const MersinPropertySearch = () => {
 
   const properties = mersinProperties;
 
+  // Preload critical images for better performance
+  const propertyImages = useMemo(() => 
+    properties.slice(0, 6).map(p => p.image).filter(Boolean), 
+    [properties]
+  );
+  
+  useImagePreloading(propertyImages, { priority: true });
+
   const filteredProperties = useMemo(() => {
     if (showFiltered) {
       return filterProperties(properties, filters);
@@ -149,29 +161,34 @@ const MersinPropertySearch = () => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <img
+          <OptimizedPropertyImage
             src={property.image}
             alt={`${property.title} - Image 1`}
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = `/lovable-uploads/000f440d-ddb1-4c1b-9202-eef1ef588a8c.png`;
-            }}
+            className="rounded-lg h-20 md:h-44 lg:h-60 w-full shadow-lg"
+            width={400}
+            height={300}
+            priority={index < 2}
           />
-          <img
+          <OptimizedPropertyImage
             src="/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png"
             alt="Property placeholder"
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
+            className="rounded-lg h-20 md:h-44 lg:h-60 w-full shadow-lg"
+            width={400}
+            height={300}
           />
-          <img
+          <OptimizedPropertyImage
             src="/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png"
             alt="Property placeholder"
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
+            className="rounded-lg h-20 md:h-44 lg:h-60 w-full shadow-lg"
+            width={400}
+            height={300}
           />
-          <img
+          <OptimizedPropertyImage
             src="/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.png"
             alt="Property placeholder"
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
+            className="rounded-lg h-20 md:h-44 lg:h-60 w-full shadow-lg"
+            width={400}
+            height={300}
           />
         </div>
       </div>
@@ -202,6 +219,11 @@ const MersinPropertySearch = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <GlobalPerformanceOptimizer 
+        criticalImages={propertyImages}
+        enableImageOptimization={true}
+        enableResourceHints={true}
+      />
       <SEOHead
         title="Mersin Properties & Turkish Citizenship | Future Homes"
         description="Turkish citizenship via Mersin properties. Mediterranean coastline real estate with investment opportunities. Expert guidance included."

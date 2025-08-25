@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Bed, Bath, Square } from "lucide-react";
 import { useCurrency } from '@/contexts/CurrencyContext';
-import LazyImage from './LazyImage';
+import OptimizedPropertyImage from './OptimizedPropertyImage';
 import { useMemoizedStatus, useMemoizedPrice } from '@/utils/memoization';
 
 
@@ -35,10 +35,13 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
     <Link to={`/property/${property.id}`} state={{ from: window.location.pathname + window.location.search }} className="block w-full">
       <Card className="group overflow-hidden hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full">
         <div className="relative">
-          <LazyImage 
+          <OptimizedPropertyImage 
             src={property.image || (property.property_images && property.property_images.length > 0 ? property.property_images[0] : '/placeholder.svg')} 
             alt={property.title}
-            className="w-full h-40 sm:h-48 md:h-52 object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-40 sm:h-48 md:h-52 group-hover:scale-105 transition-transform duration-300"
+            width={400}
+            height={300}
+            priority={false}
           />
           <div className="absolute top-2 sm:top-3 left-2 sm:left-3 flex gap-1 sm:gap-2 flex-wrap">
             <Badge className={`${statusInfo.color} text-white text-xs font-medium px-1 sm:px-2 py-1`}>
