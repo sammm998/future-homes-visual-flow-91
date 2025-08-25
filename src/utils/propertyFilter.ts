@@ -52,6 +52,15 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
   // Filter by bedrooms
   if (filters.bedrooms && filters.bedrooms !== '') {
     filtered = filtered.filter(property => {
+      // Handle studio apartments
+      if (filters.bedrooms === 'studio') {
+        const propertyBedrooms = property.bedrooms.toLowerCase();
+        return propertyBedrooms.includes('studio') || 
+               propertyBedrooms === '0' || 
+               propertyBedrooms === '0+1' ||
+               property.title.toLowerCase().includes('studio');
+      }
+      
       const bedroomFilter = parseInt(filters.bedrooms);
       const propertyBedrooms = property.bedrooms.toLowerCase();
       
