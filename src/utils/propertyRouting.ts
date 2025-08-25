@@ -7,7 +7,7 @@ export const findPropertyLocationByRefNo = async (refNo: string): Promise<string
       .from('properties')
       .select('location')
       .eq('ref_no', refNo)
-      .single();
+      .maybeSingle();
     
     if (!error && data?.location) {
       const location = data.location.toLowerCase();
