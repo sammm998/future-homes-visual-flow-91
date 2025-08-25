@@ -5611,21 +5611,7 @@ const PropertyDetail = () => {
 
       console.log('PropertyDetail: Starting to load property with ID:', id);
 
-      // Simple redirect for known missing properties
-      const propertyRedirects: Record<string, string> = {
-        '3002': '3006',
-        '3001': '3006',
-        '3003': '3008',
-        '3004': '3009',
-        '3005': '3010'
-      };
-      
-      const actualId = propertyRedirects[id] || id;
-      if (propertyRedirects[id]) {
-        console.log(`PropertyDetail: Redirecting ${id} to ${actualId}`);
-        navigate(`/property/${actualId}`, { replace: true });
-        return;
-      }
+      // No redirects needed - each property should show its own data
 
       // Validate the property ID
 
@@ -5635,7 +5621,7 @@ const PropertyDetail = () => {
         
         // Get property data from static sources, pass location context
         const fromLocation = location.state?.from || '';
-        const propertyData = await getPropertyData(actualId, fromLocation);
+        const propertyData = await getPropertyData(id, fromLocation);
         
         if (!propertyData) {
           console.log('PropertyDetail: No property data found for ID:', id);
