@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
+import PerformanceMonitor from "@/components/PerformanceMonitor";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -34,14 +35,16 @@ const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
 
 
-// Optimized query client with better caching
+// Optimized query client with aggressive caching for better performance
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes  
+      staleTime: 10 * 60 * 1000, // 10 minutes - increased for better caching
+      gcTime: 30 * 60 * 1000, // 30 minutes - keep data longer in cache
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false, // Reduce unnecessary refetches
       retry: 1,
+      networkMode: 'offlineFirst', // Use cache first
     },
   },
 });
@@ -59,6 +62,7 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
           <CurrencyProvider>
             <TooltipProvider>
+              <PerformanceMonitor logLevel="basic" />
               <Toaster />
               <Sonner />
               <BrowserRouter>

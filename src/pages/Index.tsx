@@ -27,26 +27,37 @@ const Index = () => {
   const { testimonials: dynamicTestimonials, loading: testimonialsLoading } = useTestimonials();
   const { syncAllProperties } = useSyncAllData();
 
-  // Auto-sync all properties (Dubai, Mersin, etc.) on first load
+  // Auto-sync properties only when needed, not on every load
   useEffect(() => {
     const hasAutoSynced = localStorage.getItem('allPropertiesAutoSynced');
-    if (!hasAutoSynced) {
-      syncAllProperties();
-      localStorage.setItem('allPropertiesAutoSynced', 'true');
+    const lastSyncDate = localStorage.getItem('lastPropertiesSync');
+    const daysSinceLastSync = lastSyncDate ? 
+      (Date.now() - parseInt(lastSyncDate)) / (1000 * 60 * 60 * 24) : 30;
+    
+    if (!hasAutoSynced || daysSinceLastSync > 7) {
+      // Use setTimeout to delay sync and not block initial render
+      setTimeout(() => {
+        syncAllProperties();
+        localStorage.setItem('allPropertiesAutoSynced', 'true');
+        localStorage.setItem('lastPropertiesSync', Date.now().toString());
+      }, 2000);
     }
   }, [syncAllProperties]);
 
-  // 30-second popup timer
+  // Delay popup to improve perceived performance
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowPopup(true);
-    }, 30000); // 30 seconds
+    }, 45000); // Delayed to 45 seconds to reduce initial load impact
 
     return () => clearTimeout(timer);
   }, []);
   
-  // Use dynamic testimonials, fallback to empty array if loading
-  const testimonials = useMemo(() => dynamicTestimonials, [dynamicTestimonials]);
+  // Memoize testimonials with better dependency
+  const testimonials = useMemo(() => 
+    testimonialsLoading ? [] : dynamicTestimonials, 
+    [dynamicTestimonials, testimonialsLoading]
+  );
 
   const { firstColumn, secondColumn, thirdColumn } = useMemo(() => ({
     firstColumn: testimonials.slice(0, 6),

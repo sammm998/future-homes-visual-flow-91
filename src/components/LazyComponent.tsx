@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, memo } from 'react';
 
 interface LazyComponentProps {
   children: React.ReactNode;
@@ -6,7 +6,7 @@ interface LazyComponentProps {
   className?: string;
 }
 
-export const LazyComponent: React.FC<LazyComponentProps> = ({ 
+export const LazyComponent: React.FC<LazyComponentProps> = memo(({ 
   children, 
   fallback = <div className="w-full h-32 bg-muted animate-pulse rounded-lg" />,
   className 
@@ -18,11 +18,37 @@ export const LazyComponent: React.FC<LazyComponentProps> = ({
       </div>
     </Suspense>
   );
-};
+});
 
-// Create lazy-loaded components for heavy sections
-export const LazyTestimonials = lazy(() => import('@/components/ui/circular-testimonials'));
-export const LazyShuffleGrid = lazy(() => import('@/components/ShuffleGrid'));
-export const LazyPropertyShowcase = lazy(() => import('@/components/PropertyShowcase'));
-export const LazyFeaturedProperties = lazy(() => import('@/components/FeaturedPropertiesShowcase'));
-export const LazyNewsInsights = lazy(() => import('@/components/NewsInsights'));
+LazyComponent.displayName = 'LazyComponent';
+
+// Create lazy-loaded components for heavy sections with preloading hints
+export const LazyTestimonials = lazy(() => 
+  import('@/components/ui/circular-testimonials').then(module => ({
+    default: module.default
+  }))
+);
+
+export const LazyShuffleGrid = lazy(() => 
+  import('@/components/ShuffleGrid').then(module => ({
+    default: module.default
+  }))
+);
+
+export const LazyPropertyShowcase = lazy(() => 
+  import('@/components/PropertyShowcase').then(module => ({
+    default: module.default
+  }))
+);
+
+export const LazyFeaturedProperties = lazy(() => 
+  import('@/components/FeaturedPropertiesShowcase').then(module => ({
+    default: module.default
+  }))
+);
+
+export const LazyNewsInsights = lazy(() => 
+  import('@/components/NewsInsights').then(module => ({
+    default: module.default
+  }))
+);

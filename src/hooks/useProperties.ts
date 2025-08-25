@@ -15,8 +15,10 @@ export const useProperties = () => {
       if (error) throw error;
       return data || [];
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 15 * 60 * 1000, // 15 minutes - longer cache for properties
+    gcTime: 30 * 60 * 1000, // 30 minutes - keep in memory longer
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const deleteProperty = async (id: string) => {
