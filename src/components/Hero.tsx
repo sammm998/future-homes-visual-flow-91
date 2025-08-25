@@ -64,13 +64,33 @@ const Hero: React.FC<HeroProps> = ({
     const searchParams = new URLSearchParams();
     
     if (propertyType) searchParams.set('propertyType', propertyType.toLowerCase());
-    if (bedrooms) searchParams.set('bedrooms', bedrooms);
+    // Ensure studio bedroom filter is properly passed
+    if (bedrooms) {
+      searchParams.set('bedrooms', bedrooms);
+      // For consistency with property pages that might look for both formats
+      if (bedrooms === 'studio') {
+        searchParams.set('bedrooms', 'studio');
+      }
+    }
     if (location) searchParams.set('location', location);
     if (refNo) searchParams.set('referenceNo', refNo);
-    if (minPrice) searchParams.set('minPrice', minPrice);
-    if (maxPrice) searchParams.set('maxPrice', maxPrice);
-    if (minSqFt) searchParams.set('minSquareFeet', minSqFt);
-    if (maxSqFt) searchParams.set('maxSquareFeet', maxSqFt);
+    // Set pricing parameters with consistent naming for all property pages
+    if (minPrice) {
+      searchParams.set('minPrice', minPrice);
+      searchParams.set('priceMin', minPrice); // Alternative naming for consistency
+    }
+    if (maxPrice) {
+      searchParams.set('maxPrice', maxPrice);
+      searchParams.set('priceMax', maxPrice); // Alternative naming for consistency
+    }
+    if (minSqFt) {
+      searchParams.set('minSquareFeet', minSqFt);
+      searchParams.set('areaMin', minSqFt); // Alternative naming for consistency
+    }
+    if (maxSqFt) {
+      searchParams.set('maxSquareFeet', maxSqFt);
+      searchParams.set('areaMax', maxSqFt); // Alternative naming for consistency
+    }
     if (sortBy) searchParams.set('sortBy', sortBy.toLowerCase().replace(' ', '-'));
     
     // Add advanced search filters - map to both facilities and amenities
