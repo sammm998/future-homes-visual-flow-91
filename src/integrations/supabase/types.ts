@@ -235,33 +235,48 @@ export type Database = {
       }
       homepage_testimonials: {
         Row: {
+          company_name: string | null
+          company_url: string | null
           created_at: string
           customer_name: string
+          designation: string | null
           display_order: number
           id: string
           image_url: string | null
           is_active: boolean
+          rating: number | null
           review_text: string
+          social_links: Json | null
           updated_at: string
         }
         Insert: {
+          company_name?: string | null
+          company_url?: string | null
           created_at?: string
           customer_name: string
+          designation?: string | null
           display_order?: number
           id?: string
           image_url?: string | null
           is_active?: boolean
+          rating?: number | null
           review_text: string
+          social_links?: Json | null
           updated_at?: string
         }
         Update: {
+          company_name?: string | null
+          company_url?: string | null
           created_at?: string
           customer_name?: string
+          designation?: string | null
           display_order?: number
           id?: string
           image_url?: string | null
           is_active?: boolean
+          rating?: number | null
           review_text?: string
+          social_links?: Json | null
           updated_at?: string
         }
         Relationships: []
@@ -668,39 +683,51 @@ export type Database = {
       }
       testimonials: {
         Row: {
+          company_name: string | null
+          company_url: string | null
           created_at: string
           customer_country: string | null
           customer_name: string
+          designation: string | null
           id: string
           image_url: string | null
           location: string | null
           property_type: string | null
           rating: number | null
           review_text: string
+          social_links: Json | null
           updated_at: string
         }
         Insert: {
+          company_name?: string | null
+          company_url?: string | null
           created_at?: string
           customer_country?: string | null
           customer_name: string
+          designation?: string | null
           id?: string
           image_url?: string | null
           location?: string | null
           property_type?: string | null
           rating?: number | null
           review_text: string
+          social_links?: Json | null
           updated_at?: string
         }
         Update: {
+          company_name?: string | null
+          company_url?: string | null
           created_at?: string
           customer_country?: string | null
           customer_name?: string
+          designation?: string | null
           id?: string
           image_url?: string | null
           location?: string | null
           property_type?: string | null
           rating?: number | null
           review_text?: string
+          social_links?: Json | null
           updated_at?: string
         }
         Relationships: []
