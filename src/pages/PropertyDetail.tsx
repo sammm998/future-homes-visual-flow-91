@@ -5893,7 +5893,7 @@ const PropertyDetail = () => {
                 <span className="font-semibold text-foreground text-sm">Investment Opportunity</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                This property offers excellent investment potential with strong rental yields and capital appreciation prospects in the growing Turkish real estate market.
+                This property offers excellent investment potential with strong rental yields and capital appreciation prospects in the growing real estate market.
               </p>
             </div>
           </div>
