@@ -10,10 +10,6 @@ import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
 import CriticalPerformanceOptimizer from "@/components/CriticalPerformanceOptimizer";
 import { initImageOptimization } from "@/utils/imageOptimizer";
-import { initWebVitalsOptimizations } from "./utils/webVitalsOptimizer";
-import { initPerformanceOptimizations } from "./utils/criticalCSS";
-import { initIntelligentPrefetching } from "./utils/bundleOptimizer";
-import { warmCache } from "./utils/performanceCache";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -64,38 +60,12 @@ const PageLoader = () => (
 
 const App = () => {
   useEffect(() => {
-    // Initialize all performance optimizations after React has mounted
-    try {
-      initWebVitalsOptimizations();
-    } catch (error) {
-      console.warn('Web Vitals optimization failed:', error);
-    }
-
-    try {
-      initPerformanceOptimizations();
-    } catch (error) {
-      console.warn('Performance optimizations failed:', error);
-    }
-
-    try {
-      initIntelligentPrefetching();
-    } catch (error) {
-      console.warn('Intelligent prefetching failed:', error);
-    }
-
+    // Initialize image optimization after React has mounted
     try {
       initImageOptimization();
     } catch (error) {
-      console.warn('Image optimization failed:', error);
+      console.warn('Image optimization initialization failed:', error);
     }
-
-    // Note: Cache warming removed as API endpoints don't exist yet
-    // When backend APIs are implemented, uncomment and update with real endpoints:
-    // warmCache([
-    //   '/api/properties',
-    //   '/api/locations', 
-    //   '/api/testimonials'
-    // ]).catch(error => console.warn('Cache warming failed:', error));
   }, []);
 
   return (

@@ -48,22 +48,16 @@ export const addResourceHint = (
   as?: string,
   crossOrigin?: string
 ) => {
-  try {
-    if (typeof document === 'undefined') return;
-    
-    const existing = document.querySelector(`link[href="${href}"][rel="${rel}"]`);
-    if (existing) return;
+  const existing = document.querySelector(`link[href="${href}"][rel="${rel}"]`);
+  if (existing) return;
 
-    const link = document.createElement('link');
-    link.rel = rel;
-    link.href = href;
-    if (as) link.setAttribute('as', as);
-    if (crossOrigin) link.crossOrigin = crossOrigin;
-    
-    document.head.appendChild(link);
-  } catch (error) {
-    console.warn(`Failed to add resource hint for ${href}:`, error);
-  }
+  const link = document.createElement('link');
+  link.rel = rel;
+  link.href = href;
+  if (as) link.setAttribute('as', as);
+  if (crossOrigin) link.crossOrigin = crossOrigin;
+  
+  document.head.appendChild(link);
 };
 
 // Intelligent prefetching based on user behavior
@@ -76,41 +70,27 @@ export class IntelligentPrefetcher {
   }
 
   private setupEventListeners() {
-    try {
-      if (typeof document === 'undefined') return;
-      
-      document.addEventListener('mouseover', this.handleMouseOver.bind(this), { passive: true });
-      document.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
-    } catch (error) {
-      console.warn('Event listener setup failed:', error);
-    }
+    document.addEventListener('mouseover', this.handleMouseOver.bind(this));
+    document.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: true });
   }
 
   private handleMouseOver(event: MouseEvent) {
-    try {
-      const target = event.target as HTMLElement;
-      const link = target.closest('a[href]') as HTMLAnchorElement;
-      
-      if (!link || !this.shouldPrefetch(link.href)) return;
+    const target = event.target as HTMLElement;
+    const link = target.closest('a[href]') as HTMLAnchorElement;
+    
+    if (!link || !this.shouldPrefetch(link.href)) return;
 
-      this.hoverTimeout = setTimeout(() => {
-        this.prefetchRoute(link.href);
-      }, 100); // Small delay to avoid prefetching on quick mouseovers
-    } catch (error) {
-      console.warn('Mouse over handler failed:', error);
-    }
+    this.hoverTimeout = setTimeout(() => {
+      this.prefetchRoute(link.href);
+    }, 100); // Small delay to avoid prefetching on quick mouseovers
   }
 
   private handleTouchStart(event: TouchEvent) {
-    try {
-      const target = event.target as HTMLElement;
-      const link = target.closest('a[href]') as HTMLAnchorElement;
-      
-      if (link && this.shouldPrefetch(link.href)) {
-        this.prefetchRoute(link.href);
-      }
-    } catch (error) {
-      console.warn('Touch start handler failed:', error);
+    const target = event.target as HTMLElement;
+    const link = target.closest('a[href]') as HTMLAnchorElement;
+    
+    if (link && this.shouldPrefetch(link.href)) {
+      this.prefetchRoute(link.href);
     }
   }
 
@@ -124,55 +104,27 @@ export class IntelligentPrefetcher {
   }
 
   private prefetchRoute(url: string) {
-    try {
-      if (this.prefetchedUrls.has(url)) return;
-      
-      this.prefetchedUrls.add(url);
-      addResourceHint(url, 'prefetch');
-    } catch (error) {
-      console.warn('Route prefetch failed:', error);
-    }
+    if (this.prefetchedUrls.has(url)) return;
+    
+    this.prefetchedUrls.add(url);
+    addResourceHint(url, 'prefetch');
   }
 
   destroy() {
-    try {
-      if (this.hoverTimeout) {
-        clearTimeout(this.hoverTimeout);
-      }
-      if (typeof document !== 'undefined') {
-        document.removeEventListener('mouseover', this.handleMouseOver.bind(this));
-        document.removeEventListener('touchstart', this.handleTouchStart.bind(this));
-      }
-    } catch (error) {
-      console.warn('Prefetcher cleanup failed:', error);
+    if (this.hoverTimeout) {
+      clearTimeout(this.hoverTimeout);
     }
+    document.removeEventListener('mouseover', this.handleMouseOver.bind(this));
+    document.removeEventListener('touchstart', this.handleTouchStart.bind(this));
   }
 }
 
 // Initialize intelligent prefetcher
 export const initIntelligentPrefetching = () => {
-  try {
-    if (typeof window === 'undefined' || typeof document === 'undefined') return;
-    
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(() => {
-        try {
-          new IntelligentPrefetcher();
-        } catch (error) {
-          console.warn('Intelligent prefetcher initialization failed:', error);
-        }
-      });
-    } else {
-      setTimeout(() => {
-        try {
-          new IntelligentPrefetcher();
-        } catch (error) {
-          console.warn('Intelligent prefetcher initialization failed:', error);
-        }
-      }, 100);
-    }
-  } catch (error) {
-    console.warn('Intelligent prefetching initialization failed:', error);
+  if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+    window.requestIdleCallback(() => {
+      new IntelligentPrefetcher();
+    });
   }
 };
 
