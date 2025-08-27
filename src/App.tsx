@@ -89,12 +89,13 @@ const App = () => {
       console.warn('Image optimization failed:', error);
     }
 
-    // Warm critical caches
-    warmCache([
-      '/api/properties',
-      '/api/locations', 
-      '/api/testimonials'
-    ]).catch(error => console.warn('Cache warming failed:', error));
+    // Note: Cache warming removed as API endpoints don't exist yet
+    // When backend APIs are implemented, uncomment and update with real endpoints:
+    // warmCache([
+    //   '/api/properties',
+    //   '/api/locations', 
+    //   '/api/testimonials'
+    // ]).catch(error => console.warn('Cache warming failed:', error));
   }, []);
 
   return (
