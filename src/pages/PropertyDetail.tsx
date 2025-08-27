@@ -5616,11 +5616,11 @@ const PropertyDetail = () => {
 
   // Helper function to extract and format prices
   const formatPropertyPrice = (priceString: string): string => {
-    const numericValue = parseInt(priceString.replace(/[€$£,₺₽₨﷼kr]/g, ''));
+    // First remove "From €" or "€From" prefixes from the original string
+    const cleanedPrice = priceString.replace(/^(From\s*€|€\s*From)\s*/i, '');
+    const numericValue = parseInt(cleanedPrice.replace(/[€$£,₺₽₨﷼kr]/g, ''));
     if (isNaN(numericValue)) return priceString;
-    const formattedPrice = formatPrice(numericValue);
-    // Remove any "From" prefix that might be added
-    return formattedPrice.replace(/^€?From\s*/i, '');
+    return formatPrice(numericValue);
   };
 
   useEffect(() => {
