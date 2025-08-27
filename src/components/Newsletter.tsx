@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Instagram, Facebook, Linkedin } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 
 
@@ -26,19 +27,22 @@ const Newsletter = memo(() => {
 
     setIsSubmitting(true);
     
-    // TODO: Replace with actual Supabase Edge Function when implemented
-    // Temporarily simulating successful subscription for better UX
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For now, always show success
+      const { data, error } = await supabase.functions.invoke('subscribe-newsletter', {
+        body: { email }
+      });
+
+      if (error) {
+        throw error;
+      }
+
       toast({
         title: "Success!",
         description: "Thank you for subscribing to our newsletter!",
       });
       setEmail('');
     } catch (error) {
+      console.error('Newsletter subscription error:', error);
       toast({
         title: "Error",
         description: "Failed to subscribe. Please try again.",
