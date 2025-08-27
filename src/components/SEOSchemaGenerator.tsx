@@ -34,7 +34,7 @@ export const SEOSchemaGenerator: React.FC<SEOSchemaGeneratorProps> = ({
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Future Homes Turkey",
-    "description": "Premium real estate investment opportunities in Turkey, Dubai, Cyprus and France. Citizenship through investment programs.",
+    "description": "Premium real estate investment opportunities in Turkey, Dubai and Cyprus. Citizenship through investment programs.",
     "url": "https://futurehomesturkey.com",
     "logo": "https://futurehomesturkey.com/logo.png",
     "contactPoint": [
@@ -68,7 +68,7 @@ export const SEOSchemaGenerator: React.FC<SEOSchemaGeneratorProps> = ({
     "name": "Future Homes Turkey",
     "description": `Premium real estate in ${location} with investment opportunities`,
     "url": "https://futurehomesturkey.com",
-    "areaServed": ["Turkey", "Dubai", "Cyprus", "France"],
+    "areaServed": ["Turkey", "Dubai", "Cyprus"],
     "serviceType": [
       "Property Sales",
       "Investment Consultation", 

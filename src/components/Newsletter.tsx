@@ -138,7 +138,7 @@ const Newsletter = memo(() => {
               <div>Antalya Office</div>
               <div>Mersin Office</div>
               <div>Dubai Office</div>
-              <div>France Office</div>
+              
               <div>Cyprus Office</div>
             </div>
           </div>

@@ -56,7 +56,7 @@ const NewsInsights = () => {
     if (title.toLowerCase().includes('property') || title.toLowerCase().includes('purchase')) return 'Property Guide';
     if (title.toLowerCase().includes('living') || title.toLowerCase().includes('culture')) return 'Lifestyle';
     if (title.toLowerCase().includes('dubai')) return 'Dubai Guide';
-    if (title.toLowerCase().includes('france')) return 'France Guide';
+    if (title.toLowerCase().includes('cyprus')) return 'Cyprus Guide';
     return 'Information';
   };
 

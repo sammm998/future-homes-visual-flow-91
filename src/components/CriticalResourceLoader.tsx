@@ -12,7 +12,7 @@ interface CriticalResourceLoaderProps {
 export const CriticalResourceLoader: React.FC<CriticalResourceLoaderProps> = ({
   criticalImages = [],
   criticalFonts = ['/fonts/inter.woff2'],
-  prefetchRoutes = ['/antalya', '/dubai', '/cyprus', '/france'],
+  prefetchRoutes = ['/antalya', '/dubai', '/cyprus'],
   dnsPrefetch = [
     '//fonts.googleapis.com',
     '//fonts.gstatic.com',
