@@ -14,7 +14,7 @@ import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSyncAllData } from "@/hooks/useSyncAllData";
+import { useOptimizedSync } from "@/hooks/useOptimizedSync";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useTestimonials } from "@/hooks/useTestimonials";
@@ -23,6 +23,8 @@ import { PerformanceTracker } from "@/components/PerformanceTracker";
 import { LocalSEOManager } from "@/components/LocalSEOManager";
 import { SEOSchemaGenerator } from "@/components/SEOSchemaGenerator";
 import { FAQSchema } from "@/components/FAQSchema";
+import { ResourcePreloader } from "@/components/performance/ResourcePreloader";
+import { BundleOptimizer } from "@/components/performance/BundleOptimizer";
 
 
 const Index = () => {
@@ -32,24 +34,17 @@ const Index = () => {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const { testimonials: dynamicTestimonials, loading: testimonialsLoading } = useTestimonials();
-  const { syncAllProperties } = useSyncAllData();
+  const { backgroundSync, isBackgroundSyncing } = useOptimizedSync();
 
-  // Auto-sync properties only when needed, not on every load
+  // Background sync that doesn't block page load
   useEffect(() => {
-    const hasAutoSynced = localStorage.getItem('allPropertiesAutoSynced');
-    const lastSyncDate = localStorage.getItem('lastPropertiesSync');
-    const daysSinceLastSync = lastSyncDate ? 
-      (Date.now() - parseInt(lastSyncDate)) / (1000 * 60 * 60 * 24) : 30;
-    
-    if (!hasAutoSynced || daysSinceLastSync > 7) {
-      // Use setTimeout to delay sync and not block initial render
-      setTimeout(() => {
-        syncAllProperties();
-        localStorage.setItem('allPropertiesAutoSynced', 'true');
-        localStorage.setItem('lastPropertiesSync', Date.now().toString());
-      }, 2000);
-    }
-  }, [syncAllProperties]);
+    // Delay background sync to not interfere with initial page load
+    const timer = setTimeout(() => {
+      backgroundSync();
+    }, 3000); // 3 second delay after page load
+
+    return () => clearTimeout(timer);
+  }, [backgroundSync]);
 
   // Delay popup to improve perceived performance
   useEffect(() => {
@@ -104,6 +99,20 @@ const Index = () => {
         hreflang={hreflangUrls}
         structuredData={structuredData}
       />
+      
+      {/* Performance optimization components */}
+      <ResourcePreloader 
+        criticalImages={['/placeholder.svg']}
+        criticalFonts={['/fonts/inter.woff2']}
+        prefetchRoutes={['/property-wizard', '/antalya', '/dubai', '/cyprus']}
+        enableServiceWorker={true}
+      />
+      <BundleOptimizer 
+        enableCodeSplitting={true}
+        deferNonCriticalJS={true}
+        prefetchChunks={['/assets/property-wizard.js', '/assets/search.js']}
+      />
+      
       <OrganizationSchema />
       <CriticalResourceLoader />
       <PerformanceTracker enableWebVitals={true} />

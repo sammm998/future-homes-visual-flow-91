@@ -6239,7 +6239,9 @@ const PropertyDetail = () => {
                       variant="outline" 
                       className="w-full border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 text-sm" 
                       size="sm"
-                      onClick={() => window.location.href = `tel:${property.contactPhone}`}
+                      onClick={() => {
+                        window.location.href = `tel:${property.contactPhone}`;
+                      }}
                     >
                       <Phone className="w-4 h-4 mr-2" />
                       Call Now
@@ -6248,7 +6250,9 @@ const PropertyDetail = () => {
                       variant="outline" 
                       className="w-full border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 text-sm" 
                       size="sm"
-                      onClick={() => window.location.href = `mailto:${property.contactEmail}`}
+                      onClick={() => {
+                        window.location.href = `mailto:${property.contactEmail}`;
+                      }}
                     >
                       <Mail className="w-4 h-4 mr-2" />
                       Send Email  
