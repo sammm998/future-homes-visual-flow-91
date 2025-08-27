@@ -69,13 +69,18 @@ export const deferNonCriticalJS = () => {
 };
 
 export const enableServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
+  if ('serviceWorker' in navigator && !window.__SW_REGISTERED) {
+    window.__SW_REGISTERED = true;
+    navigator.serviceWorker.register('/sw.js', {
+      scope: '/',
+      updateViaCache: 'none'
+    })
       .then(registration => {
-        console.log('SW registered: ', registration);
+        console.log('SW registered successfully');
       })
       .catch(registrationError => {
-        console.log('SW registration failed: ', registrationError);
+        console.error('SW registration failed:', registrationError);
+        window.__SW_REGISTERED = false;
       });
   }
 };

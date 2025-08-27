@@ -37,14 +37,20 @@ export const ResourcePreloader: React.FC<ResourcePreloaderProps> = ({
       document.head.appendChild(link);
     });
 
-    // Service Worker registration
-    if (enableServiceWorker && 'serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
+    // Service Worker registration - only register once per session
+    if (enableServiceWorker && 'serviceWorker' in navigator && !window.__SW_REGISTERED) {
+      window.__SW_REGISTERED = true;
+      navigator.serviceWorker.register('/sw.js', { 
+        scope: '/',
+        updateViaCache: 'none' 
+      })
         .then(registration => {
-          console.log('SW registered: ', registration);
+          console.log('SW registered successfully');
+          // Don't spam console with object logs
         })
         .catch(registrationError => {
-          console.log('SW registration failed: ', registrationError);
+          console.error('SW registration failed:', registrationError);
+          window.__SW_REGISTERED = false; // Allow retry on error
         });
     }
   }, [criticalImages, criticalFonts, enableServiceWorker]);

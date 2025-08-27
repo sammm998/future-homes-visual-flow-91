@@ -120,17 +120,27 @@ const optimizeImages = () => {
     }
   });
 
-  // Convert images to WebP where supported
-  if ('HTMLPictureElement' in window) {
-    const images = document.querySelectorAll('img[src*=".jpg"], img[src*=".png"]');
-    images.forEach(img => {
-      const src = (img as HTMLImageElement).src;
-      if (src.includes('supabase') && !src.includes('format=')) {
-        const url = new URL(src);
-        url.searchParams.set('format', 'webp');
-        (img as HTMLImageElement).src = url.toString();
-      }
-    });
+  // Convert images to WebP where supported - Chrome compatible
+  if ('HTMLPictureElement' in window && window.location.protocol !== 'file:') {
+    try {
+      const images = document.querySelectorAll('img[src*=".jpg"], img[src*=".png"]');
+      images.forEach(img => {
+        const src = (img as HTMLImageElement).src;
+        if (src && src.includes('supabase') && !src.includes('format=')) {
+          try {
+            const url = new URL(src);
+            url.searchParams.set('format', 'webp');
+            (img as HTMLImageElement).src = url.toString();
+          } catch (urlError) {
+            // Skip invalid URLs
+            console.warn('Failed to process image URL:', src);
+          }
+        }
+      });
+    } catch (e) {
+      // Graceful degradation for Chrome compatibility
+      console.warn('WebP conversion failed:', e);
+    }
   }
 };
 

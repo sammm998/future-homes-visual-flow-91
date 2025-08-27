@@ -105,7 +105,7 @@ const Index = () => {
         criticalImages={['/placeholder.svg']}
         criticalFonts={['/fonts/inter.woff2']}
         prefetchRoutes={['/property-wizard', '/antalya', '/dubai', '/cyprus']}
-        enableServiceWorker={true}
+        enableServiceWorker={false}
       />
       <BundleOptimizer 
         enableCodeSplitting={true}

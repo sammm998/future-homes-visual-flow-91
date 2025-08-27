@@ -49,10 +49,15 @@ export const optimizeINP = () => {
     }
   });
 
-  // Break up long tasks
+  // Break up long tasks - Chrome compatible
   const scheduler = (callback: Function) => {
-    if ('scheduler' in window) {
-      (window as any).scheduler.postTask(callback, { priority: 'user-blocking' });
+    if ('scheduler' in window && typeof (window as any).scheduler?.postTask === 'function') {
+      try {
+        (window as any).scheduler.postTask(callback, { priority: 'user-blocking' });
+      } catch (e) {
+        // Fallback for Chrome compatibility issues
+        setTimeout(callback, 0);
+      }
     } else {
       setTimeout(callback, 0);
     }
