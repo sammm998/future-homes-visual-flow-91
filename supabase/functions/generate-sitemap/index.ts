@@ -42,6 +42,19 @@ serve(async (req) => {
     const currentDate = new Date().toISOString().split('T')[0];
     const baseUrl = 'https://futurehomesturkey.com';
 
+    // All supported languages
+    const languages = [
+      { code: 'en', priority: '1.0' },
+      { code: 'sv', priority: '0.9' },
+      { code: 'tr', priority: '0.9' },
+      { code: 'ar', priority: '0.8' },
+      { code: 'no', priority: '0.8' },
+      { code: 'da', priority: '0.8' },
+      { code: 'ru', priority: '0.7' },
+      { code: 'fa', priority: '0.7' },
+      { code: 'ur', priority: '0.7' }
+    ];
+
     // Static pages - Core pages
     const staticPages = [
       { url: '/', priority: '1.0', changefreq: 'daily' },
@@ -78,44 +91,83 @@ serve(async (req) => {
     ];
 
     let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
 
-    // Add static pages
+    // Function to generate hreflang alternates
+    const generateAlternates = (url: string) => {
+      return languages.map(lang => {
+        const langUrl = lang.code === 'en' 
+          ? `${baseUrl}${url}`
+          : `${baseUrl}${url}${url.includes('?') ? '&' : '?'}lang=${lang.code}`;
+        return `    <xhtml:link rel="alternate" hreflang="${lang.code}" href="${langUrl}" />`;
+      }).join('\n');
+    };
+
+    // Add static pages with all language variants
     staticPages.forEach(page => {
-      sitemapXml += `
+      languages.forEach(lang => {
+        const langUrl = lang.code === 'en' 
+          ? `${baseUrl}${page.url}`
+          : `${baseUrl}${page.url}${page.url.includes('?') ? '&' : '?'}lang=${lang.code}`;
+        
+        const priority = parseFloat(page.priority) * parseFloat(lang.priority);
+        
+        sitemapXml += `
   <url>
-    <loc>${baseUrl}${page.url}</loc>
+    <loc>${langUrl}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
-    <priority>${page.priority}</priority>
+    <priority>${priority.toFixed(1)}</priority>
+${generateAlternates(page.url)}
   </url>`;
+      });
     });
 
-    // Add property pages with enhanced metadata
+    // Add property pages with enhanced metadata and language variants
     if (properties && properties.length > 0) {
       properties.forEach(property => {
         const lastmod = property.updated_at 
           ? new Date(property.updated_at).toISOString().split('T')[0]
           : currentDate;
         
-        // Main property page
-        sitemapXml += `
+        // Main property page for each language
+        languages.forEach(lang => {
+          const propertyUrl = `/property/${property.id}`;
+          const langUrl = lang.code === 'en' 
+            ? `${baseUrl}${propertyUrl}`
+            : `${baseUrl}${propertyUrl}?lang=${lang.code}`;
+          
+          const priority = 0.8 * parseFloat(lang.priority);
+          
+          sitemapXml += `
   <url>
-    <loc>${baseUrl}/property/${property.id}</loc>
+    <loc>${langUrl}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>${priority.toFixed(1)}</priority>
+${generateAlternates(propertyUrl)}
   </url>`;
+        });
         
         // Alternative property URL with ref_no if available
         if (property.ref_no) {
-          sitemapXml += `
+          languages.forEach(lang => {
+            const refUrl = `/property/${property.ref_no}`;
+            const langUrl = lang.code === 'en' 
+              ? `${baseUrl}${refUrl}`
+              : `${baseUrl}${refUrl}?lang=${lang.code}`;
+            
+            const priority = 0.7 * parseFloat(lang.priority);
+            
+            sitemapXml += `
   <url>
-    <loc>${baseUrl}/property/${property.ref_no}</loc>
+    <loc>${langUrl}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>${priority.toFixed(1)}</priority>
+${generateAlternates(refUrl)}
   </url>`;
+          });
         }
       });
     }
@@ -125,49 +177,79 @@ serve(async (req) => {
       const uniqueTypes = [...new Set(categories.map(c => c.property_type).filter(Boolean))];
       const uniqueLocations = [...new Set(categories.map(c => c.location).filter(Boolean))];
       
-      // Add property type filter pages
+      // Add property type filter pages for each language
       uniqueTypes.forEach(type => {
         if (type) {
           const typeSlug = type.toLowerCase().replace(/\s+/g, '-');
-          sitemapXml += `
+          languages.forEach(lang => {
+            const filterUrl = `/properties?type=${encodeURIComponent(typeSlug)}`;
+            const langUrl = lang.code === 'en' 
+              ? `${baseUrl}${filterUrl}`
+              : `${baseUrl}${filterUrl}&lang=${lang.code}`;
+            
+            const priority = 0.6 * parseFloat(lang.priority);
+            
+            sitemapXml += `
   <url>
-    <loc>${baseUrl}/properties?type=${encodeURIComponent(typeSlug)}</loc>
+    <loc>${langUrl}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>${priority.toFixed(1)}</priority>
+${generateAlternates(filterUrl)}
   </url>`;
+          });
         }
       });
       
-      // Add location-specific property filter pages
+      // Add location-specific property filter pages for each language
       uniqueLocations.forEach(location => {
         if (location) {
           const locationSlug = location.toLowerCase().replace(/\s+/g, '-');
-          sitemapXml += `
+          languages.forEach(lang => {
+            const filterUrl = `/properties?location=${encodeURIComponent(locationSlug)}`;
+            const langUrl = lang.code === 'en' 
+              ? `${baseUrl}${filterUrl}`
+              : `${baseUrl}${filterUrl}&lang=${lang.code}`;
+            
+            const priority = 0.6 * parseFloat(lang.priority);
+            
+            sitemapXml += `
   <url>
-    <loc>${baseUrl}/properties?location=${encodeURIComponent(locationSlug)}</loc>
+    <loc>${langUrl}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>${priority.toFixed(1)}</priority>
+${generateAlternates(filterUrl)}
   </url>`;
+          });
         }
       });
     }
 
-    // Add blog articles
+    // Add blog articles for each language
     if (blogPosts && blogPosts.length > 0) {
       blogPosts.forEach(post => {
         const lastmod = post.updated_at 
           ? new Date(post.updated_at).toISOString().split('T')[0]
           : currentDate;
         
-        sitemapXml += `
+        languages.forEach(lang => {
+          const articleUrl = `/articles/${post.slug}`;
+          const langUrl = lang.code === 'en' 
+            ? `${baseUrl}${articleUrl}`
+            : `${baseUrl}${articleUrl}?lang=${lang.code}`;
+          
+          const priority = 0.6 * parseFloat(lang.priority);
+          
+          sitemapXml += `
   <url>
-    <loc>${baseUrl}/articles/${post.slug}</loc>
+    <loc>${langUrl}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>${priority.toFixed(1)}</priority>
+${generateAlternates(articleUrl)}
   </url>`;
+        });
       });
     }
 
