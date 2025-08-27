@@ -9,11 +9,13 @@ import { Home, MapPin, DollarSign, Users, Building, Waves, Mountain, TreePine, P
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 
 const PropertyWizardComponent = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { selectedCurrency } = useCurrency();
   
   const [currentStep, setCurrentStep] = useState(1);
   const [selections, setSelections] = useState({
@@ -100,11 +102,11 @@ const PropertyWizardComponent = () => {
       title: "What's your investment budget?",
       subtitle: "Choose your price range",
       options: [
-        { id: '0-100k', name: '$0 - $100K', icon: <DollarSign className="w-6 h-6" />, description: 'Starter investment', color: 'from-teal-500 to-green-500' },
-        { id: '100k-250k', name: '$100K - $250K', icon: <DollarSign className="w-6 h-6" />, description: 'Entry level investment', color: 'from-green-500 to-emerald-500' },
-        { id: '250k-500k', name: '$250K - $500K', icon: <DollarSign className="w-6 h-6" />, description: 'Mid-range properties', color: 'from-blue-500 to-cyan-500' },
-        { id: '500k-1m', name: '$500K - $1M', icon: <DollarSign className="w-6 h-6" />, description: 'Premium investments', color: 'from-purple-500 to-pink-500' },
-        { id: '1m+', name: '$1M+', icon: <DollarSign className="w-6 h-6" />, description: 'Luxury portfolio', color: 'from-amber-500 to-orange-500' }
+        { id: '0-100k', name: `${selectedCurrency.symbol}0 - ${selectedCurrency.symbol}100K`, icon: <DollarSign className="w-6 h-6" />, description: 'Starter investment', color: 'from-teal-500 to-green-500' },
+        { id: '100k-250k', name: `${selectedCurrency.symbol}100K - ${selectedCurrency.symbol}250K`, icon: <DollarSign className="w-6 h-6" />, description: 'Entry level investment', color: 'from-green-500 to-emerald-500' },
+        { id: '250k-500k', name: `${selectedCurrency.symbol}250K - ${selectedCurrency.symbol}500K`, icon: <DollarSign className="w-6 h-6" />, description: 'Mid-range properties', color: 'from-blue-500 to-cyan-500' },
+        { id: '500k-1m', name: `${selectedCurrency.symbol}500K - ${selectedCurrency.symbol}1M`, icon: <DollarSign className="w-6 h-6" />, description: 'Premium investments', color: 'from-purple-500 to-pink-500' },
+        { id: '1m+', name: `${selectedCurrency.symbol}1M+`, icon: <DollarSign className="w-6 h-6" />, description: 'Luxury portfolio', color: 'from-amber-500 to-orange-500' }
       ]
     },
     4: {
