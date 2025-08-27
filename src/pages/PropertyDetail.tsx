@@ -5618,7 +5618,9 @@ const PropertyDetail = () => {
   const formatPropertyPrice = (priceString: string): string => {
     const numericValue = parseInt(priceString.replace(/[€$£,₺₽₨﷼kr]/g, ''));
     if (isNaN(numericValue)) return priceString;
-    return formatPrice(numericValue);
+    const formattedPrice = formatPrice(numericValue);
+    // Remove any "From" prefix that might be added
+    return formattedPrice.replace(/^€?From\s*/i, '');
   };
 
   useEffect(() => {
