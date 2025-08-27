@@ -237,11 +237,4 @@ export function initImageOptimization(): void {
   });
 }
 
-// Auto-initialize on DOM ready
-if (typeof window !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initImageOptimization);
-  } else {
-    initImageOptimization();
-  }
-}
+// Note: initImageOptimization should be called from React components, not auto-initialized

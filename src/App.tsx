@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +9,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
 import CriticalPerformanceOptimizer from "@/components/CriticalPerformanceOptimizer";
+import { initImageOptimization } from "@/utils/imageOptimizer";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -57,9 +58,19 @@ const PageLoader = () => (
   </div>
 );
 
-const App = () => (
-  <ErrorBoundary>
-    <HelmetProvider>
+const App = () => {
+  useEffect(() => {
+    // Initialize image optimization after React has mounted
+    try {
+      initImageOptimization();
+    } catch (error) {
+      console.warn('Image optimization initialization failed:', error);
+    }
+  }, []);
+
+  return (
+    <ErrorBoundary>
+      <HelmetProvider>
     <QueryClientProvider client={queryClient}>
           <CurrencyProvider>
             <TooltipProvider>
@@ -96,8 +107,9 @@ const App = () => (
           </TooltipProvider>
         </CurrencyProvider>
   </QueryClientProvider>
-  </HelmetProvider>
-  </ErrorBoundary>
-);
+    </HelmetProvider>
+    </ErrorBoundary>
+  );
+};
 
 export default App;
