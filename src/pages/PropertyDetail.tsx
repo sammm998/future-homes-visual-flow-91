@@ -293,9 +293,30 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
         images = [dbProperty.property_image, ...images];
       }
 
-      // Parse pricing from property_prices_by_room
+      // Parse pricing from apartment_types (prioritized) or property_prices_by_room (fallback)
       let pricing: any[] = [];
-      if (dbProperty.property_prices_by_room) {
+      
+      // First try apartment_types if available
+      if (dbProperty.apartment_types) {
+        try {
+          const apartmentTypes = typeof dbProperty.apartment_types === 'string' 
+            ? JSON.parse(dbProperty.apartment_types)
+            : dbProperty.apartment_types;
+          
+          if (Array.isArray(apartmentTypes) && apartmentTypes.length > 0) {
+            pricing = apartmentTypes.map((apt: any) => ({
+              type: apt.type ? `${apt.type} Apartment` : 'Apartment',
+              size: apt.size ? `${apt.size}m²` : '',
+              price: apt.price ? `€${apt.price.toLocaleString()}` : ''
+            }));
+          }
+        } catch (error) {
+          console.warn('Failed to parse apartment_types:', error);
+        }
+      }
+      
+      // Fallback to property_prices_by_room if no apartment_types
+      if (pricing.length === 0 && dbProperty.property_prices_by_room) {
         const priceText = dbProperty.property_prices_by_room;
         const priceMatches = priceText.split(';');
         pricing = priceMatches.map((match: string) => {
