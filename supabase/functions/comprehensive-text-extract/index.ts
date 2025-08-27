@@ -101,7 +101,7 @@ function getComponentBaseTexts(component: string): string[] {
       // Destinations section
       "Explore Destinations", "Discover premium properties in the world's most desirable locations",
       "Antalya", "Turkish Riviera Paradise", "45+ Properties", "View Properties",
-      "DUBAI", "CYPRUS", "STRASBOURG", "MERSIN", "ANTALYA",
+      "DUBAI", "CYPRUS", "MERSIN", "ANTALYA",
       "TALK TO AI", "SEE ALL",
       
       // Premium Properties sections
@@ -363,7 +363,7 @@ function getComponentBaseTexts(component: string): string[] {
       
       // Locations
       "Future Homes Locations", "Where can you find real estate with Future Homes?",
-      "Turkey", "Antalya, Mersin", "France", "Strasbourg Office", "Dubai"
+      "Turkey", "Antalya, Mersin", , "Dubai"
     ]
   };
   
