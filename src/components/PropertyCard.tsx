@@ -34,7 +34,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
   const statusInfo = useMemoizedStatus(property.status);
   const apartmentTypes = parseApartmentTypes(property.apartment_types);
   const displayPrice = apartmentTypes.length > 0 
-    ? `From ${getStartingPrice(apartmentTypes, property.price)}`
+    ? getStartingPrice(apartmentTypes, property.price)
     : property.price;
 
   return (

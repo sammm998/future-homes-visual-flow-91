@@ -6016,7 +6016,7 @@ const PropertyDetail = () => {
           </div>
           
           <div className="text-2xl md:text-3xl font-bold text-primary mb-6 bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-            Starting from {formatPropertyPrice(property.price)}
+            {formatPropertyPrice(property.price)}
           </div>
         </div>
 
