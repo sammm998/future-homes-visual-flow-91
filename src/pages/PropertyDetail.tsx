@@ -6161,7 +6161,15 @@ const PropertyDetail = () => {
             </div>
 
             {/* Timeline Sections */}
-            <Timeline data={timelineData} />
+            <Timeline data={timelineData} location={(() => {
+              const locationName = property.location?.toLowerCase() || '';
+              if (locationName.includes('antalya')) return 'Antalya';
+              if (locationName.includes('dubai')) return 'Dubai';
+              if (locationName.includes('mersin')) return 'Mersin';
+              if (locationName.includes('cyprus') || locationName.includes('kyrenia') || locationName.includes('famagusta')) return 'Cyprus';
+              if (locationName.includes('france') || locationName.includes('cannes') || locationName.includes('nice')) return 'France';
+              return property.location || 'Antalya'; // fallback to property location or Antalya
+            })()} />
           </div>
 
           {/* Contact Sidebar */}
