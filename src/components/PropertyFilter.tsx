@@ -276,14 +276,13 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <SelectTrigger>
                 <SelectValue placeholder="Select Location" />
               </SelectTrigger>
-               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="Antalya">Antalya</SelectItem>
-                <SelectItem value="Mersin">Mersin</SelectItem>
-                <SelectItem value="Dubai">Dubai</SelectItem>
-                <SelectItem value="Cyprus">Cyprus</SelectItem>
-                
-              </SelectContent>
+               <SelectContent className="bg-white z-50 border border-gray-200 shadow-lg">
+                 <SelectItem value="all">All</SelectItem>
+                 <SelectItem value="Antalya">Antalya</SelectItem>
+                 <SelectItem value="Mersin">Mersin</SelectItem>
+                 <SelectItem value="Dubai">Dubai</SelectItem>
+                 <SelectItem value="Cyprus">Cyprus</SelectItem>
+               </SelectContent>
             </Select>
           </div>
 
