@@ -1,3 +1,4 @@
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
@@ -45,13 +46,12 @@ export default defineConfig(({ mode }) => ({
     sourcemap: mode === 'development',
     // Optimize CSS
     cssCodeSplit: true,
-    // Minify options
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: mode === 'production',
-        drop_debugger: mode === 'production',
-      },
+    // Use esbuild for minification (faster than terser and built-in)
+    minify: 'esbuild',
+    target: 'es2015',
+    // Drop console/debugger in production
+    esbuild: {
+      drop: mode === 'production' ? ['console', 'debugger'] : [],
     },
   },
   // Optimize deps for faster dev server
