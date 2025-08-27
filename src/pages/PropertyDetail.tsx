@@ -5873,11 +5873,11 @@ const PropertyDetail = () => {
       content: (
         <div className="space-y-6">
           <div className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border border-border/50 shadow-lg">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {property.facilities?.map((facility: string, index: number) => (
-                <div key={index} className="flex items-center gap-2 p-3 bg-gradient-to-r from-green-500/10 to-green-500/5 rounded-lg hover:from-green-500/20 hover:to-green-500/10 transition-all duration-300">
-                  <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
-                  <span className="text-xs font-medium text-foreground break-words leading-tight">{facility}</span>
+                <div key={index} className="flex items-start gap-3 p-4 bg-gradient-to-r from-green-500/10 to-green-500/5 rounded-lg hover:from-green-500/20 hover:to-green-500/10 transition-all duration-300 min-h-[60px]">
+                  <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm font-medium text-foreground break-words leading-relaxed flex-1">{facility}</span>
                 </div>
               ))}
             </div>
