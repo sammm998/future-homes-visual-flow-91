@@ -17,6 +17,11 @@ import { useSyncAllData } from "@/hooks/useSyncAllData";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useTestimonials } from "@/hooks/useTestimonials";
+import { CriticalResourceLoader } from "@/components/CriticalResourceLoader";
+import { PerformanceTracker } from "@/components/PerformanceTracker";
+import { LocalSEOManager } from "@/components/LocalSEOManager";
+import { SEOSchemaGenerator } from "@/components/SEOSchemaGenerator";
+import { FAQSchema } from "@/components/FAQSchema";
 
 
 const Index = () => {
@@ -98,6 +103,11 @@ const Index = () => {
         structuredData={structuredData}
       />
       <OrganizationSchema />
+      <CriticalResourceLoader />
+      <PerformanceTracker enableWebVitals={true} />
+      <LocalSEOManager />
+      <SEOSchemaGenerator type="organization" />
+      <FAQSchema />
       <Navigation />
       
       {/* Hero Section */}

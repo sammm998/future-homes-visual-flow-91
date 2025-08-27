@@ -2,6 +2,12 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+import { initWebVitalsOptimizations } from './utils/webVitalsOptimizer'
+import { initPerformanceOptimizations } from './utils/criticalCSS'
+
+// Initialize performance optimizations immediately
+initWebVitalsOptimizations();
+initPerformanceOptimizations();
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
