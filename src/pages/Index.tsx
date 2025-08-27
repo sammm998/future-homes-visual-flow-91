@@ -13,6 +13,7 @@ import { useSEO } from "@/hooks/useSEO";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSyncAllData } from "@/hooks/useSyncAllData";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
@@ -28,6 +29,7 @@ const Index = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
   const { structuredData } = useSEO();
   const currentCanonicalUrl = useCanonicalUrl();
+  const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const { testimonials: dynamicTestimonials, loading: testimonialsLoading } = useTestimonials();
   const { syncAllProperties } = useSyncAllData();
@@ -216,6 +218,8 @@ const Index = () => {
         <LazyNewsInsights />
       </LazyComponent>
       
+      {/* Newsletter Section */}
+      <Newsletter />
 
       {/* ElevenLabs Widget */}
       <ElevenLabsWidget />
@@ -235,7 +239,7 @@ const Index = () => {
             <button 
               onClick={() => {
                 setShowPopup(false);
-                window.location.href = '/property-wizard';
+                navigate('/property-wizard');
               }}
               className="w-full bg-gradient-to-r from-primary to-primary-glow hover:from-primary/90 hover:to-primary-glow/90 text-primary-foreground py-4 px-6 rounded-xl font-semibold text-lg shadow-lg transition-all duration-300 transform hover:scale-105"
             >
