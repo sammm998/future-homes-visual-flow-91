@@ -65,7 +65,7 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       // Interactive Selector
       "DUBAI",
       "CYPRUS", 
-      "STRASBOURG",
+
       "MERSIN",
       "TALK TO AI",
       "SEE ALL",
