@@ -66,9 +66,10 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
     }
   }, [messages]);
 
-  // Focus input after sending message
+  // Focus input after sending message (only on desktop)
   useEffect(() => {
-    if (inputRef.current && !isLoading) {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (inputRef.current && !isLoading && !isMobile) {
       inputRef.current.focus();
     }
   }, [messages, isLoading]);
@@ -412,7 +413,6 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
               placeholder="Type your message here..."
               className="flex-1"
               disabled={isLoading}
-              autoFocus
             />
             <Button 
               onClick={handleSendMessage}
