@@ -24,15 +24,39 @@ export default defineConfig(({ mode }) => ({
     // Optimize chunk splitting for better caching
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Vendor chunk for better caching
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          // UI components chunk
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-select', 'lucide-react'],
-          // Query and state management
-          query: ['@tanstack/react-query', '@supabase/supabase-js'],
-          // Motion and animations
-          motion: ['framer-motion', 'gsap'],
+        manualChunks: (id) => {
+          // More aggressive code splitting
+          if (id.includes('node_modules')) {
+            // Vendor chunks
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            if (id.includes('react-router')) {
+              return 'router';
+            }
+            if (id.includes('@radix-ui') || id.includes('lucide-react')) {
+              return 'ui-vendor';
+            }
+            if (id.includes('@tanstack') || id.includes('@supabase')) {
+              return 'data-vendor';
+            }
+            if (id.includes('framer-motion') || id.includes('gsap')) {
+              return 'animation-vendor';
+            }
+            // Other third party libraries
+            return 'vendor';
+          }
+          
+          // App chunks
+          if (id.includes('/pages/')) {
+            return 'pages';
+          }
+          if (id.includes('/components/ui/')) {
+            return 'ui-components';
+          }
+          if (id.includes('/utils/')) {
+            return 'utils';
+          }
         },
         // Use contenthash for better cache busting
         chunkFileNames: 'assets/[name]-[hash].js',

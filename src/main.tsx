@@ -6,11 +6,13 @@ import { initWebVitalsOptimizations } from './utils/webVitalsOptimizer'
 import { initPerformanceOptimizations } from './utils/criticalCSS'
 import { warmCache } from './utils/performanceCache'
 import { initIntelligentPrefetching } from './utils/bundleOptimizer'
+import { initImageOptimization } from './utils/imageOptimizer'
 
 // Initialize performance optimizations immediately
 initWebVitalsOptimizations();
 initPerformanceOptimizations();
 initIntelligentPrefetching();
+initImageOptimization();
 
 // Warm critical caches for better performance
 warmCache([

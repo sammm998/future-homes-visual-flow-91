@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { optimizeLovableImage, generateResponsiveSrcSet, generateSizesAttribute, getBestImageFormat } from '@/utils/imageOptimizer';
 
 interface OptimizedImageProps {
   src: string;
@@ -9,7 +10,9 @@ interface OptimizedImageProps {
   priority?: boolean;
   style?: React.CSSProperties;
   onClick?: () => void;
-  'data-index'?: number;
+  responsive?: boolean;
+  quality?: number;
+  lqip?: string; // Low Quality Image Placeholder
 }
 
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
@@ -21,12 +24,26 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   priority = false,
   style,
   onClick,
-  ...props
+  responsive = true,
+  quality = 85,
+  lqip
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
   const [hasError, setHasError] = useState(false);
+  const [currentSrc, setCurrentSrc] = useState(lqip || '');
   const imgRef = useRef<HTMLImageElement>(null);
+
+  // Generate optimized image URLs
+  const optimizedSrc = optimizeLovableImage(src, { 
+    quality, 
+    width, 
+    height,
+    format: getBestImageFormat()
+  });
+  
+  const srcSet = responsive ? generateResponsiveSrcSet(src) : undefined;
+  const sizes = responsive ? generateSizesAttribute() : undefined;
 
   useEffect(() => {
     if (priority) return;
@@ -48,53 +65,88 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     return () => observer.disconnect();
   }, [priority]);
 
-  const handleLoad = () => {
-    setIsLoaded(true);
-  };
+  // Progressive loading effect
+  useEffect(() => {
+    if (!isInView || !imgRef.current) return;
 
-  const handleError = () => {
-    setIsLoaded(true);
-    setHasError(true);
-  };
+    const img = new Image();
+    
+    img.onload = () => {
+      setCurrentSrc(optimizedSrc);
+      setIsLoaded(true);
+    };
+    
+    img.onerror = () => {
+      setHasError(true);
+    };
+    
+    img.src = optimizedSrc;
+  }, [isInView, optimizedSrc]);
 
   return (
-    <div
-      ref={imgRef}
-      className={`relative ${className}`}
+    <div 
+      className={`relative overflow-hidden ${className}`}
       style={style}
       onClick={onClick}
-      {...props}
     >
-      {!isLoaded && (
-        <div 
-          className="absolute inset-0 bg-muted animate-pulse rounded-inherit"
+      {/* Progressive loading with blur effect */}
+      {lqip && !isLoaded && (
+        <img
+          src={lqip}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover filter blur-sm scale-105 transition-opacity duration-300"
           style={{ width, height }}
         />
       )}
-      {isInView && !hasError && (
-        <img
-          src={src}
-          alt={alt}
-          className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
-          style={style}
-          onLoad={handleLoad}
-          onError={handleError}
-          loading={priority ? 'eager' : 'lazy'}
-          decoding="async"
-          fetchPriority={priority ? 'high' : 'low'}
-          width={width}
-          height={height}
-          {...props}
-        />
-      )}
-      {hasError && (
+      
+      {!isLoaded && !hasError && !lqip && (
         <div 
-          className="absolute inset-0 bg-muted flex items-center justify-center text-muted-foreground text-sm"
+          className="absolute inset-0 bg-muted animate-pulse flex items-center justify-center"
           style={{ width, height }}
         >
-          Image unavailable
+          <div className="text-muted-foreground text-sm">Loading...</div>
         </div>
       )}
+      
+      {hasError && (
+        <div 
+          className="absolute inset-0 bg-muted flex items-center justify-center"
+          style={{ width, height }}
+        >
+          <div className="text-muted-foreground text-sm">Failed to load</div>
+        </div>
+      )}
+
+      <img
+        ref={imgRef}
+        src={currentSrc || optimizedSrc}
+        srcSet={srcSet}
+        sizes={sizes}
+        alt={alt}
+        className={`w-full h-full object-cover transition-all duration-300 ${
+          isLoaded ? 'opacity-100 filter-none scale-100' : 'opacity-0'
+        } ${lqip ? 'absolute inset-0' : ''}`}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : 'low'}
+        decoding="async"
+        width={width}
+        height={height}
+        onLoad={() => {
+          setIsLoaded(true);
+          if (lqip) {
+            // Remove blur effect
+            const lqipImg = imgRef.current?.previousElementSibling as HTMLElement;
+            if (lqipImg) {
+              lqipImg.style.opacity = '0';
+            }
+          }
+        }}
+        onError={() => setHasError(true)}
+        style={{
+          width: width ? `${width}px` : undefined,
+          height: height ? `${height}px` : undefined,
+        }}
+      />
     </div>
   );
 };
