@@ -288,7 +288,8 @@ const Hero: React.FC<HeroProps> = ({
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
                       <SelectValue placeholder="Property Location" />
                     </SelectTrigger>
-                     <SelectContent className="bg-white z-50 border border-gray-200 shadow-lg">
+                    <SelectContent className="bg-white z-50 border border-gray-200 shadow-lg">
+                      {/* Cache-bust: 2024-08-27 - Only 4 locations */}
                       <SelectItem value="Antalya">
                         <div className="flex items-center gap-2">
                           <MapPin size={16} />
