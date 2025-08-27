@@ -94,7 +94,6 @@ export const getAllProperties = () => {
     ...antalyaProperties,
     ...allCyprusProperties,
     ...allDubaiProperties,
-    ...allMersinProperties,
     ...allMersinProperties
   ];
 };
