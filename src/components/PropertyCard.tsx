@@ -6,7 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Bed, Bath, Square } from "lucide-react";
 import { useCurrency } from '@/contexts/CurrencyContext';
 import OptimizedPropertyImage from './OptimizedPropertyImage';
+import ApartmentTypesDisplay from './ApartmentTypesDisplay';
 import { useMemoizedStatus, useMemoizedPrice } from '@/utils/memoization';
+import { parseApartmentTypes, getStartingPrice } from '@/utils/apartmentTypes';
 
 
 interface PropertyCardProps {
@@ -22,6 +24,7 @@ interface PropertyCardProps {
     status: string;
     image?: string;
     property_images?: string[];
+    apartment_types?: any;
   };
 }
 
@@ -29,7 +32,10 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
   const { formatPrice } = useCurrency();
   
   const statusInfo = useMemoizedStatus(property.status);
-  const formattedPrice = useMemoizedPrice(property.price, formatPrice);
+  const apartmentTypes = parseApartmentTypes(property.apartment_types);
+  const displayPrice = apartmentTypes.length > 0 
+    ? `From ${getStartingPrice(apartmentTypes, property.price)}`
+    : property.price;
 
   return (
     <Link to={`/property/${property.id}`} state={{ from: window.location.pathname + window.location.search }} className="block w-full">
@@ -53,7 +59,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
           </div>
           <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3">
             <div className="bg-white/95 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-2 rounded-lg font-bold text-sm sm:text-lg md:text-xl text-foreground shadow-lg">
-              {formattedPrice}
+              {displayPrice}
             </div>
           </div>
         </div>
@@ -71,25 +77,32 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
             </div>
           </div>
 
-          {/* Property Features */}
+          {/* Apartment Types or Property Features */}
           <div className="border-t border-border/50 pt-4">
-            <div className="grid grid-cols-3 gap-3 sm:gap-4">
-              <div className="flex flex-col items-center gap-2 p-2 rounded-lg bg-secondary/20 hover:bg-secondary/30 transition-colors">
-                <Bed size={18} className="text-primary" />
-                <span className="font-semibold text-sm text-foreground">{property.bedrooms}</span>
-                <span className="text-xs text-muted-foreground">Sovrum</span>
+            {apartmentTypes.length > 0 ? (
+              <div className="space-y-3">
+                <h4 className="font-semibold text-sm text-foreground">Available Types</h4>
+                <ApartmentTypesDisplay apartmentTypes={apartmentTypes} variant="compact" />
               </div>
-              <div className="flex flex-col items-center gap-2 p-2 rounded-lg bg-secondary/20 hover:bg-secondary/30 transition-colors">
-                <Bath size={18} className="text-primary" />
-                <span className="font-semibold text-sm text-foreground">{property.bathrooms}</span>
-                <span className="text-xs text-muted-foreground">Badrum</span>
+            ) : (
+              <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                <div className="flex flex-col items-center gap-2 p-2 rounded-lg bg-secondary/20 hover:bg-secondary/30 transition-colors">
+                  <Bed size={18} className="text-primary" />
+                  <span className="font-semibold text-sm text-foreground">{property.bedrooms}</span>
+                  <span className="text-xs text-muted-foreground">Sovrum</span>
+                </div>
+                <div className="flex flex-col items-center gap-2 p-2 rounded-lg bg-secondary/20 hover:bg-secondary/30 transition-colors">
+                  <Bath size={18} className="text-primary" />
+                  <span className="font-semibold text-sm text-foreground">{property.bathrooms}</span>
+                  <span className="text-xs text-muted-foreground">Badrum</span>
+                </div>
+                <div className="flex flex-col items-center gap-2 p-2 rounded-lg bg-secondary/20 hover:bg-secondary/30 transition-colors">
+                  <Square size={18} className="text-primary" />
+                  <span className="font-semibold text-sm text-foreground truncate">{property.area}</span>
+                  <span className="text-xs text-muted-foreground">m²</span>
+                </div>
               </div>
-              <div className="flex flex-col items-center gap-2 p-2 rounded-lg bg-secondary/20 hover:bg-secondary/30 transition-colors">
-                <Square size={18} className="text-primary" />
-                <span className="font-semibold text-sm text-foreground truncate">{property.area}</span>
-                <span className="text-xs text-muted-foreground">m²</span>
-              </div>
-            </div>
+            )}
           </div>
         </CardContent>
       </Card>
