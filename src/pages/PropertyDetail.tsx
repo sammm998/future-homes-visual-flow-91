@@ -15,7 +15,7 @@ import { getAntalyaPropertyById } from '@/data/antalyaProperties';
 import { getMersinPropertyById } from '@/data/mersinProperties';
 import { getDubaiPropertyById } from '@/data/dubaiProperties';
 import { getCyprusPropertyById } from '@/data/cyprusProperties';
-import { getFrancePropertyById } from '@/data/franceProperties';
+
 import { supabase } from '@/integrations/supabase/client';
 
 // Agent data with images
@@ -121,25 +121,6 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       }
     }
     
-    if (fromLocation.includes('france')) {
-      const franceProperty = getFrancePropertyById(id);
-      if (franceProperty) {
-        console.log('getPropertyData: Found France property in static data:', franceProperty.title);
-        return {
-          ...franceProperty,
-          propertyType: franceProperty.propertyType || "Apartment",
-          pricing: [{ 
-            type: franceProperty.bedrooms + " " + franceProperty.propertyType, 
-            size: franceProperty.area + "m²", 
-            price: franceProperty.price 
-          }],
-          facilities: franceProperty.features || [],
-          agent: "Ervina Köksel",
-          contactPhone: "+905523032750",
-          contactEmail: "info@futurehomesturkey.com"
-        };
-      }
-    }
   }
   
   // Try all static data sources if no location context provided
@@ -217,25 +198,6 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
           price: cyprusProperty.price 
         }],
         facilities: cyprusProperty.features || [],
-        agent: "Ervina Köksel",
-        contactPhone: "+905523032750",
-        contactEmail: "info@futurehomesturkey.com"
-      };
-    }
-    
-    // Check France
-    const franceProperty = getFrancePropertyById(id);
-    if (franceProperty) {
-      console.log('getPropertyData: Found property in France static data:', franceProperty.title);
-      return {
-        ...franceProperty,
-        propertyType: franceProperty.propertyType || "Apartment",
-        pricing: [{ 
-          type: franceProperty.bedrooms + " " + franceProperty.propertyType, 
-          size: franceProperty.area + "m²", 
-          price: franceProperty.price 
-        }],
-        facilities: franceProperty.features || [],
         agent: "Ervina Köksel",
         contactPhone: "+905523032750",
         contactEmail: "info@futurehomesturkey.com"
@@ -5976,7 +5938,7 @@ const PropertyDetail = () => {
                 if (locationLower.includes('dubai')) return '/dubai';
                 if (locationLower.includes('mersin')) return '/mersin';
                 if (locationLower.includes('cyprus') || locationLower.includes('kyrenia') || locationLower.includes('famagusta')) return '/cyprus';
-                if (locationLower.includes('france') || locationLower.includes('cannes') || locationLower.includes('nice')) return '/france';
+                
                 return '/properties';
               };
 
@@ -6003,7 +5965,7 @@ const PropertyDetail = () => {
                 if (locationLower.includes('dubai')) return 'Dubai Properties';
                 if (locationLower.includes('mersin')) return 'Mersin Properties';
                 if (locationLower.includes('cyprus') || locationLower.includes('kyrenia') || locationLower.includes('famagusta')) return 'Cyprus Properties';
-                if (locationLower.includes('france') || locationLower.includes('cannes') || locationLower.includes('nice')) return 'France Properties';
+                
                 return 'All Properties';
               };
               return `Back to ${getLocationName(property?.location || '')}`;
@@ -6167,7 +6129,7 @@ const PropertyDetail = () => {
               if (locationName.includes('dubai')) return 'Dubai';
               if (locationName.includes('mersin')) return 'Mersin';
               if (locationName.includes('cyprus') || locationName.includes('kyrenia') || locationName.includes('famagusta')) return 'Cyprus';
-              if (locationName.includes('france') || locationName.includes('cannes') || locationName.includes('nice')) return 'France';
+              
               return property.location || 'Antalya'; // fallback to property location or Antalya
             })()} />
           </div>

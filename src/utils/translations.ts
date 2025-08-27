@@ -9,7 +9,7 @@ export const translations: Record<string, Record<string, string>> = {
     'nav.dubai': 'Dubai',
     'nav.cyprus': 'Cyprus',
     'nav.mersin': 'Mersin',
-    'nav.france': 'France',
+    
     'nav.about': 'About Us',
     'nav.contact': 'Contact Us',
     'nav.information': 'Information',
@@ -78,7 +78,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Dubai": "Dubai", 
     "Cyprus": "Cyprus",
     "Mersin": "Mersin",
-    "France": "France",
+    
     "Turkish Riviera paradise": "Turkish Riviera paradise",
     "Modern luxury metropolis": "Modern luxury metropolis",
     "Mediterranean island gem": "Mediterranean island gem",

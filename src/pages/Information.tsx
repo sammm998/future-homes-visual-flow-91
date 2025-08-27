@@ -92,8 +92,6 @@ const Information = () => {
     value: "dubai",
     icon: Building
   }, {
-    name: "France",
-    value: "france",
     icon: MapPin
   }];
 
@@ -103,7 +101,7 @@ const Information = () => {
     
     // Check for specific country/region categories first
     if (text.includes('dubai')) return 'dubai';
-    if (text.includes('france')) return 'france';
+    
     
     // Then check for general categories
     if (text.includes('property') || text.includes('purchase') || text.includes('real estate')) return 'property';
@@ -161,14 +159,6 @@ const Information = () => {
       return dubaiImages[index % dubaiImages.length];
     }
     
-    if (text.includes('france')) {
-      const franceImages = [
-        '/lovable-uploads/bfe83af6-39c4-4a52-b4e4-82ff091c5f48.png', // Strasbourg
-        '/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png', // European city
-        '/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.png'  // French architecture
-      ];
-      return franceImages[index % franceImages.length];
-    }
     
     if (text.includes('legal') || text.includes('citizenship') || text.includes('law') || text.includes('permit') || text.includes('visa')) {
       const legalImages = [
