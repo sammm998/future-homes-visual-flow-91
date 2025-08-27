@@ -85,7 +85,7 @@ const PropertyWizardComponent = () => {
         { id: 'dubai', name: 'Dubai', icon: <Building className="w-6 h-6" />, description: 'Modern luxury metropolis', color: 'from-amber-500 to-orange-500' },
         { id: 'cyprus', name: 'Cyprus', icon: <Waves className="w-6 h-6" />, description: 'Mediterranean island gem', color: 'from-emerald-500 to-teal-500' },
         { id: 'mersin', name: 'Mersin', icon: <Mountain className="w-6 h-6" />, description: 'Coastal Mediterranean city', color: 'from-purple-500 to-indigo-500' },
-        { id: 'france', name: 'France', icon: <TreePine className="w-6 h-6" />, description: 'European sophistication', color: 'from-rose-500 to-pink-500' }
+        
       ]
     },
     2: {
@@ -230,7 +230,7 @@ const PropertyWizardComponent = () => {
       'dubai': '/dubai', 
       'cyprus': '/cyprus',
       'mersin': '/mersin',
-      'france': '/france'
+      
     };
     
     const route = locationRoutes[selections.location] || '/antalya';
