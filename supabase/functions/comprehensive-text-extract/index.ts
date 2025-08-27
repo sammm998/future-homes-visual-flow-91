@@ -106,7 +106,7 @@ function getComponentBaseTexts(component: string): string[] {
       
       // Premium Properties sections
       "Premium Properties", "Discover your dream home from our exclusive collection",
-      "Explore our handpicked selection of luxury properties across Turkey, Dubai, Cyprus, and France.",
+      "Explore our handpicked selection of luxury properties across Turkey, Dubai, and Cyprus.",
       "Each property offers unique features and exceptional value for your investment.",
       "View All Properties", "Premium Properties Worldwide",
       "Explore our carefully curated selection of premium properties",
@@ -176,7 +176,7 @@ function getComponentBaseTexts(component: string): string[] {
       "Olga Aldabbagh", "Zaid Mohanad", "Dollyz Martinez",
       "Amir Salman", "Cuneyt", "Customer - London",
       "Lena", "Local Guide - Russia", "Jens Zierke",
-      "Customer - Germany", "Florence Manga", "Customer - France",
+      "Customer - Germany", "Florence Manga",
       
       // News section
       "News & Insights", "Stay Informed", "Nyheter och insikter",

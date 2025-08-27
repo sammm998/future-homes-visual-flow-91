@@ -80,7 +80,7 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       "Premium Properties",
       "Premium Properties Worldwide",
       "Discover your dream home from our exclusive collection",
-      "Explore our handpicked selection of luxury properties across Turkey, Dubai, Cyprus, and France. Each property offers unique features and exceptional value for your investment.",
+      "Explore our handpicked selection of luxury properties across Turkey, Dubai, and Cyprus.",
       "Explore our carefully curated selection of premium properties",
       "View All Properties",
       
@@ -176,7 +176,6 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       "Jens Zierke",
       "Customer - Germany",
       "Florence Manga",
-      "Customer - France",
       
       // News & Information section
       "Stay Informed",
@@ -289,14 +288,11 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       "Where can you find real estate with Future Homes?",
       "Turkey",
       "Antalya, Mersin",
-      "France",
-      "Strasbourg Office",
       "Dubai",
       "Main Office",
       "Antalya Office",
-      "Mersin Office",
-      "Dubai Office",
-      "France Office"
+      "Mersin Office", 
+      "Dubai Office"
     ],
     
     'ContactUs': [
@@ -334,8 +330,7 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       "Main Office",
       "Antalya Office",
       "Mersin Office", 
-      "Dubai Office",
-      "France Office"
+      "Dubai Office"
     ]
   };
 
@@ -410,18 +405,6 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       "Mediterranean Coast",
       "Coastal Properties",
       "Modern Developments",
-      ...propertySearchTexts
-    ],
-    'FrancePropertySearch': [
-      "France Properties",
-      "French Properties",
-      "European Real Estate",
-      "Luxury France",
-      "Investment France",
-      "French Riviera",
-      "Paris Properties",
-      "Lyon Properties",
-      "European Investment",
       ...propertySearchTexts
     ]
   };

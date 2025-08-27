@@ -67,14 +67,12 @@ serve(async (req) => {
       { url: '/dubai', priority: '0.8', changefreq: 'weekly' },
       { url: '/cyprus', priority: '0.8', changefreq: 'weekly' },
       { url: '/mersin', priority: '0.8', changefreq: 'weekly' },
-      { url: '/france', priority: '0.8', changefreq: 'weekly' },
       
       // Location-specific property pages
       { url: '/antalya/properties', priority: '0.7', changefreq: 'daily' },
       { url: '/dubai/properties', priority: '0.7', changefreq: 'daily' },
       { url: '/cyprus/properties', priority: '0.7', changefreq: 'daily' },
       { url: '/mersin/properties', priority: '0.7', changefreq: 'daily' },
-      { url: '/france/properties', priority: '0.7', changefreq: 'daily' },
       
       // Information and company pages
       { url: '/about-us', priority: '0.7', changefreq: 'monthly' },
