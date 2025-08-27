@@ -149,7 +149,7 @@ const ShuffleGrid = () => {
           Discover your dream home from our exclusive collection
         </h3>
         <p className="text-base md:text-lg text-muted-foreground my-4 md:my-6">
-          Explore our handpicked selection of luxury properties across Turkey, Dubai, Cyprus, and France. Each property offers unique features and exceptional value for your investment.
+          Explore our handpicked selection of luxury properties across Turkey, Dubai, and Cyprus. Each property offers unique features and exceptional value for your investment.
         </p>
         <Button
           onClick={handleContactClick}

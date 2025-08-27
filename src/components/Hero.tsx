@@ -142,7 +142,7 @@ const Hero: React.FC<HeroProps> = ({
       'Dubai': '/dubai', 
       'Cyprus': '/cyprus',
       'Mersin': '/mersin',
-      'France': '/france'
+      
     };
     
     // Determine route based on reference number or location
@@ -305,12 +305,6 @@ const Hero: React.FC<HeroProps> = ({
                         <div className="flex items-center gap-2">
                           <MapPin size={16} />
                           Cyprus
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="Strasbourg">
-                        <div className="flex items-center gap-2">
-                          <MapPin size={16} />
-                          Strasbourg
                         </div>
                       </SelectItem>
                       <SelectItem value="Dubai">

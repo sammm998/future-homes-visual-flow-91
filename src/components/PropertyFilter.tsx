@@ -33,7 +33,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
         'Mersin': '/mersin',
         'Dubai': '/dubai',
         'Cyprus': '/cyprus',
-        'France': '/france'
+        
       };
       
       if (locationRoutes[value]) {
@@ -101,7 +101,6 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                   <SelectItem value="Mersin">Mersin</SelectItem>
                   <SelectItem value="Dubai">Dubai</SelectItem>
                   <SelectItem value="Cyprus">Cyprus</SelectItem>
-                  <SelectItem value="France">France</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -283,7 +282,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectItem value="Mersin">Mersin</SelectItem>
                 <SelectItem value="Dubai">Dubai</SelectItem>
                 <SelectItem value="Cyprus">Cyprus</SelectItem>
-                <SelectItem value="France">France</SelectItem>
+                
               </SelectContent>
             </Select>
           </div>
