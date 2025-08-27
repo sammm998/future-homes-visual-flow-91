@@ -19,4 +19,50 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Optimize chunk splitting for better caching
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunk for better caching
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          // UI components chunk
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-select', 'lucide-react'],
+          // Query and state management
+          query: ['@tanstack/react-query', '@supabase/supabase-js'],
+          // Motion and animations
+          motion: ['framer-motion', 'gsap'],
+        },
+        // Use contenthash for better cache busting
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
+      }
+    },
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000,
+    // Enable source maps for better debugging
+    sourcemap: mode === 'development',
+    // Optimize CSS
+    cssCodeSplit: true,
+    // Minify options
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: mode === 'production',
+        drop_debugger: mode === 'production',
+      },
+    },
+  },
+  // Optimize deps for faster dev server
+  optimizeDeps: {
+    include: [
+      'react', 
+      'react-dom', 
+      'react-router-dom',
+      '@tanstack/react-query',
+      'framer-motion',
+      'lucide-react'
+    ],
+  },
 }));

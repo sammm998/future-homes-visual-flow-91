@@ -25,6 +25,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
+  const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
@@ -52,7 +53,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   };
 
   const handleError = () => {
-    setIsLoaded(true); // Still set loaded to remove skeleton
+    setIsLoaded(true);
+    setHasError(true);
   };
 
   return (
@@ -69,7 +71,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           style={{ width, height }}
         />
       )}
-      {isInView && (
+      {isInView && !hasError && (
         <img
           src={src}
           alt={alt}
@@ -79,10 +81,19 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           onError={handleError}
           loading={priority ? 'eager' : 'lazy'}
           decoding="async"
+          fetchPriority={priority ? 'high' : 'low'}
           width={width}
           height={height}
           {...props}
         />
+      )}
+      {hasError && (
+        <div 
+          className="absolute inset-0 bg-muted flex items-center justify-center text-muted-foreground text-sm"
+          style={{ width, height }}
+        >
+          Image unavailable
+        </div>
       )}
     </div>
   );

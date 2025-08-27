@@ -4,8 +4,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Elfsight Website Translator | Untitled Website Translator -->
-    <script src="https://static.elfsight.com/platform/platform.js" async></script>
+    
+    <!-- Critical resource hints for performance -->
+    <link rel="preconnect" href="https://static.elfsight.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://kiogiyemoqbnuvclneoe.supabase.co" crossorigin />
+    <link rel="preconnect" href="https://cdn.futurehomesturkey.com" crossorigin />
+    
+    <!-- DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="//static.elfsight.com" />
+    <link rel="dns-prefetch" href="//universe-static.elfsightcdn.com" />
+    <link rel="dns-prefetch" href="//storage.googleapis.com" />
+    <link rel="dns-prefetch" href="//static.doubleclick.net" />
+    
+    <!-- Preload critical assets with high priority -->
+    <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="/assets/ai-avatar-D7A-cWee.jpg" as="image" fetchpriority="high" />
+    <link rel="preload" href="/hero-bg.webp" as="image" fetchpriority="high" />
+    
+    <!-- Critical CSS inline (will be injected by build process) -->
+    <style id="critical-css">
+      /* Critical above-the-fold styles */
+      body { margin: 0; padding: 0; font-family: Inter, sans-serif; }
+      .min-h-screen { min-height: 100vh; }
+      .flex { display: flex; }
+      .items-center { align-items: center; }
+      .justify-center { justify-content: center; }
+      .bg-background { background-color: hsl(var(--background)); }
+      .animate-spin { animation: spin 1s linear infinite; }
+      .rounded-full { border-radius: 9999px; }
+      .h-8 { height: 2rem; }
+      .w-8 { width: 2rem; }
+      .border-b-2 { border-bottom-width: 2px; }
+      .border-primary { border-color: hsl(var(--primary)); }
+      @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+    
+    <!-- Elfsight Website Translator with optimized loading -->
+    <script src="https://static.elfsight.com/platform/platform.js" async defer></script>
     <title>Future Homes - Premium Real Estate in Turkey, Dubai & Europe</title>
     <meta name="description" content="Future Homes offers premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Europe. Expert guidance for property investment and Turkish citizenship." />
     <meta name="keywords" content="real estate Turkey, property investment Dubai, Cyprus properties, European real estate, Turkish citizenship, luxury homes Antalya, investment properties, Future Homes" />
@@ -37,7 +74,19 @@
     <meta name="theme-color" content="#0066CC" />
     <meta name="msapplication-TileColor" content="#0066CC" />
     
-    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+    <!-- Optimize external scripts loading -->
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async defer type="text/javascript"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {
+            // Fail silently if SW registration fails
+          });
+        });
+      }
+    </script>
   </head>
 
   <body>

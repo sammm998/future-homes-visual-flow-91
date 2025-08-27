@@ -8,6 +8,7 @@ import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
+import CriticalPerformanceOptimizer from "@/components/CriticalPerformanceOptimizer";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -62,6 +63,7 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
           <CurrencyProvider>
             <TooltipProvider>
+              <CriticalPerformanceOptimizer />
               <PerformanceMonitor logLevel="basic" />
               <Toaster />
               <Sonner />
