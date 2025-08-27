@@ -32,7 +32,7 @@ const Article = lazy(() => import("./pages/Article"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const SitemapXML = lazy(() => import("./pages/SitemapXML"));
-const Newsletter = lazy(() => import("./components/Newsletter"));
+
 
 
 // Optimized query client with aggressive caching for better performance
@@ -69,7 +69,7 @@ const App = () => (
               <ScrollToTop />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
-                  <Route path="/" element={<><Index /><Newsletter /></>} />
+                  <Route path="/" element={<Index />} />
                   
                   <Route path="/property-wizard" element={<PropertyWizard />} />
                   <Route path="/ai-property-search" element={<AIPropertySearch />} />
