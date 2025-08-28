@@ -1,7 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
-import { motion } from "motion/react";
 import { LazyComponent, LazyTestimonials, LazyShuffleGrid, LazyPropertyShowcase, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
 import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
@@ -106,25 +105,9 @@ const Index = () => {
           structuredData={structuredData}
         />
         
-        {/* Performance optimization components */}
-        <ResourcePreloader 
-          criticalImages={['/placeholder.svg']}
-          criticalFonts={['/fonts/inter.woff2']}
-          prefetchRoutes={['/property-wizard', '/antalya', '/dubai', '/cyprus']}
-          enableServiceWorker={false}
-        />
-        <BundleOptimizer 
-          enableCodeSplitting={true}
-          deferNonCriticalJS={true}
-          prefetchChunks={['/assets/property-wizard.js', '/assets/search.js']}
-        />
-        
+        {/* Essential components only */}
         <OrganizationSchema />
-        <CriticalResourceLoader />
-        <PerformanceTracker enableWebVitals={true} />
-        <LocalSEOManager />
-        <SEOSchemaGenerator type="organization" />
-        <FAQSchema />
+        <PerformanceTracker enableWebVitals={false} />
         <Navigation />
         
         {/* Hero Section */}
@@ -147,14 +130,18 @@ const Index = () => {
         </div>
         
         {/* Featured Properties - Shuffle Grid */}
-        <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
-          <LazyShuffleGrid />
-        </LazyComponent>
+        <ErrorBoundary fallback={<div className="w-full h-96 bg-muted rounded-lg flex items-center justify-center text-muted-foreground">Featured properties unavailable</div>}>
+          <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
+            <LazyShuffleGrid />
+          </LazyComponent>
+        </ErrorBoundary>
         
         {/* Property Showcase - 6 Properties */}
-        <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
-          <LazyPropertyShowcase />
-        </LazyComponent>
+        <ErrorBoundary fallback={<div className="w-full h-96 bg-muted rounded-lg flex items-center justify-center text-muted-foreground">Property showcase unavailable</div>}>
+          <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
+            <LazyPropertyShowcase />
+          </LazyComponent>
+        </ErrorBoundary>
         
         {/* Testimonials Columns */}
         <section className="bg-background my-20 relative">
@@ -222,27 +209,31 @@ const Index = () => {
                   <p>No testimonials available</p>
                 </div>
               ) : (
-                <LazyTestimonials 
-                  testimonials={circularTestimonials}
-                  autoplay={false}
-                  colors={{
-                    name: "hsl(var(--foreground))",
-                    designation: "hsl(var(--muted-foreground))",
-                    testimony: "hsl(var(--foreground))",
-                    arrowBackground: "hsl(var(--primary))",
-                    arrowForeground: "hsl(var(--primary-foreground))",
-                    arrowHoverBackground: "hsl(var(--primary-glow))"
-                  }}
-                />
+                <ErrorBoundary fallback={<div className="text-center text-muted-foreground">Testimonials temporarily unavailable</div>}>
+                  <LazyTestimonials 
+                    testimonials={circularTestimonials}
+                    autoplay={false}
+                    colors={{
+                      name: "hsl(var(--foreground))",
+                      designation: "hsl(var(--muted-foreground))",
+                      testimony: "hsl(var(--foreground))",
+                      arrowBackground: "hsl(var(--primary))",
+                      arrowForeground: "hsl(var(--primary-foreground))",
+                      arrowHoverBackground: "hsl(var(--primary-glow))"
+                    }}
+                  />
+                </ErrorBoundary>
               )}
             </div>
           </div>
         </section>
         
         {/* News & Insights */}
-        <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>
-          <LazyNewsInsights />
-        </LazyComponent>
+        <ErrorBoundary fallback={<div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center text-muted-foreground">News section unavailable</div>}>
+          <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>
+            <LazyNewsInsights />
+          </LazyComponent>
+        </ErrorBoundary>
         
         {/* Newsletter Section */}
         <Newsletter />
@@ -252,12 +243,12 @@ const Index = () => {
 
         {/* 30-second popup */}
         <Dialog open={showPopup} onOpenChange={setShowPopup}>
-          <DialogContent className="max-w-lg mx-4 text-center">
+          <DialogContent className="max-w-lg mx-4 text-center" aria-describedby="popup-description">
             <DialogHeader className="space-y-4">
               <DialogTitle className="text-2xl font-bold text-foreground">
                 Find Your Perfect Property
               </DialogTitle>
-              <p className="text-muted-foreground text-lg">
+              <p id="popup-description" className="text-muted-foreground text-lg">
                 Let us help you discover the ideal investment opportunity
               </p>
             </DialogHeader>
