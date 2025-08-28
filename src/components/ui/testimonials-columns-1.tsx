@@ -15,10 +15,10 @@ export const TestimonialsColumn = (props: {
   duration?: number;
 }) => {
   return (
-    <div className={`${props.className} overflow-hidden`}>
+    <div className={`${props.className} overflow-hidden relative`} style={{ contain: 'layout style' }}>
       <motion.div
         animate={{
-          translateY: "-50%",
+          y: "-50%",
         }}
         transition={{
           duration: props.duration || 10,
@@ -27,6 +27,11 @@ export const TestimonialsColumn = (props: {
           repeatType: "loop",
         }}
         className="flex flex-col gap-6 pb-6"
+        style={{
+          willChange: 'transform',
+          transform: 'translate3d(0,0,0)',
+          backfaceVisibility: 'hidden',
+        }}
       >
         {new Array(2).fill(0).map((_, index) => (
           <div key={`testimonial-group-${index}`}>
