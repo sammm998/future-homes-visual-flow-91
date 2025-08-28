@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { motion } from "motion/react";
 
 interface Testimonial {
   text: string;
@@ -31,13 +32,26 @@ export const TestimonialsColumn = (props: {
         transform: 'translateZ(0)', // Force hardware acceleration
       }}
     >
-      <div
+      <motion.div
+        animate={{
+          y: "-50%",
+        }}
+        transition={{
+          duration: props.duration || 10,
+          repeat: Infinity,
+          ease: "linear",
+          repeatType: "loop",
+        }}
         className="flex flex-col gap-6 pb-6"
         style={{
-          transform: 'translateZ(0)',
+          willChange: 'transform',
+          transform: 'translate3d(0,0,0)',
+          backfaceVisibility: 'hidden',
+          perspective: '1000px',
+          isolation: 'isolate', // Create new stacking context
         }}
       >
-        {new Array(1).fill(0).map((_, index) => (
+        {new Array(2).fill(0).map((_, index) => (
           <div 
             key={`testimonial-group-${index}`}
             style={{ transform: 'translateZ(0)' }} // GPU acceleration for each group
@@ -62,7 +76,7 @@ export const TestimonialsColumn = (props: {
             ))}
           </div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };

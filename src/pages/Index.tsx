@@ -1,6 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
+import { motion } from "motion/react";
 import { LazyComponent, LazyTestimonials, LazyShuffleGrid, LazyPropertyShowcase, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
 import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
@@ -105,21 +106,35 @@ const Index = () => {
           structuredData={structuredData}
         />
         
-        {/* Essential components only */}
+        {/* Performance optimization components */}
+        <ResourcePreloader 
+          criticalImages={['/placeholder.svg']}
+          criticalFonts={['/fonts/inter.woff2']}
+          prefetchRoutes={['/property-wizard', '/antalya', '/dubai', '/cyprus']}
+          enableServiceWorker={false}
+        />
+        <BundleOptimizer 
+          enableCodeSplitting={true}
+          deferNonCriticalJS={true}
+          prefetchChunks={['/assets/property-wizard.js', '/assets/search.js']}
+        />
+        
         <OrganizationSchema />
-        <PerformanceTracker enableWebVitals={false} />
+        <CriticalResourceLoader />
+        <PerformanceTracker enableWebVitals={true} />
+        <LocalSEOManager />
+        <SEOSchemaGenerator type="organization" />
+        <FAQSchema />
         <Navigation />
         
         {/* Hero Section */}
-        <ErrorBoundary fallback={<div className="w-full h-screen bg-gradient-to-b from-primary to-primary/80 flex items-center justify-center text-white"><h1 className="text-4xl font-bold">Future Homes</h1></div>}>
-          <div className="w-full">
-            <Hero 
-              backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png"
-              title="Future Homes"
-              subtitle="Your Future in Real Estate"
-            />
-          </div>
-        </ErrorBoundary>
+        <div className="w-full">
+          <Hero 
+            backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png"
+            title="Future Homes"
+            subtitle="Your Future in Real Estate"
+          />
+        </div>
         
         {/* Before & After Feature */}
         <div className="w-full">
@@ -132,23 +147,25 @@ const Index = () => {
         </div>
         
         {/* Featured Properties - Shuffle Grid */}
-        <ErrorBoundary fallback={<div className="w-full h-96 bg-muted rounded-lg flex items-center justify-center text-muted-foreground">Featured properties unavailable</div>}>
-          <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
-            <LazyShuffleGrid />
-          </LazyComponent>
-        </ErrorBoundary>
+        <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
+          <LazyShuffleGrid />
+        </LazyComponent>
         
         {/* Property Showcase - 6 Properties */}
-        <ErrorBoundary fallback={<div className="w-full h-96 bg-muted rounded-lg flex items-center justify-center text-muted-foreground">Property showcase unavailable</div>}>
-          <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
-            <LazyPropertyShowcase />
-          </LazyComponent>
-        </ErrorBoundary>
+        <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
+          <LazyPropertyShowcase />
+        </LazyComponent>
         
         {/* Testimonials Columns */}
         <section className="bg-background my-20 relative">
           <div className="container z-10 mx-auto">
-            <div className="flex flex-col items-center justify-center max-w-[540px] mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center justify-center max-w-[540px] mx-auto"
+            >
               <div className="flex justify-center">
                 <div className="border py-1 px-4 rounded-lg">Testimonials</div>
               </div>
@@ -159,9 +176,15 @@ const Index = () => {
               <p className="text-center mt-5 opacity-75">
                 Hear from satisfied property owners worldwide
               </p>
-            </div>
+            </motion.div>
 
-            <div className="flex justify-center gap-4 sm:gap-6 mt-10">
+            <div 
+              className="flex justify-center gap-4 sm:gap-6 mt-10 max-h-[740px] overflow-hidden relative" 
+              style={{ 
+                maskImage: 'linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)',
+                WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)',
+              }}
+            >
               {testimonialsLoading ? (
                 <div className="flex justify-center items-center w-full h-64">
                   <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
@@ -171,20 +194,11 @@ const Index = () => {
                   <p>No testimonials available</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
-                  {testimonials.slice(0, 6).map((testimonial, index) => (
-                    <div 
-                      key={index}
-                      className="p-6 rounded-3xl border shadow-lg shadow-primary/10 bg-card text-card-foreground"
-                    >
-                      <div className="text-sm leading-relaxed mb-4">{testimonial.text || 'Great service!'}</div>
-                      <div className="flex flex-col">
-                        <div className="font-semibold tracking-tight leading-5 text-sm">{testimonial.name || 'Anonymous'}</div>
-                        <div className="leading-5 text-muted-foreground tracking-tight text-xs">{testimonial.role || 'Customer'}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <>
+                  <TestimonialsColumn testimonials={firstColumn} duration={15} />
+                  <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
+                  <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={17} />
+                </>
               )}
             </div>
           </div>
@@ -211,31 +225,27 @@ const Index = () => {
                   <p>No testimonials available</p>
                 </div>
               ) : (
-                <ErrorBoundary fallback={<div className="text-center text-muted-foreground">Testimonials temporarily unavailable</div>}>
-                  <LazyTestimonials 
-                    testimonials={circularTestimonials}
-                    autoplay={false}
-                    colors={{
-                      name: "hsl(var(--foreground))",
-                      designation: "hsl(var(--muted-foreground))",
-                      testimony: "hsl(var(--foreground))",
-                      arrowBackground: "hsl(var(--primary))",
-                      arrowForeground: "hsl(var(--primary-foreground))",
-                      arrowHoverBackground: "hsl(var(--primary-glow))"
-                    }}
-                  />
-                </ErrorBoundary>
+                <LazyTestimonials 
+                  testimonials={circularTestimonials}
+                  autoplay={false}
+                  colors={{
+                    name: "hsl(var(--foreground))",
+                    designation: "hsl(var(--muted-foreground))",
+                    testimony: "hsl(var(--foreground))",
+                    arrowBackground: "hsl(var(--primary))",
+                    arrowForeground: "hsl(var(--primary-foreground))",
+                    arrowHoverBackground: "hsl(var(--primary-glow))"
+                  }}
+                />
               )}
             </div>
           </div>
         </section>
         
         {/* News & Insights */}
-        <ErrorBoundary fallback={<div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center text-muted-foreground">News section unavailable</div>}>
-          <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>
-            <LazyNewsInsights />
-          </LazyComponent>
-        </ErrorBoundary>
+        <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>
+          <LazyNewsInsights />
+        </LazyComponent>
         
         {/* Newsletter Section */}
         <Newsletter />
@@ -245,12 +255,12 @@ const Index = () => {
 
         {/* 30-second popup */}
         <Dialog open={showPopup} onOpenChange={setShowPopup}>
-          <DialogContent className="max-w-lg mx-4 text-center" aria-describedby="popup-description">
+          <DialogContent className="max-w-lg mx-4 text-center">
             <DialogHeader className="space-y-4">
               <DialogTitle className="text-2xl font-bold text-foreground">
                 Find Your Perfect Property
               </DialogTitle>
-              <p id="popup-description" className="text-muted-foreground text-lg">
+              <p className="text-muted-foreground text-lg">
                 Let us help you discover the ideal investment opportunity
               </p>
             </DialogHeader>

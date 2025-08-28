@@ -44,23 +44,47 @@ const MediaItem = ({ item, className, onClick }: { item: MediaItemType, classNam
         };
     }, []);
 
-    // Simplified video handling for better Chrome compatibility
+    // Handle video play/pause based on whether the video is in view or not
     useEffect(() => {
-        if (!videoRef.current) return;
+        let mounted = true;
 
-        const video = videoRef.current;
-        
-        if (isInView) {
-            setIsBuffering(false);
-            video.play().catch(error => {
+        const handleVideoPlay = async () => {
+            if (!videoRef.current || !isInView || !mounted) return;
+
+            try {
+                if (videoRef.current.readyState >= 3) {
+                    setIsBuffering(false);
+                    await videoRef.current.play();
+                } else {
+                    setIsBuffering(true);
+                    await new Promise((resolve) => {
+                        if (videoRef.current) {
+                            videoRef.current.oncanplay = resolve;
+                        }
+                    });
+                    if (mounted) {
+                        setIsBuffering(false);
+                        await videoRef.current.play();
+                    }
+                }
+            } catch (error) {
                 console.warn("Video playback failed:", error);
-            });
-        } else {
-            video.pause();
+            }
+        };
+
+        if (isInView) {
+            handleVideoPlay();
+        } else if (videoRef.current) {
+            videoRef.current.pause();
         }
 
         return () => {
-            video.pause();
+            mounted = false;
+            if (videoRef.current) {
+                videoRef.current.pause();
+                videoRef.current.removeAttribute('src');
+                videoRef.current.load();
+            }
         };
     }, [isInView]);
 
@@ -74,14 +98,21 @@ const MediaItem = ({ item, className, onClick }: { item: MediaItemType, classNam
                     playsInline
                     muted
                     loop
-                    preload="metadata"
+                    preload="auto"
                     style={{
-                        opacity: 1,
-                        transform: 'translateZ(0)'
+                        opacity: isBuffering ? 0.8 : 1,
+                        transition: 'opacity 0.2s',
+                        transform: 'translateZ(0)',
+                        willChange: 'transform',
                     }}
                 >
                     <source src={item.url} type="video/mp4" />
                 </video>
+                {isBuffering && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    </div>
+                )}
             </div>
         );
     }
