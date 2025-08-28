@@ -255,12 +255,12 @@ const Index = () => {
 
         {/* 30-second popup */}
         <Dialog open={showPopup} onOpenChange={setShowPopup}>
-          <DialogContent className="max-w-lg mx-4 text-center">
+          <DialogContent className="max-w-lg mx-4 text-center" aria-describedby="popup-description">
             <DialogHeader className="space-y-4">
               <DialogTitle className="text-2xl font-bold text-foreground">
                 Find Your Perfect Property
               </DialogTitle>
-              <p className="text-muted-foreground text-lg">
+              <p id="popup-description" className="text-muted-foreground text-lg">
                 Let us help you discover the ideal investment opportunity
               </p>
             </DialogHeader>
