@@ -164,27 +164,37 @@ All colors MUST be HSL.
 
 
 
-/* Chrome-specific fixes for better rendering */
-@supports (-webkit-backdrop-filter: blur(10px)) {
-  .backdrop-blur-sm {
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
-  }
+/* FORCE CHROME DROPDOWN RENDERING - NUCLEAR OPTION */
+[data-radix-select-content],
+[data-radix-dropdown-menu-content],
+[data-radix-popover-content] {
+  background-color: white !important;
+  border: 1px solid #e5e7eb !important;
+  color: #374151 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
-/* Ensure dropdowns have proper backgrounds in Chrome */
-[data-radix-popper-content-wrapper] {
-  background: hsl(var(--background));
-  border: 1px solid hsl(var(--border));
+/* Dark mode overrides */
+.dark [data-radix-select-content],
+.dark [data-radix-dropdown-menu-content], 
+.dark [data-radix-popover-content] {
+  background-color: #1f2937 !important;
+  border: 1px solid #374151 !important;
+  color: #f9fafb !important;
 }
 
-/* Fix for Chrome rendering issues with popover backgrounds */
-.chrome-dropdown-fix {
-  background: white !important;
+/* Chrome currency selector fix */
+.currency-dropdown {
+  background-color: white !important;
+  border: 1px solid #e5e7eb !important;
+  color: #374151 !important;
 }
 
-.dark .chrome-dropdown-fix {
-  background: rgb(17 24 39) !important;
+.dark .currency-dropdown {
+  background-color: #1f2937 !important;
+  border: 1px solid #374151 !important;
+  color: #f9fafb !important;
 }
 
 /* ElevenLabs Widget Styling */

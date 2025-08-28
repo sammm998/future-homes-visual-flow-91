@@ -25,9 +25,24 @@ const CurrencySelector: React.FC = () => {
             onClick={() => setIsOpen(false)}
           />
           
-          {/* Dropdown */}
-          <div className="absolute top-full left-0 mt-1 w-36 bg-white dark:bg-gray-900 border border-border rounded-lg shadow-lg backdrop-blur-sm z-50">
-            <div className="p-1">
+          {/* Dropdown - CHROME FORCE FIX */}
+          <div 
+            className="absolute top-full left-0 mt-1 w-36 rounded-lg shadow-lg z-50"
+            style={{
+              backgroundColor: 'white',
+              border: '1px solid #e5e7eb',
+              backdropFilter: 'none',
+              WebkitBackdropFilter: 'none',
+              position: 'absolute',
+              zIndex: 9999
+            }}
+          >
+            <div 
+              className="p-1"
+              style={{
+                backgroundColor: 'white'
+              }}
+            >
               {currencies.map((currency) => (
                 <button
                   key={currency.code}
@@ -37,9 +52,13 @@ const CurrencySelector: React.FC = () => {
                   }}
                   className={`w-full flex items-center gap-2 px-2 py-1.5 rounded text-sm transition-colors text-left ${
                     selectedCurrency.code === currency.code
-                      ? 'bg-accent text-accent-foreground'
-                      : 'hover:bg-accent hover:text-accent-foreground'
+                      ? 'bg-blue-100 text-blue-900'
+                      : 'hover:bg-gray-100 hover:text-gray-900'
                   }`}
+                  style={{
+                    backgroundColor: selectedCurrency.code === currency.code ? '#dbeafe' : 'transparent',
+                    color: selectedCurrency.code === currency.code ? '#1e3a8a' : '#374151'
+                  }}
                 >
                   <span className="text-sm">{currency.flag}</span>
                   <span className="font-medium text-xs">{currency.code}</span>
