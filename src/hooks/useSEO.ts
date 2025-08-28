@@ -22,13 +22,13 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
     const routeData: Record<string, Partial<SEOData>> = {
       '/': {
         title: 'Future Homes - Premium Real Estate in Turkey, Dubai & Europe',
-        description: 'Discover luxury properties in Turkey, Dubai, Cyprus and France. Expert real estate services with Turkish citizenship programs. Your future starts here.',
-        keywords: 'real estate Turkey, property investment Dubai, Cyprus properties, French real estate, Turkish citizenship by investment, luxury homes',
+        description: 'Discover luxury properties in Turkey, Dubai, and Cyprus. Expert real estate services with Turkish citizenship programs. Your future starts here.',
+        keywords: 'real estate Turkey, property investment Dubai, Cyprus properties, Turkish citizenship by investment, luxury homes',
         structuredData: {
           "@context": "https://schema.org",
           "@type": "RealEstateAgent",
           "name": "Future Homes",
-          "description": "Premium real estate agency specializing in Turkish, Dubai, Cyprus and French properties",
+          "description": "Premium real estate agency specializing in Turkish, Dubai, and Cyprus properties",
           "url": baseUrl,
           "telephone": "+90 552 303 27 50",
           "email": "info@futurehomesturkey.com"
@@ -53,11 +53,6 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
         title: 'Mersin Properties - Coastal Real Estate Investment Turkey',
         description: 'Discover Mersin properties on Turkey\'s Mediterranean coast. Modern apartments and villas with sea views and investment potential.',
         keywords: 'Mersin properties, Mersin real estate, Turkey coastal properties, Mediterranean real estate'
-      },
-      '/france': {
-        title: 'France Properties - Premium European Real Estate Investment',
-        description: 'Luxury French properties and investment opportunities. Châteaux, apartments and villas in prime French locations.',
-        keywords: 'France properties, French real estate, European property investment, luxury homes France'
       },
       '/property-wizard': {
         title: 'Property Finder Wizard - Find Your Perfect Home',
@@ -85,7 +80,7 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
     
     return {
       title: route.title || 'Future Homes - Premium International Real Estate',
-      description: route.description || 'Discover premium properties worldwide with Future Homes. Expert real estate services in Turkey, Dubai, Cyprus and France.',
+      description: route.description || 'Discover premium properties worldwide with Future Homes. Expert real estate services in Turkey, Dubai, and Cyprus.',
       keywords: route.keywords || 'real estate, property investment, international properties, luxury homes',
       canonicalUrl: currentUrl,
       ogImage: `${baseUrl}/og-image.jpg`,
@@ -132,7 +127,7 @@ export const usePropertySEO = (property: any, location: string) => {
         "address": {
           "@type": "PostalAddress",
           "addressLocality": location,
-          "addressCountry": location === 'Dubai' ? 'UAE' : location === 'Cyprus' ? 'Cyprus' : location === 'France' ? 'France' : 'Turkey'
+          "addressCountry": location === 'Dubai' ? 'UAE' : location === 'Cyprus' ? 'Cyprus' : 'Turkey'
         },
         "image": property.image,
         "offers": {

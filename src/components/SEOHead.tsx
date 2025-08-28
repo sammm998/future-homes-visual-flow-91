@@ -16,7 +16,7 @@ interface SEOHeadProps {
 
 const SEOHead: React.FC<SEOHeadProps> = ({
   title = "Future Homes - International Real Estate Investment",
-  description = "Premium properties in Turkey, Dubai, Cyprus & France. Expert guidance, citizenship programs & luxury homes. Your investment future starts here.",
+  description = "Premium properties in Turkey, Dubai & Cyprus. Expert guidance, citizenship programs & luxury homes. Your investment future starts here.",
   keywords = "real estate Turkey, property investment Dubai, Cyprus properties, European real estate, Turkish citizenship, luxury homes, investment properties",
   image = "https://futurehomesturkey.com/og-image.jpg",
   url, // Backward compatibility

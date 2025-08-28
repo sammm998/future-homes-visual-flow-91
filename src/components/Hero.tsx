@@ -141,8 +141,7 @@ const Hero: React.FC<HeroProps> = ({
       'Antalya': '/antalya',
       'Dubai': '/dubai', 
       'Cyprus': '/cyprus',
-      'Mersin': '/mersin',
-      'France': '/france'
+      'Mersin': '/mersin'
     };
     
     // Determine route based on reference number or location

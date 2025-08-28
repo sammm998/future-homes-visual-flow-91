@@ -15,6 +15,6 @@ export const usePageMeta = (pageTitle?: string, pageDescription?: string) => {
   return {
     canonicalUrl,
     title: pageTitle || "Future Homes - International Real Estate Investment",
-    description: pageDescription || "Premium properties in Turkey, Dubai, Cyprus & France. Expert guidance, citizenship programs & luxury homes.",
+    description: pageDescription || "Premium properties in Turkey, Dubai & Cyprus. Expert guidance, citizenship programs & luxury homes.",
   };
 };

@@ -32,7 +32,7 @@ const AboutUs = () => {
     <div className="min-h-screen bg-background">
       <SEOHead
         title="About Future Homes | International Real Estate Experts"
-        description="Trusted international real estate experts. Investment opportunities in Turkey, Dubai, Cyprus & France with citizenship programs. Expert guidance."
+        description="Trusted international real estate experts. Investment opportunities in Turkey, Dubai & Cyprus with citizenship programs. Expert guidance."
         keywords="Future Homes, real estate company, property investment experts, international real estate, Turkish citizenship"
         canonicalUrl="https://futurehomesturkey.com/about-us"
       />
@@ -47,7 +47,7 @@ const AboutUs = () => {
           </h1>
           <div className="max-w-4xl mx-auto">
             <TextGenerateEffect
-              words="Founder of the company Future Homes, I am proud to accompany you in the search for your future home. My name is Ali Karan and I am the founder of the company Future Homes in Turkey, France and Dubai. I am very proud to help you along the way as you search for your future home. We are a European-minded company specialized in the sale of properties in Turkey, France and Dubai. We have central offices in Antalya, Mersin, in France (Strasbourg) and in Dubai. At Future Homes, we work tirelessly to satisfy the customer's wishes and needs. We want to give you the best service and personal follow-up to ensure that you have a safe and good experience."
+              words="Founder of the company Future Homes, I am proud to accompany you in the search for your future home. My name is Ali Karan and I am the founder of the company Future Homes in Turkey and Dubai. I am very proud to help you along the way as you search for your future home. We are a European-minded company specialized in the sale of properties in Turkey and Dubai. We have central offices in Antalya, Mersin, and in Dubai. At Future Homes, we work tirelessly to satisfy the customer's wishes and needs. We want to give you the best service and personal follow-up to ensure that you have a safe and good experience."
               className="text-lg text-muted-foreground leading-relaxed mb-8"
               filter={false}
               duration={0.8}
@@ -104,16 +104,6 @@ const AboutUs = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">Antalya, Mersin</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="text-center">
-              <CardHeader>
-                <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>France</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Strasbourg Office</p>
               </CardContent>
             </Card>
             
