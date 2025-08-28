@@ -31,12 +31,9 @@ export default defineConfig(({ mode }) => ({
       },
     },
     target: 'esnext',
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: mode === 'production',
-        drop_debugger: mode === 'production',
-      },
+    minify: mode === 'production' ? 'esbuild' : false,
+    esbuild: {
+      drop: mode === 'production' ? ['console', 'debugger'] : [],
     },
     chunkSizeWarningLimit: 1000,
     assetsDir: "assets",
