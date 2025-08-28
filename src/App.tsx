@@ -56,29 +56,31 @@ const PageLoader = () => (
   </div>
 );
 
-const App = () => (
-  <ErrorBoundary>
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <CurrencyProvider>
-          <TooltipProvider>
-            <BrowserRouter>
-              <PerformanceMonitor logLevel="basic" />
-              <Toaster />
-              <Sonner />
-              <ScrollToTop />
-              <Suspense fallback={<PageLoader />}>
-                <AppContent />
-              </Suspense>
-            </BrowserRouter>
-          </TooltipProvider>
-        </CurrencyProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
-  </ErrorBoundary>
-);
+function App() {
+  return (
+    <ErrorBoundary>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <CurrencyProvider>
+            <TooltipProvider>
+              <BrowserRouter>
+                <PerformanceMonitor logLevel="basic" />
+                <Toaster />
+                <Sonner />
+                <ScrollToTop />
+                <Suspense fallback={<PageLoader />}>
+                  <AppContent />
+                </Suspense>
+              </BrowserRouter>
+            </TooltipProvider>
+          </CurrencyProvider>
+        </QueryClientProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
+  );
+}
 
-const AppContent = () => {
+function AppContent() {
   return (
     <Routes>
       <Route path="/" element={
@@ -107,6 +109,6 @@ const AppContent = () => {
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
-};
+}
 
 export default App;
