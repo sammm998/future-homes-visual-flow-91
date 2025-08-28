@@ -59,43 +59,47 @@ const PageLoader = () => (
 const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-          <CurrencyProvider>
-            <TooltipProvider>
+      <QueryClientProvider client={queryClient}>
+        <CurrencyProvider>
+          <TooltipProvider>
+            <BrowserRouter>
               <PerformanceMonitor logLevel="basic" />
               <Toaster />
               <Sonner />
-              <BrowserRouter>
               <ScrollToTop />
               <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route path="/" element={<><Index /><Newsletter /></>} />
-                  
-                  <Route path="/property-wizard" element={<PropertyWizard />} />
-                  <Route path="/ai-property-search" element={<AIPropertySearch />} />
-                  <Route path="/antalya" element={<AntalyaPropertySearch />} />
-                  <Route path="/dubai" element={<DubaiPropertySearch />} />
-                  <Route path="/cyprus" element={<CyprusPropertySearch />} />
-                  <Route path="/mersin" element={<MersinPropertySearch />} />
-                  <Route path="/france" element={<FrancePropertySearch />} />
-                  
-                  <Route path="/property/:id" element={<PropertyDetail />} />
-                  <Route path="/testimonials" element={<Testimonials />} />
-                  <Route path="/information" element={<Information />} />
-                  <Route path="/about-us" element={<AboutUs />} />
-                  <Route path="/contact-us" element={<ContactUs />} />
-                  <Route path="/article/:id" element={<Article />} />
-                  <Route path="/articles/:slug" element={<ArticlePage />} />
-                  <Route path="/sitemap.xml" element={<SitemapXML />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
+                <AppContent />
               </Suspense>
             </BrowserRouter>
           </TooltipProvider>
         </CurrencyProvider>
-  </QueryClientProvider>
-  </HelmetProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   </ErrorBoundary>
+);
+
+const AppContent = () => (
+  <Routes>
+    <Route path="/" element={<><Index /><Newsletter /></>} />
+    
+    <Route path="/property-wizard" element={<PropertyWizard />} />
+    <Route path="/ai-property-search" element={<AIPropertySearch />} />
+    <Route path="/antalya" element={<AntalyaPropertySearch />} />
+    <Route path="/dubai" element={<DubaiPropertySearch />} />
+    <Route path="/cyprus" element={<CyprusPropertySearch />} />
+    <Route path="/mersin" element={<MersinPropertySearch />} />
+    <Route path="/france" element={<FrancePropertySearch />} />
+    
+    <Route path="/property/:id" element={<PropertyDetail />} />
+    <Route path="/testimonials" element={<Testimonials />} />
+    <Route path="/information" element={<Information />} />
+    <Route path="/about-us" element={<AboutUs />} />
+    <Route path="/contact-us" element={<ContactUs />} />
+    <Route path="/article/:id" element={<Article />} />
+    <Route path="/articles/:slug" element={<ArticlePage />} />
+    <Route path="/sitemap.xml" element={<SitemapXML />} />
+    <Route path="*" element={<NotFound />} />
+  </Routes>
 );
 
 export default App;
