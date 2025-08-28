@@ -31,38 +31,68 @@ export function GridMotion({
   const combinedItems = items.length > 0 ? items.slice(0, totalItems) : defaultItems
 
   useEffect(() => {
-    gsap.ticker.lagSmoothing(0)
-
+    let animationFrame: number
+    let isAnimating = false
+    
     const handleMouseMove = (e: MouseEvent) => {
       mouseXRef.current = e.clientX
+      
+      // Throttle animation updates to prevent excessive rendering
+      if (!isAnimating) {
+        isAnimating = true
+        animationFrame = requestAnimationFrame(updateMotion)
+      }
     }
 
     const updateMotion = () => {
-      const maxMoveAmount = 300
-      const baseDuration = 0.8
-      const inertiaFactors = [0.6, 0.4, 0.3, 0.2]
+      const maxMoveAmount = 150 // Reduced from 300 for stability
+      const baseDuration = 1.2 // Increased for smoother motion
+      const inertiaFactors = [0.8, 0.6, 0.5, 0.4] // More conservative values
 
       rowRefs.current.forEach((row, index) => {
         if (row) {
           const direction = index % 2 === 0 ? 1 : -1
-          const moveAmount = ((mouseXRef.current / window.innerWidth) * maxMoveAmount - maxMoveAmount / 2) * direction
+          const normalizedX = Math.max(0, Math.min(1, mouseXRef.current / window.innerWidth))
+          const moveAmount = (normalizedX * maxMoveAmount - maxMoveAmount / 2) * direction
+          
+          // Use transform3d for better performance and add boundaries
+          const clampedMove = Math.max(-maxMoveAmount, Math.min(maxMoveAmount, moveAmount))
 
           gsap.to(row, {
-            x: moveAmount,
+            x: clampedMove,
             duration: baseDuration + inertiaFactors[index % inertiaFactors.length],
-            ease: 'power3.out',
+            ease: 'power2.out',
             overwrite: 'auto',
+            force3D: true, // Better performance
           })
         }
       })
+      
+      isAnimating = false
     }
 
-    const removeAnimationLoop = gsap.ticker.add(updateMotion)
-    window.addEventListener('mousemove', handleMouseMove)
+    // Initial position setup
+    rowRefs.current.forEach((row, index) => {
+      if (row) {
+        gsap.set(row, { x: 0, force3D: true })
+      }
+    })
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
-      removeAnimationLoop()
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame)
+      }
+      
+      // Reset positions on cleanup
+      rowRefs.current.forEach((row) => {
+        if (row) {
+          gsap.killTweensOf(row)
+          gsap.set(row, { x: 0, clearProps: 'transform' })
+        }
+      })
     }
   }, [])
 
