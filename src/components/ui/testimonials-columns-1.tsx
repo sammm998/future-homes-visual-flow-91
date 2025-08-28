@@ -18,7 +18,7 @@ export const TestimonialsColumn = (props: {
     <div className={`${props.className} overflow-hidden`}>
       <motion.div
         animate={{
-          y: "-50%",
+          translateY: "-50%",
         }}
         transition={{
           duration: props.duration || 10,
@@ -26,12 +26,7 @@ export const TestimonialsColumn = (props: {
           ease: "linear",
           repeatType: "loop",
         }}
-        className="flex flex-col gap-6 pb-6 bg-background"
-        style={{
-          willChange: 'transform',
-          transform: 'translateZ(0)', // Force GPU acceleration
-          backfaceVisibility: 'hidden', // Prevent flicker
-        }}
+        className="flex flex-col gap-6 pb-6"
       >
         {new Array(2).fill(0).map((_, index) => (
           <div key={`testimonial-group-${index}`}>
