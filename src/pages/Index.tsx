@@ -159,13 +159,7 @@ const Index = () => {
         {/* Testimonials Columns */}
         <section className="bg-background my-20 relative">
           <div className="container z-10 mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true }}
-              className="flex flex-col items-center justify-center max-w-[540px] mx-auto"
-            >
+            <div className="flex flex-col items-center justify-center max-w-[540px] mx-auto">
               <div className="flex justify-center">
                 <div className="border py-1 px-4 rounded-lg">Testimonials</div>
               </div>
@@ -176,15 +170,9 @@ const Index = () => {
               <p className="text-center mt-5 opacity-75">
                 Hear from satisfied property owners worldwide
               </p>
-            </motion.div>
+            </div>
 
-            <div 
-              className="flex justify-center gap-4 sm:gap-6 mt-10 max-h-[740px] overflow-hidden relative" 
-              style={{ 
-                maskImage: 'linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)',
-                WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)',
-              }}
-            >
+            <div className="flex justify-center gap-4 sm:gap-6 mt-10">
               {testimonialsLoading ? (
                 <div className="flex justify-center items-center w-full h-64">
                   <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
@@ -194,11 +182,20 @@ const Index = () => {
                   <p>No testimonials available</p>
                 </div>
               ) : (
-                <>
-                  <TestimonialsColumn testimonials={firstColumn} duration={15} />
-                  <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
-                  <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={17} />
-                </>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
+                  {testimonials.slice(0, 6).map((testimonial, index) => (
+                    <div 
+                      key={index}
+                      className="p-6 rounded-3xl border shadow-lg shadow-primary/10 bg-card text-card-foreground"
+                    >
+                      <div className="text-sm leading-relaxed mb-4">{testimonial.text || 'Great service!'}</div>
+                      <div className="flex flex-col">
+                        <div className="font-semibold tracking-tight leading-5 text-sm">{testimonial.name || 'Anonymous'}</div>
+                        <div className="leading-5 text-muted-foreground tracking-tight text-xs">{testimonial.role || 'Customer'}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           </div>

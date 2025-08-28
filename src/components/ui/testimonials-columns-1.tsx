@@ -32,26 +32,13 @@ export const TestimonialsColumn = (props: {
         transform: 'translateZ(0)', // Force hardware acceleration
       }}
     >
-      <motion.div
-        animate={{
-          y: "-50%",
-        }}
-        transition={{
-          duration: props.duration || 10,
-          repeat: Infinity,
-          ease: "linear",
-          repeatType: "loop",
-        }}
+      <div
         className="flex flex-col gap-6 pb-6"
         style={{
-          willChange: 'transform',
-          transform: 'translate3d(0,0,0)',
-          backfaceVisibility: 'hidden',
-          perspective: '1000px',
-          isolation: 'isolate', // Create new stacking context
+          transform: 'translateZ(0)',
         }}
       >
-        {new Array(2).fill(0).map((_, index) => (
+        {new Array(1).fill(0).map((_, index) => (
           <div 
             key={`testimonial-group-${index}`}
             style={{ transform: 'translateZ(0)' }} // GPU acceleration for each group
@@ -76,7 +63,7 @@ export const TestimonialsColumn = (props: {
             ))}
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };
