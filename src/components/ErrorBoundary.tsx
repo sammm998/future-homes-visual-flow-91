@@ -1,60 +1,40 @@
-import React from 'react';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
 
-interface ErrorBoundaryState {
+interface Props {
+  children: ReactNode;
+  fallback?: ReactNode;
+}
+
+interface State {
   hasError: boolean;
   error?: Error;
 }
 
-interface ErrorBoundaryProps {
-  children: React.ReactNode;
-  fallback?: React.ComponentType<{ error?: Error; resetError: () => void }>;
-}
+class ErrorBoundary extends Component<Props, State> {
+  public state: State = {
+    hasError: false
+  };
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    console.error('ErrorBoundary caught an error:', error);
+  public static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('ErrorBoundary details:', error, errorInfo);
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
   }
 
-  resetError = () => {
-    this.setState({ hasError: false, error: undefined });
-  };
-
-  render() {
+  public render() {
     if (this.state.hasError) {
-      const FallbackComponent = this.props.fallback;
-      
-      if (FallbackComponent) {
-        return <FallbackComponent error={this.state.error} resetError={this.resetError} />;
-      }
-
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-background">
-          <div className="text-center p-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">Something went wrong</h2>
-            <p className="text-muted-foreground mb-6">
-              We're sorry, but something unexpected happened. Please try refreshing the page.
-            </p>
-            <button
-              onClick={this.resetError}
-              className="bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+      return this.props.fallback || (
+        <div className="flex items-center justify-center min-h-[200px] p-8">
+          <div className="text-center">
+            <h2 className="text-xl font-semibold text-red-600 mb-2">Something went wrong</h2>
+            <p className="text-gray-600 mb-4">We're sorry, but there was an error loading this section.</p>
+            <button 
+              onClick={() => this.setState({ hasError: false })}
+              className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
             >
               Try Again
-            </button>
-            <button
-              onClick={() => window.location.reload()}
-              className="ml-4 bg-secondary text-secondary-foreground px-6 py-2 rounded-lg hover:bg-secondary/90 transition-colors"
-            >
-              Refresh Page
             </button>
           </div>
         </div>
