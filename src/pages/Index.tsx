@@ -111,13 +111,15 @@ const Index = () => {
         <Navigation />
         
         {/* Hero Section */}
-        <div className="w-full">
-          <Hero 
-            backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png"
-            title="Future Homes"
-            subtitle="Your Future in Real Estate"
-          />
-        </div>
+        <ErrorBoundary fallback={<div className="w-full h-screen bg-gradient-to-b from-primary to-primary/80 flex items-center justify-center text-white"><h1 className="text-4xl font-bold">Future Homes</h1></div>}>
+          <div className="w-full">
+            <Hero 
+              backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png"
+              title="Future Homes"
+              subtitle="Your Future in Real Estate"
+            />
+          </div>
+        </ErrorBoundary>
         
         {/* Before & After Feature */}
         <div className="w-full">

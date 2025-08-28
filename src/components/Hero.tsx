@@ -160,25 +160,13 @@ const Hero: React.FC<HeroProps> = ({
 
   return (
     <div className="w-full min-h-screen relative overflow-hidden">
-      {/* YouTube Background Video - Full coverage */}
+      {/* Simplified Background - More stable across browsers */}
       <div className="absolute inset-0 w-full h-full">
-        <iframe
-          className="absolute"
-          src="https://www.youtube.com/embed/bGl6AtZ02pk?autoplay=1&mute=1&loop=1&playlist=bGl6AtZ02pk&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
-          title="Background Video"
-          frameBorder="0"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
+        <div 
+          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
           style={{
-            pointerEvents: 'none',
-            width: 'calc(100vw + 20vh)',
-            height: 'calc(100vh + 20vw)', 
-            minWidth: '177.77vh', // 16:9 aspect ratio coverage
-            minHeight: '56.25vw', // 16:9 aspect ratio coverage
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%) scale(1.2)',
-            objectFit: 'cover'
+            backgroundImage: 'url(/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png)',
+            backgroundAttachment: 'fixed'
           }}
         />
         <div className="absolute inset-0 bg-black/50"></div>
