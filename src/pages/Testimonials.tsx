@@ -1,7 +1,7 @@
 import React from 'react';
 import Navigation from "@/components/Navigation";
 import { FocusCards } from "@/components/ui/focus-cards";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { t } from "@/utils/translations";
