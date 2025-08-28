@@ -236,7 +236,7 @@ const Hero: React.FC<HeroProps> = ({
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
                       <SelectValue placeholder="Property Type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
                       <SelectItem value="apartments">
                         <div className="flex items-center gap-2">
                           <Building size={16} />
@@ -271,7 +271,7 @@ const Hero: React.FC<HeroProps> = ({
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
                       <SelectValue placeholder="Bedrooms" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
                       <SelectItem value="studio">Studio</SelectItem>
                       <SelectItem value="1">1</SelectItem>
                       <SelectItem value="2">2</SelectItem>
@@ -334,7 +334,7 @@ const Hero: React.FC<HeroProps> = ({
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
                       <SelectValue placeholder="Sort By" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
                       <SelectItem value="price-low">Price Low to High</SelectItem>
                       <SelectItem value="price-high">Price High to Low</SelectItem>
                       <SelectItem value="newest">Newest</SelectItem>
@@ -373,7 +373,7 @@ const Hero: React.FC<HeroProps> = ({
                             <SelectTrigger>
                               <SelectValue placeholder="Min. Price" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
                               <SelectItem value="0">{selectedCurrency.symbol}0</SelectItem>
                               {priceOptions.slice(0, 4).map(option => (
                                 <SelectItem key={option.value} value={option.value}>
@@ -386,7 +386,7 @@ const Hero: React.FC<HeroProps> = ({
                             <SelectTrigger>
                               <SelectValue placeholder="Max. Price" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
                               {priceOptions.map(option => (
                                 <SelectItem key={option.value} value={option.value}>
                                   {option.label}
