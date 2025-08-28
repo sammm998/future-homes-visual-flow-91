@@ -11,11 +11,6 @@ export const supportedLanguages: LanguageConfig[] = [
   { code: 'sv', name: 'Svenska', baseUrl: 'https://futurehomesturkey.com' },
   { code: 'tr', name: 'Türkçe', baseUrl: 'https://futurehomesturkey.com' },
   { code: 'ar', name: 'العربية', baseUrl: 'https://futurehomesturkey.com' },
-  { code: 'no', name: 'Norsk', baseUrl: 'https://futurehomesturkey.com' },
-  { code: 'da', name: 'Dansk', baseUrl: 'https://futurehomesturkey.com' },
-  { code: 'ru', name: 'Русский', baseUrl: 'https://futurehomesturkey.com' },
-  { code: 'fa', name: 'فارسی', baseUrl: 'https://futurehomesturkey.com' },
-  { code: 'ur', name: 'اردو', baseUrl: 'https://futurehomesturkey.com' },
 ];
 
 /**

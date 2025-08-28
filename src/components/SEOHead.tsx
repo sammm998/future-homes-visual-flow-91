@@ -15,9 +15,9 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = "Future Homes Turkey - Köp Lägenhet Turkiet från €190,000 | Turkiskt Medborgarskap",
-  description = "Köp lägenhet i Turkiet från €190,000. Få turkiskt medborgarskap genom fastighetsinvestering. Även Dubai, Cypern & Frankrike. Professionell service på svenska.",
-  keywords = "köp lägenhet Turkiet, fastighetsinvestering Turkiet, turkiskt medborgarskap fastighet, Antalya lägenheter till salu, Dubai fastigheter svenska, Cypern fastighet investering, starting price, real estate Turkey, property investment",
+  title = "Future Homes - International Real Estate Investment",
+  description = "Premium properties in Turkey, Dubai, Cyprus & France. Expert guidance, citizenship programs & luxury homes. Your investment future starts here.",
+  keywords = "real estate Turkey, property investment Dubai, Cyprus properties, European real estate, Turkish citizenship, luxury homes, investment properties",
   image = "https://futurehomesturkey.com/og-image.jpg",
   url, // Backward compatibility
   canonicalUrl,

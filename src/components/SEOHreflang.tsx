@@ -22,7 +22,7 @@ export const SEOHreflang: React.FC<SEOHreflangProps> = ({ path }) => {
     { code: 'ur', country: 'pk' }
   ];
 
-  const baseUrl = 'https://futurehomesturkey.com';
+  const baseUrl = 'https://your-domain.com'; // Replace with actual domain
   
   return (
     <Helmet>
@@ -30,23 +30,20 @@ export const SEOHreflang: React.FC<SEOHreflangProps> = ({ path }) => {
       <link rel="canonical" href={`${baseUrl}${path}`} />
       
       {/* Hreflang tags for each language */}
-      {languages.map(({ code, country }) => {
-        const languageUrl = code === 'en' 
-          ? `${baseUrl}${path}`
-          : `${baseUrl}${path}${path.includes('?') ? '&' : '?'}lang=${code}`;
-        
-        return (
-          <link
-            key={code}
-            rel="alternate"
-            hrefLang={`${code}-${country}`}
-            href={languageUrl}
-          />
-        );
-      })}
+      {languages.map(({ code, country }) => (
+        <link
+          key={code}
+          rel="alternate"
+          hrefLang={`${code}-${country}`}
+          href={`${baseUrl}/${code}${path}`}
+        />
+      ))}
       
       {/* Default language fallback */}
       <link rel="alternate" hrefLang="x-default" href={`${baseUrl}${path}`} />
+      
+      {/* Current page language */}
+      <html lang="en" />
     </Helmet>
   );
 };

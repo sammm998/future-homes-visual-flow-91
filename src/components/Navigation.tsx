@@ -69,8 +69,18 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
               </Link>
             </div>
 
-            {/* Navigation Controls */}
-            <div className="flex items-center space-x-3">
+            <div className="hidden lg:flex items-center space-x-3">
+              <CurrencySelector />
+              <div 
+                className="p-2 cursor-pointer hover:bg-gray-100 rounded-md transition-colors"
+                onClick={() => setIsOpen(true)}
+              >
+                <Menu size={24} className="text-gray-700" />
+              </div>
+            </div>
+
+            {/* Mobile menu trigger */}
+            <div className="lg:hidden flex items-center space-x-2">
               <CurrencySelector />
               <div 
                 className="p-2 cursor-pointer hover:bg-gray-100 rounded-md transition-colors"
