@@ -1054,6 +1054,10 @@ export type Database = {
         Args: { id_param: string; title_param: string }
         Returns: string
       }
+      get_current_user_admin_status: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       is_admin: {
         Args: { user_id?: string }
         Returns: boolean

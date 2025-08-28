@@ -9,6 +9,16 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+// Input validation helpers
+const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && email.length <= 254 && email.length >= 5;
+};
+
+const sanitizeInput = (input: string): string => {
+  return input.trim().replace(/<[^>]*>/g, '').substring(0, 254);
+};
+
 interface NewsletterSubscriptionRequest {
   email: string;
 }
@@ -22,9 +32,10 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { email }: NewsletterSubscriptionRequest = await req.json();
 
-    if (!email) {
+    // Security: Validate email format and length
+    if (!email || !isValidEmail(email)) {
       return new Response(
-        JSON.stringify({ error: "Email is required" }),
+        JSON.stringify({ error: "Valid email address is required" }),
         {
           status: 400,
           headers: {
@@ -35,6 +46,9 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Security: Sanitize email input
+    const sanitizedEmail = sanitizeInput(email);
+
     // Send notification email to info@futurehomesturkey.com
     const emailResponse = await resend.emails.send({
       from: "Future Homes Turkey <info@futurehomesturkey.com>",
@@ -43,7 +57,7 @@ const handler = async (req: Request): Promise<Response> => {
       html: `
         <h1>New Newsletter Subscriber</h1>
         <p>A new user has subscribed to your newsletter:</p>
-        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Email:</strong> ${sanitizedEmail}</p>
         <p><strong>Subscription Date:</strong> ${new Date().toLocaleString()}</p>
         <br>
         <p>Best regards,<br>Future Homes Turkey Website</p>
