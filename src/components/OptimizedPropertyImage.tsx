@@ -134,7 +134,6 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
         onError={handleError}
         loading={priority ? "eager" : "lazy"}
         decoding="async"
-        fetchPriority={priority ? "high" : "auto"}
       />
       
       {/* Error state */}
