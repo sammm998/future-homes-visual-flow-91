@@ -55,7 +55,6 @@ export const translations: Record<string, Record<string, string>> = {
     // Cities & Locations
     "DUBAI": "DUBAI",
     "CYPRUS": "CYPRUS", 
-    "STRASBOURG": "STRASBOURG",
     "MERSIN": "MERSIN",
     "TALK TO AI": "TALK TO AI",
     "SEE ALL": "SEE ALL",
@@ -269,8 +268,7 @@ export const translations: Record<string, Record<string, string>> = {
     // Cities & Locations
     "DUBAI": "DUBAI",
     "CYPRUS": "CYPERN",
-    "STRASBOURG": "STRASBOURG",
-    "MERSIN": "MERSIN", 
+    "MERSIN": "MERSIN",
     "TALK TO AI": "PRATA MED AI",
     "SEE ALL": "SE ALLA",
     "Discover properties in our most sought-after destinations": "Upptäck fastigheter i våra mest eftertraktade destinationer",
@@ -502,7 +500,6 @@ export const translations: Record<string, Record<string, string>> = {
     // Cities & Locations
     "DUBAI": "DUBAI",
     "CYPRUS": "KYPROS",
-    "STRASBOURG": "STRASBOURG",
     "MERSIN": "MERSIN",
     "TALK TO AI": "SNAKK MED AI",
     "SEE ALL": "SE ALLE",
@@ -600,7 +597,6 @@ export const translations: Record<string, Record<string, string>> = {
     // Cities & Locations
     "DUBAI": "DUBAI",
     "CYPRUS": "CYPERN",
-    "STRASBOURG": "STRASBOURG",
     "MERSIN": "MERSIN",
     "TALK TO AI": "SNAK MED AI",
     "SEE ALL": "SE ALLE",
@@ -673,7 +669,6 @@ export const translations: Record<string, Record<string, string>> = {
     // Cities & Locations
     "DUBAI": "DUBAI",
     "CYPRUS": "KIBRIS",
-    "STRASBOURG": "STRASBOURG",
     "MERSIN": "MERSİN",
     "TALK TO AI": "AI İLE KONUŞ",
     "SEE ALL": "TÜMÜNÜ GÖR",
