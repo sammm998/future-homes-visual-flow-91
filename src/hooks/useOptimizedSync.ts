@@ -8,7 +8,7 @@ export const useOptimizedSync = () => {
   const { toast } = useToast();
   const syncTimeoutRef = useRef<NodeJS.Timeout>();
 
-  // Debounced sync function to prevent excessive calls
+  // Debounced sync function to prevent excessive calls - STABLE reference
   const debouncedSync = useCallback((delay = 5000) => {
     if (syncTimeoutRef.current) {
       clearTimeout(syncTimeoutRef.current);
@@ -38,16 +38,16 @@ export const useOptimizedSync = () => {
         setIsBackgroundSyncing(false);
       }
     }, delay);
-  }, [syncAllProperties, toast]);
+  }, []); // Remove dependencies to prevent recreating
 
-  // Background sync that doesn't block UI
+  // Background sync that doesn't block UI - STABLE reference
   const backgroundSync = useCallback(() => {
     if (!isSyncing && !isBackgroundSyncing) {
       debouncedSync(1000); // 1 second delay for background sync
     }
-  }, [debouncedSync, isSyncing, isBackgroundSyncing]);
+  }, []); // Remove dependencies to prevent recreating
 
-  // Manual sync with immediate execution
+  // Manual sync with immediate execution - STABLE reference
   const manualSync = useCallback(async () => {
     try {
       await syncAllProperties();
@@ -65,7 +65,7 @@ export const useOptimizedSync = () => {
         variant: "destructive",
       });
     }
-  }, [syncAllProperties, syncBlogPosts, toast]);
+  }, []); // Remove dependencies to prevent recreating
 
   return {
     backgroundSync,

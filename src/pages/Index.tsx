@@ -31,54 +31,92 @@ const Index = () => {
   console.log('Index component rendering...');
   
   try {
-    const { canonicalUrl, hreflangUrls } = useSEOLanguage();
-    const { structuredData } = useSEO();
-    const currentCanonicalUrl = useCanonicalUrl();
+    // Basic hooks first - these are stable
     const navigate = useNavigate();
+    const currentCanonicalUrl = useCanonicalUrl();
     const [showPopup, setShowPopup] = useState(false);
     
-    // Safely handle testimonials hook
-    const { testimonials: dynamicTestimonials, loading: testimonialsLoading } = useTestimonials();
+    // SEO hooks - stable references
+    const { canonicalUrl, hreflangUrls } = useSEOLanguage();
+    const { structuredData } = useSEO();
     
-    // Safely handle optimized sync hook
-    const { backgroundSync, isBackgroundSyncing } = useOptimizedSync();
+    // Data hooks with error handling
+    let testimonials: any[] = [];
+    let testimonialsLoading = false;
+    let backgroundSync = () => {};
+    let isBackgroundSyncing = false;
+    
+    try {
+      const testimonialsResult = useTestimonials();
+      testimonials = testimonialsResult.testimonials || [];
+      testimonialsLoading = testimonialsResult.loading;
+    } catch (error) {
+      console.error('Testimonials hook error:', error);
+    }
+    
+    try {
+      const syncResult = useOptimizedSync();
+      backgroundSync = syncResult.backgroundSync;
+      isBackgroundSyncing = syncResult.isBackgroundSyncing;
+    } catch (error) {
+      console.error('Sync hook error:', error);
+    }
 
-    // Background sync that doesn't block page load
+    // Background sync that doesn't block page load - ONE TIME ONLY
     useEffect(() => {
+      let mounted = true;
       const timer = setTimeout(() => {
-        backgroundSync();
+        if (mounted) {
+          try {
+            backgroundSync();
+          } catch (error) {
+            console.error('Background sync error:', error);
+          }
+        }
       }, 3000);
-      return () => clearTimeout(timer);
-    }, [backgroundSync]);
-
-    // Delay popup to improve perceived performance
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        setShowPopup(true);
-      }, 45000);
-      return () => clearTimeout(timer);
-    }, []);
+      
+      return () => {
+        mounted = false;
+        clearTimeout(timer);
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // Empty dependency array - run only once
     
     // Transform testimonials for columns
-    const testimonials = useMemo(() => 
-      testimonialsLoading ? [] : (dynamicTestimonials || []), 
-      [dynamicTestimonials, testimonialsLoading]
-    );
+    const testimonialColumns = useMemo(() => {
+      const validTestimonials = Array.isArray(testimonials) ? testimonials : [];
+      return {
+        firstColumn: validTestimonials.slice(0, 6),
+        secondColumn: validTestimonials.slice(6, 12),
+        thirdColumn: validTestimonials.slice(12, 18),
+      };
+    }, [testimonials]);
 
-    const { firstColumn, secondColumn, thirdColumn } = useMemo(() => ({
-      firstColumn: testimonials.slice(0, 6),
-      secondColumn: testimonials.slice(6, 12),
-      thirdColumn: testimonials.slice(12, 18),
-    }), [testimonials]);
+    // Popup timer - ONE TIME ONLY
+    useEffect(() => {
+      let mounted = true;
+      const timer = setTimeout(() => {
+        if (mounted) {
+          setShowPopup(true);
+        }
+      }, 45000);
+      
+      return () => {
+        mounted = false;
+        clearTimeout(timer);
+      };
+    }, []); // Empty dependency array - run only once
     
-    // Transform dynamic testimonials for circular component
-    const circularTestimonials = useMemo(() => 
-      (testimonials || []).map(testimonial => ({
-        quote: testimonial.text || '',
-        name: testimonial.name || 'Anonymous',
-        designation: testimonial.role || 'Customer',
-        src: testimonial.image || '/placeholder.svg'
-      })), [testimonials]);
+    // Transform dynamic testimonials for circular component - SAFE
+    const circularTestimonials = useMemo(() => {
+      const validTestimonials = Array.isArray(testimonials) ? testimonials : [];
+      return validTestimonials.map(testimonial => ({
+        quote: testimonial?.text || '',
+        name: testimonial?.name || 'Anonymous',
+        designation: testimonial?.role || 'Customer',
+        src: testimonial?.image || '/placeholder.svg'
+      }));
+    }, [testimonials]);
 
     const homePageStructuredData = {
       "@context": "https://schema.org",
