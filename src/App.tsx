@@ -3,11 +3,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useSearchParams } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
+import { CacheControls } from "@/components/CacheControls";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -56,40 +57,53 @@ const PageLoader = () => (
   </div>
 );
 
+// App content with cache controls
+const AppContent = () => {
+  const [searchParams] = useSearchParams();
+  const showCacheControls = searchParams.get('debug') === 'cache' || window.location.hostname === 'localhost';
+
+  return (
+    <>
+      <PerformanceMonitor logLevel="basic" />
+      <Toaster />
+      <Sonner />
+      <ScrollToTop />
+      <CacheControls show={showCacheControls} />
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          
+          <Route path="/property-wizard" element={<PropertyWizard />} />
+          <Route path="/ai-property-search" element={<AIPropertySearch />} />
+          <Route path="/antalya" element={<AntalyaPropertySearch />} />
+          <Route path="/dubai" element={<DubaiPropertySearch />} />
+          <Route path="/cyprus" element={<CyprusPropertySearch />} />
+          <Route path="/mersin" element={<MersinPropertySearch />} />
+          
+          
+          <Route path="/property/:id" element={<PropertyDetail />} />
+          <Route path="/testimonials" element={<Testimonials />} />
+          <Route path="/information" element={<Information />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/article/:id" element={<Article />} />
+          <Route path="/articles/:slug" element={<ArticlePage />} />
+          <Route path="/sitemap.xml" element={<SitemapXML />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </>
+  );
+};
+
 const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
     <QueryClientProvider client={queryClient}>
           <CurrencyProvider>
             <TooltipProvider>
-              <PerformanceMonitor logLevel="basic" />
-              <Toaster />
-              <Sonner />
               <BrowserRouter>
-              <ScrollToTop />
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  
-                  <Route path="/property-wizard" element={<PropertyWizard />} />
-                  <Route path="/ai-property-search" element={<AIPropertySearch />} />
-                  <Route path="/antalya" element={<AntalyaPropertySearch />} />
-                  <Route path="/dubai" element={<DubaiPropertySearch />} />
-                  <Route path="/cyprus" element={<CyprusPropertySearch />} />
-                  <Route path="/mersin" element={<MersinPropertySearch />} />
-                  
-                  
-                  <Route path="/property/:id" element={<PropertyDetail />} />
-                  <Route path="/testimonials" element={<Testimonials />} />
-                  <Route path="/information" element={<Information />} />
-                  <Route path="/about-us" element={<AboutUs />} />
-                  <Route path="/contact-us" element={<ContactUs />} />
-                  <Route path="/article/:id" element={<Article />} />
-                  <Route path="/articles/:slug" element={<ArticlePage />} />
-                  <Route path="/sitemap.xml" element={<SitemapXML />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
+                <AppContent />
             </BrowserRouter>
           </TooltipProvider>
         </CurrencyProvider>

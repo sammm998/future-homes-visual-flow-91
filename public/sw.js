@@ -1,6 +1,7 @@
 // Service Worker for performance optimization
-const CACHE_NAME = 'property-site-v1';
-const STATIC_CACHE_NAME = 'property-static-v1';
+const CACHE_VERSION = Date.now(); // Dynamic cache versioning
+const CACHE_NAME = `property-site-v${CACHE_VERSION}`;
+const STATIC_CACHE_NAME = `property-static-v${CACHE_VERSION}`;
 
 // Cache essential resources
 const STATIC_RESOURCES = [
@@ -13,7 +14,7 @@ const STATIC_RESOURCES = [
 ];
 
 // Cache API responses
-const API_CACHE_NAME = 'property-api-v1';
+const API_CACHE_NAME = `property-api-v${CACHE_VERSION}`;
 const API_URLS = [
   'https://kiogiyemoqbnuvclneoe.supabase.co'
 ];
