@@ -173,12 +173,10 @@ const Index = () => {
           </motion.div>
 
           <div 
-            className="flex justify-center gap-4 sm:gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden relative" 
+            className="flex justify-center gap-4 sm:gap-6 mt-10 max-h-[740px] overflow-hidden relative" 
             style={{ 
-              contain: 'layout style paint',
-              transform: 'translateZ(0)',
-              isolation: 'isolate',
-              willChange: 'contents'
+              maskImage: 'linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)',
             }}
           >
             {testimonialsLoading ? (

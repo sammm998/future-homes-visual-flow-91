@@ -18,9 +18,7 @@ export const TestimonialsColumn = (props: {
     <div 
       className={`${props.className} overflow-hidden relative`} 
       style={{ 
-        contain: 'layout style paint',
         transform: 'translateZ(0)', // Force hardware acceleration
-        willChange: 'contents'
       }}
     >
       <motion.div
