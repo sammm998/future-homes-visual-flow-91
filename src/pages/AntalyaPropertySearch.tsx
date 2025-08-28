@@ -15,6 +15,8 @@ import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 
 const AntalyaPropertySearch = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
+  
+  // Router hooks - these should be called unconditionally
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
