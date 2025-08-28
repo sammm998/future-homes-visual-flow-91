@@ -49,12 +49,58 @@ const queryClient = new QueryClient({
   },
 });
 
-// Minimal loading component
+// Enhanced loading component with retry for chunk loading errors
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-background">
     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
   </div>
 );
+
+// Wrapper for lazy components with chunk loading error handling
+const withChunkErrorHandling = (Component: React.LazyExoticComponent<React.ComponentType<any>>) => {
+  return React.forwardRef<any, any>((props, ref) => {
+    const [retryCount, setRetryCount] = React.useState(0);
+    
+    return (
+      <React.Suspense
+        fallback={<PageLoader />}
+      >
+        <ErrorBoundary
+          fallback={({ error, resetError }) => {
+            if (error?.message?.includes('Loading chunk') && retryCount < 3) {
+              // Automatically retry chunk loading errors
+              setTimeout(() => {
+                setRetryCount(count => count + 1);
+                resetError();
+              }, 1000);
+              
+              return <PageLoader />;
+            }
+            
+            return (
+              <div className="min-h-screen flex items-center justify-center bg-background">
+                <div className="text-center p-8">
+                  <h2 className="text-2xl font-bold text-foreground mb-4">Loading Error</h2>
+                  <p className="text-muted-foreground mb-6">
+                    Failed to load page content. This may be due to a network issue.
+                  </p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+                  >
+                    Reload Page
+                  </button>
+                </div>
+              </div>
+            );
+          }}
+        >
+          <Component {...props} ref={ref} />
+        </ErrorBoundary>
+      </React.Suspense>
+    );
+  });
+};
 
 const App = () => (
   <ErrorBoundary>
@@ -78,28 +124,44 @@ const App = () => (
   </ErrorBoundary>
 );
 
-const AppContent = () => (
-  <Routes>
-    <Route path="/" element={<><Index /><Newsletter /></>} />
-    
-    <Route path="/property-wizard" element={<PropertyWizard />} />
-    <Route path="/ai-property-search" element={<AIPropertySearch />} />
-    <Route path="/antalya" element={<AntalyaPropertySearch />} />
-    <Route path="/dubai" element={<DubaiPropertySearch />} />
-    <Route path="/cyprus" element={<CyprusPropertySearch />} />
-    <Route path="/mersin" element={<MersinPropertySearch />} />
-    <Route path="/france" element={<FrancePropertySearch />} />
-    
-    <Route path="/property/:id" element={<PropertyDetail />} />
-    <Route path="/testimonials" element={<Testimonials />} />
-    <Route path="/information" element={<Information />} />
-    <Route path="/about-us" element={<AboutUs />} />
-    <Route path="/contact-us" element={<ContactUs />} />
-    <Route path="/article/:id" element={<Article />} />
-    <Route path="/articles/:slug" element={<ArticlePage />} />
-    <Route path="/sitemap.xml" element={<SitemapXML />} />
-    <Route path="*" element={<NotFound />} />
-  </Routes>
-);
+const AppContent = () => {
+  // Log router context for debugging
+  React.useEffect(() => {
+    console.info('Router context initialized:', {
+      location: window.location.href,
+      pathname: window.location.pathname,
+      userAgent: navigator.userAgent
+    });
+  }, []);
+
+  return (
+    <Routes>
+      <Route path="/" element={
+        <>
+          {React.createElement(withChunkErrorHandling(Index))}
+          <Newsletter />
+        </>
+      } />
+      
+      <Route path="/property-wizard" element={React.createElement(withChunkErrorHandling(PropertyWizard))} />
+      <Route path="/ai-property-search" element={React.createElement(withChunkErrorHandling(AIPropertySearch))} />
+      <Route path="/antalya" element={React.createElement(withChunkErrorHandling(AntalyaPropertySearch))} />
+      <Route path="/dubai" element={React.createElement(withChunkErrorHandling(DubaiPropertySearch))} />
+      <Route path="/cyprus" element={React.createElement(withChunkErrorHandling(CyprusPropertySearch))} />
+      <Route path="/mersin" element={React.createElement(withChunkErrorHandling(MersinPropertySearch))} />
+      <Route path="/france" element={React.createElement(withChunkErrorHandling(FrancePropertySearch))} />
+      
+      <Route path="/property/:id" element={React.createElement(withChunkErrorHandling(PropertyDetail))} />
+      <Route path="/testimonials" element={React.createElement(withChunkErrorHandling(Testimonials))} />
+      <Route path="/information" element={React.createElement(withChunkErrorHandling(Information))} />
+      <Route path="/about-us" element={React.createElement(withChunkErrorHandling(AboutUs))} />
+      <Route path="/contact-us" element={React.createElement(withChunkErrorHandling(ContactUs))} />
+      <Route path="/article/:id" element={React.createElement(withChunkErrorHandling(Article))} />
+      <Route path="/articles/:slug" element={React.createElement(withChunkErrorHandling(ArticlePage))} />
+      <Route path="/sitemap.xml" element={React.createElement(withChunkErrorHandling(SitemapXML))} />
+      <Route path="*" element={React.createElement(withChunkErrorHandling(NotFound))} />
+    </Routes>
+  );
+};
 
 export default App;

@@ -18,11 +18,31 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     console.error('ErrorBoundary caught an error:', error);
+    
+    // Check if it's a chunk loading error
+    if (error.message.includes('Loading chunk') || error.message.includes('ChunkLoadError')) {
+      console.warn('Chunk loading error detected, attempting page reload');
+      // Retry by reloading the page for chunk errors
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
+    
     return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('ErrorBoundary details:', error, errorInfo);
+    
+    // Log additional context for router-related errors
+    if (error.message.includes('useContext') || error.message.includes('router')) {
+      console.error('Router context error detected:', {
+        location: window.location,
+        userAgent: navigator.userAgent,
+        error: error.message,
+        stack: error.stack
+      });
+    }
   }
 
   resetError = () => {
