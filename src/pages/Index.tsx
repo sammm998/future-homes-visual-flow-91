@@ -172,7 +172,15 @@ const Index = () => {
             </p>
           </motion.div>
 
-          <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden relative" style={{ contain: 'layout style paint' }}>
+          <div 
+            className="flex justify-center gap-4 sm:gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden relative" 
+            style={{ 
+              contain: 'layout style paint',
+              transform: 'translateZ(0)',
+              isolation: 'isolate',
+              willChange: 'contents'
+            }}
+          >
             {testimonialsLoading ? (
               <div className="flex justify-center items-center w-full h-64">
                 <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
