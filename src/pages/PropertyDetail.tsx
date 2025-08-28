@@ -5620,7 +5620,7 @@ const PropertyDetail = () => {
     const cleanedPrice = priceString.replace(/^(From\s*€|€\s*From)\s*/i, '');
     const numericValue = parseInt(cleanedPrice.replace(/[€$£,₺₽₨﷼kr]/g, ''));
     if (isNaN(numericValue)) return priceString;
-    return `Starting price ${formatPrice(numericValue)}`;
+    return `${formatPrice(numericValue)}`;
   };
 
   useEffect(() => {
