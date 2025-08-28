@@ -1023,6 +1023,7 @@ export type Database = {
           id: string | null
           image_url: string | null
           is_active: boolean | null
+          linkedin_url: string | null
           name: string | null
           position: string | null
         }
@@ -1033,6 +1034,7 @@ export type Database = {
           id?: string | null
           image_url?: string | null
           is_active?: boolean | null
+          linkedin_url?: string | null
           name?: string | null
           position?: string | null
         }
@@ -1043,6 +1045,7 @@ export type Database = {
           id?: string | null
           image_url?: string | null
           is_active?: boolean | null
+          linkedin_url?: string | null
           name?: string | null
           position?: string | null
         }
