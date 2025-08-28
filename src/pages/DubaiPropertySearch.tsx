@@ -14,9 +14,12 @@ import SEOHead from "@/components/SEOHead";
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 
 const DubaiPropertySearch = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  // Router hooks - must be called unconditionally at component top level
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Data hooks
   const { properties: allProperties, loading, error } = useProperties();
   
   const [filters, setFilters] = useState<PropertyFilters>({
