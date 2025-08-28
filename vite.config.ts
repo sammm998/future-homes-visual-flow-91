@@ -13,11 +13,35 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks: (id) => {
+          // Vendor chunking for better caching
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            if (id.includes('@radix-ui') || id.includes('framer-motion')) {
+              return 'ui-vendor';
+            }
+            if (id.includes('@tanstack') || id.includes('react-query')) {
+              return 'data-vendor';
+            }
+            return 'vendor';
+          }
+        },
+      },
+    },
+    target: 'esnext',
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: mode === 'production',
+        drop_debugger: mode === 'production',
       },
     },
     chunkSizeWarningLimit: 1000,
     assetsDir: "assets",
+    reportCompressedSize: false,
+    sourcemap: false,
   },
   plugins: [
     react(),
