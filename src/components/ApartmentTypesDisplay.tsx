@@ -26,9 +26,15 @@ const ApartmentTypesDisplay: React.FC<ApartmentTypesDisplayProps> = ({
 
   const formatPrice = (price: string) => {
     if (!price) return '€0';
-    // Remove any existing "Starting price" text and clean up
-    const cleanedPrice = price.replace(/starting price/i, '').trim();
-    return cleanedPrice;
+    // Remove any existing "Starting price" text and clean up thoroughly
+    const cleanedPrice = price
+      .replace(/starting\s+price\s*/i, '')
+      .replace(/^€?\s*/, '')
+      .trim();
+    
+    // Ensure proper Euro formatting
+    const numericPrice = cleanedPrice.replace(/[^\d,]/g, '');
+    return numericPrice ? `€${numericPrice}` : '€0';
   };
 
   if (variant === 'compact') {
