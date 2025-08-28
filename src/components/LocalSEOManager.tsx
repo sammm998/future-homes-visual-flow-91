@@ -23,7 +23,7 @@ export const LocalSEOManager: React.FC<LocalSEOManagerProps> = ({
     if (path.includes('antalya') || path.includes('turkey')) return { country: 'Turkey', city: 'Antalya' };
     if (path.includes('dubai')) return { country: 'UAE', city: 'Dubai' };
     if (path.includes('cyprus')) return { country: 'Cyprus', city: 'Kyrenia' };
-    
+    if (path.includes('france')) return { country: 'France', city: 'Nice' };
     return { country: 'Turkey', city: 'Antalya' };
   };
 

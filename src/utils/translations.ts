@@ -9,7 +9,7 @@ export const translations: Record<string, Record<string, string>> = {
     'nav.dubai': 'Dubai',
     'nav.cyprus': 'Cyprus',
     'nav.mersin': 'Mersin',
-    
+    'nav.france': 'France',
     'nav.about': 'About Us',
     'nav.contact': 'Contact Us',
     'nav.information': 'Information',
@@ -55,6 +55,7 @@ export const translations: Record<string, Record<string, string>> = {
     // Cities & Locations
     "DUBAI": "DUBAI",
     "CYPRUS": "CYPRUS", 
+    "STRASBOURG": "STRASBOURG",
     "MERSIN": "MERSIN",
     "TALK TO AI": "TALK TO AI",
     "SEE ALL": "SEE ALL",
@@ -77,7 +78,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Dubai": "Dubai", 
     "Cyprus": "Cyprus",
     "Mersin": "Mersin",
-    
+    "France": "France",
     "Turkish Riviera paradise": "Turkish Riviera paradise",
     "Modern luxury metropolis": "Modern luxury metropolis",
     "Mediterranean island gem": "Mediterranean island gem",
@@ -268,6 +269,7 @@ export const translations: Record<string, Record<string, string>> = {
     // Cities & Locations
     "DUBAI": "DUBAI",
     "CYPRUS": "CYPERN",
+    "STRASBOURG": "STRASBOURG",
     "MERSIN": "MERSIN", 
     "TALK TO AI": "PRATA MED AI",
     "SEE ALL": "SE ALLA",
@@ -500,6 +502,7 @@ export const translations: Record<string, Record<string, string>> = {
     // Cities & Locations
     "DUBAI": "DUBAI",
     "CYPRUS": "KYPROS",
+    "STRASBOURG": "STRASBOURG",
     "MERSIN": "MERSIN",
     "TALK TO AI": "SNAKK MED AI",
     "SEE ALL": "SE ALLE",
@@ -597,6 +600,7 @@ export const translations: Record<string, Record<string, string>> = {
     // Cities & Locations
     "DUBAI": "DUBAI",
     "CYPRUS": "CYPERN",
+    "STRASBOURG": "STRASBOURG",
     "MERSIN": "MERSIN",
     "TALK TO AI": "SNAK MED AI",
     "SEE ALL": "SE ALLE",
@@ -669,6 +673,7 @@ export const translations: Record<string, Record<string, string>> = {
     // Cities & Locations
     "DUBAI": "DUBAI",
     "CYPRUS": "KIBRIS",
+    "STRASBOURG": "STRASBOURG",
     "MERSIN": "MERSİN",
     "TALK TO AI": "AI İLE KONUŞ",
     "SEE ALL": "TÜMÜNÜ GÖR",

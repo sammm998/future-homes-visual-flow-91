@@ -8,12 +8,7 @@ const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-requested-with',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Max-Age': '86400',
-  'Access-Control-Allow-Credentials': 'false',
-  'Vary': 'Origin, Access-Control-Request-Method, Access-Control-Request-Headers',
-  'Access-Control-Expose-Headers': 'Content-Length, Content-Type'
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
 // Swedish language keywords for proper detection
@@ -161,6 +156,8 @@ const searchProperties = async (query: string, detectedLanguage: string) => {
       filteredProperties = formattedProperties.filter(p => p.location.toLowerCase().includes('mersin'));
     } else if (queryLower.includes('cyprus') || queryLower.includes('cypern') || queryLower.includes('esentepe') || queryLower.includes('tatlısu')) {
       filteredProperties = formattedProperties.filter(p => p.location.toLowerCase().includes('cyprus'));
+    } else if (queryLower.includes('france') || queryLower.includes('frankrike') || queryLower.includes('paris') || queryLower.includes('bordeaux')) {
+      filteredProperties = formattedProperties.filter(p => p.location.toLowerCase().includes('france'));
     }
 
     // Bedroom filtering with better recognition
@@ -300,6 +297,10 @@ MERSIN - 61 FASTIGHETER:
 • Erdemli: €160,000-€280,000, havsnära projekt
 • Varierad portfölj från 1+1 till 4+1
 
+FRANKRIKE - 2 FASTIGHETER:
+• Bordeaux: €2,500,000, historiskt château med vingård
+• Paris: €890,000, historisk lägenhet
+
 RIKTLINJER:
 - Svara ENDAST på svenska
 - Visa BARA fastigheter som VERKLIGEN FINNS i vår databas
@@ -339,6 +340,10 @@ MERSIN - 61 PROPERTIES:
 • Marina District: €150,000-€350,000, modern villa complexes
 • Erdemli: €160,000-€280,000, seaside projects
 • Varied portfolio from 1+1 to 4+1
+
+FRANCE - 2 PROPERTIES:
+• Bordeaux: €2,500,000, historic château with vineyard
+• Paris: €890,000, historic apartment
 
 GUIDELINES:
 - Respond ONLY in English
@@ -402,7 +407,7 @@ NEVER show non-existent properties. Use ONLY the real data above.`;
     console.log('AI Response:', aiResponse);
 
     // Check if user is asking about properties and search database
-    const propertyKeywords = ['property', 'properties', 'apartment', 'villa', 'house', 'home', 'buy', 'purchase', 'invest', 'price', 'bedroom', 'bathroom', 'antalya', 'dubai', 'cyprus', 'mersin', 'bostad', 'lägenhet', 'lägenheter', 'hus', 'villa', 'fastighet', 'fastigheter', 'köpa', 'pris', 'sovrum', 'badrum'];
+    const propertyKeywords = ['property', 'properties', 'apartment', 'villa', 'house', 'home', 'buy', 'purchase', 'invest', 'price', 'bedroom', 'bathroom', 'antalya', 'dubai', 'cyprus', 'mersin', 'france', 'bostad', 'lägenhet', 'lägenheter', 'hus', 'villa', 'fastighet', 'fastigheter', 'köpa', 'pris', 'sovrum', 'badrum'];
     
     const isPropertyQuery = propertyKeywords.some(keyword => 
       message.toLowerCase().includes(keyword.toLowerCase())

@@ -3,12 +3,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-requested-with',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Max-Age': '86400',
-  'Access-Control-Allow-Credentials': 'false',
-  'Vary': 'Origin, Access-Control-Request-Method, Access-Control-Request-Headers',
-  'Access-Control-Expose-Headers': 'Content-Length, Content-Type'
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
 serve(async (req) => {
@@ -72,12 +67,14 @@ serve(async (req) => {
       { url: '/dubai', priority: '0.8', changefreq: 'weekly' },
       { url: '/cyprus', priority: '0.8', changefreq: 'weekly' },
       { url: '/mersin', priority: '0.8', changefreq: 'weekly' },
+      { url: '/france', priority: '0.8', changefreq: 'weekly' },
       
       // Location-specific property pages
       { url: '/antalya/properties', priority: '0.7', changefreq: 'daily' },
       { url: '/dubai/properties', priority: '0.7', changefreq: 'daily' },
       { url: '/cyprus/properties', priority: '0.7', changefreq: 'daily' },
       { url: '/mersin/properties', priority: '0.7', changefreq: 'daily' },
+      { url: '/france/properties', priority: '0.7', changefreq: 'daily' },
       
       // Information and company pages
       { url: '/about-us', priority: '0.7', changefreq: 'monthly' },

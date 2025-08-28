@@ -1,7 +1,7 @@
 import React from 'react';
 import Navigation from "@/components/Navigation";
 import { FocusCards } from "@/components/ui/focus-cards";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { t } from "@/utils/translations";
@@ -162,9 +162,6 @@ const Testimonials = () => {
             <DialogTitle className="text-2xl font-bold">
               {selectedTestimonial?.customer_name}
             </DialogTitle>
-            <DialogDescription>
-              Testimonial details and full story
-            </DialogDescription>
           </DialogHeader>
           <div className="space-y-6">
             <div className="relative max-h-[70vh] overflow-hidden rounded-lg">

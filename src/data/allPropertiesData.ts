@@ -4,7 +4,7 @@
 import { antalyaProperties } from './antalyaProperties';
 import { dubaiProperties } from './dubaiProperties';
 import { mersinProperties } from './mersinProperties';
-
+import { franceProperties } from './franceProperties';
 
 // Cyprus Properties - extracted from CyprusPropertySearch.tsx
 const getRefNoCyprus = (id: number) => {
@@ -87,6 +87,8 @@ export const allMersinProperties = Array.from({ length: 61 }, (_, index) => ({
   ] as [number, number]
 }));
 
+// France Properties - from franceProperties.ts
+export const allFranceProperties = franceProperties;
 
 // Combine all properties
 export const getAllProperties = () => {
@@ -94,6 +96,7 @@ export const getAllProperties = () => {
     ...antalyaProperties,
     ...allCyprusProperties,
     ...allDubaiProperties,
-    ...allMersinProperties
+    ...allMersinProperties,
+    ...allFranceProperties
   ];
 };

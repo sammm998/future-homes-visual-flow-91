@@ -65,31 +65,19 @@ const ArticlePage = () => {
   };
 
   const handleShare = async () => {
-    const url = window.location.href;
-    
     if (navigator.share) {
       try {
         await navigator.share({
           title: blogPost.title,
           text: blogPost.excerpt,
-          url,
+          url: window.location.href,
         });
       } catch (error) {
         console.log('Error sharing:', error);
-        // Fallback: copy to clipboard
-        try {
-          await navigator.clipboard.writeText(url);
-        } catch (clipboardError) {
-          console.log('Clipboard access failed');
-        }
       }
     } else {
       // Fallback: copy to clipboard
-      try {
-        await navigator.clipboard.writeText(url);
-      } catch (error) {
-        console.log('Clipboard access failed');
-      }
+      navigator.clipboard.writeText(window.location.href);
     }
   };
 

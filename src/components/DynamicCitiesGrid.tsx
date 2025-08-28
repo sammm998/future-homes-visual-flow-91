@@ -2,6 +2,8 @@ import { DynamicFrameLayout } from "@/components/ui/dynamic-frame-layout";
 import { Button } from "@/components/ui/button";
 
 const DynamicCitiesGrid = () => {
+  
+  
   const cityFrames = [
     {
       id: 1,
@@ -21,8 +23,8 @@ const DynamicCitiesGrid = () => {
     },
     {
       id: 3,
-      image: '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png',
-      title: 'ANTALYA',
+      image: '/lovable-uploads/bfe83af6-39c4-4a52-b4e4-82ff091c5f48.png',
+      title: 'STRASBOURG',
       defaultPos: { x: 8, y: 0, w: 4, h: 4 },
       mediaSize: 1,
       isHovered: false,

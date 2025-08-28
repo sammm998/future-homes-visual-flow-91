@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Search, MapPin, Home, Building, Store, Filter } from "lucide-react";
@@ -142,7 +142,7 @@ const Hero: React.FC<HeroProps> = ({
       'Dubai': '/dubai', 
       'Cyprus': '/cyprus',
       'Mersin': '/mersin',
-      
+      'France': '/france'
     };
     
     // Determine route based on reference number or location
@@ -236,7 +236,7 @@ const Hero: React.FC<HeroProps> = ({
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
                       <SelectValue placeholder="Property Type" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                    <SelectContent>
                       <SelectItem value="apartments">
                         <div className="flex items-center gap-2">
                           <Building size={16} />
@@ -271,7 +271,7 @@ const Hero: React.FC<HeroProps> = ({
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
                       <SelectValue placeholder="Bedrooms" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                    <SelectContent>
                       <SelectItem value="studio">Studio</SelectItem>
                       <SelectItem value="1">1</SelectItem>
                       <SelectItem value="2">2</SelectItem>
@@ -288,8 +288,7 @@ const Hero: React.FC<HeroProps> = ({
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
                       <SelectValue placeholder="Property Location" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white z-50 border border-gray-200 shadow-lg">
-                      {/* Cache-bust: 2024-08-27 - Only 4 locations */}
+                    <SelectContent>
                       <SelectItem value="Antalya">
                         <div className="flex items-center gap-2">
                           <MapPin size={16} />
@@ -306,6 +305,12 @@ const Hero: React.FC<HeroProps> = ({
                         <div className="flex items-center gap-2">
                           <MapPin size={16} />
                           Cyprus
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Strasbourg">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Strasbourg
                         </div>
                       </SelectItem>
                       <SelectItem value="Dubai">
@@ -334,7 +339,7 @@ const Hero: React.FC<HeroProps> = ({
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
                       <SelectValue placeholder="Sort By" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                    <SelectContent>
                       <SelectItem value="price-low">Price Low to High</SelectItem>
                       <SelectItem value="price-high">Price High to Low</SelectItem>
                       <SelectItem value="newest">Newest</SelectItem>
@@ -360,9 +365,6 @@ const Hero: React.FC<HeroProps> = ({
                   <DialogContent className="max-w-2xl mx-4">
                     <DialogHeader>
                       <DialogTitle>Advanced Search</DialogTitle>
-                      <DialogDescription>
-                        Find your perfect property with detailed search criteria
-                      </DialogDescription>
                     </DialogHeader>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {/* Price Range */}
@@ -373,7 +375,7 @@ const Hero: React.FC<HeroProps> = ({
                             <SelectTrigger>
                               <SelectValue placeholder="Min. Price" />
                             </SelectTrigger>
-                            <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                            <SelectContent>
                               <SelectItem value="0">{selectedCurrency.symbol}0</SelectItem>
                               {priceOptions.slice(0, 4).map(option => (
                                 <SelectItem key={option.value} value={option.value}>
@@ -386,7 +388,7 @@ const Hero: React.FC<HeroProps> = ({
                             <SelectTrigger>
                               <SelectValue placeholder="Max. Price" />
                             </SelectTrigger>
-                            <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                            <SelectContent>
                               {priceOptions.map(option => (
                                 <SelectItem key={option.value} value={option.value}>
                                   {option.label}

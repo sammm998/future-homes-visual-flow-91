@@ -3,10 +3,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-requested-with',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Max-Age': '86400',
-  'Access-Control-Allow-Credentials': 'false'
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
 serve(async (req) => {
@@ -68,7 +65,7 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       // Interactive Selector
       "DUBAI",
       "CYPRUS", 
-
+      "STRASBOURG",
       "MERSIN",
       "TALK TO AI",
       "SEE ALL",
@@ -83,7 +80,7 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       "Premium Properties",
       "Premium Properties Worldwide",
       "Discover your dream home from our exclusive collection",
-      "Explore our handpicked selection of luxury properties across Turkey, Dubai, and Cyprus.",
+      "Explore our handpicked selection of luxury properties across Turkey, Dubai, Cyprus, and France. Each property offers unique features and exceptional value for your investment.",
       "Explore our carefully curated selection of premium properties",
       "View All Properties",
       
@@ -179,6 +176,7 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       "Jens Zierke",
       "Customer - Germany",
       "Florence Manga",
+      "Customer - France",
       
       // News & Information section
       "Stay Informed",
@@ -291,11 +289,14 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       "Where can you find real estate with Future Homes?",
       "Turkey",
       "Antalya, Mersin",
+      "France",
+      "Strasbourg Office",
       "Dubai",
       "Main Office",
       "Antalya Office",
-      "Mersin Office", 
-      "Dubai Office"
+      "Mersin Office",
+      "Dubai Office",
+      "France Office"
     ],
     
     'ContactUs': [
@@ -333,7 +334,8 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       "Main Office",
       "Antalya Office",
       "Mersin Office", 
-      "Dubai Office"
+      "Dubai Office",
+      "France Office"
     ]
   };
 
@@ -408,6 +410,18 @@ async function extractAllTextsFromComponent(component: string): Promise<string[]
       "Mediterranean Coast",
       "Coastal Properties",
       "Modern Developments",
+      ...propertySearchTexts
+    ],
+    'FrancePropertySearch': [
+      "France Properties",
+      "French Properties",
+      "European Real Estate",
+      "Luxury France",
+      "Investment France",
+      "French Riviera",
+      "Paris Properties",
+      "Lyon Properties",
+      "European Investment",
       ...propertySearchTexts
     ]
   };

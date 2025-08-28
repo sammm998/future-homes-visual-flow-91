@@ -7,7 +7,7 @@ export const extractAllTexts = async (): Promise<string[]> => {
     // Core pages and components
     'Index', 'PropertyWizard', 'AIPropertySearch', 'AntalyaPropertySearch', 
     'DubaiPropertySearch', 'CyprusPropertySearch', 'MersinPropertySearch', 
-    'PropertyDetail', 'Testimonials', 'Information',
+    'FrancePropertySearch', 'PropertyDetail', 'Testimonials', 'Information',
     'AboutUs', 'ContactUs', 'Article', 'ArticlePage',
     
     // Components
@@ -51,7 +51,7 @@ export const extractAllTexts = async (): Promise<string[]> => {
     
     // Navigation items
     'Home', 'Properties', 'Search Properties', 'Antalya', 'Dubai', 'Cyprus',
-    'Mersin', 'About Us', 'Contact Us', 'Information', 'Testimonials',
+    'Mersin', 'France', 'About Us', 'Contact Us', 'Information', 'Testimonials',
     'AI Help', 'Easy Find', 'Property Wizard', 'AI Property Search',
     'Language', 'Currency', 'Menu', 'Support', 'Help',
     
@@ -196,7 +196,7 @@ export const getTextsFromFiles = async (): Promise<string[]> => {
   const components = [
     'Index', 'AboutUs', 'ContactUs', 'AntalyaPropertySearch',
     'DubaiPropertySearch', 'CyprusPropertySearch', 'MersinPropertySearch',
-    'PropertyWizard', 'Information', 'AIPropertySearch'
+    'FrancePropertySearch', 'PropertyWizard', 'Information', 'AIPropertySearch'
   ];
   
   for (const component of components) {

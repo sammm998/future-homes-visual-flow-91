@@ -33,7 +33,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
         'Mersin': '/mersin',
         'Dubai': '/dubai',
         'Cyprus': '/cyprus',
-        
+        'France': '/france'
       };
       
       if (locationRoutes[value]) {
@@ -61,7 +61,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder="Any Type" />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                <SelectContent>
                   <SelectItem value="apartments">Apartments</SelectItem>
                   <SelectItem value="villas">Villas</SelectItem>
                   <SelectItem value="houses">Houses</SelectItem>
@@ -77,7 +77,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder="Any" />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                <SelectContent>
                   <SelectItem value="studio">Studio</SelectItem>
                   <SelectItem value="1">1</SelectItem>
                   <SelectItem value="2">2</SelectItem>
@@ -95,12 +95,13 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder="Select Location" />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                <SelectContent>
                   <SelectItem value="all">All</SelectItem>
                   <SelectItem value="Antalya">Antalya</SelectItem>
                   <SelectItem value="Mersin">Mersin</SelectItem>
                   <SelectItem value="Dubai">Dubai</SelectItem>
                   <SelectItem value="Cyprus">Cyprus</SelectItem>
+                  <SelectItem value="France">France</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -138,7 +139,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                       : 'Select Facilities'
                   } />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                <SelectContent>
                   {["Swimming Pool", "Gym", "Parking", "Garden", "Balcony", "Terrace", "Elevator", "Security", "Air Conditioning"].map((facility) => (
                     <div key={facility} className="flex items-center space-x-2 px-2 py-1.5 hover:bg-accent cursor-pointer" 
                          onClick={(e) => {
@@ -188,7 +189,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                <SelectContent>
                   <SelectItem value="price-low">Low to High</SelectItem>
                   <SelectItem value="price-high">High to Low</SelectItem>
                   <SelectItem value="newest">Newest</SelectItem>
@@ -242,7 +243,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <SelectTrigger>
                 <SelectValue placeholder="Select Type" />
               </SelectTrigger>
-              <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+              <SelectContent>
                 <SelectItem value="apartments">Apartments</SelectItem>
                 <SelectItem value="villas">Villas</SelectItem>
                 <SelectItem value="houses">Houses</SelectItem>
@@ -258,7 +259,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <SelectTrigger>
                 <SelectValue placeholder="Select Bedrooms" />
               </SelectTrigger>
-              <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+              <SelectContent>
                 <SelectItem value="studio">Studio</SelectItem>
                 <SelectItem value="1">1</SelectItem>
                 <SelectItem value="2">2</SelectItem>
@@ -276,13 +277,14 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <SelectTrigger>
                 <SelectValue placeholder="Select Location" />
               </SelectTrigger>
-               <SelectContent className="bg-white z-50 border border-gray-200 shadow-lg">
-                 <SelectItem value="all">All</SelectItem>
-                 <SelectItem value="Antalya">Antalya</SelectItem>
-                 <SelectItem value="Mersin">Mersin</SelectItem>
-                 <SelectItem value="Dubai">Dubai</SelectItem>
-                 <SelectItem value="Cyprus">Cyprus</SelectItem>
-               </SelectContent>
+               <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="Antalya">Antalya</SelectItem>
+                <SelectItem value="Mersin">Mersin</SelectItem>
+                <SelectItem value="Dubai">Dubai</SelectItem>
+                <SelectItem value="Cyprus">Cyprus</SelectItem>
+                <SelectItem value="France">France</SelectItem>
+              </SelectContent>
             </Select>
           </div>
 
@@ -293,7 +295,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <SelectTrigger>
                 <SelectValue placeholder="Select District" />
               </SelectTrigger>
-              <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+              <SelectContent>
                 <SelectItem value="fethiye">Fethiye</SelectItem>
                 <SelectItem value="milas">Milas</SelectItem>
                 <SelectItem value="belek">Belek</SelectItem>
@@ -433,7 +435,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <SelectTrigger>
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-gray-900 z-50 border border-gray-200 shadow-lg">
+                <SelectContent>
                   <SelectItem value="ref">Reference No.</SelectItem>
                   <SelectItem value="price-low">Low to High</SelectItem>
                   <SelectItem value="price-high">High to Low</SelectItem>

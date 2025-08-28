@@ -314,36 +314,6 @@ export type Database = {
         }
         Relationships: []
       }
-      newsletter_subscriptions: {
-        Row: {
-          created_at: string
-          email: string
-          id: string
-          is_active: boolean
-          source: string | null
-          subscribed_at: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          id?: string
-          is_active?: boolean
-          source?: string | null
-          subscribed_at?: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          id?: string
-          is_active?: boolean
-          source?: string | null
-          subscribed_at?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       page_translations: {
         Row: {
           created_at: string
@@ -1023,7 +993,6 @@ export type Database = {
           id: string | null
           image_url: string | null
           is_active: boolean | null
-          linkedin_url: string | null
           name: string | null
           position: string | null
         }
@@ -1034,7 +1003,6 @@ export type Database = {
           id?: string | null
           image_url?: string | null
           is_active?: boolean | null
-          linkedin_url?: string | null
           name?: string | null
           position?: string | null
         }
@@ -1045,7 +1013,6 @@ export type Database = {
           id?: string | null
           image_url?: string | null
           is_active?: boolean | null
-          linkedin_url?: string | null
           name?: string | null
           position?: string | null
         }
@@ -1056,10 +1023,6 @@ export type Database = {
       generate_property_slug: {
         Args: { id_param: string; title_param: string }
         Returns: string
-      }
-      get_current_user_admin_status: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
       }
       is_admin: {
         Args: { user_id?: string }

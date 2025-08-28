@@ -3,10 +3,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-requested-with',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Max-Age': '86400',
-  'Access-Control-Allow-Credentials': 'false'
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
 serve(async (req) => {
@@ -104,12 +101,12 @@ function getComponentBaseTexts(component: string): string[] {
       // Destinations section
       "Explore Destinations", "Discover premium properties in the world's most desirable locations",
       "Antalya", "Turkish Riviera Paradise", "45+ Properties", "View Properties",
-      "DUBAI", "CYPRUS", "MERSIN", "ANTALYA",
+      "DUBAI", "CYPRUS", "STRASBOURG", "MERSIN", "ANTALYA",
       "TALK TO AI", "SEE ALL",
       
       // Premium Properties sections
       "Premium Properties", "Discover your dream home from our exclusive collection",
-      "Explore our handpicked selection of luxury properties across Turkey, Dubai, and Cyprus.",
+      "Explore our handpicked selection of luxury properties across Turkey, Dubai, Cyprus, and France.",
       "Each property offers unique features and exceptional value for your investment.",
       "View All Properties", "Premium Properties Worldwide",
       "Explore our carefully curated selection of premium properties",
@@ -179,7 +176,7 @@ function getComponentBaseTexts(component: string): string[] {
       "Olga Aldabbagh", "Zaid Mohanad", "Dollyz Martinez",
       "Amir Salman", "Cuneyt", "Customer - London",
       "Lena", "Local Guide - Russia", "Jens Zierke",
-      "Customer - Germany", "Florence Manga",
+      "Customer - Germany", "Florence Manga", "Customer - France",
       
       // News section
       "News & Insights", "Stay Informed", "Nyheter och insikter",
@@ -366,7 +363,7 @@ function getComponentBaseTexts(component: string): string[] {
       
       // Locations
       "Future Homes Locations", "Where can you find real estate with Future Homes?",
-      "Turkey", "Antalya, Mersin", , "Dubai"
+      "Turkey", "Antalya, Mersin", "France", "Strasbourg Office", "Dubai"
     ]
   };
   

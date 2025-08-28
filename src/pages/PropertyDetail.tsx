@@ -15,7 +15,7 @@ import { getAntalyaPropertyById } from '@/data/antalyaProperties';
 import { getMersinPropertyById } from '@/data/mersinProperties';
 import { getDubaiPropertyById } from '@/data/dubaiProperties';
 import { getCyprusPropertyById } from '@/data/cyprusProperties';
-
+import { getFrancePropertyById } from '@/data/franceProperties';
 import { supabase } from '@/integrations/supabase/client';
 
 // Agent data with images
@@ -121,6 +121,25 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       }
     }
     
+    if (fromLocation.includes('france')) {
+      const franceProperty = getFrancePropertyById(id);
+      if (franceProperty) {
+        console.log('getPropertyData: Found France property in static data:', franceProperty.title);
+        return {
+          ...franceProperty,
+          propertyType: franceProperty.propertyType || "Apartment",
+          pricing: [{ 
+            type: franceProperty.bedrooms + " " + franceProperty.propertyType, 
+            size: franceProperty.area + "m²", 
+            price: franceProperty.price 
+          }],
+          facilities: franceProperty.features || [],
+          agent: "Ervina Köksel",
+          contactPhone: "+905523032750",
+          contactEmail: "info@futurehomesturkey.com"
+        };
+      }
+    }
   }
   
   // Try all static data sources if no location context provided
@@ -198,6 +217,25 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
           price: cyprusProperty.price 
         }],
         facilities: cyprusProperty.features || [],
+        agent: "Ervina Köksel",
+        contactPhone: "+905523032750",
+        contactEmail: "info@futurehomesturkey.com"
+      };
+    }
+    
+    // Check France
+    const franceProperty = getFrancePropertyById(id);
+    if (franceProperty) {
+      console.log('getPropertyData: Found property in France static data:', franceProperty.title);
+      return {
+        ...franceProperty,
+        propertyType: franceProperty.propertyType || "Apartment",
+        pricing: [{ 
+          type: franceProperty.bedrooms + " " + franceProperty.propertyType, 
+          size: franceProperty.area + "m²", 
+          price: franceProperty.price 
+        }],
+        facilities: franceProperty.features || [],
         agent: "Ervina Köksel",
         contactPhone: "+905523032750",
         contactEmail: "info@futurehomesturkey.com"
@@ -5835,11 +5873,11 @@ const PropertyDetail = () => {
       content: (
         <div className="space-y-6">
           <div className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border border-border/50 shadow-lg">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {property.facilities?.map((facility: string, index: number) => (
-                <div key={index} className="flex items-start gap-3 p-4 bg-gradient-to-r from-green-500/10 to-green-500/5 rounded-lg hover:from-green-500/20 hover:to-green-500/10 transition-all duration-300 min-h-[60px]">
-                  <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm font-medium text-foreground break-words leading-relaxed flex-1">{facility}</span>
+                <div key={index} className="flex items-center gap-2 p-3 bg-gradient-to-r from-green-500/10 to-green-500/5 rounded-lg hover:from-green-500/20 hover:to-green-500/10 transition-all duration-300">
+                  <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
+                  <span className="text-xs font-medium text-foreground break-words leading-tight">{facility}</span>
                 </div>
               ))}
             </div>
@@ -5938,7 +5976,7 @@ const PropertyDetail = () => {
                 if (locationLower.includes('dubai')) return '/dubai';
                 if (locationLower.includes('mersin')) return '/mersin';
                 if (locationLower.includes('cyprus') || locationLower.includes('kyrenia') || locationLower.includes('famagusta')) return '/cyprus';
-                
+                if (locationLower.includes('france') || locationLower.includes('cannes') || locationLower.includes('nice')) return '/france';
                 return '/properties';
               };
 
@@ -5965,7 +6003,7 @@ const PropertyDetail = () => {
                 if (locationLower.includes('dubai')) return 'Dubai Properties';
                 if (locationLower.includes('mersin')) return 'Mersin Properties';
                 if (locationLower.includes('cyprus') || locationLower.includes('kyrenia') || locationLower.includes('famagusta')) return 'Cyprus Properties';
-                
+                if (locationLower.includes('france') || locationLower.includes('cannes') || locationLower.includes('nice')) return 'France Properties';
                 return 'All Properties';
               };
               return `Back to ${getLocationName(property?.location || '')}`;
@@ -6129,7 +6167,7 @@ const PropertyDetail = () => {
               if (locationName.includes('dubai')) return 'Dubai';
               if (locationName.includes('mersin')) return 'Mersin';
               if (locationName.includes('cyprus') || locationName.includes('kyrenia') || locationName.includes('famagusta')) return 'Cyprus';
-              
+              if (locationName.includes('france') || locationName.includes('cannes') || locationName.includes('nice')) return 'France';
               return property.location || 'Antalya'; // fallback to property location or Antalya
             })()} />
           </div>
@@ -6201,9 +6239,7 @@ const PropertyDetail = () => {
                       variant="outline" 
                       className="w-full border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 text-sm" 
                       size="sm"
-                      onClick={() => {
-                        window.location.href = `tel:${property.contactPhone}`;
-                      }}
+                      onClick={() => window.location.href = `tel:${property.contactPhone}`}
                     >
                       <Phone className="w-4 h-4 mr-2" />
                       Call Now
@@ -6212,9 +6248,7 @@ const PropertyDetail = () => {
                       variant="outline" 
                       className="w-full border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 text-sm" 
                       size="sm"
-                      onClick={() => {
-                        window.location.href = `mailto:${property.contactEmail}`;
-                      }}
+                      onClick={() => window.location.href = `mailto:${property.contactEmail}`}
                     >
                       <Mail className="w-4 h-4 mr-2" />
                       Send Email  
