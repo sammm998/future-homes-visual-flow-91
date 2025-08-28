@@ -211,17 +211,16 @@ const AboutUs = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-2">
-                      {member.phone && (
-                        <div className="flex items-center justify-center">
-                          <Phone className="w-4 h-4 mr-2" />
-                          <span className="text-muted-foreground">{member.phone}</span>
-                        </div>
-          )}
-                      {member.email && (
+                      {member.linkedin_url && (
                         <div className="flex items-center justify-center">
                           <Globe className="w-4 h-4 mr-2" />
-                          <a href={`mailto:${member.email}`} className="text-muted-foreground hover:text-primary">
-                            {member.email}
+                          <a 
+                            href={member.linkedin_url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-muted-foreground hover:text-primary"
+                          >
+                            LinkedIn Profile
                           </a>
                         </div>
                       )}

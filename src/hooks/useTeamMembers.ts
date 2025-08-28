@@ -5,10 +5,10 @@ export const useTeamMembers = () => {
   const { data: teamMembers = [], isLoading, error } = useQuery({
     queryKey: ['teamMembers'],
     queryFn: async () => {
+      // Use the safe view that doesn't expose email/phone
       const { data, error } = await supabase
-        .from('team_members')
+        .from('team_members_public')
         .select('*')
-        .eq('is_active', true)
         .order('display_order', { ascending: true });
       
       if (error) throw error;
