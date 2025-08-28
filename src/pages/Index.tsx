@@ -14,7 +14,7 @@ import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useOptimizedSync } from "@/hooks/useOptimizedSync";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import { CriticalResourceLoader } from "@/components/CriticalResourceLoader";
@@ -243,14 +243,14 @@ const Index = () => {
 
         {/* 30-second popup */}
         <Dialog open={showPopup} onOpenChange={setShowPopup}>
-          <DialogContent className="max-w-lg mx-4 text-center" aria-describedby="popup-description">
+          <DialogContent className="max-w-lg mx-4 text-center">
             <DialogHeader className="space-y-4">
               <DialogTitle className="text-2xl font-bold text-foreground">
                 Find Your Perfect Property
               </DialogTitle>
-              <p id="popup-description" className="text-muted-foreground text-lg">
+              <DialogDescription className="text-muted-foreground text-lg">
                 Let us help you discover the ideal investment opportunity
-              </p>
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-6 py-4">
               <button 

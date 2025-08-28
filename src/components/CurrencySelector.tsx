@@ -26,7 +26,7 @@ const CurrencySelector: React.FC = () => {
           />
           
           {/* Dropdown */}
-          <div className="absolute top-full left-0 mt-1 w-36 bg-background border border-border rounded-lg shadow-lg z-50">
+          <div className="absolute top-full left-0 mt-1 w-36 bg-white dark:bg-gray-900 border border-border rounded-lg shadow-lg backdrop-blur-sm z-50">
             <div className="p-1">
               {currencies.map((currency) => (
                 <button

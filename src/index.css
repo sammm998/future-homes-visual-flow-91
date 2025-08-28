@@ -164,6 +164,29 @@ All colors MUST be HSL.
 
 
 
+/* Chrome-specific fixes for better rendering */
+@supports (-webkit-backdrop-filter: blur(10px)) {
+  .backdrop-blur-sm {
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+}
+
+/* Ensure dropdowns have proper backgrounds in Chrome */
+[data-radix-popper-content-wrapper] {
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+}
+
+/* Fix for Chrome rendering issues with popover backgrounds */
+.chrome-dropdown-fix {
+  background: white !important;
+}
+
+.dark .chrome-dropdown-fix {
+  background: rgb(17 24 39) !important;
+}
+
 /* ElevenLabs Widget Styling */
 elevenlabs-convai {
   position: fixed !important;
