@@ -1,151 +1,106 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
-import { LazyComponent, LazyTestimonials, LazyShuffleGrid, LazyPropertyShowcase, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
+import { LazyComponent, LazyTestimonials, LazyShuffleGrid, LazyPropertyShowcase, LazyNewsInsights } from "@/components/LazyComponent";
 import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import SEOHead from "@/components/SEOHead";
-import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
-import { useSEO } from "@/hooks/useSEO";
-import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useOptimizedSync } from "@/hooks/useOptimizedSync";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
-import { useTestimonials } from "@/hooks/useTestimonials";
-import { CriticalResourceLoader } from "@/components/CriticalResourceLoader";
-import { PerformanceTracker } from "@/components/PerformanceTracker";
-import { LocalSEOManager } from "@/components/LocalSEOManager";
-import { SEOSchemaGenerator } from "@/components/SEOSchemaGenerator";
-import { FAQSchema } from "@/components/FAQSchema";
-import { ResourcePreloader } from "@/components/performance/ResourcePreloader";
-import { BundleOptimizer } from "@/components/performance/BundleOptimizer";
-
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 const Index = () => {
-  console.log('Index component rendering...');
+  console.log('Index component rendering - SIMPLIFIED');
   
-  try {
-    // Basic hooks first - these are stable
-    const navigate = useNavigate();
-    const currentCanonicalUrl = useCanonicalUrl();
-    const [showPopup, setShowPopup] = useState(false);
-    
-    // SEO hooks - stable references
-    const { canonicalUrl, hreflangUrls } = useSEOLanguage();
-    const { structuredData } = useSEO();
-    
-    // Data hooks with error handling
-    let testimonials: any[] = [];
-    let testimonialsLoading = false;
-    let backgroundSync = () => {};
-    let isBackgroundSyncing = false;
-    
-    try {
-      const testimonialsResult = useTestimonials();
-      testimonials = testimonialsResult.testimonials || [];
-      testimonialsLoading = testimonialsResult.loading;
-    } catch (error) {
-      console.error('Testimonials hook error:', error);
+  // Simple state management
+  const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(false);
+
+  // Simple popup timer - run once only
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+    }, 45000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Static testimonials to avoid hook complexity
+  const staticTestimonials = useMemo(() => [
+    {
+      text: "Outstanding service and beautiful properties. The team helped us find our dream home in Turkey.",
+      name: "Sarah Johnson",
+      role: "Property Owner",
+      image: "/placeholder.svg"
+    },
+    {
+      text: "Professional guidance throughout the entire process. Highly recommend Future Homes.",
+      name: "Michael Chen",
+      role: "Investor",
+      image: "/placeholder.svg"
+    },
+    {
+      text: "Excellent investment opportunities and transparent communication. Very satisfied with the service.",
+      name: "Emma Thompson",
+      role: "International Buyer",
+      image: "/placeholder.svg"
+    },
+    {
+      text: "Found the perfect apartment in Dubai through Future Homes. Great team and wonderful experience.",
+      name: "Ahmed Al-Rahman",
+      role: "Dubai Resident",
+      image: "/placeholder.svg"
+    },
+    {
+      text: "Turkish citizenship process was smooth and professional. Thank you for all the support.",
+      name: "Lisa Martinez",
+      role: "New Turkish Citizen",
+      image: "/placeholder.svg"
+    },
+    {
+      text: "Beautiful villa in Cyprus with stunning sea views. The investment has been fantastic.",
+      name: "Robert Wilson",
+      role: "Cyprus Property Owner",
+      image: "/placeholder.svg"
     }
-    
-    try {
-      const syncResult = useOptimizedSync();
-      backgroundSync = syncResult.backgroundSync;
-      isBackgroundSyncing = syncResult.isBackgroundSyncing;
-    } catch (error) {
-      console.error('Sync hook error:', error);
+  ], []);
+
+  const circularTestimonials = useMemo(() => 
+    staticTestimonials.map(testimonial => ({
+      quote: testimonial.text,
+      name: testimonial.name,
+      designation: testimonial.role,
+      src: testimonial.image
+    })), [staticTestimonials]);
+
+  const homePageStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Future Homes",
+    "url": "https://futurehomesturkey.com",
+    "description": "Premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Europe",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://futurehomesturkey.com/ai-property-search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
     }
+  };
 
-    // Background sync that doesn't block page load - ONE TIME ONLY
-    useEffect(() => {
-      let mounted = true;
-      const timer = setTimeout(() => {
-        if (mounted) {
-          try {
-            backgroundSync();
-          } catch (error) {
-            console.error('Background sync error:', error);
-          }
-        }
-      }, 3000);
-      
-      return () => {
-        mounted = false;
-        clearTimeout(timer);
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // Empty dependency array - run only once
-    
-    // Transform testimonials for columns
-    const testimonialColumns = useMemo(() => {
-      const validTestimonials = Array.isArray(testimonials) ? testimonials : [];
-      return {
-        firstColumn: validTestimonials.slice(0, 6),
-        secondColumn: validTestimonials.slice(6, 12),
-        thirdColumn: validTestimonials.slice(12, 18),
-      };
-    }, [testimonials]);
-
-    // Popup timer - ONE TIME ONLY
-    useEffect(() => {
-      let mounted = true;
-      const timer = setTimeout(() => {
-        if (mounted) {
-          setShowPopup(true);
-        }
-      }, 45000);
-      
-      return () => {
-        mounted = false;
-        clearTimeout(timer);
-      };
-    }, []); // Empty dependency array - run only once
-    
-    // Transform dynamic testimonials for circular component - SAFE
-    const circularTestimonials = useMemo(() => {
-      const validTestimonials = Array.isArray(testimonials) ? testimonials : [];
-      return validTestimonials.map(testimonial => ({
-        quote: testimonial?.text || '',
-        name: testimonial?.name || 'Anonymous',
-        designation: testimonial?.role || 'Customer',
-        src: testimonial?.image || '/placeholder.svg'
-      }));
-    }, [testimonials]);
-
-    const homePageStructuredData = {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Future Homes",
-      "url": "https://futurehomesturkey.com",
-      "description": "Premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Europe",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://futurehomesturkey.com/ai-property-search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    };
-
-    return (
-      <ErrorBoundary>
-        <div className="min-h-screen overflow-x-hidden">
+  return (
+    <ErrorBoundary>
+      <div className="min-h-screen overflow-x-hidden">
         <SEOHead
           title="Future Homes - Premium Real Estate in Turkey, Dubai & Europe"
           description="Future Homes offers premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Europe. Expert guidance for property investment and Turkish citizenship."
           keywords="real estate Turkey, property investment Dubai, Cyprus properties, European real estate, Turkish citizenship, luxury homes, investment properties"
-          canonicalUrl={currentCanonicalUrl}
-          hreflang={hreflangUrls}
-          structuredData={structuredData}
+          canonicalUrl="https://futurehomesturkey.com"
+          structuredData={homePageStructuredData}
         />
         
         {/* Essential components only */}
         <OrganizationSchema />
-        <PerformanceTracker enableWebVitals={false} />
         <Navigation />
         
         {/* Hero Section */}
@@ -181,7 +136,7 @@ const Index = () => {
           </LazyComponent>
         </ErrorBoundary>
         
-        {/* Testimonials Columns */}
+        {/* Static Testimonials Grid */}
         <section className="bg-background my-20 relative">
           <div className="container z-10 mx-auto">
             <div className="flex flex-col items-center justify-center max-w-[540px] mx-auto">
@@ -198,30 +153,20 @@ const Index = () => {
             </div>
 
             <div className="flex justify-center gap-4 sm:gap-6 mt-10">
-              {testimonialsLoading ? (
-                <div className="flex justify-center items-center w-full h-64">
-                  <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-                </div>
-              ) : testimonials.length === 0 ? (
-                <div className="flex justify-center items-center w-full h-64 text-muted-foreground">
-                  <p>No testimonials available</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
-                  {testimonials.slice(0, 6).map((testimonial, index) => (
-                    <div 
-                      key={index}
-                      className="p-6 rounded-3xl border shadow-lg shadow-primary/10 bg-card text-card-foreground"
-                    >
-                      <div className="text-sm leading-relaxed mb-4">{testimonial.text || 'Great service!'}</div>
-                      <div className="flex flex-col">
-                        <div className="font-semibold tracking-tight leading-5 text-sm">{testimonial.name || 'Anonymous'}</div>
-                        <div className="leading-5 text-muted-foreground tracking-tight text-xs">{testimonial.role || 'Customer'}</div>
-                      </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
+                {staticTestimonials.slice(0, 6).map((testimonial, index) => (
+                  <div 
+                    key={index}
+                    className="p-6 rounded-3xl border shadow-lg shadow-primary/10 bg-card text-card-foreground"
+                  >
+                    <div className="text-sm leading-relaxed mb-4">{testimonial.text}</div>
+                    <div className="flex flex-col">
+                      <div className="font-semibold tracking-tight leading-5 text-sm">{testimonial.name}</div>
+                      <div className="leading-5 text-muted-foreground tracking-tight text-xs">{testimonial.role}</div>
                     </div>
-                  ))}
-                </div>
-              )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -238,30 +183,20 @@ const Index = () => {
                 </p>
               </div>
             <div className="flex justify-center">
-              {testimonialsLoading ? (
-                <div className="flex justify-center items-center w-full h-64">
-                  <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-                </div>
-              ) : circularTestimonials.length === 0 ? (
-                <div className="flex justify-center items-center w-full h-64 text-muted-foreground">
-                  <p>No testimonials available</p>
-                </div>
-              ) : (
-                <ErrorBoundary fallback={<div className="text-center text-muted-foreground">Testimonials temporarily unavailable</div>}>
-                  <LazyTestimonials 
-                    testimonials={circularTestimonials}
-                    autoplay={false}
-                    colors={{
-                      name: "hsl(var(--foreground))",
-                      designation: "hsl(var(--muted-foreground))",
-                      testimony: "hsl(var(--foreground))",
-                      arrowBackground: "hsl(var(--primary))",
-                      arrowForeground: "hsl(var(--primary-foreground))",
-                      arrowHoverBackground: "hsl(var(--primary-glow))"
-                    }}
-                  />
-                </ErrorBoundary>
-              )}
+              <ErrorBoundary fallback={<div className="text-center text-muted-foreground">Testimonials temporarily unavailable</div>}>
+                <LazyTestimonials 
+                  testimonials={circularTestimonials}
+                  autoplay={false}
+                  colors={{
+                    name: "hsl(var(--foreground))",
+                    designation: "hsl(var(--muted-foreground))",
+                    testimony: "hsl(var(--foreground))",
+                    arrowBackground: "hsl(var(--primary))",
+                    arrowForeground: "hsl(var(--primary-foreground))",
+                    arrowHoverBackground: "hsl(var(--primary-glow))"
+                  }}
+                />
+              </ErrorBoundary>
             </div>
           </div>
         </section>
@@ -279,7 +214,7 @@ const Index = () => {
         {/* ElevenLabs Widget */}
         <ElevenLabsWidget />
 
-        {/* 30-second popup */}
+        {/* Simple popup without complex dependencies */}
         <Dialog open={showPopup} onOpenChange={setShowPopup}>
           <DialogContent className="max-w-lg mx-4 text-center">
             <DialogHeader className="space-y-4">
@@ -312,26 +247,9 @@ const Index = () => {
             </div>
           </DialogContent>
         </Dialog>
-        </div>
-      </ErrorBoundary>
-    );
-  } catch (error) {
-    console.error('Critical error in Index component:', error);
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Something went wrong</h1>
-          <p className="text-gray-600">Please refresh the page and try again.</p>
-          <button 
-            onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md"
-          >
-            Refresh Page
-          </button>
-        </div>
       </div>
-    );
-  }
+    </ErrorBoundary>
+  );
 };
 
 export default Index;
