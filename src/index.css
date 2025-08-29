@@ -12,6 +12,27 @@ body {
   top: 0 !important;
 }
 
+/* Currency code anti-translation styles */
+.currency-code {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+  text-transform: none !important;
+  -webkit-text-fill-color: currentColor !important;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace !important;
+}
+
+.currency-code::before {
+  content: "";
+  speak: none;
+}
+
+.notranslate {
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
