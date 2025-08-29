@@ -12,7 +12,7 @@ const CurrencySelector: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 px-2 py-1 rounded text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[60px]"
       >
-        <span className="font-medium text-xs">{selectedCurrency.code.slice(0, 3).toUpperCase()}</span>
+        <span className="font-medium text-xs" lang="en">{selectedCurrency.code.slice(0, 3).toUpperCase()}</span>
         <ChevronDown className="w-3 h-3" />
       </button>
 
@@ -40,7 +40,7 @@ const CurrencySelector: React.FC = () => {
                       : 'hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
-                  <span className="font-medium text-xs">{currency.code.slice(0, 3).toUpperCase()}</span>
+                  <span className="font-medium text-xs" lang="en">{currency.code.slice(0, 3).toUpperCase()}</span>
                 </button>
               ))}
             </div>
