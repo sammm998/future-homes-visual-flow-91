@@ -5620,15 +5620,7 @@ const PropertyDetail = () => {
     const cleanedPrice = priceString.replace(/^(From\s*€|€\s*From)\s*/i, '');
     const numericValue = parseInt(cleanedPrice.replace(/[€$£,₺₽₨﷼kr]/g, ''));
     if (isNaN(numericValue)) return priceString;
-    return `Starting price ${formatPrice(numericValue)}`;
-  };
-
-  // Helper function for pricing cards without "Starting price" text
-  const formatCardPrice = (priceString: string): string => {
-    const cleanedPrice = priceString.replace(/^(From\s*€|€\s*From)\s*/i, '');
-    const numericValue = parseInt(cleanedPrice.replace(/[€$£,₺₽₨﷼kr]/g, ''));
-    if (isNaN(numericValue)) return priceString;
-    return formatPrice(numericValue);
+    return `${formatPrice(numericValue)}`;
   };
 
   useEffect(() => {
@@ -5910,7 +5902,7 @@ const PropertyDetail = () => {
                       <div className="text-xs text-muted-foreground">{item.size}</div>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <div className="text-lg font-bold text-primary">{formatCardPrice(item.price)}</div>
+                      <div className="text-lg font-bold text-primary">{formatPropertyPrice(item.price)}</div>
                       <div className="text-xs text-muted-foreground">Price</div>
                     </div>
                   </div>
