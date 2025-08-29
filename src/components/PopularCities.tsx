@@ -7,6 +7,8 @@ const PopularCities = () => {
     'DUBAI',
     '/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.png', // Modern city aerial view
     'CYPRUS',
+    '/lovable-uploads/bfe83af6-39c4-4a52-b4e4-82ff091c5f48.png', // Strasbourg
+    'STRASBOURG',
     '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Mersin
     'MERSIN',
     '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png', // Antalya
@@ -17,6 +19,8 @@ const PopularCities = () => {
     'DUBAI',
     '/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.png', // Cyprus
     'CYPRUS',
+    '/lovable-uploads/bfe83af6-39c4-4a52-b4e4-82ff091c5f48.png', // Strasbourg
+    'STRASBOURG',
     'Luxury',
     'Modern',
     '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Mersin

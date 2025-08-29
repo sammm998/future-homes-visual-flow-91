@@ -307,6 +307,12 @@ const Hero: React.FC<HeroProps> = ({
                           Cyprus
                         </div>
                       </SelectItem>
+                      <SelectItem value="Strasbourg">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Strasbourg
+                        </div>
+                      </SelectItem>
                       <SelectItem value="Dubai">
                         <div className="flex items-center gap-2">
                           <MapPin size={16} />
