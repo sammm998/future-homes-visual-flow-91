@@ -94,12 +94,18 @@ const generateSquares = () => {
     <div
       key={sq.id}
       className="w-full h-full rounded-md overflow-hidden bg-muted"
-      style={{
-        backgroundImage: `url(${sq.src})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    ></div>
+    >
+      <img 
+        src={sq.src}
+        alt={`Property ${sq.id}`}
+        className="w-full h-full object-cover"
+        loading="lazy"
+        onError={(e) => {
+          console.error(`Failed to load image: ${sq.src}`);
+          e.currentTarget.style.display = 'none';
+        }}
+      />
+    </div>
   ));
 };
 

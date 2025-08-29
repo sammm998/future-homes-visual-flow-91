@@ -90,19 +90,23 @@ const InteractiveSelector = () => {
             {options.map((option, index) => <motion.div key={index} className={`
                   relative cursor-pointer transition-all duration-700 ease-out overflow-hidden
                   ${activeIndex === index ? 'flex-[4]' : 'flex-1'}
-                `} style={{
-            backgroundImage: `url('${option.image}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: animatedOptions.includes(index) ? 1 : 0,
-            transform: animatedOptions.includes(index) ? 'translateX(0)' : 'translateX(-60px)'
-          }} onClick={() => handleOptionClick(index)} initial={false} animate={{
+                `} onClick={() => handleOptionClick(index)} initial={false} animate={{
             opacity: animatedOptions.includes(index) ? 1 : 0,
             x: animatedOptions.includes(index) ? 0 : -60
           }} transition={{
             duration: 0.6,
             delay: index * 0.1
           }}>
+                {/* Background Image */}
+                <img 
+                  src={option.image}
+                  alt={option.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onError={(e) => {
+                    console.error(`Failed to load image: ${option.image}`);
+                    e.currentTarget.style.opacity = '0';
+                  }}
+                />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                 
@@ -139,11 +143,7 @@ const InteractiveSelector = () => {
 
           {/* Mobile/Tablet View */}
           <div className="lg:hidden space-y-4">
-            {options.map((option, index) => <motion.div key={index} className="relative h-32 sm:h-40 rounded-xl overflow-hidden shadow-lg cursor-pointer" style={{
-            backgroundImage: `url('${option.image}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }} onClick={() => handleOptionClick(index)} initial={{
+            {options.map((option, index) => <motion.div key={index} className="relative h-32 sm:h-40 rounded-xl overflow-hidden shadow-lg cursor-pointer" onClick={() => handleOptionClick(index)} initial={{
             opacity: 0,
             y: 30
           }} animate={{
@@ -157,6 +157,16 @@ const InteractiveSelector = () => {
           }} whileTap={{
             scale: 0.98
           }}>
+                {/* Background Image */}
+                <img 
+                  src={option.image}
+                  alt={option.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onError={(e) => {
+                    console.error(`Failed to load image: ${option.image}`);
+                    e.currentTarget.style.opacity = '0';
+                  }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
                 <div className="relative h-full flex items-center p-4 sm:p-6">
                   <div className="flex items-center gap-4">
