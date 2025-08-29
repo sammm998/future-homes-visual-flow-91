@@ -62,7 +62,7 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
         className="flex items-center gap-1 px-2 py-1 text-sm bg-white border border-gray-200 rounded hover:bg-gray-50 transition-colors"
       >
         <span className="text-lg">{currentLanguage.flag}</span>
-        <span className="hidden sm:inline text-xs">{currentLanguage.code.toUpperCase()}</span>
+        <span className="text-xs">{currentLanguage.code.toUpperCase()}</span>
         <ChevronDown size={12} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
