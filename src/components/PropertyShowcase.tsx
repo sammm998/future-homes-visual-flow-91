@@ -101,11 +101,6 @@ const PropertyShowcase = () => {
                   src={property.image} 
                   alt={property.title}
                   className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                  onError={(e) => {
-                    console.error(`Failed to load image: ${property.image}`);
-                    e.currentTarget.src = '/placeholder.svg';
-                  }}
                 />
                 <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold">
                   {property.price}
