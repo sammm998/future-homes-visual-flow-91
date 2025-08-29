@@ -116,7 +116,7 @@ export const usePropertySEO = (property: any, location: string) => {
     }
 
     const price = property.price?.replace(/[^\d]/g, '') || '';
-    const priceText = price ? `€${parseInt(price).toLocaleString()}` : '';
+    const priceText = price ? `€${parseInt(price).toLocaleString('en-US')}` : '';
     
     return {
       title: `${property.title} ${priceText} - ${location} Property | Future Homes`,

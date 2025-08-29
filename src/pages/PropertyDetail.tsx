@@ -307,7 +307,7 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
             pricing = apartmentTypes.map((apt: any) => ({
               type: apt.type ? `${apt.type} Apartment` : 'Apartment',
               size: apt.size ? `${apt.size}m²` : '',
-              price: apt.price ? `€${apt.price.toLocaleString()}` : ''
+              price: apt.price ? `€${apt.price.toLocaleString('en-US')}` : ''
             }));
           }
         } catch (error) {
