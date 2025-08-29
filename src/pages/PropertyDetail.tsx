@@ -5615,12 +5615,13 @@ const PropertyDetail = () => {
   // No longer using useProperty hook to avoid re-render issues
 
   // Helper function to extract and format prices
-  const formatPropertyPrice = (priceString: string): string => {
+  const formatPropertyPrice = (priceString: string, includeStarting: boolean = false): string => {
     // First remove "From €" or "€From" prefixes from the original string
     const cleanedPrice = priceString.replace(/^(From\s*€|€\s*From)\s*/i, '');
     const numericValue = parseInt(cleanedPrice.replace(/[€$£,₺₽₨﷼kr]/g, ''));
     if (isNaN(numericValue)) return priceString;
-    return `Starting ${formatPrice(numericValue)}`;
+    const formattedPrice = formatPrice(numericValue);
+    return includeStarting ? `Starting ${formattedPrice}` : formattedPrice;
   };
 
   useEffect(() => {
@@ -6018,7 +6019,7 @@ const PropertyDetail = () => {
           </div>
           
           <div className="text-2xl md:text-3xl font-bold text-primary mb-6 bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-            {formatPropertyPrice(property.price)}
+            {formatPropertyPrice(property.price, true)}
           </div>
         </div>
 
