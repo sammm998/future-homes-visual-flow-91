@@ -22,14 +22,6 @@ const DynamicCitiesGrid = () => {
       isHovered: false,
     },
     {
-      id: 3,
-      image: '/lovable-uploads/bfe83af6-39c4-4a52-b4e4-82ff091c5f48.png',
-      title: 'STRASBOURG',
-      defaultPos: { x: 8, y: 0, w: 4, h: 4 },
-      mediaSize: 1,
-      isHovered: false,
-    },
-    {
       id: 4,
       image: '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png',
       title: 'MERSIN',
