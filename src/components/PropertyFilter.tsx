@@ -32,7 +32,8 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
         'Antalya': '/antalya',
         'Mersin': '/mersin',
         'Dubai': '/dubai',
-        'Cyprus': '/cyprus'
+        'Cyprus': '/cyprus',
+        'France': '/france'
       };
       
       if (locationRoutes[value]) {
@@ -100,6 +101,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                   <SelectItem value="Mersin">Mersin</SelectItem>
                   <SelectItem value="Dubai">Dubai</SelectItem>
                   <SelectItem value="Cyprus">Cyprus</SelectItem>
+                  <SelectItem value="France">France</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -280,8 +282,9 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectItem value="Antalya">Antalya</SelectItem>
                 <SelectItem value="Mersin">Mersin</SelectItem>
                 <SelectItem value="Dubai">Dubai</SelectItem>
-                 <SelectItem value="Cyprus">Cyprus</SelectItem>
-               </SelectContent>
+                <SelectItem value="Cyprus">Cyprus</SelectItem>
+                <SelectItem value="France">France</SelectItem>
+              </SelectContent>
             </Select>
           </div>
 

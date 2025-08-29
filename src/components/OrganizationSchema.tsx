@@ -34,7 +34,7 @@ const OrganizationSchema: React.FC = () => {
       },
       {
         "@type": "Country",
-        "name": "Cyprus"
+        "name": "France"
       }
     ],
     "serviceType": [

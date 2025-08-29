@@ -8,7 +8,6 @@ import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
-import GlobalPerformanceOptimizer from "@/components/GlobalPerformanceOptimizer";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -22,6 +21,7 @@ const AntalyaPropertySearch = lazy(() => import("./pages/AntalyaPropertySearch")
 const DubaiPropertySearch = lazy(() => import("./pages/DubaiPropertySearch"));
 const CyprusPropertySearch = lazy(() => import("./pages/CyprusPropertySearch"));
 const MersinPropertySearch = lazy(() => import("./pages/MersinPropertySearch"));
+const FrancePropertySearch = lazy(() => import("./pages/FrancePropertySearch"));
 
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const Testimonials = lazy(() => import("./pages/Testimonials"));
@@ -64,15 +64,6 @@ function App() {
           <CurrencyProvider>
             <TooltipProvider>
               <BrowserRouter>
-                <GlobalPerformanceOptimizer 
-                  criticalImages={[
-                    '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png',
-                    '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png',
-                    '/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.png'
-                  ]}
-                  enableImageOptimization={true}
-                  enableResourceHints={true}
-                />
                 <PerformanceMonitor logLevel="basic" />
                 <Toaster />
                 <Sonner />
@@ -105,6 +96,7 @@ function AppContent() {
       <Route path="/dubai" element={<DubaiPropertySearch />} />
       <Route path="/cyprus" element={<CyprusPropertySearch />} />
       <Route path="/mersin" element={<MersinPropertySearch />} />
+      <Route path="/france" element={<FrancePropertySearch />} />
       
       <Route path="/property/:id" element={<PropertyDetail />} />
       <Route path="/testimonials" element={<Testimonials />} />
