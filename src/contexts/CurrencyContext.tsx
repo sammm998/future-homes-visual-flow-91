@@ -48,7 +48,7 @@ interface CurrencyContextType {
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(currencies[0]); // EUR as default
+  const [selectedCurrency, setSelectedCurrencyState] = useState<Currency>(currencies[0]); // EUR as default
 
   const convertPrice = (price: number, fromCurrency: string = 'EUR'): number => {
     if (fromCurrency === 'EUR') {
@@ -100,28 +100,60 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   useEffect(() => {
-    // Clear all localStorage currency data to prevent corruption
-    localStorage.removeItem('currency');
+    // Comprehensive localStorage cleanup - clear all potential currency-related data
+    const keysToRemove = ['currency', 'selectedCurrency', 'currencyData', 'currency_cache'];
+    keysToRemove.forEach(key => {
+      localStorage.removeItem(key);
+    });
     
-    // Always start with EUR as default
-    setSelectedCurrency(currencies[0]); // EUR
+    // Force clear any session storage as well
+    sessionStorage.removeItem('currency');
+    
+    // Always start with EUR as default and force immediate update
+    const defaultCurrency = currencies[0]; // EUR
+    setSelectedCurrency(defaultCurrency);
+    
+    // Add logging to debug any issues
+    console.log('Currency Context initialized with:', defaultCurrency);
+    console.log('Available currencies:', currencies.map(c => c.code));
 
     const handleStorageChange = () => {
       const storedCurrencyCode = localStorage.getItem('currency');
-      if (storedCurrencyCode && storedCurrencyCode !== selectedCurrency.code) {
+      if (storedCurrencyCode) {
         const currency = currencies.find(c => c.code === storedCurrencyCode);
-        if (currency) {
+        if (currency && currency.code && currency.flag && currency.symbol) {
+          console.log('Valid currency found in storage:', currency);
           setSelectedCurrency(currency);
         } else {
-          // If stored currency is invalid, clear it
+          console.warn('Invalid currency in storage, using default:', storedCurrencyCode);
           localStorage.removeItem('currency');
+          setSelectedCurrency(currencies[0]);
         }
       }
     };
 
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
-  }, [selectedCurrency.code]);
+  }, []);
+
+  const setSelectedCurrency = (currency: Currency) => {
+    // Validate currency object before setting
+    if (!currency || !currency.code || !currency.flag || !currency.symbol) {
+      console.error('Invalid currency object:', currency);
+      return;
+    }
+    
+    // Verify currency exists in our currencies array
+    const validCurrency = currencies.find(c => c.code === currency.code);
+    if (!validCurrency) {
+      console.error('Currency not found in valid currencies:', currency.code);
+      return;
+    }
+    
+    console.log('Setting currency to:', validCurrency);
+    setSelectedCurrencyState(validCurrency);
+    localStorage.setItem('currency', validCurrency.code);
+  };
 
   return (
     <CurrencyContext.Provider value={{
