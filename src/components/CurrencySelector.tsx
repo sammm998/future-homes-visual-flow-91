@@ -44,7 +44,7 @@ const CurrencySelector: React.FC = () => {
         className="flex items-center gap-1 px-2 py-1 rounded text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[60px]"
         data-currency-code={displayCurrency.code}
       >
-        <span className="text-sm" data-currency-flag>{displayCurrency.flag}</span>
+        <span className="text-xs font-medium" data-currency-flag>{displayCurrency.country}</span>
         <span className="font-medium text-xs" data-currency-text>{displayCurrency.code}</span>
         <ChevronDown className="w-3 h-3" />
       </button>
@@ -76,7 +76,7 @@ const CurrencySelector: React.FC = () => {
                   }`}
                   data-currency-option={currency.code}
                 >
-                  <span className="text-sm" data-option-flag>{currency.flag}</span>
+                  <span className="text-xs font-medium" data-option-flag>{currency.country}</span>
                   <span className="font-medium text-xs" data-option-code>{currency.code}</span>
                 </button>
               ))}
