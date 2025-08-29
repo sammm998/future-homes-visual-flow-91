@@ -31,11 +31,18 @@ interface PropertyCardProps {
 const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
   const { formatPrice } = useCurrency();
   
+  // Helper function to extract numeric value from price string and format it
+  const formatDisplayPrice = (priceString: string) => {
+    const numericValue = parseInt(priceString.replace(/[€$£,]/g, ''));
+    return isNaN(numericValue) ? priceString : formatPrice(numericValue);
+  };
+  
   const statusInfo = useMemoizedStatus(property.status);
   const apartmentTypes = parseApartmentTypes(property.apartment_types);
-  const displayPrice = apartmentTypes.length > 0 
+  const rawDisplayPrice = apartmentTypes.length > 0 
     ? getStartingPrice(apartmentTypes, property.price)
     : property.price;
+  const displayPrice = formatDisplayPrice(rawDisplayPrice);
 
   return (
     <Link to={`/property/${property.id}`} state={{ from: window.location.pathname + window.location.search }} className="block w-full">
