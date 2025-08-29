@@ -49,8 +49,8 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
     const newUrl = currentPath + (currentUrl.search || '');
     navigate(newUrl, { replace: true });
     
-    // Update currency based on language selection
-    updateCurrencyFromLanguage(selectedLanguage.code);
+    // Keep currency unchanged when switching languages
+    // updateCurrencyFromLanguage(selectedLanguage.code);
     
     setIsOpen(false);
   };
