@@ -77,7 +77,7 @@ export const allMersinProperties = Array.from({ length: 61 }, (_, index) => ({
             index < 40 ? "Mersin, Erdemli" :
             index < 50 ? "Mersin, Tarsus" :
             "Mersin, Silifke",
-  price: `€${Math.floor(Math.random() * 200000) + 150000}`,
+  price: `€${(Math.floor(Math.random() * 200000) + 150000).toLocaleString('en-US')}`,
   bedrooms: index % 3 === 0 ? "2+1" : index % 3 === 1 ? "3+1" : "1+1",
   area: `${Math.floor(Math.random() * 100) + 80}`,
   status: index % 2 === 0 ? "Under Construction" : "Ready to Move",
