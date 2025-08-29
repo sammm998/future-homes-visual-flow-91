@@ -85,18 +85,10 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const updateCurrencyFromLanguage = (languageCode: string, autoChange: boolean = true) => {
-    if (!autoChange) return;
-    
-    const currencyCode = languageToCurrency[languageCode];
-    if (currencyCode) {
-      const currency = currencies.find(c => c.code === currencyCode);
-      if (currency && currency.code !== selectedCurrency.code) {
-        console.log(`Language changed to ${languageCode}, updating currency to ${currencyCode}`);
-        setSelectedCurrency(currency);
-        localStorage.setItem('currency', currencyCode);
-      }
-    }
+  const updateCurrencyFromLanguage = (languageCode: string, autoChange: boolean = false) => {
+    // Disabled automatic currency changes when language changes
+    // Currency should remain independent of language selection
+    return;
   };
 
   useEffect(() => {
