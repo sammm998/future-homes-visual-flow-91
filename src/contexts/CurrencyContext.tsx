@@ -74,14 +74,20 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
 
   useEffect(() => {
-    // Initialize with stored currency or default to EUR
-    const storedCurrencyCode = localStorage.getItem('currency');
-    if (storedCurrencyCode) {
-      const currency = currencies.find(c => c.code === storedCurrencyCode);
-      if (currency) {
-        setSelectedCurrencyState(currency);
+    // Force load currency from localStorage on every render
+    const loadStoredCurrency = () => {
+      const storedCurrencyCode = localStorage.getItem('currency');
+      if (storedCurrencyCode) {
+        const currency = currencies.find(c => c.code === storedCurrencyCode);
+        if (currency && currency.code !== selectedCurrency.code) {
+          console.log('Restoring currency from localStorage:', currency.code);
+          setSelectedCurrencyState(currency);
+        }
       }
-    }
+    };
+
+    // Load immediately
+    loadStoredCurrency();
 
     // Listen for storage changes to sync across tabs
     const handleStorageChange = (e: StorageEvent) => {
@@ -93,9 +99,21 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
     };
 
+    // Also listen for page visibility changes (when user switches tabs)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        loadStoredCurrency();
+      }
+    };
+
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []); // Only run once on mount
 
   const setSelectedCurrency = (currency: Currency) => {
     if (!currency?.code) return;
@@ -103,8 +121,14 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const validCurrency = currencies.find(c => c.code === currency.code);
     if (!validCurrency) return;
     
+    console.log('Setting currency to:', validCurrency.code);
     setSelectedCurrencyState(validCurrency);
     localStorage.setItem('currency', validCurrency.code);
+    
+    // Force update the DOM immediately
+    setTimeout(() => {
+      localStorage.setItem('currency', validCurrency.code);
+    }, 0);
   };
 
   return (
