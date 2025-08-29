@@ -22,7 +22,7 @@ export const currencies: Currency[] = [
   { code: 'CHF', symbol: 'Fr', flag: '🇨🇭', country: 'CHF', rate: 0.94 },
   { code: 'CAD', symbol: 'C$', flag: '🇨🇦', country: 'CAD', rate: 1.47 },
   { code: 'AUD', symbol: 'A$', flag: '🇦🇺', country: 'AUD', rate: 1.65 },
-];
+] as const;
 
 
 interface CurrencyContextType {
