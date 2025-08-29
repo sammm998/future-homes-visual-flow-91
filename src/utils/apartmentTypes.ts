@@ -38,5 +38,6 @@ export const getStartingPrice = (apartmentTypes: any[], fallbackPrice: string) =
   }
   
   const minPrice = Math.min(...prices);
-  return `€${minPrice.toLocaleString()}`;
+  // Use English locale formatting to ensure comma separators
+  return `€${minPrice.toLocaleString('en-US')}`;
 };
