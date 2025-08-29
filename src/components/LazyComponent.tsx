@@ -25,7 +25,7 @@ LazyComponent.displayName = 'LazyComponent';
 // Create lazy-loaded components for heavy sections with preloading hints
 export const LazyTestimonials = lazy(() => 
   import('@/components/ui/circular-testimonials').then(module => ({
-    default: module.default
+    default: module.CircularTestimonials
   }))
 );
 
