@@ -100,18 +100,11 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   useEffect(() => {
-    // Clear any corrupted currency data and initialize with default
-    const storedCurrencyCode = localStorage.getItem('currency');
-    if (storedCurrencyCode) {
-      const currency = currencies.find(c => c.code === storedCurrencyCode);
-      if (currency && currency.code !== selectedCurrency.code) {
-        setSelectedCurrency(currency);
-      } else if (!currency) {
-        // If stored currency is invalid, clear it and use default
-        localStorage.removeItem('currency');
-        setSelectedCurrency(currencies[0]); // EUR
-      }
-    }
+    // Clear all localStorage currency data to prevent corruption
+    localStorage.removeItem('currency');
+    
+    // Always start with EUR as default
+    setSelectedCurrency(currencies[0]); // EUR
 
     const handleStorageChange = () => {
       const storedCurrencyCode = localStorage.getItem('currency');
