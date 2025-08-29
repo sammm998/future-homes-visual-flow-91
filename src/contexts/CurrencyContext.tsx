@@ -24,25 +24,12 @@ export const currencies: Currency[] = [
   { code: 'AUD', symbol: 'A$', flag: '🇦🇺', country: 'AUD', rate: 1.65 },
 ];
 
-// Language to currency mapping
-const languageToCurrency: { [key: string]: string } = {
-  'en': 'EUR',
-  'sv': 'SEK',
-  'no': 'NOK',
-  'da': 'DKK',
-  'tr': 'TRY',
-  'ur': 'AED',
-  'fa': 'IRR',
-  'ar': 'AED',
-  'ru': 'RUB',
-};
 
 interface CurrencyContextType {
   selectedCurrency: Currency;
   setSelectedCurrency: (currency: Currency) => void;
   formatPrice: (price: number) => string;
   convertPrice: (price: number, fromCurrency?: string) => number;
-  updateCurrencyFromLanguage: (languageCode: string) => void;
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
@@ -85,41 +72,23 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const updateCurrencyFromLanguage = (languageCode: string, autoChange: boolean = false) => {
-    // Disabled automatic currency changes when language changes
-    // Currency should remain independent of language selection
-    return;
-  };
 
   useEffect(() => {
-    // Comprehensive localStorage cleanup - clear all potential currency-related data
-    const keysToRemove = ['currency', 'selectedCurrency', 'currencyData', 'currency_cache'];
-    keysToRemove.forEach(key => {
-      localStorage.removeItem(key);
-    });
-    
-    // Force clear any session storage as well
-    sessionStorage.removeItem('currency');
-    
-    // Always start with EUR as default and force immediate update
-    const defaultCurrency = currencies[0]; // EUR
-    setSelectedCurrency(defaultCurrency);
-    
-    // Add logging to debug any issues
-    console.log('Currency Context initialized with:', defaultCurrency);
-    console.log('Available currencies:', currencies.map(c => c.code));
+    // Initialize with stored currency or default to EUR
+    const storedCurrencyCode = localStorage.getItem('currency');
+    if (storedCurrencyCode) {
+      const currency = currencies.find(c => c.code === storedCurrencyCode);
+      if (currency) {
+        setSelectedCurrencyState(currency);
+      }
+    }
 
-    const handleStorageChange = () => {
-      const storedCurrencyCode = localStorage.getItem('currency');
-      if (storedCurrencyCode) {
-        const currency = currencies.find(c => c.code === storedCurrencyCode);
-        if (currency && currency.code && currency.flag && currency.symbol) {
-          console.log('Valid currency found in storage:', currency);
-          setSelectedCurrency(currency);
-        } else {
-          console.warn('Invalid currency in storage, using default:', storedCurrencyCode);
-          localStorage.removeItem('currency');
-          setSelectedCurrency(currencies[0]);
+    // Listen for storage changes to sync across tabs
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'currency' && e.newValue) {
+        const currency = currencies.find(c => c.code === e.newValue);
+        if (currency) {
+          setSelectedCurrencyState(currency);
         }
       }
     };
@@ -129,20 +98,11 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, []);
 
   const setSelectedCurrency = (currency: Currency) => {
-    // Validate currency object before setting
-    if (!currency || !currency.code || !currency.flag || !currency.symbol) {
-      console.error('Invalid currency object:', currency);
-      return;
-    }
+    if (!currency?.code) return;
     
-    // Verify currency exists in our currencies array
     const validCurrency = currencies.find(c => c.code === currency.code);
-    if (!validCurrency) {
-      console.error('Currency not found in valid currencies:', currency.code);
-      return;
-    }
+    if (!validCurrency) return;
     
-    console.log('Setting currency to:', validCurrency);
     setSelectedCurrencyState(validCurrency);
     localStorage.setItem('currency', validCurrency.code);
   };
@@ -152,8 +112,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       selectedCurrency,
       setSelectedCurrency,
       formatPrice,
-      convertPrice,
-      updateCurrencyFromLanguage
+      convertPrice
     }}>
       {children}
     </CurrencyContext.Provider>

@@ -8,9 +8,6 @@ import { AIHelpChat } from "./AIHelpChat";
 import Sidebar from "./Sidebar";
 import CurrencySelector from "./CurrencySelector";
 
-import { useCurrency } from '@/contexts/CurrencyContext';
-
-
 interface NavigationProps {
   className?: string;
 }
@@ -18,7 +15,6 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
-  const { updateCurrencyFromLanguage } = useCurrency();
   
 
 

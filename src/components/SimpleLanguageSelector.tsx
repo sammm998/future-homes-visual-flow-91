@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getCurrentLanguage } from '@/utils/seoUtils';
-import { useCurrency } from '@/contexts/CurrencyContext';
+
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -24,7 +24,7 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { updateCurrencyFromLanguage } = useCurrency();
+  
   
   // Get current language from URL or default to English
   const currentLanguageCode = getCurrentLanguage();
