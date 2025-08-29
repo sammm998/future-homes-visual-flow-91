@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bed, Square } from "lucide-react";
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface ApartmentType {
   bedrooms: string;
@@ -20,21 +20,18 @@ const ApartmentTypesDisplay: React.FC<ApartmentTypesDisplayProps> = ({
   apartmentTypes, 
   variant = 'default' 
 }) => {
+  const { formatPrice } = useCurrency();
+
   if (!apartmentTypes || apartmentTypes.length === 0) {
     return null;
   }
 
-  const formatPrice = (price: string) => {
-    if (!price) return '€0';
-    // Remove any existing "Starting price" text and clean up thoroughly
-    const cleanedPrice = price
-      .replace(/starting\s+price\s*/i, '')
-      .replace(/^€?\s*/, '')
-      .trim();
+  const formatPriceFromString = (price: string) => {
+    if (!price) return formatPrice(0);
     
-    // Ensure proper Euro formatting
-    const numericPrice = cleanedPrice.replace(/[^\d,]/g, '');
-    return numericPrice ? `€${numericPrice}` : '€0';
+    // Extract numeric value from string like "€147,000" or "147000"
+    const numericValue = parseFloat(price.replace(/[^\d.-]/g, ''));
+    return isNaN(numericValue) ? formatPrice(0) : formatPrice(numericValue);
   };
 
   if (variant === 'compact') {
@@ -49,7 +46,7 @@ const ApartmentTypesDisplay: React.FC<ApartmentTypesDisplayProps> = ({
                 </Badge>
                 <div className="text-right">
                   <div className="font-bold text-lg text-primary">
-                    {formatPrice(type.price || type.starting_price || '€0')}
+                    {formatPriceFromString(type.price || type.starting_price || '0')}
                   </div>
                   <div className="text-xs text-muted-foreground">Price</div>
                 </div>
@@ -85,7 +82,7 @@ const ApartmentTypesDisplay: React.FC<ApartmentTypesDisplayProps> = ({
               </div>
               <div className="text-right">
                 <div className="font-bold text-xl text-primary">
-                  {formatPrice(type.price || type.starting_price || '€0')}
+                  {formatPriceFromString(type.price || type.starting_price || '0')}
                 </div>
                 <div className="text-sm text-muted-foreground">Price</div>
               </div>
