@@ -367,6 +367,29 @@ function fht_format_price($price, $currency = null) {
 }
 
 /**
+ * AJAX handler for newsletter signup
+ */
+function fht_newsletter_signup() {
+    // Security check
+    if (!wp_verify_nonce($_POST['nonce'], 'fht_newsletter_nonce')) {
+        wp_send_json_error('Security check failed');
+    }
+
+    $email = sanitize_email($_POST['email']);
+    if (!is_email($email)) {
+        wp_send_json_error('Invalid email address');
+    }
+
+    // Here you would typically integrate with your email service
+    // For now, we'll just simulate success
+    wp_send_json_success('Thank you for subscribing!');
+}
+
+// Register AJAX handlers
+add_action('wp_ajax_newsletter_signup', 'fht_newsletter_signup');
+add_action('wp_ajax_nopriv_newsletter_signup', 'fht_newsletter_signup');
+
+/**
  * Custom Walker for Navigation Menu
  */
 class FHT_Walker_Nav_Menu extends Walker_Nav_Menu {
