@@ -6,25 +6,9 @@ const CurrencySelector: React.FC = () => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Use Unicode characters to prevent translation - always 3 letters
+  // Simple function to ensure exactly 3 characters
   const getCurrencyDisplay = (currencyCode: string): string => {
-    const unicodeMap: { [key: string]: string } = {
-      'EUR': '\u0045\u0055\u0052', // E-U-R
-      'USD': '\u0055\u0053\u0044', // U-S-D
-      'GBP': '\u0047\u0042\u0050', // G-B-P
-      'SEK': '\u0053\u0045\u004B', // S-E-K
-      'NOK': '\u004E\u004F\u004B', // N-O-K
-      'DKK': '\u0044\u004B\u004B', // D-K-K
-      'TRY': '\u0054\u0052\u0059', // T-R-Y
-      'AED': '\u0041\u0045\u0044', // A-E-D
-      'IRR': '\u0049\u0052\u0052', // I-R-R
-      'RUB': '\u0052\u0055\u0042', // R-U-B
-      'CHF': '\u0043\u0048\u0046', // C-H-F
-      'CAD': '\u0043\u0041\u0044', // C-A-D
-      'AUD': '\u0041\u0055\u0044'  // A-U-D
-    };
-    const code = currencyCode.slice(0, 3).toUpperCase();
-    return unicodeMap[code] || code;
+    return currencyCode.substring(0, 3).toUpperCase();
   };
 
   return (
@@ -35,15 +19,19 @@ const CurrencySelector: React.FC = () => {
       >
         <span 
           className="font-bold text-xs notranslate" 
+          lang="en"
+          translate="no"
+          data-translate="no"
           style={{ 
             fontFamily: 'monospace',
             userSelect: 'none',
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            maxWidth: '3ch',
+            overflow: 'hidden'
           }}
-          dangerouslySetInnerHTML={{
-            __html: getCurrencyDisplay(selectedCurrency.code)
-          }}
-        />
+        >
+          {getCurrencyDisplay(selectedCurrency.code)}
+        </span>
         <ChevronDown className="w-3 h-3" />
       </button>
 
@@ -73,15 +61,19 @@ const CurrencySelector: React.FC = () => {
                 >
                   <span 
                     className="font-bold text-xs notranslate" 
+                    lang="en"
+                    translate="no"
+                    data-translate="no"
                     style={{ 
                       fontFamily: 'monospace',
                       userSelect: 'none',
-                      pointerEvents: 'none'
+                      pointerEvents: 'none',
+                      maxWidth: '3ch',
+                      overflow: 'hidden'
                     }}
-                    dangerouslySetInnerHTML={{
-                      __html: getCurrencyDisplay(currency.code)
-                    }}
-                  />
+                  >
+                    {getCurrencyDisplay(currency.code)}
+                  </span>
                 </button>
               ))}
             </div>
