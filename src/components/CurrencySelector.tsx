@@ -6,7 +6,7 @@ const CurrencySelector: React.FC = () => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Use Unicode characters to prevent translation
+  // Use Unicode characters to prevent translation - always 3 letters
   const getCurrencyDisplay = (currencyCode: string): string => {
     const unicodeMap: { [key: string]: string } = {
       'EUR': '\u0045\u0055\u0052', // E-U-R
@@ -23,7 +23,8 @@ const CurrencySelector: React.FC = () => {
       'CAD': '\u0043\u0041\u0044', // C-A-D
       'AUD': '\u0041\u0055\u0044'  // A-U-D
     };
-    return unicodeMap[currencyCode] || currencyCode;
+    const code = currencyCode.slice(0, 3).toUpperCase();
+    return unicodeMap[code] || code;
   };
 
   return (
