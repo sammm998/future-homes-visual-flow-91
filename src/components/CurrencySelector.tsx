@@ -6,24 +6,24 @@ const CurrencySelector: React.FC = () => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Create a mapping to prevent any translation attempts
+  // Use Unicode characters to prevent translation
   const getCurrencyDisplay = (currencyCode: string): string => {
-    const codeMap: { [key: string]: string } = {
-      'EUR': 'EUR',
-      'USD': 'USD', 
-      'GBP': 'GBP',
-      'SEK': 'SEK',
-      'NOK': 'NOK',
-      'DKK': 'DKK',
-      'TRY': 'TRY',
-      'AED': 'AED',
-      'IRR': 'IRR',
-      'RUB': 'RUB',
-      'CHF': 'CHF',
-      'CAD': 'CAD',
-      'AUD': 'AUD'
+    const unicodeMap: { [key: string]: string } = {
+      'EUR': '\u0045\u0055\u0052', // E-U-R
+      'USD': '\u0055\u0053\u0044', // U-S-D
+      'GBP': '\u0047\u0042\u0050', // G-B-P
+      'SEK': '\u0053\u0045\u004B', // S-E-K
+      'NOK': '\u004E\u004F\u004B', // N-O-K
+      'DKK': '\u0044\u004B\u004B', // D-K-K
+      'TRY': '\u0054\u0052\u0059', // T-R-Y
+      'AED': '\u0041\u0045\u0044', // A-E-D
+      'IRR': '\u0049\u0052\u0052', // I-R-R
+      'RUB': '\u0052\u0055\u0042', // R-U-B
+      'CHF': '\u0043\u0048\u0046', // C-H-F
+      'CAD': '\u0043\u0041\u0044', // C-A-D
+      'AUD': '\u0041\u0055\u0044'  // A-U-D
     };
-    return codeMap[currencyCode] || currencyCode;
+    return unicodeMap[currencyCode] || currencyCode;
   };
 
   return (
