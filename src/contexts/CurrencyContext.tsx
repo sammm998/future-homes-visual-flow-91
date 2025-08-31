@@ -8,20 +8,37 @@ export interface Currency {
   rate: number; // Rate from EUR
 }
 
+// Define currency codes as constants to prevent translation
+const CURRENCY_CODES = {
+  EUR: 'EUR',
+  USD: 'USD', 
+  GBP: 'GBP',
+  SEK: 'SEK',
+  NOK: 'NOK',
+  DKK: 'DKK',
+  TRY: 'TRY',
+  AED: 'AED',
+  IRR: 'IRR',
+  RUB: 'RUB',
+  CHF: 'CHF',
+  CAD: 'CAD',
+  AUD: 'AUD'
+} as const;
+
 export const currencies: Currency[] = [
-  { code: 'EUR', symbol: '€', flag: '🇪🇺', country: 'EUR', rate: 1 },
-  { code: 'USD', symbol: '$', flag: '🇺🇸', country: 'USD', rate: 1.05 },
-  { code: 'GBP', symbol: '£', flag: '🇬🇧', country: 'GBP', rate: 0.85 },
-  { code: 'SEK', symbol: 'kr', flag: '🇸🇪', country: 'SEK', rate: 11.19 },
-  { code: 'NOK', symbol: 'kr', flag: '🇳🇴', country: 'NOK', rate: 11.45 },
-  { code: 'DKK', symbol: 'kr', flag: '🇩🇰', country: 'DKK', rate: 7.45 },
-  { code: 'TRY', symbol: '₺', flag: '🇹🇷', country: 'TRY', rate: 47.63 },
-  { code: 'AED', symbol: 'د.إ', flag: '🇦🇪', country: 'AED', rate: 3.85 },
-  { code: 'IRR', symbol: '﷼', flag: '🇮🇷', country: 'IRR', rate: 44650 },
-  { code: 'RUB', symbol: '₽', flag: '🇷🇺', country: 'RUB', rate: 95.50 },
-  { code: 'CHF', symbol: 'Fr', flag: '🇨🇭', country: 'CHF', rate: 0.94 },
-  { code: 'CAD', symbol: 'C$', flag: '🇨🇦', country: 'CAD', rate: 1.47 },
-  { code: 'AUD', symbol: 'A$', flag: '🇦🇺', country: 'AUD', rate: 1.65 },
+  { code: CURRENCY_CODES.EUR, symbol: '€', flag: '🇪🇺', country: 'EUR', rate: 1 },
+  { code: CURRENCY_CODES.USD, symbol: '$', flag: '🇺🇸', country: 'USD', rate: 1.05 },
+  { code: CURRENCY_CODES.GBP, symbol: '£', flag: '🇬🇧', country: 'GBP', rate: 0.85 },
+  { code: CURRENCY_CODES.SEK, symbol: 'kr', flag: '🇸🇪', country: 'SEK', rate: 11.19 },
+  { code: CURRENCY_CODES.NOK, symbol: 'kr', flag: '🇳🇴', country: 'NOK', rate: 11.45 },
+  { code: CURRENCY_CODES.DKK, symbol: 'kr', flag: '🇩🇰', country: 'DKK', rate: 7.45 },
+  { code: CURRENCY_CODES.TRY, symbol: '₺', flag: '🇹🇷', country: 'TRY', rate: 47.63 },
+  { code: CURRENCY_CODES.AED, symbol: 'د.إ', flag: '🇦🇪', country: 'AED', rate: 3.85 },
+  { code: CURRENCY_CODES.IRR, symbol: '﷼', flag: '🇮🇷', country: 'IRR', rate: 44650 },
+  { code: CURRENCY_CODES.RUB, symbol: '₽', flag: '🇷🇺', country: 'RUB', rate: 95.50 },
+  { code: CURRENCY_CODES.CHF, symbol: 'Fr', flag: '🇨🇭', country: 'CHF', rate: 0.94 },
+  { code: CURRENCY_CODES.CAD, symbol: 'C$', flag: '🇨🇦', country: 'CAD', rate: 1.47 },
+  { code: CURRENCY_CODES.AUD, symbol: 'A$', flag: '🇦🇺', country: 'AUD', rate: 1.65 },
 ] as const;
 
 

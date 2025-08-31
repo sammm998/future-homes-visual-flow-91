@@ -19,8 +19,9 @@ const CurrencySelector: React.FC = () => {
           data-translate="no"
           data-testid="currency-code"
           suppressHydrationWarning
+          style={{ fontFamily: 'monospace' }}
         >
-          {selectedCurrency.code.slice(0, 3).toUpperCase()}
+          {selectedCurrency.code.slice(0, 3)}
         </span>
         <ChevronDown className="w-3 h-3" />
       </button>
@@ -56,8 +57,9 @@ const CurrencySelector: React.FC = () => {
                     data-translate="no"
                     data-testid="currency-code"
                     suppressHydrationWarning
+                    style={{ fontFamily: 'monospace' }}
                   >
-                    {currency.code.slice(0, 3).toUpperCase()}
+                    {currency.code.slice(0, 3)}
                   </span>
                 </button>
               ))}
