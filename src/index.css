@@ -21,6 +21,9 @@ body {
   unicode-bidi: isolate;
   white-space: nowrap;
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace !important;
+  -webkit-locale: "en" !important;
+  direction: ltr !important;
+  writing-mode: horizontal-tb !important;
 }
 
 .currency-code::before {
@@ -28,9 +31,30 @@ body {
   speak: none;
 }
 
+.currency-code::after {
+  content: "";
+  speak: none;
+}
+
 .notranslate {
   -webkit-transform: none !important;
   transform: none !important;
+  -webkit-locale: "en" !important;
+}
+
+/* Prevent Google Translate from affecting currency codes */
+.currency-code span,
+.currency-code::before,
+.currency-code::after {
+  -webkit-transform: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Force currency codes to be treated as code */
+.currency-code {
+  font-family: 'Courier New', Courier, monospace !important;
+  letter-spacing: 0.5px !important;
 }
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 

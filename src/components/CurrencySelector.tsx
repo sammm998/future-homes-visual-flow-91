@@ -12,17 +12,23 @@ const CurrencySelector: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 px-2 py-1 rounded text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[60px]"
       >
-        <span 
+        <code 
           className="font-medium text-xs currency-code notranslate" 
           lang="en" 
           translate="no"
           data-translate="no"
           data-testid="currency-code"
           suppressHydrationWarning
-          style={{ fontFamily: 'monospace' }}
+          style={{ 
+            fontFamily: '"Courier New", Courier, monospace',
+            letterSpacing: '0.5px',
+            textTransform: 'none'
+          }}
+          role="text"
+          aria-label={`Currency: ${selectedCurrency.code}`}
         >
-          {selectedCurrency.code.slice(0, 3)}
-        </span>
+          {selectedCurrency.code}
+        </code>
         <ChevronDown className="w-3 h-3" />
       </button>
 
@@ -50,17 +56,23 @@ const CurrencySelector: React.FC = () => {
                       : 'hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
-                  <span 
+                  <code 
                     className="font-medium text-xs currency-code notranslate" 
                     lang="en" 
                     translate="no"
                     data-translate="no"
                     data-testid="currency-code"
                     suppressHydrationWarning
-                    style={{ fontFamily: 'monospace' }}
+                    style={{ 
+                      fontFamily: '"Courier New", Courier, monospace',
+                      letterSpacing: '0.5px',
+                      textTransform: 'none'
+                    }}
+                    role="text"
+                    aria-label={`Currency: ${currency.code}`}
                   >
-                    {currency.code.slice(0, 3)}
-                  </span>
+                    {currency.code}
+                  </code>
                 </button>
               ))}
             </div>
