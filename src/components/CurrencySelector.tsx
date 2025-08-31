@@ -6,29 +6,43 @@ const CurrencySelector: React.FC = () => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
 
+  // Create a mapping to prevent any translation attempts
+  const getCurrencyDisplay = (currencyCode: string): string => {
+    const codeMap: { [key: string]: string } = {
+      'EUR': 'EUR',
+      'USD': 'USD', 
+      'GBP': 'GBP',
+      'SEK': 'SEK',
+      'NOK': 'NOK',
+      'DKK': 'DKK',
+      'TRY': 'TRY',
+      'AED': 'AED',
+      'IRR': 'IRR',
+      'RUB': 'RUB',
+      'CHF': 'CHF',
+      'CAD': 'CAD',
+      'AUD': 'AUD'
+    };
+    return codeMap[currencyCode] || currencyCode;
+  };
+
   return (
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 px-2 py-1 rounded text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[60px]"
       >
-        <code 
-          className="font-medium text-xs currency-code notranslate" 
-          lang="en" 
-          translate="no"
-          data-translate="no"
-          data-testid="currency-code"
-          suppressHydrationWarning
+        <span 
+          className="font-bold text-xs notranslate" 
           style={{ 
-            fontFamily: '"Courier New", Courier, monospace',
-            letterSpacing: '0.5px',
-            textTransform: 'none'
+            fontFamily: 'monospace',
+            userSelect: 'none',
+            pointerEvents: 'none'
           }}
-          role="text"
-          aria-label={`Currency: ${selectedCurrency.code}`}
-        >
-          {selectedCurrency.code}
-        </code>
+          dangerouslySetInnerHTML={{
+            __html: getCurrencyDisplay(selectedCurrency.code)
+          }}
+        />
         <ChevronDown className="w-3 h-3" />
       </button>
 
@@ -56,23 +70,17 @@ const CurrencySelector: React.FC = () => {
                       : 'hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
-                  <code 
-                    className="font-medium text-xs currency-code notranslate" 
-                    lang="en" 
-                    translate="no"
-                    data-translate="no"
-                    data-testid="currency-code"
-                    suppressHydrationWarning
+                  <span 
+                    className="font-bold text-xs notranslate" 
                     style={{ 
-                      fontFamily: '"Courier New", Courier, monospace',
-                      letterSpacing: '0.5px',
-                      textTransform: 'none'
+                      fontFamily: 'monospace',
+                      userSelect: 'none',
+                      pointerEvents: 'none'
                     }}
-                    role="text"
-                    aria-label={`Currency: ${currency.code}`}
-                  >
-                    {currency.code}
-                  </code>
+                    dangerouslySetInnerHTML={{
+                      __html: getCurrencyDisplay(currency.code)
+                    }}
+                  />
                 </button>
               ))}
             </div>
