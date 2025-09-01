@@ -43,13 +43,13 @@ export const useTestimonials = () => {
 
       if (data) {
         console.log('Successfully fetched testimonials:', data.length);
-        // Transform database testimonials to the format expected by components
+        // Transform database testimonials to the format expected by components - keep original text
         const transformedTestimonials: Testimonial[] = data.map((testimonial: DbTestimonial) => ({
-          text: testimonial.review_text,
+          text: testimonial.review_text, // Keep original English text
           image: testimonial.image_url || '/placeholder.svg',
           name: testimonial.customer_name,
           role: testimonial.designation || 
-                (testimonial.customer_country ? `Kunde - ${testimonial.customer_country}` : 'Kunde')
+                (testimonial.location ? `Customer - ${testimonial.location}` : 'Customer')
         }));
 
         setTestimonials(transformedTestimonials);

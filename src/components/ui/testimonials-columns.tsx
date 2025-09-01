@@ -82,10 +82,10 @@ const TestimonialsColumns: React.FC<TestimonialsProps> = ({
 
         if (data) {
           const formattedTestimonials = data.map((item: any) => ({
-            text: item.review_text,
+            text: item.review_text, // Keep original English text
             image: item.image_url || "/placeholder.svg",
             name: item.customer_name,
-            role: item.designation || (item.customer_country ? `Kunde - ${item.customer_country}` : 'Kunde')
+            role: item.designation || (item.location ? `Customer - ${item.location}` : 'Customer')
           }));
           setTestimonials(formattedTestimonials);
         }
