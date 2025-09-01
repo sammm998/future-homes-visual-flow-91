@@ -195,12 +195,18 @@ const MersinPropertySearch = () => {
     ),
   }));
 
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="container mx-auto px-4 py-8">
-          <div className="text-center">Loading Mersin properties...</div>
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading properties...</p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -211,7 +217,14 @@ const MersinPropertySearch = () => {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="container mx-auto px-4 py-8">
-          <div className="text-center text-destructive">Error loading properties: {error}</div>
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <p className="text-destructive mb-4">Error loading properties: {error}</p>
+              <Button onClick={() => window.location.reload()}>
+                Try Again
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -268,31 +281,65 @@ const MersinPropertySearch = () => {
           </div>
         )}
 
-        {/* Mobile Layout: One property per screen */}
-        <div className="block md:hidden">
-          <div className="space-y-6">
-            {filteredProperties.map((property) => (
-              <div key={property.id} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
-                <div className="w-full max-w-sm mx-auto">
-                  <PropertyCard property={property} />
-                </div>
-              </div>
-            ))}
+        {/* No Properties Message */}
+        {filteredProperties.length === 0 && (
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-foreground mb-2">No properties found</h3>
+              <p className="text-muted-foreground mb-4">
+                Try adjusting your filters or browse all properties.
+              </p>
+              <Button onClick={() => {
+                setFilters({
+                  propertyType: '',
+                  bedrooms: '',
+                  location: 'Mersin',
+                  district: '',
+                  minPrice: '',
+                  maxPrice: '',
+                  minSquareFeet: '',
+                  maxSquareFeet: '',
+                  facilities: [],
+                  sortBy: 'ref',
+                  referenceNo: ''
+                });
+                setShowFiltered(false);
+              }}>
+                Clear Filters
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
-        <div className="hidden md:block">
-          {!showTimeline && (
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {/* Mobile Layout: One property per screen */}
+        {filteredProperties.length > 0 && (
+          <div className="block md:hidden">
+            <div className="space-y-6">
               {filteredProperties.map((property) => (
-                <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                  <PropertyCard property={property} />
+                <div key={property.id} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+                  <div className="w-full max-w-sm mx-auto">
+                    <PropertyCard property={property} />
+                  </div>
                 </div>
               ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
+        {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
+        {filteredProperties.length > 0 && (
+          <div className="hidden md:block">
+            {!showTimeline && (
+              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {filteredProperties.map((property) => (
+                  <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                    <PropertyCard property={property} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* ElevenLabs Widget */}
