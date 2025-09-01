@@ -136,12 +136,11 @@ const Newsletter = memo(() => {
         <div className="border-t border-white/20 mt-12 pt-8">
           <div className="text-center">
             <h3 className="text-xl font-semibold mb-4">Our Locations</h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm opacity-90">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm opacity-90">
               <div>Antalya Office</div>
               <div>Mersin Office</div>
               <div>Dubai Office</div>
               <div>France Office</div>
-              <div>Cyprus Office</div>
             </div>
           </div>
         </div>
