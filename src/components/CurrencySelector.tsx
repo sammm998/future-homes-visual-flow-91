@@ -6,24 +6,25 @@ const CurrencySelector: React.FC = () => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Fixed currency codes - always show correct ISO codes
+  // Anti-translation currency codes using encoded strings
   const getCurrencyDisplay = (currencyCode: string): string => {
-    const fixedCodes: { [key: string]: string } = {
-      'EUR': 'EUR',
-      'USD': 'USD',
-      'GBP': 'GBP', 
-      'SEK': 'SEK',
-      'NOK': 'NOK',
-      'DKK': 'DKK',
-      'TRY': 'TRY',
-      'AED': 'AED',
-      'IRR': 'IRR',
-      'RUB': 'RUB',
-      'CHF': 'CHF',
-      'CAD': 'CAD',
-      'AUD': 'AUD'
+    // Use base64 encoded strings to prevent translation
+    const encodedCodes: { [key: string]: string } = {
+      'EUR': atob('RVVS'), // EUR
+      'USD': atob('VVNE'), // USD
+      'GBP': atob('R0JQ'), // GBP
+      'SEK': atob('U0VL'), // SEK
+      'NOK': atob('Tk9L'), // NOK
+      'DKK': atob('REtL'), // DKK
+      'TRY': atob('VFJZ'), // TRY
+      'AED': atob('QUVE'), // AED
+      'IRR': atob('SVJS'), // IRR
+      'RUB': atob('UlVC'), // RUB
+      'CHF': atob('Q0hG'), // CHF
+      'CAD': atob('Q0FE'), // CAD
+      'AUD': atob('QVVE')  // AUD
     };
-    return fixedCodes[currencyCode] || currencyCode;
+    return encodedCodes[currencyCode] || currencyCode.substring(0, 3).toUpperCase();
   };
 
   return (
@@ -33,14 +34,22 @@ const CurrencySelector: React.FC = () => {
         className="flex items-center gap-1 px-2 py-1 rounded text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[60px]"
       >
         <span 
-          className="font-medium text-xs notranslate" 
+          className="currency-code notranslate" 
           lang="en"
           translate="no"
           data-translate="no"
+          data-testid="currency-display"
+          suppressHydrationWarning
           style={{ 
             fontFamily: 'monospace',
             textTransform: 'uppercase',
-            letterSpacing: '0.5px'
+            letterSpacing: '0.5px',
+            fontSize: '12px',
+            fontWeight: '600',
+            userSelect: 'none',
+            pointerEvents: 'none',
+            direction: 'ltr',
+            unicodeBidi: 'bidi-override'
           }}
         >
           {getCurrencyDisplay(selectedCurrency.code)}
@@ -73,14 +82,22 @@ const CurrencySelector: React.FC = () => {
                   }`}
                 >
                   <span 
-                    className="font-medium text-xs notranslate" 
+                    className="currency-code notranslate" 
                     lang="en"
                     translate="no"
                     data-translate="no"
+                    data-testid="currency-display"
+                    suppressHydrationWarning
                     style={{ 
                       fontFamily: 'monospace',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
+                      letterSpacing: '0.5px',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      userSelect: 'none',
+                      pointerEvents: 'none',
+                      direction: 'ltr',
+                      unicodeBidi: 'bidi-override'
                     }}
                   >
                     {getCurrencyDisplay(currency.code)}
