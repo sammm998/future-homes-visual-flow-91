@@ -8,23 +8,27 @@ const CurrencySelector: React.FC = () => {
 
   // Hard-coded currency display to prevent ANY translation
   const getCurrencyDisplay = (currencyCode: string): string => {
+    console.log('getCurrencyDisplay input:', currencyCode);
     // Use exact string matching to prevent translation
+    let result;
     switch(currencyCode.toUpperCase()) {
-      case 'EUR': return 'EUR';
-      case 'USD': return 'USD';
-      case 'GBP': return 'GBP';
-      case 'SEK': return 'SEK';
-      case 'NOK': return 'NOK';
-      case 'DKK': return 'DKK';
-      case 'TRY': return 'TRY';
-      case 'AED': return 'AED';
-      case 'IRR': return 'IRR';
-      case 'RUB': return 'RUB';
-      case 'CHF': return 'CHF';
-      case 'CAD': return 'CAD';
-      case 'AUD': return 'AUD';
-      default: return currencyCode.substring(0, 3).toUpperCase();
+      case 'EUR': result = 'EUR'; break;
+      case 'USD': result = 'USD'; break;
+      case 'GBP': result = 'GBP'; break;
+      case 'SEK': result = 'SEK'; break;
+      case 'NOK': result = 'NOK'; break;
+      case 'DKK': result = 'DKK'; break;
+      case 'TRY': result = 'TRY'; break;
+      case 'AED': result = 'AED'; break;
+      case 'IRR': result = 'IRR'; break;
+      case 'RUB': result = 'RUB'; break;
+      case 'CHF': result = 'CHF'; break;
+      case 'CAD': result = 'CAD'; break;
+      case 'AUD': result = 'AUD'; break;
+      default: result = currencyCode.substring(0, 3).toUpperCase(); break;
     }
+    console.log('getCurrencyDisplay output:', result);
+    return result;
   };
 
   return (
