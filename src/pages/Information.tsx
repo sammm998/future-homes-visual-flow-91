@@ -262,7 +262,7 @@ const Information = () => {
         <div className="pt-20 pb-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">Loading Articles...</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">Laddar artiklar...</h1>
             </div>
           </div>
         </div>
@@ -280,11 +280,11 @@ const Information = () => {
           {/* Header */}
           <div className="text-center mb-8">
              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Information Hub
+              Informationscentral
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Comprehensive guides and insights for property investment, legal requirements, 
-              and living abroad. Everything you need to know about international real estate.
+              Omfattande guider och insikter för fastighetsinvesteringar, juridiska krav 
+              och att bo utomlands. Allt du behöver veta om internationella fastigheter.
             </p>
           </div>
 
@@ -355,7 +355,7 @@ const Information = () => {
                       handleArticleClick(article.slug);
                     }}
                   >
-                    Read More 
+                    Läs mer 
                     <ArrowRight size={16} className="ml-2 transition-transform group-hover/button:translate-x-1" />
                   </Button>
                 </CardContent>
@@ -367,9 +367,9 @@ const Information = () => {
           {filteredArticles.length === 0 && (
             <div className="text-center py-16">
               <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold text-foreground mb-2">No Articles Found</h3>
+              <h3 className="text-2xl font-semibold text-foreground mb-2">Inga artiklar hittades</h3>
               <p className="text-muted-foreground">
-                No articles match the selected filter. Try selecting a different category.
+                Inga artiklar matchar det valda filtret. Prova att välja en annan kategori.
               </p>
             </div>
           )}
@@ -382,7 +382,7 @@ const Information = () => {
               className="flex items-center gap-2"
             >
               <ArrowLeft size={16} />
-              Back to Home
+              Tillbaka till startsidan
             </Button>
           </div>
         </div>

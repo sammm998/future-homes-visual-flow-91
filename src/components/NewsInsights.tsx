@@ -78,7 +78,7 @@ const NewsInsights = () => {
           <div className="text-center mb-16">
             <Badge className="mb-4">News & Insights</Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Loading Articles...
+              Laddar...
             </h2>
           </div>
         </div>
@@ -90,12 +90,12 @@ const NewsInsights = () => {
     <section className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <Badge className="mb-4">News & Insights</Badge>
+          <Badge className="mb-4">Nyheter & Insikter</Badge>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Stay Informed
+            Håll dig informerad
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Stay updated with the latest real estate trends and market insights
+            Håll dig uppdaterad med de senaste fastighetstrenderna och marknadsinsikterna
           </p>
         </div>
 
@@ -124,7 +124,7 @@ const NewsInsights = () => {
                   className="group/button p-0 h-auto font-semibold"
                   onClick={() => handleArticleClick(item.slug)}
                 >
-                  Read More
+                  Läs mer
                   <ArrowRight size={16} className="ml-2 transition-transform group-hover/button:translate-x-1" />
                 </Button>
               </CardContent>
@@ -138,7 +138,7 @@ const NewsInsights = () => {
             className="bg-primary hover:bg-primary-glow"
             onClick={handleViewAllClick}
           >
-            View All Articles
+            Visa alla artiklar
             <ArrowRight size={16} className="ml-2" />
           </Button>
         </div>
