@@ -7,18 +7,25 @@ export const useProperties = () => {
   const { data: properties = [], isLoading: loading, error } = useQuery({
     queryKey: ['properties'],
     queryFn: async () => {
+      console.log('🔍 useProperties: Making API call to fetch properties');
       const { data, error } = await supabase
         .from('properties')
         .select('*')
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
+      if (error) {
+        console.error('❌ useProperties: Database error:', error);
+        throw error;
+      }
+      
+      console.log('✅ useProperties: Successfully fetched', data?.length || 0, 'properties');
+      console.log('📊 useProperties: First few properties:', data?.slice(0, 3));
       return data || [];
     },
-    staleTime: 15 * 60 * 1000, // 15 minutes - longer cache for properties
-    gcTime: 30 * 60 * 1000, // 30 minutes - keep in memory longer
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
     refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
+    retry: 1,
   });
 
   const deleteProperty = async (id: string) => {

@@ -78,9 +78,14 @@ const MersinPropertySearch = () => {
   
   // Filter properties to only show Mersin properties
   const mersinProperties = useMemo(() => {
-    const filtered = allProperties.filter(property => 
-      property.location?.toLowerCase().includes('mersin')
-    ).map(property => ({
+    console.log('🏠 MersinPropertySearch: Processing properties, total received:', allProperties?.length || 0);
+    console.log('📝 MersinPropertySearch: Sample properties:', allProperties?.slice(0, 2));
+    
+    const filtered = allProperties.filter(property => {
+      const hasLocation = property.location?.toLowerCase().includes('mersin');
+      console.log('🔍 Property', property.ref_no, '- Location:', property.location, '- Matches Mersin:', hasLocation);
+      return hasLocation;
+    }).map(property => ({
       id: parseInt(property.ref_no) || parseInt(property.id),
       refNo: property.ref_no, // Add this mapping for reference number filtering
       title: property.title,
@@ -95,6 +100,8 @@ const MersinPropertySearch = () => {
       coordinates: [36.7987, 34.6420] as [number, number] // Default Mersin coordinates
     }));
     
+    console.log('✅ MersinPropertySearch: Filtered Mersin properties:', filtered.length);
+    console.log('📊 MersinPropertySearch: Sample filtered:', filtered.slice(0, 2));
     return filtered;
   }, [allProperties]);
 
