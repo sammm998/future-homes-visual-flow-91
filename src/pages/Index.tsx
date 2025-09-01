@@ -24,7 +24,7 @@ const Index = () => {
   const { structuredData } = useSEO();
   const currentCanonicalUrl = useCanonicalUrl();
   const [showPopup, setShowPopup] = useState(false);
-  const { testimonials: dynamicTestimonials, loading: testimonialsLoading } = useTestimonials();
+  const { testimonials, loading: testimonialsLoading } = useTestimonials();
   const { syncAllProperties } = useSyncAllData();
 
   // Auto-sync properties only when needed, not on every load
@@ -53,26 +53,31 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
   
-  // Memoize testimonials with better dependency
-  const testimonials = useMemo(() => 
-    testimonialsLoading ? [] : dynamicTestimonials, 
-    [dynamicTestimonials, testimonialsLoading]
-  );
-
-  const { firstColumn, secondColumn, thirdColumn } = useMemo(() => ({
-    firstColumn: testimonials.slice(0, 6),
-    secondColumn: testimonials.slice(6, 12),
-    thirdColumn: testimonials.slice(12, 18),
-  }), [testimonials]);
+  // Memoize testimonials data for performance
+  const memoizedTestimonials = useMemo(() => testimonials, [testimonials]);
   
-  // Transform dynamic testimonials for circular component
+  // Distribute testimonials across columns
+  const redistributeTestimonials = (items: any[], numColumns: number) => {
+    const columns = Array.from({ length: numColumns }, () => [] as any[]);
+    items.forEach((item, index) => {
+      columns[index % numColumns].push(item);
+    });
+    return columns;
+  };
+
+  const [firstColumn, secondColumn, thirdColumn] = redistributeTestimonials(memoizedTestimonials, 3);
+
+  // Transform for circular testimonials
   const circularTestimonials = useMemo(() => 
-    dynamicTestimonials.map(testimonial => ({
+    memoizedTestimonials.slice(0, 5).map(testimonial => ({
       quote: testimonial.text,
       name: testimonial.name,
       designation: testimonial.role,
-      src: testimonial.image
-    })), [dynamicTestimonials]);
+      src: testimonial.image,
+      rating: 5
+    })), 
+    [memoizedTestimonials]
+  );
 
   const homePageStructuredData = {
     "@context": "https://schema.org",

@@ -15,6 +15,8 @@ interface Testimonial {
   name: string;
   designation: string;
   src: string;
+  rating?: number;
+  location?: string;
 }
 
 interface Colors {

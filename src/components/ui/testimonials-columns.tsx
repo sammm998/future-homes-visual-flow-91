@@ -64,23 +64,35 @@ const TestimonialsColumns: React.FC<TestimonialsProps> = ({
   subtitle = "Read testimonials from our satisfied customers worldwide"
 }) => {
   const [testimonials, setTestimonials] = React.useState<Testimonial[]>([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const fetchTestimonials = async () => {
-      const { data, error } = await supabase
-        .from('testimonials' as any)
-        .select('*')
-        .limit(10)
-        .order('created_at', { ascending: false });
-      
-      if (data && !error) {
-        const formattedTestimonials = data.map((item: any) => ({
-          text: item.review_text,
-          image: "https://randomuser.me/api/portraits/men/1.jpg", // placeholder
-          name: item.customer_name,
-          role: item.property_type || "Customer"
-        }));
-        setTestimonials(formattedTestimonials);
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('testimonials')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (error) {
+          console.error('Error fetching testimonials:', error);
+          return;
+        }
+
+        if (data) {
+          const formattedTestimonials = data.map((item: any) => ({
+            text: item.review_text,
+            image: item.image_url || "/placeholder.svg",
+            name: item.customer_name,
+            role: item.designation || (item.customer_country ? `Kunde - ${item.customer_country}` : 'Kunde')
+          }));
+          setTestimonials(formattedTestimonials);
+        }
+      } catch (error) {
+        console.error('Error fetching testimonials:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -121,9 +133,21 @@ const TestimonialsColumns: React.FC<TestimonialsProps> = ({
         </motion.div>
 
         <div className="flex justify-center gap-6 mt-16 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
-          <TestimonialsColumn testimonials={firstColumn} duration={100} />
-          <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={120} />
-          <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={140} />
+          {loading ? (
+            <div className="flex justify-center items-center w-full h-64">
+              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+            </div>
+          ) : testimonials.length > 0 ? (
+            <>
+              <TestimonialsColumn testimonials={firstColumn} duration={100} />
+              <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={120} />
+              <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={140} />
+            </>
+          ) : (
+            <div className="flex justify-center items-center w-full h-64 text-muted-foreground">
+              Inga kundrecensioner tillgängliga
+            </div>
+          )}
         </div>
       </div>
     </section>
