@@ -140,14 +140,14 @@ const Index = () => {
             className="flex flex-col items-center justify-center max-w-[540px] mx-auto"
           >
             <div className="flex justify-center">
-              <div className="border py-1 px-4 rounded-lg">Testimonials</div>
+              <div className="border py-1 px-4 rounded-lg">Kundrecensioner</div>
             </div>
 
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tighter mt-5">
-              What Our Clients Say
+              Hvad vores kunder siger
             </h2>
             <p className="text-center mt-5 opacity-75">
-              Hear from satisfied property owners worldwide
+              Hør fra tilfredse ejendomsejere verden over
             </p>
           </motion.div>
 
@@ -156,12 +156,16 @@ const Index = () => {
               <div className="flex justify-center items-center w-full h-64">
                 <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
               </div>
-            ) : (
+            ) : testimonials.length > 0 ? (
               <>
                 <TestimonialsColumn testimonials={firstColumn} duration={15} />
                 <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
                 <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={17} />
               </>
+            ) : (
+              <div className="flex justify-center items-center w-full h-64 text-muted-foreground">
+                Indlæser kundeoplevelser...
+              </div>
             )}
           </div>
         </div>
@@ -170,20 +174,20 @@ const Index = () => {
       {/* Circular Testimonials */}
       <section className="py-12 sm:py-16 md:py-24 bg-muted/30 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8 sm:mb-12 md:mb-16">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
-                Real Client Experiences
-              </h2>
-              <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
-                Discover how we've helped clients achieve their property investment goals
-              </p>
-            </div>
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
+              Kundehistorier
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
+              Se hvordan vi har hjulpet kunder med at opnå deres ejendomsmål
+            </p>
+          </div>
           <div className="flex justify-center">
             {testimonialsLoading ? (
               <div className="flex justify-center items-center w-full h-64">
                 <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
               </div>
-            ) : (
+            ) : testimonials.length > 0 ? (
               <LazyTestimonials 
                 testimonials={circularTestimonials}
                 autoplay={false}
@@ -196,6 +200,10 @@ const Index = () => {
                   arrowHoverBackground: "hsl(var(--primary-glow))"
                 }}
               />
+            ) : (
+              <div className="flex justify-center items-center w-full h-64 text-muted-foreground">
+                Indlæser kundehistorier...
+              </div>
             )}
           </div>
         </div>

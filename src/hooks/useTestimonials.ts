@@ -37,20 +37,25 @@ export const useTestimonials = () => {
         .order('created_at', { ascending: false });
 
       if (error) {
+        console.error('Supabase error fetching testimonials:', error);
         throw error;
       }
 
       if (data) {
+        console.log('Successfully fetched testimonials:', data.length);
         // Transform database testimonials to the format expected by components
         const transformedTestimonials: Testimonial[] = data.map((testimonial: DbTestimonial) => ({
           text: testimonial.review_text,
           image: testimonial.image_url || '/placeholder.svg',
           name: testimonial.customer_name,
           role: testimonial.designation || 
-                (testimonial.customer_country ? `Customer - ${testimonial.customer_country}` : 'Customer')
+                (testimonial.customer_country ? `Kunde - ${testimonial.customer_country}` : 'Kunde')
         }));
 
         setTestimonials(transformedTestimonials);
+      } else {
+        console.log('No testimonials data received');
+        setTestimonials([]);
       }
     } catch (err) {
       console.error('Error fetching testimonials:', err);
