@@ -6,29 +6,24 @@ const CurrencySelector: React.FC = () => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Hard-coded currency display to prevent ANY translation
+  // Fixed currency codes - always show correct ISO codes
   const getCurrencyDisplay = (currencyCode: string): string => {
-    console.log('getCurrencyDisplay input:', currencyCode);
-    // Use exact string matching to prevent translation
-    let result;
-    switch(currencyCode.toUpperCase()) {
-      case 'EUR': result = 'EUR'; break;
-      case 'USD': result = 'USD'; break;
-      case 'GBP': result = 'GBP'; break;
-      case 'SEK': result = 'SEK'; break;
-      case 'NOK': result = 'NOK'; break;
-      case 'DKK': result = 'DKK'; break;
-      case 'TRY': result = 'TRY'; break;
-      case 'AED': result = 'AED'; break;
-      case 'IRR': result = 'IRR'; break;
-      case 'RUB': result = 'RUB'; break;
-      case 'CHF': result = 'CHF'; break;
-      case 'CAD': result = 'CAD'; break;
-      case 'AUD': result = 'AUD'; break;
-      default: result = currencyCode.substring(0, 3).toUpperCase(); break;
-    }
-    console.log('getCurrencyDisplay output:', result);
-    return result;
+    const fixedCodes: { [key: string]: string } = {
+      'EUR': 'EUR',
+      'USD': 'USD',
+      'GBP': 'GBP', 
+      'SEK': 'SEK',
+      'NOK': 'NOK',
+      'DKK': 'DKK',
+      'TRY': 'TRY',
+      'AED': 'AED',
+      'IRR': 'IRR',
+      'RUB': 'RUB',
+      'CHF': 'CHF',
+      'CAD': 'CAD',
+      'AUD': 'AUD'
+    };
+    return fixedCodes[currencyCode] || currencyCode;
   };
 
   return (
@@ -37,27 +32,19 @@ const CurrencySelector: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 px-2 py-1 rounded text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[60px]"
       >
-        <code
-          className="currency-fixed notranslate"
+        <span 
+          className="font-medium text-xs notranslate" 
           lang="en"
           translate="no"
           data-translate="no"
-          data-testid="currency-code"
-          suppressHydrationWarning
-          style={{
+          style={{ 
             fontFamily: 'monospace',
             textTransform: 'uppercase',
-            letterSpacing: '0.5px',
-            display: 'inline-block',
-            width: '3ch',
-            maxWidth: '3ch',
-            overflow: 'hidden',
-            userSelect: 'none',
-            pointerEvents: 'none'
+            letterSpacing: '0.5px'
           }}
         >
           {getCurrencyDisplay(selectedCurrency.code)}
-        </code>
+        </span>
         <ChevronDown className="w-3 h-3" />
       </button>
 
@@ -85,27 +72,19 @@ const CurrencySelector: React.FC = () => {
                       : 'hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
-                  <code
-                    className="currency-fixed notranslate"
+                  <span 
+                    className="font-medium text-xs notranslate" 
                     lang="en"
                     translate="no"
                     data-translate="no"
-                    data-testid="currency-code"
-                    suppressHydrationWarning
-                    style={{
+                    style={{ 
                       fontFamily: 'monospace',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                      display: 'inline-block',
-                      width: '3ch',
-                      maxWidth: '3ch',
-                      overflow: 'hidden',
-                      userSelect: 'none',
-                      pointerEvents: 'none'
+                      letterSpacing: '0.5px'
                     }}
                   >
                     {getCurrencyDisplay(currency.code)}
-                  </code>
+                  </span>
                 </button>
               ))}
             </div>
