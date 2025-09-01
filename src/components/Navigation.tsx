@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { AIHelpChat } from "./AIHelpChat";
 import Sidebar from "./Sidebar";
 import CurrencySelector from "./CurrencySelector";
+import UpdateBanner from "./UpdateBanner";
 
 interface NavigationProps {
   className?: string;
@@ -20,6 +21,9 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
 
   return (
     <>
+      {/* Update Banner */}
+      <UpdateBanner />
+      
       {/* Top Contact Bar */}
       <div className="bg-brand-secondary text-white py-2 px-4">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm">
