@@ -6,26 +6,7 @@ const CurrencySelector: React.FC = () => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Anti-translation currency codes using encoded strings
-  const getCurrencyDisplay = (currencyCode: string): string => {
-    // Use base64 encoded strings to prevent translation
-    const encodedCodes: { [key: string]: string } = {
-      'EUR': atob('RVVS'), // EUR
-      'USD': atob('VVNE'), // USD
-      'GBP': atob('R0JQ'), // GBP
-      'SEK': atob('U0VL'), // SEK
-      'NOK': atob('Tk9L'), // NOK
-      'DKK': atob('REtL'), // DKK
-      'TRY': atob('VFJZ'), // TRY
-      'AED': atob('QUVE'), // AED
-      'IRR': atob('SVJS'), // IRR
-      'RUB': atob('UlVC'), // RUB
-      'CHF': atob('Q0hG'), // CHF
-      'CAD': atob('Q0FE'), // CAD
-      'AUD': atob('QVVE')  // AUD
-    };
-    return encodedCodes[currencyCode] || currencyCode.substring(0, 3).toUpperCase();
-  };
+  // Currency codes are now displayed via CSS content to prevent translation
 
   return (
     <div className="relative">
@@ -34,25 +15,16 @@ const CurrencySelector: React.FC = () => {
         className="flex items-center gap-1 px-2 py-1 rounded text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[60px]"
       >
         <span 
-          className="currency-code notranslate" 
+          className="currency-display-wrapper notranslate" 
           lang="en"
           translate="no"
           data-translate="no"
-          data-testid="currency-display"
           suppressHydrationWarning
-          style={{ 
-            fontFamily: 'monospace',
-            textTransform: 'uppercase',
-            letterSpacing: '0.5px',
-            fontSize: '12px',
-            fontWeight: '600',
-            userSelect: 'none',
-            pointerEvents: 'none',
-            direction: 'ltr',
-            unicodeBidi: 'bidi-override'
-          }}
         >
-          {getCurrencyDisplay(selectedCurrency.code)}
+          <span 
+            className="currency-display-content"
+            data-currency={selectedCurrency.code}
+          />
         </span>
         <ChevronDown className="w-3 h-3" />
       </button>
@@ -82,25 +54,16 @@ const CurrencySelector: React.FC = () => {
                   }`}
                 >
                   <span 
-                    className="currency-code notranslate" 
+                    className="currency-display-wrapper notranslate" 
                     lang="en"
                     translate="no"
                     data-translate="no"
-                    data-testid="currency-display"
                     suppressHydrationWarning
-                    style={{ 
-                      fontFamily: 'monospace',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                      fontSize: '12px',
-                      fontWeight: '600',
-                      userSelect: 'none',
-                      pointerEvents: 'none',
-                      direction: 'ltr',
-                      unicodeBidi: 'bidi-override'
-                    }}
                   >
-                    {getCurrencyDisplay(currency.code)}
+                    <span 
+                      className="currency-display-content"
+                      data-currency={currency.code}
+                    />
                   </span>
                 </button>
               ))}
