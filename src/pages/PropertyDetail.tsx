@@ -15,7 +15,7 @@ import { getAntalyaPropertyById } from '@/data/antalyaProperties';
 import { getMersinPropertyById } from '@/data/mersinProperties';
 import { getDubaiPropertyById } from '@/data/dubaiProperties';
 import { getCyprusPropertyById } from '@/data/cyprusProperties';
-import { getFrancePropertyById } from '@/data/franceProperties';
+
 import { supabase } from '@/integrations/supabase/client';
 
 // Agent data with images
@@ -121,25 +121,6 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       }
     }
     
-    if (fromLocation.includes('france')) {
-      const franceProperty = getFrancePropertyById(id);
-      if (franceProperty) {
-        console.log('getPropertyData: Found France property in static data:', franceProperty.title);
-        return {
-          ...franceProperty,
-          propertyType: franceProperty.propertyType || "Apartment",
-          pricing: [{ 
-            type: franceProperty.bedrooms + " " + franceProperty.propertyType, 
-            size: franceProperty.area + "m²", 
-            price: franceProperty.price 
-          }],
-          facilities: franceProperty.features || [],
-          agent: "Ervina Köksel",
-          contactPhone: "+905523032750",
-          contactEmail: "info@futurehomesturkey.com"
-        };
-      }
-    }
   }
   
   // Try all static data sources if no location context provided
@@ -223,24 +204,6 @@ const getPropertyData = async (id: string, fromLocation?: string) => {
       };
     }
     
-    // Check France
-    const franceProperty = getFrancePropertyById(id);
-    if (franceProperty) {
-      console.log('getPropertyData: Found property in France static data:', franceProperty.title);
-      return {
-        ...franceProperty,
-        propertyType: franceProperty.propertyType || "Apartment",
-        pricing: [{ 
-          type: franceProperty.bedrooms + " " + franceProperty.propertyType, 
-          size: franceProperty.area + "m²", 
-          price: franceProperty.price 
-        }],
-        facilities: franceProperty.features || [],
-        agent: "Ervina Köksel",
-        contactPhone: "+905523032750",
-        contactEmail: "info@futurehomesturkey.com"
-      };
-    }
   }
   
   // Try database lookup for newer properties (only if not found in static data)
