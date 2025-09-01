@@ -6,9 +6,25 @@ const CurrencySelector: React.FC = () => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Simple function to ensure exactly 3 characters
+  // Hard-coded currency display to prevent ANY translation
   const getCurrencyDisplay = (currencyCode: string): string => {
-    return currencyCode.substring(0, 3).toUpperCase();
+    // Use exact string matching to prevent translation
+    switch(currencyCode.toUpperCase()) {
+      case 'EUR': return 'EUR';
+      case 'USD': return 'USD';
+      case 'GBP': return 'GBP';
+      case 'SEK': return 'SEK';
+      case 'NOK': return 'NOK';
+      case 'DKK': return 'DKK';
+      case 'TRY': return 'TRY';
+      case 'AED': return 'AED';
+      case 'IRR': return 'IRR';
+      case 'RUB': return 'RUB';
+      case 'CHF': return 'CHF';
+      case 'CAD': return 'CAD';
+      case 'AUD': return 'AUD';
+      default: return currencyCode.substring(0, 3).toUpperCase();
+    }
   };
 
   return (
@@ -17,21 +33,27 @@ const CurrencySelector: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1 px-2 py-1 rounded text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[60px]"
       >
-        <span 
-          className="font-bold text-xs notranslate" 
+        <code
+          className="currency-fixed notranslate"
           lang="en"
           translate="no"
           data-translate="no"
-          style={{ 
+          data-testid="currency-code"
+          suppressHydrationWarning
+          style={{
             fontFamily: 'monospace',
-            userSelect: 'none',
-            pointerEvents: 'none',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
+            display: 'inline-block',
+            width: '3ch',
             maxWidth: '3ch',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            userSelect: 'none',
+            pointerEvents: 'none'
           }}
         >
           {getCurrencyDisplay(selectedCurrency.code)}
-        </span>
+        </code>
         <ChevronDown className="w-3 h-3" />
       </button>
 
@@ -59,21 +81,27 @@ const CurrencySelector: React.FC = () => {
                       : 'hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
-                  <span 
-                    className="font-bold text-xs notranslate" 
+                  <code
+                    className="currency-fixed notranslate"
                     lang="en"
                     translate="no"
                     data-translate="no"
-                    style={{ 
+                    data-testid="currency-code"
+                    suppressHydrationWarning
+                    style={{
                       fontFamily: 'monospace',
-                      userSelect: 'none',
-                      pointerEvents: 'none',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      display: 'inline-block',
+                      width: '3ch',
                       maxWidth: '3ch',
-                      overflow: 'hidden'
+                      overflow: 'hidden',
+                      userSelect: 'none',
+                      pointerEvents: 'none'
                     }}
                   >
                     {getCurrencyDisplay(currency.code)}
-                  </span>
+                  </code>
                 </button>
               ))}
             </div>

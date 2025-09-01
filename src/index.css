@@ -12,34 +12,36 @@ body {
   top: 0 !important;
 }
 
-/* Currency code anti-translation styles */
+/* Currency code anti-translation styles - BULLETPROOF */
 .currency-code {
   font-feature-settings: "tnum";
   font-variant-numeric: tabular-nums;
   text-transform: none !important;
   -webkit-text-fill-color: currentColor !important;
   unicode-bidi: isolate;
-  white-space: nowrap;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace !important;
+  white-space: nowrap !important;
+  font-family: 'Courier New', Courier, monospace !important;
   -webkit-locale: "en" !important;
   direction: ltr !important;
   writing-mode: horizontal-tb !important;
+  display: inline-block !important;
+  width: 3ch !important;
+  max-width: 3ch !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
 }
 
-.currency-code::before {
-  content: "";
-  speak: none;
-}
-
+.currency-code::before,
 .currency-code::after {
-  content: "";
-  speak: none;
+  content: "" !important;
+  speak: none !important;
 }
 
 .notranslate {
   -webkit-transform: none !important;
   transform: none !important;
   -webkit-locale: "en" !important;
+  translate: no !important;
 }
 
 /* Prevent Google Translate from affecting currency codes */
@@ -51,10 +53,30 @@ body {
   transition: none !important;
 }
 
-/* Force currency codes to be treated as code */
+/* Extra protection - mark as untranslatable code */
 .currency-code {
-  font-family: 'Courier New', Courier, monospace !important;
+  speak: literal-punctuation !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+/* Force specific styling to avoid translation */
+.currency-fixed {
+  font-family: monospace !important;
+  font-size: inherit !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  font-weight: inherit !important;
+  font-style: normal !important;
+  text-transform: uppercase !important;
   letter-spacing: 0.5px !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
+  width: 3ch !important;
+  max-width: 3ch !important;
+  overflow: hidden !important;
 }
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
