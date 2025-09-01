@@ -35,16 +35,14 @@ const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
 
 
-// Optimized query client with aggressive caching for better performance
+// Reset query client with normal settings
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 10 * 60 * 1000, // 10 minutes - increased for better caching
-      gcTime: 30 * 60 * 1000, // 30 minutes - keep data longer in cache
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes
       refetchOnWindowFocus: false,
-      refetchOnReconnect: false, // Reduce unnecessary refetches
       retry: 1,
-      networkMode: 'offlineFirst', // Use cache first
     },
   },
 });
