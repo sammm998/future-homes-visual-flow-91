@@ -6,16 +6,15 @@ const CurrencySelector: React.FC = () => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Currency codes are now displayed via CSS content to prevent translation
-
   return (
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 px-2 py-1 rounded text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[60px]"
+        className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[80px] border border-border/50"
       >
+        <span className="text-lg select-none">{selectedCurrency.flag}</span>
         <span 
-          className="currency-display-wrapper notranslate" 
+          className="currency-display-wrapper notranslate font-mono text-xs font-bold tracking-wider" 
           lang="en"
           translate="no"
           data-translate="no"
@@ -26,7 +25,7 @@ const CurrencySelector: React.FC = () => {
             data-currency={selectedCurrency.code}
           />
         </span>
-        <ChevronDown className="w-3 h-3" />
+        <ChevronDown className="w-3 h-3 ml-auto opacity-60" />
       </button>
 
       {isOpen && (
@@ -38,8 +37,8 @@ const CurrencySelector: React.FC = () => {
           />
           
           {/* Dropdown */}
-          <div className="absolute top-full left-0 mt-1 w-20 bg-background border border-border rounded-lg shadow-lg z-50">
-            <div className="p-1">
+          <div className="absolute top-full left-0 mt-2 w-32 bg-background border border-border rounded-lg shadow-lg z-50 backdrop-blur-sm">
+            <div className="p-1 max-h-60 overflow-y-auto scrollbar-hide">
               {currencies.map((currency) => (
                 <button
                   key={currency.code}
@@ -47,14 +46,15 @@ const CurrencySelector: React.FC = () => {
                     setSelectedCurrency(currency);
                     setIsOpen(false);
                   }}
-                  className={`w-full px-2 py-1.5 rounded text-sm transition-colors text-left ${
+                  className={`w-full px-3 py-2 rounded-md text-sm transition-colors text-left flex items-center gap-3 ${
                     selectedCurrency.code === currency.code
-                      ? 'bg-accent text-accent-foreground'
+                      ? 'bg-primary text-primary-foreground'
                       : 'hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
+                  <span className="text-base select-none">{currency.flag}</span>
                   <span 
-                    className="currency-display-wrapper notranslate" 
+                    className="currency-display-wrapper notranslate font-mono text-xs font-bold tracking-wider" 
                     lang="en"
                     translate="no"
                     data-translate="no"
