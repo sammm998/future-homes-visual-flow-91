@@ -208,10 +208,10 @@ const AntalyaPropertySearch = () => {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Fastigheter i Antalya
+            Properties In Antalya
           </h1>
           <p className="text-muted-foreground">
-            {loading ? 'Laddar...' : `${antalyaProperties.length} fastigheter hittades`}
+            {loading ? 'Loading...' : `${antalyaProperties.length} properties found`}
           </p>
         </div>
 
@@ -256,7 +256,7 @@ const AntalyaPropertySearch = () => {
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-4">
               <span className="text-sm text-muted-foreground">
-                Visar {filteredProperties.length} av {antalyaProperties.length} fastigheter
+                Showing {filteredProperties.length} of {antalyaProperties.length} properties
               </span>
             </div>
           </div>
@@ -276,10 +276,10 @@ const AntalyaPropertySearch = () => {
               <div className="max-w-md mx-auto">
                 <Grid className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-foreground mb-2">
-                  Inga fastigheter hittades
+                  No Properties Found
                 </h3>
                 <p className="text-muted-foreground mb-6">
-                  Prova att justera dina sökkriterier för att hitta fler fastigheter.
+                  Try adjusting your search criteria to find more properties.
                 </p>
                 <Button 
                   onClick={() => {
@@ -300,7 +300,7 @@ const AntalyaPropertySearch = () => {
                   }}
                   variant="outline"
                 >
-                  Rensa filter
+                  Clear Filters
                 </Button>
               </div>
             </div>
