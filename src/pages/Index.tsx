@@ -124,21 +124,21 @@ const Index = () => {
           </div>
         </div>
         
-        <div className="flex justify-center gap-6 h-[400px]">
+        <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
           <TestimonialsColumn
             testimonials={testimonials.slice(0, 3)}
             className="w-80"
-            duration={120}
+            duration={15}
           />
           <TestimonialsColumn
             testimonials={testimonials.slice(3, 6)}
             className="w-80 hidden md:block"
-            duration={100}
+            duration={19}
           />
           <TestimonialsColumn
             testimonials={testimonials.slice(6, 9)}
             className="w-80 hidden lg:block"
-            duration={140}
+            duration={17}
           />
         </div>
       </section>
