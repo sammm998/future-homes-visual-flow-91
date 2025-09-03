@@ -71,15 +71,18 @@ const NewsInsights = () => {
     slug: post.slug
   }));
 
-  if (loading) {
+  if (loading || blogPosts.length === 0) {
     return (
       <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <Badge className="mb-4">News & Insights</Badge>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Loading...
+              Stay Informed
             </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Keep up to date with the latest property trends and market insights
+            </p>
           </div>
         </div>
       </section>
