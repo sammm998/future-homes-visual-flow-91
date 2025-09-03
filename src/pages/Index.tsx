@@ -6,6 +6,7 @@ import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
+import TestimonialsCards from "@/components/TestimonialsCards";
 import SEOHead from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 import { useSEO } from "@/hooks/useSEO";
@@ -107,6 +108,9 @@ const Index = () => {
       </LazyComponent>
       
       
+      {/* Testimonials Cards */}
+      <TestimonialsCards />
+
       {/* News & Insights */}
       <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>
         <LazyNewsInsights />
