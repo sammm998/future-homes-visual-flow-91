@@ -134,16 +134,12 @@ const TestimonialsCards = () => {
                       src={localImageMap[testimonial.customer_name] || testimonial.image_url} 
                       alt={testimonial.customer_name}
                       className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                        target.nextElementSibling?.classList.remove('hidden');
-                      }}
                     />
-                  ) : null}
-                  <span className={`text-primary font-semibold text-lg ${(localImageMap[testimonial.customer_name] || testimonial.image_url) ? 'hidden' : ''}`}>
-                    {testimonial.customer_name.charAt(0)}
-                  </span>
+                  ) : (
+                    <span className="text-primary font-semibold text-lg">
+                      {testimonial.customer_name.charAt(0)}
+                    </span>
+                  )}
                 </div>
                 <div>
                   <h4 className="font-semibold text-card-foreground">
