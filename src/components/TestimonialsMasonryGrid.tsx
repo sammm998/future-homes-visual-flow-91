@@ -16,7 +16,7 @@ const TestimonialCard = ({ image, name, text }: { image: string; name: string; t
     <div className="absolute top-0 left-0 p-4 text-white">
       <div className="flex items-center gap-3 mb-2">
         <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-          <span className="text-xs font-semibold">{name.charAt(0)}</span>
+          <span className="text-xs font-semibold">F</span>
         </div>
         <span className="font-semibold text-sm drop-shadow-md">{name}</span>
       </div>
@@ -29,7 +29,7 @@ const TestimonialsMasonryGrid = () => {
   const { testimonials } = useTestimonials();
 
   // Use a subset of testimonials for the grid
-  const gridTestimonials = testimonials.slice(0, 8);
+  const gridTestimonials = testimonials.slice(0, 12);
 
   return (
     <section className="py-20 bg-background">
