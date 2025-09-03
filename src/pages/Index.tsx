@@ -6,7 +6,7 @@ import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
-import TestimonialsCards from "@/components/TestimonialsCards";
+import TestimonialsMasonryGrid from "@/components/TestimonialsMasonryGrid";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import SEOHead from "@/components/SEOHead";
@@ -143,8 +143,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials Cards */}
-      <TestimonialsCards />
+      {/* Testimonials Masonry Grid */}
+      <TestimonialsMasonryGrid />
 
       {/* News & Insights */}
       <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>
