@@ -6,8 +6,7 @@ import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
-import TestimonialsCards from "@/components/TestimonialsCards";
-import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
+import TestimonialsMasonryGrid from "@/components/TestimonialsMasonryGrid";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import SEOHead from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
@@ -111,40 +110,8 @@ const Index = () => {
       </LazyComponent>
       
       
-      {/* Rolling Testimonials */}
-      <section className="py-20 bg-secondary/30 overflow-hidden">
-        <div className="container mx-auto px-4 mb-16">
-          <div className="text-center">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              Customer Reviews
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              See what our satisfied customers say about their experience
-            </p>
-          </div>
-        </div>
-        
-        <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
-          <TestimonialsColumn
-            testimonials={testimonials.slice(0, 3)}
-            className="w-80"
-            duration={15}
-          />
-          <TestimonialsColumn
-            testimonials={testimonials.slice(3, 6)}
-            className="w-80 hidden md:block"
-            duration={19}
-          />
-          <TestimonialsColumn
-            testimonials={testimonials.slice(6, 9)}
-            className="w-80 hidden lg:block"
-            duration={17}
-          />
-        </div>
-      </section>
-
-      {/* Testimonials Cards */}
-      <TestimonialsCards />
+      {/* Testimonials Masonry Grid */}
+      <TestimonialsMasonryGrid />
 
       {/* News & Insights */}
       <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>
