@@ -1,8 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
-import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import { motion } from "motion/react";
-import { LazyComponent, LazyTestimonials, LazyShuffleGrid, LazyPropertyShowcase, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
+import { LazyComponent, LazyShuffleGrid, LazyPropertyShowcase, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
 import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
@@ -16,7 +15,6 @@ import { useMemo, useEffect, useState } from "react";
 import { useSyncAllData } from "@/hooks/useSyncAllData";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
-import { useTestimonials } from "@/hooks/useTestimonials";
 
 
 const Index = () => {
@@ -24,7 +22,6 @@ const Index = () => {
   const { structuredData } = useSEO();
   const currentCanonicalUrl = useCanonicalUrl();
   const [showPopup, setShowPopup] = useState(false);
-  const { testimonials, loading: testimonialsLoading } = useTestimonials();
   const { syncAllProperties } = useSyncAllData();
 
   // Auto-sync properties only when needed, not on every load
@@ -53,31 +50,6 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
   
-  // Memoize testimonials data for performance
-  const memoizedTestimonials = useMemo(() => testimonials, [testimonials]);
-  
-  // Distribute testimonials across columns
-  const redistributeTestimonials = (items: any[], numColumns: number) => {
-    const columns = Array.from({ length: numColumns }, () => [] as any[]);
-    items.forEach((item, index) => {
-      columns[index % numColumns].push(item);
-    });
-    return columns;
-  };
-
-  const [firstColumn, secondColumn, thirdColumn] = redistributeTestimonials(memoizedTestimonials, 3);
-
-  // Transform for circular testimonials
-  const circularTestimonials = useMemo(() => 
-    memoizedTestimonials.slice(0, 5).map(testimonial => ({
-      quote: testimonial.text,
-      name: testimonial.name,
-      designation: testimonial.role,
-      src: testimonial.image,
-      rating: 5
-    })), 
-    [memoizedTestimonials]
-  );
 
   const homePageStructuredData = {
     "@context": "https://schema.org",
@@ -134,85 +106,6 @@ const Index = () => {
         <LazyPropertyShowcase />
       </LazyComponent>
       
-      {/* Testimonials Columns */}
-      <section className="bg-background my-20 relative">
-        <div className="container z-10 mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center justify-center max-w-[540px] mx-auto"
-          >
-            <div className="flex justify-center">
-              <div className="border py-1 px-4 rounded-lg">Kundrecensioner</div>
-            </div>
-
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tighter mt-5">
-              Hvad vores kunder siger
-            </h2>
-            <p className="text-center mt-5 opacity-75">
-              Hør fra tilfredse ejendomsejere verden over
-            </p>
-          </motion.div>
-
-          <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
-            {testimonialsLoading ? (
-              <div className="flex justify-center items-center w-full h-64">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-              </div>
-            ) : testimonials.length > 0 ? (
-              <>
-                <TestimonialsColumn testimonials={firstColumn} duration={15} />
-                <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
-                <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={17} />
-              </>
-            ) : (
-              <div className="flex justify-center items-center w-full h-64 text-muted-foreground">
-                Indlæser kundeoplevelser...
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-      
-      {/* Circular Testimonials */}
-      <section className="py-12 sm:py-16 md:py-24 bg-muted/30 w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6">
-              Kundehistorier
-            </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
-              Se hvordan vi har hjulpet kunder med at opnå deres ejendomsmål
-            </p>
-          </div>
-          <div className="flex justify-center">
-            {testimonialsLoading ? (
-              <div className="flex justify-center items-center w-full h-64">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-              </div>
-            ) : testimonials.length > 0 ? (
-              <LazyTestimonials 
-                testimonials={circularTestimonials}
-                autoplay={false}
-                colors={{
-                  name: "hsl(var(--foreground))",
-                  designation: "hsl(var(--muted-foreground))",
-                  testimony: "hsl(var(--foreground))",
-                  arrowBackground: "hsl(var(--primary))",
-                  arrowForeground: "hsl(var(--primary-foreground))",
-                  arrowHoverBackground: "hsl(var(--primary-glow))"
-                }}
-              />
-            ) : (
-              <div className="flex justify-center items-center w-full h-64 text-muted-foreground">
-                Indlæser kundehistorier...
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
       
       {/* News & Insights */}
       <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>

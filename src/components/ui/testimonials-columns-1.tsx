@@ -21,7 +21,7 @@ export const TestimonialsColumn = (props: {
           translateY: "-50%",
         }}
         transition={{
-          duration: props.duration || 10,
+          duration: props.duration || 100,
           repeat: Infinity,
           ease: "linear",
           repeatType: "loop",
