@@ -2,6 +2,21 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Star } from 'lucide-react';
 
+// Import local testimonial images
+import turgutImg from "@/assets/testimonials/turgut.jpg";
+import yuriiGlushkovImg from "@/assets/testimonials/yurii-glushkov.jpg";
+import olgaImg from "@/assets/testimonials/olga.jpg";
+import tahirImg from "@/assets/testimonials/tahir.jpg";
+import pekerImg from "@/assets/testimonials/peker.jpg";
+import oksanaImg from "@/assets/testimonials/oksana.jpg";
+import zaidImg from "@/assets/testimonials/zaid.jpg";
+import kharonImg from "@/assets/testimonials/kharon.jpg";
+import poliakovImg from "@/assets/testimonials/poliakov.jpg";
+import magomedImg from '@/assets/testimonials/magomed.jpg';
+import nikolausImg from '@/assets/testimonials/nikolaus.jpg';
+import vicdanImg from '@/assets/testimonials/vicdan.jpg';
+import maherImg from '@/assets/testimonials/maher.jpg';
+
 interface Testimonial {
   id: string;
   customer_name: string;
@@ -14,6 +29,24 @@ interface Testimonial {
   designation?: string;
   company_name?: string;
 }
+
+// Map of customer names to local images
+const localImageMap: Record<string, string> = {
+  "Turgut": turgutImg,
+  "Yurii Glushkov": yuriiGlushkovImg,
+  "Olga": olgaImg,
+  "Tahir": tahirImg,
+  "Peker": pekerImg,
+  "Oksana": oksanaImg,
+  "Zaid": zaidImg,
+  "Kharon": kharonImg,
+  "Poliakov": poliakovImg,
+  "Magomed and Asetta": magomedImg,
+  "Haron and Larisa": magomedImg,
+  "Nikolaus": nikolausImg,
+  "Vicdan": vicdanImg,
+  "Maher Loul": maherImg,
+};
 
 const TestimonialsCards = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -95,8 +128,20 @@ const TestimonialsCards = () => {
               </p>
               
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-primary font-semibold text-lg">
+                <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
+                  {localImageMap[testimonial.customer_name] || testimonial.image_url ? (
+                    <img 
+                      src={localImageMap[testimonial.customer_name] || testimonial.image_url} 
+                      alt={testimonial.customer_name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        target.nextElementSibling?.classList.remove('hidden');
+                      }}
+                    />
+                  ) : null}
+                  <span className={`text-primary font-semibold text-lg ${(localImageMap[testimonial.customer_name] || testimonial.image_url) ? 'hidden' : ''}`}>
                     {testimonial.customer_name.charAt(0)}
                   </span>
                 </div>
