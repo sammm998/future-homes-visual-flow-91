@@ -28,10 +28,14 @@ export interface Property {
 }
 
 export const filterProperties = (properties: Property[], filters: PropertyFilters): Property[] => {
+  console.log('🔍 filterProperties: Starting with', properties.length, 'properties');
+  console.log('🔧 filterProperties: Applied filters:', filters);
+  
   let filtered = [...properties];
   
   // Filter by property type
   if (filters.propertyType && filters.propertyType !== '') {
+    const beforeCount = filtered.length;
     filtered = filtered.filter(property => {
       const type = filters.propertyType.toLowerCase();
       const title = property.title.toLowerCase();
@@ -47,10 +51,12 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
       }
       return true;
     });
+    console.log(`🏠 propertyType filter (${filters.propertyType}): ${beforeCount} → ${filtered.length} properties`);
   }
 
   // Filter by bedrooms
   if (filters.bedrooms && filters.bedrooms !== '') {
+    const beforeCount = filtered.length;
     filtered = filtered.filter(property => {
       // Handle studio apartments
       if (filters.bedrooms === 'studio') {
@@ -72,20 +78,9 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
       const bedroomFilter = parseInt(filters.bedrooms);
       const propertyBedrooms = property.bedrooms.toLowerCase();
       
-      // Handle ranges like "1+1 <> 2+1" or single values like "2+1"
+      // Handle ranges like "2+1 <> 3+1" or single values like "2+1"
       if (propertyBedrooms.includes('<>')) {
-        // For studio filter, check if range includes studio options
-        if (filters.bedrooms === 'studio') {
-          const rangeParts = propertyBedrooms.split('<>').map(part => part.trim());
-          return rangeParts.some(part => {
-            const partLower = part.toLowerCase();
-            return partLower.includes('studio') || 
-                   partLower.match(/^0\+/) || 
-                   partLower === '0';
-          });
-        }
-        
-        // For other bedroom counts, include range properties that contain the target bedroom count
+        // Split the range and extract bedroom numbers
         const rangeParts = propertyBedrooms.split('<>').map(part => part.trim());
         const validCounts = rangeParts.map(part => {
           const match = part.match(/^(\d+)/);
@@ -93,11 +88,13 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
         }).filter(count => count !== null);
         
         if (bedroomFilter === 5) {
-          // 5+ bedrooms
+          // 5+ bedrooms - check if any part of range is >= 5
           return validCounts.some(count => count >= 5);
         } else {
-          // Include if the range contains the exact bedroom count
-          return validCounts.includes(bedroomFilter);
+          // Check if filter bedroom count falls within the range
+          const minBedrooms = Math.min(...validCounts);
+          const maxBedrooms = Math.max(...validCounts);
+          return bedroomFilter >= minBedrooms && bedroomFilter <= maxBedrooms;
         }
       } else {
         // Handle single values like "2+1", "3+1", etc.
@@ -114,71 +111,113 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
         }
       }
     });
+    console.log(`🛏️ bedrooms filter (${filters.bedrooms}): ${beforeCount} → ${filtered.length} properties`);
   }
 
   // Filter by location
   if (filters.location && filters.location !== '' && filters.location !== 'all') {
+    const beforeCount = filtered.length;
     filtered = filtered.filter(property => 
       property.location.toLowerCase().includes(filters.location.toLowerCase())
     );
+    console.log(`📍 location filter (${filters.location}): ${beforeCount} → ${filtered.length} properties`);
   }
 
   // Filter by district
   if (filters.district) {
+    const beforeCount = filtered.length;
     filtered = filtered.filter(property => 
       property.location.toLowerCase().includes(filters.district.toLowerCase()) ||
       property.title.toLowerCase().includes(filters.district.toLowerCase())
     );
+    console.log(`🏘️ district filter (${filters.district}): ${beforeCount} → ${filtered.length} properties`);
   }
 
   // Filter by reference number
   if (filters.referenceNo && filters.referenceNo !== '') {
+    const beforeCount = filtered.length;
     filtered = filtered.filter(property => 
       property.refNo && property.refNo.toLowerCase().includes(filters.referenceNo.toLowerCase())
     );
+    console.log(`🔢 refNo filter (${filters.referenceNo}): ${beforeCount} → ${filtered.length} properties`);
   }
 
   // Filter by price range
   if (filters.minPrice || filters.maxPrice) {
+    const beforeCount = filtered.length;
     filtered = filtered.filter(property => {
-      const priceStr = property.price.replace(/[€$£,]/g, '');
-      const price = parseInt(priceStr);
+      // Handle price ranges like "€202,000" or "€150,000 <> €300,000"
+      let priceStr = property.price;
+      let minPropertyPrice = 0;
+      let maxPropertyPrice = 0;
       
-      if (isNaN(price)) return true; // Skip if price can't be parsed
+      if (priceStr.includes('<>')) {
+        // Handle price ranges
+        const priceParts = priceStr.split('<>').map(part => part.trim());
+        minPropertyPrice = parseInt(priceParts[0].replace(/[€$£,]/g, '')) || 0;
+        maxPropertyPrice = parseInt(priceParts[1].replace(/[€$£,]/g, '')) || 0;
+      } else {
+        // Single price
+        const price = parseInt(priceStr.replace(/[€$£,]/g, '')) || 0;
+        minPropertyPrice = maxPropertyPrice = price;
+      }
       
-      const minPrice = filters.minPrice ? parseInt(filters.minPrice.replace(/[€$£,]/g, '')) : 0;
-      const maxPrice = filters.maxPrice ? parseInt(filters.maxPrice.replace(/[€$£,]/g, '')) : Infinity;
+      if (minPropertyPrice === 0 && maxPropertyPrice === 0) return true; // Skip if price can't be parsed
       
-      return price >= minPrice && price <= maxPrice;
+      const filterMinPrice = filters.minPrice ? parseInt(filters.minPrice.replace(/[€$£,]/g, '')) : 0;
+      const filterMaxPrice = filters.maxPrice ? parseInt(filters.maxPrice.replace(/[€$£,]/g, '')) : Infinity;
+      
+      // Check if price ranges overlap
+      return maxPropertyPrice >= filterMinPrice && minPropertyPrice <= filterMaxPrice;
     });
+    console.log(`💰 price filter (${filters.minPrice || '0'} - ${filters.maxPrice || '∞'}): ${beforeCount} → ${filtered.length} properties`);
   }
 
   // Filter by area range
   if (filters.minSquareFeet || filters.maxSquareFeet) {
+    const beforeCount = filtered.length;
     filtered = filtered.filter(property => {
+      // Handle area like "85 <> 120" or single values like "100"
       const areas = property.area.split(' <> ');
-      const minArea = parseInt(areas[0]);
+      const minArea = parseInt(areas[0]) || 0;
       const maxArea = areas.length > 1 ? parseInt(areas[1]) : minArea;
+      
+      if (minArea === 0 && maxArea === 0) return true; // Skip if area can't be parsed
       
       const filterMinArea = filters.minSquareFeet ? parseInt(filters.minSquareFeet) : 0;
       const filterMaxArea = filters.maxSquareFeet ? parseInt(filters.maxSquareFeet) : Infinity;
       
+      // Check if area ranges overlap
       return maxArea >= filterMinArea && minArea <= filterMaxArea;
     });
+    console.log(`📐 area filter (${filters.minSquareFeet || '0'} - ${filters.maxSquareFeet || '∞'} m²): ${beforeCount} → ${filtered.length} properties`);
   }
 
-  // Filter by facilities
+  // Filter by facilities - CRITICAL FIX
   if (filters.facilities && filters.facilities.length > 0) {
+    const beforeCount = filtered.length;
+    console.log(`🔧 facilities filter checking for:`, filters.facilities);
     filtered = filtered.filter(property => {
-      if (!property.features) return false;
+      // Allow properties with empty or missing features if no specific facilities are required
+      if (!property.features || property.features.length === 0) {
+        console.log(`❌ Property "${property.title}" has no features, excluding from facilities filter`);
+        return false;
+      }
       
       // Check if the property has ALL selected facilities
-      return filters.facilities.every(facility => 
+      const hasAllFacilities = filters.facilities.every(facility => 
         property.features!.some(feature => 
           feature.toLowerCase().includes(facility.toLowerCase())
         )
       );
+      
+      if (!hasAllFacilities) {
+        console.log(`❌ Property "${property.title}" missing facilities. Has: [${property.features.join(', ')}], Needs: [${filters.facilities.join(', ')}]`);
+      }
+      
+      return hasAllFacilities;
     });
+    console.log(`🏢 facilities filter (${filters.facilities.join(', ')}): ${beforeCount} → ${filtered.length} properties`);
   }
 
   // Sort results
@@ -227,7 +266,9 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
           return defaultIdA - defaultIdB;
       }
     });
+    console.log(`🔄 sorted by ${filters.sortBy}: ${filtered.length} properties`);
   }
 
+  console.log('✅ filterProperties: Final result:', filtered.length, 'properties');
   return filtered;
 };
