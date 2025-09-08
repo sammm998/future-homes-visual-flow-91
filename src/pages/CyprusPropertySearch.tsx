@@ -61,12 +61,11 @@ const CyprusPropertySearch = () => {
       referenceNo: searchParams.get('referenceNumber') || searchParams.get('referenceNo') || ''
     };
 
-    // Merge with location state if available
-    const stateFilters = location.state?.filters;
-    if (stateFilters) {
-      Object.keys(stateFilters).forEach(key => {
-        if (stateFilters[key] && stateFilters[key] !== '') {
-          urlFilters[key as keyof PropertyFilters] = stateFilters[key];
+    // Load additional filters from location state if available
+    if (location.state?.filters) {
+      Object.keys(location.state.filters).forEach(key => {
+        if (location.state.filters[key] && location.state.filters[key] !== '') {
+          (urlFilters as any)[key] = location.state.filters[key];
         }
       });
     }
@@ -142,69 +141,55 @@ const CyprusPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
+    // Navigate to the property detail page using the UUID
     navigate(`/property/${property.id}`, { 
-      state: { from: '/cyprus' }
+      state: { from: '/cyprus' } 
     });
   };
 
-  // Timeline data using ALL Cyprus properties
-  const timelineData = filteredProperties.map((property, index) => ({
-    title: property.title,
-    content: (
-      <div>
-        <p className="text-foreground text-xs md:text-sm font-normal mb-4">
-          Premium Cyprus property with sea views and modern amenities.
-        </p>
-        <div className="mb-6">
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            📍 {property.location}
+  // Timeline data transformation
+  const timelineData = useMemo(() => {
+    return filteredProperties.map((property, index) => ({
+      title: property.title,
+      content: (
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>📍 {property.location}</span>
+            <span>•</span>
+            <span>💰 {property.price}</span>
           </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            💰 {property.price}
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            🏠 {property.bedrooms} | 📐 {property.area}m²
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            ✅ {property.status}
-          </div>
+          <p className="text-sm leading-relaxed">
+            Beautiful property in Cyprus with {property.bedrooms} bedrooms and {property.bathrooms} bathrooms.
+          </p>
+          {property.image && (
+            <img 
+              src={property.image} 
+              alt={property.title}
+              className="w-full h-48 object-cover rounded-lg mt-3"
+            />
+          )}
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <img
-            src={property.image}
-            alt={`${property.title} - Image 1`}
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = `/lovable-uploads/000f440d-ddb1-4c1b-9202-eef1ef588a8c.png`;
-            }}
-          />
-          <img
-            src="/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png"
-            alt="Property placeholder"
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-          />
-          <img
-            src="/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png"
-            alt="Property placeholder"
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-          />
-          <img
-            src="/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.png"
-            alt="Property placeholder"
-            className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-          />
+      ),
+    }));
+  }, [filteredProperties]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="flex justify-center items-center min-h-[50vh]">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
         </div>
       </div>
-    ),
-  }));
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Cyprus Properties & EU Residency | Future Homes"
-        description="Cyprus real estate investment with EU residency programs. Mediterranean luxury properties & expert consultation. Secure your future."
-        keywords="Cyprus properties, Cyprus real estate, property investment Cyprus, sea view apartments Cyprus, Cyprus residence permit"
+        title="Cyprus Properties Investment | Future Homes Mediterranean"
+        description="Premium Cyprus real estate with EU citizenship opportunities. Luxury apartments & villas with beach access. Expert investment guidance."
+        keywords="Cyprus properties, Cyprus real estate, property investment Cyprus, luxury apartments Cyprus, villas Cyprus, EU citizenship"
         canonicalUrl="https://futurehomesturkey.com/cyprus"
       />
       <Navigation />
@@ -343,96 +328,98 @@ const CyprusPropertySearch = () => {
         {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
         <div className="hidden md:block">
           {!showTimeline && (
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {loading ? (
-                <div className="flex justify-center items-center min-h-[200px] col-span-full">
-                  <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-                </div>
-              ) : filteredProperties.length === 0 ? (
-                <div className="text-center py-12 col-span-full">
-                  <p className="text-muted-foreground text-lg">No properties found matching your criteria.</p>
-                  <Button 
-                    onClick={() => {
-                      setFilters({
-                        propertyType: '',
-                        bedrooms: '',
-                        location: 'Cyprus',
-                        district: '',
-                        minPrice: '',
-                        maxPrice: '',
-                        minSquareFeet: '',
-                        maxSquareFeet: '',
-                        facilities: [],
-                        sortBy: 'ref',
-                        referenceNo: ''
-                      });
-                      setShowFiltered(false);
-                    }}
-                    variant="outline"
-                    className="mt-4"
-                  >
-                    Clear Filters
-                  </Button>
-                </div>
-              ) : (
-                paginatedProperties.map((property) => (
-                  <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                    <PropertyCard property={property} />
+            <>
+              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {loading ? (
+                  <div className="flex justify-center items-center min-h-[200px] col-span-full">
+                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
                   </div>
-                ))
-              )}
-            </div>
-            
-            {/* Desktop Pagination */}
-            {filteredProperties.length > 0 && totalPages > 1 && (
-              <div className="mt-8">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious 
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (currentPage > 1) setCurrentPage(currentPage - 1);
-                        }}
-                        className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-                      />
-                    </PaginationItem>
-                    
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      const pageNumber = i + 1;
-                      return (
-                        <PaginationItem key={pageNumber}>
-                          <PaginationLink
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setCurrentPage(pageNumber);
-                            }}
-                            isActive={currentPage === pageNumber}
-                          >
-                            {pageNumber}
-                          </PaginationLink>
-                        </PaginationItem>
-                      );
-                    })}
-                    
-                    {totalPages > 5 && <PaginationEllipsis />}
-                    
-                    <PaginationItem>
-                      <PaginationNext
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-                        }}
-                        className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
+                ) : filteredProperties.length === 0 ? (
+                  <div className="text-center py-12 col-span-full">
+                    <p className="text-muted-foreground text-lg">No properties found matching your criteria.</p>
+                    <Button 
+                      onClick={() => {
+                        setFilters({
+                          propertyType: '',
+                          bedrooms: '',
+                          location: 'Cyprus',
+                          district: '',
+                          minPrice: '',
+                          maxPrice: '',
+                          minSquareFeet: '',
+                          maxSquareFeet: '',
+                          facilities: [],
+                          sortBy: 'ref',
+                          referenceNo: ''
+                        });
+                        setShowFiltered(false);
+                      }}
+                      variant="outline"
+                      className="mt-4"
+                    >
+                      Clear Filters
+                    </Button>
+                  </div>
+                ) : (
+                  paginatedProperties.map((property) => (
+                    <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                      <PropertyCard property={property} />
+                    </div>
+                  ))
+                )}
               </div>
-            )}
+              
+              {/* Desktop Pagination */}
+              {filteredProperties.length > 0 && totalPages > 1 && (
+                <div className="mt-8">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious 
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (currentPage > 1) setCurrentPage(currentPage - 1);
+                          }}
+                          className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                        />
+                      </PaginationItem>
+                      
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        const pageNumber = i + 1;
+                        return (
+                          <PaginationItem key={pageNumber}>
+                            <PaginationLink
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setCurrentPage(pageNumber);
+                              }}
+                              isActive={currentPage === pageNumber}
+                            >
+                              {pageNumber}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      })}
+                      
+                      {totalPages > 5 && <PaginationEllipsis />}
+                      
+                      <PaginationItem>
+                        <PaginationNext
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                          }}
+                          className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
