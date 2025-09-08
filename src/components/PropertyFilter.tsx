@@ -32,8 +32,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
         'Antalya': '/antalya',
         'Mersin': '/mersin',
         'Dubai': '/dubai',
-        'Cyprus': '/cyprus',
-        'France': '/france'
+        'Cyprus': '/cyprus'
       };
       
       if (locationRoutes[value]) {
@@ -95,14 +94,13 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder="Select Location" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All</SelectItem>
-                  <SelectItem value="Antalya">Antalya</SelectItem>
-                  <SelectItem value="Mersin">Mersin</SelectItem>
-                  <SelectItem value="Dubai">Dubai</SelectItem>
-                  <SelectItem value="Cyprus">Cyprus</SelectItem>
-                  <SelectItem value="France">France</SelectItem>
-                </SelectContent>
+                 <SelectContent>
+                   <SelectItem value="all">All</SelectItem>
+                   <SelectItem value="Antalya">Antalya</SelectItem>
+                   <SelectItem value="Mersin">Mersin</SelectItem>
+                   <SelectItem value="Dubai">Dubai</SelectItem>
+                   <SelectItem value="Cyprus">Cyprus</SelectItem>
+                 </SelectContent>
               </Select>
             </div>
 
@@ -278,13 +276,12 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectValue placeholder="Select Location" />
               </SelectTrigger>
                <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="Antalya">Antalya</SelectItem>
-                <SelectItem value="Mersin">Mersin</SelectItem>
-                <SelectItem value="Dubai">Dubai</SelectItem>
-                <SelectItem value="Cyprus">Cyprus</SelectItem>
-                <SelectItem value="France">France</SelectItem>
-              </SelectContent>
+                 <SelectItem value="all">All</SelectItem>
+                 <SelectItem value="Antalya">Antalya</SelectItem>
+                 <SelectItem value="Mersin">Mersin</SelectItem>
+                 <SelectItem value="Dubai">Dubai</SelectItem>
+                 <SelectItem value="Cyprus">Cyprus</SelectItem>
+               </SelectContent>
             </Select>
           </div>
 
