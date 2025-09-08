@@ -118,6 +118,74 @@ export type Database = {
           },
         ]
       }
+      cms_user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["cms_role"]
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["cms_role"]
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["cms_role"]
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cms_user_roles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "cms_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cms_users: {
+        Row: {
+          active: boolean | null
+          auth_user_id: string | null
+          avatar_url: string | null
+          created_at: string | null
+          email: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          auth_user_id?: string | null
+          avatar_url?: string | null
+          created_at?: string | null
+          email: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          auth_user_id?: string | null
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       code_snippets: {
         Row: {
           code_content: string
@@ -310,6 +378,36 @@ export type Database = {
           is_active?: boolean
           is_default?: boolean
           name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      newsletter_subscriptions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          is_active: boolean
+          source: string | null
+          subscribed_at: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          is_active?: boolean
+          source?: string | null
+          subscribed_at?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          is_active?: boolean
+          source?: string | null
+          subscribed_at?: string
           updated_at?: string
         }
         Relationships: []
@@ -825,6 +923,30 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       voice_calls: {
         Row: {
           audio_url: string | null
@@ -993,6 +1115,7 @@ export type Database = {
           id: string | null
           image_url: string | null
           is_active: boolean | null
+          linkedin_url: string | null
           name: string | null
           position: string | null
         }
@@ -1003,6 +1126,7 @@ export type Database = {
           id?: string | null
           image_url?: string | null
           is_active?: boolean | null
+          linkedin_url?: string | null
           name?: string | null
           position?: string | null
         }
@@ -1013,6 +1137,7 @@ export type Database = {
           id?: string | null
           image_url?: string | null
           is_active?: boolean | null
+          linkedin_url?: string | null
           name?: string | null
           position?: string | null
         }
@@ -1020,9 +1145,36 @@ export type Database = {
       }
     }
     Functions: {
+      ensure_current_user_is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       generate_property_slug: {
         Args: { id_param: string; title_param: string }
         Returns: string
+      }
+      get_complete_schema: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      get_current_user_admin_status: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      get_min_apartment_price: {
+        Args: { apartment_types_json: Json }
+        Returns: string
+      }
+      has_cms_role: {
+        Args: { role: Database["public"]["Enums"]["cms_role"] }
+        Returns: boolean
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
       }
       is_admin: {
         Args: { user_id?: string }
@@ -1038,7 +1190,8 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
+      cms_role: "admin" | "editor" | "author" | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1165,6 +1318,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+      cms_role: ["admin", "editor", "author", "viewer"],
+    },
   },
 } as const
