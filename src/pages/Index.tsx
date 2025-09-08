@@ -30,7 +30,7 @@ const Index = () => {
   const [showPopup, setShowPopup] = useState(false);
   const { syncAllProperties } = useSyncAllData();
   const { testimonials } = useTestimonials();
-  const { pageTitle, metaDescription, contentSections, isLoading: contentLoading } = useWebsiteContent();
+  const { pageTitle, metaDescription, contentSections, heroTitle, heroSubtitle, isLoading: contentLoading } = useWebsiteContent();
 
   // Auto-sync properties only when needed, not on every load
   useEffect(() => {
@@ -94,12 +94,12 @@ const Index = () => {
         </div>
       )}
       
-      {/* Hero Section - Fallback or always show */}
+      {/* Hero Section - Database content with fallback */}
       <div className="w-full">
         <Hero 
           backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png"
-          title="Future Homes"
-          subtitle="Your Future in Real Estate"
+          title={heroTitle || "Future Homes"}
+          subtitle={heroSubtitle || "Your Future in Real Estate"}
         />
       </div>
       

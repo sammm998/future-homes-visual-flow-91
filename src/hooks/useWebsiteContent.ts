@@ -14,6 +14,8 @@ interface WebsiteContent {
   pageTitle: string;
   metaDescription: string;
   contentSections: ContentSection[];
+  heroTitle?: string;
+  heroSubtitle?: string;
 }
 
 interface UseWebsiteContentResult extends WebsiteContent {
@@ -42,7 +44,9 @@ export const useWebsiteContent = (customSlug?: string): UseWebsiteContentResult 
   const [content, setContent] = useState<WebsiteContent>({
     pageTitle: '',
     metaDescription: '',
-    contentSections: []
+    contentSections: [],
+    heroTitle: '',
+    heroSubtitle: ''
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -67,16 +71,30 @@ export const useWebsiteContent = (customSlug?: string): UseWebsiteContentResult 
             setContent({
               pageTitle: '',
               metaDescription: '',
-              contentSections: []
+              contentSections: [],
+              heroTitle: '',
+              heroSubtitle: ''
             });
           } else {
             throw fetchError;
           }
         } else if (data) {
+          const allSections = Array.isArray(data.content_sections) ? data.content_sections as ContentSection[] : [];
+          
+          // Extract hero section data
+          const heroSection = allSections.find(section => section.type === 'hero');
+          const heroTitle = heroSection?.title || '';
+          const heroSubtitle = heroSection?.subtitle || heroSection?.content || '';
+          
+          // Filter out hero sections from contentSections to prevent duplication
+          const nonHeroSections = allSections.filter(section => section.type !== 'hero');
+          
           setContent({
             pageTitle: data.page_title || '',
             metaDescription: data.meta_description || '',
-            contentSections: Array.isArray(data.content_sections) ? data.content_sections as ContentSection[] : []
+            contentSections: nonHeroSections,
+            heroTitle,
+            heroSubtitle
           });
         }
       } catch (err) {
