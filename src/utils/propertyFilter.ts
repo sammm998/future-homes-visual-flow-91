@@ -34,7 +34,7 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
   let filtered = [...properties];
   
   // Filter by property type
-  if (filters.propertyType && filters.propertyType !== '') {
+  if (filters.propertyType && filters.propertyType !== '' && filters.propertyType !== 'all') {
     const beforeCount = filtered.length;
     filtered = filtered.filter(property => {
       const type = filters.propertyType.toLowerCase();
@@ -55,7 +55,7 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
   }
 
   // Filter by bedrooms
-  if (filters.bedrooms && filters.bedrooms !== '') {
+  if (filters.bedrooms && filters.bedrooms !== '' && filters.bedrooms !== 'all') {
     const beforeCount = filtered.length;
     filtered = filtered.filter(property => {
       // Handle studio apartments
@@ -124,7 +124,7 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
   }
 
   // Filter by district
-  if (filters.district) {
+  if (filters.district && filters.district !== '' && filters.district !== 'all') {
     const beforeCount = filtered.length;
     filtered = filtered.filter(property => 
       property.location.toLowerCase().includes(filters.district.toLowerCase()) ||
