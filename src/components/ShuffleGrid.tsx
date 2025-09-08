@@ -63,11 +63,7 @@ const propertyData = [{
   src: "/lovable-uploads/c869b6e7-1d37-47cf-9558-55aa3d03053e.png"
 }];
 const generateSquares = () => {
-  return shuffle(propertyData).map(sq => <div key={sq.id} className="w-full h-full rounded-md overflow-hidden bg-muted" style={{
-    backgroundImage: `url(${sq.src})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center"
-  }}></div>);
+  return shuffle(propertyData).map(sq => {});
 };
 const ShuffleGridComponent = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -86,9 +82,7 @@ const ShuffleGridComponent = () => {
     // Shuffling disabled for performance
     // timeoutRef.current = setTimeout(shuffleSquares, 25000);
   };
-  return <div className="grid grid-cols-4 grid-rows-4 h-[450px] gap-1">
-      {squares.map(sq => sq)}
-    </div>;
+  return;
 };
 const ShuffleGrid = () => {
   return <ShuffleGridComponent />;
