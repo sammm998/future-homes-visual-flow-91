@@ -81,25 +81,35 @@ const AllPropertiesSearch = () => {
 
   const properties = useMemo(() => {
     console.log('🏠 AllPropertiesSearch: Processing properties, total received:', allProperties?.length || 0);
+    console.log('🏠 AllPropertiesSearch: First 2 raw properties:', allProperties?.slice(0, 2));
     
-    return allProperties.map((property, index) => ({
-      id: index + 1, // Convert to number for compatibility
+    const processed = allProperties.map((property, index) => ({
+      id: property.id, // Keep original UUID ID
       refNo: property.ref_no || 'N/A',
-      title: property.title,
-      location: property.location,
-      price: property.price,
-      bedrooms: property.bedrooms || 'N/A',
-      bathrooms: property.bathrooms || 'N/A',
-      area: property.sizes_m2 || 'N/A',
+      title: property.title || 'Untitled Property',
+      location: property.location || 'Location not specified',
+      price: property.price || property.starting_price_eur || '€0',
+      bedrooms: property.bedrooms?.toString() || 'N/A',
+      bathrooms: property.bathrooms?.toString() || 'N/A',
+      area: property.sizes_m2?.toString() || 'N/A',
       status: property.status || 'available',
       image: property.property_image || (property.property_images && property.property_images.length > 0 ? property.property_images[0] : "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp"),
-      coordinates: [39.9334, 32.8597] as [number, number] // Default Turkey coordinates
+      coordinates: [39.9334, 32.8597] as [number, number], // Default Turkey coordinates
+      features: Array.isArray(property.facilities) ? property.facilities : (property.facilities ? [property.facilities] : [])
     }));
+    
+    console.log('🏠 AllPropertiesSearch: First 2 processed properties:', processed.slice(0, 2));
+    return processed;
   }, [allProperties]);
 
   // Apply filters to properties
   const filteredProperties = useMemo(() => {
-    return filterProperties(properties, filters);
+    console.log('🔍 AllPropertiesSearch: Applying filters:', filters);
+    console.log('🔍 AllPropertiesSearch: Properties before filtering:', properties.length);
+    const filtered = filterProperties(properties, filters);
+    console.log('🔍 AllPropertiesSearch: Properties after filtering:', filtered.length);
+    console.log('🔍 AllPropertiesSearch: First filtered property:', filtered[0]);
+    return filtered;
   }, [properties, filters]);
 
   // Pagination

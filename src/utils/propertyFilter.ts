@@ -13,7 +13,7 @@ export interface PropertyFilters {
 }
 
 export interface Property {
-  id: number;
+  id: number | string; // Support both for compatibility
   refNo?: string;
   title: string;
   location: string;
@@ -196,9 +196,14 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
           const priceB2 = parseInt(b.price.replace(/[€$£,]/g, '')) || 0;
           return priceB2 - priceA2;
         case 'newest':
-          return b.id - a.id; // Newer properties have higher IDs
+          // Handle both string and number IDs
+          const idA = typeof b.id === 'string' ? parseInt(b.id) || 0 : b.id;
+          const idB = typeof a.id === 'string' ? parseInt(a.id) || 0 : a.id;
+          return idA - idB; // Newer properties have higher IDs
         case 'oldest':
-          return a.id - b.id; // Older properties have lower IDs
+          const idA2 = typeof a.id === 'string' ? parseInt(a.id) || 0 : a.id;
+          const idB2 = typeof b.id === 'string' ? parseInt(b.id) || 0 : b.id;
+          return idA2 - idB2; // Older properties have lower IDs
         case 'area-large':
           const areaA = parseInt(a.area.split(' <> ')[0]);
           const areaB = parseInt(b.area.split(' <> ')[0]);
@@ -217,7 +222,9 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
           return bedroomsA2 - bedroomsB2; // Least bedrooms first
         case 'ref':
         default:
-          return a.id - b.id;
+          const defaultIdA = typeof a.id === 'string' ? parseInt(a.id) || 0 : a.id;
+          const defaultIdB = typeof b.id === 'string' ? parseInt(b.id) || 0 : b.id;
+          return defaultIdA - defaultIdB;
       }
     });
   }

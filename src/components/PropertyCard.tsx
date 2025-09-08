@@ -13,7 +13,7 @@ import { parseApartmentTypes, getStartingPrice } from '@/utils/apartmentTypes';
 
 interface PropertyCardProps {
   property: {
-    id: number;
+    id: number | string; // Support both for compatibility
     refNo?: string;
     title: string;
     location: string;
@@ -45,7 +45,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property }) => {
   const displayPrice = formatDisplayPrice(rawDisplayPrice);
 
   return (
-    <Link to={`/property/${property.id}`} state={{ from: window.location.pathname + window.location.search }} className="block w-full">
+    <Link to={`/property/${property.refNo || property.id}`} state={{ from: window.location.pathname + window.location.search }} className="block w-full">
       <Card className="group overflow-hidden hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full">
         <div className="relative">
           <OptimizedPropertyImage 
