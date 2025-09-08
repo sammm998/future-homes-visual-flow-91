@@ -64,11 +64,6 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
         description: 'Use our intelligent property wizard to find your perfect home. Filter by location, budget, and preferences to discover ideal properties.',
         keywords: 'property finder, property search, home finder, real estate wizard'
       },
-      '/ai-property-search': {
-        title: 'AI Property Search - Smart Real Estate Discovery',
-        description: 'Advanced AI-powered property search. Describe your ideal home and let our AI find perfect matches from our premium property portfolio.',
-        keywords: 'AI property search, smart property finder, artificial intelligence real estate'
-      },
       '/about-us': {
         title: 'About Future Homes - Your Trusted Real Estate Partner',
         description: 'Learn about Future Homes, your trusted partner in international real estate. Expert team providing premium property services since 2020.',
