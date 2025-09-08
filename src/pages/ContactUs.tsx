@@ -8,10 +8,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-
-
+import SEOHead from "@/components/SEOHead";
+import { useWebsiteContent } from "@/hooks/useWebsiteContent";
+import { ContentSection } from "@/components/ContentSection";
+import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 
 const ContactUs = () => {
+  const { pageTitle, metaDescription, contentSections, isLoading: contentLoading } = useWebsiteContent('contact-us');
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -65,21 +68,38 @@ const ContactUs = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={pageTitle || "Contact Us | Future Homes Turkey"}
+        description={metaDescription || "Contact Future Homes Turkey for property inquiries. Expert guidance for real estate investment in Turkey, Dubai, Cyprus & Europe."}
+        keywords="contact future homes, property inquiry, real estate contact, Turkey property contact"
+        canonicalUrl="https://futurehomesturkey.com/contact-us"
+      />
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-muted/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Contact Us
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get in touch with our property experts
-            </p>
-          </div>
+      {/* Dynamic Content Sections */}
+      {!contentLoading && contentSections.length > 0 && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {contentSections.map((section, index) => (
+            <ContentSection key={index} section={section} />
+          ))}
         </div>
-      </section>
+      )}
+      
+      {/* Fallback Hero Section */}
+      {(contentLoading || contentSections.length === 0) && (
+        <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-muted/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+                Contact Us
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Get in touch with our property experts
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Contact Section */}
       <section className="py-16">

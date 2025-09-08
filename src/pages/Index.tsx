@@ -19,6 +19,8 @@ import { useMemo, useEffect, useState } from "react";
 import { useSyncAllData } from "@/hooks/useSyncAllData";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
+import { useWebsiteContent } from "@/hooks/useWebsiteContent";
+import { ContentSection } from "@/components/ContentSection";
 
 
 const Index = () => {
@@ -28,6 +30,7 @@ const Index = () => {
   const [showPopup, setShowPopup] = useState(false);
   const { syncAllProperties } = useSyncAllData();
   const { testimonials } = useTestimonials();
+  const { pageTitle, metaDescription, contentSections, isLoading: contentLoading } = useWebsiteContent();
 
   // Auto-sync properties only when needed, not on every load
   useEffect(() => {
@@ -72,8 +75,8 @@ const Index = () => {
   return (
     <div className="min-h-screen overflow-x-hidden">
       <SEOHead
-        title="Future Homes - Premium Real Estate in Turkey, Dubai & Europe"
-        description="Future Homes offers premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Europe. Expert guidance for property investment and Turkish citizenship."
+        title={pageTitle || "Future Homes - Premium Real Estate in Turkey, Dubai & Europe"}
+        description={metaDescription || "Future Homes offers premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Europe. Expert guidance for property investment and Turkish citizenship."}
         keywords="real estate Turkey, property investment Dubai, Cyprus properties, European real estate, Turkish citizenship, luxury homes, investment properties"
         canonicalUrl={currentCanonicalUrl}
         hreflang={hreflangUrls}
@@ -81,8 +84,17 @@ const Index = () => {
       />
       <OrganizationSchema />
       <Navigation />
+
+      {/* Dynamic Content Sections */}
+      {!contentLoading && contentSections.length > 0 && (
+        <div className="container mx-auto px-4 py-12">
+          {contentSections.map((section, index) => (
+            <ContentSection key={index} section={section} />
+          ))}
+        </div>
+      )}
       
-      {/* Hero Section */}
+      {/* Hero Section - Fallback or always show */}
       <div className="w-full">
         <Hero 
           backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png"
