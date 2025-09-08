@@ -86,27 +86,90 @@ const ModernPropertyShowcase = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
-        <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
-            Premium Collection
-          </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-            Discover Your
-            <span className="block bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent">
-              Dream Home
-            </span>
-          </h2>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Handpicked luxury properties across Turkey, Dubai, Cyprus, and Europe. 
-            Each offering unique features and exceptional investment value.
-          </p>
-        </motion.div>
+        <div className="relative">
+          {/* Background Elements */}
+          <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-32 h-32 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-3xl"></div>
+          
+          <motion.div 
+            className="text-center mb-20 relative z-10"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="mb-8"
+            >
+              <span className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary/15 to-accent/15 text-primary rounded-full text-sm font-bold uppercase tracking-wider border border-primary/20 backdrop-blur-sm">
+                ✨ Premium Properties
+              </span>
+            </motion.div>
+
+            {/* Main Title */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mb-8"
+            >
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4">
+                <span className="block text-foreground mb-2">Discover Your</span>
+                <span className="block bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent">
+                  Dream Home
+                </span>
+              </h2>
+              
+              {/* Decorative line */}
+              <div className="mx-auto w-24 h-1 bg-gradient-to-r from-primary to-accent rounded-full"></div>
+            </motion.div>
+
+            {/* Description */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="max-w-4xl mx-auto"
+            >
+              <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed mb-6">
+                Explore our handpicked selection of 
+                <span className="font-semibold text-foreground"> luxury properties</span> across 
+                <span className="font-semibold text-foreground"> Turkey, Dubai, Cyprus, and France</span>.
+              </p>
+              <p className="text-lg text-muted-foreground/80">
+                Each property offers unique features and exceptional value for your investment.
+              </p>
+            </motion.div>
+
+            {/* Statistics or highlights */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="flex flex-wrap justify-center gap-8 mt-12 text-center"
+            >
+              <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl px-6 py-4">
+                <div className="text-2xl font-bold text-primary">500+</div>
+                <div className="text-sm text-muted-foreground">Premium Properties</div>
+              </div>
+              <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl px-6 py-4">
+                <div className="text-2xl font-bold text-primary">15+</div>
+                <div className="text-sm text-muted-foreground">Prime Locations</div>
+              </div>
+              <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl px-6 py-4">
+                <div className="text-2xl font-bold text-primary">98%</div>
+                <div className="text-sm text-muted-foreground">Client Satisfaction</div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
 
         {/* Featured Properties Grid */}
         <div className="mb-12">
