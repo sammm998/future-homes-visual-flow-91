@@ -1,7 +1,8 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import { motion } from "framer-motion";
-import { LazyComponent, LazyShuffleGrid, LazyPropertyShowcase, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
+import { LazyComponent, LazyShuffleGrid, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
+import ModernPropertyShowcase from "@/components/ModernPropertyShowcase";
 import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
@@ -105,10 +106,8 @@ const Index = () => {
         <LazyShuffleGrid />
       </LazyComponent>
       
-      {/* Property Showcase - 6 Properties */}
-      <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
-        <LazyPropertyShowcase />
-      </LazyComponent>
+      {/* Modern Property Showcase */}
+      <ModernPropertyShowcase />
       
       
       {/* Rolling Testimonials */}
