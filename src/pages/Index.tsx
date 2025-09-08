@@ -86,13 +86,13 @@ const Index = () => {
       <Navigation />
 
       {/* Dynamic Content Sections */}
-      {!contentLoading && contentSections.length > 0 && (
+      {/* {!contentLoading && contentSections.length > 0 && (
         <div className="container mx-auto px-4 py-12">
           {contentSections.map((section, index) => (
             <ContentSection key={index} section={section} />
           ))}
         </div>
-      )}
+      )} */}
       
       {/* Hero Section - Database content with fallback */}
       <div className="w-full">
