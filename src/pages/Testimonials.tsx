@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { t } from "@/utils/translations";
 import { useSearchParams } from "react-router-dom";
+import { ContentSection } from "@/components/ContentSection";
+import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 
 // Import local testimonial images
 import turgutImg from "@/assets/testimonials/turgut.jpg";
@@ -65,6 +67,9 @@ const Testimonials = () => {
   const [selectedTestimonial, setSelectedTestimonial] = useState<CardTestimonial | null>(null);
   const [testimonials, setTestimonials] = useState<CardTestimonial[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Fetch dynamic content from database
+  const { heroTitle, heroSubtitle, contentSections, isLoading: contentLoading } = useWebsiteContent('testimonials');
 
   const fetchTestimonials = async () => {
     setLoading(true);
@@ -137,14 +142,24 @@ const Testimonials = () => {
       
       <main className="pt-32 pb-20">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              {t('testimonials.title', language)}
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t('testimonials.subtitle', language)}
-            </p>
-          </div>
+          {/* Hero Section - Database content with fallback */}
+          <ContentSection 
+            section={{
+              type: 'hero',
+              title: heroTitle || t('testimonials.title', language),
+              content: heroSubtitle || t('testimonials.subtitle', language)
+            }}
+            className="mb-16"
+          />
+
+          {/* Dynamic Content Sections */}
+          {!contentLoading && contentSections.length > 0 && (
+            <div className="mb-8">
+              {contentSections.map((section, index) => (
+                <ContentSection key={index} section={section} />
+              ))}
+            </div>
+          )}
 
           {testimonials.length === 0 ? (
             <div className="text-center py-20">
