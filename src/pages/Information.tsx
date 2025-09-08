@@ -5,6 +5,9 @@ import DOMPurify from 'dompurify';
 import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ContentSection } from "@/components/ContentSection";
+import { useWebsiteContent } from "@/hooks/useWebsiteContent";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 import { Badge } from "@/components/ui/badge";
 import { NavBar } from "@/components/ui/tubelight-navbar";
@@ -62,6 +65,7 @@ const Information = () => {
   
   const [activeFilter, setActiveFilter] = useState<string>("all");
   const { blogPosts, loading } = useBlogPosts();
+  const { heroTitle, heroSubtitle, contentSections, isLoading: contentLoading } = useWebsiteContent("information");
 
   const filterItems = [{
     name: "All",
@@ -278,15 +282,30 @@ const Information = () => {
       
       <div className="pt-20 pb-16">
         <div className="container mx-auto px-4">
-          {/* Header */}
+          
+          {/* Dynamic Content Sections */}
+          {!contentLoading && contentSections.length > 0 && (
+            <div className="mb-16">
+              {contentSections.map((section, index) => (
+                <ContentSection key={index} section={section} />
+              ))}
+            </div>
+          )}
+
+          {/* Hero Section - Database content with fallback */}
           <div className="text-center mb-8">
-             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Information Center
+            <Badge className="mb-4">Information Center</Badge>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              {heroTitle || "Information Center"}
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Comprehensive guides and insights for property investment, legal requirements 
-              and living abroad. Everything you need to know about international real estate.
-            </p>
+            <div className="max-w-4xl mx-auto">
+              <TextGenerateEffect
+                words={heroSubtitle || "Comprehensive guides and insights for property investment, legal requirements and living abroad. Everything you need to know about international real estate."}
+                className="text-lg text-muted-foreground leading-relaxed mb-8"
+                filter={false}
+                duration={0.8}
+              />
+            </div>
           </div>
 
           {/* Filter Buttons */}
