@@ -1,12 +1,13 @@
 import { supabase } from '@/integrations/supabase/client';
 
 export const findPropertyLocationByRefNo = async (refNo: string): Promise<string> => {
-  // First check Supabase database
+  // Database lookup only - no more static data fallback
   try {
     const { data, error } = await supabase
       .from('properties')
       .select('location')
       .eq('ref_no', refNo)
+      .eq('is_active', true)
       .maybeSingle();
     
     if (!error && data?.location) {
@@ -16,13 +17,12 @@ export const findPropertyLocationByRefNo = async (refNo: string): Promise<string
       if (location.includes('cyprus')) return '/cyprus';
       if (location.includes('mersin')) return '/mersin';
       if (location.includes('bali')) return '/bali';
-      
     }
   } catch (error) {
-    console.log('Database lookup failed, falling back to static data');
+    console.error('Database lookup failed:', error);
   }
   
-  // Fallback to number-based routing
+  // Fallback to number-based routing only if database lookup fails
   const refNumber = parseInt(refNo);
   if ((refNumber >= 1000 && refNumber <= 2999) || (refNumber >= 10000 && refNumber <= 29999)) {
     return '/dubai';
@@ -36,6 +36,6 @@ export const findPropertyLocationByRefNo = async (refNo: string): Promise<string
     return '/bali';
   }
   
-  // For numbers outside expected ranges, default to Antalya
+  // Default to Antalya for unknown ranges
   return '/antalya';
 };

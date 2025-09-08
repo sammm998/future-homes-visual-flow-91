@@ -16,7 +16,7 @@ import { useSEO } from "@/hooks/useSEO";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
-import { useSyncAllData } from "@/hooks/useSyncAllData";
+// Removed useSyncAllData - database-only approach
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
@@ -28,26 +28,11 @@ const Index = () => {
   const { structuredData } = useSEO();
   const currentCanonicalUrl = useCanonicalUrl();
   const [showPopup, setShowPopup] = useState(false);
-  const { syncAllProperties } = useSyncAllData();
+  // Removed sync import - database-only approach
   const { testimonials } = useTestimonials();
   const { pageTitle, metaDescription, contentSections, heroTitle, heroSubtitle, isLoading: contentLoading } = useWebsiteContent();
 
-  // Auto-sync properties only when needed, not on every load
-  useEffect(() => {
-    const hasAutoSynced = localStorage.getItem('allPropertiesAutoSynced');
-    const lastSyncDate = localStorage.getItem('lastPropertiesSync');
-    const daysSinceLastSync = lastSyncDate ? 
-      (Date.now() - parseInt(lastSyncDate)) / (1000 * 60 * 60 * 24) : 30;
-    
-    if (!hasAutoSynced || daysSinceLastSync > 7) {
-      // Use setTimeout to delay sync and not block initial render
-      setTimeout(() => {
-        syncAllProperties();
-        localStorage.setItem('allPropertiesAutoSynced', 'true');
-        localStorage.setItem('lastPropertiesSync', Date.now().toString());
-      }, 2000);
-    }
-  }, [syncAllProperties]);
+  // Auto-sync removed - now using database-only approach
 
   // Delay popup to improve perceived performance
   useEffect(() => {
