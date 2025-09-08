@@ -92,9 +92,9 @@ const Information = () => {
     value: "dubai",
     icon: Building
   }, {
-    name: "France",
-    value: "france",
-    icon: MapPin
+    name: "Bali",
+    value: "bali",
+    icon: TreePine
   }];
 
   // Helper function to determine category based on title/content
@@ -103,7 +103,7 @@ const Information = () => {
     
     // Check for specific country/region categories first
     if (text.includes('dubai')) return 'dubai';
-    if (text.includes('france')) return 'france';
+    if (text.includes('bali')) return 'bali';
     
     // Then check for general categories
     if (text.includes('property') || text.includes('purchase') || text.includes('real estate')) return 'property';
@@ -143,6 +143,7 @@ const Information = () => {
     if (text.includes('art')) return <Palette className="w-8 h-8 text-primary" />;
     if (text.includes('energy') || text.includes('utilities')) return <Zap className="w-8 h-8 text-primary" />;
     if (text.includes('dubai')) return <Building className="w-8 h-8 text-primary" />;
+    if (text.includes('bali')) return <TreePine className="w-8 h-8 text-primary" />;
     if (text.includes('bitcoin')) return <Coins className="w-8 h-8 text-primary" />;
     return <FileText className="w-8 h-8 text-primary" />;
   };
@@ -161,13 +162,13 @@ const Information = () => {
       return dubaiImages[index % dubaiImages.length];
     }
     
-    if (text.includes('france')) {
-      const franceImages = [
-        '/lovable-uploads/bfe83af6-39c4-4a52-b4e4-82ff091c5f48.png', // Strasbourg
-        '/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png', // European city
-        '/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.png'  // French architecture
+    if (text.includes('bali')) {
+      const baliImages = [
+        '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png', // Bali landscape
+        '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Tropical setting
+        '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png'  // Island paradise
       ];
-      return franceImages[index % franceImages.length];
+      return baliImages[index % baliImages.length];
     }
     
     if (text.includes('legal') || text.includes('citizenship') || text.includes('law') || text.includes('permit') || text.includes('visa')) {

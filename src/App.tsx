@@ -21,6 +21,7 @@ const AntalyaPropertySearch = lazy(() => import("./pages/AntalyaPropertySearch")
 const DubaiPropertySearch = lazy(() => import("./pages/DubaiPropertySearch"));
 const CyprusPropertySearch = lazy(() => import("./pages/CyprusPropertySearch"));
 const MersinPropertySearch = lazy(() => import("./pages/MersinPropertySearch"));
+const BaliPropertySearch = lazy(() => import("./pages/BaliPropertySearch"));
 
 
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
@@ -94,6 +95,7 @@ function AppContent() {
       <Route path="/dubai" element={<DubaiPropertySearch />} />
       <Route path="/cyprus" element={<CyprusPropertySearch />} />
       <Route path="/mersin" element={<MersinPropertySearch />} />
+      <Route path="/bali" element={<BaliPropertySearch />} />
       
       
       <Route path="/property/:id" element={<PropertyDetail />} />

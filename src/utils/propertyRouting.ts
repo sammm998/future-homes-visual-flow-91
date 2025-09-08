@@ -15,6 +15,7 @@ export const findPropertyLocationByRefNo = async (refNo: string): Promise<string
       if (location.includes('antalya')) return '/antalya';
       if (location.includes('cyprus')) return '/cyprus';
       if (location.includes('mersin')) return '/mersin';
+      if (location.includes('bali')) return '/bali';
       
     }
   } catch (error) {
@@ -31,6 +32,8 @@ export const findPropertyLocationByRefNo = async (refNo: string): Promise<string
     return '/cyprus';
   } else if (refNumber >= 6000 && refNumber <= 6999) {
     return '/mersin';
+  } else if (refNumber >= 8000 && refNumber <= 8999) {
+    return '/bali';
   }
   
   // For numbers outside expected ranges, default to Antalya
