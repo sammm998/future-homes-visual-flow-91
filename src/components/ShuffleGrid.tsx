@@ -91,10 +91,6 @@ const ShuffleGridComponent = () => {
     </div>;
 };
 const ShuffleGrid = () => {
-  const navigate = useNavigate();
-  const handleContactClick = () => {
-    navigate('/properties');
-  };
-  return;
+  return <ShuffleGridComponent />;
 };
 export default memo(ShuffleGrid);
