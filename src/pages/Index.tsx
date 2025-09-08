@@ -64,7 +64,7 @@ const Index = () => {
     "description": "Premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Europe",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://futurehomesturkey.com/property-wizard?q={search_term_string}",
+      "target": "https://futurehomesturkey.com/ai-property-search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };

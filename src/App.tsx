@@ -16,7 +16,7 @@ import "./utils/cleanConsole";
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
 const PropertyWizard = lazy(() => import("./pages/PropertyWizard"));
-
+const AIPropertySearch = lazy(() => import("./pages/AIPropertySearch"));
 const AntalyaPropertySearch = lazy(() => import("./pages/AntalyaPropertySearch"));
 const DubaiPropertySearch = lazy(() => import("./pages/DubaiPropertySearch"));
 const CyprusPropertySearch = lazy(() => import("./pages/CyprusPropertySearch"));
@@ -90,7 +90,7 @@ function AppContent() {
       } />
       
       <Route path="/property-wizard" element={<PropertyWizard />} />
-      
+      <Route path="/ai-property-search" element={<AIPropertySearch />} />
       <Route path="/antalya" element={<AntalyaPropertySearch />} />
       <Route path="/dubai" element={<DubaiPropertySearch />} />
       <Route path="/cyprus" element={<CyprusPropertySearch />} />
