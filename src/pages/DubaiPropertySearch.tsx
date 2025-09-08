@@ -335,7 +335,10 @@ const DubaiPropertySearch = () => {
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        if (currentPage > 1) setCurrentPage(currentPage - 1);
+                        if (currentPage > 1) {
+                          setCurrentPage(currentPage - 1);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
                       }}
                       className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
                     />
@@ -350,6 +353,7 @@ const DubaiPropertySearch = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             setCurrentPage(pageNumber);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
                           isActive={currentPage === pageNumber}
                         >
@@ -366,7 +370,10 @@ const DubaiPropertySearch = () => {
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                        if (currentPage < totalPages) {
+                          setCurrentPage(currentPage + 1);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
                       }}
                       className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
                     />
@@ -399,7 +406,10 @@ const DubaiPropertySearch = () => {
                           href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            if (currentPage > 1) setCurrentPage(currentPage - 1);
+                            if (currentPage > 1) {
+                              setCurrentPage(currentPage - 1);
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
                           }}
                           className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
                         />
@@ -414,6 +424,7 @@ const DubaiPropertySearch = () => {
                               onClick={(e) => {
                                 e.preventDefault();
                                 setCurrentPage(pageNumber);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
                               }}
                               isActive={currentPage === pageNumber}
                             >
@@ -430,7 +441,10 @@ const DubaiPropertySearch = () => {
                           href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                            if (currentPage < totalPages) {
+                              setCurrentPage(currentPage + 1);
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
                           }}
                           className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
                         />
