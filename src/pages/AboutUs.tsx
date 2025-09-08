@@ -12,7 +12,7 @@ import { ContentSection } from "@/components/ContentSection";
 
 const AboutUs = () => {
   const { teamMembers, isLoading: teamLoading, error: teamError } = useTeamMembers();
-  const { pageTitle, metaDescription, contentSections, isLoading: contentLoading } = useWebsiteContent('about-us');
+  const { pageTitle, metaDescription, contentSections, heroTitle, heroSubtitle, isLoading: contentLoading } = useWebsiteContent('about-us');
 
   const services = [
     { icon: <Plane className="w-8 h-8" />, title: "FREE PROPERTY VISITS", description: "We organize free property visits for our clients" },
@@ -42,30 +42,28 @@ const AboutUs = () => {
       <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Hero Section - Database content with fallback */}
+        <div className="text-center mb-16">
+          <Badge className="mb-4">About Future Homes</Badge>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            {heroTitle || "Your Future Real Estate Partner"}
+          </h1>
+          <div className="max-w-4xl mx-auto">
+            <TextGenerateEffect
+              words={heroSubtitle || "Founder of the company Future Homes, I am proud to accompany you in the search for your future home. My name is Ali Karan and I am the founder of the company Future Homes in Turkey, France and Dubai. I am very proud to help you along the way as you search for your future home. We are a European-minded company specialized in the sale of properties in Turkey, France and Dubai. We have central offices in Antalya, Mersin, in France (Strasbourg) and in Dubai. At Future Homes, we work tirelessly to satisfy the customer's wishes and needs. We want to give you the best service and personal follow-up to ensure that you have a safe and good experience."}
+              className="text-lg text-muted-foreground leading-relaxed mb-8"
+              filter={false}
+              duration={0.8}
+            />
+          </div>
+        </div>
+
         {/* Dynamic Content Sections */}
         {!contentLoading && contentSections.length > 0 && (
-          <div>
+          <div className="mb-16">
             {contentSections.map((section, index) => (
               <ContentSection key={index} section={section} />
             ))}
-          </div>
-        )}
-
-        {/* Fallback Hero Section */}
-        {(contentLoading || contentSections.length === 0) && (
-          <div className="text-center mb-16">
-            <Badge className="mb-4">About Future Homes</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Your Future Real Estate Partner
-            </h1>
-            <div className="max-w-4xl mx-auto">
-              <TextGenerateEffect
-                words="Founder of the company Future Homes, I am proud to accompany you in the search for your future home. My name is Ali Karan and I am the founder of the company Future Homes in Turkey, France and Dubai. I am very proud to help you along the way as you search for your future home. We are a European-minded company specialized in the sale of properties in Turkey, France and Dubai. We have central offices in Antalya, Mersin, in France (Strasbourg) and in Dubai. At Future Homes, we work tirelessly to satisfy the customer's wishes and needs. We want to give you the best service and personal follow-up to ensure that you have a safe and good experience."
-                className="text-lg text-muted-foreground leading-relaxed mb-8"
-                filter={false}
-                duration={0.8}
-              />
-            </div>
           </div>
         )}
 
