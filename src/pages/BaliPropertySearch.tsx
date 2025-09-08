@@ -282,7 +282,10 @@ const BaliPropertySearch = () => {
                       href="#" 
                       onClick={(e) => {
                         e.preventDefault();
-                        if (currentPage > 1) setCurrentPage(currentPage - 1);
+                        if (currentPage > 1) {
+                          setCurrentPage(currentPage - 1);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
                       }}
                       className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
                     />
@@ -307,6 +310,7 @@ const BaliPropertySearch = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             setCurrentPage(pageNum);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
                           }}
                           isActive={pageNum === currentPage}
                         >
@@ -321,7 +325,10 @@ const BaliPropertySearch = () => {
                       href="#" 
                       onClick={(e) => {
                         e.preventDefault();
-                        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                        if (currentPage < totalPages) {
+                          setCurrentPage(currentPage + 1);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
                       }}
                       className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
                     />
