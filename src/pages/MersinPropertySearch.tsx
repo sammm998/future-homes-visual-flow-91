@@ -16,6 +16,15 @@ import useImagePreloading from "@/hooks/useImagePreloading";
 import { preloadCriticalImages } from "@/utils/imageOptimization";
 import OptimizedPropertyImage from "@/components/OptimizedPropertyImage";
 import GlobalPerformanceOptimizer from "@/components/GlobalPerformanceOptimizer";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const MersinPropertySearch = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
@@ -39,6 +48,8 @@ const MersinPropertySearch = () => {
   });
   const [showFiltered, setShowFiltered] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
   
   // Load filters from URL parameters and location state on mount
   useEffect(() => {
@@ -121,6 +132,18 @@ const MersinPropertySearch = () => {
     }
     return properties;
   }, [properties, filters, showFiltered]);
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
+  const paginatedProperties = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredProperties.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredProperties, currentPage, itemsPerPage]);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filteredProperties.length]);
 
   const handleFilterChange = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
@@ -322,7 +345,7 @@ const MersinPropertySearch = () => {
         {filteredProperties.length > 0 && (
           <div className="block md:hidden">
             <div className="space-y-6">
-              {filteredProperties.map((property) => (
+              {paginatedProperties.map((property) => (
                 <div key={property.id} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
                   <div className="w-full max-w-sm mx-auto">
                     <PropertyCard property={property} />
@@ -330,6 +353,65 @@ const MersinPropertySearch = () => {
                 </div>
               ))}
             </div>
+            
+            {/* Pagination for mobile */}
+            {totalPages > 1 && (
+              <div className="flex justify-center mt-8">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        href="#" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (currentPage > 1) setCurrentPage(currentPage - 1);
+                        }}
+                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                    
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNum;
+                      if (totalPages <= 5) {
+                        pageNum = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNum = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNum = totalPages - 4 + i;
+                      } else {
+                        pageNum = currentPage - 2 + i;
+                      }
+                      
+                      return (
+                        <PaginationItem key={pageNum}>
+                          <PaginationLink
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setCurrentPage(pageNum);
+                            }}
+                            isActive={pageNum === currentPage}
+                          >
+                            {pageNum}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    })}
+                    
+                    <PaginationItem>
+                      <PaginationNext 
+                        href="#" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                        }}
+                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </div>
         )}
 
@@ -337,13 +419,74 @@ const MersinPropertySearch = () => {
         {filteredProperties.length > 0 && (
           <div className="hidden md:block">
             {!showTimeline && (
-              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {filteredProperties.map((property) => (
-                  <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                    <PropertyCard property={property} />
+              <>
+                <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {paginatedProperties.map((property) => (
+                    <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                      <PropertyCard property={property} />
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Pagination for desktop */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center mt-8">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (currentPage > 1) setCurrentPage(currentPage - 1);
+                            }}
+                            className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                        
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                          let pageNum;
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            pageNum = i + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNum = totalPages - 4 + i;
+                          } else {
+                            pageNum = currentPage - 2 + i;
+                          }
+                          
+                          return (
+                            <PaginationItem key={pageNum}>
+                              <PaginationLink
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setCurrentPage(pageNum);
+                                }}
+                                isActive={pageNum === currentPage}
+                              >
+                                {pageNum}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        })}
+                        
+                        <PaginationItem>
+                          <PaginationNext 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                            }}
+                            className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
           </div>
         )}

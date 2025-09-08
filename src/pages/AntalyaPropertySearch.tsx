@@ -125,14 +125,24 @@ const AntalyaPropertySearch = () => {
     return antalyaProperties;
   }, [antalyaProperties, filters, showFiltered]);
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
+  const paginatedProperties = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredProperties.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredProperties, currentPage, itemsPerPage]);
+
   const handleFilterChange = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
     // Auto-trigger filtering for sortBy and other filter changes
     setShowFiltered(true);
+    // Reset to first page when filters change
+    setCurrentPage(1);
   };
 
   const handleSearch = () => {
     setShowFiltered(true);
+    setCurrentPage(1);
   };
 
   const handlePropertyClick = (property: any) => {
@@ -252,13 +262,72 @@ const AntalyaPropertySearch = () => {
 
         {/* Mobile Layout: One property per screen */}
         <div className="block md:hidden">
-          <div className="space-y-6">
-            {filteredProperties.map((property, propertyIndex) => (
+        <div className="space-y-6">
+            {paginatedProperties.map((property, propertyIndex) => (
               <div key={`${property.id}-${propertyIndex}`} className="w-full">
                   <PropertyCard property={property} />
               </div>
             ))}
           </div>
+          
+          {/* Pagination for mobile */}
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-8">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      href="#" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage > 1) setCurrentPage(currentPage - 1);
+                      }}
+                      className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                    />
+                  </PaginationItem>
+                  
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    let pageNum;
+                    if (totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i;
+                    } else {
+                      pageNum = currentPage - 2 + i;
+                    }
+                    
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setCurrentPage(pageNum);
+                          }}
+                          isActive={pageNum === currentPage}
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  })}
+                  
+                  <PaginationItem>
+                    <PaginationNext 
+                      href="#" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                      }}
+                      className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </div>
 
         {/* Desktop Layout: Grid */}
@@ -274,11 +343,72 @@ const AntalyaPropertySearch = () => {
 
           {/* Properties Grid - Show when Timeline is OFF */}
           {!showTimeline && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProperties.map((property, propertyIndex) => (
-                  <PropertyCard key={`${property.id}-${propertyIndex}`} property={property} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {paginatedProperties.map((property, propertyIndex) => (
+                    <PropertyCard key={`${property.id}-${propertyIndex}`} property={property} />
+                ))}
+              </div>
+              
+              {/* Pagination for desktop */}
+              {totalPages > 1 && (
+                <div className="flex justify-center mt-8">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious 
+                          href="#" 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (currentPage > 1) setCurrentPage(currentPage - 1);
+                          }}
+                          className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                        />
+                      </PaginationItem>
+                      
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        let pageNum;
+                        if (totalPages <= 5) {
+                          pageNum = i + 1;
+                        } else if (currentPage <= 3) {
+                          pageNum = i + 1;
+                        } else if (currentPage >= totalPages - 2) {
+                          pageNum = totalPages - 4 + i;
+                        } else {
+                          pageNum = currentPage - 2 + i;
+                        }
+                        
+                        return (
+                          <PaginationItem key={pageNum}>
+                            <PaginationLink
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setCurrentPage(pageNum);
+                              }}
+                              isActive={pageNum === currentPage}
+                            >
+                              {pageNum}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      })}
+                      
+                      <PaginationItem>
+                        <PaginationNext 
+                          href="#" 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                          }}
+                          className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
+            </>
           )}
 
           {/* Empty State */}
