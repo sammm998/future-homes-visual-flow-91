@@ -299,6 +299,9 @@ const AllPropertiesSearch = () => {
             )}
           </div>
         </div>
+        
+        {/* Add bottom spacing for ElevenLabs widget on mobile */}
+        <div className="pb-20 md:pb-4"></div>
       </main>
 
       <ElevenLabsWidget />
