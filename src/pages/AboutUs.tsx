@@ -48,18 +48,41 @@ const AboutUs = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/5"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <section className="relative py-20 overflow-hidden min-h-screen flex items-center">
+        {/* YouTube Background Video */}
+        <div className="absolute inset-0 w-full h-full">
+          <iframe
+            className="absolute"
+            src="https://www.youtube.com/embed/xlP2TafgsGI?autoplay=1&mute=1&loop=1&playlist=xlP2TafgsGI&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
+            title="About Us Background Video"
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            style={{
+              pointerEvents: 'none',
+              width: 'calc(100vw + 20vh)',
+              height: 'calc(100vh + 20vw)', 
+              minWidth: '177.77vh',
+              minHeight: '56.25vw',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%) scale(1.2)',
+              objectFit: 'cover'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/60"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge className="mb-6 px-4 py-2 bg-primary/10 text-primary border-primary/20">
+            <Badge className="mb-6 px-4 py-2 bg-white/10 text-white border-white/20">
               About Future Homes
             </Badge>
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
               {heroTitle || "Your Future Real Estate"}
-              <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent"> Partner</span>
+              <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent"> Partner</span>
             </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+            <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto">
               {heroSubtitle || "Founder of the company Future Homes, I am proud to accompany you in the search for your future home. We are a European-minded company specialized in the sale of properties in Turkey, France and Dubai."}
             </p>
           </div>
