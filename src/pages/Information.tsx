@@ -99,6 +99,14 @@ const Information = () => {
     name: "Bali",
     value: "bali",
     icon: TreePine
+  }, {
+    name: "Turkey",
+    value: "turkey",
+    icon: MapPin
+  }, {
+    name: "Cyprus",
+    value: "cyprus",
+    icon: Globe
   }];
 
   // Helper function to determine category based on title/content
@@ -108,6 +116,8 @@ const Information = () => {
     // Check for specific country/region categories first
     if (text.includes('dubai')) return 'dubai';
     if (text.includes('bali')) return 'bali';
+    if (text.includes('turkey') || text.includes('antalya') || text.includes('mersin')) return 'turkey';
+    if (text.includes('cyprus')) return 'cyprus';
     
     // Then check for general categories
     if (text.includes('property') || text.includes('purchase') || text.includes('real estate')) return 'property';
@@ -148,6 +158,8 @@ const Information = () => {
     if (text.includes('energy') || text.includes('utilities')) return <Zap className="w-8 h-8 text-primary" />;
     if (text.includes('dubai')) return <Building className="w-8 h-8 text-primary" />;
     if (text.includes('bali')) return <TreePine className="w-8 h-8 text-primary" />;
+    if (text.includes('turkey') || text.includes('antalya') || text.includes('mersin')) return <MapPin className="w-8 h-8 text-primary" />;
+    if (text.includes('cyprus')) return <Globe className="w-8 h-8 text-primary" />;
     if (text.includes('bitcoin')) return <Coins className="w-8 h-8 text-primary" />;
     return <FileText className="w-8 h-8 text-primary" />;
   };
@@ -173,6 +185,24 @@ const Information = () => {
         '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png'  // Island paradise
       ];
       return baliImages[index % baliImages.length];
+    }
+    
+    if (text.includes('turkey') || text.includes('antalya') || text.includes('mersin')) {
+      const turkeyImages = [
+        '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png', // Turkey landscape
+        '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Turkish setting
+        '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png'  // Turkey scenic
+      ];
+      return turkeyImages[index % turkeyImages.length];
+    }
+    
+    if (text.includes('cyprus')) {
+      const cyprusImages = [
+        '/lovable-uploads/227fa1b1-f9c2-4427-a969-9521d121dd51.png', // Cyprus landscape
+        '/lovable-uploads/2adcc5fd-ef6d-4fee-8ed8-cc57be79fccf.png', // Cyprus coastal
+        '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png'  // Cyprus property
+      ];
+      return cyprusImages[index % cyprusImages.length];
     }
     
     if (text.includes('legal') || text.includes('citizenship') || text.includes('law') || text.includes('permit') || text.includes('visa')) {
