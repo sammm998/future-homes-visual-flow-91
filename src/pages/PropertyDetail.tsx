@@ -9,6 +9,7 @@ import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, S
 import Navigation from "@/components/Navigation";
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
+import { formatPriceFromString } from '@/utils/priceFormatting';
 import ervinaImage from '@/assets/ervina-koksel.png';
 
 import { supabase } from '@/integrations/supabase/client';
@@ -426,7 +427,7 @@ const PropertyDetail = () => {
                 <span>{property.location}</span>
               </div>
               <div className="text-3xl font-bold text-primary">
-                {formatPrice(property.price)}
+                {formatPriceFromString(property.price, formatPrice)}
               </div>
             </div>
 
@@ -597,7 +598,7 @@ const PropertyDetail = () => {
                         </div>
                         <div className="text-right">
                           <p className="text-lg font-semibold text-primary">
-                            {formatPrice(option.price)}
+                            {formatPriceFromString(option.price, formatPrice)}
                           </p>
                         </div>
                       </div>
