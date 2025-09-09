@@ -353,7 +353,7 @@ const PropertyDetail = () => {
   const agent = getAgentData(property.agent);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <Navigation />
       
       {/* Image Modal */}
@@ -505,7 +505,7 @@ const PropertyDetail = () => {
             {property.description && (
               <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">About This Property</h2>
-                <div className="p-6 border rounded-lg bg-muted/20">
+                <div className="p-6 border rounded-lg bg-gradient-to-br from-blue-50/50 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/5 border-blue-200/50 dark:border-blue-700/30">
                   <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                     {property.description}
                   </p>
@@ -544,9 +544,9 @@ const PropertyDetail = () => {
                 <h2 className="text-2xl font-semibold">Features & Amenities</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {property.features.map((feature: string, index: number) => (
-                    <div key={index} className="flex items-center space-x-2 p-3 border rounded-lg">
-                      <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-foreground">{feature}</span>
+                    <div key={index} className="flex items-center space-x-2 p-3 border rounded-lg bg-gradient-to-r from-green-50/50 to-emerald-50/30 dark:from-green-900/10 dark:to-emerald-900/5 border-green-200/50 dark:border-green-700/30 hover:shadow-md transition-all duration-200">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
+                      <span className="text-foreground font-medium">{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -587,12 +587,14 @@ const PropertyDetail = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Quick Info Card */}
-            <div className="sticky top-8 p-6 border rounded-lg bg-muted/20">
+            <div className="p-6 border rounded-lg bg-card/80 backdrop-blur-sm">
               <h3 className="text-xl font-semibold mb-4">Quick Info</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Property Type:</span>
-                  <Badge variant="secondary">{property.propertyType}</Badge>
+                  <Badge variant="secondary" className="bg-primary/10 text-primary">
+                    {property.propertyType}
+                  </Badge>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Completion:</span>
@@ -610,42 +612,42 @@ const PropertyDetail = () => {
               </div>
             </div>
 
-            {/* Contact Agent Card */}
-            <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-semibold mb-4">Contact Agent</h3>
+            {/* Contact Agent Card - Now Sticky */}
+            <div className="sticky top-8 p-6 border rounded-lg bg-gradient-to-br from-primary/5 via-card to-primary/10 backdrop-blur-sm shadow-lg">
+              <h3 className="text-xl font-semibold mb-4 text-center">Contact Agent</h3>
               
               {agent ? (
                 <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <Avatar className="h-12 w-12">
+                  <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-white/50 to-primary/5 rounded-xl border border-primary/20">
+                    <Avatar className="h-14 w-14 ring-2 ring-primary/30">
                       <AvatarImage src={agent.image} />
-                      <AvatarFallback>
+                      <AvatarFallback className="bg-primary/20 text-primary font-bold">
                         {agent.name.split(' ').map((n: string) => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-semibold">{agent.name}</h4>
-                      <p className="text-sm text-primary">{agent.title}</p>
+                      <h4 className="font-semibold text-foreground">{agent.name}</h4>
+                      <p className="text-sm text-primary font-medium">{agent.title}</p>
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <div className="flex items-center space-x-2">
-                      <Phone className="h-4 w-4 text-primary" />
-                      <span className="text-sm">{property.contactPhone}</span>
+                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-blue-200/50 dark:border-blue-700/30">
+                      <Phone className="h-4 w-4 text-blue-600" />
+                      <span className="text-sm font-medium">{property.contactPhone}</span>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Mail className="h-4 w-4 text-primary" />
-                      <span className="text-sm">{property.contactEmail}</span>
+                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
+                      <Mail className="h-4 w-4 text-green-600" />
+                      <span className="text-sm font-medium">{property.contactEmail}</span>
                     </div>
                   </div>
 
-                  <div className="space-y-2 pt-2">
-                    <Button className="w-full" size="sm">
+                  <div className="space-y-3 pt-2">
+                    <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
                       <Phone className="h-4 w-4 mr-2" />
                       Call Now
                     </Button>
-                    <Button variant="outline" className="w-full" size="sm">
+                    <Button variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
                       <Mail className="h-4 w-4 mr-2" />
                       Send Message
                     </Button>
@@ -653,33 +655,33 @@ const PropertyDetail = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <Avatar className="h-12 w-12">
-                      <AvatarFallback>EK</AvatarFallback>
+                  <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-white/50 to-primary/5 rounded-xl border border-primary/20">
+                    <Avatar className="h-14 w-14 ring-2 ring-primary/30">
+                      <AvatarFallback className="bg-primary/20 text-primary font-bold">EK</AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-semibold">{property.agent}</h4>
-                      <p className="text-sm text-primary">Property Specialist</p>
+                      <h4 className="font-semibold text-foreground">{property.agent}</h4>
+                      <p className="text-sm text-primary font-medium">Property Specialist</p>
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <Phone className="h-4 w-4 text-primary" />
-                      <span className="text-sm">{property.contactPhone}</span>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-blue-200/50 dark:border-blue-700/30">
+                      <Phone className="h-4 w-4 text-blue-600" />
+                      <span className="text-sm font-medium">{property.contactPhone}</span>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Mail className="h-4 w-4 text-primary" />
-                      <span className="text-sm">{property.contactEmail}</span>
+                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
+                      <Mail className="h-4 w-4 text-green-600" />
+                      <span className="text-sm font-medium">{property.contactEmail}</span>
                     </div>
                   </div>
 
-                  <div className="space-y-2 pt-2">
-                    <Button className="w-full" size="sm">
+                  <div className="space-y-3 pt-2">
+                    <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
                       <Phone className="h-4 w-4 mr-2" />
                       Call Now
                     </Button>
-                    <Button variant="outline" className="w-full" size="sm">
+                    <Button variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
                       <Mail className="h-4 w-4 mr-2" />
                       Send Message
                     </Button>
@@ -689,27 +691,33 @@ const PropertyDetail = () => {
             </div>
 
             {/* Investment Highlights */}
-            <div className="p-6 border rounded-lg">
-              <h3 className="text-lg font-semibold mb-4">Investment Highlights</h3>
+            <div className="p-6 border rounded-lg bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-900/10 dark:to-orange-900/5 border-amber-200/50 dark:border-amber-700/30">
+              <h3 className="text-lg font-semibold mb-4 text-center">Investment Highlights</h3>
               <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <Star className="h-4 w-4 text-primary" />
+                <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
+                  <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-lg flex items-center justify-center">
+                    <Star className="h-4 w-4 text-white" />
+                  </div>
                   <div>
-                    <p className="text-sm font-medium">Prime Location</p>
+                    <p className="text-sm font-medium text-foreground">Prime Location</p>
                     <p className="text-xs text-muted-foreground">High growth potential area</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Award className="h-4 w-4 text-primary" />
+                <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg flex items-center justify-center">
+                    <Award className="h-4 w-4 text-white" />
+                  </div>
                   <div>
-                    <p className="text-sm font-medium">Quality Construction</p>
+                    <p className="text-sm font-medium text-foreground">Quality Construction</p>
                     <p className="text-xs text-muted-foreground">Built to international standards</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Home className="h-4 w-4 text-primary" />
+                <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
+                  <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-500 rounded-lg flex items-center justify-center">
+                    <Home className="h-4 w-4 text-white" />
+                  </div>
                   <div>
-                    <p className="text-sm font-medium">Modern Amenities</p>
+                    <p className="text-sm font-medium text-foreground">Modern Amenities</p>
                     <p className="text-xs text-muted-foreground">Full range of facilities</p>
                   </div>
                 </div>
@@ -717,13 +725,13 @@ const PropertyDetail = () => {
             </div>
 
             {/* Similar Properties */}
-            <div className="p-6 border rounded-lg text-center">
+            <div className="p-6 border rounded-lg text-center bg-gradient-to-br from-purple-50 to-indigo-50/50 dark:from-purple-900/10 dark:to-indigo-900/5 border-purple-200/50 dark:border-purple-700/30">
               <h3 className="text-lg font-semibold mb-2">Similar Properties</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 Discover more properties in {property.location}
               </p>
               <Link to="/properties">
-                <Button size="sm" className="w-full">
+                <Button size="sm" className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white shadow-lg hover:shadow-xl transition-all duration-300">
                   View Similar Properties
                 </Button>
               </Link>
