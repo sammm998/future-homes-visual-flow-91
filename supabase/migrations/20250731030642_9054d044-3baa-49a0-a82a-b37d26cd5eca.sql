@@ -1,6 +1,6 @@
 -- Insert all required website content pages
 INSERT INTO website_content (page_title, page_slug, meta_description, content_sections) VALUES
-('Hem - Future Homes Turkey', 'hem', 'Upptäck ditt drömboende i Turkiet med Future Homes Turkey', '[{"type": "hero", "content": "Välkommen till Future Homes Turkey"}, {"type": "content", "content": "Vi hjälper dig hitta det perfekta boendet i Turkiet."}]'),
+('Hem - Future Homes Turkey', 'hem', 'Upptäck ditt drömboende i Turkiet med Future Homes Turkey', '[{"type": "hero", "content": "Welcome to Future Homes"}, {"type": "content", "content": "Vi hjälper dig hitta det perfekta boendet i Turkiet."}]'),
 ('Om Oss - Future Homes Turkey', 'om-oss', 'Lär dig mer om Future Homes Turkey och vårt uppdrag', '[{"type": "content", "content": "Future Homes Turkey är din pålitliga partner för fastigheter i Turkiet."}, {"type": "team", "content": "Vårt erfarna team hjälper dig genom hela processen."}]'),
 ('Fastigheter i Turkiet', 'fastigheter-turkiet', 'Utforska vårt utbud av fastigheter i Turkiet', '[{"type": "hero", "content": "Fastigheter i Turkiet"}, {"type": "properties", "content": "Hitta din drömfastighet i Turkiet."}]'),
 ('Fastigheter i Cypern', 'fastigheter-cypern', 'Upptäck våra fastigheter på Cypern', '[{"type": "hero", "content": "Fastigheter på Cypern"}, {"type": "properties", "content": "Utforska våra alternativ på Cypern."}]'),
