@@ -581,6 +581,120 @@ export type Database = {
           },
         ]
       }
+      properties_duplicates_backup: {
+        Row: {
+          agent_id: string | null
+          agent_name: string | null
+          agent_phone_number: string | null
+          amenities: string[] | null
+          apartment_types: Json | null
+          bathrooms: string | null
+          bedrooms: string | null
+          building_complete_date: string | null
+          created_at: string | null
+          description: string | null
+          distance_to_airport_km: string | null
+          distance_to_beach_km: string | null
+          facilities: string | null
+          google_maps_embed: string | null
+          id: string | null
+          is_active: boolean | null
+          language_code: string | null
+          location: string | null
+          parent_property_id: string | null
+          price: string | null
+          property_district: string | null
+          property_facilities: string[] | null
+          property_image: string | null
+          property_images: string[] | null
+          property_prices_by_room: string | null
+          property_subtype: string | null
+          property_type: string | null
+          property_url: string | null
+          ref_no: string | null
+          sizes_m2: string | null
+          slug: string | null
+          starting_price_eur: string | null
+          status: string | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          agent_id?: string | null
+          agent_name?: string | null
+          agent_phone_number?: string | null
+          amenities?: string[] | null
+          apartment_types?: Json | null
+          bathrooms?: string | null
+          bedrooms?: string | null
+          building_complete_date?: string | null
+          created_at?: string | null
+          description?: string | null
+          distance_to_airport_km?: string | null
+          distance_to_beach_km?: string | null
+          facilities?: string | null
+          google_maps_embed?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          language_code?: string | null
+          location?: string | null
+          parent_property_id?: string | null
+          price?: string | null
+          property_district?: string | null
+          property_facilities?: string[] | null
+          property_image?: string | null
+          property_images?: string[] | null
+          property_prices_by_room?: string | null
+          property_subtype?: string | null
+          property_type?: string | null
+          property_url?: string | null
+          ref_no?: string | null
+          sizes_m2?: string | null
+          slug?: string | null
+          starting_price_eur?: string | null
+          status?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          agent_id?: string | null
+          agent_name?: string | null
+          agent_phone_number?: string | null
+          amenities?: string[] | null
+          apartment_types?: Json | null
+          bathrooms?: string | null
+          bedrooms?: string | null
+          building_complete_date?: string | null
+          created_at?: string | null
+          description?: string | null
+          distance_to_airport_km?: string | null
+          distance_to_beach_km?: string | null
+          facilities?: string | null
+          google_maps_embed?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          language_code?: string | null
+          location?: string | null
+          parent_property_id?: string | null
+          price?: string | null
+          property_district?: string | null
+          property_facilities?: string[] | null
+          property_image?: string | null
+          property_images?: string[] | null
+          property_prices_by_room?: string | null
+          property_subtype?: string | null
+          property_type?: string | null
+          property_url?: string | null
+          ref_no?: string | null
+          sizes_m2?: string | null
+          slug?: string | null
+          starting_price_eur?: string | null
+          status?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       property_agents: {
         Row: {
           created_at: string
