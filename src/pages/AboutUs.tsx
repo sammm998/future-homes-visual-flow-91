@@ -82,9 +82,18 @@ const AboutUs = () => {
               {heroTitle || "Your Future Real Estate"}
               <span className="bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent"> Partner</span>
             </h1>
-            <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto mb-8">
               {heroSubtitle || "Founder of the company Future Homes, I am proud to accompany you in the search for your future home. We are a European-minded company specialized in the sale of properties in Turkey, France and Dubai."}
             </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="/contact"
+                className="inline-flex items-center justify-center px-8 py-4 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all duration-300 hover:scale-105"
+              >
+                Contact Us
+                <Mail className="ml-2 w-5 h-5" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -335,90 +344,38 @@ const AboutUs = () => {
           </div>
         </section>
 
-        {/* Team Section */}
+        {/* Services Section */}
         <section className="py-20">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Meet Our Expert Team</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Complete Support Journey
+            </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Experienced professionals dedicated to making your property dreams come true
+              From property search to settling in, we're with you every step of the way
             </p>
           </div>
           
-          {teamError && (
-            <Card className="border-red-200 bg-red-50">
-              <CardContent className="p-8 text-center">
-                <div className="text-red-600">Error loading team members: {teamError}</div>
-              </CardContent>
-            </Card>
-          )}
-          
-          {teamLoading ? (
-            <div className="flex justify-center items-center py-16">
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
-            </div>
-          ) : teamMembers.length === 0 ? (
-            <Card className="border-muted bg-muted/20">
-              <CardContent className="p-16 text-center">
-                <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <div className="text-muted-foreground">No team members found</div>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {teamMembers.map((member) => (
-                <Card key={member.id} className="group h-full border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                  <CardContent className="p-8 text-center">
-                    <div className="relative mb-6">
-                      <div className="w-28 h-28 mx-auto rounded-2xl overflow-hidden group-hover:scale-105 transition-transform duration-300">
-                        <img 
-                          src={member.image_url || '/placeholder.svg'} 
-                          alt={member.name}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            const target = e.currentTarget as HTMLImageElement;
-                            if (target.src !== '/placeholder.svg') {
-                              target.src = '/placeholder.svg';
-                            }
-                          }}
-                        />
-                      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service, index) => (
+              <Card key={index} className="group h-full border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-primary">{service.icon}</div>
                     </div>
-                    
-                    <h3 className="text-xl font-bold mb-2">{member.name}</h3>
-                    <Badge variant="secondary" className="mb-4 bg-primary/10 text-primary">
-                      {member.position}
-                    </Badge>
-                    
-                    {member.bio && (
-                      <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-                        {member.bio}
+                    <div>
+                      <h3 className="font-bold text-sm text-foreground mb-2 leading-tight">
+                        {service.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        {service.description}
                       </p>
-                    )}
-                    
-                    <div className="space-y-3">
-                      {member.phone && (
-                        <div className="flex items-center justify-center gap-2 text-sm">
-                          <Phone className="w-4 h-4 text-primary" />
-                          <span className="text-muted-foreground">{member.phone}</span>
-                        </div>
-                      )}
-                      {member.email && (
-                        <div className="flex items-center justify-center gap-2 text-sm">
-                          <Mail className="w-4 h-4 text-primary" />
-                          <a 
-                            href={`mailto:${member.email}`} 
-                            className="text-muted-foreground hover:text-primary transition-colors"
-                          >
-                            {member.email}
-                          </a>
-                        </div>
-                      )}
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </section>
       </div>
       
