@@ -1254,6 +1254,19 @@ export type Database = {
           },
         ]
       }
+      property_insertion_monitoring: {
+        Row: {
+          created_at: string | null
+          ip_address: unknown | null
+          is_active: boolean | null
+          location: string | null
+          ref_no: string | null
+          source_info: Json | null
+          title: string | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
       team_members_public: {
         Row: {
           bio: string | null
