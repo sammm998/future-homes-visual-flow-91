@@ -35,6 +35,7 @@ const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 
 
 // Reset query client with normal settings
@@ -107,6 +108,7 @@ function AppContent() {
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/article/:id" element={<Article />} />
       <Route path="/articles/:slug" element={<ArticlePage />} />
+      <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/sitemap.xml" element={<SitemapXML />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

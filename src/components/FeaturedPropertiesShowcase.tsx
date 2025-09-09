@@ -2,70 +2,33 @@ import React, { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { MapPin, Bed, Bath, Square } from 'lucide-react';
-
-
-interface Property {
-  id: number;
-  title: string;
-  location: string;
-  price: string;
-  image: string;
-  area: string;
-  bedrooms: number;
-  bathrooms: number;
-}
-
-const properties: Property[] = [
-  {
-    id: 1,
-    title: "Luxury Seaside Villa",
-    location: "Antalya, Altıntaş",
-    price: "€245,000",
-    image: "/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png",
-    area: "180 m²",
-    bedrooms: 3,
-    bathrooms: 2
-  },
-  {
-    id: 2,
-    title: "Modern City Apartment",
-    location: "Dubai Marina",
-    price: "€320,000",
-    image: "/lovable-uploads/227fa1b1-f9c2-4427-a969-9521d121dd51.png",
-    area: "120 m²",
-    bedrooms: 2,
-    bathrooms: 2
-  },
-  {
-    id: 3,
-    title: "Beachfront Penthouse",
-    location: "Mersin, Erdemli",
-    price: "€189,000",
-    image: "/lovable-uploads/2adcc5fd-ef6d-4fee-8ed8-cc57be79fccf.png",
-    area: "200 m²",
-    bedrooms: 4,
-    bathrooms: 3
-  },
-  {
-    id: 4,
-    title: "Garden Villa",
-    location: "Cyprus, Kyrenia",
-    price: "€275,000",
-    image: "/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.png",
-    area: "160 m²",
-    bedrooms: 3,
-    bathrooms: 2
-  }
-];
+import { useProperties } from '@/hooks/useProperties';
 
 const FeaturedPropertiesShowcase = () => {
-  
   const navigate = useNavigate();
+  const { properties, loading } = useProperties();
   
+  // Take the first 4 properties as featured ones
+  const featuredProperties = properties.slice(0, 4);
 
   const handleContactClick = () => {
     navigate('/properties');
   };
+
+  if (loading) {
+    return (
+      <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-muted/10 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <div className="animate-pulse">
+              <div className="h-8 bg-muted rounded-md w-64 mx-auto mb-4"></div>
+              <div className="h-4 bg-muted rounded-md w-96 mx-auto"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-muted/10 relative overflow-hidden">
@@ -86,7 +49,7 @@ const FeaturedPropertiesShowcase = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {properties.map((property) => (
+          {featuredProperties.map((property) => (
             <div
               key={property.id}
               className="group relative bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500"
@@ -94,14 +57,14 @@ const FeaturedPropertiesShowcase = () => {
               {/* Image Container */}
               <div className="relative h-72 overflow-hidden">
                 <img
-                  src={property.image}
+                  src={property.property_image || '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png'}
                   alt={property.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 
                 {/* Price Badge */}
                 <div className="absolute top-6 right-6 bg-primary text-primary-foreground px-4 py-2 rounded-full font-bold text-lg shadow-lg">
-                  {property.price}
+                  {property.price || property.starting_price_eur || 'Price on request'}
                 </div>
                 
                 {/* Gradient Overlay */}
@@ -125,15 +88,15 @@ const FeaturedPropertiesShowcase = () => {
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center">
                       <Square className="w-4 h-4 mr-1" />
-                      <span>{property.area}</span>
+                      <span>{property.sizes_m2 || 'N/A'}</span>
                     </div>
                     <div className="flex items-center">
                       <Bed className="w-4 h-4 mr-1" />
-                      <span>{property.bedrooms} bed</span>
+                      <span>{property.bedrooms || 'N/A'} bed</span>
                     </div>
                     <div className="flex items-center">
                       <Bath className="w-4 h-4 mr-1" />
-                      <span>{property.bathrooms} bath</span>
+                      <span>{property.bathrooms || 'N/A'} bath</span>
                     </div>
                   </div>
                 </div>
