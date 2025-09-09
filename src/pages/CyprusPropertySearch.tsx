@@ -5,8 +5,6 @@ import Navigation from "@/components/Navigation";
 import PropertyFilter from "@/components/PropertyFilter";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Timeline } from "@/components/ui/timeline";
 import { Eye, Grid } from "lucide-react";
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
@@ -41,7 +39,6 @@ const CyprusPropertySearch = () => {
     referenceNo: ''
   });
   const [showFiltered, setShowFiltered] = useState(false);
-  const [showTimeline, setShowTimeline] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
   
@@ -147,31 +144,6 @@ const CyprusPropertySearch = () => {
     });
   };
 
-  // Timeline data transformation
-  const timelineData = useMemo(() => {
-    return filteredProperties.map((property, index) => ({
-      title: property.title,
-      content: (
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>📍 {property.location}</span>
-            <span>•</span>
-            <span>💰 {property.price}</span>
-          </div>
-          <p className="text-sm leading-relaxed">
-            Beautiful property in Cyprus with {property.bedrooms} bedrooms and {property.bathrooms} bathrooms.
-          </p>
-          {property.image && (
-            <img 
-              src={property.image} 
-              alt={property.title}
-              className="w-full h-48 object-cover rounded-lg mt-3"
-            />
-          )}
-        </div>
-      ),
-    }));
-  }, [filteredProperties]);
 
   if (loading) {
     return (
@@ -215,19 +187,6 @@ const CyprusPropertySearch = () => {
           />
         </div>
 
-        {/* Timeline Toggle */}
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <Switch isSelected={showTimeline} onChange={setShowTimeline}>
-            <span className="text-sm text-muted-foreground">Timeline View</span>
-          </Switch>
-        </div>
-
-        {/* Timeline Component - Only show when toggle is enabled */}
-        {showTimeline && (
-          <div className="mb-8">
-            <Timeline data={timelineData} location="Cyprus" />
-          </div>
-        )}
 
         {/* Mobile Layout: One property per screen */}
         <div className="block md:hidden">
@@ -332,11 +291,9 @@ const CyprusPropertySearch = () => {
           )}
         </div>
 
-        {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
+        {/* Desktop Layout: Properties Grid */}
         <div className="hidden md:block">
-          {!showTimeline && (
-            <>
-              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {loading ? (
                   <div className="flex justify-center items-center min-h-[200px] col-span-full">
                     <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
@@ -433,8 +390,6 @@ const CyprusPropertySearch = () => {
                   </Pagination>
                 </div>
               )}
-            </>
-          )}
         </div>
       </div>
 

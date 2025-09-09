@@ -5,8 +5,6 @@ import Navigation from "@/components/Navigation";
 import PropertyFilter from "@/components/PropertyFilter";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Timeline } from "@/components/ui/timeline";
 import { Eye, Grid } from "lucide-react";
 import { useProperties } from "@/hooks/useProperties";
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
@@ -47,7 +45,6 @@ const MersinPropertySearch = () => {
     referenceNo: ''
   });
   const [showFiltered, setShowFiltered] = useState(false);
-  const [showTimeline, setShowTimeline] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
   
@@ -168,62 +165,6 @@ const MersinPropertySearch = () => {
     });
   };
 
-  // Timeline data using ALL Mersin properties
-  const timelineData = filteredProperties.map((property, index) => ({
-    title: property.title,
-    content: (
-      <div>
-        <p className="text-foreground text-xs md:text-sm font-normal mb-4">
-          Premium Mersin property with sea views and modern Mediterranean lifestyle.
-        </p>
-        <div className="mb-6">
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            📍 {property.location}
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            💰 {property.price}
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            🏠 {property.bedrooms} | 📐 {property.area}m²
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            ✅ {property.status}
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <OptimizedPropertyImage
-            src={property.image}
-            alt={`${property.title} - Image 1`}
-            className="rounded-lg h-20 md:h-44 lg:h-60 w-full shadow-lg"
-            width={400}
-            height={300}
-            priority={index < 2}
-          />
-          <OptimizedPropertyImage
-            src="/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png"
-            alt="Property placeholder"
-            className="rounded-lg h-20 md:h-44 lg:h-60 w-full shadow-lg"
-            width={400}
-            height={300}
-          />
-          <OptimizedPropertyImage
-            src="/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png"
-            alt="Property placeholder"
-            className="rounded-lg h-20 md:h-44 lg:h-60 w-full shadow-lg"
-            width={400}
-            height={300}
-          />
-          <OptimizedPropertyImage
-            src="/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.png"
-            alt="Property placeholder"
-            className="rounded-lg h-20 md:h-44 lg:h-60 w-full shadow-lg"
-            width={400}
-            height={300}
-          />
-        </div>
-      </div>
-    ),
-  }));
 
 
   if (loading) {
@@ -297,19 +238,6 @@ const MersinPropertySearch = () => {
           />
         </div>
 
-        {/* Timeline Toggle */}
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <Switch isSelected={showTimeline} onChange={setShowTimeline}>
-            <span className="text-sm text-muted-foreground">Timeline View</span>
-          </Switch>
-        </div>
-
-        {/* Timeline Component - Only show when toggle is enabled */}
-        {showTimeline && (
-          <div className="mb-8">
-            <Timeline data={timelineData} location="Mersin" />
-          </div>
-        )}
 
         {/* No Properties Message */}
         {filteredProperties.length === 0 && (
@@ -425,82 +353,78 @@ const MersinPropertySearch = () => {
         {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
         {filteredProperties.length > 0 && (
           <div className="hidden md:block">
-            {!showTimeline && (
-              <>
-                <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {paginatedProperties.map((property) => (
-                    <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                      <PropertyCard property={property} />
-                    </div>
-                  ))}
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {paginatedProperties.map((property) => (
+                <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                  <PropertyCard property={property} />
                 </div>
-                
-                {/* Pagination for desktop */}
-                {totalPages > 1 && (
-                  <div className="flex justify-center mt-8">
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious 
-                            href="#" 
-                            onClick={(e) => {
-                              e.preventDefault();
-                              if (currentPage > 1) {
-                                setCurrentPage(currentPage - 1);
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                              }
-                            }}
-                            className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-                          />
-                        </PaginationItem>
-                        
-                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                          let pageNum;
-                          if (totalPages <= 5) {
-                            pageNum = i + 1;
-                          } else if (currentPage <= 3) {
-                            pageNum = i + 1;
-                          } else if (currentPage >= totalPages - 2) {
-                            pageNum = totalPages - 4 + i;
-                          } else {
-                            pageNum = currentPage - 2 + i;
+              ))}
+            </div>
+            
+            {/* Pagination for desktop */}
+            {totalPages > 1 && (
+              <div className="flex justify-center mt-8">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        href="#" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (currentPage > 1) {
+                            setCurrentPage(currentPage - 1);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
                           }
-                          
-                          return (
-                            <PaginationItem key={pageNum}>
-                              <PaginationLink
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  setCurrentPage(pageNum);
-                                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                                }}
-                                isActive={pageNum === currentPage}
-                              >
-                                {pageNum}
-                              </PaginationLink>
-                            </PaginationItem>
-                          );
-                        })}
-                        
-                        <PaginationItem>
-                          <PaginationNext 
-                            href="#" 
+                        }}
+                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                    
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNum;
+                      if (totalPages <= 5) {
+                        pageNum = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNum = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNum = totalPages - 4 + i;
+                      } else {
+                        pageNum = currentPage - 2 + i;
+                      }
+                      
+                      return (
+                        <PaginationItem key={pageNum}>
+                          <PaginationLink
+                            href="#"
                             onClick={(e) => {
                               e.preventDefault();
-                              if (currentPage < totalPages) {
-                                setCurrentPage(currentPage + 1);
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                              }
+                              setCurrentPage(pageNum);
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
                             }}
-                            className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-                          />
+                            isActive={pageNum === currentPage}
+                          >
+                            {pageNum}
+                          </PaginationLink>
                         </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </div>
-                )}
-              </>
+                      );
+                    })}
+                    
+                    <PaginationItem>
+                      <PaginationNext 
+                        href="#" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (currentPage < totalPages) {
+                            setCurrentPage(currentPage + 1);
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }
+                        }}
+                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </div>
             )}
           </div>
         )}

@@ -211,17 +211,6 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 Search
               </button>
             </div>
-
-            {/* AI Search Button */}
-            <div>
-              <button 
-                className="h-9 w-full px-2 text-xs font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md flex items-center justify-center gap-1"
-                onClick={() => navigate('/ai-property-search')}
-              >
-                <Eye className="w-3 h-3" />
-                <span>AI Search</span>
-              </button>
-            </div>
           </div>
         </CardContent>
       </Card>

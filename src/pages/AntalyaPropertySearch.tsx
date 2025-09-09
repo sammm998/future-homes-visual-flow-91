@@ -5,8 +5,6 @@ import Navigation from "@/components/Navigation";
 import PropertyFilter from "@/components/PropertyFilter";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Timeline } from "@/components/ui/timeline";
 import { Grid } from "lucide-react";
 import { useProperties } from '@/hooks/useProperties';
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
@@ -45,7 +43,6 @@ const AntalyaPropertySearch = () => {
     referenceNo: ''
   });
   const [showFiltered, setShowFiltered] = useState(false);
-  const [showTimeline, setShowTimeline] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
@@ -151,68 +148,6 @@ const AntalyaPropertySearch = () => {
     });
   };
 
-  // Timeline data using ALL properties (not just 6)
-  const timelineData = filteredProperties.map((property, index) => ({
-    title: property.title,
-    content: (
-      <div>
-        <p className="text-foreground text-xs md:text-sm font-normal mb-4">
-          {(property as any).description?.substring(0, 200) || "Premium property with modern amenities and excellent location."}...
-        </p>
-        <div className="mb-6">
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            📍 {property.location}
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            💰 {property.price}
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            🏠 {property.bedrooms} | 📐 {property.area}m²
-          </div>
-          <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-            ✅ {property.status}
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          {(property as any).property_images?.slice(0, 4).map((image: string, imgIndex: number) => (
-            <img
-              key={imgIndex}
-              src={image}
-              alt={`${property.title} - Image ${imgIndex + 1}`}
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = `/lovable-uploads/000f440d-ddb1-4c1b-9202-eef1ef588a8c.png`;
-              }}
-            />
-          )) || (
-            <>
-              <img
-                src="/lovable-uploads/000f440d-ddb1-4c1b-9202-eef1ef588a8c.png"
-                alt="Property placeholder"
-                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-              />
-              <img
-                src="/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png"
-                alt="Property placeholder"
-                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-              />
-              <img
-                src="/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png"
-                alt="Property placeholder"
-                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-              />
-              <img
-                src="/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.png"
-                alt="Property placeholder"
-                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-              />
-            </>
-          )}
-        </div>
-      </div>
-    ),
-  }));
 
   return (
     <div className="min-h-screen bg-background">
@@ -246,19 +181,6 @@ const AntalyaPropertySearch = () => {
           />
         </div>
 
-        {/* Timeline Toggle */}
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <Switch isSelected={showTimeline} onChange={setShowTimeline}>
-            <span className="text-sm text-muted-foreground">Timeline View</span>
-          </Switch>
-        </div>
-
-        {/* Timeline Component - Only show when toggle is enabled */}
-        {showTimeline && (
-          <div className="mb-8">
-            <Timeline data={timelineData} location="Antalya" />
-          </div>
-        )}
 
         {/* Mobile Layout: One property per screen */}
         <div className="block md:hidden">
@@ -348,74 +270,70 @@ const AntalyaPropertySearch = () => {
             </div>
           </div>
 
-          {/* Properties Grid - Show when Timeline is OFF */}
-          {!showTimeline && (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {paginatedProperties.map((property, propertyIndex) => (
-                    <PropertyCard key={`${property.id}-${propertyIndex}`} property={property} />
-                ))}
-              </div>
-              
-              {/* Pagination for desktop */}
-              {totalPages > 1 && (
-                <div className="flex justify-center mt-8">
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious 
-                          href="#" 
+          {/* Properties Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {paginatedProperties.map((property, propertyIndex) => (
+                <PropertyCard key={`${property.id}-${propertyIndex}`} property={property} />
+            ))}
+          </div>
+          
+          {/* Pagination for desktop */}
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-8">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious 
+                      href="#" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage > 1) setCurrentPage(currentPage - 1);
+                      }}
+                      className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                    />
+                  </PaginationItem>
+                  
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    let pageNum;
+                    if (totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i;
+                    } else {
+                      pageNum = currentPage - 2 + i;
+                    }
+                    
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            if (currentPage > 1) setCurrentPage(currentPage - 1);
+                            setCurrentPage(pageNum);
                           }}
-                          className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-                        />
+                          isActive={pageNum === currentPage}
+                        >
+                          {pageNum}
+                        </PaginationLink>
                       </PaginationItem>
-                      
-                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                        let pageNum;
-                        if (totalPages <= 5) {
-                          pageNum = i + 1;
-                        } else if (currentPage <= 3) {
-                          pageNum = i + 1;
-                        } else if (currentPage >= totalPages - 2) {
-                          pageNum = totalPages - 4 + i;
-                        } else {
-                          pageNum = currentPage - 2 + i;
-                        }
-                        
-                        return (
-                          <PaginationItem key={pageNum}>
-                            <PaginationLink
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage(pageNum);
-                              }}
-                              isActive={pageNum === currentPage}
-                            >
-                              {pageNum}
-                            </PaginationLink>
-                          </PaginationItem>
-                        );
-                      })}
-                      
-                      <PaginationItem>
-                        <PaginationNext 
-                          href="#" 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-                          }}
-                          className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-                        />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </div>
-              )}
-            </>
+                    );
+                  })}
+                  
+                  <PaginationItem>
+                    <PaginationNext 
+                      href="#" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                      }}
+                      className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
           )}
 
           {/* Empty State */}

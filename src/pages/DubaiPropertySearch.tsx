@@ -5,8 +5,6 @@ import Navigation from "@/components/Navigation";
 import PropertyFilter from "@/components/PropertyFilter";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Timeline } from "@/components/ui/timeline";
 import { Eye, Grid } from "lucide-react";
 import { useProperties } from "@/hooks/useProperties";
 import SEOHead from "@/components/SEOHead";
@@ -44,7 +42,6 @@ const DubaiPropertySearch = () => {
     referenceNo: ''
   });
   const [showFiltered, setShowFiltered] = useState(false);
-  const [showTimeline, setShowTimeline] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
   
@@ -178,73 +175,6 @@ const DubaiPropertySearch = () => {
     });
   };
 
-  // Timeline data using ALL Dubai properties
-  const timelineData = filteredProperties.map((property, index) => {
-    // Get the original property data to access property_images array
-    const originalProperty = allProperties.find(p => p.id === property.id);
-    const propertyImages = originalProperty?.property_images || [];
-    
-    // Create array of 4 images, using property images if available, otherwise fallback images
-    const fallbackImages = [
-      "/lovable-uploads/000f440d-ddb1-4c1b-9202-eef1ef588a8c.png",
-      "/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png",
-      "/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png",
-      "/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.png"
-    ];
-    
-    const images = [];
-    for (let i = 0; i < 4; i++) {
-      if (i === 0) {
-        // First image: use main property image
-        images.push(property.property_images?.[0] || fallbackImages[0]);
-      } else if (propertyImages[i - 1]) {
-        // Use additional images from property_images array
-        images.push(propertyImages[i - 1]);
-      } else {
-        // Fallback to placeholder images
-        images.push(fallbackImages[i]);
-      }
-    }
-
-    return {
-      title: property.title,
-      content: (
-        <div>
-          <p className="text-foreground text-xs md:text-sm font-normal mb-4">
-            Premium property in Dubai with modern amenities and excellent location.
-          </p>
-          <div className="mb-6">
-            <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-              📍 {property.location}
-            </div>
-            <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-              💰 {property.price}
-            </div>
-            <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-              🏠 {property.bedrooms} | 📐 {property.area}m²
-            </div>
-            <div className="flex gap-2 items-center text-muted-foreground text-xs md:text-sm mb-2">
-              ✅ {property.status}
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {images.map((imageSrc, imageIndex) => (
-              <img
-                key={imageIndex}
-                src={imageSrc}
-                alt={`${property.title} - Image ${imageIndex + 1}`}
-                className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = fallbackImages[imageIndex] || fallbackImages[0];
-                }}
-              />
-            ))}
-          </div>
-        </div>
-      ),
-    };
-  });
 
   if (loading) {
     return (
@@ -299,19 +229,6 @@ const DubaiPropertySearch = () => {
           />
         </div>
 
-        {/* Timeline Toggle */}
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <Switch isSelected={showTimeline} onChange={setShowTimeline}>
-            <span className="text-sm text-muted-foreground">Timeline View</span>
-          </Switch>
-        </div>
-
-        {/* Timeline Component - Only show when toggle is enabled */}
-        {showTimeline && (
-          <div className="mb-8">
-            <Timeline data={timelineData} location="Dubai" />
-          </div>
-        )}
 
         {/* Mobile Layout: One property per screen */}
         <div className="block md:hidden">
@@ -384,11 +301,9 @@ const DubaiPropertySearch = () => {
           )}
         </div>
 
-        {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
+        {/* Desktop Layout: Properties Grid */}
         <div className="hidden md:block">
-          {!showTimeline && (
-            <>
-              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {paginatedProperties.map((property, propertyIndex) => (
                   <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                     <PropertyCard property={property} />
@@ -453,8 +368,6 @@ const DubaiPropertySearch = () => {
                   </Pagination>
                 </div>
               )}
-            </>
-          )}
         </div>
       </div>
 
