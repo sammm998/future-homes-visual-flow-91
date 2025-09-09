@@ -2,8 +2,7 @@ import Navigation from "@/components/Navigation";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
-import { MapPin, Phone, Globe, Users, Heart, Shield, FileText, Home, CreditCard, Plane, Languages, CheckCircle } from "lucide-react";
+import { MapPin, Phone, Globe, Users, Heart, Shield, FileText, Home, CreditCard, Plane, Languages, CheckCircle, Mail, Star, Award, Target, Building } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
 import { useTeamMembers } from "@/hooks/useTeamMembers";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
@@ -15,15 +14,15 @@ const AboutUs = () => {
   const { pageTitle, metaDescription, contentSections, heroTitle, heroSubtitle, isLoading: contentLoading } = useWebsiteContent('about-us');
 
   const services = [
-    { icon: <Plane className="w-8 h-8" />, title: "FREE PROPERTY VISITS", description: "We organize free property visits for our clients" },
-    { icon: <FileText className="w-8 h-8" />, title: "SALES CONTRACT", description: "Professional sales contract preparation" },
-    { icon: <CreditCard className="w-8 h-8" />, title: "GET YOUR TAX NUMBER", description: "Assistance with tax number application" },
-    { icon: <CreditCard className="w-8 h-8" />, title: "OPEN A BANK ACCOUNT", description: "Help with bank account opening" },
-    { icon: <FileText className="w-8 h-8" />, title: "TRANSLATIONS OF DOCUMENTS", description: "Professional document translation services" },
-    { icon: <Home className="w-8 h-8" />, title: "RECEIVE YOUR TITLE DEED", description: "Complete title deed transfer process" },
-    { icon: <CheckCircle className="w-8 h-8" />, title: "SERVICES SUBSCRIPTIONS", description: "Utility and service connections" },
-    { icon: <Home className="w-8 h-8" />, title: "FURNITURE TOUR", description: "Professional furniture selection tours" },
-    { icon: <CreditCard className="w-8 h-8" />, title: "SELL YOUR PROPERTY", description: "Property resale assistance" }
+    { icon: <Plane className="w-6 h-6" />, title: "FREE PROPERTY VISITS", description: "We organize free property visits for our clients" },
+    { icon: <FileText className="w-6 h-6" />, title: "SALES CONTRACT", description: "Professional sales contract preparation" },
+    { icon: <CreditCard className="w-6 h-6" />, title: "GET YOUR TAX NUMBER", description: "Assistance with tax number application" },
+    { icon: <Building className="w-6 h-6" />, title: "OPEN A BANK ACCOUNT", description: "Help with bank account opening" },
+    { icon: <Globe className="w-6 h-6" />, title: "TRANSLATIONS OF DOCUMENTS", description: "Professional document translation services" },
+    { icon: <Home className="w-6 h-6" />, title: "RECEIVE YOUR TITLE DEED", description: "Complete title deed transfer process" },
+    { icon: <CheckCircle className="w-6 h-6" />, title: "SERVICES SUBSCRIPTIONS", description: "Utility and service connections" },
+    { icon: <Award className="w-6 h-6" />, title: "FURNITURE TOUR", description: "Professional furniture selection tours" },
+    { icon: <Target className="w-6 h-6" />, title: "SELL YOUR PROPERTY", description: "Property resale assistance" }
   ];
 
   const languages = [
@@ -31,8 +30,15 @@ const AboutUs = () => {
     "French", "Arabic", "Farsi", "German", "Urdu"
   ];
 
+  const stats = [
+    { number: "500+", label: "Happy Clients" },
+    { number: "1000+", label: "Properties Sold" },
+    { number: "3", label: "Countries" },
+    { number: "9", label: "Languages" }
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <SEOHead
         title={pageTitle || "About Future Homes | International Real Estate Experts"}
         description={metaDescription || "Trusted international real estate experts. Investment opportunities in Turkey, Dubai, Cyprus & France with citizenship programs. Expert guidance."}
@@ -41,208 +47,297 @@ const AboutUs = () => {
       />
       <Navigation />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Hero Section - Database content with fallback */}
-        <div className="text-center mb-16">
-          <Badge className="mb-4">About Future Homes</Badge>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            {heroTitle || "Your Future Real Estate Partner"}
-          </h1>
-          <div className="max-w-4xl mx-auto">
-            <TextGenerateEffect
-              words={heroSubtitle || "Founder of the company Future Homes, I am proud to accompany you in the search for your future home. My name is Ali Karan and I am the founder of the company Future Homes in Turkey, France and Dubai. I am very proud to help you along the way as you search for your future home. We are a European-minded company specialized in the sale of properties in Turkey, France and Dubai. We have central offices in Antalya, Mersin, in France (Strasbourg) and in Dubai. At Future Homes, we work tirelessly to satisfy the customer's wishes and needs. We want to give you the best service and personal follow-up to ensure that you have a safe and good experience."}
-              className="text-lg text-muted-foreground leading-relaxed mb-8"
-              filter={false}
-              duration={0.8}
-            />
+      {/* Hero Section */}
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/5"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center max-w-4xl mx-auto">
+            <Badge className="mb-6 px-4 py-2 bg-primary/10 text-primary border-primary/20">
+              About Future Homes
+            </Badge>
+            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
+              {heroTitle || "Your Future Real Estate"}
+              <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent"> Partner</span>
+            </h1>
+            <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+              {heroSubtitle || "Founder of the company Future Homes, I am proud to accompany you in the search for your future home. We are a European-minded company specialized in the sale of properties in Turkey, France and Dubai."}
+            </p>
           </div>
         </div>
+      </section>
 
+      {/* Stats Section */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="bg-card border rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:scale-105">
+                  <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+                    {stat.number}
+                  </div>
+                  <div className="text-muted-foreground font-medium">
+                    {stat.label}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Dynamic Content Sections */}
         {!contentLoading && contentSections.length > 0 && (
-          <div className="mb-16">
+          <section className="py-16">
             {contentSections.map((section, index) => (
               <ContentSection key={index} section={section} />
             ))}
-          </div>
+          </section>
         )}
 
         {/* Values Section */}
-        <div className="bg-primary/5 rounded-2xl p-8 mb-16">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Our Values</h2>
-            <p className="text-lg text-muted-foreground">
-              Our values are strongly rooted in good ethics, professionalism and transparency.
+        <section className="py-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Our Core Values</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Built on a foundation of trust, expertise, and unwavering commitment to excellence
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Ethics</h3>
-              <p className="text-muted-foreground">We conduct business with the highest ethical standards</p>
+            <div className="group">
+              <Card className="h-full border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <CardContent className="p-8 text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Heart className="w-10 h-10 text-primary" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">Ethics</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    We conduct business with the highest ethical standards, ensuring transparency and integrity in every interaction
+                  </p>
+                </CardContent>
+              </Card>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Professionalism</h3>
-              <p className="text-muted-foreground">Professional service in every aspect of our work</p>
+            
+            <div className="group">
+              <Card className="h-full border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <CardContent className="p-8 text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Shield className="w-10 h-10 text-primary" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">Professionalism</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Professional service in every aspect of our work, from initial consultation to final handover
+                  </p>
+                </CardContent>
+              </Card>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Globe className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Transparency</h3>
-              <p className="text-muted-foreground">Complete transparency in all our dealings</p>
+            
+            <div className="group">
+              <Card className="h-full border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <CardContent className="p-8 text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Globe className="w-10 h-10 text-primary" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">Transparency</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Complete transparency in all our dealings, keeping you informed every step of the way
+                  </p>
+                </CardContent>
+              </Card>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Locations Section */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Future Homes Locations</h2>
-            <p className="text-lg text-muted-foreground">Where can you find real estate with Future Homes?</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="text-center">
-              <CardHeader>
-                <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>Turkey</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Antalya, Mersin</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="text-center">
-              <CardHeader>
-                <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>France</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Strasbourg Office</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="text-center">
-              <CardHeader>
-                <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
-                <CardTitle>Dubai</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">Dubai Office</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-
-        {/* Languages Section */}
-        <div className="bg-secondary/20 rounded-2xl p-8 mb-16">
-          <div className="text-center mb-8">
-            <Languages className="w-16 h-16 text-primary mx-auto mb-4" />
-            <h2 className="text-3xl font-bold text-foreground mb-4">OUR TEAM SPEAKS 9 DIFFERENT LANGUAGES</h2>
-            <p className="text-lg text-muted-foreground">
-              To achieve this, we have a strong team behind us who speak multiple languages fluently.
+        <section className="py-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Global Presence</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Strategically located across three continents to serve you better
             </p>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-4">
-            {languages.map((language, index) => (
-              <Badge key={index} variant="secondary" className="text-sm px-4 py-2">
-                {language}
-              </Badge>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-500/20 to-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="w-10 h-10 text-blue-500" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Turkey</h3>
+                <p className="text-muted-foreground">Antalya • Mersin</p>
+                <div className="mt-4 pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground">Our main hub for Turkish real estate opportunities</p>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-green-500/20 to-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="w-10 h-10 text-green-500" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">France</h3>
+                <p className="text-muted-foreground">Strasbourg Office</p>
+                <div className="mt-4 pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground">European headquarters for international clients</p>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <CardContent className="p-8 text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-amber-500/20 to-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="w-10 h-10 text-amber-500" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">Dubai</h3>
+                <p className="text-muted-foreground">Dubai Office</p>
+                <div className="mt-4 pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground">Gateway to Middle Eastern luxury properties</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </div>
+        </section>
+
+        {/* Languages Section */}
+        <section className="py-20">
+          <Card className="border-0 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 backdrop-blur-sm">
+            <CardContent className="p-12 text-center">
+              <div className="w-24 h-24 bg-gradient-to-br from-primary/20 to-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-8">
+                <Languages className="w-12 h-12 text-primary" />
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+                9 Languages Spoken
+              </h2>
+              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+                Breaking down language barriers with our multilingual team
+              </p>
+              
+              <div className="flex flex-wrap justify-center gap-3">
+                {languages.map((language, index) => (
+                  <Badge 
+                    key={index} 
+                    variant="secondary" 
+                    className="px-4 py-2 text-sm bg-background/50 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
+                  >
+                    {language}
+                  </Badge>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
 
         {/* Services Section */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">WE ARE WITH YOU BEFORE AND AFTER SALES</h2>
-            <p className="text-lg text-muted-foreground">Comprehensive services throughout your property journey</p>
+        <section className="py-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Complete Support Journey
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              From property search to settling in, we're with you every step of the way
+            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <div className="text-primary">{service.icon}</div>
+              <Card key={index} className="group h-full border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-primary">{service.icon}</div>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-sm text-foreground mb-2 leading-tight">
+                        {service.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">
+                        {service.description}
+                      </p>
+                    </div>
                   </div>
-                  <CardTitle className="text-lg">{service.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{service.description}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
-        </div>
+        </section>
 
         {/* Team Section */}
-        <div>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Meet Our Team</h2>
-            <p className="text-lg text-muted-foreground">
-              Our experienced professionals are here to guide you through your property journey
+        <section className="py-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Meet Our Expert Team</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Experienced professionals dedicated to making your property dreams come true
             </p>
           </div>
           
           {teamError && (
-            <div className="flex justify-center items-center py-12">
-              <div className="text-red-500">Error loading team members: {teamError}</div>
-            </div>
+            <Card className="border-red-200 bg-red-50">
+              <CardContent className="p-8 text-center">
+                <div className="text-red-600">Error loading team members: {teamError}</div>
+              </CardContent>
+            </Card>
           )}
           
           {teamLoading ? (
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <div className="flex justify-center items-center py-16">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
             </div>
           ) : teamMembers.length === 0 ? (
-            <div className="flex justify-center items-center py-12">
-              <div className="text-muted-foreground">No team members found</div>
-            </div>
+            <Card className="border-muted bg-muted/20">
+              <CardContent className="p-16 text-center">
+                <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                <div className="text-muted-foreground">No team members found</div>
+              </CardContent>
+            </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {teamMembers.map((member) => (
-                <Card key={member.id} className="text-center hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="w-24 h-24 mx-auto mb-4">
-                      <img 
-                        src={member.image_url || '/placeholder.svg'} 
-                        alt={member.name}
-                        className="w-full h-full rounded-full object-cover"
-                        onError={(e) => {
-                          const target = e.currentTarget as HTMLImageElement;
-                          if (target.src !== '/placeholder.svg') {
-                            target.src = '/placeholder.svg';
-                          }
-                        }}
-                      />
+                <Card key={member.id} className="group h-full border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                  <CardContent className="p-8 text-center">
+                    <div className="relative mb-6">
+                      <div className="w-28 h-28 mx-auto rounded-2xl overflow-hidden group-hover:scale-105 transition-transform duration-300">
+                        <img 
+                          src={member.image_url || '/placeholder.svg'} 
+                          alt={member.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.currentTarget as HTMLImageElement;
+                            if (target.src !== '/placeholder.svg') {
+                              target.src = '/placeholder.svg';
+                            }
+                          }}
+                        />
+                      </div>
                     </div>
-                    <CardTitle className="text-xl">{member.name}</CardTitle>
-                    <p className="text-primary font-medium">{member.position}</p>
+                    
+                    <h3 className="text-xl font-bold mb-2">{member.name}</h3>
+                    <Badge variant="secondary" className="mb-4 bg-primary/10 text-primary">
+                      {member.position}
+                    </Badge>
+                    
                     {member.bio && (
-                      <p className="text-muted-foreground text-sm mt-2">{member.bio}</p>
+                      <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
+                        {member.bio}
+                      </p>
                     )}
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
+                    
+                    <div className="space-y-3">
                       {member.phone && (
-                        <div className="flex items-center justify-center">
-                          <Phone className="w-4 h-4 mr-2" />
+                        <div className="flex items-center justify-center gap-2 text-sm">
+                          <Phone className="w-4 h-4 text-primary" />
                           <span className="text-muted-foreground">{member.phone}</span>
                         </div>
-          )}
+                      )}
                       {member.email && (
-                        <div className="flex items-center justify-center">
-                          <Globe className="w-4 h-4 mr-2" />
-                          <a href={`mailto:${member.email}`} className="text-muted-foreground hover:text-primary">
+                        <div className="flex items-center justify-center gap-2 text-sm">
+                          <Mail className="w-4 h-4 text-primary" />
+                          <a 
+                            href={`mailto:${member.email}`} 
+                            className="text-muted-foreground hover:text-primary transition-colors"
+                          >
                             {member.email}
                           </a>
                         </div>
@@ -253,7 +348,7 @@ const AboutUs = () => {
               ))}
             </div>
           )}
-        </div>
+        </section>
       </div>
       
       {/* ElevenLabs Widget */}
