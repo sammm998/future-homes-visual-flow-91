@@ -153,48 +153,96 @@ const AboutUs = () => {
         {/* Locations Section */}
         <section className="py-20">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Global Presence</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Our Locations</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Strategically located across three continents to serve you better
+              Visit our offices across three countries to discuss your property investment needs
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-              <CardContent className="p-8 text-center">
+              <CardContent className="p-8">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500/20 to-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <MapPin className="w-10 h-10 text-blue-500" />
+                  <Building className="w-10 h-10 text-blue-500" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Turkey</h3>
-                <p className="text-muted-foreground">Antalya • Mersin</p>
-                <div className="mt-4 pt-4 border-t border-border">
-                  <p className="text-sm text-muted-foreground">Our main hub for Turkish real estate opportunities</p>
+                <h3 className="text-2xl font-bold mb-4 text-center">Turkey Office</h3>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-sm">Antalya, Turkey</p>
+                      <p className="text-sm text-muted-foreground">Main headquarters</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Phone className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                    <p className="text-sm">+90 552 303 27 50</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Mail className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                    <p className="text-sm">info@futurehomesturkey.com</p>
+                  </div>
+                </div>
+                <div className="mt-6 pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground text-center">Our main hub for Turkish real estate opportunities and citizenship programs</p>
                 </div>
               </CardContent>
             </Card>
             
             <Card className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-              <CardContent className="p-8 text-center">
+              <CardContent className="p-8">
                 <div className="w-20 h-20 bg-gradient-to-br from-green-500/20 to-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <MapPin className="w-10 h-10 text-green-500" />
+                  <Building className="w-10 h-10 text-green-500" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">France</h3>
-                <p className="text-muted-foreground">Strasbourg Office</p>
-                <div className="mt-4 pt-4 border-t border-border">
-                  <p className="text-sm text-muted-foreground">European headquarters for international clients</p>
+                <h3 className="text-2xl font-bold mb-4 text-center">France Office</h3>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-sm">Strasbourg, France</p>
+                      <p className="text-sm text-muted-foreground">European office</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Phone className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <p className="text-sm">+33 (0)3 XX XX XX XX</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Mail className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <p className="text-sm">france@futurehomesturkey.com</p>
+                  </div>
+                </div>
+                <div className="mt-6 pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground text-center">European headquarters serving international clients across the continent</p>
                 </div>
               </CardContent>
             </Card>
             
             <Card className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-              <CardContent className="p-8 text-center">
+              <CardContent className="p-8">
                 <div className="w-20 h-20 bg-gradient-to-br from-amber-500/20 to-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <MapPin className="w-10 h-10 text-amber-500" />
+                  <Building className="w-10 h-10 text-amber-500" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Dubai</h3>
-                <p className="text-muted-foreground">Dubai Office</p>
-                <div className="mt-4 pt-4 border-t border-border">
-                  <p className="text-sm text-muted-foreground">Gateway to Middle Eastern luxury properties</p>
+                <h3 className="text-2xl font-bold mb-4 text-center">Dubai Office</h3>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-sm">Dubai, UAE</p>
+                      <p className="text-sm text-muted-foreground">Middle East office</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Phone className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                    <p className="text-sm">+971 XX XXX XXXX</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Mail className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                    <p className="text-sm">dubai@futurehomesturkey.com</p>
+                  </div>
+                </div>
+                <div className="mt-6 pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground text-center">Gateway to Middle Eastern luxury properties and investment opportunities</p>
                 </div>
               </CardContent>
             </Card>
