@@ -755,6 +755,39 @@ export type Database = {
         }
         Relationships: []
       }
+      property_insertion_log: {
+        Row: {
+          created_at: string
+          id: string
+          insertion_rate_check: boolean | null
+          ip_address: unknown | null
+          property_id: string | null
+          source_info: Json | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          insertion_rate_check?: boolean | null
+          ip_address?: unknown | null
+          property_id?: string | null
+          source_info?: Json | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          insertion_rate_check?: boolean | null
+          ip_address?: unknown | null
+          property_id?: string | null
+          source_info?: Json | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       scan_sessions: {
         Row: {
           created_at: string
