@@ -214,7 +214,7 @@ const PropertyDetail = () => {
   // Show loading state
   if (loading || dbLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+      <div className="min-h-screen bg-background">
         <Navigation />
         <div className="container mx-auto px-4 pt-32">
           <div className="flex items-center justify-center min-h-[400px]">
@@ -231,7 +231,7 @@ const PropertyDetail = () => {
   // Show error state
   if (error || dbError) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+      <div className="min-h-screen bg-background">
         <Navigation />
         <div className="container mx-auto px-4 pt-32">
           <div className="text-center py-20">
@@ -282,7 +282,7 @@ const PropertyDetail = () => {
   // Show property not found if no property data
   if (!property) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+      <div className="min-h-screen bg-background">
         <Navigation />
         <div className="container mx-auto px-4 pt-32">
           <div className="text-center py-20">
@@ -353,445 +353,381 @@ const PropertyDetail = () => {
   const agent = getAgentData(property.agent);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/30">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
       {/* Image Modal */}
       {showImageModal && property.images && (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="relative max-w-7xl max-h-full">
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+          <div className="relative max-w-6xl max-h-full">
             <button
               onClick={() => setShowImageModal(false)}
-              className="absolute -top-16 right-0 text-white hover:text-primary transition-colors z-10 bg-black/50 p-3 rounded-full backdrop-blur-sm"
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
             >
-              <X className="h-6 w-6" />
+              <X className="h-8 w-8" />
             </button>
             
-            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-              <img
-                src={property.images[currentImageIndex] || property.image || "/placeholder.svg"}
-                alt={`Property view ${currentImageIndex + 1}`}
-                className="max-h-[85vh] max-w-full object-contain"
-              />
-              
-              {property.images.length > 1 && (
-                <>
-                  <button
-                    onClick={prevImage}
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-all border border-white/20"
-                  >
-                    <ChevronLeft className="h-6 w-6" />
-                  </button>
-                  <button
-                    onClick={nextImage}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/20 transition-all border border-white/20"
-                  >
-                    <ChevronRight className="h-6 w-6" />
-                  </button>
-                </>
-              )}
-            </div>
+            <img
+              src={property.images[currentImageIndex] || property.image || "/placeholder.svg"}
+              alt={`Property view ${currentImageIndex + 1}`}
+              className="max-h-[80vh] max-w-full object-contain rounded-lg"
+            />
             
-            <div className="text-white text-center mt-6 bg-black/50 backdrop-blur-sm rounded-full px-6 py-3 mx-auto w-fit text-sm">
+            {property.images.length > 1 && (
+              <>
+                <button
+                  onClick={prevImage}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-all"
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-all"
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </button>
+              </>
+            )}
+            
+            <div className="text-white text-center mt-4">
               {currentImageIndex + 1} / {property.images.length}
             </div>
           </div>
         </div>
       )}
 
-      <div className="container mx-auto px-4 pt-24 pb-16">
+      <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
         {/* Back Button */}
         <Button
           variant="ghost"
           onClick={() => navigate(-1)}
-          className="mb-8 hover:bg-muted/50 transition-all"
+          className="mb-8"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Properties
         </Button>
 
-        <div className="grid lg:grid-cols-3 gap-12">
+        <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-12">
+          <div className="lg:col-span-2 space-y-8">
             {/* Property Header */}
-            <div className="space-y-6">
-              <div className="flex flex-wrap items-center gap-3">
-                <Badge variant="secondary" className="px-4 py-2 text-sm font-medium bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors">
-                  REF: {property.refNo || property.id}
-                </Badge>
-                {property.status && (
-                  <Badge variant="outline" className="px-4 py-2 text-sm font-medium border-muted-foreground/30 hover:border-muted-foreground/50 transition-colors">
-                    {property.status}
-                  </Badge>
-                )}
+            <div className="space-y-4">
+              <Badge variant="outline" className="w-fit">
+                REF: {property.refNo || property.id}
+              </Badge>
+              
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+                {property.title}
+              </h1>
+              
+              <div className="flex items-center text-muted-foreground">
+                <MapPin className="h-5 w-5 mr-2" />
+                <span>{property.location}</span>
               </div>
               
-              <div className="space-y-6">
-                <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight">
-                  {property.title}
-                </h1>
-                <div className="flex items-center text-muted-foreground text-lg">
-                  <MapPin className="h-6 w-6 mr-3 text-primary" />
-                  <span className="text-xl">{property.location}</span>
-                </div>
-                <div className="inline-block">
-                  <div className="text-5xl md:text-6xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
-                    {formatPriceFromString(property.price, formatPrice)}
-                  </div>
-                  <div className="text-lg text-muted-foreground">Starting from</div>
-                </div>
+              <div className="text-3xl font-bold text-primary">
+                {formatPriceFromString(property.price, formatPrice)}
               </div>
             </div>
 
             {/* Property Images */}
-            <div className="space-y-8">
-              <h2 className="text-3xl font-bold text-foreground">Property Gallery</h2>
-              <Card className="overflow-hidden shadow-elegant hover:shadow-glow transition-all duration-300 border-0 bg-card/50 backdrop-blur-sm">
-                <CardContent className="p-0">
-                  <div className="relative group">
-                    <img
-                      src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"}
-                      alt="Property"
-                      className="w-full h-[600px] object-cover cursor-pointer transition-transform duration-700 group-hover:scale-105"
-                      onClick={() => setShowImageModal(true)}
-                    />
-                    
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
-                    {property.images && property.images.length > 1 && (
-                      <>
-                        <button
-                          onClick={prevImage}
-                          className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-sm text-white p-4 rounded-full hover:bg-white/20 transition-all border border-white/20 opacity-0 group-hover:opacity-100 shadow-lg"
-                        >
-                          <ChevronLeft className="h-6 w-6" />
-                        </button>
-                        <button
-                          onClick={nextImage}
-                          className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-sm text-white p-4 rounded-full hover:bg-white/20 transition-all border border-white/20 opacity-0 group-hover:opacity-100 shadow-lg"
-                        >
-                          <ChevronRight className="h-6 w-6" />
-                        </button>
-                        
-                        <button
-                          onClick={() => setShowImageModal(true)}
-                          className="absolute bottom-6 right-6 bg-black/60 backdrop-blur-sm text-white px-6 py-3 rounded-full hover:bg-black/80 transition-all text-sm flex items-center gap-3 border border-white/20 shadow-lg"
-                        >
-                          <Images className="h-5 w-5" />
-                          View All ({property.images.length})
-                        </button>
-                        
-                        <div className="absolute bottom-6 left-6 bg-black/60 backdrop-blur-sm text-white px-6 py-3 rounded-full text-sm border border-white/20 shadow-lg">
-                          {currentImageIndex + 1} / {property.images.length}
-                        </div>
-                      </>
-                    )}
+            <div className="space-y-6">
+              <h2 className="text-2xl font-semibold">Gallery</h2>
+              <div className="space-y-4">
+                {/* Main Image */}
+                <div 
+                  className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer group"
+                  onClick={() => setShowImageModal(true)}
+                >
+                  <img
+                    src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"}
+                    alt={property.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <Images className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
-                </CardContent>
-                
-                {property.images && property.images.length > 1 && (
-                  <div className="p-6 bg-muted/30">
-                    <div className="grid grid-cols-6 gap-3">
-                      {property.images.slice(0, 6).map((img: string, index: number) => (
-                        <img
-                          key={index}
-                          src={img}
-                          alt={`Thumbnail ${index + 1}`}
-                          className={`w-full h-20 object-cover rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 ${
-                            index === currentImageIndex 
-                              ? 'ring-3 ring-primary shadow-lg' 
-                              : 'hover:opacity-80 shadow-md'
-                          }`}
-                          onClick={() => setCurrentImageIndex(index)}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </Card>
-            </div>
-
-            {/* Property Details */}
-            <Card className="overflow-hidden shadow-elegant border-0 bg-card/50 backdrop-blur-sm">
-              <CardContent className="p-8">
-                <h2 className="text-3xl font-bold mb-8 text-foreground">Property Details</h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  {property.bedrooms && (
-                    <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <Bed className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground font-medium">Bedrooms</p>
-                        <p className="text-xl font-bold text-foreground">{property.bedrooms}</p>
-                      </div>
-                    </div>
-                  )}
-                  {property.bathrooms && (
-                    <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <Bath className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground font-medium">Bathrooms</p>
-                        <p className="text-xl font-bold text-foreground">{property.bathrooms}</p>
-                      </div>
-                    </div>
-                  )}
-                  {property.area && (
-                    <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <Square className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground font-medium">Area</p>
-                        <p className="text-xl font-bold text-foreground">{property.area}m²</p>
-                      </div>
-                    </div>
-                  )}
-                  {property.propertyType && (
-                    <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <Home className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground font-medium">Type</p>
-                        <p className="text-xl font-bold text-foreground">{property.propertyType}</p>
-                      </div>
-                    </div>
-                  )}
                 </div>
-
-                {property.description && (
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-bold mb-4 text-foreground">Description</h3>
-                    <p className="text-muted-foreground leading-relaxed text-lg whitespace-pre-line">
-                      {property.description}
-                    </p>
-                  </div>
-                )}
-
-                {/* Location Details */}
-                {(property.distanceToAirport || property.distanceToBeach) && (
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-bold mb-6 text-foreground">Location & Accessibility</h3>
-                    <div className="grid md:grid-cols-2 gap-6">
-                      {property.distanceToAirport && (
-                        <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
-                          <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                            <Plane className="h-6 w-6 text-primary" />
-                          </div>
-                          <div>
-                            <p className="text-sm text-muted-foreground font-medium">Airport</p>
-                            <p className="text-xl font-bold text-foreground">{property.distanceToAirport}</p>
-                          </div>
-                        </div>
-                      )}
-                      {property.distanceToBeach && (
-                        <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
-                          <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                            <Waves className="h-6 w-6 text-primary" />
-                          </div>
-                          <div>
-                            <p className="text-sm text-muted-foreground font-medium">Beach</p>
-                            <p className="text-xl font-bold text-foreground">{property.distanceToBeach}</p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Features */}
-                {property.features && property.features.length > 0 && (
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-bold mb-6 text-foreground">Features & Amenities</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {property.features.map((feature: string, index: number) => (
-                        <div key={index} className="flex items-center space-x-3 p-4 bg-muted/50 rounded-xl hover:bg-muted/70 transition-colors">
-                          <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                          <span className="text-sm font-medium text-foreground">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Pricing Information */}
-            {property.pricing && property.pricing.length > 0 && (
-              <Card className="overflow-hidden shadow-elegant border-0 bg-card/50 backdrop-blur-sm">
-                <CardContent className="p-8">
-                  <h2 className="text-3xl font-bold mb-8 text-foreground">Available Options</h2>
-                  <div className="space-y-6">
-                    {property.pricing.map((option: any, index: number) => (
-                      <div key={index} className="flex justify-between items-center p-6 bg-gradient-to-r from-muted/50 to-muted/30 rounded-xl border border-muted/50 hover:border-primary/30 transition-all">
-                        <div>
-                          <h3 className="text-xl font-bold text-foreground">{option.type}</h3>
-                          <p className="text-muted-foreground font-medium">{option.size}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                            {formatPriceFromString(option.price, formatPrice)}
-                          </p>
-                        </div>
+                
+                {/* Thumbnail Images */}
+                {property.images && property.images.length > 1 && (
+                  <div className="grid grid-cols-4 gap-2">
+                    {property.images.slice(0, 4).map((image: string, index: number) => (
+                      <div
+                        key={index}
+                        className={`aspect-square overflow-hidden rounded cursor-pointer border-2 transition-all ${
+                          currentImageIndex === index ? 'border-primary' : 'border-transparent hover:border-muted-foreground/50'
+                        }`}
+                        onClick={() => setCurrentImageIndex(index)}
+                      >
+                        <img
+                          src={image}
+                          alt={`View ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                     ))}
                   </div>
-                </CardContent>
-              </Card>
-            )}
+                )}
+              </div>
+            </div>
 
-            {/* Project Timeline */}
-            <Card className="overflow-hidden shadow-elegant border-0 bg-card/50 backdrop-blur-sm">
-              <CardContent className="p-8">
-                <h2 className="text-3xl font-bold mb-8 text-foreground">Project Timeline</h2>
-                <Timeline data={getTimelineData()} />
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-8">
-            {/* Quick Stats */}
-            <Card className="overflow-hidden shadow-elegant border-0 bg-card/50 backdrop-blur-sm">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-6 text-foreground">Quick Info</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center py-3 border-b border-muted/30">
-                    <span className="text-muted-foreground font-medium">Property Type:</span>
-                    <span className="font-bold text-foreground">{property.propertyType}</span>
-                  </div>
-                  {property.buildingComplete && (
-                    <div className="flex justify-between items-center py-3 border-b border-muted/30">
-                      <span className="text-muted-foreground font-medium">Completion:</span>
-                      <span className="font-bold text-foreground flex items-center">
-                        <Calendar className="inline h-4 w-4 mr-2 text-primary" />
-                        {new Date(property.buildingComplete).getFullYear()}
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex justify-between items-center py-3">
-                    <span className="text-muted-foreground font-medium">Reference:</span>
-                    <span className="font-bold text-foreground">{property.refNo || property.id}</span>
+            {/* Basic Property Info */}
+            <div className="space-y-6">
+              <h2 className="text-2xl font-semibold">Property Details</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                  <Bed className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Bedrooms</p>
+                    <p className="font-semibold">{property.bedrooms || 'N/A'}</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+                <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                  <Bath className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Bathrooms</p>
+                    <p className="font-semibold">{property.bathrooms || 'N/A'}</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                  <Square className="h-5 w-5 text-primary" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Area</p>
+                    <p className="font-semibold">{property.area || 'N/A'}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            {/* Agent Contact */}
-            <Card className="overflow-hidden shadow-elegant border-0 bg-gradient-to-br from-primary/5 to-primary/10 backdrop-blur-sm">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-6 text-foreground">Contact Agent</h3>
-                
-                {agent && (
-                  <div className="flex items-start space-x-4 mb-6 p-4 bg-white/50 rounded-xl">
-                    <Avatar className="h-16 w-16">
-                      <AvatarImage src={agent.image} alt={agent.name} />
-                      <AvatarFallback className="text-lg font-bold">{agent.name.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
+            {/* Property Description */}
+            {property.description && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold">About This Property</h2>
+                <div className="p-6 border rounded-lg bg-muted/20">
+                  <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                    {property.description}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Location Details */}
+            <div className="space-y-4">
+              <h2 className="text-2xl font-semibold">Location & Nearby</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {property.distanceToAirport && (
+                  <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                    <Plane className="h-5 w-5 text-primary" />
                     <div>
-                      <h4 className="text-lg font-bold text-foreground">{agent.name}</h4>
-                      <p className="text-sm text-muted-foreground font-medium">{agent.title}</p>
-                      <div className="flex items-center mt-2">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 text-yellow-500 fill-current" />
-                        ))}
-                        <span className="ml-2 text-sm text-muted-foreground font-medium">5.0</span>
-                      </div>
+                      <p className="text-sm text-muted-foreground">Distance to Airport</p>
+                      <p className="font-semibold">{property.distanceToAirport}</p>
                     </div>
                   </div>
                 )}
-                
-                <div className="space-y-4">
-                  {property.contactPhone && (
-                    <a
-                      href={`tel:${property.contactPhone}`}
-                      className="flex items-center w-full p-4 bg-white/50 rounded-xl hover:bg-white/70 transition-all border border-transparent hover:border-primary/30"
-                    >
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
-                        <Phone className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground font-medium">Phone</p>
-                        <p className="font-bold text-foreground">{property.contactPhone}</p>
-                      </div>
-                    </a>
-                  )}
-                  
-                  {property.contactEmail && (
-                    <a
-                      href={`mailto:${property.contactEmail}?subject=Inquiry about ${property.title}`}
-                      className="flex items-center w-full p-4 bg-white/50 rounded-xl hover:bg-white/70 transition-all border border-transparent hover:border-primary/30"
-                    >
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
-                        <Mail className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground font-medium">Email</p>
-                        <p className="font-bold text-foreground">{property.contactEmail}</p>
-                      </div>
-                    </a>
-                  )}
-                  
-                  <Button className="w-full bg-gradient-primary hover:shadow-glow transition-all" size="lg">
-                    <Phone className="h-5 w-5 mr-2" />
-                    Schedule Viewing
-                  </Button>
+                {property.distanceToBeach && (
+                  <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                    <Waves className="h-5 w-5 text-primary" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Distance to Beach</p>
+                      <p className="font-semibold">{property.distanceToBeach}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Features & Amenities */}
+            {property.features && property.features.length > 0 && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold">Features & Amenities</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {property.features.map((feature: string, index: number) => (
+                    <div key={index} className="flex items-center space-x-2 p-3 border rounded-lg">
+                      <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                      <span className="text-foreground">{feature}</span>
+                    </div>
+                  ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            )}
+
+            {/* Pricing Details */}
+            {property.pricing && property.pricing.length > 0 && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold">Available Units & Pricing</h2>
+                <div className="space-y-3">
+                  {property.pricing.map((unit: any, index: number) => (
+                    <div key={index} className="p-4 border rounded-lg">
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                        <div>
+                          <h3 className="font-semibold">{unit.type}</h3>
+                          <p className="text-sm text-muted-foreground">{unit.size}</p>
+                        </div>
+                        <div className="text-xl font-bold text-primary mt-2 md:mt-0">
+                          {formatPriceFromString(unit.price, formatPrice)}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Project Timeline */}
+            <div className="space-y-4">
+              <h2 className="text-2xl font-semibold">Project Timeline</h2>
+              <div className="p-6 border rounded-lg">
+                <Timeline data={getTimelineData()} />
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Quick Info Card */}
+            <div className="sticky top-8 p-6 border rounded-lg bg-muted/20">
+              <h3 className="text-xl font-semibold mb-4">Quick Info</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Property Type:</span>
+                  <Badge variant="secondary">{property.propertyType}</Badge>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Completion:</span>
+                  <span className="font-semibold">
+                    {property.buildingComplete 
+                      ? new Date(property.buildingComplete).getFullYear()
+                      : '2023'
+                    }
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground">Reference:</span>
+                  <span className="font-semibold">{property.refNo || property.id}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Agent Card */}
+            <div className="p-6 border rounded-lg">
+              <h3 className="text-xl font-semibold mb-4">Contact Agent</h3>
+              
+              {agent ? (
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage src={agent.image} />
+                      <AvatarFallback>
+                        {agent.name.split(' ').map((n: string) => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h4 className="font-semibold">{agent.name}</h4>
+                      <p className="text-sm text-primary">{agent.title}</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Phone className="h-4 w-4 text-primary" />
+                      <span className="text-sm">{property.contactPhone}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-4 w-4 text-primary" />
+                      <span className="text-sm">{property.contactEmail}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 pt-2">
+                    <Button className="w-full" size="sm">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Call Now
+                    </Button>
+                    <Button variant="outline" className="w-full" size="sm">
+                      <Mail className="h-4 w-4 mr-2" />
+                      Send Message
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3">
+                    <Avatar className="h-12 w-12">
+                      <AvatarFallback>EK</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h4 className="font-semibold">{property.agent}</h4>
+                      <p className="text-sm text-primary">Property Specialist</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      <Phone className="h-4 w-4 text-primary" />
+                      <span className="text-sm">{property.contactPhone}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-4 w-4 text-primary" />
+                      <span className="text-sm">{property.contactEmail}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 pt-2">
+                    <Button className="w-full" size="sm">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Call Now
+                    </Button>
+                    <Button variant="outline" className="w-full" size="sm">
+                      <Mail className="h-4 w-4 mr-2" />
+                      Send Message
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Investment Highlights */}
-            <Card className="overflow-hidden shadow-elegant border-0 bg-card/50 backdrop-blur-sm">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-6 text-foreground">Investment Highlights</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <Award className="h-5 w-5 text-primary" />
-                    </div>
-                    <span className="font-medium text-foreground">Prime Location</span>
-                  </div>
-                  <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <CheckCircle className="h-5 w-5 text-primary" />
-                    </div>
-                    <span className="font-medium text-foreground">High ROI Potential</span>
-                  </div>
-                  <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <Star className="h-5 w-5 text-primary" />
-                    </div>
-                    <span className="font-medium text-foreground">Quality Construction</span>
-                  </div>
-                  <div className="flex items-center space-x-4 p-4 bg-muted/50 rounded-xl">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <Home className="h-5 w-5 text-primary" />
-                    </div>
-                    <span className="font-medium text-foreground">Ready for Investment</span>
+            <div className="p-6 border rounded-lg">
+              <h3 className="text-lg font-semibold mb-4">Investment Highlights</h3>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Star className="h-4 w-4 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium">Prime Location</p>
+                    <p className="text-xs text-muted-foreground">High growth potential area</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+                <div className="flex items-center space-x-2">
+                  <Award className="h-4 w-4 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium">Quality Construction</p>
+                    <p className="text-xs text-muted-foreground">Built to international standards</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Home className="h-4 w-4 text-primary" />
+                  <div>
+                    <p className="text-sm font-medium">Modern Amenities</p>
+                    <p className="text-xs text-muted-foreground">Full range of facilities</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            {/* Related Properties Link */}
-            <Card className="overflow-hidden shadow-elegant border-0 bg-gradient-to-br from-muted/30 to-muted/20 backdrop-blur-sm">
-              <CardContent className="p-8 text-center">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">Interested in Similar Properties?</h3>
-                <p className="text-muted-foreground mb-6 text-lg">
-                  Browse more properties in {property.location.split(',')[0]}
-                </p>
-                <Button variant="outline" className="w-full border-2 hover:bg-primary/10" size="lg" asChild>
-                  <Link to={`/${property.location.toLowerCase().includes('dubai') ? 'dubai' : 
-                              property.location.toLowerCase().includes('cyprus') ? 'cyprus' : 
-                              property.location.toLowerCase().includes('mersin') ? 'mersin' : 'antalya'}`}>
-                    View Similar Properties
-                  </Link>
+            {/* Similar Properties */}
+            <div className="p-6 border rounded-lg text-center">
+              <h3 className="text-lg font-semibold mb-2">Similar Properties</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Discover more properties in {property.location}
+              </p>
+              <Link to="/properties">
+                <Button size="sm" className="w-full">
+                  View Similar Properties
                 </Button>
-              </CardContent>
-            </Card>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
