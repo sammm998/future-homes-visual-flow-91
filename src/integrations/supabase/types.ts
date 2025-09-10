@@ -412,39 +412,6 @@ export type Database = {
         }
         Relationships: []
       }
-      page_translations: {
-        Row: {
-          created_at: string
-          id: string
-          language_code: string
-          original_text: string
-          page_path: string
-          translated_text: string
-          translation_key: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          language_code: string
-          original_text: string
-          page_path: string
-          translated_text: string
-          translation_key: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          language_code?: string
-          original_text?: string
-          page_path?: string
-          translated_text?: string
-          translation_key?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       properties: {
         Row: {
           agent_id: string | null
@@ -1018,57 +985,6 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
-      }
-      translations: {
-        Row: {
-          created_at: string
-          id: string
-          is_ai_generated: boolean
-          is_approved: boolean
-          language_id: string
-          text_key_id: string
-          translated_by: string | null
-          translated_text: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          is_ai_generated?: boolean
-          is_approved?: boolean
-          language_id: string
-          text_key_id: string
-          translated_by?: string | null
-          translated_text: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          is_ai_generated?: boolean
-          is_approved?: boolean
-          language_id?: string
-          text_key_id?: string
-          translated_by?: string | null
-          translated_text?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "translations_language_id_fkey"
-            columns: ["language_id"]
-            isOneToOne: false
-            referencedRelation: "languages"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "translations_text_key_id_fkey"
-            columns: ["text_key_id"]
-            isOneToOne: false
-            referencedRelation: "text_keys"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       user_roles: {
         Row: {
