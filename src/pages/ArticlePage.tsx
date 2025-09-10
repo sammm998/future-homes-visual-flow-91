@@ -1,28 +1,22 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Calendar, Clock, Share2 } from "lucide-react";
-import DOMPurify from 'dompurify';
-import Navigation from "@/components/Navigation";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
+import React from 'react';
+import { useParams } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
+import ArticleLayout from '@/components/ArticleLayout';
+import ArticleContent from '@/components/ArticleContent';
 import { useBlogPost } from "@/hooks/useBlogPosts";
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
+import { Loader2 } from 'lucide-react';
 
 const ArticlePage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
   const { blogPost, loading, error } = useBlogPost(slug || '');
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/10">
-        <Navigation />
-         <div className="pt-20 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center">
-              <h1 className="text-2xl font-semibold text-foreground">Loading article...</h1>
-            </div>
-          </div>
+      <div className="min-h-screen bg-gradient-to-b from-background to-muted/10 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+          <h1 className="text-2xl font-semibold text-foreground">Loading article...</h1>
+          <p className="text-muted-foreground mt-2">Please wait while we fetch the content</p>
         </div>
       </div>
     );
@@ -30,19 +24,13 @@ const ArticlePage = () => {
 
   if (error || !blogPost) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/10">
-        <Navigation />
-        <div className="pt-20 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold text-foreground mb-4">404</h1>
-              <p className="text-xl text-muted-foreground mb-8">Article not found</p>
-              <Button onClick={() => navigate('/information')}>
-                <ArrowLeft size={16} className="mr-2" />
-                Back to Articles
-              </Button>
-            </div>
-          </div>
+      <div className="min-h-screen bg-gradient-to-b from-background to-muted/10 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <h1 className="text-6xl font-bold text-muted-foreground mb-4">404</h1>
+          <h2 className="text-2xl font-bold text-foreground mb-4">Article Not Found</h2>
+          <p className="text-muted-foreground mb-8">
+            Sorry, the article you're looking for doesn't exist or has been moved.
+          </p>
         </div>
       </div>
     );
@@ -64,122 +52,100 @@ const ArticlePage = () => {
     return `${readingTime} min read`;
   };
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: blogPost.title,
-          text: blogPost.excerpt,
-          url: window.location.href,
-        });
-      } catch (error) {
-        console.log('Error sharing:', error);
-      }
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href);
-    }
+  // Extract tags from content or create default ones
+  const extractTags = (content: string, title: string) => {
+    const defaultTags = [];
+    
+    // Add tags based on content analysis
+    if (title.toLowerCase().includes('property')) defaultTags.push('Property');
+    if (title.toLowerCase().includes('investment')) defaultTags.push('Investment');
+    if (title.toLowerCase().includes('turkey')) defaultTags.push('Turkey');
+    if (title.toLowerCase().includes('dubai')) defaultTags.push('Dubai');
+    if (title.toLowerCase().includes('bali')) defaultTags.push('Bali');
+    if (title.toLowerCase().includes('cyprus')) defaultTags.push('Cyprus');
+    if (content.toLowerCase().includes('citizenship')) defaultTags.push('Citizenship');
+    if (content.toLowerCase().includes('legal')) defaultTags.push('Legal');
+    
+    return defaultTags.length > 0 ? defaultTags : ['Real Estate'];
   };
 
+  const tags = extractTags(blogPost.content, blogPost.title);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/10">
-      <Navigation />
-      
-      <div className="pt-20 pb-16">
-        <div className="container mx-auto px-4">
-          {/* Back Button */}
-          <div className="mb-6">
-            <Button 
-              variant="ghost" 
-              onClick={() => navigate('/information')}
-              className="gap-2"
-            >
-              <ArrowLeft size={16} />
-              Back to Articles
-            </Button>
-          </div>
+    <>
+      <Helmet>
+        <title>{blogPost.title} - Future Homes</title>
+        <meta name="description" content={blogPost.excerpt || `${blogPost.title} - Read more on Future Homes blog`} />
+        <meta name="keywords" content={tags.join(', ')} />
+        <link rel="canonical" href={`/articles/${blogPost.slug}`} />
+        
+        {/* Open Graph tags */}
+        <meta property="og:title" content={blogPost.title} />
+        <meta property="og:description" content={blogPost.excerpt || blogPost.title} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`/articles/${blogPost.slug}`} />
+        {blogPost.featured_image && (
+          <meta property="og:image" content={blogPost.featured_image} />
+        )}
+        <meta property="article:published_time" content={blogPost.created_at} />
+        {blogPost.updated_at && (
+          <meta property="article:modified_time" content={blogPost.updated_at} />
+        )}
+        
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={blogPost.title} />
+        <meta name="twitter:description" content={blogPost.excerpt || blogPost.title} />
+        {blogPost.featured_image && (
+          <meta name="twitter:image" content={blogPost.featured_image} />
+        )}
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": blogPost.title,
+            "description": blogPost.excerpt || blogPost.title,
+            "image": blogPost.featured_image,
+            "datePublished": blogPost.created_at,
+            "dateModified": blogPost.updated_at || blogPost.created_at,
+            "author": {
+              "@type": "Organization",
+              "name": "Future Homes"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Future Homes",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png"
+              }
+            },
+            "url": `/articles/${blogPost.slug}`,
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `/articles/${blogPost.slug}`
+            }
+          })}
+        </script>
+      </Helmet>
 
-          {/* Article Header */}
-          <div className="max-w-4xl mx-auto">
-            {/* Featured Image */}
-            {blogPost.featured_image && (
-              <div className="relative h-64 md:h-96 w-full overflow-hidden rounded-xl mb-8">
-                <img 
-                  src={blogPost.featured_image} 
-                  alt={blogPost.title}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop';
-                  }}
-                />
-                <div className="absolute inset-0 bg-black/20"></div>
-              </div>
-            )}
-
-            {/* Article Meta */}
-            <div className="mb-6">
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
-                {blogPost.title}
-              </h1>
-              
-              {blogPost.excerpt && (
-                <p className="text-xl text-muted-foreground mb-6 leading-relaxed">
-                  {blogPost.excerpt}
-                </p>
-              )}
-
-              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <Calendar size={16} />
-                  <span>Published {formatDate(blogPost.created_at)}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock size={16} />
-                  <span>{getReadingTime(blogPost.content)}</span>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleShare}
-                  className="gap-2 px-2"
-                >
-                  <Share2 size={16} />
-                  Share
-                </Button>
-              </div>
-            </div>
-
-            {/* Article Content */}
-            <Card className="p-8 md:p-12">
-              <div 
-                className="prose prose-lg max-w-none"
-                dangerouslySetInnerHTML={{ 
-                  __html: DOMPurify.sanitize(blogPost.content) 
-                }}
-              />
-            </Card>
-
-            {/* Related Articles CTA */}
-            <div className="mt-8 text-center">
-              <div className="bg-primary/5 rounded-xl p-8">
-                <h3 className="text-2xl font-bold text-foreground mb-4">
-                  Explore More Articles
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Discover more insights about property investment, legal requirements, and living abroad.
-                </p>
-                <Button onClick={() => navigate('/information')} size="lg">
-                  View All Articles
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* ElevenLabs Widget */}
-      <ElevenLabsWidget />
-    </div>
+      <ArticleLayout
+        title={blogPost.title}
+        excerpt={blogPost.excerpt}
+        content={blogPost.content}
+        featuredImage={blogPost.featured_image}
+        publishedDate={blogPost.created_at}
+        readingTime={getReadingTime(blogPost.content)}
+        tags={tags}
+        author="Future Homes Editorial Team"
+        backLink="/information"
+        backText="Back to Articles"
+      >
+        <ArticleContent content={blogPost.content} />
+      </ArticleLayout>
+    </>
   );
 };
 
