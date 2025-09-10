@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaBuilding, FaTree, FaUmbrellaBeach, FaMountain } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import baliImage from '@/assets/bali-destination.jpg';
 const InteractiveSelector = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -38,7 +39,7 @@ const InteractiveSelector = () => {
     title: "Bali",
     description: "Island of Gods Paradise",
     propertyCount: "15+ Properties",
-    image: "/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png",
+    image: baliImage,
     icon: <FaMountain size={20} className="text-white" />,
     path: "/bali"
   }];
