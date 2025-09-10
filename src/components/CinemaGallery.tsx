@@ -160,14 +160,15 @@ const CinemaGallery: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-black via-gray-900/50 to-black" />
       
       {/* Left Side Gallery */}
-      <div className="absolute top-0 left-0 w-48 h-full bg-gradient-to-r from-black via-gray-900/95 to-transparent z-10 overflow-y-auto">
-        <div className="p-4 pt-20 space-y-3">
-          {filteredProperties.slice(0, Math.ceil(filteredProperties.length / 2)).map((property, idx) => (
+      <div className="absolute top-0 left-0 w-80 h-full bg-gradient-to-r from-black via-gray-900/98 to-transparent z-10 overflow-y-auto">
+        <div className="p-6 pt-20 space-y-4">
+          <h3 className="text-white text-lg font-semibold mb-4">Property Gallery</h3>
+          {filteredProperties.map((property, idx) => (
             <button
               key={property.id}
               onClick={() => setCurrentIndex(idx)}
               className={`
-                w-full aspect-video rounded-lg overflow-hidden border-2 transition-all duration-300 group
+                w-full aspect-video rounded-lg overflow-hidden border-2 transition-all duration-300 group relative
                 ${idx === currentIndex 
                   ? 'border-primary shadow-lg shadow-primary/30 scale-105' 
                   : 'border-gray-600 hover:border-gray-400 hover:scale-102'
@@ -179,10 +180,11 @@ const CinemaGallery: React.FC = () => {
                 alt={property.title}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-black/40 flex items-end p-2">
+              <div className="absolute inset-0 bg-black/40 flex items-end p-3">
                 <div className="text-left">
-                  <h4 className="text-white text-xs font-semibold truncate">{property.title}</h4>
+                  <h4 className="text-white text-sm font-semibold truncate">{property.title}</h4>
                   <p className="text-gray-300 text-xs truncate">{property.location}</p>
+                  <p className="text-primary text-xs font-medium">{property.price}</p>
                 </div>
               </div>
             </button>
@@ -190,42 +192,11 @@ const CinemaGallery: React.FC = () => {
         </div>
       </div>
 
-      {/* Right Side Gallery */}
-      <div className="absolute top-0 right-0 w-48 h-full bg-gradient-to-l from-black via-gray-900/95 to-transparent z-10 overflow-y-auto">
-        <div className="p-4 pt-20 space-y-3">
-          {filteredProperties.slice(Math.ceil(filteredProperties.length / 2)).map((property, idx) => {
-            const actualIndex = Math.ceil(filteredProperties.length / 2) + idx;
-            return (
-              <button
-                key={property.id}
-                onClick={() => setCurrentIndex(actualIndex)}
-                className={`
-                  w-full aspect-video rounded-lg overflow-hidden border-2 transition-all duration-300 group relative
-                  ${actualIndex === currentIndex 
-                    ? 'border-primary shadow-lg shadow-primary/30 scale-105' 
-                    : 'border-gray-600 hover:border-gray-400 hover:scale-102'
-                  }
-                `}
-              >
-                <OptimizedPropertyImage
-                  src={property.property_image || property.property_images[0]}
-                  alt={property.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/40 flex items-end p-2">
-                  <div className="text-left">
-                    <h4 className="text-white text-xs font-semibold truncate">{property.title}</h4>
-                    <p className="text-gray-300 text-xs truncate">{property.location}</p>
-                  </div>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      {/* Right Side Panel - Minimal */}
+      <div className="absolute top-0 right-0 w-16 h-full bg-gradient-to-l from-black/80 to-transparent z-10"></div>
       
       {/* Main Screen */}
-      <div className="relative h-screen w-full flex items-center justify-center px-48">
+      <div className="relative h-screen w-full flex items-center justify-center pl-80 pr-16">
         <AnimatePresence mode="wait">
           {currentProperty && (
             <motion.div
