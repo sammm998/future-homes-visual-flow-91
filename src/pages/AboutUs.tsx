@@ -182,29 +182,6 @@ const AboutUs = () => {
           </div>
         </section>
 
-        {/* Full-Width Video Section */}
-        <section className="relative w-screen h-96 md:h-[500px] lg:h-[600px] overflow-hidden -mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-8">
-          <iframe
-            className="absolute inset-0"
-            src="https://www.youtube.com/embed/jl0LxdFEA_c?autoplay=1&mute=1&loop=1&playlist=jl0LxdFEA_c&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
-            title="Future Homes Video"
-            frameBorder="0"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-            style={{
-              pointerEvents: 'none',
-              width: 'calc(100vw + 40px)',
-              height: 'calc(100% + 40px)',
-              minWidth: '177.77vh',
-              minHeight: '56.25vw',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              objectFit: 'cover'
-            }}
-          />
-        </section>
-
         {/* Team Members Section */}
         <section className="py-20">
           <div className="text-center mb-16">
