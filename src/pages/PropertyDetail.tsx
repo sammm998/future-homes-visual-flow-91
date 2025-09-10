@@ -11,7 +11,7 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import ervinaImage from '@/assets/ervina-koksel.png';
-import batuhanImage from '@/assets/batuhan-profile.jpg';
+import batuhanImage from '@/assets/batuhan-profile-real.jpg';
 
 import { supabase } from '@/integrations/supabase/client';
 
