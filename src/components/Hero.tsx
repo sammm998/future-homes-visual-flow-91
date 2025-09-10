@@ -164,7 +164,7 @@ const Hero: React.FC<HeroProps> = ({
       <div className="absolute inset-0 w-full h-full">
         <iframe
           className="absolute"
-          src="https://www.youtube.com/embed/bGl6AtZ02pk?autoplay=1&mute=1&loop=1&playlist=bGl6AtZ02pk&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
+          src="https://www.youtube.com/embed/jl0LxdFEA_c?autoplay=1&mute=1&loop=1&playlist=jl0LxdFEA_c&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
           title="Background Video"
           frameBorder="0"
           allow="autoplay; encrypted-media"
