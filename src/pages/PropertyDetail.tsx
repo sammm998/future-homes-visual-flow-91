@@ -11,6 +11,7 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import ervinaImage from '@/assets/ervina-koksel.png';
+import batuhanImage from '@/assets/batuhan-profile.jpg';
 
 import { supabase } from '@/integrations/supabase/client';
 
@@ -23,6 +24,13 @@ const getAgentData = (agentName: string) => {
        title: "Sales Office Supervisor",
        experience: "Experienced property specialist",
        specialties: ["Property Sales", "Customer Service", "Office Management"]
+     },
+     "Batuhan Kunt": {
+       name: "Batuhan Kunt",
+       image: batuhanImage,
+       title: "Property Specialist",
+       experience: "Expert in real estate investment and property management",
+       specialties: ["Property Investment", "Customer Relations", "International Sales"]
      }
   };
   return agents[agentName] || null;
