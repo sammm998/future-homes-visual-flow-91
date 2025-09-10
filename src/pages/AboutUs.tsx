@@ -182,6 +182,77 @@ const AboutUs = () => {
           </div>
         </section>
 
+        {/* Team Members Section */}
+        <section className="py-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Meet Our Team</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Our dedicated professionals are here to guide you through your property investment journey
+            </p>
+          </div>
+          
+          {teamLoading ? (
+            <div className="flex justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            </div>
+          ) : teamError ? (
+            <div className="text-center text-muted-foreground">
+              <p>Unable to load team members at this time.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {teamMembers.map((member) => (
+                <Card key={member.id} className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                  <CardContent className="p-8 text-center">
+                    {member.image_url && (
+                      <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-primary/10 group-hover:scale-105 transition-transform duration-300">
+                        <img 
+                          src={member.image_url} 
+                          alt={member.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <h3 className="text-2xl font-bold mb-2">{member.name}</h3>
+                    <p className="text-primary font-semibold mb-4">{member.position}</p>
+                    {member.bio && (
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-6">{member.bio}</p>
+                    )}
+                    <div className="flex justify-center gap-4">
+                      {member.email && (
+                        <a 
+                          href={`mailto:${member.email}`}
+                          className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
+                        >
+                          <Mail className="w-4 h-4" />
+                        </a>
+                      )}
+                      {member.phone && (
+                        <a 
+                          href={`tel:${member.phone}`}
+                          className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
+                        >
+                          <Phone className="w-4 h-4" />
+                        </a>
+                      )}
+                      {member.linkedin_url && (
+                        <a 
+                          href={member.linkedin_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
+                        >
+                          <Users className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </section>
+
         {/* Locations Section */}
         <section className="py-20">
           <div className="text-center mb-16">
