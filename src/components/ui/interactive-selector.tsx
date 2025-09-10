@@ -34,6 +34,13 @@ const InteractiveSelector = () => {
     image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.png",
     icon: <FaTree size={20} className="text-white" />,
     path: "/cyprus"
+  }, {
+    title: "Bali",
+    description: "Island of Gods Paradise",
+    propertyCount: "15+ Properties",
+    image: "/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png",
+    icon: <FaMountain size={20} className="text-white" />,
+    path: "/bali"
   }];
   const handleOptionClick = index => {
     if (index !== activeIndex) {
