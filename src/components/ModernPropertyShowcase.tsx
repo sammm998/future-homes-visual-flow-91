@@ -100,8 +100,8 @@ const ModernPropertyShowcase = () => {
         if (error) {
           console.error('Error fetching properties:', error);
           setProperties(fallbackProperties);
-        } else if (data && data.length >= 6) {
-          // Process the data to ensure proper formatting
+        } else if (data && data.length > 0) {
+          // Process the data to ensure proper formatting and use real properties
           const processedProperties = data.map(prop => ({
             ...prop,
             price: prop.price || formatPrice(200000), // Default price if missing
@@ -109,9 +109,19 @@ const ModernPropertyShowcase = () => {
             bathrooms: prop.bathrooms || '1-2', 
             sizes_m2: prop.sizes_m2 || '60-100'
           }));
-          setProperties(processedProperties);
+          
+          // If we have fewer than 6 real properties, fill with the available ones and repeat if needed
+          if (processedProperties.length < 6) {
+            const extendedProperties = [...processedProperties];
+            while (extendedProperties.length < 6 && processedProperties.length > 0) {
+              extendedProperties.push(...processedProperties.slice(0, Math.min(processedProperties.length, 6 - extendedProperties.length)));
+            }
+            setProperties(extendedProperties.slice(0, 6));
+          } else {
+            setProperties(processedProperties.slice(0, 6));
+          }
         } else {
-          // If we don't have enough properties, use fallback
+          // Only use fallback if no real properties exist
           setProperties(fallbackProperties);
         }
       } catch (error) {
