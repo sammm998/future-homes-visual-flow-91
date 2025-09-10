@@ -6,6 +6,7 @@ import ModernPropertyShowcase from "@/components/ModernPropertyShowcase";
 import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
+import PropertyImageGalleryPreview from "@/components/PropertyImageGalleryPreview";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import TestimonialsMasonryGrid from "@/components/TestimonialsMasonryGrid";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
@@ -141,6 +142,9 @@ const Index = () => {
 
       {/* Testimonials Masonry Grid */}
       <TestimonialsMasonryGrid />
+
+      {/* Property Image Gallery Preview */}
+      <PropertyImageGalleryPreview />
 
       {/* News & Insights */}
       <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>
