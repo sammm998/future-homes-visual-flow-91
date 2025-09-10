@@ -27,15 +27,7 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
           <TextGenerateEffect words={section.content} className="text-lg text-muted-foreground leading-relaxed mb-8" filter={false} duration={0.8} />
         </div>}
     </div>;
-  const renderContentSection = () => <div className={`mb-16 ${className}`}>
-      {section.title}
-      {section.content && <p className="text-lg text-muted-foreground text-center max-w-4xl mx-auto">
-          {section.content}
-        </p>}
-      {section.description && <p className="text-muted-foreground text-center max-w-4xl mx-auto mt-4">
-          {section.description}
-        </p>}
-    </div>;
+  const renderContentSection = () => {};
   const renderCompanyInfoSection = () => <div className={`bg-primary/5 rounded-2xl p-8 mb-16 ${className}`}>
       <div className="text-center mb-8">
         {section.title && <h2 className="text-3xl font-bold text-foreground mb-4">{section.title}</h2>}
