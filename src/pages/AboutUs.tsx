@@ -218,7 +218,7 @@ const AboutUs = () => {
                     {member.bio && (
                       <p className="text-muted-foreground text-sm leading-relaxed mb-6">{member.bio}</p>
                     )}
-                    <div className="flex justify-center gap-4">
+                    <div className="flex justify-center gap-4 mb-4">
                       {member.email && (
                         <a 
                           href={`mailto:${member.email}`}
@@ -244,6 +244,26 @@ const AboutUs = () => {
                         >
                           <Users className="w-4 h-4" />
                         </a>
+                      )}
+                    </div>
+                    
+                    {/* Contact Information Text */}
+                    <div className="space-y-2 text-sm text-muted-foreground">
+                      {member.email && (
+                        <div className="flex items-center justify-center gap-2">
+                          <Mail className="w-4 h-4 text-primary" />
+                          <a href={`mailto:${member.email}`} className="hover:text-primary transition-colors">
+                            {member.email}
+                          </a>
+                        </div>
+                      )}
+                      {member.phone && (
+                        <div className="flex items-center justify-center gap-2">
+                          <Phone className="w-4 h-4 text-primary" />
+                          <a href={`tel:${member.phone}`} className="hover:text-primary transition-colors">
+                            {member.phone}
+                          </a>
+                        </div>
                       )}
                     </div>
                   </CardContent>
