@@ -30,6 +30,7 @@ interface Property {
   description?: string;
   area?: string;
   status?: string;
+  property_type?: string;
 }
 
 const CinemaGallery: React.FC = () => {
@@ -39,6 +40,7 @@ const CinemaGallery: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const [filterLocation, setFilterLocation] = useState<string>('all');
+  const [filterType, setFilterType] = useState<string>('all');
 
   const fetchProperties = async () => {
     try {
@@ -67,9 +69,15 @@ const CinemaGallery: React.FC = () => {
   };
 
   const locations = ['all', ...new Set(properties.map(p => p.location))];
-  const filteredProperties = filterLocation === 'all' 
-    ? properties 
-    : properties.filter(p => p.location === filterLocation);
+  const propertyTypes = ['all', ...new Set(properties.map(p => p.property_type).filter(Boolean))];
+  
+  let filteredProperties = properties;
+  if (filterLocation !== 'all') {
+    filteredProperties = filteredProperties.filter(p => p.location === filterLocation);
+  }
+  if (filterType !== 'all') {
+    filteredProperties = filteredProperties.filter(p => p.property_type === filterType);
+  }
 
   const currentProperty = filteredProperties[currentIndex];
 
@@ -151,9 +159,9 @@ const CinemaGallery: React.FC = () => {
       {/* Cinema Screen Frame */}
       <div className="absolute inset-0 bg-gradient-to-t from-black via-gray-900/50 to-black" />
       
-      {/* Red Curtains */}
-      <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-red-900 to-red-800/50 z-10" />
-      <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-red-900 to-red-800/50 z-10" />
+      {/* Side Panels */}
+      <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-gray-900 to-gray-800/50 z-10" />
+      <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-gray-900 to-gray-800/50 z-10" />
       
       {/* Main Screen */}
       <div className="relative h-screen w-full flex items-center justify-center">
@@ -191,13 +199,13 @@ const CinemaGallery: React.FC = () => {
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
-              className="absolute left-40 top-1/2 transform -translate-y-1/2 z-20 bg-black/90 backdrop-blur-sm p-8 rounded-r-2xl border-l-4 border-red-500 max-w-md"
+              className="absolute left-40 top-1/2 transform -translate-y-1/2 z-20 bg-black/90 backdrop-blur-sm p-8 rounded-r-2xl border-l-4 border-primary max-w-md"
             >
               <h2 className="text-3xl font-bold text-white mb-4 font-serif">
                 {currentProperty.title}
               </h2>
               
-              <div className="flex items-center gap-2 text-red-400 mb-4">
+              <div className="flex items-center gap-2 text-primary mb-4">
                 <MapPin className="w-5 h-5" />
                 <span className="text-lg">{currentProperty.location}</span>
               </div>
@@ -223,7 +231,7 @@ const CinemaGallery: React.FC = () => {
                 )}
               </div>
 
-              <Badge className="bg-red-600 text-white text-xl px-4 py-2 border-0">
+              <Badge className="bg-primary text-primary-foreground text-xl px-4 py-2 border-0">
                 {currentProperty.price}
               </Badge>
 
@@ -242,7 +250,7 @@ const CinemaGallery: React.FC = () => {
         {/* Progress Bar */}
         <div className="w-full bg-gray-800 h-2 rounded-full mb-6 overflow-hidden">
           <motion.div
-            className="h-full bg-gradient-to-r from-red-500 to-red-400"
+            className="h-full bg-gradient-to-r from-primary to-primary-foreground"
             initial={{ width: 0 }}
             animate={{ width: `${filteredProperties.length ? ((currentIndex + 1) / filteredProperties.length) * 100 : 0}%` }}
             transition={{ duration: 0.5 }}
@@ -262,7 +270,7 @@ const CinemaGallery: React.FC = () => {
                     className={`
                       w-16 h-12 rounded border-2 transition-all duration-300 overflow-hidden
                       ${actualIndex === currentIndex 
-                        ? 'border-red-500 scale-110' 
+                        ? 'border-primary scale-110' 
                         : 'border-gray-600 opacity-60 hover:border-gray-400'
                       }
                     `}
@@ -284,7 +292,7 @@ const CinemaGallery: React.FC = () => {
               onClick={prevSlide}
               variant="ghost"
               size="lg"
-              className="text-white hover:text-red-400 hover:bg-white/10 rounded-full"
+              className="text-white hover:text-primary hover:bg-white/10 rounded-full"
             >
               <SkipBack className="w-6 h-6" />
             </Button>
@@ -293,7 +301,7 @@ const CinemaGallery: React.FC = () => {
               onClick={togglePlayback}
               variant="ghost"
               size="lg"
-              className="text-white hover:text-red-400 hover:bg-white/10 rounded-full"
+              className="text-white hover:text-primary hover:bg-white/10 rounded-full"
             >
               {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8" />}
             </Button>
@@ -302,7 +310,7 @@ const CinemaGallery: React.FC = () => {
               onClick={nextSlide}
               variant="ghost"
               size="lg"
-              className="text-white hover:text-red-400 hover:bg-white/10 rounded-full"
+              className="text-white hover:text-primary hover:bg-white/10 rounded-full"
             >
               <SkipForward className="w-6 h-6" />
             </Button>
@@ -314,7 +322,7 @@ const CinemaGallery: React.FC = () => {
               onClick={() => setShowInfo(!showInfo)}
               variant="ghost"
               size="lg"
-              className="text-white hover:text-red-400 hover:bg-white/10 rounded-full"
+              className="text-white hover:text-primary hover:bg-white/10 rounded-full"
             >
               <Info className="w-6 h-6" />
             </Button>
@@ -325,27 +333,53 @@ const CinemaGallery: React.FC = () => {
           </div>
         </div>
 
-        {/* Location Filter */}
-        <div className="flex justify-center gap-3 mt-6 flex-wrap">
-          {locations.map((location) => (
-            <Button
-              key={location}
-              onClick={() => {
-                setFilterLocation(location);
-                setCurrentIndex(0);
-              }}
-              variant={filterLocation === location ? "default" : "ghost"}
-              className={`
-                px-4 py-2 rounded-full transition-all duration-300
-                ${filterLocation === location 
-                  ? 'bg-red-600 text-white hover:bg-red-500' 
-                  : 'text-gray-400 hover:text-white hover:bg-white/10'
-                }
-              `}
-            >
-              {location === 'all' ? 'All Locations' : location}
-            </Button>
-          ))}
+        {/* Filters */}
+        <div className="space-y-4 mt-6">
+          {/* Location Filter */}
+          <div className="flex justify-center gap-3 flex-wrap">
+            {locations.map((location) => (
+              <Button
+                key={location}
+                onClick={() => {
+                  setFilterLocation(location);
+                  setCurrentIndex(0);
+                }}
+                variant={filterLocation === location ? "default" : "ghost"}
+                className={`
+                  px-4 py-2 rounded-full transition-all duration-300
+                  ${filterLocation === location 
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90' 
+                    : 'text-gray-400 hover:text-white hover:bg-white/10'
+                  }
+                `}
+              >
+                {location === 'all' ? 'All Locations' : location}
+              </Button>
+            ))}
+          </div>
+
+          {/* Property Type Filter */}
+          <div className="flex justify-center gap-3 flex-wrap">
+            {propertyTypes.map((type) => (
+              <Button
+                key={type}
+                onClick={() => {
+                  setFilterType(type);
+                  setCurrentIndex(0);
+                }}
+                variant={filterType === type ? "default" : "ghost"}
+                className={`
+                  px-4 py-2 rounded-full transition-all duration-300
+                  ${filterType === type 
+                    ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80' 
+                    : 'text-gray-400 hover:text-white hover:bg-white/10'
+                  }
+                `}
+              >
+                {type === 'all' ? 'All Types' : type}
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
 
