@@ -18,7 +18,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
     { name: "Property in Antalya", href: "/antalya" },
     { name: "Property in Mersin", href: "/mersin" },
     { name: "Property in Cyprus", href: "/cyprus" },
-    { name: "Property in Dubai", href: "/dubai" }
+    { name: "Property in Dubai", href: "/dubai" },
+    { name: "Property in Bali", href: "/bali" }
   ];
 
 
