@@ -326,14 +326,14 @@ const AboutUs = () => {
                       <p className="text-sm text-muted-foreground">European office</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <Phone className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <p className="text-sm">+33 (0)3 XX XX XX XX</p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Mail className="w-5 h-5 text-green-500 flex-shrink-0" />
-                    <p className="text-sm">france@futurehomesturkey.com</p>
-                  </div>
+                   <div className="flex items-center gap-3">
+                     <Phone className="w-5 h-5 text-green-500 flex-shrink-0" />
+                     <p className="text-sm">+33 6 51 01 01 56</p>
+                   </div>
+                   <div className="flex items-center gap-3">
+                     <Mail className="w-5 h-5 text-green-500 flex-shrink-0" />
+                     <p className="text-sm">info@futurehomes.fr</p>
+                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-border">
                   <p className="text-sm text-muted-foreground text-center">European headquarters serving international clients across the continent</p>
