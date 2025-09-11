@@ -329,12 +329,9 @@ const Information = () => {
               {heroTitle || "Information Center"}
             </h1>
             <div className="max-w-4xl mx-auto">
-              <TextGenerateEffect
-                words={heroSubtitle || "Comprehensive guides and insights for property investment, legal requirements and living abroad. Everything you need to know about international real estate."}
-                className="text-lg text-muted-foreground leading-relaxed mb-8"
-                filter={false}
-                duration={0.8}
-              />
+              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                {heroSubtitle || "Comprehensive guides and insights for property investment, legal requirements and living abroad. Everything you need to know about international real estate."}
+              </p>
             </div>
           </div>
 
