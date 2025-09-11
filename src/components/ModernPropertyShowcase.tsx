@@ -91,26 +91,58 @@ const ModernPropertyShowcase = () => {
       try {
         const { data, error } = await supabase
           .from('properties')
-          .select('id, title, location, price, property_image, bedrooms, bathrooms, sizes_m2')
+          .select('id, title, location, price, property_image, property_images, bedrooms, bathrooms, sizes_m2')
           .eq('is_active', true)
           .not('property_image', 'is', null)
           .order('created_at', { ascending: false })
-          .limit(6);
+          .limit(12);
 
         if (error) {
           console.error('Error fetching properties:', error);
           setProperties(fallbackProperties);
         } else if (data && data.length > 0) {
-          // Process the data to ensure proper formatting and use real properties
-          const processedProperties = data.map(prop => ({
-            ...prop,
-            price: prop.price || formatPrice(200000), // Default price if missing
-            bedrooms: prop.bedrooms || '1-2',
-            bathrooms: prop.bathrooms || '1-2', 
-            sizes_m2: prop.sizes_m2 || '60-100'
-          }));
+          // Filter and prioritize properties with facade/exterior images
+          const processedProperties = data
+            .map(prop => {
+              // Find the best facade image
+              let facadeImage = prop.property_image;
+              
+              // If property_images exists, look for exterior/general images
+              if (prop.property_images && Array.isArray(prop.property_images) && prop.property_images.length > 0) {
+                // Prioritize images with 'general' in path and avoid 'interior' images
+                const exteriorImages = prop.property_images.filter(img => 
+                  img.includes('/general/') && !img.includes('/interior/')
+                );
+                if (exteriorImages.length > 0) {
+                  facadeImage = exteriorImages[0];
+                }
+              }
+              
+              // Skip properties where main image is interior
+              if (facadeImage && facadeImage.includes('/interior/')) {
+                return null;
+              }
+              
+              return {
+                ...prop,
+                property_image: facadeImage || prop.property_image,
+                price: prop.price || formatPrice(200000),
+                bedrooms: prop.bedrooms || '1-2',
+                bathrooms: prop.bathrooms || '1-2', 
+                sizes_m2: prop.sizes_m2 || '60-100'
+              };
+            })
+            .filter(Boolean) // Remove null entries
+            .filter(prop => 
+              // Additional filter: prioritize properties with facade indicators in URL
+              prop.property_image && (
+                prop.property_image.includes('/general/') ||
+                prop.property_image.includes('apartment-') ||
+                prop.property_image.includes('property-')
+              )
+            );
           
-          // If we have fewer than 6 real properties, fill with the available ones and repeat if needed
+          // If we have fewer than 6 facade properties, fill with the available ones
           if (processedProperties.length < 6) {
             const extendedProperties = [...processedProperties];
             while (extendedProperties.length < 6 && processedProperties.length > 0) {
