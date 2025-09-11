@@ -164,7 +164,7 @@ const getPropertyData = async (id: string) => {
         distanceToAirport: dbProperty.distance_to_airport_km ? `${dbProperty.distance_to_airport_km} km` : undefined,
         distanceToBeach: dbProperty.distance_to_beach_km ? `${dbProperty.distance_to_beach_km} km` : undefined,
         agent: "Batuhan Kunt",
-        contactPhone: dbProperty.agent_phone_number || "+905523032750",
+        contactPhone: "+905523032750",
         contactEmail: "info@futurehomesturkey.com"
       };
     }
