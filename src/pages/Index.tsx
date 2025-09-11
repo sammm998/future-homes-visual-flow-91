@@ -11,6 +11,7 @@ import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import TestimonialsMasonryGrid from "@/components/TestimonialsMasonryGrid";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import { useTestimonials } from "@/hooks/useTestimonials";
+import VideoShowcase from "@/components/VideoShowcase";
 import SEOHead from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 import { useSEO } from "@/hooks/useSEO";
@@ -98,6 +99,9 @@ const Index = () => {
       <div className="w-full">
         <InteractiveSelector />
       </div>
+      
+      {/* Video Showcase */}
+      <VideoShowcase />
       
       {/* Featured Properties - Shuffle Grid */}
       <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
