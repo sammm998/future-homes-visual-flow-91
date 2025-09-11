@@ -357,7 +357,11 @@ const PropertyGalleryModal = ({ property }: { property: Property }) => {
         </div>
 
         <div className="text-3xl font-bold text-primary">
-          €{parseInt(property.price || '0').toLocaleString()}
+          €{(() => {
+            const priceStr = property.price || '0';
+            const numericValue = parseInt(priceStr.replace(/[^\d]/g, ''));
+            return isNaN(numericValue) ? '0' : numericValue.toLocaleString();
+          })()}
         </div>
 
         {property.description && (

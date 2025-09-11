@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import HeroProperty from './HeroProperty';
 import PropertyRow from './PropertyRow';
+import { parsePrice } from '@/utils/priceFormatting';
 
 interface Property {
   id: string;
@@ -102,7 +103,7 @@ const NetflixStyleGallery: React.FC = () => {
       // Add premium properties row (high-priced ones)
       const premiumProperties = propertiesWithImages
         .filter(p => {
-          const priceNum = parseInt(p.price.replace(/[^\d]/g, ''));
+          const priceNum = parsePrice(p.price);
           return priceNum > 500000; // Adjust threshold as needed
         })
         .slice(0, 8);
