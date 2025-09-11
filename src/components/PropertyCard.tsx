@@ -80,12 +80,10 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                   <span>{property.bedrooms}</span>
                 </div>
               )}
-              {property.bathrooms && (
-                <div className="flex items-center gap-1">
-                  <Bath className="w-4 h-4" />
-                  <span>{property.bathrooms}</span>
-                </div>
-              )}
+              <div className="flex items-center gap-1">
+                <Bath className="w-4 h-4" />
+                <span>{property.bathrooms || 'N/A'}</span>
+              </div>
               {property.area && (
                 <div className="flex items-center gap-1">
                   <Maximize2 className="w-4 h-4" />
