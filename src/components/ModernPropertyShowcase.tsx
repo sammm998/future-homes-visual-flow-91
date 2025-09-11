@@ -89,13 +89,27 @@ const ModernPropertyShowcase = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const { data, error } = await supabase
+        // Fetch specific properties by ref_no first, then fill with others
+        const specificRefNumbers = ['10003', '10028', '1180'];
+        
+        const { data: specificData, error: specificError } = await supabase
           .from('properties')
-          .select('id, title, location, price, property_image, property_images, bedrooms, bathrooms, sizes_m2')
+          .select('id, title, location, price, property_image, property_images, bedrooms, bathrooms, sizes_m2, ref_no')
           .eq('is_active', true)
+          .in('ref_no', specificRefNumbers)
+          .not('property_image', 'is', null);
+        
+        const { data: otherData, error: otherError } = await supabase
+          .from('properties')
+          .select('id, title, location, price, property_image, property_images, bedrooms, bathrooms, sizes_m2, ref_no')
+          .eq('is_active', true)
+          .not('ref_no', 'in', `(${specificRefNumbers.map(n => `'${n}'`).join(',')})`)
           .not('property_image', 'is', null)
           .order('created_at', { ascending: false })
-          .limit(12);
+          .limit(6);
+        
+        const error = specificError || otherError;
+        const data = [...(specificData || []), ...(otherData || [])];
 
         if (error) {
           console.error('Error fetching properties:', error);
