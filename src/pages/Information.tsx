@@ -323,7 +323,7 @@ const Information = () => {
           )}
 
           {/* Hero Section - Database content with fallback */}
-          {/* <div className="text-center mb-8">
+          <div className="text-center mb-8">
             <Badge className="mb-4">Information Center</Badge>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               {heroTitle || "Information Center"}
@@ -336,7 +336,7 @@ const Information = () => {
                 duration={0.8}
               />
             </div>
-          </div> */}
+          </div>
 
           {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-4 mb-8">
