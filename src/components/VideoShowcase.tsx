@@ -13,7 +13,6 @@ const VideoShowcase = () => {
       name: "Dubai",
       flag: "🇦🇪",
       videoId: "_akWMCrxcaM",
-      thumbnail: "/lovable-uploads/739b5c8c-7e7d-42ee-a412-963fad0a408d.png",
       description: "Experience luxury living in the heart of Dubai"
     },
     {
@@ -21,7 +20,6 @@ const VideoShowcase = () => {
       name: "Antalya",
       flag: "🇹🇷",
       videoId: "G4qgEcpSZ9c",
-      thumbnail: "/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png",
       description: "Discover Mediterranean paradise in Antalya"
     },
     {
@@ -29,7 +27,6 @@ const VideoShowcase = () => {
       name: "Cyprus", 
       flag: "🇨🇾",
       videoId: "_eYeY9EAlxs",
-      thumbnail: "/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.png",
       description: "Explore island living in beautiful Cyprus"
     }
   ];
@@ -81,7 +78,7 @@ const VideoShowcase = () => {
               >
                 <div className="relative aspect-video rounded-xl overflow-hidden bg-black shadow-lg border border-border/20 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
                   <img
-                    src={city.thumbnail}
+                    src={`https://img.youtube.com/vi/${city.videoId}/maxresdefault.jpg`}
                     alt={city.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
