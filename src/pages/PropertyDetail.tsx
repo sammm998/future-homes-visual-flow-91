@@ -32,9 +32,22 @@ const getAgentData = (agentName: string) => {
        title: "Property Specialist",
        experience: "Expert in real estate investment and property management",
        specialties: ["Property Investment", "Customer Relations", "International Sales"]
+     },
+     "Dubai Properties Team": {
+       name: "Dubai Properties Team",
+       image: batuhanImage, // Using Batuhan's image as placeholder for team
+       title: "Property Specialist",
+       experience: "Expert team specializing in international property sales",
+       specialties: ["International Sales", "Property Investment", "Customer Relations"]
      }
   };
-  return agents[agentName] || null;
+  return agents[agentName] || {
+    name: agentName,
+    image: batuhanImage, // Fallback image for any missing agents
+    title: "Property Specialist",
+    experience: "Experienced property specialist",
+    specialties: ["Property Sales", "Customer Service", "Real Estate"]
+  };
 };
 
 // Get property data - database only approach
