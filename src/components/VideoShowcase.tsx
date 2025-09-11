@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Play, MapPin, X } from "lucide-react";
+import { Play, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const VideoShowcase = () => {
-  const [selectedCity, setSelectedCity] = useState("dubai");
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
   const cities = [
@@ -12,26 +13,53 @@ const VideoShowcase = () => {
       id: "dubai",
       name: "Dubai",
       flag: "🇦🇪",
-      videoId: "_akWMCrxcaM",
-      description: "Experience luxury living in the heart of Dubai"
+      description: "Experience luxury living in the heart of Dubai",
+      videos: [
+        { id: "_akWMCrxcaM", title: "Dubai Luxury Properties" },
+        { id: "q-Co4EL68Xo", title: "Dubai Waterfront Living" },
+        { id: "0FpNFd2y5CE", title: "Dubai Modern Developments" }
+      ]
     },
     {
       id: "antalya", 
       name: "Antalya",
       flag: "🇹🇷",
-      videoId: "G4qgEcpSZ9c",
-      description: "Discover Mediterranean paradise in Antalya"
+      description: "Discover Mediterranean paradise in Antalya",
+      videos: [
+        { id: "G4qgEcpSZ9c", title: "Antalya Coastal Properties" }
+      ]
     },
     {
       id: "cyprus",
       name: "Cyprus", 
       flag: "🇨🇾",
-      videoId: "_eYeY9EAlxs",
-      description: "Explore island living in beautiful Cyprus"
+      description: "Explore island living in beautiful Cyprus",
+      videos: [
+        { id: "_eYeY9EAlxs", title: "Cyprus Island Living" }
+      ]
     }
   ];
 
-  const selectedCityData = cities.find(city => city.id === selectedCity);
+  const selectedCityData = selectedCity ? cities.find(city => city.id === selectedCity) : null;
+  const currentVideo = selectedCityData?.videos[currentVideoIndex];
+
+  const openCityGallery = (cityId) => {
+    setSelectedCity(cityId);
+    setCurrentVideoIndex(0);
+    setShowModal(true);
+  };
+
+  const nextVideo = () => {
+    if (selectedCityData && currentVideoIndex < selectedCityData.videos.length - 1) {
+      setCurrentVideoIndex(currentVideoIndex + 1);
+    }
+  };
+
+  const prevVideo = () => {
+    if (currentVideoIndex > 0) {
+      setCurrentVideoIndex(currentVideoIndex - 1);
+    }
+  };
 
   return (
     <>
@@ -71,14 +99,11 @@ const VideoShowcase = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 className="group cursor-pointer"
-                onClick={() => {
-                  setSelectedCity(city.id);
-                  setShowModal(true);
-                }}
+                onClick={() => openCityGallery(city.id)}
               >
                 <div className="relative aspect-video rounded-xl overflow-hidden bg-black shadow-lg border border-border/20 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
                   <img
-                    src={`https://img.youtube.com/vi/${city.videoId}/maxresdefault.jpg`}
+                    src={`https://img.youtube.com/vi/${city.videos[0].id}/maxresdefault.jpg`}
                     alt={city.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
@@ -98,9 +123,16 @@ const VideoShowcase = () => {
                   {/* City label */}
                   <div className="absolute bottom-3 left-3 right-3">
                     <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm">{city.flag}</span>
-                        <h3 className="text-sm font-semibold text-white">{city.name}</h3>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm">{city.flag}</span>
+                          <h3 className="text-sm font-semibold text-white">{city.name}</h3>
+                        </div>
+                        {city.videos.length > 1 && (
+                          <div className="text-xs text-white/70 bg-white/10 px-2 py-1 rounded">
+                            {city.videos.length} videos
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -111,9 +143,9 @@ const VideoShowcase = () => {
         </div>
       </section>
 
-      {/* Video Modal */}
+      {/* Video Gallery Modal */}
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="max-w-5xl w-[95vw] p-0 bg-black border-border/20">
+        <DialogContent className="max-w-6xl w-[95vw] p-0 bg-black border-border/20">
           <div className="relative">
             {/* Close button */}
             <button
@@ -123,11 +155,31 @@ const VideoShowcase = () => {
               <X className="w-4 h-4" />
             </button>
 
+            {/* Navigation arrows */}
+            {selectedCityData && selectedCityData.videos.length > 1 && (
+              <>
+                <button
+                  onClick={prevVideo}
+                  disabled={currentVideoIndex === 0}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={nextVideo}
+                  disabled={currentVideoIndex === selectedCityData.videos.length - 1}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </>
+            )}
+
             {/* Video container */}
             <div className="aspect-video rounded-lg overflow-hidden">
               <iframe
-                src={`https://www.youtube.com/embed/${selectedCityData?.videoId}?autoplay=1&rel=0&modestbranding=1`}
-                title={`${selectedCityData?.name} Video`}
+                src={`https://www.youtube.com/embed/${currentVideo?.id}?autoplay=1&rel=0&modestbranding=1`}
+                title={currentVideo?.title || `${selectedCityData?.name} Video`}
                 className="w-full h-full"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -135,14 +187,45 @@ const VideoShowcase = () => {
               />
             </div>
 
-            {/* Video info */}
-            <div className="p-6 bg-gradient-to-t from-black/60 to-transparent absolute bottom-0 left-0 right-0">
-              <div className="flex items-center gap-3 mb-2">
-                <MapPin className="w-4 h-4 text-primary" />
-                <h3 className="text-xl font-bold text-white">{selectedCityData?.name}</h3>
-                <span className="text-xl">{selectedCityData?.flag}</span>
+            {/* Video info and gallery navigation */}
+            <div className="p-6 bg-gradient-to-t from-black/80 to-transparent absolute bottom-0 left-0 right-0">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <h3 className="text-xl font-bold text-white">{selectedCityData?.name}</h3>
+                  <span className="text-xl">{selectedCityData?.flag}</span>
+                </div>
+                {selectedCityData && selectedCityData.videos.length > 1 && (
+                  <div className="text-sm text-white/70">
+                    {currentVideoIndex + 1} / {selectedCityData.videos.length}
+                  </div>
+                )}
               </div>
-              <p className="text-white/80">{selectedCityData?.description}</p>
+              
+              <p className="text-white/80 mb-4">{currentVideo?.title}</p>
+
+              {/* Video thumbnails gallery */}
+              {selectedCityData && selectedCityData.videos.length > 1 && (
+                <div className="flex gap-2 overflow-x-auto">
+                  {selectedCityData.videos.map((video, index) => (
+                    <button
+                      key={video.id}
+                      onClick={() => setCurrentVideoIndex(index)}
+                      className={`flex-shrink-0 w-20 h-12 rounded overflow-hidden border-2 transition-colors ${
+                        index === currentVideoIndex 
+                          ? 'border-primary' 
+                          : 'border-white/20 hover:border-white/40'
+                      }`}
+                    >
+                      <img
+                        src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
+                        alt={video.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </DialogContent>
