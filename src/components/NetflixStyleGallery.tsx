@@ -99,7 +99,9 @@ const NetflixStyleGallery: React.FC = () => {
     // Filter by price range
     if (price !== 'all') {
       filteredProperties = filteredProperties.filter(p => {
+        if (!p.price || typeof p.price !== 'string') return false;
         const priceNum = parseInt(p.price.replace(/[^\d]/g, ''));
+        if (isNaN(priceNum)) return false;
         if (price === '0-250000') return priceNum < 250000;
         if (price === '250000-500000') return priceNum >= 250000 && priceNum <= 500000;
         if (price === '500000-1000000') return priceNum >= 500000 && priceNum <= 1000000;
@@ -144,8 +146,9 @@ const NetflixStyleGallery: React.FC = () => {
     // Add premium properties row
     const premiumProperties = filteredProperties
       .filter(p => {
+        if (!p.price || typeof p.price !== 'string') return false;
         const priceNum = parseInt(p.price.replace(/[^\d]/g, ''));
-        return priceNum > 500000;
+        return !isNaN(priceNum) && priceNum > 500000;
       })
       .slice(0, 8);
 
@@ -168,6 +171,7 @@ const NetflixStyleGallery: React.FC = () => {
   };
 
   const openImageModal = (property: Property) => {
+    console.log('Opening modal for property:', property.title, 'with images:', property.property_images?.length);
     setSelectedProperty(property);
   };
 
@@ -195,7 +199,11 @@ const NetflixStyleGallery: React.FC = () => {
 
   // Convert property images to gallery items for circular gallery
   const getGalleryItems = (property: Property): GalleryItem[] => {
-    return property.property_images?.map((imageUrl, index) => ({
+    console.log('Converting property to gallery items:', property.title, property.property_images);
+    if (!property.property_images || !Array.isArray(property.property_images)) {
+      return [];
+    }
+    return property.property_images.map((imageUrl, index) => ({
       common: property.title,
       binomial: property.location || '',
       photo: {
@@ -203,7 +211,7 @@ const NetflixStyleGallery: React.FC = () => {
         text: `${property.title} - Image ${index + 1}`,
         by: 'Property Gallery'
       }
-    })) || [];
+    }));
   };
 
   if (loading) {
@@ -265,28 +273,30 @@ const NetflixStyleGallery: React.FC = () => {
 
       {/* Circular Gallery Modal */}
       <Dialog open={!!selectedProperty} onOpenChange={closeImageModal}>
-        <DialogContent className="max-w-full w-full h-screen p-0 bg-black">
-          <Button
-            onClick={closeImageModal}
-            className="absolute top-4 right-4 z-10 bg-black/70 text-white hover:bg-black/90 rounded-full"
-            size="icon"
-          >
-            <X className="w-4 h-4" />
-          </Button>
-
+        <DialogContent className="max-w-full w-full h-screen p-0 bg-black overflow-hidden">
           {selectedProperty && (
-            <div className="w-full h-full" style={{ height: '500vh' }}>
-              <div className="w-full h-screen sticky top-0 flex flex-col items-center justify-center overflow-hidden">
-                <div className="text-center mb-8 absolute top-16 z-10">
-                  <h1 className="text-4xl font-bold text-white">{selectedProperty.title}</h1>
-                  <p className="text-white/70">{selectedProperty.location}</p>
-                  <p className="text-white/60 mt-2">Scroll to rotate the gallery</p>
-                </div>
-                <div className="w-full h-full">
-                  <CircularGallery items={getGalleryItems(selectedProperty)} />
+            <>
+              <Button
+                onClick={closeImageModal}
+                className="absolute top-4 right-4 z-50 bg-black/70 text-white hover:bg-black/90 rounded-full"
+                size="icon"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+              
+              <div className="w-full bg-background text-foreground" style={{ height: '500vh' }}>
+                <div className="w-full h-screen sticky top-0 flex flex-col items-center justify-center overflow-hidden">
+                  <div className="text-center mb-8 absolute top-16 z-10">
+                    <h1 className="text-4xl font-bold text-white">{selectedProperty.title}</h1>
+                    <p className="text-white/70">{selectedProperty.location}</p>
+                    <p className="text-white/60 mt-2">Scroll to rotate the gallery</p>
+                  </div>
+                  <div className="w-full h-full">
+                    <CircularGallery items={getGalleryItems(selectedProperty)} />
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
         </DialogContent>
       </Dialog>
