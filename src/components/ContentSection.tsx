@@ -1,7 +1,6 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { MapPin, Phone, Globe, Users, Heart, Shield, FileText, Home, CreditCard, Plane, Languages, CheckCircle } from 'lucide-react';
 interface ContentSectionProps {
   section: {
@@ -24,7 +23,7 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
           {section.title}
         </h1>}
       {section.content && <div className="max-w-4xl mx-auto">
-          <TextGenerateEffect words={section.content} className="text-lg text-muted-foreground leading-relaxed mb-8" filter={false} duration={0.8} />
+          <p className="text-lg text-muted-foreground leading-relaxed mb-8">{section.content}</p>
         </div>}
     </div>;
   const renderContentSection = () => null;

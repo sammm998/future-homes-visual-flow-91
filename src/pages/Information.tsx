@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ContentSection } from "@/components/ContentSection";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 import { Badge } from "@/components/ui/badge";
 import { NavBar } from "@/components/ui/tubelight-navbar";
