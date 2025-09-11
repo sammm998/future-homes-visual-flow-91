@@ -215,93 +215,136 @@ const ModernPropertyShowcase = () => {
   const regularProperties = properties.slice(3, 6);
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-background via-secondary/10 to-background relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+    <section className="relative py-24 md:py-32 bg-gradient-to-br from-background via-secondary/8 to-background overflow-hidden">
+      {/* Enhanced Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-[0.02]"></div>
+        <div className="absolute top-20 left-20 w-80 h-80 bg-gradient-to-r from-primary/15 to-accent/15 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-l from-accent/12 to-primary/12 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/3 left-1/3 w-64 h-64 bg-gradient-to-r from-primary-glow/10 to-accent/10 rounded-full blur-2xl animate-pulse delay-500"></div>
+      </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Enhanced Header */}
         <div className="relative">
-          {/* Background Elements */}
-          <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-32 h-32 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-3xl"></div>
+          {/* Floating Elements */}
+          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-40 h-40 bg-gradient-to-r from-primary/25 to-accent/25 rounded-full blur-3xl animate-pulse"></div>
           
           <motion.div 
-            className="text-center mb-20 relative z-10" 
-            initial={{ opacity: 0, y: 40 }} 
+            className="text-center mb-24 relative z-10" 
+            initial={{ opacity: 0, y: 50 }} 
             whileInView={{ opacity: 1, y: 0 }} 
             viewport={{ once: true }} 
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 1, ease: "easeOut" }}
           >
-            {/* Badge */}
+            {/* Enhanced Badge */}
             <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }} 
-              whileInView={{ opacity: 1, scale: 1 }} 
+              initial={{ opacity: 0, scale: 0.8, rotate: -5 }} 
+              whileInView={{ opacity: 1, scale: 1, rotate: 0 }} 
               viewport={{ once: true }} 
-              transition={{ duration: 0.6, delay: 0.2 }} 
-              className="mb-8"
+              transition={{ duration: 0.8, delay: 0.2, type: "spring", bounce: 0.4 }} 
+              className="mb-10"
             >
-              <span className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary/15 to-accent/15 text-primary rounded-full text-sm font-bold uppercase tracking-wider border border-primary/20 backdrop-blur-sm">
-                ✨ Premium Properties
-              </span>
+              <div className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary/20 via-accent/15 to-primary/20 text-primary rounded-full text-sm font-bold uppercase tracking-wider border-2 border-primary/30 backdrop-blur-lg shadow-2xl shadow-primary/10">
+                <div className="w-2 h-2 bg-gradient-to-r from-primary to-accent rounded-full mr-3 animate-pulse"></div>
+                ✨ Exclusive Properties
+                <div className="w-2 h-2 bg-gradient-to-r from-accent to-primary rounded-full ml-3 animate-pulse"></div>
+              </div>
             </motion.div>
 
-            {/* Main Title */}
+            {/* Enhanced Main Title */}
             <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
+              initial={{ opacity: 0, y: 30 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }} 
-              transition={{ duration: 0.8, delay: 0.4 }} 
-              className="mb-8"
+              transition={{ duration: 1, delay: 0.4 }} 
+              className="mb-10"
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4">
-                <span className="block text-foreground mb-2">Discover Your</span>
-                <span className="block bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent">
-                  Dream Home
-                </span>
+              <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight mb-6 tracking-tight">
+                <motion.span 
+                  className="block text-foreground mb-3"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                >
+                  Luxury
+                </motion.span>
+                <motion.span 
+                  className="block bg-gradient-to-r from-primary via-primary-glow via-accent to-primary-glow bg-clip-text text-transparent bg-[length:200%_100%] animate-[gradient_3s_ease-in-out_infinite]"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                >
+                  Properties
+                </motion.span>
               </h2>
               
-              {/* Decorative line */}
-              <div className="mx-auto w-24 h-1 bg-gradient-to-r from-primary to-accent rounded-full"></div>
+              {/* Enhanced Decorative Elements */}
+              <motion.div 
+                className="flex justify-center items-center gap-6 mb-8"
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 1.0, type: "spring" }}
+              >
+                <div className="w-20 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full"></div>
+                <div className="w-3 h-3 bg-gradient-to-r from-primary to-accent rounded-full animate-pulse"></div>
+                <div className="w-20 h-0.5 bg-gradient-to-l from-transparent via-accent to-transparent rounded-full"></div>
+              </motion.div>
             </motion.div>
 
-            {/* Description */}
+            {/* Enhanced Description */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }} 
-              transition={{ duration: 0.8, delay: 0.6 }} 
-              className="max-w-4xl mx-auto"
+              transition={{ duration: 0.8, delay: 1.2 }} 
+              className="max-w-5xl mx-auto"
             >
-              <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed mb-6">
-                Explore our handpicked selection of 
-                <span className="font-semibold text-foreground"> luxury properties</span> across 
-                <span className="font-semibold text-foreground"> Turkey, Dubai, Cyprus, and Bali</span>.
+              <p className="text-2xl sm:text-3xl text-muted-foreground leading-relaxed mb-8 font-light">
+                Discover handpicked 
+                <span className="font-semibold text-foreground bg-gradient-to-r from-primary/20 to-accent/20 px-2 py-1 rounded-lg"> luxury properties</span> across 
+                <span className="font-semibold text-foreground bg-gradient-to-r from-accent/20 to-primary/20 px-2 py-1 rounded-lg"> Turkey, Dubai, Cyprus</span>, and beyond.
               </p>
-              <p className="text-lg text-muted-foreground/80">
-                Each property offers unique features and exceptional value for your investment.
+              <p className="text-xl text-muted-foreground/80 mb-12">
+                Each property represents the pinnacle of architectural excellence and investment opportunity.
               </p>
             </motion.div>
 
-            {/* Statistics */}
+            {/* Enhanced Statistics */}
             <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
+              initial={{ opacity: 0, y: 30 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }} 
-              transition={{ duration: 0.8, delay: 0.8 }} 
-              className="flex flex-wrap justify-center gap-8 mt-12 text-center"
+              transition={{ duration: 0.8, delay: 1.4 }} 
+              className="flex flex-wrap justify-center gap-8 mt-16"
             >
-              <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl px-6 py-4">
-                <div className="text-2xl font-bold text-primary">160+</div>
-                <div className="text-sm text-muted-foreground">Premium Properties</div>
-              </div>
-              <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl px-6 py-4">
-                <div className="text-2xl font-bold text-primary">15+</div>
-                <div className="text-sm text-muted-foreground">Prime Locations</div>
-              </div>
-              <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl px-6 py-4">
-                <div className="text-2xl font-bold text-primary">98%</div>
-                <div className="text-sm text-muted-foreground">Client Satisfaction</div>
-              </div>
+              {[
+                { number: "160+", label: "Luxury Properties", delay: 0 },
+                { number: "15+", label: "Prime Locations", delay: 0.1 },
+                { number: "98%", label: "Client Satisfaction", delay: 0.2 }
+              ].map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 1.6 + stat.delay }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="group"
+                >
+                  <div className="bg-card/60 backdrop-blur-xl border-2 border-primary/20 group-hover:border-primary/40 rounded-3xl px-8 py-6 shadow-xl hover:shadow-2xl transition-all duration-300 text-center min-w-[160px]">
+                    <div className="text-3xl font-black text-transparent bg-gradient-to-r from-primary to-accent bg-clip-text mb-2 group-hover:scale-110 transition-transform duration-300">
+                      {stat.number}
+                    </div>
+                    <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                      {stat.label}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
           </motion.div>
         </div>
