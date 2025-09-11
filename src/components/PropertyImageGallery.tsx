@@ -34,9 +34,12 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
   const [loading, setLoading] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [thumbnailPage, setThumbnailPage] = useState(0);
   const [locationFilters, setLocationFilters] = useState<string[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<string>(locationFilter || 'all');
   const [error, setError] = useState<string | null>(null);
+
+  const THUMBNAILS_PER_PAGE = 8; // Number of thumbnails to show per page
 
   useEffect(() => {
     fetchProperties();
@@ -95,11 +98,13 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
   const openImageModal = (property: Property, imageIndex: number = 0) => {
     setSelectedProperty(property);
     setCurrentImageIndex(imageIndex);
+    setThumbnailPage(0); // Reset to first page when opening modal
   };
 
   const closeImageModal = () => {
     setSelectedProperty(null);
     setCurrentImageIndex(0);
+    setThumbnailPage(0);
   };
 
   const nextImage = () => {
@@ -122,6 +127,31 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
     return properties.reduce((total, property) => {
       return total + (property.property_images?.length || 0);
     }, 0);
+  };
+
+  const getThumbnailPagination = () => {
+    if (!selectedProperty?.property_images) return { currentThumbnails: [], totalPages: 0 };
+    
+    const totalImages = selectedProperty.property_images.length;
+    const totalPages = Math.ceil(totalImages / THUMBNAILS_PER_PAGE);
+    const startIndex = thumbnailPage * THUMBNAILS_PER_PAGE;
+    const endIndex = Math.min(startIndex + THUMBNAILS_PER_PAGE, totalImages);
+    const currentThumbnails = selectedProperty.property_images.slice(startIndex, endIndex);
+    
+    return { currentThumbnails, totalPages, startIndex };
+  };
+
+  const nextThumbnailPage = () => {
+    const { totalPages } = getThumbnailPagination();
+    if (thumbnailPage < totalPages - 1) {
+      setThumbnailPage(prev => prev + 1);
+    }
+  };
+
+  const prevThumbnailPage = () => {
+    if (thumbnailPage > 0) {
+      setThumbnailPage(prev => prev - 1);
+    }
   };
 
   if (loading) {
@@ -325,25 +355,87 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
                   </>
                 )}
 
-                {/* Thumbnail Navigation */}
+                {/* Thumbnail Navigation with Pagination */}
                 {selectedProperty.property_images && selectedProperty.property_images.length > 1 && (
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 bg-black/70 p-3 rounded-lg max-w-full overflow-x-auto">
-                    {selectedProperty.property_images.map((image, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentImageIndex(index)}
-                        className={`flex-shrink-0 w-16 h-12 rounded overflow-hidden border-2 transition-colors ${
-                          index === currentImageIndex ? 'border-white' : 'border-transparent'
-                        }`}
-                      >
-                        <OptimizedPropertyImage
-                          src={image}
-                          alt={`Thumbnail ${index + 1}`}
-                          className="w-full h-full object-cover"
-                          priority={false}
-                        />
-                      </button>
-                    ))}
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-4xl px-4">
+                    <div className="bg-black/80 backdrop-blur-sm p-4 rounded-2xl">
+                      {(() => {
+                        const { currentThumbnails, totalPages, startIndex } = getThumbnailPagination();
+                        return (
+                          <>
+                            {/* Thumbnails Grid */}
+                            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 mb-4">
+                              {currentThumbnails.map((image, index) => {
+                                const globalIndex = startIndex + index;
+                                return (
+                                  <button
+                                    key={globalIndex}
+                                    onClick={() => setCurrentImageIndex(globalIndex)}
+                                    className={`aspect-[4/3] rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                                      globalIndex === currentImageIndex 
+                                        ? 'border-white scale-105 shadow-lg' 
+                                        : 'border-white/30 hover:border-white/60'
+                                    }`}
+                                  >
+                                    <OptimizedPropertyImage
+                                      src={image}
+                                      alt={`Thumbnail ${globalIndex + 1}`}
+                                      className="w-full h-full object-cover"
+                                      priority={false}
+                                    />
+                                  </button>
+                                );
+                              })}
+                            </div>
+
+                            {/* Pagination Controls */}
+                            {totalPages > 1 && (
+                              <div className="flex items-center justify-center gap-4">
+                                <button
+                                  onClick={prevThumbnailPage}
+                                  disabled={thumbnailPage === 0}
+                                  className="flex items-center gap-2 px-3 py-2 bg-white/20 hover:bg-white/30 disabled:opacity-50 disabled:hover:bg-white/20 text-white rounded-lg transition-colors duration-300 disabled:cursor-not-allowed"
+                                >
+                                  <ChevronLeft className="w-4 h-4" />
+                                  <span className="text-sm">Previous</span>
+                                </button>
+
+                                {/* Page Indicators */}
+                                <div className="flex gap-2">
+                                  {Array.from({ length: totalPages }, (_, index) => (
+                                    <button
+                                      key={index}
+                                      onClick={() => setThumbnailPage(index)}
+                                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                        index === thumbnailPage 
+                                          ? 'bg-white scale-125' 
+                                          : 'bg-white/50 hover:bg-white/75'
+                                      }`}
+                                    />
+                                  ))}
+                                </div>
+
+                                <button
+                                  onClick={nextThumbnailPage}
+                                  disabled={thumbnailPage === totalPages - 1}
+                                  className="flex items-center gap-2 px-3 py-2 bg-white/20 hover:bg-white/30 disabled:opacity-50 disabled:hover:bg-white/20 text-white rounded-lg transition-colors duration-300 disabled:cursor-not-allowed"
+                                >
+                                  <span className="text-sm">Next</span>
+                                  <ChevronRight className="w-4 h-4" />
+                                </button>
+                              </div>
+                            )}
+
+                            {/* Image Counter */}
+                            <div className="text-center mt-3">
+                              <span className="text-white/80 text-sm">
+                                Showing {startIndex + 1}-{Math.min(startIndex + THUMBNAILS_PER_PAGE, selectedProperty.property_images.length)} of {selectedProperty.property_images.length} images
+                              </span>
+                            </div>
+                          </>
+                        );
+                      })()}
+                    </div>
                   </div>
                 )}
               </div>
