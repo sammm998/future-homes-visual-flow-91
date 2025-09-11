@@ -205,14 +205,14 @@ const VideoShowcase = () => {
 
       {/* Video Gallery Modal */}
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="max-w-6xl w-[95vw] p-0 bg-black border-border/20">
-          <div className="relative">
+        <DialogContent className="max-w-[100vw] max-h-[100vh] w-full h-full p-0 bg-black border-none m-0">
+          <div className="relative w-full h-full flex flex-col">
             {/* Close button */}
             <button
               onClick={() => setShowModal(false)}
-              className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors"
+              className="absolute top-2 right-2 md:top-4 md:right-4 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors"
             >
-              <X className="w-4 h-4" />
+              <X className="w-4 h-4 md:w-5 md:h-5" />
             </button>
 
             {/* Navigation arrows */}
@@ -221,70 +221,74 @@ const VideoShowcase = () => {
                 <button
                   onClick={prevVideo}
                   disabled={currentVideoIndex === 0}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <ChevronLeft className="w-5 h-5" />
+                  <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
                 <button
                   onClick={nextVideo}
                   disabled={currentVideoIndex === selectedCityData.videos.length - 1}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
               </>
             )}
 
             {/* Video container */}
-            <div className="aspect-video rounded-lg overflow-hidden">
-              <iframe
-                key={currentVideo?.id}
-                src={`https://www.youtube.com/embed/${currentVideo?.id}?autoplay=1&mute=1&rel=0&modestbranding=1&iv_load_policy=3&fs=0&disablekb=1&controls=1&showinfo=0&cc_load_policy=0&playlist=${currentVideo?.id}&loop=1`}
-                title={currentVideo?.title || `${selectedCityData?.name} Video`}
-                className="w-full h-full"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+            <div className="flex-1 flex items-center justify-center p-2 md:p-4">
+              <div className="w-full max-w-6xl aspect-video">
+                <iframe
+                  key={currentVideo?.id}
+                  src={`https://www.youtube.com/embed/${currentVideo?.id}?autoplay=1&mute=1&rel=0&modestbranding=1&iv_load_policy=3&fs=0&disablekb=1&controls=1&showinfo=0&cc_load_policy=0&playlist=${currentVideo?.id}&loop=1`}
+                  title={currentVideo?.title || `${selectedCityData?.name} Video`}
+                  className="w-full h-full rounded-lg"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
             </div>
 
             {/* Video info and gallery navigation */}
-            <div className="p-6 bg-gradient-to-t from-black/80 to-transparent absolute bottom-0 left-0 right-0">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-4 h-4 text-primary" />
-                  <h3 className="text-xl font-bold text-white">{selectedCityData?.name}</h3>
-                  <span className="text-xl">{selectedCityData?.flag}</span>
+            <div className="p-3 md:p-6 bg-gradient-to-t from-black/90 to-transparent">
+              <div className="flex items-center justify-between mb-2 md:mb-4">
+                <div className="flex items-center gap-2 md:gap-3">
+                  <MapPin className="w-3 h-3 md:w-4 md:h-4 text-primary" />
+                  <h3 className="text-lg md:text-xl font-bold text-white">{selectedCityData?.name}</h3>
+                  <span className="text-lg md:text-xl">{selectedCityData?.flag}</span>
                 </div>
                 {selectedCityData && selectedCityData.videos.length > 1 && (
-                  <div className="text-sm text-white/70">
+                  <div className="text-xs md:text-sm text-white/70">
                     {currentVideoIndex + 1} / {selectedCityData.videos.length}
                   </div>
                 )}
               </div>
               
-              <p className="text-white/80 mb-4">{currentVideo?.title}</p>
+              <p className="text-white/80 mb-3 md:mb-4 text-sm md:text-base">{currentVideo?.title}</p>
 
               {/* Video thumbnails gallery */}
               {selectedCityData && selectedCityData.videos.length > 1 && (
-                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
-                  {selectedCityData.videos.map((video, index) => (
-                    <button
-                      key={video.id}
-                      onClick={() => setCurrentVideoIndex(index)}
-                      className={`w-full aspect-video rounded overflow-hidden border-2 transition-colors ${
-                        index === currentVideoIndex 
-                          ? 'border-primary' 
-                          : 'border-white/20 hover:border-white/40'
-                      }`}
-                    >
-                      <img
-                        src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
-                        alt={video.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
+                <div className="relative">
+                  <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                    {selectedCityData.videos.map((video, index) => (
+                      <button
+                        key={video.id}
+                        onClick={() => setCurrentVideoIndex(index)}
+                        className={`flex-shrink-0 w-16 h-12 md:w-20 md:h-16 rounded overflow-hidden border-2 transition-colors ${
+                          index === currentVideoIndex 
+                            ? 'border-primary' 
+                            : 'border-white/20 hover:border-white/40'
+                        }`}
+                      >
+                        <img
+                          src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
+                          alt={video.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
