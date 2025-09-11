@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import OptimizedPropertyImage from '@/components/OptimizedPropertyImage';
+import { useCurrency } from '@/contexts/CurrencyContext';
+import { formatPriceFromString } from '@/utils/priceFormatting';
 
 interface Property {
   id: string;
@@ -26,6 +28,7 @@ interface Property {
 
 const ModernGallery = () => {
   const { properties, loading } = useProperties();
+  const { formatPrice } = useCurrency();
   const [viewMode, setViewMode] = useState<'grid' | 'masonry'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('all');
@@ -232,7 +235,7 @@ const ModernGallery = () => {
 
                       {/* Price Badge */}
                       <Badge className="absolute top-4 left-4 bg-primary/90 text-primary-foreground backdrop-blur-sm">
-                        €{parseInt(property.price || '0').toLocaleString()}
+                        {formatPriceFromString(property.price || '0', formatPrice)}
                       </Badge>
                     </div>
 
