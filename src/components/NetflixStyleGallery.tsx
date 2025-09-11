@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import HeroProperty from './HeroProperty';
 import PropertyRow from './PropertyRow';
-import PropertyFilters from './PropertyFilters';
-import { CircularGallery, GalleryItem } from '@/components/ui/circular-gallery';
 
 interface Property {
   id: string;
@@ -31,14 +30,11 @@ interface PropertyRowData {
 
 const NetflixStyleGallery: React.FC = () => {
   const [propertyRows, setPropertyRows] = useState<PropertyRowData[]>([]);
-  const [allProperties, setAllProperties] = useState<Property[]>([]);
   const [featuredProperty, setFeaturedProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const [selectedLocation, setSelectedLocation] = useState('all');
-  const [priceRange, setPriceRange] = useState('all');
-  const [locations, setLocations] = useState<string[]>([]);
 
   useEffect(() => {
     fetchProperties();
@@ -70,15 +66,63 @@ const NetflixStyleGallery: React.FC = () => {
         return;
       }
 
-      // Store all properties for filtering
-      setAllProperties(propertiesWithImages);
+      // Set featured property (first one)
+      setFeaturedProperty(propertiesWithImages[0]);
 
-      // Get unique locations
-      const uniqueLocations = [...new Set(propertiesWithImages.map(p => p.location).filter(Boolean))];
-      setLocations(uniqueLocations);
+      // Group properties by location and create rows
+      const locationGroups: { [key: string]: Property[] } = {};
+      propertiesWithImages.forEach(property => {
+        const location = property.location || 'Other';
+        if (!locationGroups[location]) {
+          locationGroups[location] = [];
+        }
+        locationGroups[location].push(property);
+      });
 
-      // Apply filters and create rows
-      filterAndSetProperties(propertiesWithImages, selectedLocation, priceRange);
+      const rows: PropertyRowData[] = [];
+
+      // Add "Recently Added" row with newest properties
+      if (propertiesWithImages.length > 1) {
+        rows.push({
+          title: 'Recently Added',
+          properties: propertiesWithImages.slice(1, 7) // Skip featured property
+        });
+      }
+
+      // Add location-based rows
+      Object.entries(locationGroups).forEach(([location, properties]) => {
+        if (properties.length > 2) { // Only show locations with multiple properties
+          rows.push({
+            title: `Properties in ${location}`,
+            properties: properties.slice(0, 8)
+          });
+        }
+      });
+
+      // Add premium properties row (high-priced ones)
+      const premiumProperties = propertiesWithImages
+        .filter(p => {
+          const priceNum = parseInt(p.price.replace(/[^\d]/g, ''));
+          return priceNum > 500000; // Adjust threshold as needed
+        })
+        .slice(0, 8);
+
+      if (premiumProperties.length > 0) {
+        rows.push({
+          title: 'Premium Properties',
+          properties: premiumProperties
+        });
+      }
+
+      // Add "All Properties" row if we have more properties
+      if (propertiesWithImages.length > 8) {
+        rows.push({
+          title: 'Explore All Properties',
+          properties: propertiesWithImages.slice(0, 12)
+        });
+      }
+
+      setPropertyRows(rows);
 
     } catch (err) {
       console.error('Error fetching properties:', err);
@@ -88,130 +132,30 @@ const NetflixStyleGallery: React.FC = () => {
     }
   };
 
-  const filterAndSetProperties = (properties: Property[], location: string, price: string) => {
-    let filteredProperties = [...properties];
-
-    // Filter by location
-    if (location !== 'all') {
-      filteredProperties = filteredProperties.filter(p => p.location === location);
-    }
-
-    // Filter by price range
-    if (price !== 'all') {
-      filteredProperties = filteredProperties.filter(p => {
-        if (!p.price || typeof p.price !== 'string') return false;
-        const priceNum = parseInt(p.price.replace(/[^\d]/g, ''));
-        if (isNaN(priceNum)) return false;
-        if (price === '0-250000') return priceNum < 250000;
-        if (price === '250000-500000') return priceNum >= 250000 && priceNum <= 500000;
-        if (price === '500000-1000000') return priceNum >= 500000 && priceNum <= 1000000;
-        if (price === '1000000+') return priceNum > 1000000;
-        return true;
-      });
-    }
-
-    // Set featured property (first one)
-    setFeaturedProperty(filteredProperties[0] || null);
-
-    // Group properties by location and create rows
-    const locationGroups: { [key: string]: Property[] } = {};
-    filteredProperties.forEach(property => {
-      const loc = property.location || 'Other';
-      if (!locationGroups[loc]) {
-        locationGroups[loc] = [];
-      }
-      locationGroups[loc].push(property);
-    });
-
-    const rows: PropertyRowData[] = [];
-
-    // Add "Recently Added" row with newest properties
-    if (filteredProperties.length > 1) {
-      rows.push({
-        title: 'Recently Added',
-        properties: filteredProperties.slice(1, 7)
-      });
-    }
-
-    // Add location-based rows
-    Object.entries(locationGroups).forEach(([loc, props]) => {
-      if (props.length > 2) {
-        rows.push({
-          title: `Properties in ${loc}`,
-          properties: props.slice(0, 8)
-        });
-      }
-    });
-
-    // Add premium properties row
-    const premiumProperties = filteredProperties
-      .filter(p => {
-        if (!p.price || typeof p.price !== 'string') return false;
-        const priceNum = parseInt(p.price.replace(/[^\d]/g, ''));
-        return !isNaN(priceNum) && priceNum > 500000;
-      })
-      .slice(0, 8);
-
-    if (premiumProperties.length > 0) {
-      rows.push({
-        title: 'Premium Properties',
-        properties: premiumProperties
-      });
-    }
-
-    // Add "All Properties" row
-    if (filteredProperties.length > 8) {
-      rows.push({
-        title: 'Explore All Properties',
-        properties: filteredProperties.slice(0, 12)
-      });
-    }
-
-    setPropertyRows(rows);
-  };
-
-  const openImageModal = (property: Property) => {
-    console.log('Opening modal for property:', property.title, 'with images:', property.property_images?.length);
+  const openImageModal = (property: Property, imageIndex: number = 0) => {
     setSelectedProperty(property);
+    setCurrentImageIndex(imageIndex);
   };
 
   const closeImageModal = () => {
     setSelectedProperty(null);
+    setCurrentImageIndex(0);
   };
 
-  const handleLocationChange = (location: string) => {
-    setSelectedLocation(location);
-    filterAndSetProperties(allProperties, location, priceRange);
-  };
-
-  const handlePriceRangeChange = (price: string) => {
-    setPriceRange(price);
-    filterAndSetProperties(allProperties, selectedLocation, price);
-  };
-
-  const handleClearFilters = () => {
-    setSelectedLocation('all');
-    setPriceRange('all');
-    filterAndSetProperties(allProperties, 'all', 'all');
-  };
-
-  const hasActiveFilters = selectedLocation !== 'all' || priceRange !== 'all';
-
-  // Convert property images to gallery items for circular gallery
-  const getGalleryItems = (property: Property): GalleryItem[] => {
-    console.log('Converting property to gallery items:', property.title, property.property_images);
-    if (!property.property_images || !Array.isArray(property.property_images)) {
-      return [];
+  const nextImage = () => {
+    if (selectedProperty && selectedProperty.property_images) {
+      setCurrentImageIndex((prev) => 
+        (prev + 1) % selectedProperty.property_images.length
+      );
     }
-    return property.property_images.map((imageUrl, index) => ({
-      common: property.title,
-      binomial: property.location || '',
-      photo: {
-        url: imageUrl,
-        text: `${property.title} - Image ${index + 1}`,
-        by: 'Property Gallery'
-      }
-    }));
+  };
+
+  const prevImage = () => {
+    if (selectedProperty && selectedProperty.property_images) {
+      setCurrentImageIndex((prev) => 
+        prev === 0 ? selectedProperty.property_images.length - 1 : prev - 1
+      );
+    }
   };
 
   if (loading) {
@@ -240,23 +184,10 @@ const NetflixStyleGallery: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section with more top margin */}
-      <div className="pt-20">
-        <HeroProperty 
-          property={featuredProperty} 
-          onViewGallery={openImageModal}
-        />
-      </div>
-
-      {/* Filters */}
-      <PropertyFilters
-        locations={locations}
-        selectedLocation={selectedLocation}
-        onLocationChange={handleLocationChange}
-        priceRange={priceRange}
-        onPriceRangeChange={handlePriceRangeChange}
-        onClearFilters={handleClearFilters}
-        hasActiveFilters={hasActiveFilters}
+      {/* Hero Section */}
+      <HeroProperty 
+        property={featuredProperty} 
+        onViewGallery={openImageModal}
       />
 
       {/* Property Rows */}
@@ -271,32 +202,89 @@ const NetflixStyleGallery: React.FC = () => {
         ))}
       </div>
 
-      {/* Circular Gallery Modal */}
+      {/* Image Modal */}
       <Dialog open={!!selectedProperty} onOpenChange={closeImageModal}>
-        <DialogContent className="max-w-full w-full h-screen p-0 bg-black overflow-hidden">
+        <DialogContent className="max-w-6xl w-full h-[90vh] p-0 bg-black">
+          <DialogHeader className="absolute top-4 left-4 z-10 bg-black/70 text-white p-3 rounded-lg">
+            <DialogTitle className="text-lg font-semibold">
+              {selectedProperty?.title}
+            </DialogTitle>
+            <p className="text-sm opacity-90">
+              Image {currentImageIndex + 1} of {selectedProperty?.property_images?.length || 0}
+            </p>
+          </DialogHeader>
+
+          <Button
+            onClick={closeImageModal}
+            className="absolute top-4 right-4 z-10 bg-black/70 text-white hover:bg-black/90 rounded-full"
+            size="icon"
+          >
+            <X className="w-4 h-4" />
+          </Button>
+
           {selectedProperty && (
-            <>
-              <Button
-                onClick={closeImageModal}
-                className="absolute top-4 right-4 z-50 bg-black/70 text-white hover:bg-black/90 rounded-full"
-                size="icon"
-              >
-                <X className="w-4 h-4" />
-              </Button>
-              
-              <div className="w-full bg-background text-foreground" style={{ height: '500vh' }}>
-                <div className="w-full h-screen sticky top-0 flex flex-col items-center justify-center overflow-hidden">
-                  <div className="text-center mb-8 absolute top-16 z-10">
-                    <h1 className="text-4xl font-bold text-white">{selectedProperty.title}</h1>
-                    <p className="text-white/70">{selectedProperty.location}</p>
-                    <p className="text-white/60 mt-2">Scroll to rotate the gallery</p>
-                  </div>
-                  <div className="w-full h-full">
-                    <CircularGallery items={getGalleryItems(selectedProperty)} />
-                  </div>
+            <div className="relative w-full h-full">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentImageIndex}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-full h-full"
+                >
+                  <OptimizedPropertyImage
+                    src={selectedProperty.property_images?.[currentImageIndex]}
+                    alt={`${selectedProperty.title} - Image ${currentImageIndex + 1}`}
+                    className="w-full h-full object-contain"
+                    priority={true}
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Navigation Buttons */}
+              {selectedProperty.property_images && selectedProperty.property_images.length > 1 && (
+                <>
+                  <Button
+                    onClick={prevImage}
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/70 text-white hover:bg-black/90 rounded-full w-12 h-12"
+                    size="icon"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </Button>
+                  
+                  <Button
+                    onClick={nextImage}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/70 text-white hover:bg-black/90 rounded-full w-12 h-12"
+                    size="icon"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </Button>
+                </>
+              )}
+
+              {/* Thumbnail Navigation */}
+              {selectedProperty.property_images && selectedProperty.property_images.length > 1 && (
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 bg-black/70 p-3 rounded-lg max-w-full overflow-x-auto">
+                  {selectedProperty.property_images.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentImageIndex(index)}
+                      className={`flex-shrink-0 w-16 h-12 rounded overflow-hidden border-2 transition-colors ${
+                        index === currentImageIndex ? 'border-white' : 'border-transparent hover:border-white/50'
+                      }`}
+                    >
+                      <OptimizedPropertyImage
+                        src={image}
+                        alt={`Thumbnail ${index + 1}`}
+                        className="w-full h-full object-cover"
+                        priority={false}
+                      />
+                    </button>
+                  ))}
                 </div>
-              </div>
-            </>
+              )}
+            </div>
           )}
         </DialogContent>
       </Dialog>
