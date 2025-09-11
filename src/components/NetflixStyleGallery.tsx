@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import HeroProperty from './HeroProperty';
 import PropertyRow from './PropertyRow';
+import { CircularGallery, GalleryItem } from '@/components/ui/circular-gallery';
 
 interface Property {
   id: string;
@@ -33,7 +33,6 @@ const NetflixStyleGallery: React.FC = () => {
   const [featuredProperty, setFeaturedProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -132,30 +131,28 @@ const NetflixStyleGallery: React.FC = () => {
     }
   };
 
-  const openImageModal = (property: Property, imageIndex: number = 0) => {
+  const openImageModal = (property: Property) => {
     setSelectedProperty(property);
-    setCurrentImageIndex(imageIndex);
   };
 
   const closeImageModal = () => {
     setSelectedProperty(null);
-    setCurrentImageIndex(0);
   };
 
-  const nextImage = () => {
-    if (selectedProperty && selectedProperty.property_images) {
-      setCurrentImageIndex((prev) => 
-        (prev + 1) % selectedProperty.property_images.length
-      );
-    }
-  };
-
-  const prevImage = () => {
-    if (selectedProperty && selectedProperty.property_images) {
-      setCurrentImageIndex((prev) => 
-        prev === 0 ? selectedProperty.property_images.length - 1 : prev - 1
-      );
-    }
+  // Transform property images to gallery items for the circular gallery modal
+  const getGalleryItemsFromProperty = (property: Property): GalleryItem[] => {
+    if (!property.property_images || property.property_images.length === 0) return [];
+    
+    return property.property_images.map((imageUrl, index) => ({
+      common: property.title,
+      binomial: `${property.location} • Image ${index + 1}`,
+      photo: {
+        url: imageUrl,
+        text: `${property.title} in ${property.location} - Image ${index + 1}`,
+        pos: 'center',
+        by: `${property.bedrooms || 0} bed • ${property.bathrooms || 0} bath • ${property.sizes_m2 || 0}m²`
+      }
+    }));
   };
 
   if (loading) {
@@ -202,88 +199,30 @@ const NetflixStyleGallery: React.FC = () => {
         ))}
       </div>
 
-      {/* Image Modal */}
+      {/* Circular Gallery Modal */}
       <Dialog open={!!selectedProperty} onOpenChange={closeImageModal}>
-        <DialogContent className="max-w-6xl w-full h-[90vh] p-0 bg-black">
-          <DialogHeader className="absolute top-4 left-4 z-10 bg-black/70 text-white p-3 rounded-lg">
-            <DialogTitle className="text-lg font-semibold">
-              {selectedProperty?.title}
-            </DialogTitle>
-            <p className="text-sm opacity-90">
-              Image {currentImageIndex + 1} of {selectedProperty?.property_images?.length || 0}
-            </p>
-          </DialogHeader>
-
+        <DialogContent className="max-w-full w-full h-full p-0 bg-background border-0">
           <Button
             onClick={closeImageModal}
-            className="absolute top-4 right-4 z-10 bg-black/70 text-white hover:bg-black/90 rounded-full"
+            className="absolute top-4 right-4 z-50 bg-black/70 text-white hover:bg-black/90 rounded-full"
             size="icon"
           >
             <X className="w-4 h-4" />
           </Button>
 
           {selectedProperty && (
-            <div className="relative w-full h-full">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentImageIndex}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-full h-full"
-                >
-                  <OptimizedPropertyImage
-                    src={selectedProperty.property_images?.[currentImageIndex]}
-                    alt={`${selectedProperty.title} - Image ${currentImageIndex + 1}`}
-                    className="w-full h-full object-contain"
-                    priority={true}
-                  />
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Navigation Buttons */}
-              {selectedProperty.property_images && selectedProperty.property_images.length > 1 && (
-                <>
-                  <Button
-                    onClick={prevImage}
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/70 text-white hover:bg-black/90 rounded-full w-12 h-12"
-                    size="icon"
-                  >
-                    <ChevronLeft className="w-6 h-6" />
-                  </Button>
-                  
-                  <Button
-                    onClick={nextImage}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/70 text-white hover:bg-black/90 rounded-full w-12 h-12"
-                    size="icon"
-                  >
-                    <ChevronRight className="w-6 h-6" />
-                  </Button>
-                </>
-              )}
-
-              {/* Thumbnail Navigation */}
-              {selectedProperty.property_images && selectedProperty.property_images.length > 1 && (
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 bg-black/70 p-3 rounded-lg max-w-full overflow-x-auto">
-                  {selectedProperty.property_images.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`flex-shrink-0 w-16 h-12 rounded overflow-hidden border-2 transition-colors ${
-                        index === currentImageIndex ? 'border-white' : 'border-transparent hover:border-white/50'
-                      }`}
-                    >
-                      <OptimizedPropertyImage
-                        src={image}
-                        alt={`Thumbnail ${index + 1}`}
-                        className="w-full h-full object-cover"
-                        priority={false}
-                      />
-                    </button>
-                  ))}
+            <div className="w-full h-full" style={{ height: '100vh' }}>
+              <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden">
+                <div className="text-center mb-8 absolute top-16 z-10">
+                  <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-primary/80 to-accent bg-clip-text text-transparent">
+                    {selectedProperty.title}
+                  </h1>
+                  <p className="text-muted-foreground mt-2">{selectedProperty.location} • Scroll to rotate images</p>
                 </div>
-              )}
+                <div className="w-full h-full">
+                  <CircularGallery items={getGalleryItemsFromProperty(selectedProperty)} />
+                </div>
+              </div>
             </div>
           )}
         </DialogContent>
