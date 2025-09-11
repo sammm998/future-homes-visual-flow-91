@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Play, MapPin } from "lucide-react";
+import { Play, MapPin, X } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const VideoShowcase = () => {
   const [selectedCity, setSelectedCity] = useState("dubai");
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const cities = [
     {
@@ -36,131 +37,120 @@ const VideoShowcase = () => {
   const selectedCityData = cities.find(city => city.id === selectedCity);
 
   return (
-    <section className="py-24 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
-      {/* Cinema-style lighting effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.1),transparent_70%)]" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-      
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
-            <Play className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Video Gallery</span>
-          </div>
-          <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-6">
-            Discover Your
-            <br />
-            <span className="text-primary">Dream Location</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Take a virtual tour through our premium destinations
-          </p>
-        </motion.div>
+    <>
+      <section className="py-12 relative overflow-hidden">
+        <div className="container mx-auto px-4">
+          {/* Compact Header */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-8"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-3">
+              <Play className="w-3 h-3 text-primary" />
+              <span className="text-xs font-medium text-primary">Video Tour</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">
+              Explore Our <span className="text-primary">Destinations</span>
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Virtual tours of premium locations
+            </p>
+          </motion.div>
 
-        {/* City Selection */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="flex justify-center mb-12"
-        >
-          <div className="flex gap-4 p-2 rounded-2xl bg-background/50 backdrop-blur-sm border border-border/50">
-            {cities.map((city) => (
-              <button
+          {/* Compact Video Grid */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto"
+          >
+            {cities.map((city, index) => (
+              <motion.div
                 key={city.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group cursor-pointer"
                 onClick={() => {
                   setSelectedCity(city.id);
-                  setIsPlaying(false);
+                  setShowModal(true);
                 }}
-                className={`flex items-center gap-3 px-6 py-4 rounded-xl font-medium transition-all duration-300 ${
-                  selectedCity === city.id
-                    ? "bg-primary text-primary-foreground shadow-lg scale-105"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                }`}
               >
-                <span className="text-xl">{city.flag}</span>
-                <span>{city.name}</span>
-              </button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Video Player */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="max-w-6xl mx-auto"
-        >
-          <div className="relative rounded-3xl overflow-hidden bg-black shadow-2xl border border-border/20">
-            {/* Cinema-style frame */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-black/20 via-transparent to-black/20 z-10 pointer-events-none" />
-            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_0_100px_rgba(0,0,0,0.3)] z-10 pointer-events-none" />
-            
-            <div className="aspect-video relative">
-              {!isPlaying ? (
-                <div className="relative w-full h-full group cursor-pointer" onClick={() => setIsPlaying(true)}>
+                <div className="relative aspect-video rounded-xl overflow-hidden bg-black shadow-lg border border-border/20 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
                   <img
-                    src={selectedCityData?.thumbnail}
-                    alt={selectedCityData?.name}
-                    className="w-full h-full object-cover"
+                    src={city.thumbnail}
+                    alt={city.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300" />
                   
                   {/* Play button */}
                   <div className="absolute inset-0 flex items-center justify-center">
                     <motion.div
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
-                      className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300"
+                      className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300"
                     >
-                      <Play className="w-10 h-10 text-white ml-1" fill="currentColor" />
+                      <Play className="w-5 h-5 text-white ml-0.5" fill="currentColor" />
                     </motion.div>
                   </div>
 
-                  {/* City info overlay */}
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <div className="bg-black/60 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                      <div className="flex items-center gap-3 mb-2">
-                        <MapPin className="w-5 h-5 text-primary" />
-                        <h3 className="text-2xl font-bold text-white">{selectedCityData?.name}</h3>
-                        <span className="text-2xl">{selectedCityData?.flag}</span>
+                  {/* City label */}
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm">{city.flag}</span>
+                        <h3 className="text-sm font-semibold text-white">{city.name}</h3>
                       </div>
-                      <p className="text-white/80 text-lg">{selectedCityData?.description}</p>
                     </div>
                   </div>
                 </div>
-              ) : (
-                <iframe
-                  src={`https://www.youtube.com/embed/${selectedCityData?.videoId}?autoplay=1&rel=0&modestbranding=1`}
-                  title={`${selectedCityData?.name} Video`}
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              )}
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Video Modal */}
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="max-w-5xl w-[95vw] p-0 bg-black border-border/20">
+          <div className="relative">
+            {/* Close button */}
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            {/* Video container */}
+            <div className="aspect-video rounded-lg overflow-hidden">
+              <iframe
+                src={`https://www.youtube.com/embed/${selectedCityData?.videoId}?autoplay=1&rel=0&modestbranding=1`}
+                title={`${selectedCityData?.name} Video`}
+                className="w-full h-full"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+
+            {/* Video info */}
+            <div className="p-6 bg-gradient-to-t from-black/60 to-transparent absolute bottom-0 left-0 right-0">
+              <div className="flex items-center gap-3 mb-2">
+                <MapPin className="w-4 h-4 text-primary" />
+                <h3 className="text-xl font-bold text-white">{selectedCityData?.name}</h3>
+                <span className="text-xl">{selectedCityData?.flag}</span>
+              </div>
+              <p className="text-white/80">{selectedCityData?.description}</p>
             </div>
           </div>
-
-          {/* Cinema-style bottom lighting */}
-          <div className="h-8 bg-gradient-to-t from-primary/20 to-transparent rounded-b-3xl -mt-4 relative z-0" />
-        </motion.div>
-
-        {/* Floating elements for ambiance */}
-        <div className="absolute top-20 left-10 w-2 h-2 bg-primary/30 rounded-full animate-pulse" />
-        <div className="absolute top-32 right-16 w-1 h-1 bg-primary/40 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-20 left-20 w-3 h-3 bg-primary/20 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
-      </div>
-    </section>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
