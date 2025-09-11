@@ -296,26 +296,26 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
 
         {/* Image Modal */}
         <Dialog open={!!selectedProperty} onOpenChange={closeImageModal}>
-          <DialogContent className="max-w-6xl w-full h-[90vh] p-0">
-            <DialogHeader className="absolute top-4 left-4 z-10 bg-black/70 text-white p-3 rounded-lg">
-              <DialogTitle className="text-lg font-semibold">
+          <DialogContent className="w-full h-full max-w-none max-h-none m-0 p-0 overflow-hidden">
+            <DialogHeader className="absolute top-2 md:top-4 left-2 md:left-4 z-10 bg-black/70 text-white p-2 md:p-3 rounded-lg">
+              <DialogTitle className="text-sm md:text-lg font-semibold">
                 {selectedProperty?.title}
               </DialogTitle>
-              <p className="text-sm opacity-90">
+              <p className="text-xs md:text-sm opacity-90">
                 Image {currentImageIndex + 1} of {selectedProperty?.property_images?.length || 0}
               </p>
             </DialogHeader>
 
             <Button
               onClick={closeImageModal}
-              className="absolute top-4 right-4 z-10 bg-black/70 text-white hover:bg-black/90"
+              className="absolute top-2 md:top-4 right-2 md:right-4 z-10 bg-black/70 text-white hover:bg-black/90"
               size="icon"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3 h-3 md:w-4 md:h-4" />
             </Button>
 
             {selectedProperty && (
-              <div className="relative w-full h-full">
+              <div className="relative w-full h-full bg-black">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentImageIndex}
@@ -323,12 +323,12 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="w-full h-full"
+                    className="w-full h-full flex items-center justify-center"
                   >
                     <OptimizedPropertyImage
                       src={selectedProperty.property_images?.[currentImageIndex]}
                       alt={`${selectedProperty.title} - Image ${currentImageIndex + 1}`}
-                      className="w-full h-full object-contain bg-black"
+                      className="max-w-full max-h-full w-auto h-auto object-contain"
                       priority={true}
                     />
                   </motion.div>
@@ -339,42 +339,40 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
                   <>
                     <Button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/70 text-white hover:bg-black/90"
-                      size="icon"
+                      className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-black/70 text-white hover:bg-black/90 w-8 h-8 md:w-10 md:h-10 p-0"
                     >
-                      <ChevronLeft className="w-6 h-6" />
+                      <ChevronLeft className="w-4 h-4 md:w-6 md:h-6" />
                     </Button>
                     
                     <Button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/70 text-white hover:bg-black/90"
-                      size="icon"
+                      className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-black/70 text-white hover:bg-black/90 w-8 h-8 md:w-10 md:h-10 p-0"
                     >
-                      <ChevronRight className="w-6 h-6" />
+                      <ChevronRight className="w-4 h-4 md:w-6 md:h-6" />
                     </Button>
                   </>
                 )}
 
                 {/* Thumbnail Navigation with Pagination */}
                 {selectedProperty.property_images && selectedProperty.property_images.length > 1 && (
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-4xl px-4">
-                    <div className="bg-black/80 backdrop-blur-sm p-4 rounded-2xl">
+                  <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-xs md:max-w-4xl px-2 md:px-4">
+                    <div className="bg-black/80 backdrop-blur-sm p-2 md:p-4 rounded-lg md:rounded-2xl">
                       {(() => {
                         const { currentThumbnails, totalPages, startIndex } = getThumbnailPagination();
                         return (
                           <>
                             {/* Thumbnails Grid */}
-                            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 mb-4">
+                            <div className="grid grid-cols-6 md:grid-cols-8 gap-1 md:gap-2 mb-2 md:mb-4">
                               {currentThumbnails.map((image, index) => {
                                 const globalIndex = startIndex + index;
                                 return (
                                   <button
                                     key={globalIndex}
                                     onClick={() => setCurrentImageIndex(globalIndex)}
-                                    className={`aspect-[4/3] rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                                    className={`aspect-[4/3] rounded-md md:rounded-lg overflow-hidden border border-white/30 transition-all duration-300 ${
                                       globalIndex === currentImageIndex 
                                         ? 'border-white scale-105 shadow-lg' 
-                                        : 'border-white/30 hover:border-white/60'
+                                        : 'hover:border-white/60'
                                     }`}
                                   >
                                     <OptimizedPropertyImage
@@ -390,23 +388,23 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
 
                             {/* Pagination Controls */}
                             {totalPages > 1 && (
-                              <div className="flex items-center justify-center gap-4">
+                              <div className="flex items-center justify-center gap-2 md:gap-4">
                                 <button
                                   onClick={prevThumbnailPage}
                                   disabled={thumbnailPage === 0}
-                                  className="flex items-center gap-2 px-3 py-2 bg-white/20 hover:bg-white/30 disabled:opacity-50 disabled:hover:bg-white/20 text-white rounded-lg transition-colors duration-300 disabled:cursor-not-allowed"
+                                  className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1 md:py-2 bg-white/20 hover:bg-white/30 disabled:opacity-50 disabled:hover:bg-white/20 text-white rounded-md md:rounded-lg transition-colors duration-300 disabled:cursor-not-allowed text-xs md:text-sm"
                                 >
-                                  <ChevronLeft className="w-4 h-4" />
-                                  <span className="text-sm">Previous</span>
+                                  <ChevronLeft className="w-3 h-3 md:w-4 md:h-4" />
+                                  <span className="hidden md:inline">Previous</span>
                                 </button>
 
                                 {/* Page Indicators */}
-                                <div className="flex gap-2">
+                                <div className="flex gap-1 md:gap-2">
                                   {Array.from({ length: totalPages }, (_, index) => (
                                     <button
                                       key={index}
                                       onClick={() => setThumbnailPage(index)}
-                                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                      className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all duration-300 ${
                                         index === thumbnailPage 
                                           ? 'bg-white scale-125' 
                                           : 'bg-white/50 hover:bg-white/75'
@@ -418,10 +416,10 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
                                 <button
                                   onClick={nextThumbnailPage}
                                   disabled={thumbnailPage === totalPages - 1}
-                                  className="flex items-center gap-2 px-3 py-2 bg-white/20 hover:bg-white/30 disabled:opacity-50 disabled:hover:bg-white/20 text-white rounded-lg transition-colors duration-300 disabled:cursor-not-allowed"
+                                  className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1 md:py-2 bg-white/20 hover:bg-white/30 disabled:opacity-50 disabled:hover:bg-white/20 text-white rounded-md md:rounded-lg transition-colors duration-300 disabled:cursor-not-allowed text-xs md:text-sm"
                                 >
-                                  <span className="text-sm">Next</span>
-                                  <ChevronRight className="w-4 h-4" />
+                                  <span className="hidden md:inline">Next</span>
+                                  <ChevronRight className="w-3 h-3 md:w-4 md:h-4" />
                                 </button>
                               </div>
                             )}

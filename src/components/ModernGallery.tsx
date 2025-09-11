@@ -226,7 +226,7 @@ const ModernGallery = () => {
                             View Gallery
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                        <DialogContent className="w-full h-full max-w-none max-h-none m-0 p-4 md:p-6 overflow-hidden">
                           {selectedProperty && (
                             <PropertyGalleryModal property={selectedProperty} />
                           )}
@@ -294,69 +294,113 @@ const PropertyGalleryModal = ({ property }: { property: Property }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const images = property.property_images || [property.property_image];
 
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => prev === 0 ? images.length - 1 : prev - 1);
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="relative">
-        <OptimizedPropertyImage
-          src={images[currentImageIndex]}
-          alt={`${property.title} - Image ${currentImageIndex + 1}`}
-          className="w-full h-96 object-cover rounded-lg"
-        />
-        
-        {images.length > 1 && (
-          <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
-            {images.map((image, index) => (
+    <div className="flex flex-col h-full max-h-[calc(100vh-2rem)] md:max-h-[calc(100vh-4rem)]">
+      {/* Image Display Area */}
+      <div className="relative flex-1 min-h-0 mb-4">
+        <div className="relative w-full h-full bg-black rounded-lg overflow-hidden">
+          <OptimizedPropertyImage
+            src={images[currentImageIndex]}
+            alt={`${property.title} - Image ${currentImageIndex + 1}`}
+            className="w-full h-full object-contain"
+          />
+          
+          {/* Navigation Arrows */}
+          {images.length > 1 && (
+            <>
               <button
-                key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                  index === currentImageIndex 
-                    ? 'border-primary' 
-                    : 'border-transparent hover:border-border'
-                }`}
+                onClick={prevImage}
+                className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-black/70 text-white hover:bg-black/90 p-2 rounded-full transition-colors"
               >
-                <OptimizedPropertyImage
-                  src={image}
-                  alt={`${property.title} - Thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
               </button>
-            ))}
+              <button
+                onClick={nextImage}
+                className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-black/70 text-white hover:bg-black/90 p-2 rounded-full transition-colors"
+              >
+                <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </>
+          )}
+          
+          {/* Image Counter */}
+          <div className="absolute top-2 md:top-4 right-2 md:right-4 bg-black/70 text-white px-2 py-1 md:px-3 md:py-2 rounded-lg text-xs md:text-sm">
+            {currentImageIndex + 1} / {images.length}
+          </div>
+        </div>
+        
+        {/* Thumbnail Navigation */}
+        {images.length > 1 && (
+          <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-xs md:max-w-2xl px-2">
+            <div className="bg-black/80 backdrop-blur-sm p-2 md:p-3 rounded-lg">
+              <div className="flex gap-1 md:gap-2 overflow-x-auto scrollbar-hide">
+                {images.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`flex-shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-md overflow-hidden border-2 transition-all ${
+                      index === currentImageIndex 
+                        ? 'border-white scale-105' 
+                        : 'border-white/30 hover:border-white/60'
+                    }`}
+                  >
+                    <OptimizedPropertyImage
+                      src={image}
+                      alt={`${property.title} - Thumbnail ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>
 
-      <div className="space-y-4">
+      {/* Property Details - Scrollable on mobile */}
+      <div className="flex-shrink-0 max-h-48 md:max-h-none overflow-y-auto space-y-3 md:space-y-4">
         <div>
-          <h2 className="text-2xl font-bold">{property.title}</h2>
+          <h2 className="text-xl md:text-2xl font-bold">{property.title}</h2>
           <div className="flex items-center gap-2 text-muted-foreground">
             <MapPin className="w-4 h-4" />
-            <span>{property.location}</span>
+            <span className="text-sm md:text-base">{property.location}</span>
           </div>
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex flex-wrap gap-3 md:gap-6 text-sm md:text-base">
           {property.bedrooms && (
             <div className="flex items-center gap-2">
-              <Bed className="w-5 h-5 text-primary" />
+              <Bed className="w-4 h-4 md:w-5 md:h-5 text-primary" />
               <span>{property.bedrooms} Bedrooms</span>
             </div>
           )}
           {property.bathrooms && (
             <div className="flex items-center gap-2">
-              <Bath className="w-5 h-5 text-primary" />
+              <Bath className="w-4 h-4 md:w-5 md:h-5 text-primary" />
               <span>{property.bathrooms} Bathrooms</span>
             </div>
           )}
           {property.sizes_m2 && (
             <div className="flex items-center gap-2">
-              <Square className="w-5 h-5 text-primary" />
+              <Square className="w-4 h-4 md:w-5 md:h-5 text-primary" />
               <span>{property.sizes_m2}m²</span>
             </div>
           )}
         </div>
 
-        <div className="text-3xl font-bold text-primary">
+        <div className="text-2xl md:text-3xl font-bold text-primary">
           €{(() => {
             const priceStr = property.price || '0';
             const numericValue = parseInt(priceStr.replace(/[^\d]/g, ''));
@@ -365,7 +409,7 @@ const PropertyGalleryModal = ({ property }: { property: Property }) => {
         </div>
 
         {property.description && (
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed text-sm md:text-base line-clamp-3 md:line-clamp-none">
             {property.description}
           </p>
         )}
