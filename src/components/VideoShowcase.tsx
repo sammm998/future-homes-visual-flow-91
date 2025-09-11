@@ -7,6 +7,7 @@ const VideoShowcase = () => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [activeCity, setActiveCity] = useState("dubai");
 
   const cities = [
     {
@@ -61,85 +62,141 @@ const VideoShowcase = () => {
     }
   };
 
+  const activeCityData = cities.find(city => city.id === activeCity);
+
   return (
     <>
-      <section className="py-12 relative overflow-hidden">
+      <section className="py-20 relative overflow-hidden">
         <div className="container mx-auto px-4">
-          {/* Compact Header */}
+          {/* Header */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-8"
+            className="text-center mb-12"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-3">
-              <Play className="w-3 h-3 text-primary" />
-              <span className="text-xs font-medium text-primary">Video Tour</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
+              <Play className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Video Tour</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-2">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">
               Explore Our <span className="text-primary">Destinations</span>
             </h2>
-            <p className="text-sm text-muted-foreground">
-              Virtual tours of premium locations
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Virtual tours of premium locations around the world
             </p>
           </motion.div>
 
-          {/* Compact Video Grid */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto"
-          >
-            {cities.map((city, index) => (
-              <motion.div
-                key={city.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group cursor-pointer"
-                onClick={() => openCityGallery(city.id)}
-              >
-                <div className="relative aspect-video rounded-xl overflow-hidden bg-black shadow-lg border border-border/20 group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
-                  <img
-                    src={`https://img.youtube.com/vi/${city.videos[0].id}/maxresdefault.jpg`}
-                    alt={city.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300" />
-                  
-                  {/* Play button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300"
-                    >
-                      <Play className="w-5 h-5 text-white ml-0.5" fill="currentColor" />
-                    </motion.div>
-                  </div>
-
-                  {/* City label */}
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm">{city.flag}</span>
-                          <h3 className="text-sm font-semibold text-white">{city.name}</h3>
-                        </div>
-                        {city.videos.length > 1 && (
-                          <div className="text-xs text-white/70 bg-white/10 px-2 py-1 rounded">
-                            {city.videos.length} videos
-                          </div>
-                        )}
+          {/* Main Video Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            {/* Left Sidebar - Categories */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="lg:col-span-1"
+            >
+              <h3 className="text-lg font-semibold mb-6">Destinations</h3>
+              <div className="space-y-3">
+                {cities.map((city) => (
+                  <motion.button
+                    key={city.id}
+                    onClick={() => setActiveCity(city.id)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`w-full p-4 rounded-xl border text-left transition-all duration-300 ${
+                      activeCity === city.id
+                        ? 'bg-primary/10 border-primary/30 shadow-lg'
+                        : 'bg-card border-border hover:border-primary/20 hover:bg-primary/5'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{city.flag}</span>
+                        <h4 className="font-semibold">{city.name}</h4>
                       </div>
+                      {city.videos.length > 1 && (
+                        <span className="text-xs px-2 py-1 rounded-full bg-primary/20 text-primary">
+                          {city.videos.length}
+                        </span>
+                      )}
                     </div>
-                  </div>
+                    <p className="text-sm text-muted-foreground">{city.description}</p>
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Right Side - Video Display */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="lg:col-span-3"
+            >
+              {/* Main Video */}
+              <div className="relative aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-border/20 mb-6">
+                <img
+                  src={`https://img.youtube.com/vi/${activeCityData?.videos[0].id}/maxresdefault.jpg`}
+                  alt={activeCityData?.name}
+                  className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-500"
+                  onClick={() => openCityGallery(activeCity)}
+                />
+                <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => openCityGallery(activeCity)}
+                    className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors duration-300"
+                  >
+                    <Play className="w-7 h-7 text-white ml-1" fill="currentColor" />
+                  </motion.div>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
+              </div>
+
+              {/* Video Info */}
+              <div className="mb-6">
+                <h4 className="text-xl font-bold mb-2">{activeCityData?.videos[0].title}</h4>
+                <p className="text-muted-foreground">{activeCityData?.description}</p>
+              </div>
+
+              {/* Video Gallery Thumbnails */}
+              {activeCityData && activeCityData.videos.length > 1 && (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {activeCityData.videos.slice(1).map((video, index) => (
+                    <motion.div
+                      key={video.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      className="group cursor-pointer"
+                      onClick={() => {
+                        setCurrentVideoIndex(index + 1);
+                        openCityGallery(activeCity);
+                      }}
+                    >
+                      <div className="relative aspect-video rounded-lg overflow-hidden bg-black border border-border/20 group-hover:border-primary/30 transition-all duration-300">
+                        <img
+                          src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
+                          alt={video.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 flex items-center justify-center transition-colors duration-300">
+                          <div className="w-8 h-8 rounded-full bg-white/30 backdrop-blur-sm border border-white/40 flex items-center justify-center">
+                            <Play className="w-4 h-4 text-white ml-0.5" fill="currentColor" />
+                          </div>
+                        </div>
+                      </div>
+                      <h5 className="text-sm font-medium mt-2 group-hover:text-primary transition-colors">
+                        {video.title}
+                      </h5>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          </div>
         </div>
       </section>
 
