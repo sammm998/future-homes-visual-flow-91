@@ -39,6 +39,13 @@ const getAgentData = (agentName: string) => {
        title: "Property Specialist",
        experience: "Expert team specializing in international property sales",
        specialties: ["International Sales", "Property Investment", "Customer Relations"]
+     },
+     "Cyprus Properties Team": {
+       name: "Cyprus Properties Team", 
+       image: ervinaImage, // Using Ervina's image for Cyprus team
+       title: "Cyprus Property Specialist",
+       experience: "Expert team specializing in Cyprus real estate and investment opportunities",
+       specialties: ["Cyprus Properties", "Investment Consulting", "Residency Programs", "International Sales"]
      }
   };
   return agents[agentName] || {
@@ -163,7 +170,7 @@ const getPropertyData = async (id: string) => {
         images: images,
         distanceToAirport: dbProperty.distance_to_airport_km ? `${dbProperty.distance_to_airport_km} km` : undefined,
         distanceToBeach: dbProperty.distance_to_beach_km ? `${dbProperty.distance_to_beach_km} km` : undefined,
-        agent: dbProperty.agent_name || "Ervina Köksel",
+        agent: dbProperty.agent_name || (dbProperty.location?.toLowerCase().includes('cyprus') ? "Cyprus Properties Team" : "Ervina Köksel"),
         contactPhone: dbProperty.agent_phone_number || "+905523032750",
         contactEmail: "info@futurehomesturkey.com"
       };
