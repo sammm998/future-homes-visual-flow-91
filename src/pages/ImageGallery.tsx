@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import CinemaGallery from '@/components/CinemaGallery';
+import ModernGallery from '@/components/ModernGallery';
 
 const ImageGallery = () => {
   return (
@@ -12,7 +12,7 @@ const ImageGallery = () => {
         <link rel="canonical" href="/gallery" />
       </Helmet>
 
-      <CinemaGallery />
+      <ModernGallery />
     </>
   );
 };
