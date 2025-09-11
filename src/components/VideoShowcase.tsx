@@ -264,12 +264,12 @@ const VideoShowcase = () => {
 
               {/* Video thumbnails gallery */}
               {selectedCityData && selectedCityData.videos.length > 1 && (
-                <div className="flex gap-2 overflow-x-auto">
+                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
                   {selectedCityData.videos.map((video, index) => (
                     <button
                       key={video.id}
                       onClick={() => setCurrentVideoIndex(index)}
-                      className={`flex-shrink-0 w-20 h-12 rounded overflow-hidden border-2 transition-colors ${
+                      className={`w-full aspect-video rounded overflow-hidden border-2 transition-colors ${
                         index === currentVideoIndex 
                           ? 'border-primary' 
                           : 'border-white/20 hover:border-white/40'
