@@ -38,23 +38,16 @@ const getAgentData = (agentName: string) => {
        image: batuhanImage, // Using Batuhan's image as placeholder for team
        title: "Property Specialist",
        experience: "Expert team specializing in international property sales",
-       specialties: ["International Sales", "Property Investment", "Customer Relations"]
-     },
-     "Cyprus Properties Team": {
-       name: "Cyprus Properties Team", 
-       image: ervinaImage, // Using Ervina's image for Cyprus team
-       title: "Cyprus Property Specialist",
-       experience: "Expert team specializing in Cyprus real estate and investment opportunities",
-       specialties: ["Cyprus Properties", "Investment Consulting", "Residency Programs", "International Sales"]
-     }
-  };
-  return agents[agentName] || {
-    name: agentName,
-    image: batuhanImage, // Fallback image for any missing agents
-    title: "Property Specialist",
-    experience: "Experienced property specialist",
-    specialties: ["Property Sales", "Customer Service", "Real Estate"]
-  };
+        specialties: ["International Sales", "Property Investment", "Customer Relations"]
+      }
+   };
+   return agents[agentName] || {
+     name: "Batuhan Kunt",
+     image: batuhanImage,
+     title: "Property Specialist", 
+     experience: "Expert in real estate investment and property management",
+     specialties: ["Property Investment", "Customer Relations", "International Sales"]
+   };
 };
 
 // Get property data - database only approach
@@ -170,7 +163,7 @@ const getPropertyData = async (id: string) => {
         images: images,
         distanceToAirport: dbProperty.distance_to_airport_km ? `${dbProperty.distance_to_airport_km} km` : undefined,
         distanceToBeach: dbProperty.distance_to_beach_km ? `${dbProperty.distance_to_beach_km} km` : undefined,
-        agent: dbProperty.agent_name || (dbProperty.location?.toLowerCase().includes('cyprus') ? "Cyprus Properties Team" : "Ervina Köksel"),
+        agent: "Batuhan Kunt",
         contactPhone: dbProperty.agent_phone_number || "+905523032750",
         contactEmail: "info@futurehomesturkey.com"
       };
