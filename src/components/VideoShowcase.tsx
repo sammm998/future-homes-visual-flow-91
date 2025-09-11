@@ -178,7 +178,8 @@ const VideoShowcase = () => {
             {/* Video container */}
             <div className="aspect-video rounded-lg overflow-hidden">
               <iframe
-                src={`https://www.youtube.com/embed/${currentVideo?.id}?autoplay=1&rel=0&modestbranding=1`}
+                key={currentVideo?.id}
+                src={`https://www.youtube.com/embed/${currentVideo?.id}?autoplay=1&mute=1&rel=0&modestbranding=1`}
                 title={currentVideo?.title || `${selectedCityData?.name} Video`}
                 className="w-full h-full"
                 frameBorder="0"
