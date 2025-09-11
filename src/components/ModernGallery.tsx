@@ -42,8 +42,8 @@ const ModernGallery = () => {
     return matchesSearch && matchesLocation && matchesType;
   });
 
-  const locations = [...new Set(properties.map((p: Property) => p.location))];
-  const propertyTypes = [...new Set(properties.map((p: Property) => p.property_type))];
+  const locations = [...new Set(properties.map((p: Property) => p.location))].filter(Boolean);
+  const propertyTypes = [...new Set(properties.map((p: Property) => p.property_type))].filter(Boolean);
 
   const toggleFavorite = (propertyId: string) => {
     setFavorites(prev => {
