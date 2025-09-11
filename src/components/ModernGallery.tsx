@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { CircularGallery, GalleryItem } from '@/components/ui/circular-gallery';
 import { supabase } from '@/integrations/supabase/client';
-import { useCurrency } from '@/contexts/CurrencyContext';
-import { formatPriceFromString } from '@/utils/priceFormatting';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { OptimizedPropertyImage } from './OptimizedPropertyImage';
+import HeroProperty from './HeroProperty';
+import PropertyRow from './PropertyRow';
+import { CircularGallery, GalleryItem } from '@/components/ui/circular-gallery';
 
 interface Property {
   id: string;
@@ -11,148 +16,218 @@ interface Property {
   property_image: string;
   property_images: string[];
   price: string;
-  bedrooms: string;
-  bathrooms: string;
-  sizes_m2: string;
-  description: string;
-  property_type: string;
-  ref_no?: string;
+  bedrooms?: string;
+  bathrooms?: string;
+  sizes_m2?: string;
+  description?: string;
+  area?: string;
+  status?: string;
+}
+
+interface PropertyRowData {
+  title: string;
+  properties: Property[];
 }
 
 const ModernGallery = () => {
-  const [properties, setProperties] = useState<Property[]>([]);
+  const [propertyRows, setPropertyRows] = useState<PropertyRowData[]>([]);
+  const [featuredProperty, setFeaturedProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
-  const { formatPrice } = useCurrency();
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        // Fetch specific properties by ref_no first, then fill with others
-        const specificRefNumbers = ['10003', '10028', '1180'];
-        
-        const { data: specificData, error: specificError } = await supabase
-          .from('properties')
-          .select('id, title, location, price, property_image, property_images, bedrooms, bathrooms, sizes_m2, description, property_type, ref_no')
-          .eq('is_active', true)
-          .in('ref_no', specificRefNumbers)
-          .not('property_image', 'is', null);
-        
-        const { data: otherData, error: otherError } = await supabase
-          .from('properties')
-          .select('id, title, location, price, property_image, property_images, bedrooms, bathrooms, sizes_m2, description, property_type, ref_no')
-          .eq('is_active', true)
-          .not('ref_no', 'in', `(${specificRefNumbers.map(n => `'${n}'`).join(',')})`)
-          .not('property_image', 'is', null)
-          .order('created_at', { ascending: false })
-          .limit(6);
-        
-        const error = specificError || otherError;
-        const combinedData = [...(specificData || []), ...(otherData || [])];
-
-        if (error) {
-          console.error('Error fetching properties:', error);
-          return;
-        }
-
-        // Filter properties that have facade images (general/exterior images)
-        const propertiesWithFacades = combinedData.filter(property => {
-          if (!property.property_image) return false;
-          
-          // Check if main image or any image contains 'general' and not 'interior'
-          const hasExteriorImage = property.property_image.includes('/general/') && 
-                                   !property.property_image.includes('/interior/');
-          
-          if (hasExteriorImage) return true;
-          
-          // Check other images
-          if (property.property_images && property.property_images.length > 0) {
-            return property.property_images.some(img => 
-              img.includes('/general/') && !img.includes('/interior/')
-            );
-          }
-          
-          return false;
-        });
-
-        setProperties(propertiesWithFacades.slice(0, 12)); // Limit to 12 properties
-      } catch (error) {
-        console.error('Error fetching properties:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProperties();
   }, []);
 
-  // Transform properties to gallery items
-  const galleryItems: GalleryItem[] = properties.map(property => {
-    // Find the best facade image
-    let imageUrl = property.property_image;
-    
-    if (property.property_images && property.property_images.length > 0) {
-      const facadeImage = property.property_images.find(img => 
-        img.includes('/general/') && !img.includes('/interior/')
+  const fetchProperties = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const { data, error: fetchError } = await supabase
+        .from('properties')
+        .select('id, title, location, property_image, property_images, price, bedrooms, bathrooms, sizes_m2, description')
+        .eq('is_active', true)
+        .not('property_images', 'is', null)
+        .order('created_at', { ascending: false });
+
+      if (fetchError) throw fetchError;
+
+      // Filter properties with images
+      const propertiesWithImages = (data || []).filter(property => 
+        property.property_images && 
+        Array.isArray(property.property_images) && 
+        property.property_images.length > 0
       );
-      if (facadeImage) {
-        imageUrl = facadeImage;
+
+      if (propertiesWithImages.length === 0) {
+        setError('No properties with images found.');
+        return;
       }
+
+      // Set featured property (first one)
+      setFeaturedProperty(propertiesWithImages[0]);
+
+      // Group properties by location and create rows
+      const locationGroups: { [key: string]: Property[] } = {};
+      propertiesWithImages.forEach(property => {
+        const location = property.location || 'Other';
+        if (!locationGroups[location]) {
+          locationGroups[location] = [];
+        }
+        locationGroups[location].push(property);
+      });
+
+      const rows: PropertyRowData[] = [];
+
+      // Add "Recently Added" row with newest properties
+      if (propertiesWithImages.length > 1) {
+        rows.push({
+          title: 'Recently Added',
+          properties: propertiesWithImages.slice(1, 7) // Skip featured property
+        });
+      }
+
+      // Add location-based rows
+      Object.entries(locationGroups).forEach(([location, properties]) => {
+        if (properties.length > 2) { // Only show locations with multiple properties
+          rows.push({
+            title: `Properties in ${location}`,
+            properties: properties.slice(0, 8)
+          });
+        }
+      });
+
+      // Add premium properties row (high-priced ones)
+      const premiumProperties = propertiesWithImages
+        .filter(p => {
+          const priceNum = parseInt(p.price.replace(/[^\d]/g, ''));
+          return priceNum > 500000; // Adjust threshold as needed
+        })
+        .slice(0, 8);
+
+      if (premiumProperties.length > 0) {
+        rows.push({
+          title: 'Premium Properties',
+          properties: premiumProperties
+        });
+      }
+
+      // Add "All Properties" row if we have more properties
+      if (propertiesWithImages.length > 8) {
+        rows.push({
+          title: 'Explore All Properties',
+          properties: propertiesWithImages.slice(0, 12)
+        });
+      }
+
+      setPropertyRows(rows);
+
+    } catch (err) {
+      console.error('Error fetching properties:', err);
+      setError('Failed to load properties. Please try again.');
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const priceText = formatPriceFromString(property.price || '0', formatPrice);
-    const details = [
-      property.bedrooms && `${property.bedrooms} bed`,
-      property.bathrooms && `${property.bathrooms} bath`,
-      property.sizes_m2 && `${property.sizes_m2}m²`
-    ].filter(Boolean).join(' • ');
+  const openImageModal = (property: Property) => {
+    setSelectedProperty(property);
+  };
 
-    return {
+  const closeImageModal = () => {
+    setSelectedProperty(null);
+  };
+
+  // Transform property images to gallery items for the circular gallery modal
+  const getGalleryItemsFromProperty = (property: Property): GalleryItem[] => {
+    if (!property.property_images || property.property_images.length === 0) return [];
+    
+    return property.property_images.map((imageUrl, index) => ({
       common: property.title,
-      binomial: `${property.location} • ${priceText}`,
+      binomial: `${property.location} • Image ${index + 1}`,
       photo: {
         url: imageUrl,
-        text: `${property.title} in ${property.location}`,
+        text: `${property.title} in ${property.location} - Image ${index + 1}`,
         pos: 'center',
-        by: details || property.property_type || 'Future Homes Turkey'
+        by: `${property.bedrooms || 0} bed • ${property.bathrooms || 0} bath • ${property.sizes_m2 || 0}m²`
       }
-    };
-  });
+    }));
+  };
 
   if (loading) {
     return (
-      <div className="w-full bg-background text-foreground" style={{ height: '100vh' }}>
-        <div className="w-full h-screen flex flex-col items-center justify-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4" />
-          <p className="text-lg text-muted-foreground">Loading amazing properties...</p>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto mb-4"></div>
+          <h2 className="text-2xl font-bold text-foreground">Loading Gallery...</h2>
         </div>
       </div>
     );
   }
 
-  if (galleryItems.length === 0) {
+  if (error || !featuredProperty) {
     return (
-      <div className="w-full bg-background text-foreground" style={{ height: '100vh' }}>
-        <div className="w-full h-screen flex flex-col items-center justify-center">
-          <h2 className="text-2xl font-bold mb-4">No Properties Found</h2>
-          <p className="text-muted-foreground">Please try again later.</p>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-foreground mb-4">
+            {error || 'No Properties Found'}
+          </h2>
+          <Button onClick={fetchProperties}>Try Again</Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full bg-background text-foreground" style={{ height: '500vh' }}>
-      <div className="w-full h-screen sticky top-0 flex flex-col items-center justify-center overflow-hidden">
-        <div className="text-center mb-8 absolute top-16 z-10">
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-primary/80 to-accent bg-clip-text text-transparent">
-            Property Gallery
-          </h1>
-          <p className="text-muted-foreground mt-2">Scroll to rotate • Discover premium properties</p>
-        </div>
-        <div className="w-full h-full">
-          <CircularGallery items={galleryItems} />
-        </div>
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <HeroProperty 
+        property={featuredProperty} 
+        onViewGallery={openImageModal}
+      />
+
+      {/* Property Rows */}
+      <div className="py-8 space-y-8">
+        {propertyRows.map((row, index) => (
+          <PropertyRow
+            key={index}
+            title={row.title}
+            properties={row.properties}
+            onViewGallery={openImageModal}
+          />
+        ))}
       </div>
+
+      {/* Circular Gallery Modal */}
+      <Dialog open={!!selectedProperty} onOpenChange={closeImageModal}>
+        <DialogContent className="max-w-full w-full h-full p-0 bg-background border-0">
+          <Button
+            onClick={closeImageModal}
+            className="absolute top-4 right-4 z-50 bg-black/70 text-white hover:bg-black/90 rounded-full"
+            size="icon"
+          >
+            <X className="w-4 h-4" />
+          </Button>
+
+          {selectedProperty && (
+            <div className="w-full h-full" style={{ height: '100vh' }}>
+              <div className="w-full h-full flex flex-col items-center justify-center overflow-hidden">
+                <div className="text-center mb-8 absolute top-16 z-10">
+                  <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-primary/80 to-accent bg-clip-text text-transparent">
+                    {selectedProperty.title}
+                  </h1>
+                  <p className="text-muted-foreground mt-2">{selectedProperty.location} • Scroll to rotate images</p>
+                </div>
+                <div className="w-full h-full">
+                  <CircularGallery items={getGalleryItemsFromProperty(selectedProperty)} />
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
