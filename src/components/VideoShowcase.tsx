@@ -27,7 +27,9 @@ const VideoShowcase = () => {
       flag: "🇹🇷",
       description: "Discover Mediterranean paradise in Antalya",
       videos: [
-        { id: "G4qgEcpSZ9c", title: "Antalya Coastal Properties" }
+        { id: "G4qgEcpSZ9c", title: "Antalya Coastal Properties" },
+        { id: "b2vVzPWM4UE", title: "Antalya Luxury Living" },
+        { id: "nT9e7UvjFAY", title: "Antalya Premium Developments" }
       ]
     },
     {
@@ -36,7 +38,8 @@ const VideoShowcase = () => {
       flag: "🇨🇾",
       description: "Explore island living in beautiful Cyprus",
       videos: [
-        { id: "_eYeY9EAlxs", title: "Cyprus Island Living" }
+        { id: "_eYeY9EAlxs", title: "Cyprus Island Living" },
+        { id: "6samL2SdYG8", title: "Cyprus Premium Properties" }
       ]
     }
   ];
