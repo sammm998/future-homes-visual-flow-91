@@ -48,8 +48,6 @@ const CinemaGallery: React.FC = () => {
       const { data, error } = await supabase
         .from('properties')
         .select('*')
-        .eq('is_active', true)
-        .not('property_images', 'is', null)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
