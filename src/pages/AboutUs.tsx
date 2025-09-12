@@ -257,7 +257,7 @@ const AboutUs = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
               <CardContent className="p-8">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500/20 to-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -283,6 +283,35 @@ const AboutUs = () => {
                 </div>
                 <div className="mt-6 pt-4 border-t border-border">
                   <p className="text-sm text-muted-foreground text-center">Our main hub for Turkish real estate opportunities and citizenship programs</p>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+              <CardContent className="p-8">
+                <div className="w-20 h-20 bg-gradient-to-br from-red-500/20 to-red-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Building className="w-10 h-10 text-red-500" />
+                </div>
+                <h3 className="text-2xl font-bold mb-4 text-center">Mersin Office</h3>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-semibold text-sm">Mersin, Turkey</p>
+                      <p className="text-sm text-muted-foreground">Regional office</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Phone className="w-5 h-5 text-red-500 flex-shrink-0" />
+                    <p className="text-sm">+90 552 303 27 50</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Mail className="w-5 h-5 text-red-500 flex-shrink-0" />
+                    <p className="text-sm">info@futurehomesturkey.com</p>
+                  </div>
+                </div>
+                <div className="mt-6 pt-4 border-t border-border">
+                  <p className="text-sm text-muted-foreground text-center">Serving the Mediterranean region with premium real estate opportunities</p>
                 </div>
               </CardContent>
             </Card>
@@ -332,11 +361,11 @@ const AboutUs = () => {
                   </div>
                   <div className="flex items-center gap-3">
                     <Phone className="w-5 h-5 text-amber-500 flex-shrink-0" />
-                    <p className="text-sm">+971 XX XXX XXXX</p>
+                    <p className="text-sm">+971 54 554 2068</p>
                   </div>
                   <div className="flex items-center gap-3">
                     <Mail className="w-5 h-5 text-amber-500 flex-shrink-0" />
-                    <p className="text-sm">dubai@futurehomesturkey.com</p>
+                    <p className="text-sm">Info@futurehomesdubai.com</p>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-border">
