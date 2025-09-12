@@ -7,7 +7,7 @@ export const useTeamMembers = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('team_members')
-        .select('id, name, position, bio, image_url, linkedin_url, display_order')
+        .select('*')
         .eq('is_active', true)
         .order('display_order', { ascending: true });
       
