@@ -12,10 +12,13 @@ import SEOHead from "@/components/SEOHead";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
-
 const ContactUs = () => {
-  const { pageTitle, metaDescription, contentSections, isLoading: contentLoading } = useWebsiteContent('contact-us');
-  
+  const {
+    pageTitle,
+    metaDescription,
+    contentSections,
+    isLoading: contentLoading
+  } = useWebsiteContent('contact-us');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -25,24 +28,26 @@ const ContactUs = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
+    const {
+      id,
+      value
+    } = e.target;
     setFormData(prev => ({
       ...prev,
       [id]: value
     }));
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-notification', {
+      const {
+        data,
+        error
+      } = await supabase.functions.invoke('send-contact-notification', {
         body: formData
       });
-
       if (error) {
         console.error('Error:', error);
         toast.error('Ett fel uppstod när meddelandet skulle skickas. Försök igen.');
@@ -65,29 +70,15 @@ const ContactUs = () => {
       setIsSubmitting(false);
     }
   };
-
-  return (
-    <div className="min-h-screen bg-background">
-      <SEOHead
-        title={pageTitle || "Contact Us | Future Homes Turkey"}
-        description={metaDescription || "Contact Future Homes Turkey for property inquiries. Expert guidance for real estate investment in Turkey, Dubai, Cyprus & Europe."}
-        keywords="contact future homes, property inquiry, real estate contact, Turkey property contact"
-        canonicalUrl="https://futurehomesturkey.com/contact-us"
-      />
+  return <div className="min-h-screen bg-background">
+      <SEOHead title={pageTitle || "Contact Us | Future Homes Turkey"} description={metaDescription || "Contact Future Homes Turkey for property inquiries. Expert guidance for real estate investment in Turkey, Dubai, Cyprus & Europe."} keywords="contact future homes, property inquiry, real estate contact, Turkey property contact" canonicalUrl="https://futurehomesturkey.com/contact-us" />
       <Navigation />
       
       {/* Dynamic Content Sections */}
-      {!contentLoading && contentSections.length > 0 && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {contentSections.map((section, index) => (
-            <ContentSection key={index} section={section} />
-          ))}
-        </div>
-      )}
+      {!contentLoading && contentSections.length > 0}
       
       {/* Fallback Hero Section */}
-      {(contentLoading || contentSections.length === 0) && (
-        <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-muted/10">
+      {(contentLoading || contentSections.length === 0) && <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-muted/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -98,8 +89,7 @@ const ContactUs = () => {
               </p>
             </div>
           </div>
-        </section>
-      )}
+        </section>}
 
       {/* Contact Section */}
       <section className="py-16">
@@ -126,10 +116,7 @@ const ContactUs = () => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <a 
-                      href="tel:+905523032750" 
-                      className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
-                    >
+                    <a href="tel:+905523032750" className="text-muted-foreground hover:text-primary transition-colors cursor-pointer">
                       +90 552 303 27 50
                     </a>
                   </CardContent>
@@ -143,10 +130,7 @@ const ContactUs = () => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <a 
-                      href="mailto:info@futurehomesturkey.com" 
-                      className="text-muted-foreground hover:text-primary transition-colors cursor-pointer break-all"
-                    >
+                    <a href="mailto:info@futurehomesturkey.com" className="text-muted-foreground hover:text-primary transition-colors cursor-pointer break-all">
                       info@futurehomesturkey.com
                     </a>
                   </CardContent>
@@ -214,77 +198,35 @@ const ContactUs = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="firstName">First Name</Label>
-                      <Input 
-                        id="firstName" 
-                        placeholder="First Name"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        required
-                      />
+                      <Input id="firstName" placeholder="First Name" value={formData.firstName} onChange={handleInputChange} required />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="lastName">Last Name</Label>
-                      <Input 
-                        id="lastName" 
-                        placeholder="Last Name"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        required
-                      />
+                      <Input id="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleInputChange} required />
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input 
-                      id="email" 
-                      type="email" 
-                      placeholder="your.email@example.com"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Input id="email" type="email" placeholder="your.email@example.com" value={formData.email} onChange={handleInputChange} required />
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input 
-                      id="phone" 
-                      placeholder="+90 XXX XXX XX XX"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Input id="phone" placeholder="+90 XXX XXX XX XX" value={formData.phone} onChange={handleInputChange} required />
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="property">Property Interest</Label>
-                    <Input 
-                      id="property" 
-                      placeholder="What type of property are you looking for?"
-                      value={formData.property}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Input id="property" placeholder="What type of property are you looking for?" value={formData.property} onChange={handleInputChange} required />
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="message">Message</Label>
-                    <Textarea 
-                      id="message" 
-                      placeholder="Tell us about your requirements..."
-                      rows={4}
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Textarea id="message" placeholder="Tell us about your requirements..." rows={4} value={formData.message} onChange={handleInputChange} required />
                   </div>
 
-                  <Button 
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-primary hover:bg-primary-glow text-primary-foreground font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                  >
+                  <Button type="submit" disabled={isSubmitting} className="w-full bg-primary hover:bg-primary-glow text-primary-foreground font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
                     <Send className="w-4 h-4 mr-2" />
                     {isSubmitting ? 'Sending...' : 'Send Message'}
                   </Button>
@@ -297,8 +239,6 @@ const ContactUs = () => {
 
       {/* ElevenLabs Conversational AI Widget */}
       <elevenlabs-convai agent-id="agent_01jzfqzb51eha8drdp5z56zavy"></elevenlabs-convai>
-    </div>
-  );
+    </div>;
 };
-
 export default ContactUs;
