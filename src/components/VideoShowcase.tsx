@@ -16,9 +16,9 @@ const VideoShowcase = () => {
       flag: "🇦🇪",
       description: "Experience luxury living in the heart of Dubai",
       videos: [
-        { id: "PbtCtOqZPBg", title: "Dubai Luxury Properties" },
-        { id: "3XHgmZNH2aE", title: "Dubai Waterfront Living" },
-        { id: "MqM8EYpQQkI", title: "Dubai Modern Apartments" }
+        { id: "G4qgEcpSZ9c", title: "Dubai Luxury Properties" },
+        { id: "b2vVzPWM4UE", title: "Dubai Waterfront Living" },
+        { id: "nT9e7UvjFAY", title: "Dubai Modern Apartments" }
       ]
     },
     {

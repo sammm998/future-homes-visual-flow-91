@@ -23,7 +23,7 @@ const getAgentData = (agentName: string) => {
        name: "Ervina Köksel",
        image: ervinaImage,
        title: "Sales Office Supervisor",
-       experience: "Experienced property specialist",
+       experience: "Experienced sales representative",
        specialties: ["Property Sales", "Customer Service", "Office Management"]
      },
      "Isra Adala": {
