@@ -45,14 +45,34 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const ImageGallery = lazy(() => import("./pages/ImageGallery"));
 
 
-// Reset query client with normal settings
+// Enhanced query client for global accessibility
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000, // 5 minutes
       gcTime: 10 * 60 * 1000, // 10 minutes
       refetchOnWindowFocus: false,
-      retry: 1,
+      retry: (failureCount, error) => {
+        // Don't retry on 4xx errors (client errors)
+        if (error?.message?.includes('400') || error?.message?.includes('404')) {
+          return false;
+        }
+        // Retry up to 3 times for network errors
+        return failureCount < 3;
+      },
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff with 30s max
+      networkMode: 'offlineFirst', // Better handling for poor connections
+    },
+    mutations: {
+      retry: (failureCount, error) => {
+        // Don't retry on 4xx errors
+        if (error?.message?.includes('400') || error?.message?.includes('404')) {
+          return false;
+        }
+        return failureCount < 2;
+      },
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+      networkMode: 'offlineFirst',
     },
   },
 });
