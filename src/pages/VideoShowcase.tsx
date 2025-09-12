@@ -164,13 +164,6 @@ const VideoShowcasePage = () => {
                           </motion.div>
                         </div>
 
-                        {/* Duration Badge - Sleeker */}
-                        <div className="absolute top-4 right-4">
-                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-black/80 backdrop-blur-sm rounded-full text-white text-sm font-semibold border border-white/20">
-                            <Clock className="w-3.5 h-3.5" />
-                            {video.duration}
-                          </div>
-                        </div>
 
                         {/* Video Info - Better Typography */}
                         <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -215,7 +208,7 @@ const VideoShowcasePage = () => {
                 {selectedVideo && (
                   <iframe
                     key={selectedVideo.id}
-                    src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1&mute=0&rel=0&modestbranding=1&iv_load_policy=3&fs=1&controls=1&showinfo=0`}
+                    src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1&mute=0&rel=0&modestbranding=1&iv_load_policy=3&fs=1&controls=1&showinfo=0&loop=0&playlist=${selectedVideo.id}&end=1`}
                     title={selectedVideo.title}
                     className="w-full h-full rounded-lg"
                     frameBorder="0"
