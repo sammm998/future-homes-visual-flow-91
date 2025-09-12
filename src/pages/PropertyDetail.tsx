@@ -11,8 +11,8 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import ervinaImage from '@/assets/ervina-koksel.png';
-// Using the exact uploaded image of Batuhan
-const batuhanImage = '/lovable-uploads/42060cff-50c3-47c2-afa8-36a1362a17fd.png';
+// Using Isra Adala's image
+const israImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/xwui0x0wkwm.png';
 
 import { supabase } from '@/integrations/supabase/client';
 
@@ -26,28 +26,28 @@ const getAgentData = (agentName: string) => {
        experience: "Experienced property specialist",
        specialties: ["Property Sales", "Customer Service", "Office Management"]
      },
-     "Batuhan Kunt": {
-       name: "Batuhan Kunt",
-       image: batuhanImage,
-       title: "Property Specialist",
-       experience: "Expert in real estate investment and property management",
-       specialties: ["Property Investment", "Customer Relations", "International Sales"]
-     },
+     "Isra Adala": {
+        name: "Isra Adala",
+        image: israImage,
+        title: "Sales Representative",
+        experience: "Expert in real estate investment and property management",
+        specialties: ["Property Investment", "Customer Relations", "International Sales"]
+      },
      "Dubai Properties Team": {
-       name: "Dubai Properties Team",
-       image: batuhanImage, // Using Batuhan's image as placeholder for team
-       title: "Property Specialist",
-       experience: "Expert team specializing in international property sales",
-        specialties: ["International Sales", "Property Investment", "Customer Relations"]
-      }
+        name: "Dubai Properties Team",
+        image: israImage, // Using Isra's image as placeholder for team
+        title: "Sales Representative",
+        experience: "Expert team specializing in international property sales",
+         specialties: ["International Sales", "Property Investment", "Customer Relations"]
+       }
    };
    return agents[agentName] || {
-     name: "Batuhan Kunt",
-     image: batuhanImage,
-     title: "Property Specialist", 
-     experience: "Expert in real estate investment and property management",
-     specialties: ["Property Investment", "Customer Relations", "International Sales"]
-   };
+      name: "Isra Adala",
+      image: israImage,
+      title: "Sales Representative", 
+      experience: "Expert in real estate investment and property management",
+      specialties: ["Property Investment", "Customer Relations", "International Sales"]
+    };
 };
 
 // Get property data - database only approach
@@ -163,7 +163,7 @@ const getPropertyData = async (id: string) => {
         images: images,
         distanceToAirport: dbProperty.distance_to_airport_km ? `${dbProperty.distance_to_airport_km} km` : undefined,
         distanceToBeach: dbProperty.distance_to_beach_km ? `${dbProperty.distance_to_beach_km} km` : undefined,
-        agent: "Batuhan Kunt",
+        agent: "Isra Adala",
         contactPhone: "+905523032750",
         contactEmail: "info@futurehomesturkey.com"
       };
@@ -683,7 +683,7 @@ const PropertyDetail = () => {
                     </Avatar>
                     <div>
                       <h4 className="font-semibold text-foreground">{property.agent}</h4>
-                      <p className="text-sm text-primary font-medium">Property Specialist</p>
+                      <p className="text-sm text-primary font-medium">Sales Representative</p>
                     </div>
                   </div>
 
