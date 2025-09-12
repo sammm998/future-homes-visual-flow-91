@@ -11,8 +11,8 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import ervinaImage from '@/assets/ervina-koksel.png';
-// Using the exact uploaded image of Isra
-const israImage = '/lovable-uploads/c5f67c2a-2c97-41a0-8f19-563b132637f0.png';
+// Using the exact uploaded image of Batuhan
+const batuhanImage = '/lovable-uploads/42060cff-50c3-47c2-afa8-36a1362a17fd.png';
 
 import { supabase } from '@/integrations/supabase/client';
 
@@ -26,24 +26,24 @@ const getAgentData = (agentName: string) => {
        experience: "Experienced property specialist",
        specialties: ["Property Sales", "Customer Service", "Office Management"]
      },
-     "Isra": {
-       name: "Isra",
-       image: israImage,
+     "Batuhan Kunt": {
+       name: "Batuhan Kunt",
+       image: batuhanImage,
        title: "Property Specialist",
        experience: "Expert in real estate investment and property management",
        specialties: ["Property Investment", "Customer Relations", "International Sales"]
      },
      "Dubai Properties Team": {
        name: "Dubai Properties Team",
-       image: israImage, // Using Isra's image as placeholder for team
+       image: batuhanImage, // Using Batuhan's image as placeholder for team
        title: "Property Specialist",
        experience: "Expert team specializing in international property sales",
         specialties: ["International Sales", "Property Investment", "Customer Relations"]
       }
    };
    return agents[agentName] || {
-     name: "Isra",
-     image: israImage,
+     name: "Batuhan Kunt",
+     image: batuhanImage,
      title: "Property Specialist", 
      experience: "Expert in real estate investment and property management",
      specialties: ["Property Investment", "Customer Relations", "International Sales"]
@@ -163,7 +163,7 @@ const getPropertyData = async (id: string) => {
         images: images,
         distanceToAirport: dbProperty.distance_to_airport_km ? `${dbProperty.distance_to_airport_km} km` : undefined,
         distanceToBeach: dbProperty.distance_to_beach_km ? `${dbProperty.distance_to_beach_km} km` : undefined,
-        agent: "Isra",
+        agent: "Batuhan Kunt",
         contactPhone: "+905523032750",
         contactEmail: "info@futurehomesturkey.com"
       };
