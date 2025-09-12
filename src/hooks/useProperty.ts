@@ -16,16 +16,54 @@ export const useProperty = (id: string) => {
         return null;
       }
       
-      const { data, error } = await supabase
-        .from('properties')
-        .select('*')
-        .eq('id', id)
-        .maybeSingle();
+      // Create timeout for better connection handling (Dubai users)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+      }, 30000); // 30 second timeout
       
-      if (error) throw error;
-      return data;
+      try {
+        const { data, error } = await supabase
+          .from('properties')
+          .select('*')
+          .eq('id', id)
+          .maybeSingle();
+        
+        clearTimeout(timeoutId);
+        
+        if (error) {
+          throw error;
+        }
+        
+        return data;
+      } catch (err: any) {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') {
+          throw new Error('Request timeout - please check your internet connection');
+        }
+        throw err;
+      }
     },
-    enabled: !!id
+    enabled: !!id,
+    retry: (failureCount, error) => {
+      // Don't retry on timeout or abort errors after 3 attempts
+      if (error?.message?.includes('timeout') || error?.message?.includes('AbortError')) {
+        return failureCount < 3;
+      }
+      // Don't retry on 4xx client errors
+      if (error?.message?.includes('400') || error?.message?.includes('404')) {
+        return false;
+      }
+      // Retry up to 5 times for network errors (good for Dubai users)
+      return failureCount < 5;
+    },
+    retryDelay: (attemptIndex) => {
+      // Exponential backoff: 2s, 4s, 8s, 16s, 30s max
+      return Math.min(2000 * Math.pow(2, attemptIndex), 30000);
+    },
+    networkMode: 'offlineFirst',
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 
   return {
