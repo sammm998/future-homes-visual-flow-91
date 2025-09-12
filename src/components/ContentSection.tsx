@@ -43,7 +43,7 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
       </div>
     </div>;
   const renderFormSection = () => <div className={`mb-16 ${className}`}>
-      {section.content}
+      {section.content && <p className="text-lg text-muted-foreground text-center">{section.content}</p>}
     </div>;
   const renderPropertiesSection = () => <div className={`mb-16 ${className}`}>
       <div className="text-center mb-12">
