@@ -41,12 +41,23 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       return url.toString();
     }
     
+    // For external CDN URLs (like cdn.futurehomesturkey.com), don't modify
+    if (originalUrl.includes('cdn.futurehomesturkey.com')) {
+      console.log('🖼️ Using CDN image directly:', originalUrl);
+      return originalUrl;
+    }
+    
     return originalUrl;
   };
 
   // Create different sizes for responsive loading
   const createSrcSet = () => {
     if (!src || src.includes('placeholder.svg')) return '';
+    
+    // Don't create srcSet for CDN images to avoid optimization issues
+    if (src.includes('cdn.futurehomesturkey.com')) {
+      return '';
+    }
     
     const sizes = [320, 640, 960, 1280];
     return sizes
@@ -95,10 +106,12 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   }, [src, priority, currentSrc]);
 
   const handleLoad = () => {
+    console.log('✅ Image loaded successfully:', src);
     setIsLoading(false);
   };
 
   const handleError = () => {
+    console.log('❌ Image failed to load:', src, 'currentSrc:', currentSrc);
     setError(true);
     setIsLoading(false);
   };

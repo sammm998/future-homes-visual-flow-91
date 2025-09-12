@@ -83,9 +83,21 @@ const DubaiPropertySearch = () => {
   
   // Filter properties to show Dubai properties only
   const dubaiProperties = useMemo(() => {
+    console.log('🏙️ Dubai properties filtering - total properties:', allProperties.length);
     const filteredProperties = allProperties.filter(property => 
       property.location?.toLowerCase().includes('dubai')
     );
+    
+    console.log('🏙️ Found Dubai properties:', filteredProperties.length);
+    filteredProperties.forEach(prop => {
+      console.log('🏠 Dubai property:', {
+        id: prop.id,
+        ref_no: prop.ref_no,
+        title: prop.title,
+        image: prop.property_image,
+        images_count: prop.property_images?.length || 0
+      });
+    });
     
     // Deduplicate by ref_no, keeping the most recent one (last in array)
     const uniqueProperties = filteredProperties.reduce((acc, property) => {

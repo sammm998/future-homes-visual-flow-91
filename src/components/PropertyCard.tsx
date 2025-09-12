@@ -26,11 +26,18 @@ interface PropertyCardProps {
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const getImageUrl = () => {
+    console.log('🏠 PropertyCard image sources:', {
+      property_image: property.image,
+      property_images: property.property_images,
+      first_image: property.property_images?.[0]
+    });
+    
     if (property.image) return property.image;
     if (property.property_images && property.property_images.length > 0) {
       return property.property_images[0];
     }
-    return '/placeholder.svg';
+    // Use a proper fallback image URL instead of /placeholder.svg
+    return 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp';
   };
 
   return (
