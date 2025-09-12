@@ -163,41 +163,6 @@ const VideoShowcase = () => {
                 <p className="text-muted-foreground">{activeCityData?.description}</p>
               </div>
 
-              {/* Video Gallery Thumbnails */}
-              {activeCityData && activeCityData.videos.length > 1 && (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {activeCityData.videos.slice(1).map((video, index) => (
-                    <motion.div
-                      key={video.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="group cursor-pointer"
-                      onClick={() => {
-                        setCurrentVideoIndex(index + 1);
-                        openCityGallery(activeCity);
-                      }}
-                    >
-                      <div className="relative aspect-video rounded-lg overflow-hidden bg-black border border-border/20 group-hover:border-primary/30 transition-all duration-300">
-                        <img
-                          src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
-                          alt={video.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 flex items-center justify-center transition-colors duration-300">
-                          <div className="w-8 h-8 rounded-full bg-white/30 backdrop-blur-sm border border-white/40 flex items-center justify-center">
-                            <Play className="w-4 h-4 text-white ml-0.5" fill="currentColor" />
-                          </div>
-                        </div>
-                      </div>
-                      <h5 className="text-sm font-medium mt-2 group-hover:text-primary transition-colors">
-                        {video.title}
-                      </h5>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
             </motion.div>
           </div>
         </div>
