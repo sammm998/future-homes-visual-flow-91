@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 interface Testimonial {
@@ -22,53 +22,79 @@ interface DbTestimonial {
 }
 
 export const useTestimonials = () => {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchTestimonials = async () => {
-    try {
-      setLoading(true);
-      setError(null);
+  const { data: testimonials = [], isLoading: loading, error } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: async () => {
+      console.log('🔍 useTestimonials: Making API call to fetch testimonials');
       
-      const { data, error } = await supabase
-        .from('testimonials')
-        .select('*')
-        .order('created_at', { ascending: false });
+      // Create timeout for better connection handling (Dubai users)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+      }, 30000); // 30 second timeout
+      
+      try {
+        const { data, error } = await supabase
+          .from('testimonials')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        clearTimeout(timeoutId);
 
-      if (error) {
-        console.error('Supabase error fetching testimonials:', error);
-        throw error;
+        if (error) {
+          console.error('❌ useTestimonials: Database error:', error);
+          throw error;
+        }
+
+        if (data) {
+          console.log('✅ useTestimonials: Successfully fetched', data.length, 'testimonials');
+          // Transform database testimonials to the format expected by components
+          const transformedTestimonials: Testimonial[] = data.map((testimonial: DbTestimonial) => ({
+            text: testimonial.review_text,
+            image: testimonial.image_url || '/placeholder.svg',
+            name: testimonial.customer_name,
+            role: testimonial.designation || 
+                  (testimonial.location ? `Customer - ${testimonial.location}` : 'Customer')
+          }));
+
+          return transformedTestimonials;
+        }
+        
+        return [];
+      } catch (err: any) {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') {
+          throw new Error('Request timeout - please check your internet connection');
+        }
+        throw err;
       }
-
-      if (data) {
-        console.log('Successfully fetched testimonials:', data.length);
-        // Transform database testimonials to the format expected by components - keep original text
-        const transformedTestimonials: Testimonial[] = data.map((testimonial: DbTestimonial) => ({
-          text: testimonial.review_text, // Keep original English text
-          image: testimonial.image_url || '/placeholder.svg',
-          name: testimonial.customer_name,
-          role: testimonial.designation || 
-                (testimonial.location ? `Customer - ${testimonial.location}` : 'Customer')
-        }));
-
-        setTestimonials(transformedTestimonials);
-      } else {
-        console.log('No testimonials data received');
-        setTestimonials([]);
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
+    retry: (failureCount, error) => {
+      // Don't retry on timeout or abort errors after 3 attempts
+      if (error?.message?.includes('timeout') || error?.message?.includes('AbortError')) {
+        return failureCount < 3;
       }
-    } catch (err) {
-      console.error('Error fetching testimonials:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch testimonials');
-      setTestimonials([]);
-    } finally {
-      setLoading(false);
-    }
+      // Don't retry on 4xx client errors
+      if (error?.message?.includes('400') || error?.message?.includes('404')) {
+        return false;
+      }
+      // Retry up to 5 times for network errors (good for Dubai users)
+      return failureCount < 5;
+    },
+    retryDelay: (attemptIndex) => {
+      // Exponential backoff: 2s, 4s, 8s, 16s, 30s max
+      return Math.min(2000 * Math.pow(2, attemptIndex), 30000);
+    },
+    networkMode: 'offlineFirst',
+  });
+
+  return { 
+    testimonials, 
+    loading, 
+    error: error?.message,
+    refetch: () => {} // For backward compatibility
   };
-
-  useEffect(() => {
-    fetchTestimonials();
-  }, []);
-
-  return { testimonials, loading, error, refetch: fetchTestimonials };
 };

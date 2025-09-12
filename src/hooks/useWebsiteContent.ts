@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 interface ContentSection {
@@ -41,44 +41,46 @@ const getPageSlugFromPath = (pathname: string): string => {
 };
 
 export const useWebsiteContent = (customSlug?: string): UseWebsiteContentResult => {
-  const [content, setContent] = useState<WebsiteContent>({
-    pageTitle: '',
-    metaDescription: '',
-    contentSections: [],
-    heroTitle: '',
-    heroSubtitle: ''
-  });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchContent = async () => {
+  const slug = customSlug || getPageSlugFromPath(window.location.pathname);
+  
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['website_content', slug],
+    queryFn: async () => {
+      console.log('🔍 useWebsiteContent: Making API call to fetch content for slug:', slug);
+      
+      // Create timeout for better connection handling (Dubai users)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+      }, 30000); // 30 second timeout
+      
       try {
-        setIsLoading(true);
-        setError(null);
-
-        const slug = customSlug || getPageSlugFromPath(window.location.pathname);
-        
         const { data, error: fetchError } = await supabase
           .from('website_content')
           .select('*')
           .eq('page_slug', slug)
           .single();
+        
+        clearTimeout(timeoutId);
 
         if (fetchError) {
           if (fetchError.code === 'PGRST116') {
+            console.log('📝 useWebsiteContent: No data found for slug:', slug);
             // No data found, return empty content
-            setContent({
+            return {
               pageTitle: '',
               metaDescription: '',
               contentSections: [],
               heroTitle: '',
               heroSubtitle: ''
-            });
+            };
           } else {
             throw fetchError;
           }
-        } else if (data) {
+        }
+
+        if (data) {
+          console.log('✅ useWebsiteContent: Successfully fetched content for slug:', slug);
           const allSections = Array.isArray(data.content_sections) ? data.content_sections as ContentSection[] : [];
           
           // Extract hero section data
@@ -89,28 +91,63 @@ export const useWebsiteContent = (customSlug?: string): UseWebsiteContentResult 
           // Filter out hero sections from contentSections to prevent duplication
           const nonHeroSections = allSections.filter(section => section.type !== 'hero');
           
-          setContent({
+          return {
             pageTitle: data.page_title || '',
             metaDescription: data.meta_description || '',
             contentSections: nonHeroSections,
             heroTitle,
             heroSubtitle
-          });
+          };
         }
-      } catch (err) {
-        console.error('Error fetching website content:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch content');
-      } finally {
-        setIsLoading(false);
+        
+        return {
+          pageTitle: '',
+          metaDescription: '',
+          contentSections: [],
+          heroTitle: '',
+          heroSubtitle: ''
+        };
+      } catch (err: any) {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') {
+          throw new Error('Request timeout - please check your internet connection');
+        }
+        throw err;
       }
-    };
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
+    retry: (failureCount, error) => {
+      // Don't retry on timeout or abort errors after 3 attempts
+      if (error?.message?.includes('timeout') || error?.message?.includes('AbortError')) {
+        return failureCount < 3;
+      }
+      // Don't retry on 4xx client errors
+      if (error?.message?.includes('400') || error?.message?.includes('404')) {
+        return false;
+      }
+      // Retry up to 5 times for network errors (good for Dubai users)
+      return failureCount < 5;
+    },
+    retryDelay: (attemptIndex) => {
+      // Exponential backoff: 2s, 4s, 8s, 16s, 30s max
+      return Math.min(2000 * Math.pow(2, attemptIndex), 30000);
+    },
+    networkMode: 'offlineFirst',
+  });
 
-    fetchContent();
-  }, [customSlug]);
+  const content = data || {
+    pageTitle: '',
+    metaDescription: '',
+    contentSections: [],
+    heroTitle: '',
+    heroSubtitle: ''
+  };
 
   return {
     ...content,
     isLoading,
-    error
+    error: error?.message || null
   };
 };
