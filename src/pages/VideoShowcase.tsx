@@ -70,80 +70,70 @@ const VideoShowcasePage = () => {
       
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-primary/5 via-background to-secondary/5 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="container mx-auto px-4 relative z-10">
+      {/* Simple Header */}
+      <section className="pt-12 pb-8">
+        <div className="container mx-auto px-4">
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center max-w-4xl mx-auto"
+            className="text-center max-w-3xl mx-auto"
           >
-            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary/10 border border-primary/20 mb-6">
-              <Play className="w-5 h-5 text-primary" />
-              <span className="text-sm font-medium text-primary">Premium Video Collection</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+              <Play className="w-4 h-4 text-primary" />
+              <span className="text-sm font-semibold text-primary">Video Gallery</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Property <span className="text-primary">Video Gallery</span>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
+              Property Video Collection
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Take immersive virtual tours of our premium properties across Dubai, Antalya, and Cyprus. 
-              Click any video to start your journey.
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Explore premium properties through immersive virtual tours
             </p>
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-primary rounded-full"></span>
-                {allVideos.length} Premium Videos
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-secondary rounded-full"></span>
-                3 Destinations
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-accent rounded-full"></span>
-                HD Quality
-              </span>
-            </div>
           </motion.div>
         </div>
       </section>
 
       {/* Video Grid */}
-      <section className="py-20">
+      <section className="pb-20">
         <div className="container mx-auto px-4">
           {cities.map((city, cityIndex) => (
             <motion.div
               key={city.id}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: cityIndex * 0.2 }}
-              className="mb-16 last:mb-0"
+              transition={{ delay: cityIndex * 0.1 }}
+              className="mb-20 last:mb-0"
             >
-              {/* City Header */}
-              <div className="flex items-center gap-4 mb-8">
-                <div className="text-4xl">{city.flag}</div>
-                <div>
-                  <h2 className="text-2xl md:text-3xl font-bold">{city.name}</h2>
-                  <p className="text-muted-foreground">{city.description}</p>
-                </div>
-                <div className="ml-auto">
-                  <span className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
-                    {city.videos.length} Videos
-                  </span>
+              {/* City Header - More Elegant */}
+              <div className="relative mb-10">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent rounded-2xl"></div>
+                <div className="relative flex items-center justify-between p-6 rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center text-3xl border border-primary/20">
+                      {city.flag}
+                    </div>
+                    <div>
+                      <h2 className="text-2xl md:text-3xl font-bold text-foreground">{city.name}</h2>
+                      <p className="text-muted-foreground mt-1">{city.description}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
+                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                    <span className="text-sm font-semibold text-primary">{city.videos.length} Videos</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Video Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Video Cards Grid - Enhanced */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {city.videos.map((video, videoIndex) => (
                   <motion.div
                     key={video.id}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: videoIndex * 0.1 }}
-                    whileHover={{ y: -8 }}
+                    whileHover={{ y: -10, transition: { duration: 0.3 } }}
                     className="group cursor-pointer"
                     onClick={() => openVideo({
                       ...video,
@@ -152,47 +142,50 @@ const VideoShowcasePage = () => {
                       cityDescription: city.description
                     })}
                   >
-                    <div className="relative aspect-video rounded-2xl overflow-hidden bg-black shadow-xl border border-border/20 group-hover:shadow-2xl transition-all duration-500">
+                    <div className="relative aspect-video rounded-3xl overflow-hidden bg-black shadow-xl border-2 border-transparent group-hover:border-primary/30 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-primary/20">
                       {/* Video Thumbnail */}
                       <img
                         src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
                         alt={video.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
                       />
                       
-                      {/* Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-500">
+                      {/* Enhanced Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 group-hover:from-black/70 group-hover:via-black/20 group-hover:to-transparent transition-all duration-500">
                         
-                        {/* Play Button */}
+                        {/* Play Button - More Prominent */}
                         <div className="absolute inset-0 flex items-center justify-center">
                           <motion.div
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center group-hover:bg-primary/90 group-hover:border-primary transition-all duration-300"
+                            whileHover={{ scale: 1.15 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="w-20 h-20 rounded-full bg-white/15 backdrop-blur-md border-2 border-white/30 flex items-center justify-center group-hover:bg-primary/95 group-hover:border-primary group-hover:shadow-lg group-hover:shadow-primary/40 transition-all duration-400"
                           >
-                            <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
+                            <Play className="w-10 h-10 text-white ml-1" fill="currentColor" />
                           </motion.div>
                         </div>
 
-                        {/* Duration Badge */}
+                        {/* Duration Badge - Sleeker */}
                         <div className="absolute top-4 right-4">
-                          <div className="flex items-center gap-1 px-2 py-1 bg-black/70 backdrop-blur-sm rounded-full text-white text-xs font-medium">
-                            <Clock className="w-3 h-3" />
+                          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-black/80 backdrop-blur-sm rounded-full text-white text-sm font-semibold border border-white/20">
+                            <Clock className="w-3.5 h-3.5" />
                             {video.duration}
                           </div>
                         </div>
 
-                        {/* Video Info */}
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <MapPin className="w-4 h-4 text-primary" />
-                            <span className="text-white/90 text-sm font-medium">
+                        {/* Video Info - Better Typography */}
+                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                              <MapPin className="w-3.5 h-3.5 text-primary" />
+                            </div>
+                            <span className="text-white/90 text-sm font-semibold">
                               {city.name} {city.flag}
                             </span>
                           </div>
-                          <h3 className="text-white font-semibold text-lg leading-tight group-hover:text-primary transition-colors duration-300">
+                          <h3 className="text-white font-bold text-xl leading-tight group-hover:text-primary transition-colors duration-300 mb-2">
                             {video.title}
                           </h3>
+                          <div className="w-12 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
                       </div>
                     </div>
