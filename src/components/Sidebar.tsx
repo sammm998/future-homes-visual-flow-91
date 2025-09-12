@@ -68,6 +68,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
               <Link to="/gallery" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 Image Gallery
               </Link>
+              <Link to="/video-showcase" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+                Video Showcase
+              </Link>
               <Link to="/testimonials" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 Testimonials
               </Link>

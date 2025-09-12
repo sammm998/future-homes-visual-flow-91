@@ -43,6 +43,7 @@ const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const ImageGallery = lazy(() => import("./pages/ImageGallery"));
+const VideoShowcase = lazy(() => import("./pages/VideoShowcase"));
 
 
 // Enhanced query client for global accessibility
@@ -133,6 +134,7 @@ function AppContent() {
       <Route path="/information" element={<Information />} />
       <Route path="/about-us" element={<AboutUs />} />
       <Route path="/gallery" element={<ImageGallery />} />
+      <Route path="/video-showcase" element={<VideoShowcase />} />
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/article/:id" element={<Article />} />
       <Route path="/articles/:slug" element={<ArticlePage />} />
