@@ -38,7 +38,9 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
     </div>;
   const renderContactSection = () => <div className={`mb-16 ${className}`}>
       <div className="text-center mb-12">
-        {section.title && <h2 className="text-3xl font-bold text-foreground mb-4">{section.title}</h2>}
+        <h2 className="text-3xl font-bold text-foreground mb-4">
+          {section.title || "Contact Us"}
+        </h2>
         {section.content && <p className="text-lg text-muted-foreground">{section.content}</p>}
       </div>
     </div>;
