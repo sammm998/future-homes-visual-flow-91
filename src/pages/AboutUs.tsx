@@ -217,31 +217,9 @@ const AboutUs = () => {
                     <p className="text-primary font-semibold mb-4">{member.position}</p>
                     {member.bio && <p className="text-muted-foreground text-sm leading-relaxed mb-6">{member.bio}</p>}
                     <div className="flex justify-center gap-4 mb-4">
-                      {member.email && <a href={`mailto:${member.email}`} className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
-                          <Mail className="w-4 h-4" />
-                        </a>}
-                      {member.phone && <a href={`tel:${member.phone}`} className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
-                          <Phone className="w-4 h-4" />
-                        </a>}
                       {member.linkedin_url && <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
                           <Users className="w-4 h-4" />
                         </a>}
-                    </div>
-                    
-                    {/* Contact Information Text */}
-                    <div className="space-y-2 text-sm text-muted-foreground">
-                      {member.email && <div className="flex items-center justify-center gap-2">
-                          <Mail className="w-4 h-4 text-primary" />
-                          <a href={`mailto:${member.email}`} className="hover:text-primary transition-colors">
-                            {member.email}
-                          </a>
-                        </div>}
-                      {member.phone && <div className="flex items-center justify-center gap-2">
-                          <Phone className="w-4 h-4 text-primary" />
-                          <a href={`tel:${member.phone}`} className="hover:text-primary transition-colors">
-                            {member.phone}
-                          </a>
-                        </div>}
                     </div>
                   </CardContent>
                 </Card>)}
