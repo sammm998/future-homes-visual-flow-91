@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
@@ -19,7 +19,13 @@ const PropertyWizard = lazy(() => import("./pages/PropertyWizard"));
 const AIPropertySearch = lazy(() => import("./pages/AIPropertySearch"));
 const AllPropertiesSearch = lazy(() => import("./pages/AllPropertiesSearch"));
 const AntalyaPropertySearch = lazy(() => import("./pages/AntalyaPropertySearch"));
-const DubaiPropertySearch = lazy(() => import("./pages/DubaiPropertySearch"));
+const DubaiPropertySearch = lazy(() => {
+  console.log('🏙️ Loading DubaiPropertySearch component...');
+  return import("./pages/DubaiPropertySearch").catch(error => {
+    console.error('❌ Failed to load DubaiPropertySearch:', error);
+    throw error;
+  });
+});
 const CyprusPropertySearch = lazy(() => import("./pages/CyprusPropertySearch"));
 const MersinPropertySearch = lazy(() => import("./pages/MersinPropertySearch"));
 const BaliPropertySearch = lazy(() => import("./pages/BaliPropertySearch"));

@@ -20,10 +20,20 @@ import {
 } from "@/components/ui/pagination";
 
 const DubaiPropertySearch = () => {
+  console.log('🏙️ DubaiPropertySearch component starting...');
+  console.log('🌍 User location and browser info:', {
+    userAgent: navigator.userAgent,
+    language: navigator.language,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    location: window.location.href
+  });
+  
   // Router hooks - must be called unconditionally at component top level
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
+  
+  console.log('🏙️ Dubai route accessed:', location.pathname);
   
   // Data hooks
   const { properties: allProperties, loading, error } = useProperties();
@@ -189,6 +199,7 @@ const DubaiPropertySearch = () => {
 
 
   if (loading) {
+    console.log('🏙️ Dubai page loading...');
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
@@ -200,6 +211,7 @@ const DubaiPropertySearch = () => {
   }
 
   if (error) {
+    console.error('❌ Dubai page error:', error);
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
