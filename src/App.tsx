@@ -17,7 +17,6 @@ import "./utils/cleanConsole";
 const Index = lazy(() => import("./pages/Index"));
 const PropertyWizard = lazy(() => import("./pages/PropertyWizard"));
 const AIPropertySearch = lazy(() => import("./pages/AIPropertySearch"));
-const AllPropertiesSearch = lazy(() => import("./pages/AllPropertiesSearch"));
 const AntalyaPropertySearch = lazy(() => import("./pages/AntalyaPropertySearch"));
 const DubaiPropertySearch = lazy(() => {
   console.log('🏙️ Loading DubaiPropertySearch component...');
@@ -121,7 +120,6 @@ function AppContent() {
       
       <Route path="/property-wizard" element={<PropertyWizard />} />
       <Route path="/ai-property-search" element={<AIPropertySearch />} />
-      <Route path="/properties" element={<AllPropertiesSearch />} />
       <Route path="/antalya" element={<AntalyaPropertySearch />} />
       <Route path="/dubai" element={<DubaiPropertySearch />} />
       <Route path="/cyprus" element={<CyprusPropertySearch />} />
