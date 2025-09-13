@@ -210,8 +210,6 @@ export const translations: Record<string, Record<string, string>> = {
     // Hero/Search
     "propertyType": "Property Type",
     "bedrooms": "Bedrooms",
-    "bathrooms": "Bathrooms",
-    "area": "Area",
     "refNo": "Reference Number",
     "sortBy": "Sort By",
   },
@@ -284,7 +282,7 @@ export const translations: Record<string, Record<string, string>> = {
     "Show me modern apartments in Mersin": "Visa mig moderna lägenheter i Mersin",
     "Do you have any properties near golf courses?": "Har ni några fastigheter nära golfbanor?",
     "I'm looking for a high-yield investment": "Jag söker en högavkastande investering",
-    "Which areas do you recommend for families?": "Vilka regioner rekommenderar ni för familjer?",
+    "Which areas do you recommend for families?": "Vilka områden rekommenderar ni för familjer?",
     "Show properties with sea view": "Visa fastigheter med havsutsikt",
 
     // Property Wizard
@@ -451,8 +449,6 @@ export const translations: Record<string, Record<string, string>> = {
     // Hero/Search
     "propertyType": "Fastighetstyp",
     "bedrooms": "Sovrum",
-    "bathrooms": "Badrum",
-    "area": "Area",
     "refNo": "Referensnummer",
     "sortBy": "Sortera Efter",
   },
