@@ -17,17 +17,7 @@ import "./utils/cleanConsole";
 const Index = lazy(() => import("./pages/Index"));
 const PropertyWizard = lazy(() => import("./pages/PropertyWizard"));
 const AIPropertySearch = lazy(() => import("./pages/AIPropertySearch"));
-const AntalyaPropertySearch = lazy(() => import("./pages/AntalyaPropertySearch"));
-const DubaiPropertySearch = lazy(() => {
-  console.log('🏙️ Loading DubaiPropertySearch component...');
-  return import("./pages/DubaiPropertySearch").catch(error => {
-    console.error('❌ Failed to load DubaiPropertySearch:', error);
-    throw error;
-  });
-});
-const CyprusPropertySearch = lazy(() => import("./pages/CyprusPropertySearch"));
-const MersinPropertySearch = lazy(() => import("./pages/MersinPropertySearch"));
-const BaliPropertySearch = lazy(() => import("./pages/BaliPropertySearch"));
+const AllPropertiesSearch = lazy(() => import("./pages/AllPropertiesSearch"));
 
 
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
@@ -120,11 +110,7 @@ function AppContent() {
       
       <Route path="/property-wizard" element={<PropertyWizard />} />
       <Route path="/ai-property-search" element={<AIPropertySearch />} />
-      <Route path="/antalya" element={<AntalyaPropertySearch />} />
-      <Route path="/dubai" element={<DubaiPropertySearch />} />
-      <Route path="/cyprus" element={<CyprusPropertySearch />} />
-      <Route path="/mersin" element={<MersinPropertySearch />} />
-      <Route path="/bali" element={<BaliPropertySearch />} />
+      <Route path="/properties" element={<AllPropertiesSearch />} />
       
       
       <Route path="/property/:id" element={<PropertyDetail />} />
