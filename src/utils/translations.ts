@@ -210,6 +210,8 @@ export const translations: Record<string, Record<string, string>> = {
     // Hero/Search
     "propertyType": "Property Type",
     "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "area": "Area",
     "refNo": "Reference Number",
     "sortBy": "Sort By",
   },
@@ -449,6 +451,8 @@ export const translations: Record<string, Record<string, string>> = {
     // Hero/Search
     "propertyType": "Fastighetstyp",
     "bedrooms": "Sovrum",
+    "bathrooms": "Badrum",
+    "area": "Area",
     "refNo": "Referensnummer",
     "sortBy": "Sortera Efter",
   },
