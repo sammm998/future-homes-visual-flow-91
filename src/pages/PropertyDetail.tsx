@@ -16,6 +16,21 @@ const israImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/pu
 
 import { supabase } from '@/integrations/supabase/client';
 
+// Function to map property location to route
+const getLocationRoute = (location: string): string => {
+  if (!location) return '/antalya'; // Default fallback
+  
+  const locationLower = location.toLowerCase();
+  if (locationLower.includes('dubai')) return '/dubai';
+  if (locationLower.includes('antalya')) return '/antalya';
+  if (locationLower.includes('cyprus')) return '/cyprus';
+  if (locationLower.includes('mersin')) return '/mersin';
+  if (locationLower.includes('bali')) return '/bali';
+  
+  // Default to Antalya for unknown locations
+  return '/antalya';
+};
+
 // Agent data with images
 const getAgentData = (agentName: string) => {
   const agents: Record<string, any> = {
@@ -752,7 +767,7 @@ const PropertyDetail = () => {
               <p className="text-sm text-muted-foreground mb-4">
                 Discover more properties in {property.location}
               </p>
-              <Link to="/properties">
+              <Link to={getLocationRoute(property.location)}>
                 <Button size="sm" className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white shadow-lg hover:shadow-xl transition-all duration-300">
                   View Similar Properties
                 </Button>
