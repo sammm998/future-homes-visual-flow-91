@@ -16,10 +16,11 @@ interface PropertyFilterProps {
   filters: any;
   onFilterChange: (filters: any) => void;
   onSearch?: () => void;
+  onReset?: () => void;
   horizontal?: boolean;
 }
 
-const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange, onSearch, horizontal = false }) => {
+const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange, onSearch, onReset, horizontal = false }) => {
   const navigate = useNavigate();
   const { selectedCurrency } = useCurrency();
   
@@ -144,21 +145,17 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                     <div key={facility} className="flex items-center space-x-2 px-2 py-1.5 hover:bg-accent cursor-pointer" 
                          onClick={(e) => {
                            e.preventDefault();
+                           e.stopPropagation();
                            const facilityKey = facility.toLowerCase().replace(" ", "-");
                            const currentFacilities = Array.isArray(filters.facilities) ? [...filters.facilities] : [];
                            
                            if (currentFacilities.includes(facilityKey)) {
                              // Remove facility
-                             const index = currentFacilities.indexOf(facilityKey);
-                             if (index > -1) {
-                               currentFacilities.splice(index, 1);
-                             }
+                             handleFilterUpdate('facilities', currentFacilities.filter(f => f !== facilityKey));
                            } else {
                              // Add facility
-                             currentFacilities.push(facilityKey);
+                             handleFilterUpdate('facilities', [...currentFacilities, facilityKey]);
                            }
-                           
-                           handleFilterUpdate('facilities', currentFacilities);
                          }}>
                       <Checkbox
                         checked={Array.isArray(filters.facilities) ? filters.facilities.includes(facility.toLowerCase().replace(" ", "-")) : false}
@@ -209,6 +206,16 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 onClick={onSearch}
               >
                 Search
+              </button>
+            </div>
+
+            {/* Reset Button */}
+            <div>
+              <button 
+                className="h-9 w-full px-3 text-xs font-medium border border-input bg-background hover:bg-destructive hover:text-destructive-foreground rounded-md flex items-center justify-center"
+                onClick={onReset}
+              >
+                Reset
               </button>
             </div>
           </div>
@@ -439,9 +446,14 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
           </div>
 
           {/* Search Button */}
-          <Button className="w-full" onClick={onSearch}>
-            Search
-          </Button>
+          <div className="space-y-2">
+            <Button className="w-full" onClick={onSearch}>
+              Search
+            </Button>
+            <Button className="w-full" variant="outline" onClick={onReset}>
+              Reset Filters
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </GlowCard>

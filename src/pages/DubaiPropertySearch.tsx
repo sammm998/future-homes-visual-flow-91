@@ -187,6 +187,25 @@ const DubaiPropertySearch = () => {
     setShowFiltered(true);
   };
 
+  const handleReset = () => {
+    const resetFilters = {
+      propertyType: '',
+      bedrooms: '',
+      location: 'Dubai', // Keep the location for this page
+      district: '',
+      minPrice: '',
+      maxPrice: '',
+      minSquareFeet: '',
+      maxSquareFeet: '',
+      facilities: [],
+      sortBy: 'ref',
+      referenceNo: ''
+    };
+    setFilters(resetFilters);
+    setShowFiltered(false);
+    setCurrentPage(1);
+  };
+
   const handleSearch = () => {
     setShowFiltered(true);
   };
@@ -249,6 +268,7 @@ const DubaiPropertySearch = () => {
             filters={filters}
             onFilterChange={handleFilterChange}
             onSearch={handleSearch}
+            onReset={handleReset}
             horizontal={true}
           />
         </div>

@@ -155,6 +155,25 @@ const MersinPropertySearch = () => {
     setShowFiltered(hasFilters);
   };
 
+  const handleReset = () => {
+    const resetFilters = {
+      propertyType: '',
+      bedrooms: '',
+      location: 'Mersin', // Keep the location for this page
+      district: '',
+      minPrice: '',
+      maxPrice: '',
+      minSquareFeet: '',
+      maxSquareFeet: '',
+      facilities: [],
+      sortBy: 'ref',
+      referenceNo: ''
+    };
+    setFilters(resetFilters);
+    setShowFiltered(false);
+    setCurrentPage(1);
+  };
+
   const handleSearch = () => {
     setShowFiltered(true);
   };
@@ -234,6 +253,7 @@ const MersinPropertySearch = () => {
             filters={filters}
             onFilterChange={handleFilterChange}
             onSearch={handleSearch}
+            onReset={handleReset}
             horizontal={true}
           />
         </div>

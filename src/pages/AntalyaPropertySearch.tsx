@@ -137,6 +137,25 @@ const AntalyaPropertySearch = () => {
     setCurrentPage(1);
   };
 
+  const handleReset = () => {
+    const resetFilters = {
+      propertyType: '',
+      bedrooms: '',
+      location: 'Antalya', // Keep the location for this page
+      district: '',
+      minPrice: '',
+      maxPrice: '',
+      minSquareFeet: '',
+      maxSquareFeet: '',
+      facilities: [],
+      sortBy: 'ref',
+      referenceNo: ''
+    };
+    setFilters(resetFilters);
+    setShowFiltered(false);
+    setCurrentPage(1);
+  };
+
   const handleSearch = () => {
     setShowFiltered(true);
     setCurrentPage(1);
@@ -177,6 +196,7 @@ const AntalyaPropertySearch = () => {
             filters={filters}
             onFilterChange={handleFilterChange}
             onSearch={handleSearch}
+            onReset={handleReset}
             horizontal={true}
           />
         </div>
@@ -349,20 +369,7 @@ const AntalyaPropertySearch = () => {
                 </p>
                 <Button 
                   onClick={() => {
-                    setFilters({
-                      propertyType: '',
-                      bedrooms: '',
-                      location: 'Antalya',
-                      district: '',
-                      minPrice: '',
-                      maxPrice: '',
-                      minSquareFeet: '',
-                      maxSquareFeet: '',
-                      facilities: [],
-                      sortBy: 'ref',
-                      referenceNo: ''
-                    });
-                    setShowFiltered(false);
+                    handleReset();
                   }}
                   variant="outline"
                 >

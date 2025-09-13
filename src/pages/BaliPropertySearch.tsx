@@ -140,6 +140,25 @@ const BaliPropertySearch = () => {
     setShowFiltered(true);
   };
 
+  const handleReset = () => {
+    const resetFilters = {
+      propertyType: '',
+      bedrooms: '',
+      location: 'Bali', // Keep the location for this page
+      district: '',
+      minPrice: '',
+      maxPrice: '',
+      minSquareFeet: '',
+      maxSquareFeet: '',
+      facilities: [],
+      sortBy: 'ref',
+      referenceNo: ''
+    };
+    setFilters(resetFilters);
+    setShowFiltered(false);
+    setCurrentPage(1);
+  };
+
   const handleSearch = () => {
     setShowFiltered(true);
   };
@@ -179,6 +198,7 @@ const BaliPropertySearch = () => {
             filters={filters}
             onFilterChange={handleFilterChange}
             onSearch={handleSearch}
+            onReset={handleReset}
             horizontal={true}
           />
         </div>
