@@ -54,96 +54,70 @@ const DubaiPropertySearch = () => {
   const [showFiltered, setShowFiltered] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
-  
-  // Load filters from URL parameters and location state on mount
-  useEffect(() => {
-    const urlFilters: PropertyFilters = {
-      propertyType: searchParams.get('propertyType') || '',
-      bedrooms: searchParams.get('bedrooms') || '',
-      location: searchParams.get('location') || 'Dubai',
-      district: searchParams.get('district') || '',
-      minPrice: searchParams.get('priceMin') || searchParams.get('minPrice') || '',
-      maxPrice: searchParams.get('priceMax') || searchParams.get('maxPrice') || '',
-      minSquareFeet: searchParams.get('areaMin') || searchParams.get('minSquareFeet') || '',
-      maxSquareFeet: searchParams.get('areaMax') || searchParams.get('maxSquareFeet') || '',
-      facilities: searchParams.get('facilities')?.split(',').filter(Boolean) || [],
-      sortBy: (searchParams.get('sortBy') as any) || 'ref',
-      referenceNo: searchParams.get('referenceNumber') || searchParams.get('referenceNo') || ''
-    };
 
-    // Merge with location state if available
-    const stateFilters = location.state?.filters;
-    if (stateFilters) {
-      Object.keys(stateFilters).forEach(key => {
-        if (stateFilters[key] && stateFilters[key] !== '') {
-          urlFilters[key as keyof PropertyFilters] = stateFilters[key];
-        }
-      });
+  // Load filters from URL on component mount
+  useEffect(() => {
+    const locationParam = searchParams.get('location');
+    console.log('🔍 URL location param:', locationParam);
+    
+    if (locationParam && locationParam !== filters.location) {
+      setFilters(prev => ({
+        ...prev,
+        location: locationParam
+      }));
+    }
+  }, [searchParams]);
+
+  // Filter and transform properties for Dubai
+  const dubaiProperties = useMemo(() => {
+    console.log('🏠 Processing all properties:', allProperties?.length || 0);
+    
+    if (!allProperties || allProperties.length === 0) {
+      console.log('❌ No properties available');
+      return [];
     }
 
-    setFilters(urlFilters);
-    
-    // Show filtered results if any filters are applied
-    const hasFilters = Object.entries(urlFilters).some(([key, value]) => {
-      return value && value !== '' && value !== 'ref' && value !== 'Dubai';
-    });
-    
-    setShowFiltered(hasFilters);
-  }, [searchParams, location.state]);
-  
-  // Filter properties to show Dubai properties only
-  const dubaiProperties = useMemo(() => {
-    console.log('🏙️ Dubai properties filtering - total properties:', allProperties.length);
-    const filteredProperties = allProperties.filter(property => 
-      property.location?.toLowerCase().includes('dubai')
-    );
-    
-    console.log('🏙️ Found Dubai properties:', filteredProperties.length);
-    filteredProperties.forEach(prop => {
-      console.log('🏠 Dubai property:', {
-        id: prop.id,
-        ref_no: prop.ref_no,
-        title: prop.title,
-        image: prop.property_image,
-        images_count: prop.property_images?.length || 0
+    // Filter for Dubai properties and active status
+    const filtered = allProperties.filter(property => {
+      const isDubai = property.location?.toLowerCase().includes('dubai');
+      const isActive = (property as any).is_active === true;
+      console.log('🔍 Property check:', {
+        ref: property.ref_no,
+        location: property.location,
+        isDubai,
+        isActive,
+        included: isDubai && isActive
       });
+      return isDubai && isActive;
     });
-    
-    // Deduplicate by ref_no, keeping the most recent one (last in array)
-    const uniqueProperties = filteredProperties.reduce((acc, property) => {
-      acc[property.ref_no || property.id] = property;
+
+    console.log('✅ Filtered Dubai properties:', filtered.length);
+
+    // Deduplicate by ref_no, keeping the most recent
+    const uniqueProperties = filtered.reduce((acc, property) => {
+      const key = property.ref_no || property.id;
+      acc[key] = property;
       return acc;
     }, {} as Record<string, any>);
-    
-    return Object.values(uniqueProperties).map((property, index) => {
-      // Use database status as primary source, fallback to facilities extraction
-      let status = property.status || 'available';
+
+    const uniqueList = Object.values(uniqueProperties);
+    console.log('🎯 Unique Dubai properties:', uniqueList.length);
+
+    // Transform to expected format
+    return uniqueList.map((property, index) => {
+      console.log('🔄 Transforming property:', property.ref_no, property.title);
       
-      // If no status from database, try to extract from facilities
-      if (!property.status || property.status === 'available') {
-        const facilities = property.property_facilities || [];
-        const facilitiesString = property.facilities || '';
-        
-        // Combine all facility sources
-        const allFacilities = [...facilities, ...facilitiesString.split(',').map(f => f.trim())];
-        
-        // Check for exact matches first, then substring matches
-        if (allFacilities.some(f => f === 'Under Construction' || f.toLowerCase().includes('under construction'))) {
-          status = 'Under Construction';
-        } else if (allFacilities.some(f => f === 'Ready to Move' || f.toLowerCase().includes('ready to move'))) {
-          status = 'Ready to Move';
-        } else if (allFacilities.some(f => f.toLowerCase().includes('sea view'))) {
-          status = 'Sea View';
-        } else if (allFacilities.some(f => f.toLowerCase().includes('private pool'))) {
-          status = 'Private Pool';
-        } else if (allFacilities.some(f => f.toLowerCase().includes('for residence permit'))) {
-          status = 'For Residence Permit';
-        }
+      // Determine property status
+      let status = 'available';
+      if (property.status?.toLowerCase().includes('sold')) {
+        status = 'sold';
+      } else if (property.status?.toLowerCase().includes('reserved')) {
+        status = 'reserved';
       }
 
       return {
-        id: parseInt(property.ref_no || index.toString()), // Use ref_no as numeric ID, fallback to index
-        refNo: property.ref_no, // Add this mapping
+        id: parseInt(property.ref_no) || index,
+        refNo: property.ref_no,
         title: property.title,
         location: property.location,
         price: property.price,
@@ -197,7 +171,6 @@ const DubaiPropertySearch = () => {
     });
   };
 
-
   if (loading) {
     console.log('🏙️ Dubai page loading...');
     return (
@@ -243,91 +216,104 @@ const DubaiPropertySearch = () => {
           </p>
         </div>
 
-        {/* Filter at top */}
-        <div className="mb-6">
-          <PropertyFilter 
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onSearch={handleSearch}
-            horizontal={true}
-          />
-        </div>
-
-
-        {/* Mobile Layout: One property per screen */}
-        <div className="block md:hidden">
-          <div className="space-y-6">
-            {paginatedProperties.map((property, propertyIndex) => (
-              <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
-                <div className="w-full max-w-sm mx-auto">
-                  <PropertyCard property={property} />
-                </div>
-              </div>
-            ))}
+        {/* Layout with sidebar filter on left and content on right */}
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left sidebar filter - hidden on mobile, visible on desktop */}
+          <div className="hidden lg:block lg:w-80 lg:flex-shrink-0">
+            <PropertyFilter 
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onSearch={handleSearch}
+              horizontal={false}
+            />
           </div>
-          
-          {/* Mobile Pagination */}
-          {filteredProperties.length > 0 && totalPages > 1 && (
-            <div className="mt-8">
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious 
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (currentPage > 1) {
-                          setCurrentPage(currentPage - 1);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }
-                      }}
-                      className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-                    />
-                  </PaginationItem>
-                  
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    const pageNumber = i + 1;
-                    return (
-                      <PaginationItem key={pageNumber}>
-                        <PaginationLink
+
+          {/* Mobile filter toggle - only visible on mobile */}
+          <div className="block lg:hidden mb-6">
+            <PropertyFilter 
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onSearch={handleSearch}
+              horizontal={true}
+            />
+          </div>
+
+          {/* Main content area */}
+          <div className="flex-1 min-w-0">
+            {/* Mobile Layout: One property per screen */}
+            <div className="block md:hidden">
+              <div className="space-y-6">
+                {paginatedProperties.map((property, propertyIndex) => (
+                  <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+                    <div className="w-full max-w-sm mx-auto">
+                      <PropertyCard property={property} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Mobile Pagination */}
+              {filteredProperties.length > 0 && totalPages > 1 && (
+                <div className="mt-8">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious 
                           href="#"
                           onClick={(e) => {
                             e.preventDefault();
-                            setCurrentPage(pageNumber);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            if (currentPage > 1) {
+                              setCurrentPage(currentPage - 1);
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
                           }}
-                          isActive={currentPage === pageNumber}
-                        >
-                          {pageNumber}
-                        </PaginationLink>
+                          className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                        />
                       </PaginationItem>
-                    );
-                  })}
-                  
-                  {totalPages > 5 && <PaginationEllipsis />}
-                  
-                  <PaginationItem>
-                    <PaginationNext
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (currentPage < totalPages) {
-                          setCurrentPage(currentPage + 1);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }
-                      }}
-                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
+                      
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        const pageNumber = i + 1;
+                        return (
+                          <PaginationItem key={pageNumber}>
+                            <PaginationLink
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setCurrentPage(pageNumber);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }}
+                              isActive={currentPage === pageNumber}
+                            >
+                              {pageNumber}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      })}
+                      
+                      {totalPages > 5 && <PaginationEllipsis />}
+                      
+                      <PaginationItem>
+                        <PaginationNext
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (currentPage < totalPages) {
+                              setCurrentPage(currentPage + 1);
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
+                          }}
+                          className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        {/* Desktop Layout: Properties Grid */}
-        <div className="hidden md:block">
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {/* Desktop Layout: Properties Grid */}
+            <div className="hidden md:block">
+              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {paginatedProperties.map((property, propertyIndex) => (
                   <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                     <PropertyCard property={property} />
@@ -392,6 +378,8 @@ const DubaiPropertySearch = () => {
                   </Pagination>
                 </div>
               )}
+            </div>
+          </div>
         </div>
       </div>
 

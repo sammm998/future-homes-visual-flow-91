@@ -177,15 +177,30 @@ const CyprusPropertySearch = () => {
           </p>
         </div>
 
-        {/* Filter at top */}
-        <div className="mb-6">
-          <PropertyFilter 
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onSearch={handleSearch}
-            horizontal={true}
-          />
-        </div>
+        {/* Layout with sidebar filter on left and content on right */}
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left sidebar filter - hidden on mobile, visible on desktop */}
+          <div className="hidden lg:block lg:w-80 lg:flex-shrink-0">
+            <PropertyFilter 
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onSearch={handleSearch}
+              horizontal={false}
+            />
+          </div>
+
+          {/* Mobile filter toggle - only visible on mobile */}
+          <div className="block lg:hidden mb-6">
+            <PropertyFilter 
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onSearch={handleSearch}
+              horizontal={true}
+            />
+          </div>
+
+          {/* Main content area */}
+          <div className="flex-1 min-w-0">
 
 
         {/* Mobile Layout: One property per screen */}
@@ -389,7 +404,9 @@ const CyprusPropertySearch = () => {
                     </PaginationContent>
                   </Pagination>
                 </div>
-              )}
+               )}
+        </div>
+          </div>
         </div>
       </div>
 
