@@ -89,16 +89,16 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
           
           {/* Glass morphism status badge */}
-          <div className="absolute top-4 left-4 z-10">
-            <div className={`${statusConfig.className} backdrop-blur-md border border-white/20 rounded-xl px-3 py-2 text-xs font-bold uppercase tracking-wider`}>
+          <div className="absolute top-4 left-4 z-10 max-w-[calc(50%-1rem)]">
+            <div className={`${statusConfig.className} backdrop-blur-md border border-white/20 rounded-xl px-2.5 py-1.5 text-xs font-bold uppercase tracking-wider truncate`}>
               {statusConfig.text}
             </div>
           </div>
 
           {/* Modern price badge */}
-          <div className="absolute top-4 right-4 z-10">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2">
-              <span className="text-white font-bold text-lg drop-shadow-lg">
+          <div className="absolute top-4 right-4 z-10 max-w-[calc(50%-1rem)]">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-3 py-1.5">
+              <span className="text-white font-bold text-lg drop-shadow-lg truncate">
                 {property.price}
               </span>
             </div>
