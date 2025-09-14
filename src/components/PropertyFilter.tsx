@@ -49,6 +49,23 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
     onFilterChange(newFilters);
   };
 
+  const handleReset = () => {
+    const resetFilters = {
+      propertyType: '',
+      bedrooms: '',
+      location: filters.location || '', // Keep current location
+      district: '',
+      minPrice: '',
+      maxPrice: '',
+      minSquareFeet: '',
+      maxSquareFeet: '',
+      facilities: [],
+      referenceNo: '',
+      sortBy: ''
+    };
+    onFilterChange(resetFilters);
+  };
+
   if (horizontal) {
     return (
       <Card className="w-full">
@@ -203,12 +220,18 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
             </div>
 
             {/* Search Button */}
-            <div>
+            <div className="space-y-2">
               <button 
                 className="h-9 w-full px-3 text-xs font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md flex items-center justify-center"
                 onClick={onSearch}
               >
                 Search
+              </button>
+              <button 
+                className="h-9 w-full px-3 text-xs font-medium border border-input bg-muted hover:bg-muted/80 text-muted-foreground rounded-md flex items-center justify-center"
+                onClick={handleReset}
+              >
+                Reset
               </button>
             </div>
           </div>
@@ -439,9 +462,14 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
           </div>
 
           {/* Search Button */}
-          <Button className="w-full" onClick={onSearch}>
-            Search
-          </Button>
+          <div className="space-y-3">
+            <Button className="w-full" onClick={onSearch}>
+              Search
+            </Button>
+            <Button variant="secondary" className="w-full" onClick={handleReset}>
+              Reset
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </GlowCard>
