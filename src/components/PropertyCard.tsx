@@ -90,15 +90,15 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           
           {/* Glass morphism status badge */}
           <div className="absolute top-4 left-4 z-10 max-w-[calc(50%-1rem)]">
-            <div className={`${statusConfig.className} backdrop-blur-md border border-white/20 rounded-xl px-2.5 py-1.5 text-xs font-bold uppercase tracking-wider truncate`}>
+            <div className={`${statusConfig.className} backdrop-blur-md border border-white/20 rounded-xl px-2 py-1.5 text-xs font-bold uppercase tracking-wide`}>
               {statusConfig.text}
             </div>
           </div>
 
           {/* Modern price badge */}
           <div className="absolute top-4 right-4 z-10 max-w-[calc(50%-1rem)]">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-3 py-1.5">
-              <span className="text-white font-bold text-lg drop-shadow-lg truncate">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-2.5 py-1.5">
+              <span className="text-white font-bold text-lg drop-shadow-lg">
                 {property.price}
               </span>
             </div>
