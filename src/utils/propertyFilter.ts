@@ -205,11 +205,72 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
       }
       
       // Check if the property has ALL selected facilities
-      const hasAllFacilities = filters.facilities.every(facility => 
-        property.features!.some(feature => 
-          feature.toLowerCase().includes(facility.toLowerCase())
-        )
-      );
+      const hasAllFacilities = filters.facilities.every(facility => {
+        // Create facility synonyms for better matching
+        const facilityLower = facility.toLowerCase();
+        
+        return property.features!.some(feature => {
+          const featureLower = feature.toLowerCase();
+          
+          // Direct match
+          if (featureLower.includes(facilityLower)) {
+            return true;
+          }
+          
+          // Handle swimming pool synonyms
+          if (facilityLower.includes('swimming pool') || facilityLower.includes('pool')) {
+            return featureLower.includes('pool') || 
+                   featureLower.includes('swimming') ||
+                   featureLower.includes('swiming'); // Handle typos
+          }
+          
+          // Handle gym synonyms
+          if (facilityLower.includes('gym')) {
+            return featureLower.includes('gym') || 
+                   featureLower.includes('fitness') ||
+                   featureLower.includes('exercise');
+          }
+          
+          // Handle parking synonyms
+          if (facilityLower.includes('parking')) {
+            return featureLower.includes('parking') || 
+                   featureLower.includes('garage') ||
+                   featureLower.includes('car park') ||
+                   featureLower.includes('open car park');
+          }
+          
+          // Handle garden synonyms
+          if (facilityLower.includes('garden')) {
+            return featureLower.includes('garden') || 
+                   featureLower.includes('landscaping') ||
+                   featureLower.includes('green space');
+          }
+          
+          // Handle security synonyms
+          if (facilityLower.includes('security')) {
+            return featureLower.includes('security') || 
+                   featureLower.includes('surveillance') ||
+                   featureLower.includes('cctv') ||
+                   featureLower.includes('guard');
+          }
+          
+          // Handle elevator synonyms
+          if (facilityLower.includes('elevator')) {
+            return featureLower.includes('elevator') || 
+                   featureLower.includes('lift');
+          }
+          
+          // Handle air conditioning synonyms  
+          if (facilityLower.includes('air conditioning')) {
+            return featureLower.includes('air conditioning') || 
+                   featureLower.includes('ac') ||
+                   featureLower.includes('cooling') ||
+                   featureLower.includes('climate control');
+          }
+          
+          return false;
+        });
+      });
       
       if (!hasAllFacilities) {
         console.log(`❌ Property "${property.title}" missing facilities. Has: [${property.features.join(', ')}], Needs: [${filters.facilities.join(', ')}]`);
