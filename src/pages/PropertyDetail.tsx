@@ -442,7 +442,10 @@ const PropertyDetail = () => {
         {/* Back Button */}
         <Button
           variant="ghost"
-          onClick={() => navigate(-1)}
+          onClick={() => {
+            const locationRoute = getLocationRoute(property?.location || '');
+            navigate(locationRoute);
+          }}
           className="mb-8"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
