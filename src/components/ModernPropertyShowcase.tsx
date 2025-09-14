@@ -518,7 +518,7 @@ const ModernPropertyShowcase = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <button 
-            onClick={() => navigate('/properties')} 
+            onClick={() => navigate('/dubai')} 
             className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary to-primary-glow hover:from-primary/90 hover:to-primary-glow/90 text-primary-foreground rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group"
           >
             Explore All Properties
