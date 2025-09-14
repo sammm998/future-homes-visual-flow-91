@@ -36,73 +36,140 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
     if (property.property_images && property.property_images.length > 0) {
       return property.property_images[0];
     }
-    // Use a proper fallback image URL instead of /placeholder.svg
     return 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp';
   };
 
+  const getStatusConfig = (status: string) => {
+    if (!status) return { variant: 'default' as const, text: 'Available', className: 'bg-green-500/90 text-white border-green-400' };
+    
+    const normalizedStatus = status.toLowerCase().trim();
+    
+    if (normalizedStatus.includes('sold')) {
+      return { variant: 'destructive' as const, text: 'Sold', className: 'bg-red-500/90 text-white border-red-400' };
+    }
+    if (normalizedStatus.includes('under construction')) {
+      return { variant: 'default' as const, text: 'Under Construction', className: 'bg-blue-500/90 text-white border-blue-400' };
+    }
+    if (normalizedStatus.includes('ready to move')) {
+      return { variant: 'default' as const, text: 'Ready To Move', className: 'bg-emerald-500/90 text-white border-emerald-400' };
+    }
+    if (normalizedStatus.includes('for residence permit')) {
+      return { variant: 'default' as const, text: 'For Residence Permit', className: 'bg-purple-500/90 text-white border-purple-400' };
+    }
+    if (normalizedStatus.includes('exclusive')) {
+      return { variant: 'default' as const, text: 'Exclusive', className: 'bg-amber-500/90 text-white border-amber-400' };
+    }
+    if (normalizedStatus.includes('reserved')) {
+      return { variant: 'secondary' as const, text: 'Reserved', className: 'bg-orange-500/90 text-white border-orange-400' };
+    }
+    if (normalizedStatus.includes('sea view')) {
+      return { variant: 'default' as const, text: 'Sea View', className: 'bg-cyan-500/90 text-white border-cyan-400' };
+    }
+    if (normalizedStatus.includes('private pool')) {
+      return { variant: 'default' as const, text: 'Private Pool', className: 'bg-teal-500/90 text-white border-teal-400' };
+    }
+    if (normalizedStatus.includes('available')) {
+      return { variant: 'default' as const, text: 'Available', className: 'bg-green-500/90 text-white border-green-400' };
+    }
+    
+    // Default case - capitalize first letter
+    const capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+    return { variant: 'default' as const, text: capitalizedStatus, className: 'bg-gray-500/90 text-white border-gray-400' };
+  };
+
+  const statusConfig = getStatusConfig(property.status);
+
   return (
     <Link to={`/property/${property.id}`}>
-      <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 overflow-hidden h-full">
+      <Card className="group cursor-pointer hover:shadow-xl transition-all duration-500 overflow-hidden h-full bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/30">
         <div className="relative aspect-[4/3] overflow-hidden">
           <OptimizedPropertyImage
             src={getImageUrl()}
             alt={property.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
             priority={false}
           />
           
+          {/* Gradient overlay for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          
           {/* Status Badge */}
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-3 left-3 z-10">
             <Badge 
-              variant={property.status === 'Available' ? 'default' : 'secondary'}
-              className="bg-white/90 text-black shadow-sm"
+              variant={statusConfig.variant}
+              className={`${statusConfig.className} shadow-lg border backdrop-blur-sm font-medium px-3 py-1 text-xs uppercase tracking-wide`}
             >
-              {property.status}
+              {statusConfig.text}
             </Badge>
           </div>
 
           {/* Price Badge */}
-          <div className="absolute top-3 right-3">
-            <Badge className="bg-primary text-primary-foreground shadow-sm">
+          <div className="absolute top-3 right-3 z-10">
+            <Badge className="bg-primary/90 text-primary-foreground shadow-lg border border-primary/30 backdrop-blur-sm font-bold px-3 py-1.5 text-sm">
               {property.price}
             </Badge>
           </div>
-        </div>
 
-        <CardContent className="p-4">
-          <h3 className="font-semibold text-foreground line-clamp-2 mb-2 group-hover:text-primary transition-colors">
-            {property.title}
-          </h3>
-          
-          <div className="flex items-center text-muted-foreground text-sm mb-3">
-            <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
-            <span className="truncate">{property.location}</span>
-          </div>
-
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-3 text-muted-foreground">
+          {/* Additional features overlay */}
+          <div className="absolute bottom-3 left-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="flex items-center gap-2 text-white text-xs">
               {property.bedrooms && (
-                <div className="flex items-center gap-1">
-                  <Bed className="w-4 h-4" />
+                <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm rounded-full px-2 py-1">
+                  <Bed className="w-3 h-3" />
                   <span>{property.bedrooms}</span>
                 </div>
               )}
-              <div className="flex items-center gap-1">
-                <Bath className="w-4 h-4" />
+              <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm rounded-full px-2 py-1">
+                <Bath className="w-3 h-3" />
                 <span>{property.bathrooms || 'N/A'}</span>
               </div>
               {property.area && (
-                <div className="flex items-center gap-1">
-                  <Maximize2 className="w-4 h-4" />
+                <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm rounded-full px-2 py-1">
+                  <Maximize2 className="w-3 h-3" />
                   <span>{property.area}m²</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <CardContent className="p-5 space-y-3">
+          <h3 className="font-bold text-foreground line-clamp-2 text-lg group-hover:text-primary transition-colors duration-300 leading-tight">
+            {property.title}
+          </h3>
+          
+          <div className="flex items-center text-muted-foreground text-sm">
+            <MapPin className="w-4 h-4 mr-2 flex-shrink-0 text-primary" />
+            <span className="truncate font-medium">{property.location}</span>
+          </div>
+
+          {/* Desktop view property details */}
+          <div className="hidden md:flex items-center justify-between text-sm pt-2 border-t border-border/50">
+            <div className="flex items-center gap-4 text-muted-foreground">
+              {property.bedrooms && (
+                <div className="flex items-center gap-1.5">
+                  <Bed className="w-4 h-4 text-primary" />
+                  <span className="font-medium">{property.bedrooms}</span>
+                </div>
+              )}
+              <div className="flex items-center gap-1.5">
+                <Bath className="w-4 h-4 text-primary" />
+                <span className="font-medium">{property.bathrooms || 'N/A'}</span>
+              </div>
+              {property.area && (
+                <div className="flex items-center gap-1.5">
+                  <Maximize2 className="w-4 h-4 text-primary" />
+                  <span className="font-medium">{property.area}m²</span>
                 </div>
               )}
             </div>
           </div>
 
           {property.refNo && (
-            <div className="mt-2 pt-2 border-t border-border">
-              <span className="text-xs text-muted-foreground">Ref: {property.refNo}</span>
+            <div className="pt-2 border-t border-border/30">
+              <span className="text-xs text-muted-foreground/80 font-mono bg-muted/30 px-2 py-1 rounded">
+                Ref: {property.refNo}
+              </span>
             </div>
           )}
         </CardContent>

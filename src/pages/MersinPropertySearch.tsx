@@ -102,7 +102,28 @@ const MersinPropertySearch = () => {
       bedrooms: property.bedrooms,
       bathrooms: property.bathrooms,
       area: property.sizes_m2,
-      status: property.status,
+      status: (() => {
+        // Handle property status - use original status from database  
+        let status = property.status || 'available';
+        
+        // Handle compound statuses (multiple statuses separated by commas)
+        if (status.includes(',')) {
+          // If multiple statuses, prioritize certain ones
+          if (status.toLowerCase().includes('sold')) {
+            return 'sold';
+          } else if (status.toLowerCase().includes('under construction')) {
+            return 'Under Construction';
+          } else if (status.toLowerCase().includes('ready to move')) {
+            return 'Ready To Move';
+          } else if (status.toLowerCase().includes('for residence permit')) {
+            return 'For Residence Permit';
+          } else {
+            // Use the first status if no priority match
+            return status.split(',')[0].trim();
+          }
+        }
+        return status;
+      })(),
       image: property.property_image || (property.property_images && property.property_images.length > 0 ? property.property_images[0] : "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp"),
       property_images: property.property_images,
       coordinates: [36.7987, 34.6420] as [number, number] // Default Mersin coordinates

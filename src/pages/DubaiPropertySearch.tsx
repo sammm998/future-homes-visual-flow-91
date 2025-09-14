@@ -107,12 +107,24 @@ const DubaiPropertySearch = () => {
     return uniqueList.map((property, index) => {
       console.log('🔄 Transforming property:', property.ref_no, property.title);
       
-      // Determine property status
-      let status = 'available';
-      if (property.status?.toLowerCase().includes('sold')) {
-        status = 'sold';
-      } else if (property.status?.toLowerCase().includes('reserved')) {
-        status = 'reserved';
+      // Determine property status - use original status from database
+      let status = property.status || 'available';
+      
+      // Handle compound statuses (multiple statuses separated by commas)
+      if (status.includes(',')) {
+        // If multiple statuses, prioritize certain ones
+        if (status.toLowerCase().includes('sold')) {
+          status = 'sold';
+        } else if (status.toLowerCase().includes('under construction')) {
+          status = 'Under Construction';
+        } else if (status.toLowerCase().includes('ready to move')) {
+          status = 'Ready To Move';
+        } else if (status.toLowerCase().includes('for residence permit')) {
+          status = 'For Residence Permit';
+        } else {
+          // Use the first status if no priority match
+          status = status.split(',')[0].trim();
+        }
       }
 
       return {
