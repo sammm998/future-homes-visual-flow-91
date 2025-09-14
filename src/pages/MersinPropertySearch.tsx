@@ -91,8 +91,9 @@ const MersinPropertySearch = () => {
     
     const filtered = allProperties.filter(property => {
       const hasLocation = property.location?.toLowerCase().includes('mersin');
-      console.log('🔍 Property', property.ref_no, '- Location:', property.location, '- Matches Mersin:', hasLocation);
-      return hasLocation;
+      const isNotSold = !property.status?.toLowerCase().includes('sold');
+      console.log('🔍 Property', property.ref_no, '- Location:', property.location, '- Status:', property.status, '- Matches Mersin:', hasLocation, '- Not Sold:', isNotSold);
+      return hasLocation && isNotSold;
     }).map(property => ({
       id: parseInt(property.ref_no) || parseInt(property.id),
       refNo: property.ref_no, // Add this mapping for reference number filtering

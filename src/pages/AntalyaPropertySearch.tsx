@@ -83,7 +83,8 @@ const AntalyaPropertySearch = () => {
     const filteredProperties = allProperties
       .filter(property => 
         property.location?.toLowerCase().includes('antalya') && 
-        (property as any).is_active === true
+        (property as any).is_active === true &&
+        !property.status?.toLowerCase().includes('sold')
       );
 
     // Deduplicate by ref_no, keeping the most recent one (last in array)

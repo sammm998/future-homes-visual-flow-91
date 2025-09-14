@@ -77,18 +77,21 @@ const DubaiPropertySearch = () => {
       return [];
     }
 
-    // Filter for Dubai properties and active status
+    // Filter for Dubai properties, active status, and exclude sold properties
     const filtered = allProperties.filter(property => {
       const isDubai = property.location?.toLowerCase().includes('dubai');
       const isActive = (property as any).is_active === true;
+      const isNotSold = !property.status?.toLowerCase().includes('sold');
       console.log('🔍 Property check:', {
         ref: property.ref_no,
         location: property.location,
+        status: property.status,
         isDubai,
         isActive,
-        included: isDubai && isActive
+        isNotSold,
+        included: isDubai && isActive && isNotSold
       });
-      return isDubai && isActive;
+      return isDubai && isActive && isNotSold;
     });
 
     console.log('✅ Filtered Dubai properties:', filtered.length);

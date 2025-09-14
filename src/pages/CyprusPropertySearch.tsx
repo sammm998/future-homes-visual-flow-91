@@ -79,9 +79,11 @@ const CyprusPropertySearch = () => {
   
   // Filter properties to only show Cyprus properties
   const cyprusProperties = useMemo(() => {
-    const filtered = allProperties.filter(property => 
-      property.location?.toLowerCase().includes('cyprus')
-    ).map(property => ({
+    const filtered = allProperties.filter(property => {
+      const hasLocation = property.location?.toLowerCase().includes('cyprus');
+      const isNotSold = !property.status?.toLowerCase().includes('sold');
+      return hasLocation && isNotSold;
+    }).map(property => ({
       id: parseInt(property.ref_no) || parseInt(property.id),
       refNo: property.ref_no,
       title: property.title,

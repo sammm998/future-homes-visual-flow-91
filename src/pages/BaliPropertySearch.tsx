@@ -83,7 +83,8 @@ const BaliPropertySearch = () => {
     const filteredProperties = allProperties
       .filter(property => 
         property.location?.toLowerCase().includes('bali') && 
-        (property as any).is_active === true
+        (property as any).is_active === true &&
+        !property.status?.toLowerCase().includes('sold')
       );
 
     // Deduplicate by ref_no, keeping the most recent one (last in array)
