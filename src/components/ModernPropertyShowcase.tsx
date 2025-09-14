@@ -14,6 +14,7 @@ interface Property {
   bedrooms?: string;
   bathrooms?: string;
   sizes_m2?: string;
+  ref_no?: string;
 }
 
 const ModernPropertyShowcase = () => {
@@ -186,7 +187,7 @@ const ModernPropertyShowcase = () => {
     if (property.id.startsWith('fallback-')) {
       navigate('/properties'); // Navigate to properties page for fallback items
     } else {
-      navigate(`/property/${property.id}`);
+      navigate(`/property/${property.ref_no || property.id}`);
     }
   };
 

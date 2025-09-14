@@ -13,7 +13,7 @@ const PropertyShowcase = () => {
   const showcaseProperties = properties.slice(0, 6);
 
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${property.id}`);
+    navigate(`/property/${property.ref_no || property.id}`);
   };
 
   if (loading) {
