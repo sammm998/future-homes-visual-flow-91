@@ -15,6 +15,8 @@ import ervinaImage from '@/assets/ervina-koksel.png';
 const israImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/xwui0x0wkwm.png';
 
 import { supabase } from '@/integrations/supabase/client';
+import { t } from '@/utils/translations';
+import { useSearchParams } from 'react-router-dom';
 
 // Function to map property location to route
 const getLocationRoute = (location: string): string => {
@@ -194,6 +196,8 @@ const getPropertyData = async (id: string) => {
 
 const PropertyDetail = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const language = searchParams.get('lang') || 'en';
   const navigate = useNavigate();
   const location = useLocation();
   const { formatPrice } = useCurrency();
@@ -517,21 +521,21 @@ const PropertyDetail = () => {
                 <div className="flex items-center space-x-3 p-4 border rounded-lg">
                   <Bed className="h-5 w-5 text-primary" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Bedrooms</p>
+                    <p className="text-sm text-muted-foreground">{t('bedrooms', language)}</p>
                     <p className="font-semibold">{property.bedrooms || 'N/A'}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3 p-4 border rounded-lg">
                   <Bath className="h-5 w-5 text-primary" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Bathrooms</p>
+                    <p className="text-sm text-muted-foreground">{t('bathrooms', language)}</p>
                     <p className="font-semibold">{property.bathrooms || 'N/A'}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3 p-4 border rounded-lg">
                   <Square className="h-5 w-5 text-primary" />
                   <div>
-                    <p className="text-sm text-muted-foreground">Area</p>
+                    <p className="text-sm text-muted-foreground">{t('area', language)}</p>
                     <p className="font-semibold">{property.area || 'N/A'}</p>
                   </div>
                 </div>

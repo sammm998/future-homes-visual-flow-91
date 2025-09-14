@@ -17,8 +17,19 @@ import "./utils/cleanConsole";
 const Index = lazy(() => import("./pages/Index"));
 const PropertyWizard = lazy(() => import("./pages/PropertyWizard"));
 const AIPropertySearch = lazy(() => import("./pages/AIPropertySearch"));
-const AllPropertiesSearch = lazy(() => import("./pages/AllPropertiesSearch"));
-const LocationPropertySearch = lazy(() => import("./pages/LocationPropertySearch"));
+
+const AntalyaPropertySearch = lazy(() => import("./pages/AntalyaPropertySearch"));
+const DubaiPropertySearch = lazy(() => {
+  console.log('🏙️ Loading DubaiPropertySearch component...');
+  return import("./pages/DubaiPropertySearch").catch(error => {
+    console.error('❌ Failed to load DubaiPropertySearch:', error);
+    throw error;
+  });
+});
+const CyprusPropertySearch = lazy(() => import("./pages/CyprusPropertySearch"));
+const MersinPropertySearch = lazy(() => import("./pages/MersinPropertySearch"));
+const BaliPropertySearch = lazy(() => import("./pages/BaliPropertySearch"));
+
 
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const Testimonials = lazy(() => import("./pages/Testimonials"));
@@ -110,14 +121,13 @@ function AppContent() {
       
       <Route path="/property-wizard" element={<PropertyWizard />} />
       <Route path="/ai-property-search" element={<AIPropertySearch />} />
-      <Route path="/properties" element={<AllPropertiesSearch />} />
       
-      {/* Location-specific property search routes */}
-      <Route path="/antalya" element={<LocationPropertySearch />} />
-      <Route path="/dubai" element={<LocationPropertySearch />} />
-      <Route path="/cyprus" element={<LocationPropertySearch />} />
-      <Route path="/mersin" element={<LocationPropertySearch />} />
-      <Route path="/bali" element={<LocationPropertySearch />} />
+      <Route path="/antalya" element={<AntalyaPropertySearch />} />
+      <Route path="/dubai" element={<DubaiPropertySearch />} />
+      <Route path="/cyprus" element={<CyprusPropertySearch />} />
+      <Route path="/mersin" element={<MersinPropertySearch />} />
+      <Route path="/bali" element={<BaliPropertySearch />} />
+      
       
       <Route path="/property/:id" element={<PropertyDetail />} />
       <Route path="/testimonials" element={<Testimonials />} />
