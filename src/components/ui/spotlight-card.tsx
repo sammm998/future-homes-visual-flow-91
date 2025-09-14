@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, ReactNode } from 'react';
 
 interface GlowCardProps {
@@ -63,7 +64,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
   };
 
   const getInlineStyles = () => {
-    const baseStyles: React.CSSProperties & Record<string, any> = {
+    const baseStyles = {
       '--base': base,
       '--spread': spread,
       '--radius': '14',
@@ -88,7 +89,7 @@ const GlowCard: React.FC<GlowCardProps> = ({
       border: 'var(--border-size) solid var(--backup-border)',
       position: 'relative' as const,
       touchAction: 'none' as const,
-    };
+    } as React.CSSProperties;
 
     // Add width and height if provided
     if (width !== undefined) {
@@ -185,4 +186,4 @@ const GlowCard: React.FC<GlowCardProps> = ({
   );
 };
 
-export { GlowCard }
+export { GlowCard };
