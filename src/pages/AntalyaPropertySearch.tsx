@@ -221,8 +221,10 @@ const AntalyaPropertySearch = () => {
             <div className="block md:hidden">
               <div className="space-y-6">
                 {paginatedProperties.map((property, propertyIndex) => (
-                  <div key={`${property.id}-${propertyIndex}`} className="w-full">
-                    <PropertyCard property={property} />
+                  <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+                    <div className="w-full max-w-sm mx-auto">
+                      <PropertyCard property={property} />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -306,9 +308,11 @@ const AntalyaPropertySearch = () => {
               </div>
 
               {/* Properties Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {paginatedProperties.map((property, propertyIndex) => (
-                  <PropertyCard key={`${property.id}-${propertyIndex}`} property={property} />
+                  <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                    <PropertyCard property={property} />
+                  </div>
                 ))}
               </div>
               

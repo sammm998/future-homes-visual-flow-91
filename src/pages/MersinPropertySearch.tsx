@@ -310,8 +310,8 @@ const MersinPropertySearch = () => {
         {filteredProperties.length > 0 && (
           <div className="block md:hidden">
             <div className="space-y-6">
-              {paginatedProperties.map((property) => (
-                <div key={property.id} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+               {paginatedProperties.map((property, propertyIndex) => (
+                 <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
                   <div className="w-full max-w-sm mx-auto">
                     <PropertyCard property={property} />
                   </div>
@@ -390,9 +390,9 @@ const MersinPropertySearch = () => {
         {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
         {filteredProperties.length > 0 && (
           <div className="hidden md:block">
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {paginatedProperties.map((property) => (
-                <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+              {paginatedProperties.map((property, propertyIndex) => (
+                <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                   <PropertyCard property={property} />
                 </div>
               ))}
