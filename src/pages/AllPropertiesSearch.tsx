@@ -228,8 +228,7 @@ const AllPropertiesSearch: React.FC = () => {
                 {paginatedProperties.map((property) => (
                   <PropertyCard
                     key={property.id}
-                    {...property}
-                    onClick={() => handlePropertyClick(property)}
+                    property={property}
                   />
                 ))}
               </div>

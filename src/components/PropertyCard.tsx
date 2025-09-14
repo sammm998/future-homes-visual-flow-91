@@ -25,6 +25,12 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
+  // Safety check to ensure property exists
+  if (!property) {
+    console.warn('PropertyCard: property prop is undefined');
+    return null;
+  }
+
   const getImageUrl = () => {
     console.log('🏠 PropertyCard image sources:', {
       property_image: property.image,
