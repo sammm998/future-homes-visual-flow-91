@@ -18,7 +18,7 @@ const Index = lazy(() => import("./pages/Index"));
 const PropertyWizard = lazy(() => import("./pages/PropertyWizard"));
 const AIPropertySearch = lazy(() => import("./pages/AIPropertySearch"));
 const AllPropertiesSearch = lazy(() => import("./pages/AllPropertiesSearch"));
-
+const LocationPropertySearch = lazy(() => import("./pages/LocationPropertySearch"));
 
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const Testimonials = lazy(() => import("./pages/Testimonials"));
@@ -112,6 +112,12 @@ function AppContent() {
       <Route path="/ai-property-search" element={<AIPropertySearch />} />
       <Route path="/properties" element={<AllPropertiesSearch />} />
       
+      {/* Location-specific property search routes */}
+      <Route path="/antalya" element={<LocationPropertySearch />} />
+      <Route path="/dubai" element={<LocationPropertySearch />} />
+      <Route path="/cyprus" element={<LocationPropertySearch />} />
+      <Route path="/mersin" element={<LocationPropertySearch />} />
+      <Route path="/bali" element={<LocationPropertySearch />} />
       
       <Route path="/property/:id" element={<PropertyDetail />} />
       <Route path="/testimonials" element={<Testimonials />} />
