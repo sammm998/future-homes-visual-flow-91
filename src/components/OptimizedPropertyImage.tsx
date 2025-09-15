@@ -23,8 +23,23 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [currentSrc, setCurrentSrc] = useState(priority ? src : '');
+  const [fallbackAttempts, setFallbackAttempts] = useState(0);
   const imgRef = useRef<HTMLImageElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // Fallback image sources
+  const getFallbackSrc = (originalSrc: string, attemptNumber: number): string => {
+    // Try original first
+    if (attemptNumber === 0) return originalSrc;
+    
+    // If CDN image fails, try placeholder
+    if (attemptNumber === 1) {
+      return "/placeholder.svg";
+    }
+    
+    // Final fallback - base64 placeholder
+    return blurPlaceholder;
+  };
 
   // Create optimized image URLs
   const createOptimizedUrl = (originalUrl: string, targetWidth: number) => {
@@ -111,7 +126,19 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   };
 
   const handleError = () => {
-    console.log('❌ Image failed to load:', src, 'currentSrc:', currentSrc);
+    console.log('❌ Image failed to load:', currentSrc, 'attempt:', fallbackAttempts);
+    
+    // Try fallback sources before showing error
+    if (fallbackAttempts < 2) {
+      const nextAttempt = fallbackAttempts + 1;
+      const fallbackSrc = getFallbackSrc(src, nextAttempt);
+      console.log('🔄 Trying fallback image:', fallbackSrc);
+      setFallbackAttempts(nextAttempt);
+      setCurrentSrc(fallbackSrc);
+      return;
+    }
+    
+    // All fallbacks failed
     setError(true);
     setIsLoading(false);
   };
@@ -150,16 +177,17 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
         fetchPriority={priority ? "high" : "auto"}
       />
       
-      {/* Error state */}
+      {/* Error state with better fallback */}
       {error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-muted">
-          <div className="text-center text-muted-foreground">
-            <div className="w-12 h-12 mx-auto mb-2 opacity-50">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-muted/80 to-muted">
+          <div className="text-center text-muted-foreground p-4">
+            <div className="w-16 h-16 mx-auto mb-3 opacity-60">
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
               </svg>
             </div>
-            <p className="text-xs">Image not available</p>
+            <p className="text-sm font-medium">Property Image</p>
+            <p className="text-xs opacity-75">Available upon request</p>
           </div>
         </div>
       )}

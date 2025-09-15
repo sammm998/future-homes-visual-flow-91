@@ -15,6 +15,7 @@ import ervinaImage from '@/assets/ervina-koksel.png';
 const israImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/xwui0x0wkwm.png';
 
 import { supabase } from '@/integrations/supabase/client';
+import { OptimizedPropertyImage } from '@/components/OptimizedPropertyImage';
 import { t } from '@/utils/translations';
 import { useSearchParams } from 'react-router-dom';
 
@@ -440,10 +441,11 @@ const PropertyDetail = () => {
                   className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer group"
                   onClick={() => setShowImageModal(true)}
                 >
-                  <img
+                  <OptimizedPropertyImage
                     src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"}
                     alt={property.title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    priority={true}
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                     <Images className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -461,10 +463,11 @@ const PropertyDetail = () => {
                         }`}
                         onClick={() => setCurrentImageIndex(index)}
                       >
-                        <img
+                        <OptimizedPropertyImage
                           src={image}
                           alt={`View ${index + 1}`}
                           className="w-full h-full object-cover"
+                          priority={false}
                         />
                       </div>
                     ))}
