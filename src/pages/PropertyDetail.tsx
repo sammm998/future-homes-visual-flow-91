@@ -202,58 +202,14 @@ const PropertyDetail = () => {
   const location = useLocation();
   const { formatPrice } = useCurrency();
   
-  // Use the database-focused useProperty hook for UUID-based lookups
-  const { property: dbProperty, loading: dbLoading, error: dbError } = useProperty(id || '');
+  // Use the database-focused useProperty hook for all lookups
+  const { property, loading, error } = useProperty(id || '');
   
-  const [property, setProperty] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
 
-  useEffect(() => {
-    const loadProperty = async () => {
-      if (!id) {
-        setError('Property ID is required');
-        setLoading(false);
-        return;
-      }
-
-      setLoading(true);
-      setError(null);
-
-      try {
-        // Check if this looks like a UUID (for newer properties)
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-        
-        if (uuidRegex.test(id) && dbProperty) {
-          // Use the database property directly for UUIDs
-          setProperty(dbProperty);
-          setLoading(false);
-          return;
-        }
-        
-        // For ref_no lookups, use our custom function
-        const propertyData = await getPropertyData(id);
-        
-        if (propertyData) {
-          setProperty(propertyData);
-        } else {
-          setError(`Property with ID "${id}" not found. This property may not exist or may have been removed.`);
-        }
-      } catch (err) {
-        console.error('Error loading property:', err);
-        setError('Failed to load property details. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProperty();
-  }, [id, dbProperty, dbLoading]);
-
   // Show loading state
-  if (loading || dbLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
@@ -270,7 +226,7 @@ const PropertyDetail = () => {
   }
 
   // Show error state
-  if (error || dbError) {
+  if (error) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
@@ -283,7 +239,7 @@ const PropertyDetail = () => {
                 </div>
                 <h1 className="text-3xl font-bold text-foreground mb-4">Property Not Found</h1>
                 <p className="text-muted-foreground text-lg mb-8">
-                  {error || dbError || `Sorry, we couldn't find the property you're looking for.`}
+                  {error || `Sorry, we couldn't find the property you're looking for.`}
                 </p>
               </div>
               
