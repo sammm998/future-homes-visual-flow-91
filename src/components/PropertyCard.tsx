@@ -2,7 +2,9 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Bed, Bath, Maximize2 } from 'lucide-react';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
+import { formatPriceFromString } from '@/utils/priceFormatting';
 import { Link } from 'react-router-dom';
 
 interface Property {
@@ -25,6 +27,7 @@ interface PropertyCardProps {
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
+  const { formatPrice } = useCurrency();
   const getImageUrl = () => {
     console.log('🏠 PropertyCard image sources:', {
       property_image: property.image,
@@ -99,7 +102,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           <div className="absolute top-4 right-4 z-10 max-w-[calc(50%-1rem)]">
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-2.5 py-1.5">
               <span className="text-white font-bold text-lg drop-shadow-lg">
-                {property.price}
+                {formatPriceFromString(property.price || '0', formatPrice)}
               </span>
             </div>
           </div>

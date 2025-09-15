@@ -3,7 +3,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, Bed, Bath, Maximize2, Play } from 'lucide-react';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
+import { formatPriceFromString } from '@/utils/priceFormatting';
 import { motion } from 'framer-motion';
 
 interface Property {
@@ -28,6 +30,7 @@ interface PropertyCardProps {
 
 const NetflixPropertyCard: React.FC<PropertyCardProps> = ({ property, onViewGallery, index }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const { formatPrice } = useCurrency();
 
   return (
     <motion.div
@@ -88,7 +91,7 @@ const NetflixPropertyCard: React.FC<PropertyCardProps> = ({ property, onViewGall
 
             <div className="flex items-center justify-between">
               <span className="text-primary font-bold text-xl">
-                {property.price}
+                {formatPriceFromString(property.price || '0', formatPrice)}
               </span>
               
               <div className="flex items-center gap-3 text-white/80 text-sm">

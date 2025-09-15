@@ -3,6 +3,7 @@ import React, { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperties } from '@/hooks/useProperties';
+import { formatPriceFromString } from '@/utils/priceFormatting';
 
 const PropertyShowcase = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const PropertyShowcase = () => {
                   className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold">
-                  {property.price || property.starting_price_eur || formatPrice(0)}
+                  {formatPriceFromString(property.price || property.starting_price_eur || '0', formatPrice)}
                 </div>
               </div>
               

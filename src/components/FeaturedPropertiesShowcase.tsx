@@ -2,10 +2,14 @@ import React, { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { MapPin, Bed, Bath, Square } from 'lucide-react';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperties } from '@/hooks/useProperties';
+import { OptimizedPropertyImage } from './OptimizedPropertyImage';
+import { formatPriceFromString } from '@/utils/priceFormatting';
 
 const FeaturedPropertiesShowcase = () => {
   const navigate = useNavigate();
+  const { formatPrice } = useCurrency();
   const { properties, loading } = useProperties();
   
   // Take the first 4 properties as featured ones
@@ -64,7 +68,7 @@ const FeaturedPropertiesShowcase = () => {
                 
                 {/* Price Badge */}
                 <div className="absolute top-6 right-6 bg-primary text-primary-foreground px-4 py-2 rounded-full font-bold text-lg shadow-lg">
-                  {property.price || property.starting_price_eur || 'Price on request'}
+                  {property.price || property.starting_price_eur ? formatPriceFromString(property.price || property.starting_price_eur || '0', formatPrice) : 'Price on request'}
                 </div>
                 
                 {/* Gradient Overlay */}

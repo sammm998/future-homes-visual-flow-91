@@ -1,11 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useCurrency } from '@/contexts/CurrencyContext';
+import { useState } from 'react';
+import { OptimizedPropertyImage } from './OptimizedPropertyImage';
+import { formatPriceFromString } from '@/utils/priceFormatting';
 import { MapPin, Bed, Bath, Square, ArrowRight } from "lucide-react";
 import { useProperties } from "@/hooks/useProperties";
 import { Link } from "react-router-dom";
 
 const PopularProperties = () => {
+  const { formatPrice } = useCurrency();
   const { properties, loading } = useProperties();
   
   // Take the first 3 properties as popular ones
@@ -76,7 +81,7 @@ const PopularProperties = () => {
                     </div>
                     <div className="absolute bottom-4 left-4">
                       <div className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-md font-bold text-lg text-foreground">
-                        {property.price || property.starting_price_eur || 'Price on request'}
+                        {property.price || property.starting_price_eur ? formatPriceFromString(property.price || property.starting_price_eur || '0', formatPrice) : 'Price on request'}
                       </div>
                     </div>
                   </div>
