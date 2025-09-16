@@ -8,7 +8,7 @@ interface PreloadOptions {
 }
 
 export const useImagePreloading = (images: string[], options: PreloadOptions = {}) => {
-  const { priority = false, format = 'webp', quality = 85, width = 400 } = options;
+  const { priority = false, format = 'webp', quality = 90, width = 600 } = options;
 
   useEffect(() => {
     if (!images.length) return;
@@ -27,6 +27,7 @@ export const useImagePreloading = (images: string[], options: PreloadOptions = {
           url.searchParams.set('width', width.toString());
           url.searchParams.set('quality', quality.toString());
           url.searchParams.set('format', format);
+          url.searchParams.set('resize', 'contain');
           optimizedSrc = url.toString();
         }
 

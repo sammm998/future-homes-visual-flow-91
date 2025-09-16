@@ -47,19 +47,19 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       return originalUrl;
     }
     
-    // If it's a Supabase storage URL, add optimization parameters
+    // Handle Supabase storage URLs with better optimization
     if (originalUrl.includes('supabase') && originalUrl.includes('storage')) {
-      const url = new URL(originalUrl);
-      url.searchParams.set('width', targetWidth.toString());
-      url.searchParams.set('quality', '85');
-      url.searchParams.set('format', 'webp');
-      return url.toString();
-    }
-    
-    // For external CDN URLs (like cdn.futurehomesturkey.com), don't modify
-    if (originalUrl.includes('cdn.futurehomesturkey.com')) {
-      console.log('🖼️ Using CDN image directly:', originalUrl);
-      return originalUrl;
+      try {
+        const url = new URL(originalUrl);
+        url.searchParams.set('width', targetWidth.toString());
+        url.searchParams.set('quality', '90');
+        url.searchParams.set('format', 'webp');
+        url.searchParams.set('resize', 'contain');
+        return url.toString();
+      } catch (error) {
+        console.warn('Failed to optimize URL:', originalUrl);
+        return originalUrl;
+      }
     }
     
     return originalUrl;
@@ -69,12 +69,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   const createSrcSet = () => {
     if (!src || src.includes('placeholder.svg')) return '';
     
-    // Don't create srcSet for CDN images to avoid optimization issues
-    if (src.includes('cdn.futurehomesturkey.com')) {
-      return '';
-    }
-    
-    const sizes = [320, 640, 960, 1280];
+    const sizes = [400, 600, 800, 1200];
     return sizes
       .map(size => `${createOptimizedUrl(src, size)} ${size}w`)
       .join(', ');
@@ -162,11 +157,11 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
         ref={imgRef}
         src={currentSrc ? createOptimizedUrl(currentSrc, width) : blurPlaceholder}
         srcSet={currentSrc ? createSrcSet() : undefined}
-        sizes={sizes}
+        sizes={sizes || "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
         alt={alt}
         className={cn(
-          "w-full h-full object-cover transition-opacity duration-500",
-          isLoading ? "opacity-0" : "opacity-100",
+          "w-full h-full object-cover transition-all duration-500",
+          isLoading ? "opacity-0 scale-105 blur-sm" : "opacity-100 scale-100 blur-0",
           error && "opacity-50",
           className
         )}
