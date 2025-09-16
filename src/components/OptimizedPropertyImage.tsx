@@ -62,6 +62,11 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       }
     }
     
+    // For external CDN URLs (like cdn.futurehomesturkey.com), return as-is
+    if (originalUrl.includes('cdn.futurehomesturkey.com')) {
+      return originalUrl;
+    }
+    
     return originalUrl;
   };
 
