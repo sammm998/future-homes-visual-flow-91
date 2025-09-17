@@ -27,17 +27,21 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   const imgRef = useRef<HTMLImageElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // Fallback image sources
+  // Fallback image sources with better error handling
   const getFallbackSrc = (originalSrc: string, attemptNumber: number): string => {
+    console.log('🔍 Getting fallback source for attempt:', attemptNumber, originalSrc);
+    
     // Try original first
     if (attemptNumber === 0) return originalSrc;
     
-    // If CDN image fails, try placeholder
+    // If CDN image fails, try a simple test image first
     if (attemptNumber === 1) {
-      return "/placeholder.svg";
+      console.log('🔄 Trying placeholder.svg');
+      return "https://via.placeholder.com/400x300/f3f4f6/9ca3af?text=Property+Image";
     }
     
     // Final fallback - base64 placeholder
+    console.log('🔄 Trying base64 fallback');
     return blurPlaceholder;
   };
 
