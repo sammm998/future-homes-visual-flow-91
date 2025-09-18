@@ -13,8 +13,37 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import "./utils/cleanConsole";
 
-// Temporary maintenance page
-const MaintenancePage = lazy(() => import("./pages/MaintenancePage"));
+// Lazy load all page components for better performance
+const Index = lazy(() => import("./pages/Index"));
+const PropertyWizard = lazy(() => import("./pages/PropertyWizard"));
+const AIPropertySearch = lazy(() => import("./pages/AIPropertySearch"));
+
+const AntalyaPropertySearch = lazy(() => import("./pages/AntalyaPropertySearch"));
+const DubaiPropertySearch = lazy(() => {
+  console.log('🏙️ Loading DubaiPropertySearch component...');
+  return import("./pages/DubaiPropertySearch").catch(error => {
+    console.error('❌ Failed to load DubaiPropertySearch:', error);
+    throw error;
+  });
+});
+const CyprusPropertySearch = lazy(() => import("./pages/CyprusPropertySearch"));
+const MersinPropertySearch = lazy(() => import("./pages/MersinPropertySearch"));
+const BaliPropertySearch = lazy(() => import("./pages/BaliPropertySearch"));
+
+
+const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
+const Testimonials = lazy(() => import("./pages/Testimonials"));
+const Information = lazy(() => import("./pages/Information"));
+const AboutUs = lazy(() => import("./pages/AboutUs"));
+const ContactUs = lazy(() => import("./pages/ContactUs"));
+const Article = lazy(() => import("./pages/Article"));
+const ArticlePage = lazy(() => import("./pages/ArticlePage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const SitemapXML = lazy(() => import("./pages/SitemapXML"));
+const Newsletter = lazy(() => import("./components/Newsletter"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const ImageGallery = lazy(() => import("./pages/ImageGallery"));
+const VideoShowcase = lazy(() => import("./pages/VideoShowcase"));
 
 
 // Enhanced query client for global accessibility
@@ -81,7 +110,39 @@ function App() {
 }
 
 function AppContent() {
-  return <MaintenancePage />;
+  return (
+    <Routes>
+      <Route path="/" element={
+        <>
+          <Index />
+          <Newsletter />
+        </>
+      } />
+      
+      <Route path="/property-wizard" element={<PropertyWizard />} />
+      <Route path="/ai-property-search" element={<AIPropertySearch />} />
+      
+      <Route path="/antalya" element={<AntalyaPropertySearch />} />
+      <Route path="/dubai" element={<DubaiPropertySearch />} />
+      <Route path="/cyprus" element={<CyprusPropertySearch />} />
+      <Route path="/mersin" element={<MersinPropertySearch />} />
+      <Route path="/bali" element={<BaliPropertySearch />} />
+      
+      
+      <Route path="/property/:id" element={<PropertyDetail />} />
+      <Route path="/testimonials" element={<Testimonials />} />
+      <Route path="/information" element={<Information />} />
+      <Route path="/about-us" element={<AboutUs />} />
+      <Route path="/gallery" element={<ImageGallery />} />
+      <Route path="/video-showcase" element={<VideoShowcase />} />
+      <Route path="/contact-us" element={<ContactUs />} />
+      <Route path="/article/:id" element={<Article />} />
+      <Route path="/articles/:slug" element={<ArticlePage />} />
+      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/sitemap.xml" element={<SitemapXML />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
 }
 
 export default App;
