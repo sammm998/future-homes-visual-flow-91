@@ -30,7 +30,7 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
   const renderCompanyInfoSection = () => <div className={`bg-primary/5 rounded-2xl p-8 mb-16 ${className}`}>
       <div className="text-center mb-8">
         {section.title && <h2 className="text-3xl font-bold text-foreground mb-4">{section.title}</h2>}
-        {section.description && <p className="text-lg text-muted-foreground">{section.description.replace(/\s*Turkey\s*/gi, '').replace(/Future\s*Homes\s*,?\s*/gi, 'Future Homes ').replace(/Dubai,?\s*Cyprus\s*&?\s*France/gi, 'Turkey, Dubai, Cyprus, Antalya, Mersin & France').replace(/Cyprus,?\s*Dubai\s*&?\s*France/gi, 'Turkey, Dubai, Cyprus, Antalya, Mersin & France').trim()}</p>}
+        {section.description && <p className="text-lg text-muted-foreground">{section.description.replace(/Future\s*Homes\s*,?\s*/gi, 'Future Homes ').replace(/Dubai,?\s*Cyprus\s*&?\s*France/gi, 'Turkey, Dubai, Cyprus, Antalya, Mersin & France').replace(/Cyprus,?\s*Dubai\s*&?\s*France/gi, 'Turkey, Dubai, Cyprus, Antalya, Mersin & France').replace(/^(?!.*Turkey)(.*)$/gi, 'Turkey, Dubai, Cyprus, Antalya, Mersin & France').trim()}</p>}
       </div>
     </div>;
   const renderTeamHighlightSection = () => <div className={`mb-16 ${className}`}>
