@@ -104,8 +104,6 @@ const Index = () => {
         <LazyShuffleGrid />
       </LazyComponent>
       
-      {/* Modern Property Showcase */}
-      <ModernPropertyShowcase />
       
       
       {/* Rolling Testimonials */}
