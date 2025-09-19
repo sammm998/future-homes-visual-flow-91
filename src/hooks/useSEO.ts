@@ -22,13 +22,13 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
     const routeData: Record<string, Partial<SEOData>> = {
       '/': {
         title: 'Future Homes - Premium Real Estate in Turkey, Dubai & Europe',
-        description: 'Discover luxury properties in Turkey, Dubai, Cyprus and France. Expert real estate services with Turkish citizenship programs. Your future starts here.',
+        description: 'Discover luxury properties in Turkey, Dubai, Cyprus, Antalya, Mersin and France. Expert real estate services with Turkish citizenship programs. Your future starts here.',
         keywords: 'real estate Turkey, property investment Dubai, Cyprus properties, French real estate, Turkish citizenship by investment, luxury homes',
         structuredData: {
           "@context": "https://schema.org",
           "@type": "RealEstateAgent",
           "name": "Future Homes",
-          "description": "Premium real estate agency specializing in Turkish, Dubai, Cyprus and French properties",
+          "description": "Premium real estate agency specializing in Turkish, Dubai, Cyprus, Antalya, Mersin and French properties",
           "url": baseUrl,
           "telephone": "+90 552 303 27 50",
           "email": "info@futurehomesturkey.com"
@@ -85,7 +85,7 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
     
     return {
       title: route.title || 'Future Homes - Premium International Real Estate',
-      description: route.description || 'Discover premium properties worldwide with Future Homes. Expert real estate services in Turkey, Dubai, Cyprus and France.',
+      description: route.description || 'Discover premium properties worldwide with Future Homes. Expert real estate services in Turkey, Dubai, Cyprus, Antalya, Mersin and France.',
       keywords: route.keywords || 'real estate, property investment, international properties, luxury homes',
       canonicalUrl: currentUrl,
       ogImage: `${baseUrl}/og-image.jpg`,
