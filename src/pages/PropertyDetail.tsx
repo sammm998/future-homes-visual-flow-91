@@ -370,7 +370,6 @@ const PropertyDetail = () => {
               alt={`Property view ${currentImageIndex + 1}`}
               className="max-h-[80vh] max-w-full object-contain rounded-lg"
               priority={true}
-              showCenteredLogo={true}
             />
             
             {property.images.length > 1 && (
