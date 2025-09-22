@@ -77,13 +77,13 @@ const ArticlePage = () => {
         <title>{blogPost.title} - Future Homes</title>
         <meta name="description" content={blogPost.excerpt || `${blogPost.title} - Read more on Future Homes blog`} />
         <meta name="keywords" content={tags.join(', ')} />
-        <link rel="canonical" href={`/articles/${blogPost.slug}`} />
+        <link rel="canonical" href={`https://futurehomesturkey.com/articles/${blogPost.slug}`} />
         
         {/* Open Graph tags */}
         <meta property="og:title" content={blogPost.title} />
         <meta property="og:description" content={blogPost.excerpt || blogPost.title} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`/articles/${blogPost.slug}`} />
+        <meta property="og:url" content={`https://futurehomesturkey.com/articles/${blogPost.slug}`} />
         {blogPost.featured_image && (
           <meta property="og:image" content={blogPost.featured_image} />
         )}
@@ -122,10 +122,10 @@ const ArticlePage = () => {
                 "url": "/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png"
               }
             },
-            "url": `/articles/${blogPost.slug}`,
+            "url": `https://futurehomesturkey.com/articles/${blogPost.slug}`,
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `/articles/${blogPost.slug}`
+              "@id": `https://futurehomesturkey.com/articles/${blogPost.slug}`
             }
           })}
         </script>
