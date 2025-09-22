@@ -1,63 +1,50 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { enhancedSupabase, resilientQuery, fallbackPropertyData } from '@/lib/supabase-enhanced';
+import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 
 export const useProperties = () => {
   const queryClient = useQueryClient();
+  const { isOnline } = useConnectionStatus();
 
   const { data: properties = [], isLoading: loading, error } = useQuery({
     queryKey: ['properties'],
     queryFn: async () => {
-      console.log('🔍 useProperties: Making API call to fetch properties');
-      
-      // Create timeout for better connection handling (Dubai users)
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => {
-        controller.abort();
-      }, 30000); // 30 second timeout
+      console.log('🔍 useProperties: Making resilient API call to fetch properties');
       
       try {
-        const { data, error } = await supabase
-          .from('properties')
-          .select('*')
-          .order('created_at', { ascending: false });
-        
-        clearTimeout(timeoutId);
-        
-        if (error) {
-          console.error('❌ useProperties: Database error:', error);
-          throw error;
-        }
+        const data = await resilientQuery(async () => {
+          const { data, error } = await enhancedSupabase
+            .from('properties')
+            .select('*')
+            .order('created_at', { ascending: false });
+          
+          if (error) {
+            console.error('❌ useProperties: Database error:', error);
+            throw error;
+          }
+          
+          return data || [];
+        }, 5, 2000); // 5 retries with 2s base delay
         
         console.log('✅ useProperties: Successfully fetched', data?.length || 0, 'properties');
-        console.log('📊 useProperties: First few properties:', data?.slice(0, 3));
-        return data || [];
+        return data;
       } catch (err: any) {
-        clearTimeout(timeoutId);
-        if (err.name === 'AbortError') {
-          throw new Error('Request timeout - please check your internet connection');
+        console.error('❌ useProperties: All retries failed:', err);
+        
+        // Return fallback data if offline or blocked
+        if (!isOnline || err.message?.includes('network') || err.message?.includes('timeout')) {
+          console.log('🔄 useProperties: Returning fallback data due to connectivity issues');
+          return fallbackPropertyData;
         }
+        
         throw err;
       }
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 15 * 60 * 1000, // Increased to 15 minutes for UAE users
+    gcTime: 30 * 60 * 1000, // Increased to 30 minutes
     refetchOnWindowFocus: false,
-    retry: (failureCount, error) => {
-      // Don't retry on timeout or abort errors after 3 attempts
-      if (error?.message?.includes('timeout') || error?.message?.includes('AbortError')) {
-        return failureCount < 3;
-      }
-      // Don't retry on 4xx client errors
-      if (error?.message?.includes('400') || error?.message?.includes('404')) {
-        return false;
-      }
-      // Retry up to 5 times for network errors (good for Dubai users)
-      return failureCount < 5;
-    },
-    retryDelay: (attemptIndex) => {
-      // Exponential backoff: 2s, 4s, 8s, 16s, 30s max
-      return Math.min(2000 * Math.pow(2, attemptIndex), 30000);
-    },
+    retry: 2, // Reduced since resilientQuery handles retries
+    retryDelay: 5000,
     networkMode: 'offlineFirst',
   });
 
@@ -72,7 +59,7 @@ export const useProperties = () => {
       throw new Error('Invalid property ID format');
     }
     
-    const { error } = await supabase
+    const { error } = await enhancedSupabase
       .from('properties')
       .delete()
       .eq('id', id);

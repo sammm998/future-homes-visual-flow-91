@@ -1,7 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
+import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 
 export const useProperty = (id: string) => {
+  const { isOnline } = useConnectionStatus();
+  
   const { data: rawProperty, isLoading: loading, error } = useQuery({
     queryKey: ['property', id],
     queryFn: async () => {
@@ -9,42 +12,43 @@ export const useProperty = (id: string) => {
         throw new Error('Property ID is required');
       }
       
-      let dbProperty: any = null;
-      let dbError: any = null;
+      return await resilientQuery(async () => {
+        let dbProperty: any = null;
+        let dbError: any = null;
 
-      // Try to find by ref_no first
-      const { data: refProperty, error: refError } = await supabase
-        .from('properties')
-        .select('*')
-        .eq('ref_no', id)
-        .eq('is_active', true)
-        .maybeSingle();
+        // Try to find by ref_no first
+        const { data: refProperty, error: refError } = await enhancedSupabase
+          .from('properties')
+          .select('*')
+          .eq('ref_no', id)
+          .eq('is_active', true)
+          .maybeSingle();
 
-      if (!refError && refProperty) {
-        dbProperty = refProperty;
-      } else {
-        // If not found by ref_no, try by UUID
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-        if (uuidRegex.test(id)) {
-          const { data: uuidProperty, error: uuidError } = await supabase
-            .from('properties')
-            .select('*')
-            .eq('id', id)
-            .eq('is_active', true)
-            .maybeSingle();
-          
-          dbProperty = uuidProperty;
-          dbError = uuidError;
+        if (!refError && refProperty) {
+          dbProperty = refProperty;
+        } else {
+          // If not found by ref_no, try by UUID
+          const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+          if (uuidRegex.test(id)) {
+            const { data: uuidProperty, error: uuidError } = await enhancedSupabase
+              .from('properties')
+              .select('*')
+              .eq('id', id)
+              .eq('is_active', true)
+              .maybeSingle();
+            
+            dbProperty = uuidProperty;
+            dbError = uuidError;
+          }
         }
-      }
 
-      if (dbError) {
-        throw dbError;
-      }
+        if (dbError) {
+          throw dbError;
+        }
 
-      if (!dbProperty) {
-        return null;
-      }
+        if (!dbProperty) {
+          return null;
+        }
 
       // Transform the database property to expected format
       // Parse the facilities array and convert to clean format
@@ -104,27 +108,14 @@ export const useProperty = (id: string) => {
         },
         image: images[0] || dbProperty.property_image
       };
+      }, 3, 2000); // 3 retries with 2s base delay
     },
     enabled: !!id,
-    retry: (failureCount, error) => {
-      // Don't retry on timeout or abort errors after 3 attempts
-      if (error?.message?.includes('timeout') || error?.message?.includes('AbortError')) {
-        return failureCount < 3;
-      }
-      // Don't retry on 4xx client errors
-      if (error?.message?.includes('400') || error?.message?.includes('404')) {
-        return false;
-      }
-      // Retry up to 5 times for network errors (good for Dubai users)
-      return failureCount < 5;
-    },
-    retryDelay: (attemptIndex) => {
-      // Exponential backoff: 2s, 4s, 8s, 16s, 30s max
-      return Math.min(2000 * Math.pow(2, attemptIndex), 30000);
-    },
+    retry: 2, // Reduced since resilientQuery handles retries
+    retryDelay: 5000,
     networkMode: 'offlineFirst',
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 15 * 60 * 1000, // Increased to 15 minutes for UAE users
+    gcTime: 30 * 60 * 1000, // Increased to 30 minutes
   });
 
   return {

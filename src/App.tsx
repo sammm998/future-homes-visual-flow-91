@@ -11,6 +11,7 @@ import PerformanceMonitor from "@/components/PerformanceMonitor";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { ConnectionStatus } from "@/components/ConnectionStatus";
 import "./utils/cleanConsole";
 
 // Lazy load all page components for better performance
@@ -111,7 +112,9 @@ function App() {
 
 function AppContent() {
   return (
-    <Routes>
+    <>
+      <ConnectionStatus />
+      <Routes>
       <Route path="/" element={
         <>
           <Index />
@@ -141,7 +144,8 @@ function AppContent() {
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/sitemap.xml" element={<SitemapXML />} />
       <Route path="*" element={<NotFound />} />
-    </Routes>
+      </Routes>
+    </>
   );
 }
 

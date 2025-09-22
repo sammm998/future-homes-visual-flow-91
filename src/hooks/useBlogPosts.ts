@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
 
 export interface BlogPost {
   id: string;
@@ -19,22 +19,24 @@ export const useBlogPosts = (includeUnpublished = false) => {
   const { data: blogPosts = [], isLoading: loading, error } = useQuery({
     queryKey: ['blog_posts', includeUnpublished],
     queryFn: async () => {
-      let query = supabase
-        .from('blog_posts')
-        .select('*')
-        .limit(50); // Increased limit to show more articles
-      
-      if (!includeUnpublished) {
-        query = query.eq('published', true);
-      }
-      
-      const { data, error } = await query.order('created_at', { ascending: false });
-      
-      if (error) throw error;
-      return data || [];
+      return await resilientQuery(async () => {
+        let query = enhancedSupabase
+          .from('blog_posts')
+          .select('*')
+          .limit(50);
+        
+        if (!includeUnpublished) {
+          query = query.eq('published', true);
+        }
+        
+        const { data, error } = await query.order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        return data || [];
+      }, 3, 2000);
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 15 * 60 * 1000, // Increased to 15 minutes for UAE users
+    gcTime: 30 * 60 * 1000, // Increased to 30 minutes
   });
 
   const refreshBlogPosts = () => {
@@ -53,19 +55,21 @@ export const useBlogPost = (slug: string) => {
   const { data: blogPost, isLoading: loading, error } = useQuery({
     queryKey: ['blog_post', slug],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .eq('slug', slug)
-        .eq('published', true)
-        .maybeSingle();
-      
-      if (error) throw error;
-      return data;
+      return await resilientQuery(async () => {
+        const { data, error } = await enhancedSupabase
+          .from('blog_posts')
+          .select('*')
+          .eq('slug', slug)
+          .eq('published', true)
+          .maybeSingle();
+        
+        if (error) throw error;
+        return data;
+      }, 3, 2000);
     },
     enabled: !!slug,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 15 * 60 * 1000, // Increased to 15 minutes for UAE users
+    gcTime: 30 * 60 * 1000, // Increased to 30 minutes
   });
 
   return {
