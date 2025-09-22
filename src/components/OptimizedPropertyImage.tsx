@@ -10,7 +10,6 @@ interface OptimizedPropertyImageProps {
   width?: number;
   height?: number;
   sizes?: string;
-  showCenteredLogo?: boolean;
 }
 
 export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
@@ -20,8 +19,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   priority = false,
   width = 400,
   height = 300,
-  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
-  showCenteredLogo = false
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -186,17 +184,11 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       
       {/* Logo stamp overlay */}
       {!isLoading && !error && (
-        <div className={showCenteredLogo 
-          ? "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-70" 
-          : "absolute bottom-4 right-4 opacity-90"
-        }>
+        <div className="absolute bottom-4 right-4 opacity-90">
           <img 
             src={futureHomesLogo} 
             alt="Future Homes" 
-            className={showCenteredLogo 
-              ? "w-32 h-auto drop-shadow-2xl bg-white/60 backdrop-blur-sm rounded-lg p-3" 
-              : "w-16 h-auto drop-shadow-lg bg-white/80 backdrop-blur-sm rounded-lg p-2"
-            }
+            className="w-16 h-auto drop-shadow-lg bg-white/80 backdrop-blur-sm rounded-lg p-2"
           />
         </div>
       )}
