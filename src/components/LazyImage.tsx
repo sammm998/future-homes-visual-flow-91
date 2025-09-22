@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, memo } from 'react';
 import { cn } from '@/lib/utils';
 import { getOptimizedImageUrl } from '@/utils/imageOptimization';
+import futureHomesLogo from '@/assets/future-homes-logo.png';
 
 interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -65,21 +66,34 @@ export const LazyImage: React.FC<LazyImageProps> = memo(({
   const optimizedSrc = getOptimizedImageUrl(imageSrc, props.width as number);
 
   return (
-    <img
-      ref={imgRef}
-      src={optimizedSrc}
-      alt={alt}
-      className={cn(
-        'transition-opacity duration-300',
-        isLoaded && !isError ? 'opacity-100' : 'opacity-80',
-        className
+    <div className="relative">
+      <img
+        ref={imgRef}
+        src={optimizedSrc}
+        alt={alt}
+        className={cn(
+          'transition-opacity duration-300',
+          isLoaded && !isError ? 'opacity-100' : 'opacity-80',
+          className
+        )}
+        onLoad={handleLoad}
+        onError={handleError}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        {...props}
+      />
+      
+      {/* Logo stamp overlay - only show for property images */}
+      {isLoaded && !isError && alt.toLowerCase().includes('property') && (
+        <div className="absolute bottom-4 right-4 opacity-90">
+          <img 
+            src={futureHomesLogo} 
+            alt="Future Homes" 
+            className="w-12 h-auto drop-shadow-lg bg-white/80 backdrop-blur-sm rounded-lg p-1.5"
+          />
+        </div>
       )}
-      onLoad={handleLoad}
-      onError={handleError}
-      loading={priority ? "eager" : "lazy"}
-      decoding="async"
-      {...props}
-    />
+    </div>
   );
 });
 

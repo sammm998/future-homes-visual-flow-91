@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import futureHomesLogo from '@/assets/future-homes-logo.png';
 
 interface OptimizedPropertyImageProps {
   src: string;
@@ -180,6 +181,17 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
         decoding="async"
         fetchPriority={priority ? "high" : "auto"}
       />
+      
+      {/* Logo stamp overlay */}
+      {!isLoading && !error && (
+        <div className="absolute bottom-4 right-4 opacity-90">
+          <img 
+            src={futureHomesLogo} 
+            alt="Future Homes" 
+            className="w-16 h-auto drop-shadow-lg bg-white/80 backdrop-blur-sm rounded-lg p-2"
+          />
+        </div>
+      )}
       
       {/* Error state with better fallback */}
       {error && (
