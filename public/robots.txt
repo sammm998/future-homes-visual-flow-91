@@ -1,44 +1,24 @@
 User-agent: *
 Allow: /
-
-# Block admin and internal pages
 Disallow: /admin/
-Disallow: /admin
-Disallow: /login
-Disallow: /_next/
 Disallow: /api/
-Disallow: /tmp/
+Disallow: /_*
+Disallow: /temp/
+Disallow: /test/
 
-# Block development and testing paths
-Disallow: /*?debug=*
-Disallow: /*?test=*
-Disallow: /*preview=*
-
-# Allow search engine specific bots
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Slurp
-Allow: /
-Crawl-delay: 1
-
-User-agent: DuckDuckBot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Baiduspider
-Allow: /
-Crawl-delay: 2
-
-# Sitemap location for Google Search Console
+# Sitemaps
 Sitemap: https://futurehomesturkey.com/sitemap.xml
+Sitemap: https://futurehomesturkey.com/sitemap_en.xml
+Sitemap: https://futurehomesturkey.com/sitemap_de.xml
+Sitemap: https://futurehomesturkey.com/sitemap_sv.xml
+Sitemap: https://futurehomesturkey.com/sitemap_da.xml
+Sitemap: https://futurehomesturkey.com/sitemap_no.xml
+Sitemap: https://futurehomesturkey.com/sitemap_ru.xml
+Sitemap: https://futurehomesturkey.com/sitemap_ur.xml
+Sitemap: https://futurehomesturkey.com/sitemap_ar.xml
+Sitemap: https://futurehomesturkey.com/sitemap_fa.xml
+Sitemap: https://futurehomesturkey.com/sitemap_tr.xml
+Sitemap: https://futurehomesturkey.com/sitemap_es.xml
 
-# Additional SEO directives
-# Cache control for better crawling
-User-agent: *
+# Crawl-delay (optional)
 Crawl-delay: 1
