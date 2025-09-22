@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ContentSection } from "@/components/ContentSection";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
+import { articles as staticArticles } from '@/data/articlesData';
 
 import { Badge } from "@/components/ui/badge";
 import { NavBar } from "@/components/ui/tubelight-navbar";
@@ -351,9 +352,9 @@ const Information = () => {
     return defaultImages[index % defaultImages.length];
   };
 
-  // Convert blog posts to articles format
-  const articles = blogPosts.map((post, index) => ({
-    id: index + 1,
+  // Convert blog posts to articles format and combine with static articles
+  const databaseArticles = blogPosts.map((post, index) => ({
+    id: index + 1000, // Offset to avoid conflicts with static article IDs
     title: post.title,
     description: post.excerpt,
     icon: getArticleIcon(post.title),
@@ -364,12 +365,31 @@ const Information = () => {
     slug: post.slug
   }));
 
+  // Add default images to static articles that might not have them
+  const staticArticlesWithImages = staticArticles.map((article, index) => ({
+    ...article,
+    image: article.image || getArticleImage(article.title, article.content, index),
+    slug: article.title.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')
+  }));
+
+  // Combine static articles with database articles
+  const articles = [...staticArticlesWithImages, ...databaseArticles];
+
   const filteredArticles = activeFilter === "all" 
     ? articles 
     : articles.filter(article => article.category === activeFilter);
 
   const handleArticleClick = (slug: string) => {
-    navigate(`/articles/${slug}`);
+    // Check if it's a static article (no slug property in original data)
+    const isStaticArticle = staticArticles.some(article => 
+      article.title.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-') === slug
+    );
+    
+    if (isStaticArticle) {
+      navigate(`/article/${slug}`);
+    } else {
+      navigate(`/articles/${slug}`);
+    }
   };
 
   if (loading) {
