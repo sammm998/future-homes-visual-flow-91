@@ -36,11 +36,7 @@ function FrameComponent({
           src={image}
           alt={title}
         />
-        <div className="absolute inset-0 bg-black/20 flex items-center justify-center hover:bg-black/40 transition-colors">
-          <h3 className="text-white text-xl md:text-2xl font-bold tracking-wider">
-            {title}
-          </h3>
-        </div>
+        <div className="absolute inset-0 hover:bg-black/10 transition-colors"></div>
       </div>
     </div>
   )
