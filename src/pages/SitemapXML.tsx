@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { supabase } from "@/integrations/supabase/client";
+import { enhancedSupabase } from "@/lib/supabase-enhanced";
 
 const SitemapXML = () => {
   useEffect(() => {
     const generateSitemap = async () => {
       try {
-        const { data, error } = await supabase.functions.invoke('generate-sitemap');
+        const { data, error } = await enhancedSupabase.functions.invoke('generate-sitemap');
         
         if (error) {
           console.error('Error generating sitemap:', error);

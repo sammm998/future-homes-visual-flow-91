@@ -182,9 +182,9 @@ const CyprusPropertySearch = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Cyprus Properties Investment | Future Homes Mediterranean"
-        description="Premium Cyprus real estate with EU citizenship opportunities. Luxury apartments & villas with beach access. Expert investment guidance."
-        keywords="Cyprus properties, Cyprus real estate, property investment Cyprus, luxury apartments Cyprus, villas Cyprus, EU citizenship"
+        title="Cyprus Real Estate - EU Citizenship Through Property Investment | Future Homes"
+        description="Discover Cyprus properties with EU citizenship benefits. Luxury homes, apartments & villas. Cyprus citizenship by investment programs. Expert guidance for European property investment."
+        keywords="Cyprus real estate, EU citizenship by investment, Cyprus property for sale, European property investment, Cyprus citizenship program, luxury homes Cyprus, property investment Europe, Cyprus Golden Visa"
         canonicalUrl="https://futurehomesturkey.com/cyprus"
       />
       <Navigation />

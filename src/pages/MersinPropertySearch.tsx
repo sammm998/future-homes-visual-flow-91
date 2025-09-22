@@ -235,7 +235,7 @@ const MersinPropertySearch = () => {
         description="Turkish citizenship via Mersin properties. Mediterranean coastline real estate with investment opportunities. Expert guidance included."
         keywords="Mersin properties, Turkish citizenship, property investment Mersin, Mediterranean real estate, Mersin apartments"
         canonicalUrl={canonicalUrl}
-        hreflang={hreflangUrls}
+        hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))}
       />
       <Navigation />
       

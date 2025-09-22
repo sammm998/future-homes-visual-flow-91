@@ -42,39 +42,40 @@ serve(async (req) => {
     const currentDate = new Date().toISOString().split('T')[0];
     const baseUrl = 'https://futurehomesturkey.com';
 
-    // Static pages - Core pages
+    // Static pages - Core pages with updated structure
     const staticPages = [
       { url: '/', priority: '1.0', changefreq: 'daily' },
-      { url: '/properties', priority: '0.9', changefreq: 'daily' },
-      { url: '/property-wizard', priority: '0.8', changefreq: 'weekly' },
-      { url: '/ai-property-search', priority: '0.8', changefreq: 'weekly' },
+      { url: '/property-wizard', priority: '0.9', changefreq: 'weekly' },
+      { url: '/ai-property-search', priority: '0.9', changefreq: 'weekly' },
       
-      // Location pages
-      { url: '/antalya', priority: '0.8', changefreq: 'weekly' },
-      { url: '/dubai', priority: '0.8', changefreq: 'weekly' },
-      { url: '/cyprus', priority: '0.8', changefreq: 'weekly' },
-      { url: '/mersin', priority: '0.8', changefreq: 'weekly' },
-      { url: '/france', priority: '0.8', changefreq: 'weekly' },
+      // Location-specific property search pages (main destinations)
+      { url: '/antalya', priority: '0.9', changefreq: 'daily' },
+      { url: '/dubai', priority: '0.9', changefreq: 'daily' },
+      { url: '/cyprus', priority: '0.9', changefreq: 'daily' },
+      { url: '/mersin', priority: '0.8', changefreq: 'daily' },
+      { url: '/bali', priority: '0.8', changefreq: 'daily' },
       
-      // Location-specific property pages
-      { url: '/antalya/properties', priority: '0.7', changefreq: 'daily' },
-      { url: '/dubai/properties', priority: '0.7', changefreq: 'daily' },
-      { url: '/cyprus/properties', priority: '0.7', changefreq: 'daily' },
-      { url: '/mersin/properties', priority: '0.7', changefreq: 'daily' },
-      { url: '/france/properties', priority: '0.7', changefreq: 'daily' },
+      // Company and information pages
+      { url: '/about-us', priority: '0.8', changefreq: 'monthly' },
+      { url: '/contact-us', priority: '0.8', changefreq: 'monthly' },
+      { url: '/testimonials', priority: '0.7', changefreq: 'weekly' },
+      { url: '/information', priority: '0.7', changefreq: 'weekly' },
       
-      // Information and company pages
-      { url: '/about-us', priority: '0.7', changefreq: 'monthly' },
-      { url: '/contact-us', priority: '0.7', changefreq: 'monthly' },
-      { url: '/testimonials', priority: '0.6', changefreq: 'weekly' },
-      { url: '/information', priority: '0.6', changefreq: 'weekly' },
-      { url: '/articles', priority: '0.6', changefreq: 'weekly' },
+      // Media and showcase pages
+      { url: '/gallery', priority: '0.6', changefreq: 'weekly' },
+      { url: '/video-showcase', priority: '0.6', changefreq: 'weekly' },
       
-      // Additional service pages
-      { url: '/investment-opportunities', priority: '0.6', changefreq: 'weekly' },
-      { url: '/citizenship-programs', priority: '0.6', changefreq: 'weekly' },
-      { url: '/legal-services', priority: '0.5', changefreq: 'monthly' },
-      { url: '/property-management', priority: '0.5', changefreq: 'monthly' }
+      // SEO landing pages for key search terms
+      { url: '/antalya-real-estate', priority: '0.8', changefreq: 'weekly' },
+      { url: '/dubai-property-investment', priority: '0.8', changefreq: 'weekly' },
+      { url: '/cyprus-citizenship-property', priority: '0.8', changefreq: 'weekly' },
+      { url: '/turkey-property-for-sale', priority: '0.8', changefreq: 'weekly' },
+      { url: '/overseas-property-investment', priority: '0.7', changefreq: 'weekly' },
+      { url: '/turkish-citizenship-by-investment', priority: '0.7', changefreq: 'weekly' },
+      { url: '/international-real-estate', priority: '0.7', changefreq: 'weekly' },
+      { url: '/property-investment-advice', priority: '0.6', changefreq: 'weekly' },
+      { url: '/european-property-market', priority: '0.6', changefreq: 'weekly' },
+      { url: '/middle-east-real-estate', priority: '0.6', changefreq: 'weekly' }
     ];
 
     let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>

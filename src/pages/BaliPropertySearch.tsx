@@ -178,7 +178,7 @@ const BaliPropertySearch = () => {
         description="Premium Bali real estate investments in Seminyak, Canggu, Ubud & more. Luxury villas, apartments with strong rental yields. Expert guidance for foreign investors."
         keywords="Bali properties, Bali real estate, property investment Bali, Seminyak villas, Canggu apartments, Indonesia property, Bali investment"
         canonicalUrl={canonicalUrl}
-        hreflang={hreflangUrls}
+        hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))}
       />
       <Navigation />
       

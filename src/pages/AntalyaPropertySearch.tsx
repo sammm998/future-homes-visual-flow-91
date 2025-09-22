@@ -174,11 +174,11 @@ const AntalyaPropertySearch = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Antalya Properties & Turkish Citizenship | Future Homes"
-        description="Turkish citizenship by investment via Antalya properties. Premium Mediterranean real estate with expert guidance. Start your new life today."
-        keywords="Antalya properties, Turkish citizenship, property investment Turkey, Mediterranean real estate, Antalya apartments, Turkish passport"
+        title="Antalya Real Estate - Premium Properties for Sale in Turkey | Future Homes"
+        description="Discover luxury properties in Antalya, Turkey. Beachfront apartments, villas & investment opportunities. Turkish citizenship programs available. Expert guidance from Future Homes Turkey."
+        keywords="Antalya real estate, Turkey property for sale, Antalya apartments, Turkish citizenship by investment, beachfront properties Antalya, luxury villas Turkey, property investment Antalya, overseas property Turkey"
         canonicalUrl={canonicalUrl}
-        hreflang={hreflangUrls}
+        hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))}
       />
       <Navigation />
       

@@ -45,28 +45,80 @@ const Index = () => {
   }, []);
   
 
+  
   const homePageStructuredData = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Future Homes",
+    "@type": ["WebSite", "RealEstateAgent", "Organization"],
+    "name": "Future Homes Turkey",
+    "alternateName": "Future Homes Turkey Real Estate",
     "url": "https://futurehomesturkey.com",
-    "description": "Premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Europe",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://futurehomesturkey.com/ai-property-search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    "logo": "https://futurehomesturkey.com/logo.png",
+    "description": "Premier international real estate agency specializing in luxury properties in Turkey, UAE, Cyprus, and Bali. Expert guidance for property investment, citizenship programs, and overseas real estate.",
+    "sameAs": [
+      "https://www.facebook.com/futurehomesturkey",
+      "https://www.instagram.com/futurehomesturkey",
+      "https://www.linkedin.com/company/futurehomesturkey",
+      "https://twitter.com/futurehomestr"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+90-242-000-0000",
+      "contactType": "customer service",
+      "email": "info@futurehomesturkey.com",
+      "availableLanguage": ["English", "Turkish", "Arabic", "Russian"]
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "TR",
+      "addressRegion": "Antalya",
+      "addressLocality": "Antalya"
+    },
+    "service": [
+      {
+        "@type": "Service",
+        "name": "International Real Estate Sales",
+        "description": "Luxury property sales in Turkey, UAE, Cyprus, and Bali"
+      },
+      {
+        "@type": "Service", 
+        "name": "Property Investment Consulting",
+        "description": "Expert advice on overseas property investment opportunities"
+      },
+      {
+        "@type": "Service",
+        "name": "Citizenship by Investment Programs",
+        "description": "Turkish and Cyprus citizenship through real estate investment"
+      }
+    ],
+    "areaServed": [
+      {
+        "@type": "Country",
+        "name": "Turkey"
+      },
+      {
+        "@type": "Country", 
+        "name": "United Arab Emirates"
+      },
+      {
+        "@type": "Country",
+        "name": "Cyprus"
+      },
+      {
+        "@type": "Country",
+        "name": "Indonesia"
+      }
+    ],
+    "priceRange": "€100,000 - €5,000,000+"
   };
 
   return (
     <div className="min-h-screen overflow-x-hidden">
       <SEOHead
-        title={pageTitle || "Future Homes - Premium Real Estate in Turkey, Dubai & Europe"}
-        description={metaDescription || "Future Homes offers premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Europe. Expert guidance for property investment and Turkish citizenship."}
-        keywords="real estate Turkey, property investment Dubai, Cyprus properties, European real estate, Turkish citizenship, luxury homes, investment properties"
+        title={pageTitle || "Future Homes Turkey - Premium International Real Estate Investment"}
+        description={metaDescription || "Discover premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Bali. Expert guidance for property investment, Turkish citizenship programs, and luxury overseas homes. Your international investment future starts here."}
+        keywords="real estate Turkey, property investment Dubai, Cyprus properties, Turkish citizenship, Antalya real estate, luxury homes Turkey, overseas property investment, international real estate, property for sale Turkey, investment opportunities"
         canonicalUrl={currentCanonicalUrl}
-        hreflang={hreflangUrls}
-        structuredData={structuredData}
+        structuredData={homePageStructuredData}
       />
       <OrganizationSchema />
       <Navigation />

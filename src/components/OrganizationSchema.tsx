@@ -1,60 +1,140 @@
 import React from 'react';
 
-const OrganizationSchema: React.FC = () => {
-  const organizationSchema = {
+interface OrganizationSchemaProps {
+  location?: string;
+}
+
+const OrganizationSchema: React.FC<OrganizationSchemaProps> = ({ location }) => {
+  const organizationData = {
     "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    "name": "Future Homes",
-    "description": "Premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Europe with expert guidance for property investment and Turkish citizenship.",
+    "@type": ["Organization", "RealEstateAgent"],
+    "name": "Future Homes Turkey",
+    "alternateName": "Future Homes",
     "url": "https://futurehomesturkey.com",
-    "logo": "https://futurehomesturkey.com/lovable-uploads/9b08d909-a9da-4946-942a-c24106cd57f7.png",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Turkey",
-      "addressCountry": "TR"
-    },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+90-XXX-XXX-XXXX",
-      "contactType": "Customer Service",
-      "availableLanguage": ["English", "Turkish", "Arabic", "French", "German", "Russian"]
-    },
-    "areaServed": [
+    "logo": "https://futurehomesturkey.com/logo.png",
+    "description": "Premier international real estate agency specializing in luxury properties across Turkey, UAE, Cyprus, and Bali. Expert guidance for property investment and citizenship programs.",
+    "foundingDate": "2020",
+    "legalName": "Future Homes Turkey Real Estate",
+    "telephone": "+90-242-000-0000",
+    "email": "info@futurehomesturkey.com",
+    "contactPoint": [
       {
-        "@type": "Country",
-        "name": "Turkey"
+        "@type": "ContactPoint",
+        "telephone": "+90-242-000-0000",
+        "contactType": "customer service",
+        "email": "info@futurehomesturkey.com",
+        "availableLanguage": ["English", "Turkish", "Arabic", "Russian", "German"],
+        "areaServed": ["TR", "AE", "CY", "ID", "GB", "DE", "RU"]
       },
       {
-        "@type": "Country", 
-        "name": "United Arab Emirates"
-      },
-      {
-        "@type": "Country",
-        "name": "Cyprus"
-      },
-      {
-        "@type": "Country",
-        "name": "France"
+        "@type": "ContactPoint",
+        "telephone": "+971-4-000-0000",
+        "contactType": "sales",
+        "email": "dubai@futurehomesturkey.com",
+        "availableLanguage": ["English", "Arabic"],
+        "areaServed": ["AE", "SA", "QA", "KW"]
       }
     ],
-    "serviceType": [
-      "Real Estate Investment",
-      "Property Management",
-      "Turkish Citizenship Consultation",
-      "Luxury Property Sales",
-      "International Real Estate"
+    "address": [
+      {
+        "@type": "PostalAddress",
+        "streetAddress": "Future Homes Office",
+        "addressLocality": "Antalya",
+        "addressRegion": "Antalya",
+        "postalCode": "07000",
+        "addressCountry": "TR"
+      },
+      {
+        "@type": "PostalAddress",
+        "streetAddress": "Business Bay Office",
+        "addressLocality": "Dubai",
+        "addressRegion": "Dubai",
+        "postalCode": "00000",
+        "addressCountry": "AE"
+      }
     ],
     "sameAs": [
       "https://www.facebook.com/futurehomesturkey",
       "https://www.instagram.com/futurehomesturkey",
-      "https://www.linkedin.com/company/future-homes-turkey"
-    ]
+      "https://www.linkedin.com/company/futurehomesturkey",
+      "https://twitter.com/futurehomestr",
+      "https://www.youtube.com/futurehomesturkey"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "International Real Estate Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Luxury Property Sales",
+            "description": "Premium apartments, villas, and penthouses in Turkey, UAE, Cyprus, and Bali"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Property Investment Consulting",
+            "description": "Expert guidance on international real estate investment opportunities and market analysis"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Citizenship by Investment Programs",
+            "description": "Turkish and Cyprus citizenship through strategic property investments"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Golden Visa Programs",
+            "description": "UAE Golden Visa and residence permit assistance through property investment"
+          }
+        }
+      ]
+    },
+    "areaServed": [
+      { "@type": "Country", "name": "Turkey" },
+      { "@type": "Country", "name": "United Arab Emirates" },
+      { "@type": "Country", "name": "Cyprus" },
+      { "@type": "Country", "name": "Indonesia" },
+      { "@type": "Country", "name": "United Kingdom" },
+      { "@type": "Country", "name": "Germany" },
+      { "@type": "Country", "name": "Russia" },
+      { "@type": "Country", "name": "Saudi Arabia" }
+    ],
+    "serviceType": [
+      "International Real Estate Sales",
+      "Property Investment Consulting", 
+      "Citizenship by Investment",
+      "Golden Visa Programs",
+      "Luxury Real Estate",
+      "Property Management",
+      "Legal Services Support"
+    ],
+    "knowsAbout": [
+      "Turkey Real Estate Market",
+      "Dubai Property Investment",
+      "Cyprus EU Citizenship",
+      "Bali Property Investment",
+      "Turkish Citizenship by Investment",
+      "UAE Golden Visa",
+      "International Property Law",
+      "Luxury Real Estate"
+    ],
+    "priceRange": "€100,000 - €5,000,000+",
+    "currenciesAccepted": ["EUR", "USD", "GBP", "TRY", "AED"]
   };
 
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
     />
   );
 };
