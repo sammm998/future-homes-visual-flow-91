@@ -79,7 +79,7 @@ const PropertyImageGalleryPreview = () => {
             </p>
             
             {/* Interactive CTA Button */}
-            <Link to="/gallery">
+            <div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -92,7 +92,7 @@ const PropertyImageGalleryPreview = () => {
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
               </motion.div>
-            </Link>
+            </div>
           </motion.div>
         </motion.div>
         
@@ -234,7 +234,7 @@ const PropertyImageGalleryPreview = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 1.0 }}
         >
-          <Link to="/gallery">
+          <div>
             <motion.div
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -251,7 +251,7 @@ const PropertyImageGalleryPreview = () => {
                 <ArrowRight className="w-5 h-5 ml-3 text-primary group-hover:translate-x-1 group-hover:text-accent transition-all duration-300" />
               </Button>
             </motion.div>
-          </Link>
+          </div>
         </motion.div>
       </div>
     </section>

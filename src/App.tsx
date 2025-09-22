@@ -44,7 +44,7 @@ const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const ExpensesBuyingPropertyTurkey = lazy(() => import("./pages/ExpensesBuyingPropertyTurkey"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const ImageGallery = lazy(() => import("./pages/ImageGallery"));
+
 const VideoShowcase = lazy(() => import("./pages/VideoShowcase"));
 
 
@@ -137,7 +137,7 @@ function AppContent() {
       <Route path="/testimonials" element={<Testimonials />} />
       <Route path="/information" element={<Information />} />
       <Route path="/about-us" element={<AboutUs />} />
-      <Route path="/gallery" element={<ImageGallery />} />
+      
       <Route path="/video-showcase" element={<VideoShowcase />} />
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/article/:id" element={<Article />} />
