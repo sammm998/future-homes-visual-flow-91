@@ -1,4 +1,5 @@
 import { useState } from "react";
+import React from "react";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from 'dompurify';
@@ -483,7 +484,7 @@ const Information = () => {
                   </div>
                   <div className="absolute bottom-4 left-4">
                     <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                      {article.icon}
+                      {React.createElement(article.icon, { className: "w-6 h-6 text-primary" })}
                     </div>
                   </div>
                 </div>
