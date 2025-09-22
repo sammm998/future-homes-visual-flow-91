@@ -368,7 +368,7 @@ const PropertyDetail = () => {
             <OptimizedPropertyImage
               src={property.images[currentImageIndex] || property.image || "/placeholder.svg"}
               alt={`Property view ${currentImageIndex + 1}`}
-              className="max-h-[80vh] max-w-full object-contain rounded-lg"
+              className="max-h-[95vh] max-w-full object-contain rounded-lg"
               priority={true}
             />
             
