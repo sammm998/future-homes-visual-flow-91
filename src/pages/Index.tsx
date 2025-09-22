@@ -111,6 +111,61 @@ const Index = () => {
     "priceRange": "€100,000 - €5,000,000+"
   };
 
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can foreigners buy property in Turkey?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, foreign nationals can buy property in Turkey with some restrictions. Most residential and commercial properties are available for foreign ownership, excluding certain border areas and military zones."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the total costs when buying property in Turkey?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Total additional costs are approximately 4.5% of the declared property value, including 4% property tax, legal fees, translation costs, and administrative expenses."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Turkish citizenship available through property investment?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, Turkey offers citizenship to foreign investors who purchase property worth at least $400,000 and hold it for a minimum of 3 years. The process typically takes 3-6 months."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need a lawyer when buying property in Turkey?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "While not legally required, hiring a lawyer is highly recommended for foreign buyers. Many reputable agencies provide free legal services as part of their comprehensive support package."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What ongoing costs should I expect after purchase?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Annual costs include property tax (0.1-0.6% depending on type and location), DASK natural disaster insurance, utilities, and maintenance fees for residential complexes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do payment plans work for off-plan properties?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Off-plan properties typically offer flexible payment plans with 30-50% paid during construction in installments, and the balance upon completion. Many developers offer interest-free payment terms."
+        }
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen overflow-x-hidden">
       <SEOHead
@@ -118,7 +173,7 @@ const Index = () => {
         description={metaDescription || "Discover premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Bali. Expert guidance for property investment, Turkish citizenship programs, and luxury overseas homes. Your international investment future starts here."}
         keywords="real estate Turkey, property investment Dubai, Cyprus properties, Turkish citizenship, Antalya real estate, luxury homes Turkey, overseas property investment, international real estate, property for sale Turkey, investment opportunities"
         canonicalUrl={currentCanonicalUrl}
-        structuredData={homePageStructuredData}
+        structuredData={[homePageStructuredData, faqStructuredData]}
       />
       <OrganizationSchema />
       <Navigation />
@@ -201,6 +256,51 @@ const Index = () => {
         <LazyNewsInsights />
       </LazyComponent>
       
+      {/* FAQ Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-foreground mb-4">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Get answers to the most common questions about buying property internationally
+            </p>
+          </div>
+          
+          <div className="max-w-4xl mx-auto space-y-6">
+            <div className="bg-card border rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-3">Can foreigners buy property in Turkey?</h3>
+              <p className="text-muted-foreground">Yes, foreign nationals can buy property in Turkey with some restrictions. Most residential and commercial properties are available for foreign ownership, excluding certain border areas and military zones.</p>
+            </div>
+            
+            <div className="bg-card border rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-3">What are the total costs when buying property in Turkey?</h3>
+              <p className="text-muted-foreground">Total additional costs are approximately 4.5% of the declared property value, including 4% property tax, legal fees, translation costs, and administrative expenses.</p>
+            </div>
+            
+            <div className="bg-card border rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-3">Is Turkish citizenship available through property investment?</h3>
+              <p className="text-muted-foreground">Yes, Turkey offers citizenship to foreign investors who purchase property worth at least $400,000 and hold it for a minimum of 3 years. The process typically takes 3-6 months.</p>
+            </div>
+            
+            <div className="bg-card border rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-3">Do I need a lawyer when buying property in Turkey?</h3>
+              <p className="text-muted-foreground">While not legally required, hiring a lawyer is highly recommended for foreign buyers. Many reputable agencies provide free legal services as part of their comprehensive support package.</p>
+            </div>
+            
+            <div className="bg-card border rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-3">What ongoing costs should I expect after purchase?</h3>
+              <p className="text-muted-foreground">Annual costs include property tax (0.1-0.6% depending on type and location), DASK natural disaster insurance, utilities, and maintenance fees for residential complexes.</p>
+            </div>
+            
+            <div className="bg-card border rounded-lg p-6">
+              <h3 className="text-lg font-semibold mb-3">How do payment plans work for off-plan properties?</h3>
+              <p className="text-muted-foreground">Off-plan properties typically offer flexible payment plans with 30-50% paid during construction in installments, and the balance upon completion. Many developers offer interest-free payment terms.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ElevenLabs Widget */}
       <ElevenLabsWidget />

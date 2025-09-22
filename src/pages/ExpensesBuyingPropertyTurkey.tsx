@@ -1,4 +1,5 @@
 import React from 'react';
+import codingBackgroundImage from '@/assets/coding-background.jpg';
 import Navigation from '@/components/Navigation';
 import { EnhancedSEOHead } from '@/components/EnhancedSEOHead';
 import { BreadcrumbNavigation } from '@/components/BreadcrumbNavigation';
@@ -166,14 +167,33 @@ const ExpensesBuyingPropertyTurkey = () => {
 
         {/* Article Header */}
         <header className="mb-12">
+          {/* Hero Image */}
+          <div className="relative mb-8 rounded-xl overflow-hidden">
+            <img 
+              src={codingBackgroundImage} 
+              alt="Complete Guide to Property Purchase Expenses in Turkey" 
+              className="w-full h-64 md:h-80 object-cover"
+            />
+            <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+              <div className="text-center text-white px-4">
+                <h1 className="text-3xl md:text-5xl font-bold mb-4">
+                  Complete Guide to Property Purchase Expenses in Turkey
+                </h1>
+                <p className="text-lg md:text-xl text-gray-200">
+                  Detailed breakdown of all costs associated with purchasing property in Turkey
+                </p>
+              </div>
+            </div>
+          </div>
           <div className="flex items-center gap-2 mb-4">
             <Badge variant="secondary">Property Guide</Badge>
             <Badge variant="outline">Updated June 2024</Badge>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+          
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
             Expenses When Buying Property in Turkey
-          </h1>
+          </h2>
           
           <p className="text-xl text-muted-foreground max-w-3xl mb-8">
             Complete guide to property purchase costs in Turkey. Understanding all expenses involved in buying Turkish real estate, from initial purchase taxes to ongoing annual costs.
