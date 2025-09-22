@@ -185,11 +185,12 @@ const ModernGallery = () => {
                   <Card className="group overflow-hidden border-border/50 bg-background/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                     <div className="relative overflow-hidden">
                       <OptimizedPropertyImage
-                        src={property.property_image}
+                        src={property.property_image || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"}
                         alt={property.title}
                         className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
                           viewMode === 'masonry' ? 'h-auto' : 'h-64'
                         }`}
+                        priority={index < 6} // Prioritize first 6 images
                       />
                       
                       {/* Overlay */}
@@ -292,7 +293,10 @@ const ModernGallery = () => {
 
 const PropertyGalleryModal = ({ property }: { property: Property }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const images = property.property_images || [property.property_image];
+  // Ensure we always have at least one valid image
+  const images = property.property_images?.filter(img => img && img.trim() !== '') || 
+                 (property.property_image ? [property.property_image] : 
+                 ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"]);
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);

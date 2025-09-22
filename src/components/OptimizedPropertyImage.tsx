@@ -37,9 +37,16 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     // Try original first
     if (attemptNumber === 0) return originalSrc;
     
-    // If CDN image fails, try a simple test image first
+    // If Supabase/CDN image fails, try different image service
     if (attemptNumber === 1) {
-      console.log('🔄 Trying placeholder.svg');
+      // Try a different property image from a reliable source
+      console.log('🔄 Trying reliable property placeholder');
+      return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
+    }
+    
+    // If that fails, try simple placeholder
+    if (attemptNumber === 2) {
+      console.log('🔄 Trying via.placeholder.com');
       return "https://via.placeholder.com/400x300/f3f4f6/9ca3af?text=Property+Image";
     }
     
@@ -139,12 +146,14 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     console.log('❌ Image failed to load:', currentSrc, 'attempt:', fallbackAttempts);
     
     // Try fallback sources before showing error
-    if (fallbackAttempts < 2) {
+    if (fallbackAttempts < 3) { // Increased to 3 attempts
       const nextAttempt = fallbackAttempts + 1;
       const fallbackSrc = getFallbackSrc(src, nextAttempt);
       console.log('🔄 Trying fallback image:', fallbackSrc);
       setFallbackAttempts(nextAttempt);
       setCurrentSrc(fallbackSrc);
+      setError(false); // Reset error state when trying fallback
+      setIsLoading(true); // Show loading again
       return;
     }
     
