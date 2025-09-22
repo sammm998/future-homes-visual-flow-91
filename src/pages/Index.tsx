@@ -117,50 +117,50 @@ const Index = () => {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Can foreigners buy property in Turkey?",
+        "name": "Can foreigners buy property internationally?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, foreign nationals can buy property in Turkey with some restrictions. Most residential and commercial properties are available for foreign ownership, excluding certain border areas and military zones."
+          "text": "Yes, most countries welcome foreign property investors with varying restrictions. Popular destinations like Turkey, UAE, Cyprus, and Portugal offer excellent opportunities for international buyers with proper legal frameworks."
+        }
+      },
+      {
+        "@type": "Question", 
+        "name": "What are typical costs when buying property abroad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "International property purchase costs vary by country but typically range from 4-10% of property value, including taxes, legal fees, translation costs, and administrative expenses. Dubai charges 4% registration fee, while European countries may charge 6-10% total costs."
         }
       },
       {
         "@type": "Question",
-        "name": "What are the total costs when buying property in Turkey?",
+        "name": "Which countries offer citizenship through property investment?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Total additional costs are approximately 4.5% of the declared property value, including 4% property tax, legal fees, translation costs, and administrative expenses."
+          "text": "Several countries offer citizenship or residency through property investment: Turkey ($400k minimum), Cyprus (€2M), Portugal (€280k for Golden Visa), Caribbean nations ($200k+), and various other programs with different investment thresholds."
         }
       },
       {
         "@type": "Question",
-        "name": "Is Turkish citizenship available through property investment?",
+        "name": "Do I need a lawyer when buying property internationally?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, Turkey offers citizenship to foreign investors who purchase property worth at least $400,000 and hold it for a minimum of 3 years. The process typically takes 3-6 months."
+          "text": "While not always legally required, hiring a local lawyer is highly recommended for international property purchases. They ensure compliance with local laws, handle documentation, and protect your interests throughout the transaction process."
         }
       },
       {
         "@type": "Question",
-        "name": "Do I need a lawyer when buying property in Turkey?",
+        "name": "What ongoing costs should I expect with international property?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "While not legally required, hiring a lawyer is highly recommended for foreign buyers. Many reputable agencies provide free legal services as part of their comprehensive support package."
+          "text": "Annual costs vary by location but typically include property taxes (0.1-1.5%), insurance, maintenance fees for complexes, utilities, and property management fees if renting out. Some countries like UAE have no income tax, while others have rental income taxes."
         }
       },
       {
         "@type": "Question",
-        "name": "What ongoing costs should I expect after purchase?",
+        "name": "How do payment plans work for international property purchases?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Annual costs include property tax (0.1-0.6% depending on type and location), DASK natural disaster insurance, utilities, and maintenance fees for residential complexes."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How do payment plans work for off-plan properties?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Off-plan properties typically offer flexible payment plans with 30-50% paid during construction in installments, and the balance upon completion. Many developers offer interest-free payment terms."
+          "text": "Many international developers offer flexible payment plans, especially for off-plan properties. Typical plans involve 20-30% down payment, installments during construction (12-36 months), and final payment upon completion. Some offer interest-free terms."
         }
       }
     ]
@@ -270,33 +270,33 @@ const Index = () => {
           
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">Can foreigners buy property in Turkey?</h3>
-              <p className="text-muted-foreground">Yes, foreign nationals can buy property in Turkey with some restrictions. Most residential and commercial properties are available for foreign ownership, excluding certain border areas and military zones.</p>
+              <h3 className="text-lg font-semibold mb-3">Can foreigners buy property internationally?</h3>
+              <p className="text-muted-foreground">Yes, most countries welcome foreign property investors with varying restrictions. Popular destinations like Turkey, UAE, Cyprus, and Portugal offer excellent opportunities for international buyers with proper legal frameworks.</p>
             </div>
             
             <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">What are the total costs when buying property in Turkey?</h3>
-              <p className="text-muted-foreground">Total additional costs are approximately 4.5% of the declared property value, including 4% property tax, legal fees, translation costs, and administrative expenses.</p>
+              <h3 className="text-lg font-semibold mb-3">What are typical costs when buying property abroad?</h3>
+              <p className="text-muted-foreground">International property purchase costs vary by country but typically range from 4-10% of property value, including taxes, legal fees, translation costs, and administrative expenses. Dubai charges 4% registration fee, while European countries may charge 6-10% total costs.</p>
             </div>
             
             <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">Is Turkish citizenship available through property investment?</h3>
-              <p className="text-muted-foreground">Yes, Turkey offers citizenship to foreign investors who purchase property worth at least $400,000 and hold it for a minimum of 3 years. The process typically takes 3-6 months.</p>
+              <h3 className="text-lg font-semibold mb-3">Which countries offer citizenship through property investment?</h3>
+              <p className="text-muted-foreground">Several countries offer citizenship or residency through property investment: Turkey ($400k minimum), Cyprus (€2M), Portugal (€280k for Golden Visa), Caribbean nations ($200k+), and various other programs with different investment thresholds.</p>
             </div>
             
             <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">Do I need a lawyer when buying property in Turkey?</h3>
-              <p className="text-muted-foreground">While not legally required, hiring a lawyer is highly recommended for foreign buyers. Many reputable agencies provide free legal services as part of their comprehensive support package.</p>
+              <h3 className="text-lg font-semibold mb-3">Do I need a lawyer when buying property internationally?</h3>
+              <p className="text-muted-foreground">While not always legally required, hiring a local lawyer is highly recommended for international property purchases. They ensure compliance with local laws, handle documentation, and protect your interests throughout the transaction process.</p>
             </div>
             
             <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">What ongoing costs should I expect after purchase?</h3>
-              <p className="text-muted-foreground">Annual costs include property tax (0.1-0.6% depending on type and location), DASK natural disaster insurance, utilities, and maintenance fees for residential complexes.</p>
+              <h3 className="text-lg font-semibold mb-3">What ongoing costs should I expect with international property?</h3>
+              <p className="text-muted-foreground">Annual costs vary by location but typically include property taxes (0.1-1.5%), insurance, maintenance fees for complexes, utilities, and property management fees if renting out. Some countries like UAE have no income tax, while others have rental income taxes.</p>
             </div>
             
             <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">How do payment plans work for off-plan properties?</h3>
-              <p className="text-muted-foreground">Off-plan properties typically offer flexible payment plans with 30-50% paid during construction in installments, and the balance upon completion. Many developers offer interest-free payment terms.</p>
+              <h3 className="text-lg font-semibold mb-3">How do payment plans work for international property purchases?</h3>
+              <p className="text-muted-foreground">Many international developers offer flexible payment plans, especially for off-plan properties. Typical plans involve 20-30% down payment, installments during construction (12-36 months), and final payment upon completion. Some offer interest-free terms.</p>
             </div>
           </div>
         </div>
