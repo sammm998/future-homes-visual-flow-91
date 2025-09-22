@@ -118,12 +118,12 @@ const Information = () => {
     if (text.includes('turkey') || text.includes('antalya') || text.includes('mersin')) return 'turkey';
     if (text.includes('cyprus')) return 'cyprus';
     
-    // Then check for general categories
-    if (text.includes('property') || text.includes('purchase') || text.includes('real estate')) return 'property';
-    if (text.includes('legal') || text.includes('citizenship') || text.includes('tax') || text.includes('law') || text.includes('permit') || text.includes('visa')) return 'legal';
-    if (text.includes('finance') || text.includes('cost') || text.includes('banking') || text.includes('investment') || text.includes('bitcoin') || text.includes('incentive')) return 'finance';
+    // Then check for general categories - order matters for overlapping keywords
+    if (text.includes('legal') || text.includes('citizenship') || text.includes('law') || text.includes('permit') || text.includes('visa')) return 'legal';
     if (text.includes('living') || text.includes('culture') || text.includes('social') || text.includes('lifestyle') || text.includes('climate') || text.includes('coastal') || text.includes('mountain') || text.includes('rural')) return 'living';
-    if (text.includes('investment') || text.includes('business') || text.includes('opportunity')) return 'investment';
+    if (text.includes('reit') || text.includes('emerging markets') || text.includes('investment strategy') || text.includes('portfolio') || (text.includes('investment') && !text.includes('property investment'))) return 'investment';
+    if (text.includes('finance') || text.includes('cost') || text.includes('banking') || text.includes('currency') || text.includes('bitcoin') || text.includes('exchange')) return 'finance';
+    if (text.includes('property') || text.includes('purchase') || text.includes('real estate')) return 'property';
     
     return 'property'; // default
   };
