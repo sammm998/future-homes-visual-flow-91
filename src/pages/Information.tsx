@@ -59,6 +59,28 @@ import {
 } from "lucide-react";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 
+// Import new generated images
+import propertyInspectionChecklist from "@/assets/property-inspection-checklist.jpg";
+import luxuryPropertyInvestment from "@/assets/luxury-property-investment.jpg";
+import commercialRealEstateInvestment from "@/assets/commercial-real-estate-investment.jpg";
+import sustainablePropertyDevelopment from "@/assets/sustainable-property-development.jpg";
+import realEstateDevelopmentManagement from "@/assets/real-estate-development-management.jpg";
+import internationalPropertyOwnership from "@/assets/international-property-ownership-structures.jpg";
+import crossBorderPropertyLegal from "@/assets/cross-border-property-legal.jpg";
+import propertyInvestmentCompliance from "@/assets/property-investment-compliance.jpg";
+import internationalInheritanceSuccession from "@/assets/international-inheritance-succession.jpg";
+import propertyLegalRiskManagement from "@/assets/property-legal-risk-management.jpg";
+import expatriateCommunityIntegration from "@/assets/expatriate-community-integration.jpg";
+import internationalLifestyleCostComparison from "@/assets/international-lifestyle-cost-comparison.jpg";
+import climateGeographicLifestyleFactors from "@/assets/climate-geographic-lifestyle-factors.jpg";
+import workLifeBalanceInternational from "@/assets/work-life-balance-international.jpg";
+import internationalFamilyLiving from "@/assets/international-family-living.jpg";
+import realEstatePrivateEquity from "@/assets/real-estate-private-equity.jpg";
+import crossBorderInvestmentTaxation from "@/assets/cross-border-investment-taxation.jpg";
+import realEstateFundPerformanceAnalysis from "@/assets/real-estate-fund-performance-analysis.jpg";
+import distressedRealEstateInvestment from "@/assets/distressed-real-estate-investment.jpg";
+import realEstateTechnologyTransformation from "@/assets/real-estate-technology-transformation.jpg";
+
 const Information = () => {
   const navigate = useNavigate();
   
@@ -163,11 +185,73 @@ const Information = () => {
     return <FileText className="w-8 h-8 text-primary" />;
   };
 
-  // Helper function to get category-specific image using existing project images
+  // Helper function to get category-specific image using generated images for new articles
   const getArticleImage = (title: string, content: string, index: number) => {
     const text = (title + ' ' + content).toLowerCase();
     
-    // Use existing images from the project based on category
+    // Map specific new articles to their generated images
+    if (title.includes('Property Investment Due Diligence') || title.includes('Property Inspection Guide')) {
+      return propertyInspectionChecklist;
+    }
+    if (title.includes('High-Net-Worth Property') || title.includes('Luxury Property Market')) {
+      return luxuryPropertyInvestment;
+    }
+    if (title.includes('Commercial Real Estate Investment')) {
+      return commercialRealEstateInvestment;
+    }
+    if (title.includes('Sustainable Property Development') || title.includes('Green Building')) {
+      return sustainablePropertyDevelopment;
+    }
+    if (title.includes('Real Estate Development Project')) {
+      return realEstateDevelopmentManagement;
+    }
+    if (title.includes('International Property Ownership Structures')) {
+      return internationalPropertyOwnership;
+    }
+    if (title.includes('Cross-Border Property Transaction') || title.includes('International Property Law')) {
+      return crossBorderPropertyLegal;
+    }
+    if (title.includes('Property Investment Compliance') || title.includes('Anti-Money Laundering')) {
+      return propertyInvestmentCompliance;
+    }
+    if (title.includes('International Inheritance') || title.includes('Estate Planning')) {
+      return internationalInheritanceSuccession;
+    }
+    if (title.includes('Property Investment Legal Risk') || title.includes('Property Dispute Resolution')) {
+      return propertyLegalRiskManagement;
+    }
+    if (title.includes('Expatriate Community Integration') || title.includes('Cultural Integration')) {
+      return expatriateCommunityIntegration;
+    }
+    if (title.includes('International Lifestyle Cost') || title.includes('International Healthcare') || title.includes('Education Options')) {
+      return internationalLifestyleCostComparison;
+    }
+    if (title.includes('Climate and Geographic') || title.includes('Coastal Living') || title.includes('Mountain Living')) {
+      return climateGeographicLifestyleFactors;
+    }
+    if (title.includes('Work-Life Balance') || title.includes('Remote Work Living')) {
+      return workLifeBalanceInternational;
+    }
+    if (title.includes('International Family Living') || title.includes('Retirement Living')) {
+      return internationalFamilyLiving;
+    }
+    if (title.includes('Real Estate Private Equity') || title.includes('Alternative Real Estate Investment')) {
+      return realEstatePrivateEquity;
+    }
+    if (title.includes('Cross-Border Real Estate Investment Taxation') || title.includes('International Tax Planning')) {
+      return crossBorderInvestmentTaxation;
+    }
+    if (title.includes('Real Estate Investment Fund Performance') || title.includes('Market Cycles')) {
+      return realEstateFundPerformanceAnalysis;
+    }
+    if (title.includes('Distressed Real Estate Investment')) {
+      return distressedRealEstateInvestment;
+    }
+    if (title.includes('Real Estate Investment Technology') || title.includes('Impact Investing')) {
+      return realEstateTechnologyTransformation;
+    }
+    
+    // Use existing images from the project based on category for older articles
     if (text.includes('dubai')) {
       const dubaiImages = [
         '/lovable-uploads/739b5c8c-7e7d-42ee-a412-963fad0a408d.png', // Dubai skyline
