@@ -59,7 +59,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       try {
         const url = new URL(originalUrl);
         url.searchParams.set('width', targetWidth.toString());
-        url.searchParams.set('quality', '90');
+        url.searchParams.set('quality', '85'); // Slightly reduced quality for faster loading
         url.searchParams.set('format', 'webp');
         url.searchParams.set('resize', 'contain');
         return url.toString();
@@ -101,12 +101,15 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   `);
 
   useEffect(() => {
-    if (priority || !imgRef.current) {
+    if (priority) {
+      // For priority images, load immediately
       setCurrentSrc(src);
       return;
     }
 
-    // Intersection Observer for lazy loading
+    if (!imgRef.current) return;
+
+    // Intersection Observer for lazy loading with reduced threshold for faster triggering
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -117,8 +120,8 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
         });
       },
       { 
-        threshold: 0.1,
-        rootMargin: '100px' // Start loading 100px before entering viewport
+        threshold: 0.01, // Reduced from 0.1 for faster loading
+        rootMargin: '200px' // Increased from 100px to load earlier
       }
     );
 

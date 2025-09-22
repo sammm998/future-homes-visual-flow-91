@@ -209,16 +209,41 @@ const PropertyDetail = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
 
-  // Show loading state
+  // Preload critical images for faster display
+  useEffect(() => {
+    if (property?.images && property.images.length > 0) {
+      // Preload first 3 images for faster gallery experience
+      property.images.slice(0, 3).forEach((imageSrc, index) => {
+        const img = new Image();
+        img.src = imageSrc;
+        if (index === 0) {
+          img.fetchPriority = 'high';
+        }
+      });
+    }
+  }, [property?.images]);
+
+  // Optimized loading state with skeleton
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="container mx-auto px-4 pt-32">
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary mx-auto mb-6"></div>
-              <p className="text-lg text-muted-foreground">Loading property details...</p>
+        <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
+          {/* Skeleton loader for faster perceived performance */}
+          <div className="animate-pulse">
+            <div className="h-6 bg-muted rounded w-32 mb-8"></div>
+            <div className="grid lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2 space-y-8">
+                <div className="space-y-4">
+                  <div className="h-8 bg-muted rounded w-3/4"></div>
+                  <div className="h-6 bg-muted rounded w-1/2"></div>
+                  <div className="h-8 bg-muted rounded w-1/3"></div>
+                </div>
+                <div className="aspect-[16/10] bg-muted rounded-lg"></div>
+              </div>
+              <div className="space-y-6">
+                <div className="h-64 bg-muted rounded-lg"></div>
+              </div>
             </div>
           </div>
         </div>
