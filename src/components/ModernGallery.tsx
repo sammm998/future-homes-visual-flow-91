@@ -37,6 +37,11 @@ const ModernGallery = () => {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
   const filteredProperties = properties.filter((property: Property) => {
+    // Filter out properties with CDN images
+    if (property.property_image && property.property_image.includes('cdn.futurehomesturkey.com')) {
+      return false;
+    }
+    
     const matchesSearch = property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          property.location.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesLocation = selectedLocation === 'all' || property.location === selectedLocation;
@@ -293,9 +298,9 @@ const ModernGallery = () => {
 
 const PropertyGalleryModal = ({ property }: { property: Property }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  // Ensure we always have at least one valid image
-  const images = property.property_images?.filter(img => img && img.trim() !== '') || 
-                 (property.property_image ? [property.property_image] : 
+  // Filter out CDN images and ensure we always have at least one valid image
+  const images = property.property_images?.filter(img => img && img.trim() !== '' && !img.includes('cdn.futurehomesturkey.com')) || 
+                 (property.property_image && !property.property_image.includes('cdn.futurehomesturkey.com') ? [property.property_image] : 
                  ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80"]);
 
   const nextImage = () => {
