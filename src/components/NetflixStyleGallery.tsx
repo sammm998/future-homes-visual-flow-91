@@ -239,6 +239,7 @@ const NetflixStyleGallery: React.FC = () => {
                     alt={`${selectedProperty.title} - Image ${currentImageIndex + 1}`}
                     className="w-full h-full object-contain"
                     priority={true}
+                    showCenteredLogo={true}
                   />
                 </motion.div>
               </AnimatePresence>
