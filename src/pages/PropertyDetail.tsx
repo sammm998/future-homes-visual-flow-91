@@ -365,10 +365,12 @@ const PropertyDetail = () => {
               <X className="h-8 w-8" />
             </button>
             
-            <img
+            <OptimizedPropertyImage
               src={property.images[currentImageIndex] || property.image || "/placeholder.svg"}
               alt={`Property view ${currentImageIndex + 1}`}
               className="max-h-[80vh] max-w-full object-contain rounded-lg"
+              priority={true}
+              showCenteredLogo={true}
             />
             
             {property.images.length > 1 && (
