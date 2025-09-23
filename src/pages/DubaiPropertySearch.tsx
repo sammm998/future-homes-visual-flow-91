@@ -231,19 +231,6 @@ const DubaiPropertySearch = () => {
           </p>
         </div>
 
-        {/* Introductory SEO Content */}
-        <div className="mb-8 space-y-4">
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Explore Dubai's world-class real estate market, where luxury meets exceptional investment returns. As the Middle East's premier business hub 
-            and global tourism destination, Dubai offers unparalleled opportunities for property investors seeking premium assets with guaranteed growth potential.
-          </p>
-          <p className="text-muted-foreground leading-relaxed">
-            Future Homes has been Dubai's trusted property partner since 2008, with deep expertise in emirate regulations and market dynamics. 
-            Our portfolio features exclusive developments in Downtown Dubai, Dubai Marina, and Palm Jumeirah. 
-            Dubai's golden visa program provides long-term residency for property investors, making it an ideal choice for international buyers.
-          </p>
-        </div>
-
         {/* Layout with sidebar filter on left and content on right */}
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
@@ -408,36 +395,6 @@ const DubaiPropertySearch = () => {
               )}
             </div>
           </div>
-        </div>
-
-        {/* Concluding SEO Content */}
-        <div className="mt-16 border-t border-border/20 pt-12">
-          <h2 className="text-2xl font-bold text-foreground mb-6">Dubai Property Investment Excellence</h2>
-          <div className="grid md:grid-cols-2 gap-8 mb-6">
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">Investment Advantages</h3>
-              <ul className="text-muted-foreground space-y-2 text-sm">
-                <li>• 0% property tax and capital gains tax</li>
-                <li>• Guaranteed 6-8% annual rental yields</li>
-                <li>• 10-year Golden Visa eligibility</li>
-                <li>• World's safest property investment environment</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">Global Connectivity</h3>
-              <ul className="text-muted-foreground space-y-2 text-sm">
-                <li>• Hub connecting 3 continents</li>
-                <li>• 240+ destinations from DXB airport</li>
-                <li>• Business-friendly regulations</li>
-                <li>• Luxury lifestyle & world-class amenities</li>
-              </ul>
-            </div>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            <strong className="text-foreground">Future Homes Dubai expertise:</strong> Our Dubai office has processed over 1,500 successful transactions, 
-            specializing in off-plan and ready properties. We provide end-to-end service including RERA registration, mortgage assistance, 
-            and property management with guaranteed rental programs.
-          </p>
         </div>
       </div>
 

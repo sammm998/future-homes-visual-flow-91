@@ -193,21 +193,6 @@ const BaliPropertySearch = () => {
           </p>
         </div>
 
-        {/* Introductory SEO Content */}
-        <div className="mb-8 space-y-4">
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Experience Bali's booming property market, where tropical paradise meets exceptional investment returns. 
-            As Indonesia's premier destination for international property investment, Bali offers unique opportunities in luxury villas, 
-            beachfront developments, and high-yield rental properties across Seminyak, Canggu, and Ubud.
-          </p>
-          <p className="text-muted-foreground leading-relaxed">
-            Future Homes has been Bali's leading international property consultant since 2018, navigating complex Indonesian property laws for foreign investors. 
-            Our expertise includes leasehold structuring, visa applications, and local partnership arrangements. 
-            <strong className="text-foreground">Bali's rental market generates 12-15% annual yields</strong> through our professional Airbnb and villa management programs, 
-            making it one of Asia's most profitable property investment destinations.
-          </p>
-        </div>
-
         {/* Layout with sidebar filter on left and content on right */}
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
@@ -426,36 +411,6 @@ const BaliPropertySearch = () => {
                 </div>
               )}
             </div>
-          </div>
-
-          {/* Concluding SEO Content */}
-          <div className="mt-16 border-t border-border/20 pt-12">
-            <h2 className="text-2xl font-bold text-foreground mb-6">Bali Property Investment & Tropical Lifestyle</h2>
-            <div className="grid md:grid-cols-2 gap-8 mb-6">
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-3">Investment Excellence</h3>
-                <ul className="text-muted-foreground space-y-2 text-sm">
-                  <li>• 15%+ annual rental yields in prime locations</li>
-                  <li>• Strong capital appreciation (8-12% annually)</li>
-                  <li>• Growing digital nomad and expat markets</li>
-                  <li>• Diverse property types from $200K to $2M+</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-3">Lifestyle Benefits</h3>
-                <ul className="text-muted-foreground space-y-2 text-sm">
-                  <li>• Year-round tropical climate</li>
-                  <li>• Rich cultural heritage & wellness tourism</li>
-                  <li>• World-class surfing, diving, and beaches</li>
-                  <li>• International airport with global connectivity</li>
-                </ul>
-              </div>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              <strong className="text-foreground">Future Homes Bali expertise:</strong> Our Bali team includes Indonesian legal specialists and local property managers 
-              who handle complex ownership structures, ensuring compliant foreign investment. We provide complete service from property acquisition to rental management, 
-              with proven track records in luxury villa developments and beachfront resort properties.
-            </p>
           </div>
         </div>
       </div>

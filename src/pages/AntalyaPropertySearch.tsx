@@ -193,19 +193,6 @@ const AntalyaPropertySearch = () => {
           </p>
         </div>
 
-        {/* Introductory SEO Content */}
-        <div className="mb-8 space-y-4">
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Discover premium real estate opportunities in Antalya, Turkey's Mediterranean jewel and one of Europe's fastest-growing property markets. 
-            As Turkey's tourism capital with over 15 million annual visitors, Antalya offers exceptional investment potential combining lifestyle luxury with strong rental yields.
-          </p>
-          <p className="text-muted-foreground leading-relaxed">
-            Our expert team at Future Homes has been guiding international investors in Antalya's property market for over 15 years. From beachfront apartments in Lara 
-            to luxury villas in Konyaaltı, we provide comprehensive market insights, legal guidance, and post-purchase support. 
-            
-          </p>
-        </div>
-
         {/* Layout with sidebar filter on left and content on right */}
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
@@ -425,36 +412,6 @@ const AntalyaPropertySearch = () => {
               )}
             </div>
           </div>
-        </div>
-
-        {/* Concluding SEO Content */}
-        <div className="mt-16 border-t border-border/20 pt-12">
-          <h2 className="text-2xl font-bold text-foreground mb-6">Why Choose Antalya for Property Investment?</h2>
-          <div className="grid md:grid-cols-2 gap-8 mb-6">
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">Market Advantages</h3>
-              <ul className="text-muted-foreground space-y-2 text-sm">
-                <li>• Year-round tourism driving rental demand</li>
-                <li>• 15%+ annual property value appreciation</li>
-                <li>• Turkish citizenship eligibility ($400K+ properties)</li>
-                <li>• No restrictions on foreign property ownership</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-foreground mb-3">Lifestyle Benefits</h3>
-              <ul className="text-muted-foreground space-y-2 text-sm">
-                <li>• 300+ sunny days annually</li>
-                <li>• Mediterranean beaches & mountain views</li>
-                <li>• Rich cultural heritage & modern amenities</li>
-                <li>• International airport with direct EU flights</li>
-              </ul>
-            </div>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            <strong className="text-foreground">Future Homes' Antalya expertise:</strong> With local offices and Turkish-speaking staff, 
-            we've facilitated over 2,000 successful property transactions in Antalya. Our comprehensive service includes property management, 
-            rental programs, and citizenship application support.
-          </p>
         </div>
       </div>
 

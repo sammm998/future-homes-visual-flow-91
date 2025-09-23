@@ -200,19 +200,6 @@ const CyprusPropertySearch = () => {
           </p>
         </div>
 
-        {/* Introductory SEO Content */}
-        <div className="mb-8 space-y-4">
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            Discover Cyprus real estate opportunities offering the unique advantage of EU citizenship through property investment. 
-            As an EU member state with Mediterranean charm, Cyprus provides the perfect gateway to European residency while enjoying year-round luxury living.
-          </p>
-          <p className="text-muted-foreground leading-relaxed">
-            Future Homes has specialized in Cyprus citizenship by investment since the program's inception, successfully guiding over 800 families to EU citizenship. 
-            Our expertise covers all major cities including Limassol, Paphos, and Nicosia, with properties starting from €300,000. 
-            
-          </p>
-        </div>
-
         {/* Layout with sidebar filter on left and content on right */}
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
@@ -438,36 +425,6 @@ const CyprusPropertySearch = () => {
                 </div>
                )}
         </div>
-          </div>
-
-          {/* Concluding SEO Content */}
-          <div className="mt-16 border-t border-border/20 pt-12">
-            <h2 className="text-2xl font-bold text-foreground mb-6">Cyprus EU Citizenship & Investment Benefits</h2>
-            <div className="grid md:grid-cols-2 gap-8 mb-6">
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-3">EU Advantages</h3>
-                <ul className="text-muted-foreground space-y-2 text-sm">
-                  <li>• EU passport with visa-free travel to 170+ countries</li>
-                  <li>• Right to live, work, study anywhere in EU</li>
-                  <li>• Access to EU healthcare and education systems</li>
-                  <li>• 12.5% corporate tax rate (lowest in EU)</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-foreground mb-3">Investment Climate</h3>
-                <ul className="text-muted-foreground space-y-2 text-sm">
-                  <li>• Stable property market with steady appreciation</li>
-                  <li>• No inheritance tax for EU residents</li>
-                  <li>• English common law legal system</li>
-                  <li>• Strong rental yields in tourist areas</li>
-                </ul>
-              </div>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              <strong className="text-foreground">Future Homes Cyprus expertise:</strong> As authorized citizenship consultants, 
-              we've maintained a 100% success rate in Cyprus citizenship applications. Our comprehensive service includes legal documentation, 
-              property due diligence, and ongoing residency compliance support throughout the EU citizenship journey.
-            </p>
           </div>
         </div>
       </div>
