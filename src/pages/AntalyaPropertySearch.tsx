@@ -202,7 +202,7 @@ const AntalyaPropertySearch = () => {
           <p className="text-muted-foreground leading-relaxed">
             Our expert team at Future Homes has been guiding international investors in Antalya's property market for over 15 years. From beachfront apartments in Lara 
             to luxury villas in Konyaaltı, we provide comprehensive market insights, legal guidance, and post-purchase support. 
-            <strong className="text-foreground">All Antalya properties qualify for Turkish citizenship by investment programs</strong>, offering EU-adjacent residency benefits.
+            
           </p>
         </div>
 
