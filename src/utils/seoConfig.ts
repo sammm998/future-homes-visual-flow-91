@@ -75,32 +75,190 @@ export const seoPages: Record<string, Record<string, SEOConfig>> = {
       keywords: ['Luxury villas in Turkey', 'Villas for sale Turkey', 'Villa with sea view Turkey', 'Private pool villas Turkey'],
       h1: 'Luxury Villas in Turkey'
     }
+  },
+  'about-us': {
+    en: {
+      title: 'About Future Homes International | Your Trusted Real Estate Partner',
+      description: 'Learn about Future Homes International - leading real estate agency specializing in Turkey, Dubai, Cyprus properties. 15+ years experience, multilingual team, full-service support.',
+      keywords: ['About Future Homes', 'Real estate agency Turkey', 'International property experts', 'Property investment consultants', 'Real estate services'],
+      h1: 'About Future Homes International',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Future Homes International",
+        "description": "Leading international real estate agency specializing in luxury properties in Turkey, Dubai, and Cyprus",
+        "url": "https://futurehomesturkey.com/about-us",
+        "foundingDate": "2008",
+        "numberOfEmployees": "50+",
+        "areaServed": ["Turkey", "UAE", "Cyprus", "International"],
+        "serviceType": ["Real Estate Sales", "Property Investment", "Citizenship Programs", "Property Management"]
+      }
+    }
+  },
+  'contact-us': {
+    en: {
+      title: 'Contact Future Homes | Get Expert Property Consultation',
+      description: 'Contact Future Homes for expert property consultation. Multilingual team available 24/7. Free property valuation, investment advice, and personalized service.',
+      keywords: ['Contact Future Homes', 'Property consultation', 'Real estate advice', 'Property investment consultation', 'International real estate contact'],
+      h1: 'Contact Future Homes International',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "Contact Future Homes International",
+        "description": "Get in touch with our expert real estate team for personalized property consultation",
+        "url": "https://futurehomesturkey.com/contact-us"
+      }
+    }
+  },
+  'video-showcase': {
+    en: {
+      title: 'Property Video Tours | Virtual Property Showcase',
+      description: 'Explore our exclusive property video tours. Virtual walkthroughs of luxury properties in Turkey, Dubai, Cyprus. See before you buy with professional video showcases.',
+      keywords: ['Property video tours', 'Virtual property viewing', 'Property showcase videos', 'Real estate video tours', 'Property walkthroughs'],
+      h1: 'Property Video Showcase',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "VideoGallery",
+        "name": "Future Homes Property Video Showcase",
+        "description": "Professional video tours of premium properties across Turkey, Dubai, and Cyprus"
+      }
+    }
+  },
+  'testimonials': {
+    en: {
+      title: 'Client Testimonials | Success Stories & Reviews',
+      description: 'Read testimonials from satisfied Future Homes clients. Real success stories from property investors who found their dream homes in Turkey, Dubai, and Cyprus.',
+      keywords: ['Future Homes testimonials', 'Property investment success stories', 'Client reviews', 'Real estate testimonials', 'Customer experiences'],
+      h1: 'Client Testimonials & Success Stories',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "ReviewPage",
+        "name": "Future Homes Client Testimonials",
+        "description": "Authentic reviews and testimonials from satisfied property investors"
+      }
+    }
+  },
+  'information': {
+    en: {
+      title: 'Property Investment Guide | Expert Real Estate Information',
+      description: 'Comprehensive property investment guides, market insights, legal advice, and buying guides for Turkey, Dubai, Cyprus real estate. Expert information hub.',
+      keywords: ['Property investment guide', 'Real estate information', 'Property buying guide', 'Investment advice', 'Real estate market insights'],
+      h1: 'Property Investment Information Hub',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Comprehensive Property Investment Information",
+        "description": "Expert guides and information for international property investment"
+      }
+    }
+  },
+  'expenses-buying-property-turkey': {
+    en: {
+      title: 'Complete Guide: Property Buying Costs in Turkey 2024',
+      description: 'Comprehensive breakdown of all costs when buying property in Turkey - taxes, fees, legal costs, and hidden expenses. Updated 2024 guide with current rates.',
+      keywords: ['Property buying costs in Turkey', 'Turkey property taxes', 'Real estate fees Turkey', 'Property purchase expenses', 'Turkey property investment costs'],
+      h1: 'Complete Guide to Property Buying Costs in Turkey',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Complete Guide to Property Buying Costs in Turkey",
+        "description": "Detailed breakdown of all expenses involved in purchasing property in Turkey",
+        "datePublished": "2024-01-01",
+        "dateModified": "2024-09-22"
+      }
+    }
   }
 };
 
 export const locationSEO: Record<string, Record<string, SEOConfig>> = {
   antalya: {
     en: {
-      title: 'Properties for Sale in Antalya | Luxury Real Estate',
-      description: 'Premium properties for sale in Antalya, Turkey. Luxury apartments, villas & investment opportunities in Konyaaltı, Lara & city center.',
-      keywords: ['Apartments for sale in Antalya', 'Villas for sale in Antalya', 'Luxury homes in Antalya', 'Antalya real estate agency'],
-      h1: 'Properties for Sale in Antalya'
+      title: 'Properties for Sale in Antalya | Luxury Mediterranean Real Estate',
+      description: 'Premium properties for sale in Antalya, Turkey. Luxury apartments, villas & investment opportunities in Konyaaltı, Lara & city center. Beachfront & mountain view options.',
+      keywords: ['Apartments for sale in Antalya', 'Villas for sale in Antalya', 'Luxury homes in Antalya', 'Antalya real estate agency', 'Beachfront properties Antalya', 'Investment properties Antalya'],
+      h1: 'Premium Properties for Sale in Antalya',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "Future Homes Antalya Properties",
+        "description": "Luxury real estate properties in Antalya, Turkey",
+        "areaServed": "Antalya, Turkey"
+      }
     }
   },
   alanya: {
     en: {
-      title: 'Properties for Sale in Alanya | Beachfront Real Estate',
-      description: 'Discover properties for sale in Alanya, Turkey. Beachfront apartments, luxury villas & investment properties in prime locations.',
-      keywords: ['Apartments for sale in Alanya', 'Villas for sale in Alanya', 'Alanya beachfront apartments', 'Alanya property investment'],
-      h1: 'Properties for Sale in Alanya'
+      title: 'Properties for Sale in Alanya | Beachfront Mediterranean Living',
+      description: 'Discover premium properties for sale in Alanya, Turkey. Beachfront apartments, luxury villas & investment properties in Mahmutlar, Kestel, Tosmur. Mediterranean lifestyle awaits.',
+      keywords: ['Apartments for sale in Alanya', 'Villas for sale in Alanya', 'Alanya beachfront apartments', 'Alanya property investment', 'Luxury homes Alanya', 'Mediterranean properties'],
+      h1: 'Premium Properties for Sale in Alanya',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "Future Homes Alanya Properties",
+        "description": "Beachfront and luxury properties in Alanya, Turkey",
+        "areaServed": "Alanya, Turkey"
+      }
     }
   },
   mersin: {
     en: {
-      title: 'Properties for Sale in Mersin | Coastal Real Estate',
-      description: 'Find properties for sale in Mersin, Turkey. Modern apartments, luxury homes & investment opportunities along the Mediterranean coast.',
-      keywords: ['Property for sale in Mersin', 'Apartments for sale in Mersin', 'Villas for sale in Mersin', 'Mersin real estate'],
-      h1: 'Properties for Sale in Mersin'
+      title: 'Properties for Sale in Mersin | Coastal Investment Opportunities',
+      description: 'Find premium properties for sale in Mersin, Turkey. Modern apartments, luxury homes & investment opportunities along the Mediterranean coast. Emerging market with high potential.',
+      keywords: ['Property for sale in Mersin', 'Apartments for sale in Mersin', 'Villas for sale in Mersin', 'Mersin real estate', 'Investment opportunities Mersin', 'Coastal properties Turkey'],
+      h1: 'Premium Properties for Sale in Mersin',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "Future Homes Mersin Properties",
+        "description": "Coastal real estate properties in Mersin, Turkey",
+        "areaServed": "Mersin, Turkey"
+      }
+    }
+  },
+  dubai: {
+    en: {
+      title: 'Properties for Sale in Dubai | Luxury UAE Real Estate',
+      description: 'Exclusive properties for sale in Dubai, UAE. Luxury apartments, penthouses & villas in Downtown, Marina, Palm Jumeirah. High-end investment opportunities with guaranteed ROI.',
+      keywords: ['Properties for sale in Dubai', 'Dubai luxury apartments', 'Dubai real estate investment', 'Villas for sale Dubai', 'Dubai Marina properties', 'Downtown Dubai apartments'],
+      h1: 'Luxury Properties for Sale in Dubai',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "Future Homes Dubai Properties",
+        "description": "Luxury real estate properties in Dubai, UAE",
+        "areaServed": "Dubai, UAE"
+      }
+    }
+  },
+  cyprus: {
+    en: {
+      title: 'Properties for Sale in Cyprus | Island Paradise Real Estate',
+      description: 'Premium properties for sale in Cyprus. Luxury villas, apartments & investment opportunities in Limassol, Paphos, Nicosia. EU residency benefits & tax advantages.',
+      keywords: ['Properties for sale in Cyprus', 'Cyprus real estate', 'Villas for sale Cyprus', 'Cyprus investment properties', 'EU residency Cyprus', 'Cyprus luxury homes'],
+      h1: 'Premium Properties for Sale in Cyprus',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "Future Homes Cyprus Properties",
+        "description": "Luxury real estate properties in Cyprus",
+        "areaServed": "Cyprus"
+      }
+    }
+  },
+  bali: {
+    en: {
+      title: 'Properties for Sale in Bali | Tropical Paradise Real Estate',
+      description: 'Exclusive properties for sale in Bali, Indonesia. Luxury villas, beachfront properties & investment opportunities in Seminyak, Canggu, Ubud. Tropical living paradise.',
+      keywords: ['Properties for sale in Bali', 'Bali luxury villas', 'Bali real estate investment', 'Beachfront properties Bali', 'Tropical villas Indonesia', 'Bali property market'],
+      h1: 'Luxury Properties for Sale in Bali',
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "Future Homes Bali Properties",
+        "description": "Luxury tropical real estate properties in Bali, Indonesia",
+        "areaServed": "Bali, Indonesia"
+      }
     }
   }
 };
