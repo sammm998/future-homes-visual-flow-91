@@ -239,7 +239,7 @@ const DubaiPropertySearch = () => {
           </p>
           <p className="text-muted-foreground leading-relaxed">
             Future Homes has been Dubai's trusted property partner since 2008, with deep expertise in emirate regulations and market dynamics. 
-            Our portfolio features exclusive developments in Downtown Dubai, Dubai Marina, and Palm Jumeirah, offering <strong className="text-foreground">guaranteed rental yields up to 8% annually</strong>. 
+            Our portfolio features exclusive developments in Downtown Dubai, Dubai Marina, and Palm Jumeirah. 
             Dubai's golden visa program provides long-term residency for property investors, making it an ideal choice for international buyers.
           </p>
         </div>

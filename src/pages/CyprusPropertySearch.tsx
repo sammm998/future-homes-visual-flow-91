@@ -209,7 +209,7 @@ const CyprusPropertySearch = () => {
           <p className="text-muted-foreground leading-relaxed">
             Future Homes has specialized in Cyprus citizenship by investment since the program's inception, successfully guiding over 800 families to EU citizenship. 
             Our expertise covers all major cities including Limassol, Paphos, and Nicosia, with properties starting from €300,000. 
-            <strong className="text-foreground">Cyprus offers the fastest EU citizenship route</strong> - typically completed within 6-8 months through our streamlined process.
+            
           </p>
         </div>
 
