@@ -250,6 +250,23 @@ const MersinPropertySearch = () => {
           </p>
         </div>
 
+        {/* Introductory SEO Content */}
+        <div className="mb-8 p-6 bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg border border-border/20">
+          <div className="prose prose-gray max-w-none dark:prose-invert">
+            <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+              Uncover Mersin's emerging real estate market, Turkey's fastest-growing coastal investment destination. 
+              Located on the pristine Mediterranean coast, Mersin offers exceptional value propositions with property prices 30-40% below similar coastal cities, 
+              yet delivering identical luxury amenities and Turkish citizenship eligibility.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Future Homes pioneered Mersin's international property market, establishing the first foreign investor services in 2015. 
+              Our deep local knowledge encompasses Mersin's major districts including Mezitli, Yenişehir, and Erdemli. 
+              <strong className="text-foreground">Mersin's strategic location</strong> provides easy access to both Antalya and Adana airports, 
+              while offering significantly higher rental yields due to growing domestic and international tourism.
+            </p>
+          </div>
+        </div>
+
         {/* Layout with sidebar filter on left and content on right */}
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
@@ -465,6 +482,38 @@ const MersinPropertySearch = () => {
             )}
            </div>
         )}
+          </div>
+        </div>
+
+        {/* Concluding SEO Content */}
+        <div className="mt-12 p-6 bg-gradient-to-br from-accent/5 to-primary/5 rounded-lg border border-border/20">
+          <div className="prose prose-gray max-w-none dark:prose-invert">
+            <h2 className="text-2xl font-bold text-foreground mb-4">Mersin: Turkey's Hidden Gem Investment Opportunity</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">Market Potential</h3>
+                <ul className="text-muted-foreground space-y-1">
+                  <li>• 25%+ annual property appreciation rates</li>
+                  <li>• Turkey's largest port city driving economic growth</li>
+                  <li>• Government infrastructure investments (€2B planned)</li>
+                  <li>• Tourism sector growing 40% annually</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">Investment Advantages</h3>
+                <ul className="text-muted-foreground space-y-1">
+                  <li>• Entry prices from $150,000 (citizenship eligible)</li>
+                  <li>• Higher rental yields than Antalya/Istanbul</li>
+                  <li>• Untapped international buyer market</li>
+                  <li>• Proximity to historic sites (Tarsus, Kızkalesi)</li>
+                </ul>
+              </div>
+            </div>
+            <p className="text-muted-foreground mt-4">
+              <strong className="text-foreground">Future Homes Mersin leadership:</strong> As the region's first international property consultancy, 
+              we've established exclusive partnerships with top developers and maintain the largest foreign buyer database. 
+              Our Mersin expertise includes local banking relationships, residency permit processing, and property management services.
+            </p>
           </div>
         </div>
       </div>
