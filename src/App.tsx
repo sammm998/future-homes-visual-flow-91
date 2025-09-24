@@ -45,7 +45,6 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const ExpensesBuyingPropertyTurkey = lazy(() => import("./pages/ExpensesBuyingPropertyTurkey"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 
 const VideoShowcase = lazy(() => import("./pages/VideoShowcase"));
 
@@ -142,12 +141,11 @@ function AppContent() {
       
       <Route path="/video-showcase" element={<VideoShowcase />} />
       <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/ali-karan" element={<AliKaran />} />
-          <Route path="/property-gallery" element={<PropertyGallery />} />
+      <Route path="/ali-karan" element={<AliKaran />} />
+      <Route path="/property-gallery" element={<PropertyGallery />} />
       <Route path="/article/:id" element={<Article />} />
       <Route path="/articles/:slug" element={<ArticlePage />} />
       <Route path="/articles/expenses-buying-property-turkey" element={<ExpensesBuyingPropertyTurkey />} />
-      <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/sitemap.xml" element={<SitemapXML />} />
       <Route path="*" element={<NotFound />} />
       </Routes>

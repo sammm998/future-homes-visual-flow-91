@@ -1,6 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import { motion } from "framer-motion";
+import TeamSection from "@/components/TeamSection";
 import { LazyComponent, LazyShuffleGrid, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
 import ModernPropertyShowcase from "@/components/ModernPropertyShowcase";
 import Newsletter from "@/components/Newsletter";
@@ -239,6 +240,9 @@ const Index = () => {
 
       {/* Founder Section */}
       <FounderSection />
+
+      {/* Team Section */}
+      <TeamSection />
 
       {/* Property Image Gallery Preview */}
       <PropertyImageGalleryPreview />

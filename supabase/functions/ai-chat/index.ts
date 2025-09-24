@@ -258,7 +258,7 @@ serve(async (req) => {
   }
 
   try {
-    const { message, conversationHistory = [], conversationId } = await req.json();
+    const { message, conversationHistory = [], conversationId, contactInfo } = await req.json();
     
     console.log('Received message:', message);
     console.log('Conversation ID:', conversationId);
@@ -266,6 +266,112 @@ serve(async (req) => {
 
     const detectedLanguage = detectLanguage(message);
     console.log('Detected language:', detectedLanguage);
+
+    // Initialize Supabase client
+    const supabase = createClient(supabaseUrl!, supabaseKey!);
+
+    // Save or update conversation
+    let finalConversationId = conversationId;
+    if (!finalConversationId) {
+      // Create new conversation
+      const sessionId = crypto.randomUUID();
+      const { data: newConversation, error: conversationError } = await supabase
+        .from('conversations')
+        .insert({
+          session_id: sessionId,
+          conversation_data: [...conversationHistory, { sender: 'user', text: message, timestamp: new Date().toISOString() }],
+          message_count: conversationHistory.length + 1
+        })
+        .select()
+        .single();
+
+      if (conversationError) {
+        console.error('Error creating conversation:', conversationError);
+      } else {
+        finalConversationId = newConversation.id;
+      }
+    } else {
+      // Update existing conversation
+      const updatedConversationData = [...conversationHistory, { sender: 'user', text: message, timestamp: new Date().toISOString() }];
+      const { error: updateError } = await supabase
+        .from('conversations')
+        .update({
+          conversation_data: updatedConversationData,
+          message_count: updatedConversationData.length,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', finalConversationId);
+
+      if (updateError) {
+        console.error('Error updating conversation:', updateError);
+      }
+    }
+
+    // Handle contact information collection
+    if (contactInfo && contactInfo.name && contactInfo.email) {
+      console.log('Processing contact information:', contactInfo);
+      
+      try {
+        // Save contact to database
+        const { data: savedContact, error: contactError } = await supabase
+          .from('contacts')
+          .insert({
+            name: contactInfo.name,
+            email: contactInfo.email,
+            phone: contactInfo.phone || null,
+            language: detectedLanguage,
+            conversation_id: finalConversationId,
+            collected_at: new Date().toISOString()
+          })
+          .select()
+          .single();
+
+        if (contactError) {
+          console.error('Error saving contact:', contactError);
+        } else {
+          console.log('Contact saved successfully:', savedContact.id);
+
+          // Update conversation with contact collected flag
+          if (finalConversationId) {
+            await supabase
+              .from('conversations')
+              .update({
+                contact_collected: true,
+                contact_id: savedContact.id
+              })
+              .eq('id', finalConversationId);
+          }
+
+          // Send notification email to company
+          try {
+            const notificationResponse = await fetch(`${supabaseUrl}/functions/v1/send-contact-notification`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${supabaseKey}`,
+              },
+              body: JSON.stringify({
+                name: contactInfo.name,
+                email: contactInfo.email,
+                phone: contactInfo.phone || '',
+                source: 'ai-chat',
+                message: `Contact collected during AI chat conversation. Conversation history: ${JSON.stringify(conversationHistory.slice(-3))}` // Include last 3 messages for context
+              })
+            });
+
+            if (!notificationResponse.ok) {
+              console.error('Failed to send notification email:', await notificationResponse.text());
+            } else {
+              console.log('Notification email sent successfully');
+            }
+          } catch (emailError) {
+            console.error('Error sending notification email:', emailError);
+          }
+        }
+      } catch (error) {
+        console.error('Error processing contact:', error);
+      }
+    }
 
 // Enhanced system prompt with comprehensive property database knowledge
     const systemPrompt = detectedLanguage === 'sv' ? 
@@ -406,6 +512,27 @@ NEVER show non-existent properties. Use ONLY the real data above.`;
 
     console.log('AI Response:', aiResponse);
 
+    // Update conversation with AI response
+    if (finalConversationId) {
+      const fullConversationData = [...conversationHistory, 
+        { sender: 'user', text: message, timestamp: new Date().toISOString() },
+        { sender: 'assistant', text: aiResponse, timestamp: new Date().toISOString() }
+      ];
+
+      const { error: updateError } = await supabase
+        .from('conversations')
+        .update({
+          conversation_data: fullConversationData,
+          message_count: fullConversationData.length,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', finalConversationId);
+
+      if (updateError) {
+        console.error('Error updating conversation with AI response:', updateError);
+      }
+    }
+
     // Check if user is asking about properties and search database
     const propertyKeywords = ['property', 'properties', 'apartment', 'villa', 'house', 'home', 'buy', 'purchase', 'invest', 'price', 'bedroom', 'bathroom', 'antalya', 'dubai', 'cyprus', 'mersin', 'france', 'bostad', 'lägenhet', 'lägenheter', 'hus', 'villa', 'fastighet', 'fastigheter', 'köpa', 'pris', 'sovrum', 'badrum'];
     
@@ -423,7 +550,8 @@ NEVER show non-existent properties. Use ONLY the real data above.`;
     return new Response(JSON.stringify({
       response: aiResponse,
       propertyLinks: propertyLinks,
-      detectedLanguage: detectedLanguage
+      detectedLanguage: detectedLanguage,
+      conversationId: finalConversationId
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });

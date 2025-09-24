@@ -1,4 +1,5 @@
 import SEOHead from "@/components/SEOHead";
+import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Eye, Camera, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -69,58 +70,77 @@ const PropertyGallery = () => {
         canonicalUrl="/property-gallery"
       />
       
+      <Navigation />
+      
       <div className="min-h-screen bg-background">
-        {/* Header */}
-        <header className="border-b">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex items-center justify-between">
+        {/* Enhanced Hero Section */}
+        <section className="relative py-24 overflow-hidden">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary-glow/5 to-accent/10" />
+          <div className="absolute inset-0 bg-grid-pattern opacity-10" />
+          
+          <div className="container mx-auto px-4 text-center relative z-10">
+            {/* Breadcrumb */}
+            <div className="mb-8">
               <Link 
                 to="/" 
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+                className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 Back to Home
               </Link>
-              <div className="flex items-center gap-2">
-                <Camera className="w-5 h-5 text-primary" />
-                <span className="font-semibold">Property Gallery</span>
-              </div>
             </div>
-          </div>
-        </header>
 
-        {/* Hero Section */}
-        <section className="py-16 bg-gradient-to-b from-background to-muted/20">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <span className="text-foreground">Immersive</span>{' '}
-              <span className="text-primary">Property Gallery</span>
-            </h1>
-            <div className="w-20 h-1 bg-primary mx-auto mb-8"></div>
-            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-              Discover stunning visuals from our <strong>premium property collection</strong> across <strong>multiple locations</strong>.
-            </p>
-            <p className="text-muted-foreground mb-12">
-              Each image tells a story of luxury, comfort, and exceptional design.
-            </p>
-            
-            {/* Statistics */}
-            <div className="flex flex-wrap justify-center gap-8 mb-12">
-              <div className="bg-card rounded-lg p-6 min-w-[140px]">
-                <div className="text-2xl font-bold text-primary mb-1">{properties.length}+</div>
-                <div className="text-sm text-muted-foreground">PROPERTIES</div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <Camera className="w-8 h-8 text-primary" />
+                <h1 className="text-5xl md:text-7xl font-bold">
+                  <span className="gradient-text">Immersive</span>{' '}
+                  <span className="text-foreground">Property Gallery</span>
+                </h1>
               </div>
-              <div className="bg-card rounded-lg p-6 min-w-[140px]">
-                <div className="text-2xl font-bold text-primary mb-1">
+              
+              <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-primary-glow mx-auto mb-8 rounded-full" />
+              
+              <p className="text-xl md:text-2xl text-muted-foreground mb-6 max-w-4xl mx-auto leading-relaxed">
+                Discover stunning visuals from our <strong className="text-primary">premium property collection</strong> across <strong className="text-primary">multiple locations</strong>.
+              </p>
+              
+              <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
+                Each image tells a story of luxury, comfort, and exceptional design.
+              </p>
+            </motion.div>
+            
+            {/* Enhanced Statistics */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-wrap justify-center gap-8 mb-16"
+            >
+              <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 min-w-[160px] border border-primary/10 hover:border-primary/20 transition-all hover:shadow-lg hover:scale-105 group">
+                <div className="text-3xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">
+                  {properties.length}+
+                </div>
+                <div className="text-sm uppercase tracking-wide text-muted-foreground font-semibold">Properties</div>
+              </div>
+              
+              <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 min-w-[160px] border border-primary/10 hover:border-primary/20 transition-all hover:shadow-lg hover:scale-105 group">
+                <div className="text-3xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">
                   {properties.reduce((acc, prop) => acc + prop.property_images.length, 0)}+
                 </div>
-                <div className="text-sm text-muted-foreground">TOTAL IMAGES</div>
+                <div className="text-sm uppercase tracking-wide text-muted-foreground font-semibold">Total Images</div>
               </div>
-              <div className="bg-card rounded-lg p-6 min-w-[140px]">
-                <div className="text-2xl font-bold text-primary mb-1">4K</div>
-                <div className="text-sm text-muted-foreground">HD QUALITY</div>
+              
+              <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 min-w-[160px] border border-primary/10 hover:border-primary/20 transition-all hover:shadow-lg hover:scale-105 group">
+                <div className="text-3xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">4K</div>
+                <div className="text-sm uppercase tracking-wide text-muted-foreground font-semibold">HD Quality</div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
