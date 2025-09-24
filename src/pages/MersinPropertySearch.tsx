@@ -483,42 +483,42 @@ const MersinPropertySearch = () => {
            </div>
          </div>
        </div>
-     </div>
+      </div>
 
-     {/* SEO Concluding Content */}
-     <div className="container mx-auto px-4 py-8">
-       <div className="prose max-w-none">
-         <h2 className="text-2xl font-bold text-foreground mb-4">Why Choose Mersin for Property Investment?</h2>
-         <div className="grid md:grid-cols-2 gap-6 text-muted-foreground">
-           <div>
-             <h3 className="text-lg font-semibold text-foreground mb-2">Investment Benefits</h3>
-             <ul className="space-y-2 text-sm">
-               <li>• Turkish citizenship eligibility with affordable properties</li>
-               <li>• Excellent value for money compared to other coastal cities</li>
-               <li>• Growing infrastructure and development projects</li>
-               <li>• Strong rental demand from locals and tourists</li>
-             </ul>
-           </div>
-           <div>
-             <h3 className="text-lg font-semibold text-foreground mb-2">Lifestyle Benefits</h3>
-             <ul className="space-y-2 text-sm">
-               <li>• Beautiful Mediterranean coastline and beaches</li>
-               <li>• Rich historical sites including ancient Tarsus</li>
-               <li>• Modern amenities and healthcare facilities</li>
-               <li>• Authentic Turkish culture with friendly locals</li>
-             </ul>
-           </div>
-         </div>
-         <p className="mt-6 text-sm">
-           Discover Mersin's exceptional property investment opportunities with our expert guidance. Contact us to explore how Mersin real estate can provide both lifestyle benefits and Turkish citizenship pathways.
-         </p>
-       </div>
-     </div>
+      {/* SEO Concluding Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="prose max-w-none">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Why Choose Mersin for Property Investment?</h2>
+          <div className="grid md:grid-cols-2 gap-6 text-muted-foreground">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Investment Benefits</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• Turkish citizenship eligibility with affordable properties</li>
+                <li>• Excellent value for money compared to other coastal cities</li>
+                <li>• Growing infrastructure and development projects</li>
+                <li>• Strong rental demand from locals and tourists</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Lifestyle Benefits</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• Beautiful Mediterranean coastline and beaches</li>
+                <li>• Rich historical sites including ancient Tarsus</li>
+                <li>• Modern amenities and healthcare facilities</li>
+                <li>• Authentic Turkish culture with friendly locals</li>
+              </ul>
+            </div>
+          </div>
+          <p className="mt-6 text-sm">
+            Discover Mersin's exceptional property investment opportunities with our expert guidance. Contact us to explore how Mersin real estate can provide both lifestyle benefits and Turkish citizenship pathways.
+          </p>
+        </div>
+      </div>
 
-     {/* ElevenLabs Widget */}
-     <ElevenLabsWidget />
-   </div>
- );
+      {/* ElevenLabs Widget */}
+      <ElevenLabsWidget />
+    </div>
+  );
 };
 
 export default MersinPropertySearch;

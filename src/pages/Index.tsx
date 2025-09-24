@@ -10,6 +10,7 @@ import PropertyImageGalleryPreview from "@/components/PropertyImageGalleryPrevie
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import TestimonialsMasonryGrid from "@/components/TestimonialsMasonryGrid";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
+import FounderSection from "@/components/FounderSection";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import SEOHead from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
@@ -247,6 +248,9 @@ const Index = () => {
 
       {/* Testimonials Masonry Grid */}
       <TestimonialsMasonryGrid />
+
+      {/* Founder Section */}
+      <FounderSection />
 
       {/* Property Image Gallery Preview */}
       <PropertyImageGalleryPreview />
