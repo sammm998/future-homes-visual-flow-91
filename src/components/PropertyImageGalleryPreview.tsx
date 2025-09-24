@@ -85,11 +85,16 @@ const PropertyImageGalleryPreview = () => {
                 whileTap={{ scale: 0.95 }}
                 className="inline-block"
               >
-                <Button className="group relative bg-gradient-to-r from-primary via-primary-glow to-accent hover:from-primary/90 hover:via-primary-glow/90 hover:to-accent/90 text-primary-foreground px-8 py-4 text-lg font-semibold rounded-2xl shadow-2xl shadow-primary/25 border-0 overflow-hidden">
-                  <span className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                  <Eye className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
-                  Explore Full Gallery
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                <Button 
+                  className="group relative bg-gradient-to-r from-primary via-primary-glow to-accent hover:from-primary/90 hover:via-primary-glow/90 hover:to-accent/90 text-primary-foreground px-8 py-4 text-lg font-semibold rounded-2xl shadow-2xl shadow-primary/25 border-0 overflow-hidden"
+                  asChild
+                >
+                  <Link to="/property-gallery">
+                    <span className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <Eye className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
+                    Explore Full Gallery
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                  </Link>
                 </Button>
               </motion.div>
             </div>
@@ -244,11 +249,14 @@ const PropertyImageGalleryPreview = () => {
                 variant="outline" 
                 size="lg" 
                 className="group bg-card/50 backdrop-blur-sm border-2 border-primary/20 hover:border-primary/40 hover:bg-card/70 text-foreground hover:text-primary px-8 py-4 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                asChild
               >
-                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent group-hover:from-primary-glow group-hover:to-accent font-bold">
-                  Discover All Properties & Images
-                </span>
-                <ArrowRight className="w-5 h-5 ml-3 text-primary group-hover:translate-x-1 group-hover:text-accent transition-all duration-300" />
+                <Link to="/property-gallery">
+                  <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent group-hover:from-primary-glow group-hover:to-accent font-bold">
+                    Discover All Properties & Images
+                  </span>
+                  <ArrowRight className="w-5 h-5 ml-3 text-primary group-hover:translate-x-1 group-hover:text-accent transition-all duration-300" />
+                </Link>
               </Button>
             </motion.div>
           </div>

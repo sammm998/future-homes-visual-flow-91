@@ -49,32 +49,32 @@ const Index = () => {
   // Property gallery images for zoom parallax effect
   const propertyGalleryImages = [
     {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/modern-apartment-living-room.jpg',
-      alt: 'Modern apartment living room with sea view',
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/rl9q4mj1esj.jpg',
+      alt: 'Luxury apartment interior',
     },
     {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/luxury-kitchen-design.jpg',
-      alt: 'Luxury kitchen with marble countertops',
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/3n142jndva3.jpg',
+      alt: 'Modern living room',
     },
     {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/bedroom-balcony-view.jpg',
-      alt: 'Master bedroom with panoramic balcony view',
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/bkr7jnjl6tj.jpg',
+      alt: 'Apartment bedroom',
     },
     {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/swimming-pool-terrace.jpg',
-      alt: 'Swimming pool terrace with city views',
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/wkf3muk8mf.jpg',
+      alt: 'Kitchen and dining area',
     },
     {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/modern-bathroom-spa.jpg',
-      alt: 'Modern spa bathroom with premium finishes',
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ssml6o436x.jpg',
+      alt: 'Balcony with city view',
     },
     {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/building-exterior-night.jpg',
-      alt: 'Building exterior illuminated at night',
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/tttyz3px5ue.jpeg',
+      alt: 'Swimming pool area',
     },
     {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/rooftop-garden-lounge.jpg',
-      alt: 'Rooftop garden lounge area',
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ani9abmbtg.jpg',
+      alt: 'Building exterior',
     },
   ];
 
