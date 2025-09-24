@@ -152,39 +152,39 @@ const Information = () => {
     return 'property'; // default
   };
 
-  // Helper function to get appropriate icon
-  const getArticleIcon = (title: string) => {
+  // Helper function to get appropriate icon component
+  const getArticleIconComponent = (title: string) => {
     const text = title.toLowerCase();
-    if (text.includes('citizenship') || text.includes('legal')) return <Gavel className="w-8 h-8 text-primary" />;
-    if (text.includes('property') || text.includes('purchase')) return <Home className="w-8 h-8 text-primary" />;
-    if (text.includes('banking') || text.includes('finance')) return <CreditCard className="w-8 h-8 text-primary" />;
-    if (text.includes('healthcare')) return <Stethoscope className="w-8 h-8 text-primary" />;
-    if (text.includes('education')) return <GraduationCap className="w-8 h-8 text-primary" />;
-    if (text.includes('tax')) return <Calculator className="w-8 h-8 text-primary" />;
-    if (text.includes('transport')) return <Car className="w-8 h-8 text-primary" />;
-    if (text.includes('cost') || text.includes('expense')) return <DollarSign className="w-8 h-8 text-primary" />;
-    if (text.includes('business')) return <Briefcase className="w-8 h-8 text-primary" />;
-    if (text.includes('culture')) return <Users className="w-8 h-8 text-primary" />;
-    if (text.includes('insurance')) return <Shield className="w-8 h-8 text-primary" />;
-    if (text.includes('internet') || text.includes('telecommunication')) return <Wifi className="w-8 h-8 text-primary" />;
-    if (text.includes('climate') || text.includes('weather')) return <Sun className="w-8 h-8 text-primary" />;
-    if (text.includes('photography')) return <Camera className="w-8 h-8 text-primary" />;
-    if (text.includes('shopping')) return <ShoppingCart className="w-8 h-8 text-primary" />;
-    if (text.includes('cuisine') || text.includes('dining')) return <Utensils className="w-8 h-8 text-primary" />;
-    if (text.includes('gaming')) return <Gamepad2 className="w-8 h-8 text-primary" />;
-    if (text.includes('music') || text.includes('arts')) return <Music className="w-8 h-8 text-primary" />;
-    if (text.includes('travel')) return <PlaneTakeoff className="w-8 h-8 text-primary" />;
-    if (text.includes('technology')) return <Laptop className="w-8 h-8 text-primary" />;
-    if (text.includes('coastal')) return <Waves className="w-8 h-8 text-primary" />;
-    if (text.includes('mountain') || text.includes('rural')) return <Mountain className="w-8 h-8 text-primary" />;
-    if (text.includes('art')) return <Palette className="w-8 h-8 text-primary" />;
-    if (text.includes('energy') || text.includes('utilities')) return <Zap className="w-8 h-8 text-primary" />;
-    if (text.includes('dubai')) return <Building className="w-8 h-8 text-primary" />;
-    if (text.includes('bali')) return <TreePine className="w-8 h-8 text-primary" />;
-    if (text.includes('turkey') || text.includes('antalya') || text.includes('mersin')) return <MapPin className="w-8 h-8 text-primary" />;
-    if (text.includes('cyprus')) return <Globe className="w-8 h-8 text-primary" />;
-    if (text.includes('bitcoin')) return <Coins className="w-8 h-8 text-primary" />;
-    return <FileText className="w-8 h-8 text-primary" />;
+    if (text.includes('citizenship') || text.includes('legal')) return Gavel;
+    if (text.includes('property') || text.includes('purchase')) return Home;
+    if (text.includes('banking') || text.includes('finance')) return CreditCard;
+    if (text.includes('healthcare')) return Stethoscope;
+    if (text.includes('education')) return GraduationCap;
+    if (text.includes('tax')) return Calculator;
+    if (text.includes('transport')) return Car;
+    if (text.includes('cost') || text.includes('expense')) return DollarSign;
+    if (text.includes('business')) return Briefcase;
+    if (text.includes('culture')) return Users;
+    if (text.includes('insurance')) return Shield;
+    if (text.includes('internet') || text.includes('telecommunication')) return Wifi;
+    if (text.includes('climate') || text.includes('weather')) return Sun;
+    if (text.includes('photography')) return Camera;
+    if (text.includes('shopping')) return ShoppingCart;
+    if (text.includes('cuisine') || text.includes('dining')) return Utensils;
+    if (text.includes('gaming')) return Gamepad2;
+    if (text.includes('music') || text.includes('arts')) return Music;
+    if (text.includes('travel')) return PlaneTakeoff;
+    if (text.includes('technology')) return Laptop;
+    if (text.includes('coastal')) return Waves;
+    if (text.includes('mountain') || text.includes('rural')) return Mountain;
+    if (text.includes('art')) return Palette;
+    if (text.includes('energy') || text.includes('utilities')) return Zap;
+    if (text.includes('dubai')) return Building;
+    if (text.includes('bali')) return TreePine;
+    if (text.includes('turkey') || text.includes('antalya') || text.includes('mersin')) return MapPin;
+    if (text.includes('cyprus')) return Globe;
+    if (text.includes('bitcoin')) return Coins;
+    return FileText;
   };
 
   // Helper function to get category-specific image using generated images for new articles
@@ -358,7 +358,7 @@ const Information = () => {
     id: index + 1000, // Offset to avoid conflicts with static article IDs
     title: post.title,
     description: post.excerpt,
-    icon: getArticleIcon(post.title),
+    icon: getArticleIconComponent(post.title),
     // Use featured_image first, fallback to category-based images if null
     image: post.featured_image || getArticleImage(post.title, post.content, index),
     category: getArticleCategory(post.title, post.content),
@@ -484,7 +484,7 @@ const Information = () => {
                   </div>
                   <div className="absolute bottom-4 left-4">
                     <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                      {React.createElement(article.icon, { className: "w-6 h-6 text-primary" })}
+                      <article.icon className="w-6 h-6 text-primary" />
                     </div>
                   </div>
                 </div>
