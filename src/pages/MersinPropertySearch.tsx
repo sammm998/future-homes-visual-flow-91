@@ -150,52 +150,53 @@ const MersinPropertySearch = () => {
       return filterProperties(properties, filters);
     }
     return properties;
-  }, [properties, filters, showFiltered]);
+  }, [properties, showFiltered, filters]);
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
   const paginatedProperties = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredProperties.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredProperties, currentPage, itemsPerPage]);
 
-  // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [filteredProperties.length]);
+  }, [filters]);
 
   const handleFilterChange = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
-    
-    // Check if any meaningful filters are applied
+    setCurrentPage(1);
     const hasFilters = Object.entries(newFilters).some(([key, value]) => {
-      if (key === 'sortBy' || key === 'location') return false; // Don't count sortBy or default location
-      return value && value !== '' && value !== 'Mersin';
+      return value && value !== '' && key !== 'location' && value !== 'ref';
     });
     
-    // Auto-trigger filtering when filters are applied
     setShowFiltered(hasFilters);
+
+    // Update URL with filter parameters
+    const searchParams = new URLSearchParams();
     
-    // Update URL parameters with current filters
-    const params = new URLSearchParams();
     Object.entries(newFilters).forEach(([key, value]) => {
       if (value && value !== '' && key !== 'location') {
         if (Array.isArray(value) && value.length > 0) {
-          params.set(key, value.join(','));
+          searchParams.set(key, value.join(','));
         } else if (typeof value === 'string' && value !== '') {
-          params.set(key, value);
+          // Map filter keys to URL parameter names for consistency
+          const paramMap: Record<string, string> = {
+            minPrice: 'priceMin',
+            maxPrice: 'priceMax',
+            minSquareFeet: 'areaMin',
+            maxSquareFeet: 'areaMax'
+          };
+          const paramName = paramMap[key] || key;
+          searchParams.set(paramName, value);
         }
       }
     });
     
-    // Update URL without triggering navigation
-    const newUrl = `${location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-    window.history.replaceState({}, '', newUrl);
-  };
+    navigate(`?${searchParams.toString()}`, { replace: true });
   };
 
   const handleSearch = () => {
-    setShowFiltered(true);
+    setCurrentPage(1);
   };
 
   const handlePropertyClick = (property: any) => {
@@ -203,8 +204,6 @@ const MersinPropertySearch = () => {
       state: { from: '/mersin' }
     });
   };
-
-
 
   if (loading) {
     return (
@@ -256,12 +255,37 @@ const MersinPropertySearch = () => {
       />
       <Navigation />
       
+      {/* SEO Introductory Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="prose max-w-none mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-4">Mersin Properties: Your Gateway to Turkish Citizenship</h1>
+          <p className="text-lg text-muted-foreground mb-6">
+            Discover exceptional property investment opportunities in Mersin, Turkey's hidden gem along the Mediterranean coast. 
+            With affordable prices starting from competitive rates, Mersin offers an excellent pathway to Turkish citizenship through property investment.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6 text-muted-foreground mb-6">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">✅ Turkish Citizenship Eligible</h3>
+              <p className="text-sm">Properties qualifying for Turkish citizenship by investment program with expert legal guidance included.</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">🏖️ Mediterranean Lifestyle</h3>
+              <p className="text-sm">Beautiful coastline properties with modern amenities, perfect for both investment and vacation homes.</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">💰 Excellent Value</h3>
+              <p className="text-sm">Competitive prices compared to other coastal Turkish cities, offering exceptional return on investment potential.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+          <h2 className="text-3xl font-bold text-foreground mb-2">
             Properties in Mersin
-          </h1>
+          </h2>
           <p className="text-muted-foreground">
             {filteredProperties.length} properties found
           </p>
@@ -291,198 +315,197 @@ const MersinPropertySearch = () => {
 
           {/* Main content area */}
           <div className="flex-1 min-w-0">
-
-
-        {/* No Properties Message */}
-        {filteredProperties.length === 0 && (
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-foreground mb-2">No properties found</h3>
-              <p className="text-muted-foreground mb-4">
-                Try adjusting your filters or browse all properties.
-              </p>
-              <Button onClick={() => {
-                setFilters({
-                  propertyType: '',
-                  bedrooms: '',
-                  location: 'Mersin',
-                  district: '',
-                  minPrice: '',
-                  maxPrice: '',
-                  minSquareFeet: '',
-                  maxSquareFeet: '',
-                  facilities: [],
-                  sortBy: 'ref',
-                  referenceNo: ''
-                });
-                setShowFiltered(false);
-              }}>
-                Clear Filters
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* Mobile Layout: One property per screen */}
-        {filteredProperties.length > 0 && (
-          <div className="block md:hidden">
-            <div className="space-y-6">
-               {paginatedProperties.map((property, propertyIndex) => (
-                 <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
-                  <div className="w-full max-w-sm mx-auto">
-                    <PropertyCard property={property} />
-                  </div>
+            {/* No Properties Message */}
+            {filteredProperties.length === 0 && (
+              <div className="flex items-center justify-center min-h-[400px]">
+                <div className="text-center">
+                  <h3 className="text-lg font-semibold text-foreground mb-2">No properties found</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Try adjusting your filters or browse all properties.
+                  </p>
+                  <Button onClick={() => {
+                    setFilters({
+                      propertyType: '',
+                      bedrooms: '',
+                      location: 'Mersin',
+                      district: '',
+                      minPrice: '',
+                      maxPrice: '',
+                      minSquareFeet: '',
+                      maxSquareFeet: '',
+                      facilities: [],
+                      sortBy: 'ref',
+                      referenceNo: ''
+                    });
+                    setShowFiltered(false);
+                  }}>
+                    Clear Filters
+                  </Button>
                 </div>
-              ))}
-            </div>
-            
-            {/* Pagination for mobile */}
-            {totalPages > 1 && (
-              <div className="flex justify-center mt-8">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious 
-                        href="#" 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (currentPage > 1) {
-                            setCurrentPage(currentPage - 1);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                          }
-                        }}
-                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-                      />
-                    </PaginationItem>
-                    
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      let pageNum;
-                      if (totalPages <= 5) {
-                        pageNum = i + 1;
-                      } else if (currentPage <= 3) {
-                        pageNum = i + 1;
-                      } else if (currentPage >= totalPages - 2) {
-                        pageNum = totalPages - 4 + i;
-                      } else {
-                        pageNum = currentPage - 2 + i;
-                      }
-                      
-                      return (
-                        <PaginationItem key={pageNum}>
-                          <PaginationLink
-                            href="#"
+              </div>
+            )}
+
+            {/* Mobile Layout: One property per screen */}
+            {filteredProperties.length > 0 && (
+              <div className="block md:hidden">
+                <div className="space-y-6">
+                   {paginatedProperties.map((property, propertyIndex) => (
+                     <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+                      <div className="w-full max-w-sm mx-auto">
+                        <PropertyCard property={property} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Pagination for mobile */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center mt-8">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            href="#" 
                             onClick={(e) => {
                               e.preventDefault();
-                              setCurrentPage(pageNum);
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                              if (currentPage > 1) {
+                                setCurrentPage(currentPage - 1);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }
                             }}
-                            isActive={pageNum === currentPage}
-                          >
-                            {pageNum}
-                          </PaginationLink>
+                            className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                          />
                         </PaginationItem>
-                      );
-                    })}
-                    
-                    <PaginationItem>
-                      <PaginationNext 
-                        href="#" 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (currentPage < totalPages) {
-                            setCurrentPage(currentPage + 1);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                          let pageNum;
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            pageNum = i + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNum = totalPages - 4 + i;
+                          } else {
+                            pageNum = currentPage - 2 + i;
                           }
-                        }}
-                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
+                          
+                          return (
+                            <PaginationItem key={pageNum}>
+                              <PaginationLink
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setCurrentPage(pageNum);
+                                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                                }}
+                                isActive={pageNum === currentPage}
+                              >
+                                {pageNum}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        })}
+                        
+                        <PaginationItem>
+                          <PaginationNext 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (currentPage < totalPages) {
+                                setCurrentPage(currentPage + 1);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }
+                            }}
+                            className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Desktop Layout: Properties Grid */}
+            {filteredProperties.length > 0 && (
+              <div className="hidden md:block">
+                <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+                  {paginatedProperties.map((property, propertyIndex) => (
+                    <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                      <PropertyCard property={property} />
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Pagination for desktop */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center mt-8">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (currentPage > 1) {
+                                setCurrentPage(currentPage - 1);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }
+                            }}
+                            className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                        
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                          let pageNum;
+                          if (totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (currentPage <= 3) {
+                            pageNum = i + 1;
+                          } else if (currentPage >= totalPages - 2) {
+                            pageNum = totalPages - 4 + i;
+                          } else {
+                            pageNum = currentPage - 2 + i;
+                          }
+                          
+                          return (
+                            <PaginationItem key={pageNum}>
+                              <PaginationLink
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setCurrentPage(pageNum);
+                                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                                }}
+                                isActive={pageNum === currentPage}
+                              >
+                                {pageNum}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        })}
+                        
+                        <PaginationItem>
+                          <PaginationNext 
+                            href="#" 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (currentPage < totalPages) {
+                                setCurrentPage(currentPage + 1);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                              }
+                            }}
+                            className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                   </div>
+                )}
               </div>
             )}
           </div>
-        )}
-
-        {/* Desktop Layout: Properties Grid - Show when Timeline is OFF */}
-        {filteredProperties.length > 0 && (
-          <div className="hidden md:block">
-            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-              {paginatedProperties.map((property, propertyIndex) => (
-                <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                  <PropertyCard property={property} />
-                </div>
-              ))}
-            </div>
-            
-            {/* Pagination for desktop */}
-            {totalPages > 1 && (
-              <div className="flex justify-center mt-8">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious 
-                        href="#" 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (currentPage > 1) {
-                            setCurrentPage(currentPage - 1);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                          }
-                        }}
-                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-                      />
-                    </PaginationItem>
-                    
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      let pageNum;
-                      if (totalPages <= 5) {
-                        pageNum = i + 1;
-                      } else if (currentPage <= 3) {
-                        pageNum = i + 1;
-                      } else if (currentPage >= totalPages - 2) {
-                        pageNum = totalPages - 4 + i;
-                      } else {
-                        pageNum = currentPage - 2 + i;
-                      }
-                      
-                      return (
-                        <PaginationItem key={pageNum}>
-                          <PaginationLink
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setCurrentPage(pageNum);
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}
-                            isActive={pageNum === currentPage}
-                          >
-                            {pageNum}
-                          </PaginationLink>
-                        </PaginationItem>
-                      );
-                    })}
-                    
-                    <PaginationItem>
-                      <PaginationNext 
-                        href="#" 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (currentPage < totalPages) {
-                            setCurrentPage(currentPage + 1);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                          }
-                        }}
-                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-               </div>
-             )}
-           </div>
-         </div>
-       </div>
+        </div>
       </div>
 
       {/* SEO Concluding Content */}

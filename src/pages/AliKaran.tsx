@@ -22,9 +22,6 @@ export default function AliKaran() {
         title="Meet Ali Karan - Founder & CEO | International Property Expert"
         description="Learn about Ali Karan, founder and CEO of our international property investment company. With over 15 years of experience in real estate across Turkey, Dubai, Cyprus, and more."
         keywords="Ali Karan, property investment expert, international real estate, CEO founder, Turkey properties, Dubai real estate"
-        ogTitle="Meet Ali Karan - International Property Investment Expert"
-        ogDescription="Discover the story behind our founder Ali Karan and his journey in international real estate investment across Turkey, Dubai, Cyprus and beyond."
-        ogImage="/ali-karan-founder.png"
       />
 
       <Navigation />
