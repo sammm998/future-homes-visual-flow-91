@@ -5,25 +5,25 @@ import type React from "react";
 import { useState, useRef } from "react";
 import {
   Search,
-  Mic,
   ArrowUp,
-  Plus,
-  FileText,
-  Code,
   BookOpen,
   PenTool,
-  BrainCircuit,
   Sparkles,
+  X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { supabase } from "@/integrations/supabase/client";
 
-export function AIAssistantInterface() {
+interface AIAssistantInterfaceProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export function AIAssistantInterface({ isOpen, onClose }: AIAssistantInterfaceProps) {
   const [inputValue, setInputValue] = useState("");
-  const [searchEnabled, setSearchEnabled] = useState(false);
-  const [deepResearchEnabled, setDeepResearchEnabled] = useState(false);
-  const [reasonEnabled, setReasonEnabled] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
-  const [showUploadAnimation, setShowUploadAnimation] = useState(false);
+  const [messages, setMessages] = useState<Array<{role: string, content: string, timestamp: Date}>>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [activeCommandCategory, setActiveCommandCategory] = useState<
     string | null
   >(null);
@@ -31,37 +31,26 @@ export function AIAssistantInterface() {
 
   const commandSuggestions = {
     find: [
-      "Show me apartments with sea view in Antalya",
-      "Find properties under €300,000 in Turkey", 
-      "What apartments are available in Alanya?",
-      "Properties suitable for Turkish citizenship",
-      "Show me luxury penthouses in Dubai",
+      "Visa lägenheter med havsutsikt i Antalya",
+      "Hitta fastigheter under €300,000 i Turkiet", 
+      "Vilka lägenheter finns i Alanya?",
+      "Fastigheter lämpliga för turkiskt medborgarskap",
+      "Visa lyxiga takvåningar i Dubai",
     ],
     invest: [
-      "Best investment opportunities in Turkey",
-      "Which areas have highest rental yield?",
-      "Properties eligible for Turkish passport",
-      "Compare investment returns by location",
-      "Off-plan vs ready properties pros and cons",
+      "Bästa investeringsmöjligheterna i Turkiet",
+      "Vilka områden har högsta hyresavkastningen?",
+      "Fastigheter som berättigar till turkiskt pass",
+      "Jämför investeringsavkastning per plats",
+      "Fördelar och nackdelar med färdigbyggda vs nyproduktion",
     ],
     contact: [
-      "Schedule a property viewing",
-      "Speak with a property consultant",
-      "Get detailed property information",
-      "Request investment consultation",
-      "Book virtual property tour",
+      "Boka en fastighetsvisning",
+      "Prata med en fastighetskonsult",
+      "Få detaljerad fastighetsinformation",
+      "Begär investeringskonsultation",
+      "Boka virtuell fastighetstur",
     ],
-  };
-
-  const handleUploadFile = () => {
-    setShowUploadAnimation(true);
-
-    // Simulate file upload with timeout
-    setTimeout(() => {
-      const newFile = `Document.pdf`;
-      setUploadedFiles((prev) => [...prev, newFile]);
-      setShowUploadAnimation(false);
-    }, 1500);
   };
 
   const handleCommandSelect = (command: string) => {
@@ -73,12 +62,211 @@ export function AIAssistantInterface() {
     }
   };
 
-  const handleSendMessage = () => {
-    if (inputValue.trim()) {
-      console.log("Sending message:", inputValue);
-      setInputValue("");
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || isLoading) return;
+
+    const userMessage = inputValue.trim();
+    setInputValue("");
+    
+    // Add user message to chat
+    const newUserMessage = {
+      role: "user",
+      content: userMessage,
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, newUserMessage]);
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-chat', {
+        body: {
+          message: userMessage,
+          conversationHistory: messages.slice(-5) // Keep last 5 messages for context
+        }
+      });
+
+      if (error) throw error;
+
+      // Add AI response to chat
+      const aiMessage = {
+        role: "assistant",
+        content: data.response || "Jag kunde inte behandla din förfrågan just nu. Försök igen senare.",
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, aiMessage]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      const errorMessage = {
+        role: "assistant",
+        content: "Jag kunde inte behandla din förfrågan just nu. Försök igen senare.",
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  if (isOpen) {
+    return (
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="max-w-4xl max-h-[80vh] p-0">
+          <DialogHeader className="p-6 pb-0">
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400">
+                AI Property Assistant
+              </DialogTitle>
+              <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <p className="text-gray-500 text-sm">
+              Hitta din perfekta fastighet med vår AI som är tränad på hela databasen
+            </p>
+          </DialogHeader>
+          
+          {/* Chat Messages */}
+          <div className="flex-1 p-6 pt-4 overflow-y-auto max-h-96">
+            {messages.length === 0 ? (
+              <div className="text-center text-gray-500 py-8">
+                <p>Hej! Jag är din AI-fastighetsassistent. Hur kan jag hjälpa dig att hitta din perfekta bostad?</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {messages.map((message, index) => (
+                  <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                      message.role === 'user' 
+                        ? 'bg-blue-600 text-white' 
+                        : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      <p className="text-sm">{message.content}</p>
+                    </div>
+                  </div>
+                ))}
+                {isLoading && (
+                  <div className="flex justify-start">
+                    <div className="bg-gray-100 text-gray-800 max-w-xs lg:max-w-md px-4 py-2 rounded-lg">
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Input Area */}
+          <div className="p-6 pt-0 border-t border-gray-200">
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+              <div className="p-4">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  placeholder="Fråga mig om fastigheter..."
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  disabled={isLoading}
+                  className="w-full text-gray-700 text-base outline-none placeholder:text-gray-400 disabled:opacity-50"
+                />
+              </div>
+              <div className="px-4 py-3 flex items-center justify-end">
+                <button
+                  onClick={handleSendMessage}
+                  disabled={!inputValue.trim() || isLoading}
+                  className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
+                    inputValue.trim() && !isLoading
+                      ? "bg-blue-600 text-white hover:bg-blue-700"
+                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  }`}
+                >
+                  <ArrowUp className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Command categories */}
+            <div className="mt-4 grid grid-cols-3 gap-2">
+              <CommandButton
+                icon={<Search className="w-4 h-4" />}
+                label="Hitta"
+                isActive={activeCommandCategory === "find"}
+                onClick={() =>
+                  setActiveCommandCategory(
+                    activeCommandCategory === "find" ? null : "find"
+                  )
+                }
+              />
+              <CommandButton
+                icon={<Sparkles className="w-4 h-4" />}
+                label="Investera"
+                isActive={activeCommandCategory === "invest"}
+                onClick={() =>
+                  setActiveCommandCategory(
+                    activeCommandCategory === "invest" ? null : "invest"
+                  )
+                }
+              />
+              <CommandButton
+                icon={<PenTool className="w-4 h-4" />}
+                label="Kontakt"
+                isActive={activeCommandCategory === "contact"}
+                onClick={() =>
+                  setActiveCommandCategory(
+                    activeCommandCategory === "contact" ? null : "contact"
+                  )
+                }
+              />
+            </div>
+
+            {/* Command suggestions */}
+            <AnimatePresence>
+              {activeCommandCategory && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mt-2 overflow-hidden"
+                >
+                  <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <ul className="divide-y divide-gray-100 max-h-32 overflow-y-auto">
+                      {commandSuggestions[
+                        activeCommandCategory as keyof typeof commandSuggestions
+                      ].map((suggestion, index) => (
+                        <motion.li
+                          key={index}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: index * 0.03 }}
+                          onClick={() => handleCommandSelect(suggestion)}
+                          className="p-2 hover:bg-gray-50 cursor-pointer transition-colors duration-75"
+                        >
+                          <span className="text-xs text-gray-700">
+                            {suggestion}
+                          </span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white p-6">
@@ -208,185 +396,35 @@ export function AIAssistantInterface() {
               AI Property Assistant
             </h1>
             <p className="text-gray-500 max-w-md">
-              Find your perfect property with our AI trained on our entire database
+              Hitta din perfekta fastighet med vår AI tränad på hela databasen
             </p>
           </motion.div>
         </div>
 
-        {/* Input area with integrated functions and file upload */}
+        {/* Input area */}
         <div className="w-full bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-4">
           <div className="p-4">
             <input
               ref={inputRef}
               type="text"
-              placeholder="Ask me about properties..."
+              placeholder="Fråga mig om fastigheter..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
+              onKeyPress={handleKeyPress}
               className="w-full text-gray-700 text-base outline-none placeholder:text-gray-400"
             />
           </div>
-
-          {/* Uploaded files */}
-          {uploadedFiles.length > 0 && (
-            <div className="px-4 pb-3">
-              <div className="flex flex-wrap gap-2">
-                {uploadedFiles.map((file, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 bg-gray-50 py-1 px-2 rounded-md border border-gray-200"
-                  >
-                    <FileText className="w-3 h-3 text-blue-600" />
-                    <span className="text-xs text-gray-700">{file}</span>
-                    <button
-                      onClick={() =>
-                        setUploadedFiles((prev) =>
-                          prev.filter((_, i) => i !== index)
-                        )
-                      }
-                      className="text-gray-400 hover:text-gray-600"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                      </svg>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Search, Deep Research, Reason functions and actions */}
-          <div className="px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setSearchEnabled(!searchEnabled)}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                  searchEnabled
-                    ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
-                    : "bg-gray-100 text-gray-400 hover:bg-gray-200"
-                }`}
-              >
-                <Search className="w-4 h-4" />
-                <span>Search</span>
-              </button>
-              <button
-                onClick={() => setDeepResearchEnabled(!deepResearchEnabled)}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                  deepResearchEnabled
-                    ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
-                    : "bg-gray-100 text-gray-400 hover:bg-gray-200"
-                }`}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={
-                    deepResearchEnabled ? "text-blue-600" : "text-gray-400"
-                  }
-                >
-                  <circle
-                    cx="8"
-                    cy="8"
-                    r="7"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                  <circle cx="8" cy="8" r="3" fill="currentColor" />
-                </svg>
-                <span>Deep Research</span>
-              </button>
-              <button
-                onClick={() => setReasonEnabled(!reasonEnabled)}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                  reasonEnabled
-                    ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
-                    : "bg-gray-100 text-gray-400 hover:bg-gray-200"
-                }`}
-              >
-                <BrainCircuit
-                  className={`w-4 h-4 ${
-                    reasonEnabled ? "text-blue-600" : "text-gray-400"
-                  }`}
-                />
-                <span>Reason</span>
-              </button>
-            </div>
-            <div className="flex items-center gap-2">
-              <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
-                <Mic className="w-5 h-5" />
-              </button>
-              <button
-                onClick={handleSendMessage}
-                disabled={!inputValue.trim()}
-                className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
-                  inputValue.trim()
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                }`}
-              >
-                <ArrowUp className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Upload files */}
-          <div className="px-4 py-2 border-t border-gray-100">
+          <div className="px-4 py-3 flex items-center justify-end">
             <button
-              onClick={handleUploadFile}
-              className="flex items-center gap-2 text-gray-600 text-sm hover:text-gray-900 transition-colors"
+              onClick={handleSendMessage}
+              disabled={!inputValue.trim()}
+              className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
+                inputValue.trim()
+                  ? "bg-blue-600 text-white hover:bg-blue-700"
+                  : "bg-gray-100 text-gray-400 cursor-not-allowed"
+              }`}
             >
-              {showUploadAnimation ? (
-                <motion.div
-                  className="flex space-x-1"
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                    hidden: {},
-                    visible: {
-                      transition: {
-                        staggerChildren: 0.1,
-                      },
-                    },
-                  }}
-                >
-                  {[...Array(3)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="w-1.5 h-1.5 bg-blue-600 rounded-full"
-                      variants={{
-                        hidden: { opacity: 0, y: 5 },
-                        visible: {
-                          opacity: 1,
-                          y: 0,
-                          transition: {
-                            duration: 0.4,
-                            repeat: Infinity,
-                            repeatType: "mirror",
-                            delay: i * 0.1,
-                          },
-                        },
-                      }}
-                    />
-                  ))}
-                </motion.div>
-              ) : (
-                <Plus className="w-4 h-4" />
-              )}
-              <span>Upload Files</span>
+              <ArrowUp className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -395,7 +433,7 @@ export function AIAssistantInterface() {
         <div className="w-full grid grid-cols-3 gap-4 mb-4">
           <CommandButton
             icon={<Search className="w-5 h-5" />}
-            label="Find Properties"
+            label="Hitta fastigheter"
             isActive={activeCommandCategory === "find"}
             onClick={() =>
               setActiveCommandCategory(
@@ -405,7 +443,7 @@ export function AIAssistantInterface() {
           />
           <CommandButton
             icon={<Sparkles className="w-5 h-5" />}
-            label="Investment"
+            label="Investering"
             isActive={activeCommandCategory === "invest"}
             onClick={() =>
               setActiveCommandCategory(
@@ -415,7 +453,7 @@ export function AIAssistantInterface() {
           />
           <CommandButton
             icon={<PenTool className="w-5 h-5" />}
-            label="Contact"
+            label="Kontakt"
             isActive={activeCommandCategory === "contact"}
             onClick={() =>
               setActiveCommandCategory(
@@ -438,10 +476,10 @@ export function AIAssistantInterface() {
                 <div className="p-3 border-b border-gray-100">
                   <h3 className="text-sm font-medium text-gray-700">
                     {activeCommandCategory === "find"
-                      ? "Property search suggestions"
+                      ? "Sökförslag"
                       : activeCommandCategory === "invest"
-                      ? "Investment suggestions"
-                      : "Contact suggestions"}
+                      ? "Investeringsförslag"
+                      : "Kontaktförslag"}
                   </h3>
                 </div>
                 <ul className="divide-y divide-gray-100">
