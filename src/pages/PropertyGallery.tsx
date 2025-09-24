@@ -3,65 +3,62 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Eye, Camera, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+
+interface Property {
+  id: string;
+  title: string;
+  location: string;
+  property_images: string[];
+}
 
 const PropertyGallery = () => {
   const [selectedApartment, setSelectedApartment] = useState<number | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const apartments = [
-    {
-      id: 1,
-      title: "Luxury Seaside Apartment",
-      location: "Antalya, Turkey",
-      images: [
-        {
-          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/rl9q4mj1esj.jpg',
-          alt: 'Luxury apartment interior'
-        },
-        {
-          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/3n142jndva3.jpg',
-          alt: 'Modern living room'
-        },
-        {
-          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/bkr7jnjl6tj.jpg',
-          alt: 'Apartment bedroom'
-        }
-      ]
-    },
-    {
-      id: 2,
-      title: "Modern City Penthouse",
-      location: "Dubai, UAE",
-      images: [
-        {
-          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/wkf3muk8mf.jpg',
-          alt: 'Kitchen and dining area'
-        },
-        {
-          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ssml6o436x.jpg',
-          alt: 'Balcony with city view'
-        }
-      ]
-    },
-    {
-      id: 3,
-      title: "Premium Resort Residence",
-      location: "Cyprus",
-      images: [
-        {
-          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/tttyz3px5ue.jpeg',
-          alt: 'Swimming pool area'
-        },
-        {
-          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ani9abmbtg.jpg',
-          alt: 'Building exterior'
-        }
-      ]
-    }
-  ];
+  // Fetch properties with Supabase image URLs
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('properties')
+          .select('id, title, location, property_images')
+          .eq('is_active', true)
+          .not('property_images', 'is', null);
 
-  const selectedApartmentData = selectedApartment !== null ? apartments.find(apt => apt.id === selectedApartment) : null;
+        if (error) throw error;
+
+        // Filter properties that have images with Supabase URLs
+        const propertiesWithSupabaseImages = data
+          .filter(property => 
+            property.property_images && 
+            property.property_images.length > 0 &&
+            property.property_images.some((img: string) => 
+              img.includes('https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/')
+            )
+          )
+          .map(property => ({
+            ...property,
+            property_images: property.property_images.filter((img: string) => 
+              img.includes('https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/')
+            )
+          }));
+
+        setProperties(propertiesWithSupabaseImages.slice(0, 50)); // Limit to 50 properties
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
+
+  const selectedPropertyData = selectedApartment !== null ? properties[selectedApartment] : null;
 
   return (
     <>
@@ -110,12 +107,14 @@ const PropertyGallery = () => {
             {/* Statistics */}
             <div className="flex flex-wrap justify-center gap-8 mb-12">
               <div className="bg-card rounded-lg p-6 min-w-[140px]">
-                <div className="text-2xl font-bold text-primary mb-1">117+</div>
-                <div className="text-sm text-muted-foreground">TOTAL IMAGES</div>
+                <div className="text-2xl font-bold text-primary mb-1">{properties.length}+</div>
+                <div className="text-sm text-muted-foreground">PROPERTIES</div>
               </div>
               <div className="bg-card rounded-lg p-6 min-w-[140px]">
-                <div className="text-2xl font-bold text-primary mb-1">6</div>
-                <div className="text-sm text-muted-foreground">PROPERTIES</div>
+                <div className="text-2xl font-bold text-primary mb-1">
+                  {properties.reduce((acc, prop) => acc + prop.property_images.length, 0)}+
+                </div>
+                <div className="text-sm text-muted-foreground">TOTAL IMAGES</div>
               </div>
               <div className="bg-card rounded-lg p-6 min-w-[140px]">
                 <div className="text-2xl font-bold text-primary mb-1">4K</div>
@@ -128,65 +127,73 @@ const PropertyGallery = () => {
         {/* 3D Apartment Gallery */}
         <section className="py-16">
           <div className="container mx-auto px-4">
-            {/* Apartment Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {apartments.map((apartment) => (
-                <motion.div
-                  key={apartment.id}
-                  className="group relative cursor-pointer"
-                  whileHover={{ y: -10 }}
-                  transition={{ duration: 0.3 }}
-                  onClick={() => {
-                    setSelectedApartment(apartment.id);
-                    setCurrentImageIndex(0);
-                  }}
-                >
-                  {/* 3D Card Container */}
-                  <div className="relative h-[400px] perspective-1000">
-                    <motion.div 
-                      className="relative w-full h-full preserve-3d group-hover:rotateY-12 transition-transform duration-500"
-                      style={{
-                        transformStyle: 'preserve-3d'
+            {loading ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+              </div>
+            ) : (
+              <>
+                {/* Apartment Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                  {properties.map((property, index) => (
+                    <motion.div
+                      key={property.id}
+                      className="group relative cursor-pointer"
+                      whileHover={{ y: -10 }}
+                      transition={{ duration: 0.3 }}
+                      onClick={() => {
+                        setSelectedApartment(index);
+                        setCurrentImageIndex(0);
                       }}
                     >
-                      {/* Main Image */}
-                      <div className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden shadow-2xl">
-                        <img
-                          src={apartment.images[0]?.src}
-                          alt={apartment.images[0]?.alt}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                        
-                        {/* Floating Info Panel */}
+                      {/* 3D Card Container */}
+                      <div className="relative h-[400px] perspective-1000">
                         <motion.div 
-                          className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.2 }}
+                          className="relative w-full h-full preserve-3d group-hover:rotateY-12 transition-transform duration-500"
+                          style={{
+                            transformStyle: 'preserve-3d'
+                          }}
                         >
-                          <h3 className="text-xl font-bold text-gray-900 mb-1">{apartment.title}</h3>
-                          <p className="text-gray-600 text-sm mb-3">{apartment.location}</p>
-                          <div className="flex justify-between items-center">
-                            <span className="text-primary font-semibold">{apartment.images.length} Images</span>
-                            <Button size="sm" className="gap-2">
-                              <Eye className="w-4 h-4" />
-                              Explore
-                            </Button>
-                          </div>
-                        </motion.div>
+                          {/* Main Image */}
+                          <div className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden shadow-2xl">
+                            <img
+                              src={property.property_images[0]}
+                              alt={property.title}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                            
+                            {/* Floating Info Panel */}
+                            <motion.div 
+                              className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.2 }}
+                            >
+                              <h3 className="text-xl font-bold text-gray-900 mb-1 line-clamp-1">{property.title}</h3>
+                              <p className="text-gray-600 text-sm mb-3 line-clamp-1">{property.location}</p>
+                              <div className="flex justify-between items-center">
+                                <span className="text-primary font-semibold">{property.property_images.length} Images</span>
+                                <Button size="sm" className="gap-2">
+                                  <Eye className="w-4 h-4" />
+                                  Explore
+                                </Button>
+                              </div>
+                            </motion.div>
 
-                        {/* 3D Shadow Effect */}
-                        <div className="absolute inset-0 rounded-2xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] pointer-events-none" />
+                            {/* 3D Shadow Effect */}
+                            <div className="absolute inset-0 rounded-2xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] pointer-events-none" />
+                          </div>
+                          
+                          {/* Side Panel Effect */}
+                          <div className="absolute inset-0 bg-primary/20 rounded-2xl transform translateZ-[-20px] rotateY-[15deg] opacity-60" />
+                        </motion.div>
                       </div>
-                      
-                      {/* Side Panel Effect */}
-                      <div className="absolute inset-0 bg-primary/20 rounded-2xl transform translateZ-[-20px] rotateY-[15deg] opacity-60" />
                     </motion.div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                  ))}
+                </div>
+              </>
+            )}
             
             {/* Call to Action */}
             <div className="text-center mt-16">
@@ -214,7 +221,7 @@ const PropertyGallery = () => {
 
         {/* Full Screen Image Modal */}
         <AnimatePresence>
-          {selectedApartment !== null && selectedApartmentData && (
+          {selectedApartment !== null && selectedPropertyData && (
             <motion.div
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
               initial={{ opacity: 0 }}
@@ -226,8 +233,8 @@ const PropertyGallery = () => {
                 {/* Header */}
                 <div className="absolute top-4 left-4 right-4 z-10 flex justify-between items-center">
                   <div className="text-white">
-                    <h2 className="text-2xl font-bold">{selectedApartmentData.title}</h2>
-                    <p className="text-white/80">{selectedApartmentData.location}</p>
+                    <h2 className="text-2xl font-bold">{selectedPropertyData.title}</h2>
+                    <p className="text-white/80">{selectedPropertyData.location}</p>
                   </div>
                   <Button
                     variant="ghost"
@@ -246,8 +253,8 @@ const PropertyGallery = () => {
                 <div className="relative w-full h-full flex items-center justify-center">
                   <motion.img
                     key={currentImageIndex}
-                    src={selectedApartmentData.images[currentImageIndex]?.src}
-                    alt={selectedApartmentData.images[currentImageIndex]?.alt}
+                    src={selectedPropertyData.property_images[currentImageIndex]}
+                    alt={selectedPropertyData.title}
                     className="max-w-full max-h-full object-contain rounded-lg"
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -256,7 +263,7 @@ const PropertyGallery = () => {
                   />
 
                   {/* Navigation Arrows */}
-                  {selectedApartmentData.images.length > 1 && (
+                  {selectedPropertyData.property_images.length > 1 && (
                     <>
                       <Button
                         variant="ghost"
@@ -265,7 +272,7 @@ const PropertyGallery = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           setCurrentImageIndex(prev => 
-                            prev === 0 ? selectedApartmentData.images.length - 1 : prev - 1
+                            prev === 0 ? selectedPropertyData.property_images.length - 1 : prev - 1
                           );
                         }}
                       >
@@ -278,7 +285,7 @@ const PropertyGallery = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           setCurrentImageIndex(prev => 
-                            prev === selectedApartmentData.images.length - 1 ? 0 : prev + 1
+                            prev === selectedPropertyData.property_images.length - 1 ? 0 : prev + 1
                           );
                         }}
                       >
@@ -290,16 +297,16 @@ const PropertyGallery = () => {
 
                 {/* Image Counter */}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full">
-                  {currentImageIndex + 1} / {selectedApartmentData.images.length}
+                  {currentImageIndex + 1} / {selectedPropertyData.property_images.length}
                 </div>
 
                 {/* Thumbnail Strip */}
-                {selectedApartmentData.images.length > 1 && (
-                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-2">
-                    {selectedApartmentData.images.map((image, index) => (
+                {selectedPropertyData.property_images.length > 1 && (
+                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-2 max-w-full overflow-x-auto scrollbar-hide px-4">
+                    {selectedPropertyData.property_images.map((image, index) => (
                       <button
                         key={index}
-                        className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                        className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
                           index === currentImageIndex ? 'border-primary scale-110' : 'border-white/30 hover:border-white/60'
                         }`}
                         onClick={(e) => {
@@ -308,8 +315,8 @@ const PropertyGallery = () => {
                         }}
                       >
                         <img
-                          src={image.src}
-                          alt={image.alt}
+                          src={image}
+                          alt={`${selectedPropertyData.title} - Image ${index + 1}`}
                           className="w-full h-full object-cover"
                         />
                       </button>
