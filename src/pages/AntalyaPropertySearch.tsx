@@ -10,25 +10,21 @@ import { useProperties } from '@/hooks/useProperties';
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 const AntalyaPropertySearch = () => {
-  const { canonicalUrl, hreflangUrls } = useSEOLanguage();
-  
+  const {
+    canonicalUrl,
+    hreflangUrls
+  } = useSEOLanguage();
+
   // Router hooks - these should be called unconditionally
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { properties: allProperties, loading } = useProperties();
-  
+  const {
+    properties: allProperties,
+    loading
+  } = useProperties();
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',
     bedrooms: '',
@@ -58,7 +54,7 @@ const AntalyaPropertySearch = () => {
       minSquareFeet: searchParams.get('areaMin') || searchParams.get('minSquareFeet') || '',
       maxSquareFeet: searchParams.get('areaMax') || searchParams.get('maxSquareFeet') || '',
       facilities: searchParams.get('facilities')?.split(',').filter(Boolean) || [],
-      sortBy: (searchParams.get('sortBy') as any) || 'ref',
+      sortBy: searchParams.get('sortBy') as any || 'ref',
       referenceNo: searchParams.get('referenceNumber') || searchParams.get('referenceNo') || ''
     };
 
@@ -71,72 +67,66 @@ const AntalyaPropertySearch = () => {
         }
       });
     }
-
     setFilters(urlFilters);
-    
+
     // Always show all properties by default (don't auto-apply filters)
     setShowFiltered(false);
   }, [searchParams, location.state]);
 
   // Filter properties by location (Antalya) and active status from database and map to expected format
   const antalyaProperties = useMemo(() => {
-    const filteredProperties = allProperties
-      .filter(property => 
-        property.location?.toLowerCase().includes('antalya') && 
-        (property as any).is_active === true &&
-        !property.status?.toLowerCase().includes('sold')
-      );
+    const filteredProperties = allProperties.filter(property => property.location?.toLowerCase().includes('antalya') && (property as any).is_active === true && !property.status?.toLowerCase().includes('sold'));
 
     // Deduplicate by ref_no, keeping the most recent one (last in array)
     const uniqueProperties = filteredProperties.reduce((acc, property) => {
       acc[property.ref_no || property.id] = property;
       return acc;
     }, {} as Record<string, any>);
+    return Object.values(uniqueProperties).map((property, index) => ({
+      id: parseInt(property.ref_no || index.toString()),
+      // Use ref_no as numeric ID, fallback to index
+      refNo: property.ref_no,
+      title: property.title,
+      location: property.location,
+      price: property.price,
+      bedrooms: property.bedrooms || '',
+      bathrooms: property.bathrooms || '',
+      area: property.sizes_m2 || '',
+      status: (() => {
+        // Handle property status - use original status from database  
+        let status = property.status || 'available';
 
-    return Object.values(uniqueProperties)
-      .map((property, index) => ({
-        id: parseInt(property.ref_no || index.toString()), // Use ref_no as numeric ID, fallback to index
-        refNo: property.ref_no,
-        title: property.title,
-        location: property.location,
-        price: property.price,
-        bedrooms: property.bedrooms || '',
-        bathrooms: property.bathrooms || '',
-        area: property.sizes_m2 || '',
-        status: (() => {
-          // Handle property status - use original status from database  
-          let status = property.status || 'available';
-          
-          // Handle compound statuses (multiple statuses separated by commas)
-          if (status.includes(',')) {
-            // If multiple statuses, prioritize certain ones
-            if (status.toLowerCase().includes('sold')) {
-              return 'sold';
-            } else if (status.toLowerCase().includes('under construction')) {
-              return 'Under Construction';
-            } else if (status.toLowerCase().includes('ready to move')) {
-              return 'Ready To Move';
-            } else if (status.toLowerCase().includes('for residence permit')) {
-              return 'For Residence Permit';
-            } else {
-              // Use the first status if no priority match
-              return status.split(',')[0].trim();
-            }
+        // Handle compound statuses (multiple statuses separated by commas)
+        if (status.includes(',')) {
+          // If multiple statuses, prioritize certain ones
+          if (status.toLowerCase().includes('sold')) {
+            return 'sold';
+          } else if (status.toLowerCase().includes('under construction')) {
+            return 'Under Construction';
+          } else if (status.toLowerCase().includes('ready to move')) {
+            return 'Ready To Move';
+          } else if (status.toLowerCase().includes('for residence permit')) {
+            return 'For Residence Permit';
+          } else {
+            // Use the first status if no priority match
+            return status.split(',')[0].trim();
           }
-          return status;
-        })(),
-        image: property.property_image || (property.property_images && property.property_images[0]) || '',
-        coordinates: [0, 0] as [number, number], // Default coordinates
-        features: property.property_facilities || [],
-        // Additional fields for PropertyCard compatibility
-        property_images: property.property_images || [], // Use correct field name
-        description: property.description || '',
-        facilities: property.property_facilities?.join(', ') || '',
-        // Store original UUID for navigation
-        uuid: property.id
-      }));
+        }
+        return status;
+      })(),
+      image: property.property_image || property.property_images && property.property_images[0] || '',
+      coordinates: [0, 0] as [number, number],
+      // Default coordinates
+      features: property.property_facilities || [],
+      // Additional fields for PropertyCard compatibility
+      property_images: property.property_images || [],
+      // Use correct field name
+      description: property.description || '',
+      facilities: property.property_facilities?.join(', ') || '',
+      // Store original UUID for navigation
+      uuid: property.id
+    }));
   }, [allProperties]);
-
   const filteredProperties = useMemo(() => {
     if (showFiltered) {
       return filterProperties(antalyaProperties, filters);
@@ -150,14 +140,13 @@ const AntalyaPropertySearch = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredProperties.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredProperties, currentPage, itemsPerPage]);
-
   const handleFilterChange = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
     // Auto-trigger filtering for sortBy and other filter changes
     setShowFiltered(true);
     // Reset to first page when filters change
     setCurrentPage(1);
-    
+
     // Update URL parameters with current filters
     const params = new URLSearchParams();
     Object.entries(newFilters).forEach(([key, value]) => {
@@ -169,33 +158,24 @@ const AntalyaPropertySearch = () => {
         }
       }
     });
-    
+
     // Update URL without triggering navigation
     const newUrl = `${location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
     window.history.replaceState({}, '', newUrl);
   };
-
   const handleSearch = () => {
     setShowFiltered(true);
     setCurrentPage(1);
   };
-
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, { 
-      state: { from: '/antalya' }
+    navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, {
+      state: {
+        from: '/antalya'
+      }
     });
   };
-
-
-  return (
-    <div className="min-h-screen bg-background">
-      <SEOHead
-        title="Antalya Real Estate - Premium Properties for Sale in Turkey | Future Homes"
-        description="Discover luxury properties in Antalya, Turkey. Beachfront apartments, villas & investment opportunities. Turkish citizenship programs available. Expert guidance from Future Homes Turkey."
-        keywords="Antalya real estate, Turkey property for sale, Antalya apartments, Turkish citizenship by investment, beachfront properties Antalya, luxury villas Turkey, property investment Antalya, overseas property Turkey"
-        canonicalUrl={canonicalUrl}
-        hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))}
-      />
+  return <div className="min-h-screen bg-background">
+      <SEOHead title="Antalya Real Estate - Premium Properties for Sale in Turkey | Future Homes" description="Discover luxury properties in Antalya, Turkey. Beachfront apartments, villas & investment opportunities. Turkish citizenship programs available. Expert guidance from Future Homes Turkey." keywords="Antalya real estate, Turkey property for sale, Antalya apartments, Turkish citizenship by investment, beachfront properties Antalya, luxury villas Turkey, property investment Antalya, overseas property Turkey" canonicalUrl={canonicalUrl} hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))} />
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
@@ -208,9 +188,7 @@ const AntalyaPropertySearch = () => {
             <p className="mb-4">
               Discover exceptional real estate opportunities in Antalya, Turkey's premier Mediterranean coastal city. Our carefully curated collection features luxury apartments, stunning villas, and investment properties perfect for those seeking Turkish citizenship through real estate investment.
             </p>
-            <p className="mb-4">
-              Antalya offers year-round sunshine, pristine beaches, rich cultural heritage, and modern amenities that make it an ideal destination for international property buyers. Whether you're looking for a holiday home, investment property, or permanent residence, our properties meet the $400,000 minimum investment requirement for Turkish citizenship.
-            </p>
+            <p className="mb-4">Antalya offers year-round sunshine, pristine beaches, rich cultural heritage, and modern amenities that make it an ideal destination for international property buyers. Whether you're looking for a holiday home, investment property, or permanent residence we have the property for you.</p>
           </div>
           <p className="text-sm text-muted-foreground mt-4">
             {loading ? 'Loading...' : `${antalyaProperties.length} properties found`}
@@ -221,22 +199,12 @@ const AntalyaPropertySearch = () => {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
           <div className="hidden lg:block lg:w-80 lg:flex-shrink-0">
-            <PropertyFilter 
-              filters={filters}
-              onFilterChange={handleFilterChange}
-              onSearch={handleSearch}
-              horizontal={false}
-            />
+            <PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch} horizontal={false} />
           </div>
 
           {/* Mobile filter toggle - only visible on mobile */}
           <div className="block lg:hidden mb-6">
-            <PropertyFilter 
-              filters={filters}
-              onFilterChange={handleFilterChange}
-              onSearch={handleSearch}
-              horizontal={true}
-            />
+            <PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch} horizontal={true} />
           </div>
 
           {/* Main content area */}
@@ -244,80 +212,72 @@ const AntalyaPropertySearch = () => {
             {/* Mobile Layout: One property per screen */}
             <div className="block md:hidden">
               <div className="space-y-6">
-                {paginatedProperties.map((property, propertyIndex) => (
-                  <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+                {paginatedProperties.map((property, propertyIndex) => <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
                     <div className="w-full max-w-sm mx-auto">
                       <PropertyCard property={property} />
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
               
               {/* Pagination for mobile */}
-              {totalPages > 1 && (
-                <div className="flex justify-center mt-8">
+              {totalPages > 1 && <div className="flex justify-center mt-8">
                   <Pagination>
                     <PaginationContent>
                       <PaginationItem>
-                        <PaginationPrevious 
-                          href="#" 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (currentPage > 1) {
-                              setCurrentPage(currentPage - 1);
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }
-                          }}
-                          className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-                        />
+                        <PaginationPrevious href="#" onClick={e => {
+                      e.preventDefault();
+                      if (currentPage > 1) {
+                        setCurrentPage(currentPage - 1);
+                        window.scrollTo({
+                          top: 0,
+                          behavior: 'smooth'
+                        });
+                      }
+                    }} className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''} />
                       </PaginationItem>
                       
-                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                        let pageNum;
-                        if (totalPages <= 5) {
-                          pageNum = i + 1;
-                        } else if (currentPage <= 3) {
-                          pageNum = i + 1;
-                        } else if (currentPage >= totalPages - 2) {
-                          pageNum = totalPages - 4 + i;
-                        } else {
-                          pageNum = currentPage - 2 + i;
-                        }
-                        
-                        return (
-                          <PaginationItem key={pageNum}>
-                            <PaginationLink
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage(pageNum);
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                              }}
-                              isActive={pageNum === currentPage}
-                            >
+                      {Array.from({
+                    length: Math.min(5, totalPages)
+                  }, (_, i) => {
+                    let pageNum;
+                    if (totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i;
+                    } else {
+                      pageNum = currentPage - 2 + i;
+                    }
+                    return <PaginationItem key={pageNum}>
+                            <PaginationLink href="#" onClick={e => {
+                        e.preventDefault();
+                        setCurrentPage(pageNum);
+                        window.scrollTo({
+                          top: 0,
+                          behavior: 'smooth'
+                        });
+                      }} isActive={pageNum === currentPage}>
                               {pageNum}
                             </PaginationLink>
-                          </PaginationItem>
-                        );
-                      })}
+                          </PaginationItem>;
+                  })}
                       
                       <PaginationItem>
-                        <PaginationNext 
-                          href="#" 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (currentPage < totalPages) {
-                              setCurrentPage(currentPage + 1);
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }
-                          }}
-                          className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-                        />
+                        <PaginationNext href="#" onClick={e => {
+                      e.preventDefault();
+                      if (currentPage < totalPages) {
+                        setCurrentPage(currentPage + 1);
+                        window.scrollTo({
+                          top: 0,
+                          behavior: 'smooth'
+                        });
+                      }
+                    }} className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''} />
                       </PaginationItem>
                     </PaginationContent>
                   </Pagination>
-                </div>
-              )}
+                </div>}
             </div>
 
             {/* Desktop Layout: Grid */}
@@ -333,75 +293,57 @@ const AntalyaPropertySearch = () => {
 
               {/* Properties Grid */}
               <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                {paginatedProperties.map((property, propertyIndex) => (
-                  <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                {paginatedProperties.map((property, propertyIndex) => <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                     <PropertyCard property={property} />
-                  </div>
-                ))}
+                  </div>)}
               </div>
               
               {/* Pagination for desktop */}
-              {totalPages > 1 && (
-                <div className="flex justify-center mt-8">
+              {totalPages > 1 && <div className="flex justify-center mt-8">
                   <Pagination>
                     <PaginationContent>
                       <PaginationItem>
-                        <PaginationPrevious 
-                          href="#" 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (currentPage > 1) setCurrentPage(currentPage - 1);
-                          }}
-                          className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-                        />
+                        <PaginationPrevious href="#" onClick={e => {
+                      e.preventDefault();
+                      if (currentPage > 1) setCurrentPage(currentPage - 1);
+                    }} className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''} />
                       </PaginationItem>
                       
-                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                        let pageNum;
-                        if (totalPages <= 5) {
-                          pageNum = i + 1;
-                        } else if (currentPage <= 3) {
-                          pageNum = i + 1;
-                        } else if (currentPage >= totalPages - 2) {
-                          pageNum = totalPages - 4 + i;
-                        } else {
-                          pageNum = currentPage - 2 + i;
-                        }
-                        
-                        return (
-                          <PaginationItem key={pageNum}>
-                            <PaginationLink
-                              href="#"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                setCurrentPage(pageNum);
-                              }}
-                              isActive={pageNum === currentPage}
-                            >
+                      {Array.from({
+                    length: Math.min(5, totalPages)
+                  }, (_, i) => {
+                    let pageNum;
+                    if (totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i;
+                    } else {
+                      pageNum = currentPage - 2 + i;
+                    }
+                    return <PaginationItem key={pageNum}>
+                            <PaginationLink href="#" onClick={e => {
+                        e.preventDefault();
+                        setCurrentPage(pageNum);
+                      }} isActive={pageNum === currentPage}>
                               {pageNum}
                             </PaginationLink>
-                          </PaginationItem>
-                        );
-                      })}
+                          </PaginationItem>;
+                  })}
                       
                       <PaginationItem>
-                        <PaginationNext 
-                          href="#" 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-                          }}
-                          className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-                        />
+                        <PaginationNext href="#" onClick={e => {
+                      e.preventDefault();
+                      if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                    }} className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''} />
                       </PaginationItem>
                     </PaginationContent>
                   </Pagination>
-                </div>
-              )}
+                </div>}
 
               {/* Empty State */}
-              {filteredProperties.length === 0 && (
-                <div className="text-center py-16">
+              {filteredProperties.length === 0 && <div className="text-center py-16">
                   <div className="max-w-md mx-auto">
                     <Grid className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-foreground mb-2">
@@ -410,30 +352,26 @@ const AntalyaPropertySearch = () => {
                     <p className="text-muted-foreground mb-6">
                       Try adjusting your search criteria to find more properties.
                     </p>
-                    <Button 
-                      onClick={() => {
-                        setFilters({
-                          propertyType: '',
-                          bedrooms: '',
-                          location: 'Antalya',
-                          district: '',
-                          minPrice: '',
-                          maxPrice: '',
-                          minSquareFeet: '',
-                          maxSquareFeet: '',
-                          facilities: [],
-                          sortBy: 'ref',
-                          referenceNo: ''
-                        });
-                        setShowFiltered(false);
-                      }}
-                      variant="outline"
-                    >
+                    <Button onClick={() => {
+                  setFilters({
+                    propertyType: '',
+                    bedrooms: '',
+                    location: 'Antalya',
+                    district: '',
+                    minPrice: '',
+                    maxPrice: '',
+                    minSquareFeet: '',
+                    maxSquareFeet: '',
+                    facilities: [],
+                    sortBy: 'ref',
+                    referenceNo: ''
+                  });
+                  setShowFiltered(false);
+                }} variant="outline">
                       Clear Filters
                     </Button>
                   </div>
-                </div>
-              )}
+                </div>}
             </div>
           </div>
         </div>
@@ -471,8 +409,6 @@ const AntalyaPropertySearch = () => {
 
       {/* ElevenLabs Widget */}
       <ElevenLabsWidget />
-    </div>
-  );
+    </div>;
 };
-
 export default AntalyaPropertySearch;
