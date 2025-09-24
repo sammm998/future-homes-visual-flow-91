@@ -203,13 +203,13 @@ export default function AliKaran() {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button size="lg" asChild>
-                <Link to="/contact">
+                <Link to="/contact-us">
                   <Phone className="w-4 h-4 mr-2" />
                   Schedule Consultation
                 </Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <Link to="/properties">
+                <Link to="/property-gallery">
                   <MapPin className="w-4 h-4 mr-2" />
                   View Properties
                 </Link>
