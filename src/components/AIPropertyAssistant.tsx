@@ -50,6 +50,9 @@ const AIPropertyAssistant = () => {
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [contactInfo, setContactInfo] = useState({ name: "", email: "", phone: "" });
+  const [contactFormShown, setContactFormShown] = useState(false);
   const { toast } = useToast();
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -78,7 +81,16 @@ const AIPropertyAssistant = () => {
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages(prev => {
+      const newMessages = [...prev, userMessage];
+      // Check if this is the 2nd user message and contact form hasn't been shown yet
+      const userMessageCount = newMessages.filter(msg => msg.sender === "user").length;
+      if (userMessageCount >= 2 && !showContactForm && !contactFormShown) {
+        setTimeout(() => setShowContactForm(true), 2000); // Show form after AI response
+        setContactFormShown(true); // Mark that form has been shown
+      }
+      return newMessages;
+    });
     const currentMessage = newMessage;
     setNewMessage("");
     setIsLoading(true);
@@ -147,6 +159,51 @@ const AIPropertyAssistant = () => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
+    }
+  };
+
+  const handleContactSubmit = async () => {
+    if (!contactInfo.name && !contactInfo.email && !contactInfo.phone) {
+      toast({
+        title: "Contact Information Required",
+        description: "Please provide at least your name, email, or phone number.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      // Use edge function to save contact (has proper permissions)
+      const { data, error } = await supabase.functions.invoke('save-contact', {
+        body: {
+          name: contactInfo.name,
+          email: contactInfo.email,
+          phone: contactInfo.phone,
+          conversation_id: conversationId,
+          language: 'en'
+        }
+      });
+
+      if (error) {
+        console.error('Error from save-contact function:', error);
+        throw error;
+      }
+
+      console.log('Contact saved successfully:', data);
+
+      toast({
+        title: "Thank you!",
+        description: "Your contact information has been saved. We'll be in touch soon!",
+      });
+
+      setShowContactForm(false);
+    } catch (error) {
+      console.error('Error saving contact:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save contact information. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -394,6 +451,54 @@ const AIPropertyAssistant = () => {
                   </motion.div>
                 )}
               </div>
+
+              {/* Contact Form */}
+              {showContactForm && (
+                <div className="border-t border-border p-4 bg-gradient-to-r from-secondary/10 to-background">
+                  <div className="space-y-3">
+                    <div className="text-sm font-medium text-center">
+                      We'd like to help you better! Please share your contact information:
+                    </div>
+                    <Input
+                      placeholder="Your name"
+                      value={contactInfo.name}
+                      onChange={(e) => setContactInfo(prev => ({ ...prev, name: e.target.value }))}
+                      className="rounded-xl border-border/50 focus:border-primary text-sm"
+                    />
+                    <Input
+                      placeholder="Email address"
+                      type="email"
+                      value={contactInfo.email}
+                      onChange={(e) => setContactInfo(prev => ({ ...prev, email: e.target.value }))}
+                      className="rounded-xl border-border/50 focus:border-primary text-sm"
+                    />
+                    <Input
+                      placeholder="Phone number"
+                      type="tel"
+                      value={contactInfo.phone}
+                      onChange={(e) => setContactInfo(prev => ({ ...prev, phone: e.target.value }))}
+                      className="rounded-xl border-border/50 focus:border-primary text-sm"
+                    />
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={handleContactSubmit}
+                        className="flex-1 bg-gradient-to-r from-primary to-primary-glow hover:shadow-lg transition-all"
+                        size="sm"
+                      >
+                        Save Contact Info
+                      </Button>
+                      <Button 
+                        onClick={() => setShowContactForm(false)}
+                        variant="outline"
+                        size="sm"
+                        className="rounded-xl"
+                      >
+                        Skip
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Input */}
               <div className="p-4 border-t border-border bg-gradient-to-r from-secondary/20 to-background">
