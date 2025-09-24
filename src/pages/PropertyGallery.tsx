@@ -1,46 +1,67 @@
 import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Eye, Camera, MapPin } from "lucide-react";
+import { ArrowLeft, Eye, Camera, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 const PropertyGallery = () => {
-  const galleryImages = [
+  const [selectedApartment, setSelectedApartment] = useState<number | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const apartments = [
     {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/rl9q4mj1esj.jpg',
-      alt: 'Luxury apartment interior',
-      category: 'Interior',
+      id: 1,
+      title: "Luxury Seaside Apartment",
+      location: "Antalya, Turkey",
+      images: [
+        {
+          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/rl9q4mj1esj.jpg',
+          alt: 'Luxury apartment interior'
+        },
+        {
+          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/3n142jndva3.jpg',
+          alt: 'Modern living room'
+        },
+        {
+          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/bkr7jnjl6tj.jpg',
+          alt: 'Apartment bedroom'
+        }
+      ]
     },
     {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/3n142jndva3.jpg',
-      alt: 'Modern living room',
-      category: 'Living Room',
+      id: 2,
+      title: "Modern City Penthouse",
+      location: "Dubai, UAE",
+      images: [
+        {
+          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/wkf3muk8mf.jpg',
+          alt: 'Kitchen and dining area'
+        },
+        {
+          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ssml6o436x.jpg',
+          alt: 'Balcony with city view'
+        }
+      ]
     },
     {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/bkr7jnjl6tj.jpg',
-      alt: 'Apartment bedroom',
-      category: 'Bedroom',
-    },
-    {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/wkf3muk8mf.jpg',
-      alt: 'Kitchen and dining area',
-      category: 'Kitchen',
-    },
-    {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ssml6o436x.jpg',
-      alt: 'Balcony with city view',
-      category: 'Balcony',
-    },
-    {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/tttyz3px5ue.jpeg',
-      alt: 'Swimming pool area',
-      category: 'Amenities',
-    },
-    {
-      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ani9abmbtg.jpg',
-      alt: 'Building exterior',
-      category: 'Exterior',
-    },
+      id: 3,
+      title: "Premium Resort Residence",
+      location: "Cyprus",
+      images: [
+        {
+          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/tttyz3px5ue.jpeg',
+          alt: 'Swimming pool area'
+        },
+        {
+          src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ani9abmbtg.jpg',
+          alt: 'Building exterior'
+        }
+      ]
+    }
   ];
+
+  const selectedApartmentData = selectedApartment !== null ? apartments.find(apt => apt.id === selectedApartment) : null;
 
   return (
     <>
@@ -104,51 +125,201 @@ const PropertyGallery = () => {
           </div>
         </section>
 
-        {/* Image Gallery */}
+        {/* 3D Apartment Gallery */}
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {galleryImages.map((image, index) => (
-                <div 
-                  key={index} 
-                  className="group relative overflow-hidden rounded-lg aspect-[4/3] bg-muted hover:shadow-xl transition-all duration-300"
+            {/* Apartment Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {apartments.map((apartment) => (
+                <motion.div
+                  key={apartment.id}
+                  className="group relative cursor-pointer"
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  onClick={() => {
+                    setSelectedApartment(apartment.id);
+                    setCurrentImageIndex(0);
+                  }}
                 >
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading={index < 4 ? "eager" : "lazy"}
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300">
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Button variant="secondary" size="sm" className="gap-2">
-                        <Eye className="w-4 h-4" />
-                        View
-                      </Button>
-                    </div>
+                  {/* 3D Card Container */}
+                  <div className="relative h-[400px] perspective-1000">
+                    <motion.div 
+                      className="relative w-full h-full preserve-3d group-hover:rotateY-12 transition-transform duration-500"
+                      style={{
+                        transformStyle: 'preserve-3d'
+                      }}
+                    >
+                      {/* Main Image */}
+                      <div className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden shadow-2xl">
+                        <img
+                          src={apartment.images[0]?.src}
+                          alt={apartment.images[0]?.alt}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                        
+                        {/* Floating Info Panel */}
+                        <motion.div 
+                          className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.2 }}
+                        >
+                          <h3 className="text-xl font-bold text-gray-900 mb-1">{apartment.title}</h3>
+                          <p className="text-gray-600 text-sm mb-3">{apartment.location}</p>
+                          <div className="flex justify-between items-center">
+                            <span className="text-primary font-semibold">{apartment.images.length} Images</span>
+                            <Button size="sm" className="gap-2">
+                              <Eye className="w-4 h-4" />
+                              Explore
+                            </Button>
+                          </div>
+                        </motion.div>
+
+                        {/* 3D Shadow Effect */}
+                        <div className="absolute inset-0 rounded-2xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] pointer-events-none" />
+                      </div>
+                      
+                      {/* Side Panel Effect */}
+                      <div className="absolute inset-0 bg-primary/20 rounded-2xl transform translateZ-[-20px] rotateY-[15deg] opacity-60" />
+                    </motion.div>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
-                    <span className="text-white text-sm font-medium">{image.category}</span>
-                  </div>
-                </div>
+                </motion.div>
               ))}
             </div>
             
-            <div className="text-center mt-12 flex flex-wrap justify-center gap-4">
-              <Button asChild className="gap-2">
-                <Link to="/contact-us">
-                  <MapPin className="w-4 h-4" />
-                  Schedule Consultation
-                </Link>
-              </Button>
-              <Button variant="outline" asChild className="gap-2">
-                <Link to="/about-us">
-                  Read more about us
-                </Link>
-              </Button>
+            {/* Call to Action */}
+            <div className="text-center mt-16">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="flex flex-wrap justify-center gap-6"
+              >
+                <Button asChild size="lg" className="gap-2 bg-gradient-to-r from-primary to-blue-600 hover:shadow-lg transform hover:scale-105 transition-all">
+                  <Link to="/contact-us">
+                    <MapPin className="w-5 h-5" />
+                    Schedule Consultation
+                  </Link>
+                </Button>
+                <Button variant="outline" size="lg" asChild className="gap-2 hover:shadow-lg transform hover:scale-105 transition-all">
+                  <Link to="/about-us">
+                    Read more about us
+                  </Link>
+                </Button>
+              </motion.div>
             </div>
           </div>
         </section>
+
+        {/* Full Screen Image Modal */}
+        <AnimatePresence>
+          {selectedApartment !== null && selectedApartmentData && (
+            <motion.div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedApartment(null)}
+            >
+              <div className="relative w-full h-full max-w-6xl max-h-screen p-4">
+                {/* Header */}
+                <div className="absolute top-4 left-4 right-4 z-10 flex justify-between items-center">
+                  <div className="text-white">
+                    <h2 className="text-2xl font-bold">{selectedApartmentData.title}</h2>
+                    <p className="text-white/80">{selectedApartmentData.location}</p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-white/20"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedApartment(null);
+                    }}
+                  >
+                    <X className="w-6 h-6" />
+                  </Button>
+                </div>
+
+                {/* Main Image */}
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <motion.img
+                    key={currentImageIndex}
+                    src={selectedApartmentData.images[currentImageIndex]?.src}
+                    alt={selectedApartmentData.images[currentImageIndex]?.alt}
+                    className="max-w-full max-h-full object-contain rounded-lg"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+
+                  {/* Navigation Arrows */}
+                  {selectedApartmentData.images.length > 1 && (
+                    <>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentImageIndex(prev => 
+                            prev === 0 ? selectedApartmentData.images.length - 1 : prev - 1
+                          );
+                        }}
+                      >
+                        <ChevronLeft className="w-6 h-6" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentImageIndex(prev => 
+                            prev === selectedApartmentData.images.length - 1 ? 0 : prev + 1
+                          );
+                        }}
+                      >
+                        <ChevronRight className="w-6 h-6" />
+                      </Button>
+                    </>
+                  )}
+                </div>
+
+                {/* Image Counter */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full">
+                  {currentImageIndex + 1} / {selectedApartmentData.images.length}
+                </div>
+
+                {/* Thumbnail Strip */}
+                {selectedApartmentData.images.length > 1 && (
+                  <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-2">
+                    {selectedApartmentData.images.map((image, index) => (
+                      <button
+                        key={index}
+                        className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                          index === currentImageIndex ? 'border-primary scale-110' : 'border-white/30 hover:border-white/60'
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentImageIndex(index);
+                        }}
+                      >
+                        <img
+                          src={image.src}
+                          alt={image.alt}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
