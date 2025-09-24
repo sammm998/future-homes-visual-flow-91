@@ -22,8 +22,18 @@ const PropertyGallery = () => {
 
   // Function to prioritize exterior images
   const prioritizeExteriorImages = (images: string[]) => {
-    const exteriorKeywords = ['exterior', 'outside', 'facade', 'building', 'view', 'balcony', 'terrace'];
-    const interiorKeywords = ['interior', 'inside', 'room', 'kitchen', 'bathroom', 'bedroom', 'living', 'sketch', 'plan', 'floor'];
+    const exteriorKeywords = [
+      'exterior', 'outside', 'facade', 'building', 'view', 'balcony', 'terrace', 
+      'outdoor', 'front', 'entrance', 'garden', 'pool', 'villa', 'apartment_building',
+      'complex', 'development', 'residence', 'tower', 'block', 'street', 'panoramic'
+    ];
+    
+    const interiorKeywords = [
+      'interior', 'inside', 'room', 'kitchen', 'bathroom', 'bedroom', 'living', 
+      'sketch', 'plan', 'floor', 'layout', 'blueprint', 'drawing', 'diagram',
+      'floorplan', 'indoor', 'salon', 'wc', 'yatak', 'mutfak', 'banyo', 'oda',
+      'ic', 'plan_', 'cizim', 'proje'
+    ];
     
     return images.sort((a, b) => {
       const aLower = a.toLowerCase();
@@ -37,14 +47,15 @@ const PropertyGallery = () => {
       const aIsExterior = exteriorKeywords.some(keyword => aLower.includes(keyword));
       const bIsExterior = exteriorKeywords.some(keyword => bLower.includes(keyword));
       
-      // Prioritize exterior images
+      // Strongly prioritize exterior images
       if (aIsExterior && !bIsExterior) return -1;
       if (!aIsExterior && bIsExterior) return 1;
       
-      // Deprioritize interior/sketch images
+      // Strongly deprioritize interior/sketch images
       if (aIsInterior && !bIsInterior) return 1;
       if (!aIsInterior && bIsInterior) return -1;
       
+      // If neither has clear indicators, assume first images in array are more likely to be exterior
       return 0;
     });
   };
