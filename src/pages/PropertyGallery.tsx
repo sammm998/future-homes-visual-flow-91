@@ -25,33 +25,47 @@ const PropertyGallery = () => {
     const exteriorKeywords = [
       'exterior', 'outside', 'facade', 'building', 'view', 'balcony', 'terrace', 
       'outdoor', 'front', 'entrance', 'garden', 'pool', 'villa', 'apartment_building',
-      'complex', 'development', 'residence', 'tower', 'block', 'street', 'panoramic'
+      'complex', 'development', 'residence', 'tower', 'block', 'street', 'panoramic',
+      'swimming', 'landscape', 'courtyard', 'plaza', 'walkway', 'palm', 'tree'
+    ];
+    
+    const sketchPlanKeywords = [
+      'sketch', 'plan', 'floor', 'layout', 'blueprint', 'drawing', 'diagram',
+      'floorplan', 'plan_', 'cizim', 'proje', 'technical', 'architectural',
+      'dimensions', 'measurement', 'scale', 'draft', 'scheme', 'design_plan',
+      'floor_plan', 'layout_plan', 'apartment_plan', 'unit_plan'
     ];
     
     const interiorKeywords = [
       'interior', 'inside', 'room', 'kitchen', 'bathroom', 'bedroom', 'living', 
-      'sketch', 'plan', 'floor', 'layout', 'blueprint', 'drawing', 'diagram',
-      'floorplan', 'indoor', 'salon', 'wc', 'yatak', 'mutfak', 'banyo', 'oda',
-      'ic', 'plan_', 'cizim', 'proje'
+      'indoor', 'salon', 'wc', 'yatak', 'mutfak', 'banyo', 'oda', 'ic'
     ];
     
     return images.sort((a, b) => {
       const aLower = a.toLowerCase();
       const bLower = b.toLowerCase();
       
-      // Check if image contains interior/sketch keywords (should go last)
+      // Heavily penalize sketches, plans, and technical drawings
+      const aIsSketch = sketchPlanKeywords.some(keyword => aLower.includes(keyword));
+      const bIsSketch = sketchPlanKeywords.some(keyword => bLower.includes(keyword));
+      
+      // Check if image contains interior keywords
       const aIsInterior = interiorKeywords.some(keyword => aLower.includes(keyword));
       const bIsInterior = interiorKeywords.some(keyword => bLower.includes(keyword));
       
-      // Check if image contains exterior keywords (should go first)
+      // Check if image contains exterior keywords
       const aIsExterior = exteriorKeywords.some(keyword => aLower.includes(keyword));
       const bIsExterior = exteriorKeywords.some(keyword => bLower.includes(keyword));
+      
+      // Heavily deprioritize sketches and plans (send to end)
+      if (aIsSketch && !bIsSketch) return 1;
+      if (!aIsSketch && bIsSketch) return -1;
       
       // Strongly prioritize exterior images
       if (aIsExterior && !bIsExterior) return -1;
       if (!aIsExterior && bIsExterior) return 1;
       
-      // Strongly deprioritize interior/sketch images
+      // Deprioritize interior images
       if (aIsInterior && !bIsInterior) return 1;
       if (!aIsInterior && bIsInterior) return -1;
       
