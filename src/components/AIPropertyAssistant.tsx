@@ -42,7 +42,7 @@ const AIPropertyAssistant = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hej! Jag är din AI-assistent för fastigheter. Jag kan hjälpa dig hitta den perfekta lägenheten baserat på dina önskemål. Vad letar du efter?",
+      text: "Hello! I'm your AI property assistant. I can help you find the perfect apartment based on your preferences. What are you looking for?",
       sender: "ai",
       timestamp: new Date(),
     },
@@ -95,7 +95,7 @@ const AIPropertyAssistant = () => {
           message: currentMessage,
           conversationHistory: conversationHistory,
           conversationId: conversationId,
-          language: 'sv' // Default to Swedish for property assistant
+          language: 'en' // Default to English for property assistant
         }
       });
 
@@ -110,7 +110,7 @@ const AIPropertyAssistant = () => {
       }
 
       // Remove markdown characters from the response
-      const cleanResponse = (data.response || "Jag kunde inte behandla din förfrågan. Försök igen.").replace(/[*#]/g, '');
+      const cleanResponse = (data.response || "I couldn't process your request. Please try again.").replace(/[*#]/g, '');
       
       const aiMessage: Message = {
         id: messages.length + 2,
@@ -126,7 +126,7 @@ const AIPropertyAssistant = () => {
       
       const errorMessage: Message = {
         id: messages.length + 2,
-        text: "Jag har problem med anslutningen just nu. Försök igen om en stund.",
+        text: "I'm having connection issues right now. Please try again in a moment.",
         sender: "ai",
         timestamp: new Date(),
       };
@@ -134,8 +134,8 @@ const AIPropertyAssistant = () => {
       setMessages(prev => [...prev, errorMessage]);
       
       toast({
-        title: "Anslutningsfel",
-        description: "Kunde inte ansluta till AI-assistenten. Försök igen.",
+        title: "Connection Error",
+        description: "Unable to connect to AI assistant. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -151,10 +151,10 @@ const AIPropertyAssistant = () => {
   };
 
   const quickSuggestions = [
-    "Visa mig lägenheter i Istanbul under €200,000",
-    "Jag letar efter en 2-rums lägenhet nära havet",
-    "Vilka områden rekommenderar ni för investering?",
-    "Visa fastigheter som ger turkiskt medborgarskap"
+    "Show me apartments in Istanbul under €200,000",
+    "I'm looking for a 2-bedroom apartment near the sea",
+    "Which areas do you recommend for investment?",
+    "Show properties that offer Turkish citizenship"
   ];
 
   return (
@@ -176,26 +176,26 @@ const AIPropertyAssistant = () => {
         >
           <div className="inline-flex items-center gap-3 bg-primary/10 rounded-full px-6 py-3 mb-6">
             <Bot className="w-5 h-5 text-primary" />
-            <span className="text-primary font-medium">AI Fastighetsassistent</span>
+            <span className="text-primary font-medium">AI Property Assistant</span>
           </div>
           
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="bg-gradient-to-r from-foreground via-primary to-primary-glow bg-clip-text text-transparent">
-              Hitta Din Drömfastighet
+              Find Your Dream Property
             </span>
           </h2>
           
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Vår AI-assistent känner till alla våra 180+ fastigheter i detalj. Få personlig vägledning 
-            för att hitta den perfekta investeringen baserat på dina önskemål och budget.
+            Our AI assistant knows all our 180+ properties in detail. Get personalized guidance 
+            to find the perfect investment based on your preferences and budget.
           </p>
 
           {/* 3D Floating Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
             {[
-              { icon: Home, title: "180+ Fastigheter", desc: "Tillgång till hela databasen" },
-              { icon: MapPin, title: "Alla Destinationer", desc: "Turkiet, Dubai, Cypern, Bali" },
-              { icon: Users, title: "24/7 Support", desc: "Omedelbar AI-assistans" }
+              { icon: Home, title: "180+ Properties", desc: "Access to entire database" },
+              { icon: MapPin, title: "All Destinations", desc: "Turkey, Dubai, Cyprus, Bali" },
+              { icon: Users, title: "24/7 Support", desc: "Instant AI assistance" }
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -237,7 +237,7 @@ const AIPropertyAssistant = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative flex items-center gap-3">
                 <Sparkles className="w-5 h-5" />
-                <span>Starta Konversation med AI</span>
+                <span>Start Conversation with AI</span>
                 <MessageCircle className="w-5 h-5" />
               </div>
             </Button>
@@ -253,7 +253,7 @@ const AIPropertyAssistant = () => {
           className="max-w-4xl mx-auto"
         >
           <h3 className="text-center text-lg font-medium mb-6 text-muted-foreground">
-            Populära frågor att ställa:
+            Popular questions to ask:
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {quickSuggestions.map((suggestion, index) => (
@@ -294,33 +294,33 @@ const AIPropertyAssistant = () => {
               onClick={() => setIsOpen(false)}
             />
             
-            {/* Chat Container */}
+            {/* Chat Container - Popup Style */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 50 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 50 }}
+              initial={{ opacity: 0, scale: 0.8, x: 50, y: 50 }}
+              animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, x: 50, y: 50 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-2xl h-[80vh] bg-background border border-border rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden"
+              className="fixed bottom-6 right-6 w-96 h-[600px] bg-background border border-border rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-border bg-gradient-to-r from-primary/5 to-primary-glow/5">
+              <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-primary/5 to-primary-glow/5">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <img src={aiAvatar} alt="AI Assistant" className="w-10 h-10 rounded-full" />
-                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-background rounded-full" />
+                    <img src={aiAvatar} alt="AI Assistant" className="w-8 h-8 rounded-full" />
+                    <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-background rounded-full" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg">AI Fastighetsassistent</h3>
-                    <p className="text-sm text-muted-foreground">Online • Specialiserad på fastigheter</p>
+                    <h3 className="font-semibold text-base">AI Property Assistant</h3>
+                    <p className="text-xs text-muted-foreground">Online • Specialized in properties</p>
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
-                  <X className="w-5 h-5" />
+                <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="h-8 w-8">
+                  <X className="w-4 h-4" />
                 </Button>
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-4" ref={chatContainerRef}>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3" ref={chatContainerRef}>
                 {messages.map((message) => (
                   <motion.div
                     key={message.id}
@@ -331,10 +331,10 @@ const AIPropertyAssistant = () => {
                     <img 
                       src={message.sender === "user" ? userAvatar : aiAvatar}
                       alt={message.sender}
-                      className="w-8 h-8 rounded-full flex-shrink-0"
+                      className="w-6 h-6 rounded-full flex-shrink-0"
                     />
-                    <div className={`max-w-[75%] ${message.sender === "user" ? "items-end" : ""}`}>
-                      <div className={`rounded-2xl px-4 py-3 ${
+                    <div className={`max-w-[80%] ${message.sender === "user" ? "items-end" : ""}`}>
+                      <div className={`rounded-2xl px-3 py-2 text-sm ${
                         message.sender === "user" 
                           ? "bg-gradient-to-r from-primary to-primary-glow text-white" 
                           : "bg-muted"
@@ -367,8 +367,8 @@ const AIPropertyAssistant = () => {
                         </div>
                       )}
                       
-                      <div className="text-xs text-muted-foreground mt-2">
-                        {message.timestamp.toLocaleTimeString("sv-SE", { 
+                      <div className="text-xs text-muted-foreground mt-1">
+                        {message.timestamp.toLocaleTimeString("en-US", { 
                           hour: "2-digit", 
                           minute: "2-digit" 
                         })}
@@ -383,7 +383,7 @@ const AIPropertyAssistant = () => {
                     animate={{ opacity: 1 }}
                     className="flex gap-3"
                   >
-                    <img src={aiAvatar} alt="AI" className="w-8 h-8 rounded-full" />
+                    <img src={aiAvatar} alt="AI" className="w-6 h-6 rounded-full" />
                     <div className="bg-muted rounded-2xl px-4 py-3">
                       <div className="flex space-x-1">
                         <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
@@ -396,24 +396,24 @@ const AIPropertyAssistant = () => {
               </div>
 
               {/* Input */}
-              <div className="p-6 border-t border-border bg-gradient-to-r from-secondary/20 to-background">
-                <div className="flex items-center gap-3">
+              <div className="p-4 border-t border-border bg-gradient-to-r from-secondary/20 to-background">
+                <div className="flex items-center gap-2">
                   <Input
                     ref={inputRef}
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Skriv ditt meddelande här..."
-                    className="flex-1 rounded-2xl border-border/50 focus:border-primary"
+                    placeholder="Type your message here..."
+                    className="flex-1 rounded-xl border-border/50 focus:border-primary text-sm"
                     disabled={isLoading}
                   />
                   <Button 
                     onClick={handleSendMessage}
                     disabled={!newMessage.trim() || isLoading}
                     size="icon"
-                    className="h-12 w-12 rounded-full bg-gradient-to-r from-primary to-primary-glow hover:shadow-lg transition-all"
+                    className="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-primary-glow hover:shadow-lg transition-all"
                   >
-                    <Send className="w-5 h-5" />
+                    <Send className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
