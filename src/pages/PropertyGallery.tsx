@@ -134,11 +134,16 @@ const PropertyGallery = () => {
               ))}
             </div>
             
-            <div className="text-center mt-12">
+            <div className="text-center mt-12 flex flex-wrap justify-center gap-4">
               <Button asChild className="gap-2">
-                <Link to="/contact">
+                <Link to="/contact-us">
                   <MapPin className="w-4 h-4" />
-                  Schedule Property Visit
+                  Schedule Consultation
+                </Link>
+              </Button>
+              <Button variant="outline" asChild className="gap-2">
+                <Link to="/about-us">
+                  Read more about us
                 </Link>
               </Button>
             </div>

@@ -38,6 +38,20 @@ const SEOHead: React.FC<SEOHeadProps> = ({
 
   return (
     <Helmet>
+      {/* Google Analytics */}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BVKH3BBPG0"></script>
+      <script>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BVKH3BBPG0');
+        `}
+      </script>
+      
+      {/* Google Search Console Verification */}
+      <meta name="google-site-verification" content="tX9miiJWQEEYeB5sWZ8ZeSrcL_RViXlqe_l9fxM7UfQ" />
+      
       {/* Primary Meta Tags */}
       <title>{title}</title>
       <meta name="title" content={title} />
