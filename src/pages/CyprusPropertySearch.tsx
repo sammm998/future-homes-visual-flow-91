@@ -154,6 +154,22 @@ const CyprusPropertySearch = () => {
     
     // Auto-trigger filtering when filters are applied
     setShowFiltered(hasFilters);
+    
+    // Update URL parameters with current filters
+    const params = new URLSearchParams();
+    Object.entries(newFilters).forEach(([key, value]) => {
+      if (value && value !== '' && key !== 'location') {
+        if (Array.isArray(value) && value.length > 0) {
+          params.set(key, value.join(','));
+        } else if (typeof value === 'string' && value !== '') {
+          params.set(key, value);
+        }
+      }
+    });
+    
+    // Update URL without triggering navigation
+    const newUrl = `${location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    window.history.replaceState({}, '', newUrl);
   };
 
   const handleSearch = () => {
@@ -190,12 +206,20 @@ const CyprusPropertySearch = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+        {/* SEO Intro Content */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-4">
             Properties In Cyprus
           </h1>
-          <p className="text-muted-foreground">
+          <div className="prose max-w-none text-muted-foreground">
+            <p className="mb-4">
+              Discover exceptional Cyprus real estate opportunities offering EU citizenship and residence benefits. Our premium collection features luxury villas, modern apartments, and investment properties in Cyprus's most desirable locations, providing direct access to European Union citizenship through property investment.
+            </p>
+            <p className="mb-4">
+              Cyprus offers the fastest EU citizenship program through real estate investment, with properties starting from €300,000. Whether you're seeking beautiful coastal properties in Limassol, luxury developments in Paphos, or investment opportunities in Nicosia, Cyprus combines Mediterranean lifestyle with European Union privileges.
+            </p>
+          </div>
+          <p className="text-sm text-muted-foreground mt-4">
             {properties.length} properties found
           </p>
         </div>
@@ -426,6 +450,36 @@ const CyprusPropertySearch = () => {
                )}
         </div>
           </div>
+        </div>
+      </div>
+
+      {/* SEO Concluding Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="prose max-w-none">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Why Choose Cyprus for EU Property Investment?</h2>
+          <div className="grid md:grid-cols-2 gap-6 text-muted-foreground">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">EU Citizenship Benefits</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• EU citizenship in 6-8 months through investment</li>
+                <li>• Visa-free travel to 174+ countries</li>
+                <li>• Access to all EU member states for living and working</li>
+                <li>• Favorable tax environment with 12.5% corporate tax</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Investment Advantages</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• Stable Mediterranean climate year-round</li>
+                <li>• Strong rental yields and property appreciation</li>
+                <li>• English-speaking business environment</li>
+                <li>• Strategic location between Europe, Asia, and Africa</li>
+              </ul>
+            </div>
+          </div>
+          <p className="mt-6 text-sm">
+            Our Cyprus investment specialists provide comprehensive support from property selection to citizenship application. Explore Cyprus properties and secure your European future today.
+          </p>
         </div>
       </div>
 

@@ -57,15 +57,22 @@ const DubaiPropertySearch = () => {
 
   // Load filters from URL on component mount
   useEffect(() => {
-    const locationParam = searchParams.get('location');
-    console.log('🔍 URL location param:', locationParam);
-    
-    if (locationParam && locationParam !== filters.location) {
-      setFilters(prev => ({
-        ...prev,
-        location: locationParam
-      }));
-    }
+    const urlFilters: PropertyFilters = {
+      propertyType: searchParams.get('propertyType') || '',
+      bedrooms: searchParams.get('bedrooms') || '',
+      location: 'Dubai',
+      district: searchParams.get('district') || '',
+      minPrice: searchParams.get('priceMin') || searchParams.get('minPrice') || '',
+      maxPrice: searchParams.get('priceMax') || searchParams.get('maxPrice') || '',
+      minSquareFeet: searchParams.get('areaMin') || searchParams.get('minSquareFeet') || '',
+      maxSquareFeet: searchParams.get('areaMax') || searchParams.get('maxSquareFeet') || '',
+      facilities: searchParams.get('facilities')?.split(',').filter(Boolean) || [],
+      sortBy: (searchParams.get('sortBy') as any) || 'ref',
+      referenceNo: searchParams.get('referenceNumber') || searchParams.get('referenceNo') || ''
+    };
+
+    setFilters(urlFilters);
+    setShowFiltered(false);
   }, [searchParams]);
 
   // Filter and transform properties for Dubai
@@ -174,6 +181,22 @@ const DubaiPropertySearch = () => {
     setFilters(newFilters);
     // Auto-trigger filtering for sortBy and other filter changes
     setShowFiltered(true);
+    
+    // Update URL parameters with current filters
+    const params = new URLSearchParams();
+    Object.entries(newFilters).forEach(([key, value]) => {
+      if (value && value !== '' && key !== 'location') {
+        if (Array.isArray(value) && value.length > 0) {
+          params.set(key, value.join(','));
+        } else if (typeof value === 'string' && value !== '') {
+          params.set(key, value);
+        }
+      }
+    });
+    
+    // Update URL without triggering navigation
+    const newUrl = `${location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    window.history.replaceState({}, '', newUrl);
   };
 
   const handleSearch = () => {
@@ -221,12 +244,20 @@ const DubaiPropertySearch = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+        {/* SEO Intro Content */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-4">
             Properties In Dubai
           </h1>
-          <p className="text-muted-foreground">
+          <div className="prose max-w-none text-muted-foreground">
+            <p className="mb-4">
+              Explore Dubai's most prestigious real estate opportunities in the world's fastest-growing luxury property market. Our exclusive collection features premium apartments, penthouses, and villas in Dubai's most sought-after locations, perfect for international investors seeking exceptional returns.
+            </p>
+            <p className="mb-4">
+              Dubai offers a tax-free environment, world-class infrastructure, and golden visa opportunities for property investors. Whether you're looking for a luxury residence in Downtown Dubai, a beachfront property in Dubai Marina, or an investment opportunity in Business Bay, our properties provide access to Dubai's thriving economy and cosmopolitan lifestyle.
+            </p>
+          </div>
+          <p className="text-sm text-muted-foreground mt-4">
             {properties.length} properties found
           </p>
         </div>
@@ -395,6 +426,36 @@ const DubaiPropertySearch = () => {
               )}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* SEO Concluding Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="prose max-w-none">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Why Invest in Dubai Real Estate?</h2>
+          <div className="grid md:grid-cols-2 gap-6 text-muted-foreground">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Investment Advantages</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• No property taxes or capital gains tax</li>
+                <li>• Golden visa eligibility for property investors</li>
+                <li>• High rental yields up to 8-10% annually</li>
+                <li>• Strategic location connecting East and West</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Lifestyle Benefits</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• World-class shopping, dining, and entertainment</li>
+                <li>• Premium healthcare and international education</li>
+                <li>• Year-round sunshine and luxury amenities</li>
+                <li>• Multicultural, English-speaking environment</li>
+              </ul>
+            </div>
+          </div>
+          <p className="mt-6 text-sm">
+            Our Dubai property specialists provide end-to-end support for international buyers, including market analysis, legal assistance, and post-purchase management services. Discover your perfect Dubai investment opportunity today.
+          </p>
         </div>
       </div>
 

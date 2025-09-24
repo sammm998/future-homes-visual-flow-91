@@ -157,6 +157,22 @@ const BaliPropertySearch = () => {
     setShowFiltered(true);
     // Reset to first page when filters change
     setCurrentPage(1);
+    
+    // Update URL parameters with current filters
+    const params = new URLSearchParams();
+    Object.entries(newFilters).forEach(([key, value]) => {
+      if (value && value !== '' && key !== 'location') {
+        if (Array.isArray(value) && value.length > 0) {
+          params.set(key, value.join(','));
+        } else if (typeof value === 'string' && value !== '') {
+          params.set(key, value);
+        }
+      }
+    });
+    
+    // Update URL without triggering navigation
+    const newUrl = `${location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    window.history.replaceState({}, '', newUrl);
   };
 
   const handleSearch = () => {
@@ -183,12 +199,20 @@ const BaliPropertySearch = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+        {/* SEO Intro Content */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-4">
             Properties In Bali
           </h1>
-          <p className="text-muted-foreground">
+          <div className="prose max-w-none text-muted-foreground">
+            <p className="mb-4">
+              Discover Bali's most coveted real estate opportunities in Indonesia's tropical paradise. Our exclusive portfolio features luxury villas, modern apartments, and prime investment properties in Bali's most desirable areas including Seminyak, Canggu, Ubud, and Sanur.
+            </p>
+            <p className="mb-4">
+              Bali offers exceptional lifestyle benefits combined with strong investment potential, featuring year-round tropical climate, vibrant culture, and growing tourism industry. Whether you're seeking a luxury vacation home, rental investment property, or permanent tropical residence, our properties provide access to Bali's unique Island of the Gods experience.
+            </p>
+          </div>
+          <p className="text-sm text-muted-foreground mt-4">
             {loading ? 'Loading...' : `${baliProperties.length} properties found`}
           </p>
         </div>
@@ -412,6 +436,36 @@ const BaliPropertySearch = () => {
               )}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* SEO Concluding Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="prose max-w-none">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Why Invest in Bali Real Estate?</h2>
+          <div className="grid md:grid-cols-2 gap-6 text-muted-foreground">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Investment Benefits</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• High rental yields from tourism demand</li>
+                <li>• Growing international expat community</li>
+                <li>• Relatively affordable luxury property prices</li>
+                <li>• Strong capital appreciation potential</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Lifestyle Advantages</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• Year-round tropical climate</li>
+                <li>• Rich Hindu culture and spiritual atmosphere</li>
+                <li>• World-class surf beaches and rice terraces</li>
+                <li>• Low cost of living and vibrant expat community</li>
+              </ul>
+            </div>
+          </div>
+          <p className="mt-6 text-sm">
+            Our Bali property experts provide comprehensive support for international buyers, including legal guidance, property management, and investment strategy. Experience tropical paradise living with strong investment returns.
+          </p>
         </div>
       </div>
 

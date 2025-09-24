@@ -157,6 +157,22 @@ const AntalyaPropertySearch = () => {
     setShowFiltered(true);
     // Reset to first page when filters change
     setCurrentPage(1);
+    
+    // Update URL parameters with current filters
+    const params = new URLSearchParams();
+    Object.entries(newFilters).forEach(([key, value]) => {
+      if (value && value !== '' && key !== 'location') {
+        if (Array.isArray(value) && value.length > 0) {
+          params.set(key, value.join(','));
+        } else if (typeof value === 'string' && value !== '') {
+          params.set(key, value);
+        }
+      }
+    });
+    
+    // Update URL without triggering navigation
+    const newUrl = `${location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    window.history.replaceState({}, '', newUrl);
   };
 
   const handleSearch = () => {
@@ -183,12 +199,20 @@ const AntalyaPropertySearch = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+        {/* SEO Intro Content */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-4">
             Properties In Antalya
           </h1>
-          <p className="text-muted-foreground">
+          <div className="prose max-w-none text-muted-foreground">
+            <p className="mb-4">
+              Discover exceptional real estate opportunities in Antalya, Turkey's premier Mediterranean coastal city. Our carefully curated collection features luxury apartments, stunning villas, and investment properties perfect for those seeking Turkish citizenship through real estate investment.
+            </p>
+            <p className="mb-4">
+              Antalya offers year-round sunshine, pristine beaches, rich cultural heritage, and modern amenities that make it an ideal destination for international property buyers. Whether you're looking for a holiday home, investment property, or permanent residence, our properties meet the $400,000 minimum investment requirement for Turkish citizenship.
+            </p>
+          </div>
+          <p className="text-sm text-muted-foreground mt-4">
             {loading ? 'Loading...' : `${antalyaProperties.length} properties found`}
           </p>
         </div>
@@ -412,6 +436,36 @@ const AntalyaPropertySearch = () => {
               )}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* SEO Concluding Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="prose max-w-none">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Why Choose Antalya for Your Property Investment?</h2>
+          <div className="grid md:grid-cols-2 gap-6 text-muted-foreground">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Investment Benefits</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• Turkish citizenship eligibility with $400,000+ investment</li>
+                <li>• Strong rental yields and capital appreciation potential</li>
+                <li>• No foreign ownership restrictions</li>
+                <li>• Growing tourism and international business hub</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">Lifestyle Advantages</h3>
+              <ul className="space-y-2 text-sm">
+                <li>• 300+ days of sunshine annually</li>
+                <li>• World-class beaches and marinas</li>
+                <li>• Rich historical and cultural attractions</li>
+                <li>• Modern healthcare and international schools</li>
+              </ul>
+            </div>
+          </div>
+          <p className="mt-6 text-sm">
+            Our expert team provides comprehensive support throughout your property purchase journey, from initial selection to citizenship application assistance. Contact us today to explore the best investment opportunities in Antalya.
+          </p>
         </div>
       </div>
 
