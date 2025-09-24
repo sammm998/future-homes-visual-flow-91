@@ -26,18 +26,27 @@ import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 const Index = () => {
+  const {
+    canonicalUrl,
+    hreflangUrls
+  } = useSEOLanguage();
+  const {
+    structuredData
+  } = useSEO();
+  const currentCanonicalUrl = useCanonicalUrl();
   const [showPopup, setShowPopup] = useState(false);
-  
-  // Simplified initialization without complex hooks
-  const testimonials: any[] = [];
-  const contentLoading = false;
-  
-  // Default values for SEO
-  const pageTitle = "Future Homes International | Premium Properties in Turkey, Dubai & Cyprus";
-  const metaDescription = "Discover luxury properties for sale in Turkey, Dubai, Cyprus & Bali. Expert real estate services, citizenship programs, investment opportunities.";
-  const currentCanonicalUrl = "https://futurehomesturkey.com";
-  const heroTitle = "Find Your Dream Home";
-  const heroSubtitle = "Discover luxury properties worldwide";
+  // Removed sync import - database-only approach
+  const {
+    testimonials
+  } = useTestimonials();
+  const {
+    pageTitle,
+    metaDescription,
+    contentSections,
+    heroTitle,
+    heroSubtitle,
+    isLoading: contentLoading
+  } = useWebsiteContent();
 
   // Auto-sync removed - now using database-only approach
 
