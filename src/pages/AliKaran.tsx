@@ -20,7 +20,7 @@ export default function AliKaran() {
     <div className="min-h-screen bg-background">
       <SEOHead
         title="Meet Ali Karan - Founder & CEO | International Property Expert"
-        description="Learn about Ali Karan, founder and CEO of our international property investment company. With over 15 years of experience in real estate across Turkey, Dubai, Cyprus, and more."
+        description="Learn about Ali Karan, founder and CEO of our international property investment company. With 6 years of experience in real estate across Turkey, Dubai, Cyprus, and more."
         keywords="Ali Karan, property investment expert, international real estate, CEO founder, Turkey properties, Dubai real estate"
       />
 
@@ -58,21 +58,21 @@ export default function AliKaran() {
             </div>
             
             <p className="text-lg text-muted-foreground leading-relaxed">
-              With over 15 years of experience in international real estate, Ali Karan has helped thousands of clients find their perfect property investments across Turkey, Dubai, Cyprus, and beyond.
+              With 6 years of experience in international real estate, Ali Karan has helped over 1000 clients find their perfect property investments across Turkey, Dubai, Cyprus, and beyond.
             </p>
 
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Award className="w-5 h-5 text-primary" />
-                <span>15+ Years Experience</span>
+                <span>6 Years Experience</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Users className="w-5 h-5 text-primary" />
-                <span>5000+ Happy Clients</span>
+                <span>1000+ Happy Clients</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin className="w-5 h-5 text-primary" />
-                <span>8+ Countries</span>
+                <span>4 Countries</span>
               </div>
             </div>
           </div>
@@ -135,14 +135,14 @@ export default function AliKaran() {
                 <Users className="w-5 h-5 text-primary mt-0.5" />
                 <div>
                   <p className="font-medium text-foreground">Client Success</p>
-                  <p className="text-sm text-muted-foreground">5000+ successful property transactions</p>
+                  <p className="text-sm text-muted-foreground">1000+ successful property transactions</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary mt-0.5" />
                 <div>
                   <p className="font-medium text-foreground">Global Reach</p>
-                  <p className="text-sm text-muted-foreground">Operations in 8+ countries</p>
+                  <p className="text-sm text-muted-foreground">Operations in 4 countries</p>
                 </div>
               </div>
             </div>

@@ -70,24 +70,24 @@ export default function FounderSection() {
                       Founder & CEO
                     </p>
                     <p className="text-muted-foreground leading-relaxed">
-                      With over 15 years of experience in international real estate, Ali Karan has helped thousands of clients find their perfect property investments across Turkey, Dubai, Cyprus, and beyond.
+                      With 6 years of experience in international real estate, Ali Karan has helped over 1000 clients find their perfect property investments across Turkey, Dubai, Cyprus, and beyond.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="text-center p-3 rounded-lg bg-primary/5">
                       <Award className="w-6 h-6 text-primary mx-auto mb-2" />
-                      <p className="text-sm font-semibold text-foreground">15+ Years</p>
+                      <p className="text-sm font-semibold text-foreground">6 Years</p>
                       <p className="text-xs text-muted-foreground">Experience</p>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-primary/5">
                       <Users className="w-6 h-6 text-primary mx-auto mb-2" />
-                      <p className="text-sm font-semibold text-foreground">5000+</p>
+                      <p className="text-sm font-semibold text-foreground">1000+</p>
                       <p className="text-xs text-muted-foreground">Happy Clients</p>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-primary/5">
                       <MapPin className="w-6 h-6 text-primary mx-auto mb-2" />
-                      <p className="text-sm font-semibold text-foreground">8+</p>
+                      <p className="text-sm font-semibold text-foreground">4</p>
                       <p className="text-xs text-muted-foreground">Countries</p>
                     </div>
                   </div>
