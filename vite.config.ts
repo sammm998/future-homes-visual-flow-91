@@ -13,11 +13,52 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks: (id) => {
+          // Vendor splitting for better caching
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor';
+            }
+            if (id.includes('framer-motion')) {
+              return 'animation-vendor';
+            }
+            if (id.includes('@supabase') || id.includes('@tanstack')) {
+              return 'data-vendor';
+            }
+            if (id.includes('lucide-react') || id.includes('react-icons')) {
+              return 'icons-vendor';
+            }
+            return 'vendor';
+          }
+          
+          // Route-based splitting
+          if (id.includes('pages/')) {
+            if (id.includes('PropertySearch') || id.includes('PropertyDetail')) {
+              return 'property-pages';
+            }
+            if (id.includes('Dubai') || id.includes('Antalya') || id.includes('Cyprus')) {
+              return 'location-pages';
+            }
+            return 'pages';
+          }
+          
+          // Component splitting
+          if (id.includes('components/ui/')) {
+            return 'ui-components';
+          }
+        },
       },
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 800,
     assetsDir: "assets",
+    target: 'esnext',
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: mode === 'production',
+        drop_debugger: mode === 'production',
+      },
+    },
   },
   plugins: [
     react(),

@@ -8,6 +8,8 @@ import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
+import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
+import { initPerformanceMonitoring } from "@/utils/performanceBudget";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -89,6 +91,11 @@ const PageLoader = () => (
 );
 
 function App() {
+  // Initialize performance monitoring
+  React.useEffect(() => {
+    initPerformanceMonitoring();
+  }, []);
+
   return (
     <ErrorBoundary>
       <HelmetProvider>
@@ -97,6 +104,13 @@ function App() {
             <TooltipProvider>
               <BrowserRouter>
                 <PerformanceMonitor logLevel="basic" />
+                <PerformanceOptimizer 
+                  preloadImages={[
+                    '/lovable-uploads/9b08d909-a9da-4946-942a-c24106cd57f7.png',
+                    '/placeholder.svg'
+                  ]}
+                  prefetchRoutes={['/antalya', '/dubai', '/cyprus', '/property-gallery']}
+                />
                 <Toaster />
                 <Sonner />
                 <ScrollToTop />

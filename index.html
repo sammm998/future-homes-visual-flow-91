@@ -45,7 +45,43 @@
     <meta name="theme-color" content="#0066CC" />
     <meta name="msapplication-TileColor" content="#0066CC" />
     
-    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+    <!-- Performance optimization -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//images.unsplash.com">
+    <link rel="dns-prefetch" href="//kiogiyemoqbnuvclneoe.supabase.co">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Critical font preloading -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+    
+    <!-- Defer non-critical third-party scripts -->
+    <script>
+      // Lazy load ElevenLabs widget
+      function loadElevenLabs() {
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/@elevenlabs/convai-widget-embed';
+        script.async = true;
+        script.type = 'text/javascript';
+        document.head.appendChild(script);
+      }
+      
+      // Load after page interaction or after 5 seconds
+      let loaded = false;
+      function tryLoad() {
+        if (!loaded) {
+          loaded = true;
+          loadElevenLabs();
+        }
+      }
+      
+      ['mousedown', 'touchstart', 'keydown', 'scroll'].forEach(event => {
+        document.addEventListener(event, tryLoad, { once: true, passive: true });
+      });
+      
+      setTimeout(tryLoad, 5000);
+    </script>
   </head>
 
   <body>
