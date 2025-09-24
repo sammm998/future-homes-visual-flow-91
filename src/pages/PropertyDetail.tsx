@@ -604,26 +604,6 @@ const PropertyDetail = () => {
               </div>
             )}
 
-            {/* Google Maps Location */}
-            {property.google_maps_embed && (
-              <div className="space-y-4">
-                <h2 className="text-2xl font-semibold">Location</h2>
-                <div className="border rounded-lg overflow-hidden">
-                  <div className="aspect-video w-full">
-                    <iframe
-                      src={property.google_maps_embed}
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title={`Location map for ${property.title}`}
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* Project Timeline */}
             <div className="space-y-4">

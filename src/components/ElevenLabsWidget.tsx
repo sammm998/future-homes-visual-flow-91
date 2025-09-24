@@ -12,6 +12,26 @@ declare global {
 
 const ElevenLabsWidget = () => {
   useEffect(() => {
+    // Listen for AI Property Assistant open/close events
+    const handlePopupToggle = (event: CustomEvent) => {
+      const widget = document.querySelector('elevenlabs-convai');
+      if (widget) {
+        if (event.detail.isOpen) {
+          widget.classList.add('hidden-behind-popup');
+        } else {
+          widget.classList.remove('hidden-behind-popup');
+        }
+      }
+    };
+
+    window.addEventListener('aiPropertyAssistantToggle', handlePopupToggle as EventListener);
+
+    return () => {
+      window.removeEventListener('aiPropertyAssistantToggle', handlePopupToggle as EventListener);
+    };
+  }, []);
+
+  useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://unpkg.com/@elevenlabs/convai-widget-embed';
     script.async = true;
@@ -25,6 +45,13 @@ const ElevenLabsWidget = () => {
         position: fixed !important;
         bottom: 80px !important; /* Ensure space above pagination */
         right: 20px !important;
+        transition: opacity 0.3s ease !important;
+      }
+      
+      /* Hide when AI Property Assistant is open */
+      elevenlabs-convai.hidden-behind-popup {
+        opacity: 0 !important;
+        pointer-events: none !important;
       }
       
       /* Mobile adjustments */
