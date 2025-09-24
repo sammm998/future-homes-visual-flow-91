@@ -20,6 +20,35 @@ const PropertyGallery = () => {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Function to prioritize exterior images
+  const prioritizeExteriorImages = (images: string[]) => {
+    const exteriorKeywords = ['exterior', 'outside', 'facade', 'building', 'view', 'balcony', 'terrace'];
+    const interiorKeywords = ['interior', 'inside', 'room', 'kitchen', 'bathroom', 'bedroom', 'living', 'sketch', 'plan', 'floor'];
+    
+    return images.sort((a, b) => {
+      const aLower = a.toLowerCase();
+      const bLower = b.toLowerCase();
+      
+      // Check if image contains interior/sketch keywords (should go last)
+      const aIsInterior = interiorKeywords.some(keyword => aLower.includes(keyword));
+      const bIsInterior = interiorKeywords.some(keyword => bLower.includes(keyword));
+      
+      // Check if image contains exterior keywords (should go first)
+      const aIsExterior = exteriorKeywords.some(keyword => aLower.includes(keyword));
+      const bIsExterior = exteriorKeywords.some(keyword => bLower.includes(keyword));
+      
+      // Prioritize exterior images
+      if (aIsExterior && !bIsExterior) return -1;
+      if (!aIsExterior && bIsExterior) return 1;
+      
+      // Deprioritize interior/sketch images
+      if (aIsInterior && !bIsInterior) return 1;
+      if (!aIsInterior && bIsInterior) return -1;
+      
+      return 0;
+    });
+  };
+
   // Fetch properties with Supabase image URLs
   useEffect(() => {
     const fetchProperties = async () => {
@@ -43,8 +72,10 @@ const PropertyGallery = () => {
           )
           .map(property => ({
             ...property,
-            property_images: property.property_images.filter((img: string) => 
-              img.includes('https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/')
+            property_images: prioritizeExteriorImages(
+              property.property_images.filter((img: string) => 
+                img.includes('https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/')
+              )
             )
           }));
 
