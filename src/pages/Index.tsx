@@ -11,6 +11,7 @@ import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import TestimonialsMasonryGrid from "@/components/TestimonialsMasonryGrid";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import FounderSection from "@/components/FounderSection";
+import { ZoomParallax } from "@/components/ui/zoom-parallax";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import SEOHead from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
@@ -45,7 +46,39 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
   
+  // Property gallery images for zoom parallax effect
+  const propertyGalleryImages = [
+    {
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/modern-apartment-living-room.jpg',
+      alt: 'Modern apartment living room with sea view',
+    },
+    {
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/luxury-kitchen-design.jpg',
+      alt: 'Luxury kitchen with marble countertops',
+    },
+    {
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/bedroom-balcony-view.jpg',
+      alt: 'Master bedroom with panoramic balcony view',
+    },
+    {
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/swimming-pool-terrace.jpg',
+      alt: 'Swimming pool terrace with city views',
+    },
+    {
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/modern-bathroom-spa.jpg',
+      alt: 'Modern spa bathroom with premium finishes',
+    },
+    {
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/building-exterior-night.jpg',
+      alt: 'Building exterior illuminated at night',
+    },
+    {
+      src: 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/rooftop-garden-lounge.jpg',
+      alt: 'Rooftop garden lounge area',
+    },
+  ];
 
+  
   
   const homePageStructuredData = {
     "@context": "https://schema.org",
@@ -254,6 +287,21 @@ const Index = () => {
 
       {/* Property Image Gallery Preview */}
       <PropertyImageGalleryPreview />
+
+      {/* Immersive Property Gallery Zoom Parallax */}
+      <section className="py-20">
+        <div className="container mx-auto px-4 mb-12">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold text-foreground mb-4">
+              Immersive Property Gallery
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Experience our stunning properties through an immersive visual journey
+            </p>
+          </div>
+        </div>
+        <ZoomParallax images={propertyGalleryImages} />
+      </section>
 
       {/* News & Insights */}
       <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>
