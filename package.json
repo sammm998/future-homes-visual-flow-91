@@ -51,7 +51,7 @@
     "date-fns": "^3.6.0",
     "dompurify": "^3.2.6",
     "embla-carousel-react": "^8.3.0",
-    "framer-motion": "^12.23.12",
+    "framer-motion": "^12.23.19",
     "gl-matrix": "^3.4.3",
     "gsap": "^3.13.0",
     "input-otp": "^1.2.4",
