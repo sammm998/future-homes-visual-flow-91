@@ -194,7 +194,7 @@ const AIPropertyAssistant = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
             {[
               { icon: Home, title: "180+ Properties", desc: "Access to entire database" },
-              { icon: MapPin, title: "All Destinations", desc: "Turkey, Dubai, Cyprus, Bali" },
+              { icon: MapPin, title: "All Destinations", desc: "Turkey, Dubai, Cyprus, Bali, Mersin" },
               { icon: Users, title: "24/7 Support", desc: "Instant AI assistance" }
             ].map((item, index) => (
               <motion.div
