@@ -300,7 +300,7 @@ const AIPropertyAssistant = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-[600px] bg-background border border-border rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
+              className="fixed inset-0 m-auto w-96 h-[600px] bg-background border border-border rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)]"
             >
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-primary/5 to-primary-glow/5">
