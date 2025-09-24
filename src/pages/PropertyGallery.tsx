@@ -93,7 +93,10 @@ const PropertyGallery = () => {
             property.property_images.length > 0 &&
             property.property_images.some((img: string) => 
               img.includes('https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/')
-            )
+            ) &&
+            // Exclude the specific property
+            !(property.title === "Apartments for sale close to daily needs in Mersin, Erdemli" && 
+              property.location === "Mersin")
           )
           .map(property => ({
             ...property,
