@@ -294,13 +294,13 @@ const AIPropertyAssistant = () => {
               onClick={() => setIsOpen(false)}
             />
             
-            {/* Chat Container - Popup Style */}
+            {/* Chat Container - Centered Popup */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, x: 50, y: 50 }}
-              animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, x: 50, y: 50 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed bottom-6 right-6 w-96 h-[600px] bg-background border border-border rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
+              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-[600px] bg-background border border-border rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
             >
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-primary/5 to-primary-glow/5">
