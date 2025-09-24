@@ -192,57 +192,32 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
     }
 
     try {
-      // Save to database
-      const { data, error } = await supabase
-        .from('contacts')
-        .insert([{
-          name: contactInfo.name || null,
-          email: contactInfo.email || null,
-          phone: contactInfo.phone || null,
-          conversation_id: conversationId,
-          language: 'en'
-        }]);
+      // Save contact via edge function
+      console.log('Saving contact via edge function:', {
+        name: contactInfo.name,
+        email: contactInfo.email,
+        phone: contactInfo.phone,
+        conversationId: conversationId,
+        source: 'ai-chat'
+      });
 
-      if (error) throw error;
-
-      // Send email notification
-      try {
-        console.log('Sending email notification for AI chat contact:', {
+      const { data, error } = await supabase.functions.invoke('save-contact', {
+        body: {
           name: contactInfo.name,
           email: contactInfo.email,
           phone: contactInfo.phone,
+          conversationId: conversationId,
+          language: 'en',
           source: 'ai-chat'
-        });
-
-        const emailResponse = await supabase.functions.invoke('send-contact-notification', {
-          body: {
-            name: contactInfo.name,
-            email: contactInfo.email,
-            phone: contactInfo.phone,
-            source: 'ai-chat'
-          }
-        });
-
-        console.log('Email response:', emailResponse);
-
-        if (emailResponse.error) {
-          console.error('Email notification error:', emailResponse.error);
-          toast({
-            title: "Contact Saved",
-            description: "Your contact info was saved, but we couldn't send an email notification.",
-            variant: "default",
-          });
-        } else {
-          console.log('Email sent successfully for AI chat');
         }
-      } catch (emailError) {
-        console.error('Failed to send email notification:', emailError);
-        toast({
-          title: "Contact Saved",
-          description: "Your contact info was saved, but we couldn't send an email notification.",
-          variant: "default",
-        });
+      });
+
+      if (error) {
+        console.error('Save contact error:', error);
+        throw error;
       }
+
+      console.log('Contact saved successfully:', data);
 
       toast({
         title: "Thank you!",
