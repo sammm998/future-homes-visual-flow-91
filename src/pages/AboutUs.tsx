@@ -274,11 +274,11 @@ const AboutUs = () => {
                   </div>
                   <div className="flex items-center gap-3">
                     <Phone className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                    <p className="text-sm">+90 552 303 27 50</p>
+                    <a href="tel:+905523032750" className="text-sm text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">+90 552 303 27 50</a>
                   </div>
                   <div className="flex items-center gap-3">
                     <Mail className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                    <p className="text-sm">info@futurehomesturkey.com</p>
+                    <a href="mailto:info@futurehomesturkey.com" className="text-sm text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">info@futurehomesturkey.com</a>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-border">
@@ -303,11 +303,11 @@ const AboutUs = () => {
                   </div>
                   <div className="flex items-center gap-3">
                     <Phone className="w-5 h-5 text-red-500 flex-shrink-0" />
-                    <p className="text-sm">+90 552 303 27 50</p>
+                    <a href="tel:+905523032750" className="text-sm text-red-600 hover:text-red-800 transition-colors cursor-pointer">+90 552 303 27 50</a>
                   </div>
                   <div className="flex items-center gap-3">
                     <Mail className="w-5 h-5 text-red-500 flex-shrink-0" />
-                    <p className="text-sm">info@futurehomesturkey.com</p>
+                    <a href="mailto:info@futurehomesturkey.com" className="text-sm text-red-600 hover:text-red-800 transition-colors cursor-pointer">info@futurehomesturkey.com</a>
                   </div>
                 </div>
                 <div className="mt-6 pt-4 border-t border-border">

@@ -664,11 +664,15 @@ const PropertyDetail = () => {
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-blue-200/50 dark:border-blue-700/30">
                       <Phone className="h-4 w-4 text-blue-600" />
-                      <span className="text-sm font-medium">{property.contactPhone}</span>
+                      <a href={`tel:${property.contactPhone}`} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
+                        {property.contactPhone}
+                      </a>
                     </div>
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
                       <Mail className="h-4 w-4 text-green-600" />
-                      <span className="text-sm font-medium">{property.contactEmail}</span>
+                      <a href={`mailto:${property.contactEmail}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
+                        {property.contactEmail}
+                      </a>
                     </div>
                   </div>
 
@@ -698,11 +702,15 @@ const PropertyDetail = () => {
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-blue-200/50 dark:border-blue-700/30">
                       <Phone className="h-4 w-4 text-blue-600" />
-                      <span className="text-sm font-medium">{property.contactPhone}</span>
+                      <a href={`tel:${property.contactPhone}`} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
+                        {property.contactPhone}
+                      </a>
                     </div>
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
                       <Mail className="h-4 w-4 text-green-600" />
-                      <span className="text-sm font-medium">{property.contactEmail}</span>
+                      <a href={`mailto:${property.contactEmail}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
+                        {property.contactEmail}
+                      </a>
                     </div>
                   </div>
 
