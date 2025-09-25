@@ -664,24 +664,33 @@ const PropertyDetail = () => {
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-blue-200/50 dark:border-blue-700/30">
                       <Phone className="h-4 w-4 text-blue-600" />
-                      <a href={`tel:${property.contactPhone}`} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
-                        {property.contactPhone}
+                      <a href={`tel:${property?.contactPhone || "+905523032750"}`} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
+                        {property?.contactPhone || "+90 552 303 27 50"}
                       </a>
                     </div>
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
                       <Mail className="h-4 w-4 text-green-600" />
-                      <a href={`mailto:${property.contactEmail}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
-                        {property.contactEmail}
+                      <a href={`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
+                        {property?.contactEmail || "info@futurehomesturkey.com"}
                       </a>
                     </div>
                   </div>
 
                   <div className="space-y-3 pt-2">
-                    <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
+                    <Button 
+                      onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')}
+                      className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" 
+                      size="sm"
+                    >
                       <Phone className="h-4 w-4 mr-2" />
                       Call Now
                     </Button>
-                    <Button variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
+                    <Button 
+                      onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`, '_self')}
+                      variant="outline" 
+                      className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" 
+                      size="sm"
+                    >
                       <Mail className="h-4 w-4 mr-2" />
                       Send Message
                     </Button>
@@ -702,24 +711,33 @@ const PropertyDetail = () => {
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-blue-200/50 dark:border-blue-700/30">
                       <Phone className="h-4 w-4 text-blue-600" />
-                      <a href={`tel:${property.contactPhone}`} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
-                        {property.contactPhone}
+                      <a href={`tel:${property?.contactPhone || "+905523032750"}`} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
+                        {property?.contactPhone || "+90 552 303 27 50"}
                       </a>
                     </div>
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
                       <Mail className="h-4 w-4 text-green-600" />
-                      <a href={`mailto:${property.contactEmail}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
-                        {property.contactEmail}
+                      <a href={`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
+                        {property?.contactEmail || "info@futurehomesturkey.com"}
                       </a>
                     </div>
                   </div>
 
                   <div className="space-y-3 pt-2">
-                    <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
+                    <Button 
+                      onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')}
+                      className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" 
+                      size="sm"
+                    >
                       <Phone className="h-4 w-4 mr-2" />
                       Call Now
                     </Button>
-                    <Button variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
+                    <Button 
+                      onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`, '_self')}
+                      variant="outline" 
+                      className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" 
+                      size="sm"
+                    >
                       <Mail className="h-4 w-4 mr-2" />
                       Send Message
                     </Button>
