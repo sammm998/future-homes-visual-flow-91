@@ -16,6 +16,7 @@ import { ZoomParallax } from "@/components/ui/zoom-parallax";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import SEOHead from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
+import { GlobalPerformanceOptimizer } from "@/components/GlobalPerformanceOptimizer";
 import { useSEO } from "@/hooks/useSEO";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import OrganizationSchema from "@/components/OrganizationSchema";
@@ -181,6 +182,16 @@ const Index = () => {
     }]
   };
   return <div className="min-h-screen overflow-x-hidden">
+      <GlobalPerformanceOptimizer 
+        criticalImages={[
+          '/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png',
+          '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png',
+          propertyGalleryImages[0]?.src,
+          propertyGalleryImages[1]?.src
+        ].filter(Boolean)}
+        enableImageOptimization={true}
+        enableResourceHints={true}
+      />
       <SEOHead title={pageTitle || "Future Homes Turkey - Premium International Real Estate Investment"} description={metaDescription || "Discover premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Bali. Expert guidance for property investment, Turkish citizenship programs, and luxury overseas homes. Your international investment future starts here."} keywords="real estate Turkey, property investment Dubai, Cyprus properties, Turkish citizenship, Antalya real estate, luxury homes Turkey, overseas property investment, international real estate, property for sale Turkey, investment opportunities" canonicalUrl={currentCanonicalUrl} structuredData={[homePageStructuredData, faqStructuredData]} />
       <OrganizationSchema />
       <Navigation />
@@ -212,7 +223,7 @@ const Index = () => {
       {/* AI Property Assistant */}
       <AIPropertyAssistant />
       
-      {/* Featured Properties - Shuffle Grid */}
+      {/* Featured Properties */}
       <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
         <LazyShuffleGrid />
       </LazyComponent>

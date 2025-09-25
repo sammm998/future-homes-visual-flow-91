@@ -31,6 +31,30 @@ export const getOptimizedImageUrl = (url: string, width?: number, quality = 85):
   return url;
 };
 
+// Advanced image optimization with multiple formats
+export const getOptimizedImageSrcSet = (url: string, sizes = [320, 640, 960, 1280]): string => {
+  if (!url || url.includes('placeholder.svg') || url.startsWith('data:')) {
+    return url;
+  }
+  
+  // Create different sizes for responsive images
+  const srcSet = sizes.map(size => 
+    `${getOptimizedImageUrl(url, size)} ${size}w`
+  ).join(', ');
+  
+  return srcSet;
+};
+
+// WebP support detection and fallback
+export const getImageWithFallback = (url: string, width?: number): { webp: string; fallback: string } => {
+  const webp = getOptimizedImageUrl(url, width, 85);
+  const fallback = url.includes('supabase.co') 
+    ? getOptimizedImageUrl(url, width, 90).replace('format=webp', 'format=jpeg')
+    : url;
+  
+  return { webp, fallback };
+};
+
 export const preloadImage = (src: string, priority = false): Promise<void> => {
   return new Promise((resolve, reject) => {
     const img = new Image();

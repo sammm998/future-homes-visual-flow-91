@@ -60,10 +60,14 @@ const FeaturedPropertiesShowcase = () => {
             >
               {/* Image Container */}
               <div className="relative h-72 overflow-hidden">
-                <img
+                <OptimizedPropertyImage
                   src={property.property_image || '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png'}
                   alt={property.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  priority={property.id <= 2}
+                  width={400}
+                  height={300}
+                  showCenteredLogo={false}
                 />
                 
                 {/* Price Badge */}
