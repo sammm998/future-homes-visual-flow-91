@@ -4,12 +4,119 @@ import { Helmet } from 'react-helmet-async';
 import ArticleLayout from '@/components/ArticleLayout';
 import ArticleContent from '@/components/ArticleContent';
 import { useBlogPost } from "@/hooks/useBlogPosts";
+import { articles } from '@/data/articlesData';
 import { Loader2 } from 'lucide-react';
 
 const ArticlePage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { blogPost, loading, error } = useBlogPost(slug || '');
 
+  // Check if it's a static article
+  const staticArticle = articles.find(article => article.slug === slug);
+
+  // If we found a static article, use that instead of blog post
+  if (staticArticle) {
+    const formatDate = (dateString: string = new Date().toISOString()) => {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    };
+
+    const getReadingTime = (content: string) => {
+      const wordsPerMinute = 200;
+      const textContent = content.replace(/<[^>]*>/g, '');
+      const wordCount = textContent.split(/\s+/).length;
+      const readingTime = Math.ceil(wordCount / wordsPerMinute);
+      return `${readingTime} min read`;
+    };
+
+    // Extract tags from content or create default ones
+    const extractTags = (content: string, title: string, category: string) => {
+      const defaultTags = [category.charAt(0).toUpperCase() + category.slice(1)];
+      
+      // Add tags based on content analysis
+      if (title.toLowerCase().includes('property')) defaultTags.push('Property');
+      if (title.toLowerCase().includes('investment')) defaultTags.push('Investment');
+      if (title.toLowerCase().includes('turkey')) defaultTags.push('Turkey');
+      if (title.toLowerCase().includes('dubai')) defaultTags.push('Dubai');
+      if (title.toLowerCase().includes('bali')) defaultTags.push('Bali');
+      if (title.toLowerCase().includes('cyprus')) defaultTags.push('Cyprus');
+      if (content.toLowerCase().includes('citizenship')) defaultTags.push('Citizenship');
+      if (content.toLowerCase().includes('legal')) defaultTags.push('Legal');
+      
+      return Array.from(new Set(defaultTags)); // Remove duplicates
+    };
+
+    const tags = extractTags(staticArticle.content, staticArticle.title, staticArticle.category);
+
+    return (
+      <>
+        <Helmet>
+          <title>{staticArticle.title} - Future Homes</title>
+          <meta name="description" content={staticArticle.description} />
+          <meta name="keywords" content={tags.join(', ')} />
+          <link rel="canonical" href={`${window.location.origin}/articles/${staticArticle.slug}`} />
+          
+          {/* Open Graph tags */}
+          <meta property="og:title" content={staticArticle.title} />
+          <meta property="og:description" content={staticArticle.description} />
+          <meta property="og:type" content="article" />
+          <meta property="og:url" content={`${window.location.origin}/articles/${staticArticle.slug}`} />
+          
+          {/* Twitter Card tags */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={staticArticle.title} />
+          <meta name="twitter:description" content={staticArticle.description} />
+          
+          {/* Structured Data */}
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              "headline": staticArticle.title,
+              "description": staticArticle.description,
+              "author": {
+                "@type": "Organization",
+                "name": "Future Homes"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "Future Homes",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png"
+                }
+              },
+              "url": `${window.location.origin}/articles/${staticArticle.slug}`,
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `${window.location.origin}/articles/${staticArticle.slug}`
+              }
+            })}
+          </script>
+        </Helmet>
+
+        <ArticleLayout
+          title={staticArticle.title}
+          excerpt={staticArticle.description}
+          content={staticArticle.content}
+          featuredImage={staticArticle.image}
+          publishedDate={new Date().toISOString()}
+          readingTime={getReadingTime(staticArticle.content)}
+          tags={tags}
+          author="Future Homes Editorial Team"
+          backLink="/information"
+          backText="Back to Articles"
+        >
+          <ArticleContent content={staticArticle.content} />
+        </ArticleLayout>
+      </>
+    );
+  }
+
+  // Handle blog post loading and errors
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-background to-muted/10 flex items-center justify-center">

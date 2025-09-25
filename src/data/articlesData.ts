@@ -5,6 +5,7 @@ export interface Article {
   id: number;
   title: string;
   description: string;
+  slug: string;
   icon: any; // Use any for Lucide icon components
   image?: string;
   category: string;
@@ -16,6 +17,7 @@ export const articles: Article[] = [
     id: 1,
     title: "Turkish Citizenship",
     description: "Complete guide to obtaining Turkish citizenship through property investment",
+    slug: "turkish-citizenship",
     icon: FileText,
     category: "legal",
     content: `
@@ -102,6 +104,7 @@ export const articles: Article[] = [
     id: 2,
     title: "Property Purchase Process",
     description: "Step-by-step guide to buying property in Turkey",
+    slug: "property-purchase-process",
     icon: Home,
     category: "property",
     content: `
@@ -153,6 +156,7 @@ export const articles: Article[] = [
     id: 3,
     title: "Banking in Turkey",
     description: "Opening bank accounts and financial services for residents",
+    slug: "banking-in-turkey",
     icon: CreditCard,
     category: "financial",
     content: `
@@ -246,6 +250,7 @@ export const articles: Article[] = [
     id: 4,
     title: "Residence Permits",
     description: "Legal requirements and application process for residence permits",
+    slug: "residence-permits",
     icon: Scale,
     category: "legal",
     content: `
@@ -320,6 +325,7 @@ export const articles: Article[] = [
     id: 5,
     title: "Education System",
     description: "Schools, universities and educational opportunities in Turkey",
+    slug: "education-system",
     icon: Users,
     category: "living",
     content: `
@@ -398,6 +404,7 @@ export const articles: Article[] = [
     id: 6,
     title: "Healthcare System",
     description: "Understanding healthcare services and insurance in Turkey",
+    slug: "healthcare-system",
     icon: Heart,
     category: "living",
     content: `
@@ -513,6 +520,7 @@ export const articles: Article[] = [
     id: 7,
     title: "Dubai Business Setup Guide",
     description: "Complete guide to starting a business in Dubai",
+    slug: "dubai-business-setup-guide",
     icon: Briefcase,
     category: "business",
     content: `
@@ -670,6 +678,7 @@ export const articles: Article[] = [
     id: 8,
     title: "The Bali Lifestyle Appeal",
     description: "Discover the unique lifestyle and investment opportunities in Bali",
+    slug: "bali-lifestyle-appeal",
     icon: MapPin,
     category: "living",
     content: `
@@ -723,6 +732,7 @@ export const articles: Article[] = [
     id: 9,
     title: "Cost of Living in Turkey",
     description: "Complete guide to living expenses and costs in Turkey",
+    slug: "cost-of-living-in-turkey",
     icon: Calculator,
     category: "financial",
     content: `
@@ -816,6 +826,7 @@ export const articles: Article[] = [
     id: 10,
     title: "Bitcoin & Cryptocurrency Investment",
     description: "Guide to cryptocurrency investment and Bitcoin in Turkey",
+    slug: "bitcoin-cryptocurrency-investment",
     icon: DollarSign,
     category: "financial",
     content: `
@@ -923,6 +934,7 @@ export const articles: Article[] = [
     id: 11,
     title: "Turkish Work Permits",
     description: "Complete guide to obtaining work permits in Turkey",
+    slug: "turkish-work-permits",
     icon: ScrollText,
     category: "legal",
     content: `
@@ -995,6 +1007,7 @@ export const articles: Article[] = [
     id: 12,
     title: "International Tax Planning",
     description: "Tax optimization strategies for international investors",
+    slug: "international-tax-planning",
     icon: Building,
     category: "financial",
     content: `
@@ -1098,4 +1111,8 @@ export const articles: Article[] = [
 
 export const getArticleById = (id: number): Article | undefined => {
   return articles.find(article => article.id === id);
+};
+
+export const getArticleBySlug = (slug: string): Article | undefined => {
+  return articles.find(article => article.slug === slug);
 };
