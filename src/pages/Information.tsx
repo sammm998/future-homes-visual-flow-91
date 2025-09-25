@@ -370,7 +370,7 @@ const Information = () => {
   const staticArticlesWithImages = staticArticles.map((article, index) => ({
     ...article,
     image: article.image || getArticleImage(article.title, article.content, index),
-    slug: article.slug // Now all articles have slugs in articlesData.ts
+    slug: article.title.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')
   }));
 
   // Combine static articles with database articles
@@ -381,7 +381,16 @@ const Information = () => {
     : articles.filter(article => article.category === activeFilter);
 
   const handleArticleClick = (slug: string) => {
-    navigate(`/articles/${slug}`);
+    // Check if it's a static article (no slug property in original data)
+    const isStaticArticle = staticArticles.some(article => 
+      article.title.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-') === slug
+    );
+    
+    if (isStaticArticle) {
+      navigate(`/article/${slug}`);
+    } else {
+      navigate(`/articles/${slug}`);
+    }
   };
 
   if (loading) {

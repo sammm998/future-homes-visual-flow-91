@@ -30,7 +30,7 @@ export const LazyTestimonials = lazy(() =>
 );
 
 export const LazyShuffleGrid = lazy(() => 
-  import('@/components/FeaturedPropertiesShowcase').then(module => ({
+  import('@/components/ShuffleGrid').then(module => ({
     default: module.default
   }))
 );

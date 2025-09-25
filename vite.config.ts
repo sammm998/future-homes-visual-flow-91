@@ -13,21 +13,11 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', 'lucide-react'],
-          'motion': ['framer-motion', 'motion'],
-          'supabase': ['@supabase/supabase-js'],
-          'query': ['@tanstack/react-query']
-        }
-      }
+        manualChunks: undefined,
+      },
     },
     chunkSizeWarningLimit: 1000,
     assetsDir: "assets",
-    cssMinify: true,
-    minify: 'esbuild',
-    sourcemap: false,
-    target: 'esnext'
   },
   plugins: [
     react(),

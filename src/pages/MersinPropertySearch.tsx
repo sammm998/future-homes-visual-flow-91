@@ -13,7 +13,7 @@ import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import useImagePreloading from "@/hooks/useImagePreloading";
 import { preloadCriticalImages } from "@/utils/imageOptimization";
 import OptimizedPropertyImage from "@/components/OptimizedPropertyImage";
-import { GlobalPerformanceOptimizer } from "@/components/GlobalPerformanceOptimizer";
+import GlobalPerformanceOptimizer from "@/components/GlobalPerformanceOptimizer";
 import {
   Pagination,
   PaginationContent,
