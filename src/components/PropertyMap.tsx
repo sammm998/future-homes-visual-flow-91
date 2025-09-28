@@ -58,38 +58,61 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
     getMapboxToken();
   }, []);
 
-  // Get coordinates for properties based on their location
-  const getPropertyCoordinates = (property: Property): [number, number] | null => {
-    const location = property.location?.toLowerCase() || '';
-    const refNo = property.ref_no || '';
+  // Get coordinates for properties using Mapbox Geocoding API
+  const getPropertyCoordinates = async (property: Property): Promise<[number, number] | null> => {
+    const location = property.location || '';
+    if (!location || !mapboxToken) return null;
     
-    // Use more varied coordinates for different areas
-    if (location.includes('antalya') || location.includes('altıntaş') || location.includes('konyaalti') || location.includes('lara')) {
-      // Antalya area coordinates with variety
+    try {
+      // Use Mapbox Geocoding API to get precise coordinates
+      const geocodeUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(location)}.json?access_token=${mapboxToken}&limit=1`;
+      const response = await fetch(geocodeUrl);
+      const data = await response.json();
+      
+      if (data.features && data.features.length > 0) {
+        const [lng, lat] = data.features[0].center;
+        console.log(`📍 Geocoded ${location} to:`, [lng, lat]);
+        return [lng, lat];
+      }
+    } catch (error) {
+      console.warn(`❌ Failed to geocode ${location}:`, error);
+    }
+    
+    // Fallback coordinates if geocoding fails
+    const fallbackCoords = getFallbackCoordinates(location);
+    console.log(`🎯 Using fallback coordinates for ${location}:`, fallbackCoords);
+    return fallbackCoords;
+  };
+
+  // Fallback coordinate generation
+  const getFallbackCoordinates = (location: string): [number, number] => {
+    const loc = location.toLowerCase();
+    
+    if (loc.includes('antalya') || loc.includes('altıntaş') || loc.includes('konyaalti') || loc.includes('lara')) {
       const baseLatitude = 36.8969;
       const baseLongitude = 30.7133;
-      const latOffset = (Math.random() - 0.5) * 0.15; // Larger spread
+      const latOffset = (Math.random() - 0.5) * 0.15;
       const lngOffset = (Math.random() - 0.5) * 0.2;
       return [baseLongitude + lngOffset, baseLatitude + latOffset];
-    } else if (location.includes('dubai') || location.includes('uae')) {
+    } else if (loc.includes('dubai') || loc.includes('uae')) {
       const baseLatitude = 25.2048;
       const baseLongitude = 55.2708;
       const latOffset = (Math.random() - 0.5) * 0.1;
       const lngOffset = (Math.random() - 0.5) * 0.15;
       return [baseLongitude + lngOffset, baseLatitude + latOffset];
-    } else if (location.includes('cyprus') || location.includes('kıbrıs')) {
+    } else if (loc.includes('cyprus') || loc.includes('kıbrıs')) {
       const baseLatitude = 35.1264;
       const baseLongitude = 33.4299;
       const latOffset = (Math.random() - 0.5) * 0.08;
       const lngOffset = (Math.random() - 0.5) * 0.1;
       return [baseLongitude + lngOffset, baseLatitude + latOffset];
-    } else if (location.includes('mersin')) {
+    } else if (loc.includes('mersin')) {
       const baseLatitude = 36.8121;
       const baseLongitude = 34.6414;
       const latOffset = (Math.random() - 0.5) * 0.08;
       const lngOffset = (Math.random() - 0.5) * 0.1;
       return [baseLongitude + lngOffset, baseLatitude + latOffset];
-    } else if (location.includes('bali')) {
+    } else if (loc.includes('bali')) {
       const baseLatitude = -8.4095;
       const baseLongitude = 115.0920;
       const latOffset = (Math.random() - 0.5) * 0.08;
@@ -97,7 +120,7 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
       return [baseLongitude + lngOffset, baseLatitude + latOffset];
     }
     
-    // Default to Antalya area for unknown locations
+    // Default to Antalya area
     return [30.7133 + (Math.random() - 0.5) * 0.1, 36.8969 + (Math.random() - 0.5) * 0.1];
   };
 
@@ -119,10 +142,13 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/light-v11',
+        style: 'mapbox://styles/mapbox/satellite-streets-v12', // 3D satellite style
         center: [30.7133, 36.8969], // Antalya center
-        zoom: 10,
-        attributionControl: false
+        zoom: 12,
+        pitch: 45, // 3D perspective
+        bearing: 0,
+        attributionControl: false,
+        antialias: true // Smooth 3D rendering
       });
 
       // Add navigation controls
@@ -130,6 +156,57 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
       map.current.on('load', () => {
         console.log('✅ Map loaded successfully');
+        
+        // Add 3D terrain
+        map.current!.addSource('mapbox-dem', {
+          'type': 'raster-dem',
+          'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+          'tileSize': 512,
+          'maxzoom': 14
+        });
+        
+        map.current!.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+        
+        // Add 3D buildings layer
+        const layers = map.current!.getStyle().layers;
+        const labelLayerId = layers.find(
+          (layer) => layer.type === 'symbol' && layer.layout!['text-field']
+        )?.id;
+        
+        map.current!.addLayer(
+          {
+            'id': 'add-3d-buildings',
+            'source': 'composite',
+            'source-layer': 'building',
+            'filter': ['==', 'extrude', 'true'],
+            'type': 'fill-extrusion',
+            'minzoom': 15,
+            'paint': {
+              'fill-extrusion-color': '#aaa',
+              'fill-extrusion-height': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                15,
+                0,
+                15.05,
+                ['get', 'height']
+              ],
+              'fill-extrusion-base': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                15,
+                0,
+                15.05,
+                ['get', 'min_height']
+              ],
+              'fill-extrusion-opacity': 0.6
+            }
+          },
+          labelLayerId
+        );
+        
         setMapLoaded(true);
       });
 
@@ -158,89 +235,101 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
     console.log('🏠 Adding markers for', properties.length, 'properties');
 
-    // Clear existing markers
-    markersRef.current.forEach(marker => marker.remove());
-    markersRef.current = [];
+    const addMarkersAsync = async () => {
+      // Clear existing markers
+      markersRef.current.forEach(marker => marker.remove());
+      markersRef.current = [];
 
-    const propertiesWithCoords: PropertyWithCoords[] = properties.map(property => ({
-      ...property,
-      coordinates: getPropertyCoordinates(property)
-    })).filter(property => property.coordinates !== null);
-
-    console.log('📍 Properties with coordinates:', propertiesWithCoords.length);
-
-    propertiesWithCoords.forEach((property, index) => {
-      if (!property.coordinates) return;
-
-      console.log(`📌 Adding marker ${index + 1}:`, {
-        title: property.title,
-        location: property.location,
-        price: property.price,
-        coordinates: property.coordinates
-      });
-
-      // Extract clean price for display
-      let displayPrice = property.price || property.starting_price_eur || '€-';
-      const priceMatch = displayPrice.match(/€[\d,]+/);
-      if (priceMatch) {
-        displayPrice = priceMatch[0];
-      } else if (displayPrice !== '€-' && !displayPrice.includes('€')) {
-        displayPrice = `€${displayPrice}`;
-      }
-
-      // Create custom marker element
-      const markerElement = document.createElement('div');
-      markerElement.className = 'property-marker';
-      markerElement.innerHTML = `
-        <div class="bg-white border-2 border-blue-600 rounded-lg px-3 py-1 text-sm font-semibold shadow-lg cursor-pointer hover:bg-blue-600 hover:text-white transition-colors">
-          ${displayPrice}
-        </div>
-      `;
-
-      // Add marker to map
-      const marker = new mapboxgl.Marker(markerElement)
-        .setLngLat(property.coordinates)
-        .addTo(map.current!);
-
-      // Add click event
-      markerElement.addEventListener('click', () => {
-        console.log('🖱️ Marker clicked:', property.title);
-        setSelectedProperty(property);
-        if (onPropertyClick) {
-          onPropertyClick(property);
-        }
-      });
-
-      markersRef.current.push(marker);
-    });
-
-    // Fit bounds to show all properties or set default view
-    if (propertiesWithCoords.length > 0) {
-      const bounds = new mapboxgl.LngLatBounds();
-      propertiesWithCoords.forEach(property => {
-        if (property.coordinates) {
-          bounds.extend(property.coordinates);
-        }
-      });
+      // Get coordinates for all properties asynchronously
+      const propertiesWithCoords: PropertyWithCoords[] = [];
       
-      try {
-        map.current.fitBounds(bounds, { 
-          padding: 50,
-          maxZoom: 15
-        });
-      } catch (error) {
-        console.warn('Could not fit bounds, using default view');
-        map.current.setCenter([30.7133, 36.8969]);
-        map.current.setZoom(10);
+      for (const property of properties) {
+        const coordinates = await getPropertyCoordinates(property);
+        if (coordinates) {
+          propertiesWithCoords.push({
+            ...property,
+            coordinates
+          });
+        }
       }
-    } else {
-      // Default to Antalya view if no properties
-      console.log('🌍 No properties, setting default view to Antalya');
-      map.current.setCenter([30.7133, 36.8969]);
-      map.current.setZoom(10);
-    }
 
-    console.log('✅ Markers added successfully. Total markers:', markersRef.current.length);
+      console.log('📍 Properties with coordinates:', propertiesWithCoords.length);
+
+      propertiesWithCoords.forEach((property, index) => {
+        if (!property.coordinates) return;
+
+        console.log(`📌 Adding marker ${index + 1}:`, {
+          title: property.title,
+          location: property.location,
+          price: property.price,
+          coordinates: property.coordinates
+        });
+
+        // Extract clean price for display
+        let displayPrice = property.price || property.starting_price_eur || '€-';
+        const priceMatch = displayPrice.match(/€[\d,]+/);
+        if (priceMatch) {
+          displayPrice = priceMatch[0];
+        } else if (displayPrice !== '€-' && !displayPrice.includes('€')) {
+          displayPrice = `€${displayPrice}`;
+        }
+
+        // Create custom 3D-style marker element
+        const markerElement = document.createElement('div');
+        markerElement.className = 'property-marker';
+        markerElement.innerHTML = `
+          <div class="bg-white border-2 border-primary rounded-xl px-4 py-2 text-sm font-bold shadow-2xl cursor-pointer hover:bg-primary hover:text-white transition-all duration-300 transform hover:scale-110" style="box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+            ${displayPrice}
+          </div>
+        `;
+
+        // Add marker to map
+        const marker = new mapboxgl.Marker(markerElement)
+          .setLngLat(property.coordinates)
+          .addTo(map.current!);
+
+        // Add click event
+        markerElement.addEventListener('click', () => {
+          console.log('🖱️ Marker clicked:', property.title);
+          setSelectedProperty(property);
+          if (onPropertyClick) {
+            onPropertyClick(property);
+          }
+        });
+
+        markersRef.current.push(marker);
+      });
+
+      // Fit bounds to show all properties or set default view
+      if (propertiesWithCoords.length > 0) {
+        const bounds = new mapboxgl.LngLatBounds();
+        propertiesWithCoords.forEach(property => {
+          if (property.coordinates) {
+            bounds.extend(property.coordinates);
+          }
+        });
+        
+        try {
+          map.current!.fitBounds(bounds, { 
+            padding: 50,
+            maxZoom: 15
+          });
+        } catch (error) {
+          console.warn('Could not fit bounds, using default view');
+          map.current!.setCenter([30.7133, 36.8969]);
+          map.current!.setZoom(12);
+        }
+      } else {
+        // Default to Antalya view if no properties
+        console.log('🌍 No properties, setting default view to Antalya');
+        map.current!.setCenter([30.7133, 36.8969]);
+        map.current!.setZoom(12);
+      }
+
+      console.log('✅ Markers added successfully. Total markers:', markersRef.current.length);
+    };
+
+    addMarkersAsync();
   }, [properties, mapLoaded, onPropertyClick]);
 
   const extractPrice = (priceStr: string | null | undefined): string => {
