@@ -8,6 +8,7 @@ import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
+import { GlobalPerformanceOptimizer } from "@/components/GlobalPerformanceOptimizer";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -53,18 +54,19 @@ const VideoShowcase = lazy(() => import("./pages/VideoShowcase"));
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes
+      staleTime: 10 * 60 * 1000, // 10 minutes - increased for better caching
+      gcTime: 30 * 60 * 1000, // 30 minutes - increased for better performance
       refetchOnWindowFocus: false,
+      refetchOnMount: false, // Prevent unnecessary refetches
       retry: (failureCount, error) => {
         // Don't retry on 4xx errors (client errors)
         if (error?.message?.includes('400') || error?.message?.includes('404')) {
           return false;
         }
-        // Retry up to 3 times for network errors
-        return failureCount < 3;
+        // Retry only once for network errors to improve perceived speed
+        return failureCount < 1;
       },
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff with 30s max
+      retryDelay: 1000, // Fixed 1s delay
       networkMode: 'offlineFirst', // Better handling for poor connections
     },
     mutations: {
@@ -73,9 +75,9 @@ const queryClient = new QueryClient({
         if (error?.message?.includes('400') || error?.message?.includes('404')) {
           return false;
         }
-        return failureCount < 2;
+        return failureCount < 1; // Reduced retries
       },
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+      retryDelay: 1000, // Fixed 1s delay  
       networkMode: 'offlineFirst',
     },
   },
@@ -96,7 +98,15 @@ function App() {
           <CurrencyProvider>
             <TooltipProvider>
               <BrowserRouter>
-                <PerformanceMonitor logLevel="basic" />
+                <GlobalPerformanceOptimizer 
+                  criticalImages={[
+                    '/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png',
+                    'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/rl9q4mj1esj.jpg'
+                  ]}
+                  enableImageOptimization={true}
+                  enableResourceHints={true}
+                />
+                <PerformanceMonitor logLevel="none" />
                 <Toaster />
                 <Sonner />
                 <ScrollToTop />

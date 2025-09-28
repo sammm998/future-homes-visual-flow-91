@@ -51,11 +51,11 @@ const Index = () => {
 
   // Auto-sync removed - now using database-only approach
 
-  // Delay popup to improve perceived performance
+  // Delay popup to improve perceived performance - increased to reduce impact
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowPopup(true);
-    }, 45000); // Delayed to 45 seconds to reduce initial load impact
+    }, 60000); // Increased to 60 seconds to minimize initial load impact
 
     return () => clearTimeout(timer);
   }, []);
@@ -181,6 +181,12 @@ const Index = () => {
     }]
   };
   return <div className="min-h-screen overflow-x-hidden">
+      <PerformanceOptimizer 
+        preloadImages={[
+          '/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png'
+        ]}
+        prefetchRoutes={['/antalya', '/dubai', '/cyprus']}
+      />
       <SEOHead title={pageTitle || "Future Homes Turkey - Premium International Real Estate Investment"} description={metaDescription || "Discover premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Bali. Expert guidance for property investment, Turkish citizenship programs, and luxury overseas homes. Your international investment future starts here."} keywords="real estate Turkey, property investment Dubai, Cyprus properties, Turkish citizenship, Antalya real estate, luxury homes Turkey, overseas property investment, international real estate, property for sale Turkey, investment opportunities" canonicalUrl={currentCanonicalUrl} structuredData={[homePageStructuredData, faqStructuredData]} />
       <OrganizationSchema />
       <Navigation />
