@@ -103,23 +103,43 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
   // Initialize map
   useEffect(() => {
-    if (!mapContainer.current || !mapboxToken || map.current) return;
+    if (!mapContainer.current || !mapboxToken || map.current) {
+      console.log('🗺️ Map initialization check:', { 
+        container: !!mapContainer.current, 
+        token: !!mapboxToken, 
+        mapExists: !!map.current 
+      });
+      return;
+    }
 
-    mapboxgl.accessToken = mapboxToken;
+    console.log('🚀 Initializing Mapbox map with token:', mapboxToken.substring(0, 20) + '...');
 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/light-v11',
-      center: [30.7133, 36.8969], // Antalya center
-      zoom: 10,
-    });
+    try {
+      mapboxgl.accessToken = mapboxToken;
 
-    // Add navigation controls
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: 'mapbox://styles/mapbox/light-v11',
+        center: [30.7133, 36.8969], // Antalya center
+        zoom: 10,
+        attributionControl: false
+      });
 
-    map.current.on('load', () => {
-      setMapLoaded(true);
-    });
+      // Add navigation controls
+      map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+      map.current.on('load', () => {
+        console.log('✅ Map loaded successfully');
+        setMapLoaded(true);
+      });
+
+      map.current.on('error', (e) => {
+        console.error('❌ Map error:', e);
+      });
+
+    } catch (error) {
+      console.error('❌ Failed to initialize map:', error);
+    }
 
     return () => {
       if (map.current) {
@@ -244,7 +264,20 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
   return (
     <div className={`relative ${className}`}>
-      <div ref={mapContainer} className="absolute inset-0 rounded-lg" />
+      <div 
+        ref={mapContainer} 
+        className="absolute inset-0 rounded-lg bg-gray-100"
+        style={{ minHeight: '400px' }}
+      />
+      
+      {!mapLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+            <p className="text-sm text-muted-foreground">Loading map...</p>
+          </div>
+        </div>
+      )}
       
       {/* Selected Property Card */}
       {selectedProperty && (

@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, Map, List, Filter } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 interface PropertyFilters {
   location: string;
@@ -289,12 +290,21 @@ const PropertyMapSearch = () => {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            {viewMode === 'map' ? (
-              <PropertyMap
-                properties={filteredProperties}
-                onPropertyClick={handlePropertyClick}
-                className="h-[600px] lg:h-[700px]"
-              />
+            {loading ? (
+              <div className="h-[600px] lg:h-[700px] bg-muted animate-pulse rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+                  <p className="text-sm text-muted-foreground">Loading properties...</p>
+                </div>
+              </div>
+            ) : viewMode === 'map' ? (
+              <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
+                <PropertyMap
+                  properties={filteredProperties}
+                  onPropertyClick={handlePropertyClick}
+                  className="h-[600px] lg:h-[700px] w-full"
+                />
+              </div>
             ) : (
               <div className="space-y-4">
                 {loading ? (
