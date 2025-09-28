@@ -191,7 +191,7 @@ export const CircularTestimonials: React.FC<CircularTestimonialsProps> = ({
               className="absolute w-full h-full object-cover rounded-3xl shadow-elegant"
               data-index={index}
               style={getImageStyle(index)}
-              loading={index === 0 ? 'eager' : 'lazy'}
+              loading="eager"
             />
           ))}
         </div>

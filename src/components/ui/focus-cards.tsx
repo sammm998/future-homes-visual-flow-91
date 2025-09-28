@@ -37,7 +37,7 @@ export const Card = React.memo(
             target.src = '/placeholder.svg';
           }
         }}
-        loading="lazy"
+        loading="eager"
       />
       <div
         className={cn(

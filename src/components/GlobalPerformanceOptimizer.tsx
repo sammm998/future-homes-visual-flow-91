@@ -15,34 +15,39 @@ export const GlobalPerformanceOptimizer: React.FC<GlobalPerformanceOptimizerProp
   useEffect(() => {
     if (!enableImageOptimization) return;
 
-    // Set up intersection observer for lazy images
-    const images = document.querySelectorAll('img[loading="lazy"]');
+    // Set high priority for all images to load immediately
+    const allImages = document.querySelectorAll('img');
+    allImages.forEach((img) => {
+      img.setAttribute('fetchpriority', 'high');
+      img.setAttribute('loading', 'eager');
+      // Add fade-in effect
+      img.style.transition = 'opacity 0.3s ease-in-out';
+    });
     
-    const imageObserver = new IntersectionObserver((entries) => {
+    // Preload images that are still loading
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target as HTMLImageElement;
-          // Add fade-in effect
-          img.style.transition = 'opacity 0.3s ease-in-out';
-          imageObserver.unobserve(img);
+          if (!img.complete) {
+            // Force immediate loading
+            const newImg = new Image();
+            newImg.onload = () => {
+              img.src = newImg.src;
+            };
+            newImg.src = img.src;
+          }
+          observer.unobserve(img);
         }
       });
     }, {
-      threshold: 0.1,
-      rootMargin: '50px'
+      threshold: 0,
+      rootMargin: '200px' // Start loading 200px before visible
     });
 
-    images.forEach(img => imageObserver.observe(img));
+    allImages.forEach(img => observer.observe(img));
 
-    // Optimize image loading priority
-    const aboveFoldImages = document.querySelectorAll('img');
-    aboveFoldImages.forEach((img, index) => {
-      if (index < 3) {
-        img.setAttribute('fetchpriority', 'high');
-      }
-    });
-
-    return () => imageObserver.disconnect();
+    return () => observer.disconnect();
   }, [enableImageOptimization]);
 
   return (

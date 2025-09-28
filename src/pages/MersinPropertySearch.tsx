@@ -24,6 +24,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
+import { preloadImages, forceImageLoading } from '@/utils/imagePreloader';
+
 const MersinPropertySearch = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
   const navigate = useNavigate();
@@ -139,11 +141,22 @@ const MersinPropertySearch = () => {
 
   // Preload critical images for better performance
   const propertyImages = useMemo(() => 
-    properties.slice(0, 6).map(p => p.image).filter(Boolean), 
+    properties.slice(0, 12).map(p => p.image).filter(Boolean), 
     [properties]
   );
   
   useImagePreloading(propertyImages, { priority: true });
+  
+  // Force immediate image loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      forceImageLoading();
+      // Preload all property images
+      preloadImages(propertyImages);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [propertyImages]);
 
   const filteredProperties = useMemo(() => {
     if (showFiltered) {

@@ -85,7 +85,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             src={getImageUrl()}
             alt={property.title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-            priority={false}
+            priority={true}
           />
           
           {/* Modern gradient overlay */}

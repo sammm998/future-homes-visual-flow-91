@@ -123,7 +123,7 @@ const MediaItem = ({ item, className, onClick }: { item: MediaItemType, classNam
             alt={item.title}
             className={`${className} object-cover cursor-pointer`}
             onClick={onClick}
-            loading="lazy"
+            loading="eager"
             decoding="async"
         />
     );
