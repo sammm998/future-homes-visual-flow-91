@@ -38,29 +38,48 @@ const PropertyMapSearch = () => {
 
   // Transform properties to the expected format
   const transformedProperties: Property[] = useMemo(() => {
-    return properties
+    console.log('🏠 Raw properties from database:', properties);
+    
+    const transformed = properties
       .filter(property => property.is_active)
-      .map(property => ({
-        id: property.id,
-        ref_no: property.ref_no || '',
-        title: property.title || 'Untitled Property',
-        location: property.location || 'Unknown Location',
-        price: property.price || property.starting_price_eur || '',
-        starting_price_eur: property.starting_price_eur || '',
-        images: (property as any).images ? 
-                (Array.isArray((property as any).images) ? (property as any).images : [(property as any).images]) : [],
-        apartment_types: Array.isArray(property.apartment_types) ? property.apartment_types : [],
-        features: property.amenities || [],
-        status: property.status || 'available',
-        created_at: property.created_at || new Date().toISOString(),
-        updated_at: property.updated_at || new Date().toISOString(),
-        is_active: property.is_active ?? true,
-        is_sold: false,
-        // Additional compatibility fields
-        bedrooms: property.bedrooms || (Array.isArray(property.apartment_types) && property.apartment_types[0]?.bedrooms ? property.apartment_types[0].bedrooms.toString() : ''),
-        bathrooms: property.bathrooms || (Array.isArray(property.apartment_types) && property.apartment_types[0]?.bathrooms ? property.apartment_types[0].bathrooms.toString() : ''),
-        area: (Array.isArray(property.apartment_types) && property.apartment_types[0]?.size) || ''
-      }));
+      .map(property => {
+        // Handle images - check multiple possible fields
+        let images: string[] = [];
+        if (property.property_images && Array.isArray(property.property_images)) {
+          images = property.property_images;
+        } else if (property.property_image) {
+          images = [property.property_image];
+        } else if ((property as any).images) {
+          const propImages = (property as any).images;
+          images = Array.isArray(propImages) ? propImages : [propImages];
+        }
+        
+        console.log('🖼️ Property images for', property.title, ':', images);
+        
+        return {
+          id: property.id,
+          ref_no: property.ref_no || '',
+          title: property.title || 'Untitled Property',
+          location: property.location || 'Unknown Location',
+          price: property.price || property.starting_price_eur || '€0',
+          starting_price_eur: property.starting_price_eur || '',
+          images: images,
+          apartment_types: Array.isArray(property.apartment_types) ? property.apartment_types : [],
+          features: property.amenities || [],
+          status: property.status || 'available',
+          created_at: property.created_at || new Date().toISOString(),
+          updated_at: property.updated_at || new Date().toISOString(),
+          is_active: property.is_active ?? true,
+          is_sold: false,
+          // Additional compatibility fields
+          bedrooms: property.bedrooms || (Array.isArray(property.apartment_types) && property.apartment_types[0]?.bedrooms ? property.apartment_types[0].bedrooms.toString() : ''),
+          bathrooms: property.bathrooms || (Array.isArray(property.apartment_types) && property.apartment_types[0]?.bathrooms ? property.apartment_types[0].bathrooms.toString() : ''),
+          area: (Array.isArray(property.apartment_types) && property.apartment_types[0]?.size) || ''
+        };
+      });
+    
+    console.log('🔄 Transformed properties:', transformed);
+    return transformed;
   }, [properties]);
 
   // Filter properties based on search and filters

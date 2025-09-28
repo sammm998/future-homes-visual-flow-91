@@ -33,10 +33,11 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
   useEffect(() => {
     const getMapboxToken = async () => {
       try {
-        const response = await fetch('/functions/v1/map-proxy', {
+        const response = await fetch('https://kiogiyemoqbnuvclneoe.supabase.co/functions/v1/map-proxy', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtpb2dpeWVtb3FibnV2Y2xuZW9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3MDg4NzIsImV4cCI6MjA2ODI4NDg3Mn0.wZFKwwrvtrps2gCFc15rHN-3eg5T_kEDioBGZV_IctI`
           },
           body: JSON.stringify({ action: 'get-token' })
         });
@@ -44,10 +45,12 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
         if (response.ok) {
           const data = await response.json();
           setMapboxToken(data.token);
+        } else {
+          throw new Error('Failed to fetch token');
         }
       } catch (error) {
         console.error('Failed to get Mapbox token:', error);
-        // Fallback to provided token
+        // Use the provided token directly
         setMapboxToken('sk.eyJ1Ijoic2FwYTAxIiwiYSI6ImNtZzNudzl6MTE3M3gya3F3MjVxc2RzMmgifQ.JHiGmBRE55rT8fYpoc7_aw');
       }
     };
@@ -55,24 +58,46 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
     getMapboxToken();
   }, []);
 
-  // Mock coordinates for properties (in a real app, these would come from the database)
+  // Get coordinates for properties based on their location
   const getPropertyCoordinates = (property: Property): [number, number] | null => {
     const location = property.location?.toLowerCase() || '';
+    const refNo = property.ref_no || '';
     
-    // Default coordinates for major cities
-    if (location.includes('antalya')) {
-      return [30.7133 + (Math.random() - 0.5) * 0.1, 36.8969 + (Math.random() - 0.5) * 0.1];
-    } else if (location.includes('dubai')) {
-      return [55.2708 + (Math.random() - 0.5) * 0.1, 25.2048 + (Math.random() - 0.5) * 0.1];
-    } else if (location.includes('cyprus')) {
-      return [33.4299 + (Math.random() - 0.5) * 0.1, 35.1264 + (Math.random() - 0.5) * 0.1];
+    // Use more varied coordinates for different areas
+    if (location.includes('antalya') || location.includes('altıntaş') || location.includes('konyaalti') || location.includes('lara')) {
+      // Antalya area coordinates with variety
+      const baseLatitude = 36.8969;
+      const baseLongitude = 30.7133;
+      const latOffset = (Math.random() - 0.5) * 0.15; // Larger spread
+      const lngOffset = (Math.random() - 0.5) * 0.2;
+      return [baseLongitude + lngOffset, baseLatitude + latOffset];
+    } else if (location.includes('dubai') || location.includes('uae')) {
+      const baseLatitude = 25.2048;
+      const baseLongitude = 55.2708;
+      const latOffset = (Math.random() - 0.5) * 0.1;
+      const lngOffset = (Math.random() - 0.5) * 0.15;
+      return [baseLongitude + lngOffset, baseLatitude + latOffset];
+    } else if (location.includes('cyprus') || location.includes('kıbrıs')) {
+      const baseLatitude = 35.1264;
+      const baseLongitude = 33.4299;
+      const latOffset = (Math.random() - 0.5) * 0.08;
+      const lngOffset = (Math.random() - 0.5) * 0.1;
+      return [baseLongitude + lngOffset, baseLatitude + latOffset];
     } else if (location.includes('mersin')) {
-      return [34.6414 + (Math.random() - 0.5) * 0.1, 36.8121 + (Math.random() - 0.5) * 0.1];
+      const baseLatitude = 36.8121;
+      const baseLongitude = 34.6414;
+      const latOffset = (Math.random() - 0.5) * 0.08;
+      const lngOffset = (Math.random() - 0.5) * 0.1;
+      return [baseLongitude + lngOffset, baseLatitude + latOffset];
     } else if (location.includes('bali')) {
-      return [115.0920 + (Math.random() - 0.5) * 0.1, -8.4095 + (Math.random() - 0.5) * 0.1];
+      const baseLatitude = -8.4095;
+      const baseLongitude = 115.0920;
+      const latOffset = (Math.random() - 0.5) * 0.08;
+      const lngOffset = (Math.random() - 0.5) * 0.1;
+      return [baseLongitude + lngOffset, baseLatitude + latOffset];
     }
     
-    // Default to Antalya area
+    // Default to Antalya area for unknown locations
     return [30.7133 + (Math.random() - 0.5) * 0.1, 36.8969 + (Math.random() - 0.5) * 0.1];
   };
 
@@ -106,7 +131,12 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
   // Add markers for properties
   useEffect(() => {
-    if (!map.current || !mapLoaded) return;
+    if (!map.current || !mapLoaded) {
+      console.log('🗺️ Map not ready:', { mapExists: !!map.current, mapLoaded });
+      return;
+    }
+
+    console.log('🏠 Adding markers for', properties.length, 'properties');
 
     // Clear existing markers
     markersRef.current.forEach(marker => marker.remove());
@@ -117,15 +147,33 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
       coordinates: getPropertyCoordinates(property)
     })).filter(property => property.coordinates !== null);
 
-    propertiesWithCoords.forEach((property) => {
+    console.log('📍 Properties with coordinates:', propertiesWithCoords.length);
+
+    propertiesWithCoords.forEach((property, index) => {
       if (!property.coordinates) return;
+
+      console.log(`📌 Adding marker ${index + 1}:`, {
+        title: property.title,
+        location: property.location,
+        price: property.price,
+        coordinates: property.coordinates
+      });
+
+      // Extract clean price for display
+      let displayPrice = property.price || property.starting_price_eur || '€-';
+      const priceMatch = displayPrice.match(/€[\d,]+/);
+      if (priceMatch) {
+        displayPrice = priceMatch[0];
+      } else if (displayPrice !== '€-' && !displayPrice.includes('€')) {
+        displayPrice = `€${displayPrice}`;
+      }
 
       // Create custom marker element
       const markerElement = document.createElement('div');
       markerElement.className = 'property-marker';
       markerElement.innerHTML = `
-        <div class="bg-white border-2 border-primary rounded-lg px-2 py-1 text-sm font-semibold shadow-lg cursor-pointer hover:bg-primary hover:text-white transition-colors">
-          ${property.price || property.starting_price_eur || '€-'}
+        <div class="bg-white border-2 border-blue-600 rounded-lg px-3 py-1 text-sm font-semibold shadow-lg cursor-pointer hover:bg-blue-600 hover:text-white transition-colors">
+          ${displayPrice}
         </div>
       `;
 
@@ -136,6 +184,7 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
       // Add click event
       markerElement.addEventListener('click', () => {
+        console.log('🖱️ Marker clicked:', property.title);
         setSelectedProperty(property);
         if (onPropertyClick) {
           onPropertyClick(property);
@@ -145,7 +194,7 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
       markersRef.current.push(marker);
     });
 
-    // Fit bounds to show all properties
+    // Fit bounds to show all properties or set default view
     if (propertiesWithCoords.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
       propertiesWithCoords.forEach(property => {
@@ -153,8 +202,25 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
           bounds.extend(property.coordinates);
         }
       });
-      map.current.fitBounds(bounds, { padding: 50 });
+      
+      try {
+        map.current.fitBounds(bounds, { 
+          padding: 50,
+          maxZoom: 15
+        });
+      } catch (error) {
+        console.warn('Could not fit bounds, using default view');
+        map.current.setCenter([30.7133, 36.8969]);
+        map.current.setZoom(10);
+      }
+    } else {
+      // Default to Antalya view if no properties
+      console.log('🌍 No properties, setting default view to Antalya');
+      map.current.setCenter([30.7133, 36.8969]);
+      map.current.setZoom(10);
     }
+
+    console.log('✅ Markers added successfully. Total markers:', markersRef.current.length);
   }, [properties, mapLoaded, onPropertyClick]);
 
   const extractPrice = (priceStr: string | null | undefined): string => {
