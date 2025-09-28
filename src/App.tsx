@@ -42,7 +42,6 @@ const PropertyGallery = lazy(() => import("./pages/PropertyGallery"));
 const Article = lazy(() => import("./pages/Article"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const PropertyMapSearch = lazy(() => import("./pages/PropertyMapSearch"));
 const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const ExpensesBuyingPropertyTurkey = lazy(() => import("./pages/ExpensesBuyingPropertyTurkey"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
@@ -133,7 +132,6 @@ function AppContent() {
       <Route path="/cyprus" element={<CyprusPropertySearch />} />
       <Route path="/mersin" element={<MersinPropertySearch />} />
       <Route path="/bali" element={<BaliPropertySearch />} />
-      <Route path="/map-search" element={<PropertyMapSearch />} />
       
       
       <Route path="/property/:id" element={<PropertyDetail />} />
