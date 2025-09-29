@@ -22,8 +22,7 @@ export const useBlogPosts = (includeUnpublished = false) => {
       return await resilientQuery(async () => {
         let query = enhancedSupabase
           .from('blog_posts')
-          .select('*')
-          .limit(50);
+          .select('*');
         
         if (!includeUnpublished) {
           query = query.eq('published', true);

@@ -353,7 +353,7 @@ const Information = () => {
     return defaultImages[index % defaultImages.length];
   };
 
-  // Convert blog posts to articles format and combine with static articles
+  // Convert ALL blog posts to articles format and combine with static articles
   const databaseArticles = blogPosts.map((post, index) => ({
     id: index + 1000, // Offset to avoid conflicts with static article IDs
     title: post.title,
@@ -364,8 +364,11 @@ const Information = () => {
     category: getArticleCategory(post.title, post.content),
     content: post.content,
     slug: post.slug, // Use the actual slug from database
-    isDatabaseArticle: true // Mark as database article
+    isDatabaseArticle: true, // Mark as database article
+    published: post.published
   }));
+
+  console.log(`Loaded ${databaseArticles.length} database articles from Supabase`);
 
   // Add default images to static articles that might not have them
   const staticArticlesWithImages = staticArticles.map((article, index) => ({
@@ -374,16 +377,22 @@ const Information = () => {
     slug: article.title.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')
   }));
 
-  // Combine static articles with database articles
-  const articles = [...staticArticlesWithImages, ...databaseArticles];
+  // Combine static articles with database articles - database articles first to prioritize them
+  const articles = [...databaseArticles, ...staticArticlesWithImages];
 
   const filteredArticles = activeFilter === "all" 
     ? articles 
     : articles.filter(article => article.category === activeFilter);
 
+  console.log(`Total articles: ${articles.length}, Filtered: ${filteredArticles.length}`);
+
   const handleArticleClick = (slug: string) => {
+    console.log(`Clicking article with slug: ${slug}`);
+    
     // Check if it's a database article (has proper slug from Supabase)
     const isDatabaseArticle = databaseArticles.some(article => article.slug === slug);
+    
+    console.log(`Is database article: ${isDatabaseArticle}`);
     
     if (isDatabaseArticle) {
       navigate(`/articles/${slug}`);
