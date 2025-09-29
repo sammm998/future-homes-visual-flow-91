@@ -666,59 +666,6 @@ export const articles: Article[] = [
       </div>
     `
   },
-  {
-    id: 8,
-    title: "The Bali Lifestyle Appeal",
-    description: "Discover the unique lifestyle and investment opportunities in Bali",
-    icon: MapPin,
-    category: "living",
-    content: `
-      <div class="space-y-8">
-        <div class="text-center">
-          <h1 class="text-4xl font-bold text-foreground mb-4">The Bali Lifestyle Appeal</h1>
-          <p class="text-xl text-muted-foreground">Bali has captured the hearts of international property buyers not just for its investment potential, but for the extraordinary lifestyle it offers. The Island of Gods provides a unique blend of tropical paradise, rich cultural heritage, and modern amenities.</p>
-        </div>
-
-        <div>
-          <h2 class="text-3xl font-bold text-foreground mb-6">Natural Beauty and Climate</h2>
-          <p class="text-lg leading-relaxed mb-6">The island's year-round tropical climate, stunning beaches, and lush landscapes provide an idyllic backdrop for daily life. From sunrise yoga sessions overlooking rice terraces to sunset cocktails on pristine beaches, Bali offers a natural setting that enhances quality of life in ways that few destinations can match.</p>
-          
-          <p class="text-lg leading-relaxed mb-6">The diverse geography means you can choose from beachfront villas in Seminyak, jungle retreats in Ubud, or cliff-top properties in Uluwatu, each offering its own unique lifestyle experience.</p>
-        </div>
-
-        <div class="bg-primary/5 p-6 rounded-lg">
-          <h3 class="text-2xl font-bold text-primary mb-4">Rich Cultural Heritage</h3>
-          <p class="text-lg leading-relaxed mb-4">Living in Bali means immersing yourself in a culture that values spirituality, community, and artistic expression. The Balinese Hindu traditions create a peaceful, harmonious atmosphere that many international residents find deeply enriching.</p>
-          
-          <p class="text-lg leading-relaxed">Daily temple ceremonies, traditional art forms, and the warm hospitality of the Balinese people contribute to a sense of belonging that goes beyond mere property ownership.</p>
-        </div>
-
-        <div class="bg-green-50 p-6 rounded-lg">
-          <h3 class="text-2xl font-bold text-green-800 mb-4">Modern Amenities and Infrastructure</h3>
-          <p class="text-lg text-green-700 mb-4">Despite its traditional charm, Bali offers excellent modern infrastructure. High-speed internet makes it ideal for digital nomads and remote workers, while international schools cater to expat families. World-class restaurants, spas, and healthcare facilities ensure comfort and convenience.</p>
-        </div>
-
-        <div class="bg-blue-50 p-6 rounded-lg">
-          <h3 class="text-2xl font-bold text-blue-800 mb-4">Community and Networking</h3>
-          <p class="text-lg text-blue-700 mb-4">The international community in Bali is vibrant and welcoming. Networking events, co-working spaces, and social clubs make it easy to connect with like-minded individuals from around the world, creating both personal and professional opportunities.</p>
-        </div>
-
-        <div class="bg-yellow-50 p-6 rounded-lg">
-          <h3 class="text-2xl font-bold text-yellow-800 mb-4">Cost of Living Advantages</h3>
-          <p class="text-lg text-yellow-700 mb-4">Compared to major Western cities, Bali offers exceptional value for money. Your property investment can provide not just potential returns, but also access to a high-quality lifestyle at a fraction of the cost you might expect elsewhere.</p>
-        </div>
-
-        <div>
-          <h2 class="text-3xl font-bold text-foreground mb-6">Investment Opportunities</h2>
-          <p class="text-lg leading-relaxed mb-6">Bali's property market offers diverse investment opportunities, from luxury villas that can generate strong rental income to commercial properties in growing tourist areas. The combination of lifestyle benefits and investment potential makes Bali an attractive proposition for discerning international buyers.</p>
-
-          <blockquote class="border-l-4 border-primary pl-6 py-4 my-6 bg-muted/50 rounded-r-lg">
-            <p class="text-foreground font-medium italic">"Bali isn't just a place to invest; it's a place to live a richer, more fulfilling life while your investment grows."</p>
-          </blockquote>
-        </div>
-      </div>
-    `
-  },
   
 ];
 
