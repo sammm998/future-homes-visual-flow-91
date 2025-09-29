@@ -25,28 +25,18 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   ...props
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isInView, setIsInView] = useState(priority);
+  // Always load images immediately for better performance
+  const [isInView] = useState(true);
   const imgRef = useRef<HTMLImageElement>(null);
 
+  // Removed intersection observer for immediate loading
   useEffect(() => {
-    if (priority) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: '50px' }
-    );
-
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
+    // Preload image for better performance
+    if (src) {
+      const img = new Image();
+      img.src = src;
     }
-
-    return () => observer.disconnect();
-  }, [priority]);
+  }, [src]);
 
   const handleLoad = () => {
     setIsLoaded(true);
@@ -80,6 +70,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           onError={handleError}
           loading="eager"
           decoding="async"
+          fetchPriority="high"
           width={width}
           height={height}
           {...props}

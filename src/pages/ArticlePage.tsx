@@ -52,62 +52,71 @@ const ArticlePage = () => {
     return `${readingTime} min read`;
   };
 
-  // Same image assignment logic as Information page
-  const getArticleImage = (title: string, content: string) => {
+  // Same image assignment logic as Information page - EXACT COPY for consistency
+  const getArticleImage = (title: string, content: string, index = 0) => {
     const text = (title + ' ' + content).toLowerCase();
-    
-    if (text.includes('legal') || text.includes('law') || text.includes('citizenship') || text.includes('visa')) {
-      const legalImages = [
-        '/lovable-uploads/e3b2ee1e-9aba-420b-a9f7-2bfaab5eacd0.png', // Legal consultation
-        '/lovable-uploads/fe0a5d97-1db3-47f0-8c31-14b7d26c4fa7.png', // Legal documentation
-        '/lovable-uploads/f2ecaa46-de2c-4b29-9c74-de4aadb9c5ed.png'  // Legal process
-      ];
-      return legalImages[0];
-    }
-    
-    if (text.includes('finance') || text.includes('tax') || text.includes('investment') || text.includes('bitcoin') || text.includes('crypto')) {
-      const financeImages = [
-        '/lovable-uploads/7b25e970-4a85-4c31-b6f5-5cf63d1c88c4.png', // Financial planning
-        '/lovable-uploads/56dce5e8-4cbc-4ce4-abd7-bfe86eedbb0c.png', // Investment strategy
-        '/lovable-uploads/31013ba8-d9a5-4b1a-ab64-a4cb0c41c6e9.png'  // Finance management
-      ];
-      return financeImages[0];
-    }
-    
-    if (text.includes('healthcare') || text.includes('health') || text.includes('medical')) {
-      const healthImages = [
-        '/lovable-uploads/d8a74b43-f48a-42e0-b9a2-e0ff4ddbf75b.png', // Healthcare services
-        '/lovable-uploads/b7c69e48-25b6-4da5-9ef4-4b2e57b31a78.png', // Medical consultation
-        '/lovable-uploads/a1d4cb0c-9817-4f5e-a9a4-0f8b02d4e9cd.png'  // Health management
-      ];
-      return healthImages[0];
-    }
     
     if (text.includes('dubai') || text.includes('uae') || text.includes('emirates')) {
       const dubaiImages = [
-        '/lovable-uploads/7ab8b28b-c9e3-4ad9-b6a6-c82f18fc7e5e.png', // Dubai skyline
-        '/lovable-uploads/5bc6d8b9-e7f4-4c1a-9d3a-b8e9f2c4d7a6.png', // Dubai business
-        '/lovable-uploads/3a7f9e2d-c8b1-4f6e-8d9c-7e5a2b4f8c3d.png'  // Dubai lifestyle
+        '/lovable-uploads/0b68014a-5ee4-43ca-9b5e-0b2df4ed80b2.png', // Dubai skyline
+        '/lovable-uploads/d3fe2dd9-e9ca-4cce-b5bc-f4a41b59bb9a.png', // Dubai business
+        '/lovable-uploads/ae73e4e3-ad0e-453a-a8a5-5b3f6c3b0a6e.png'  // Dubai property
       ];
-      return dubaiImages[0];
+      return dubaiImages[index % dubaiImages.length];
     }
     
     if (text.includes('bali') || text.includes('indonesia')) {
       const baliImages = [
-        '/lovable-uploads/6a2b8c9d-e7f3-4a1b-9c8e-2d5f8a4b7c1d.png', // Bali paradise
-        '/lovable-uploads/4e8f2a7c-9b1d-3c6e-8a4f-7b2c9d5e8f1a.png', // Bali lifestyle
-        '/lovable-uploads/8c5a2f7e-4b9d-6e3a-9f8c-1d4a7b2e5c8f.png'  // Bali culture
+        '/lovable-uploads/b99c4fb0-7064-449d-a41c-2c8b9cc2ef24.png', // Bali beach property
+        '/lovable-uploads/f3a7d4f3-e9c3-4b8e-9a5e-5f89b2a1c8e7.png', // Bali villa
+        '/lovable-uploads/c8a2d3f9-e5c7-4b2e-8a1f-9d4e2c7b8a5e.png'  // Bali lifestyle
       ];
-      return baliImages[0];
+      return baliImages[index % baliImages.length];
     }
     
-    if (text.includes('turkey') || text.includes('turkish') || text.includes('istanbul') || text.includes('antalya') || text.includes('mersin')) {
+    if (text.includes('turkey') || text.includes('turkish') || text.includes('antalya') || text.includes('mersin')) {
       const turkeyImages = [
-        '/lovable-uploads/8f2e6a3c-7b4d-9e1a-c5f8-2a7b4e9c1d6f.png', // Turkey properties
-        '/lovable-uploads/2c7f9a4e-8b1d-6e3a-9c5f-4a8b2e7c9d1f.png', // Turkish real estate
-        '/lovable-uploads/9e3a6c2f-4b8d-1e7a-c9f5-8a2b7e4c9d6f.png'  // Turkey lifestyle
+        '/lovable-uploads/957fba4b-ca18-42ed-9f96-14b90f654324.png', // Turkish property
+        '/lovable-uploads/d8f2e4c7-b9a3-4c8e-9f1d-8e7c2a5b9d4f.png', // Turkey coastline
+        '/lovable-uploads/e9c3b8f7-d2a4-4c1e-8f9b-7d6e3a2c8f5e.png'  // Turkey real estate
       ];
-      return turkeyImages[0];
+      return turkeyImages[index % turkeyImages.length];
+    }
+    
+    if (text.includes('cyprus') || text.includes('mediterranean')) {
+      const cyprusImages = [
+        '/lovable-uploads/4f8e2a7b-c9d3-4e1a-8b5f-7c2d9a4e8b1f.png', // Cyprus property
+        '/lovable-uploads/b3c8e7f2-d9a4-4c1e-8f5b-6a3e9d2c7f8e.png', // Mediterranean villa
+        '/lovable-uploads/a7d3f8c2-e9b4-4c7e-8f1d-5b8e2a9c6f3e.png'  // Cyprus lifestyle
+      ];
+      return cyprusImages[index % cyprusImages.length];
+    }
+    
+    if (text.includes('legal') || text.includes('citizenship') || text.includes('law') || text.includes('permit') || text.includes('visa')) {
+      const legalImages = [
+        '/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png', // Professional/legal
+        '/lovable-uploads/ae81b7b2-74ce-4693-b5bf-43a5e3bb2b97.png', // Business/legal
+        '/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.png'  // Legal documents
+      ];
+      return legalImages[index % legalImages.length];
+    }
+    
+    if (text.includes('property') || text.includes('real estate') || text.includes('purchase')) {
+      const propertyImages = [
+        '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png', // Luxury property
+        '/lovable-uploads/7335e4e2-249c-4b29-b83a-0101453f6878.png', // Modern property
+        '/lovable-uploads/aff7bebd-5943-45d9-84d8-a923abf07e24.png'  // Property exterior
+      ];
+      return propertyImages[index % propertyImages.length];
+    }
+    
+    if (text.includes('finance') || text.includes('banking') || text.includes('investment') || text.includes('bitcoin') || text.includes('cost')) {
+      const financeImages = [
+        '/lovable-uploads/57965b04-af07-45ca-8bb7-9dec10da9d29.png', // Finance/investment
+        '/lovable-uploads/5daee4c4-d9d3-41c2-99bc-382e40915f52.png', // Business finance
+        '/lovable-uploads/c869b6e7-1d37-47cf-9558-55aa3d03053e.png'  // Financial charts
+      ];
+      return financeImages[index % financeImages.length];
     }
     
     if (text.includes('living') || text.includes('lifestyle') || text.includes('culture') || text.includes('social')) {
@@ -116,7 +125,7 @@ const ArticlePage = () => {
         '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Mersin living
         '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png'  // Social lifestyle
       ];
-      return livingImages[0];
+      return livingImages[index % livingImages.length];
     }
     
     if (text.includes('business') || text.includes('opportunity')) {
@@ -125,7 +134,7 @@ const ArticlePage = () => {
         '/lovable-uploads/4d9ff093-d8bd-4855-80db-6c58534a8e44.png', // Investment opportunity
         '/lovable-uploads/9537b0b1-89b0-4c63-ae02-494c98caab5d.png'  // Business growth
       ];
-      return businessImages[0];
+      return businessImages[index % businessImages.length];
     }
     
     if (text.includes('music') || text.includes('arts') || text.includes('art')) {
@@ -134,7 +143,7 @@ const ArticlePage = () => {
         '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png', // Cultural activities
         '/lovable-uploads/2209cb13-f5ad-47af-ad83-fac59b9edd3b.png'  // Music/arts scene
       ];
-      return artsImages[0];
+      return artsImages[index % artsImages.length];
     }
     
     // Default category - use property images
@@ -143,7 +152,7 @@ const ArticlePage = () => {
       '/lovable-uploads/227fa1b1-f9c2-4427-a969-9521d121dd51.png', // Default property 2  
       '/lovable-uploads/2adcc5fd-ef6d-4fee-8ed8-cc57be79fccf.png'  // Default property 3
     ];
-    return defaultImages[0];
+    return defaultImages[index % defaultImages.length];
   };
 
   // Extract tags from content or create default ones

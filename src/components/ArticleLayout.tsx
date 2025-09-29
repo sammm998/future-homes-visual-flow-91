@@ -113,6 +113,8 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
                   src={featuredImage} 
                   alt={title}
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  loading="eager"
+                  fetchPriority="high"
                   onError={(e) => {
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop';
                   }}
