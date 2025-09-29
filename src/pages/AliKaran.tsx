@@ -110,7 +110,7 @@ export default function AliKaran() {
             <h2 className="text-2xl font-bold text-foreground mb-4">About Ali Karan</h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                Ali Karan began his journey in real estate in 2008, starting with local property investments in Turkey. His vision was simple: help people find not just properties, but homes and investment opportunities that would change their lives.
+                Ali Karan began his journey in real estate in 2018, starting with local property investments in Turkey. His vision was simple: help people find not just properties, but homes and investment opportunities that would change their lives.
               </p>
               <p>
                 Over the years, Ali expanded his expertise across multiple international markets including Dubai, Cyprus, Bali, and various European destinations. His deep understanding of local markets, legal requirements, and investment potential has made him a trusted advisor for clients worldwide.
