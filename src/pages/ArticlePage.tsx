@@ -84,9 +84,7 @@ const ArticlePage = () => {
         <meta property="og:description" content={blogPost.excerpt || blogPost.title} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`${window.location.origin}/articles/${blogPost.slug}`} />
-        {blogPost.featured_image && (
-          <meta property="og:image" content={blogPost.featured_image} />
-        )}
+        <meta property="og:image" content={blogPost.featured_image || '/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png'} />
         <meta property="article:published_time" content={blogPost.created_at} />
         {blogPost.updated_at && (
           <meta property="article:modified_time" content={blogPost.updated_at} />
@@ -96,9 +94,7 @@ const ArticlePage = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={blogPost.title} />
         <meta name="twitter:description" content={blogPost.excerpt || blogPost.title} />
-        {blogPost.featured_image && (
-          <meta name="twitter:image" content={blogPost.featured_image} />
-        )}
+        <meta name="twitter:image" content={blogPost.featured_image || '/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png'} />
         
         {/* Structured Data */}
         <script type="application/ld+json">
@@ -107,7 +103,7 @@ const ArticlePage = () => {
             "@type": "Article",
             "headline": blogPost.title,
             "description": blogPost.excerpt || blogPost.title,
-            "image": blogPost.featured_image,
+            "image": blogPost.featured_image || '/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png',
             "datePublished": blogPost.created_at,
             "dateModified": blogPost.updated_at || blogPost.created_at,
             "author": {
@@ -135,7 +131,7 @@ const ArticlePage = () => {
         title={blogPost.title}
         excerpt={blogPost.excerpt}
         content={blogPost.content}
-        featuredImage={blogPost.featured_image}
+        featuredImage={blogPost.featured_image || '/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png'}
         publishedDate={blogPost.created_at}
         readingTime={getReadingTime(blogPost.content)}
         tags={tags}

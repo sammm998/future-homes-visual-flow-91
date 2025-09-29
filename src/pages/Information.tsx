@@ -357,13 +357,14 @@ const Information = () => {
   const databaseArticles = blogPosts.map((post, index) => ({
     id: index + 1000, // Offset to avoid conflicts with static article IDs
     title: post.title,
-    description: post.excerpt,
+    description: post.excerpt || `${post.title} - Read more about this topic`,
     icon: getArticleIconComponent(post.title),
     // Use featured_image first, fallback to category-based images if null
     image: post.featured_image || getArticleImage(post.title, post.content, index),
     category: getArticleCategory(post.title, post.content),
     content: post.content,
-    slug: post.slug
+    slug: post.slug, // Use the actual slug from database
+    isDatabaseArticle: true // Mark as database article
   }));
 
   // Add default images to static articles that might not have them
@@ -381,15 +382,14 @@ const Information = () => {
     : articles.filter(article => article.category === activeFilter);
 
   const handleArticleClick = (slug: string) => {
-    // Check if it's a static article (no slug property in original data)
-    const isStaticArticle = staticArticles.some(article => 
-      article.title.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-') === slug
-    );
+    // Check if it's a database article (has proper slug from Supabase)
+    const isDatabaseArticle = databaseArticles.some(article => article.slug === slug);
     
-    if (isStaticArticle) {
-      navigate(`/article/${slug}`);
-    } else {
+    if (isDatabaseArticle) {
       navigate(`/articles/${slug}`);
+    } else {
+      // Static article - use old route
+      navigate(`/article/${slug}`);
     }
   };
 
