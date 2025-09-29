@@ -155,51 +155,6 @@ const ArticlePage = () => {
     return defaultImages[index % defaultImages.length];
   };
 
-  // Generate unique image for each article based on slug hash
-  const getUniqueImageForArticle = (slug: string) => {
-    // Comprehensive unique image pool - NO DUPLICATES
-    const uniqueImages = [
-      '/lovable-uploads/57965b04-af07-45ca-8bb7-9dec10da9d29.png',
-      '/lovable-uploads/5daee4c4-d9d3-41c2-99bc-382e40915f52.png',
-      '/lovable-uploads/c869b6e7-1d37-47cf-9558-55aa3d03053e.png',
-      '/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png',
-      '/lovable-uploads/ae81b7b2-74ce-4693-b5bf-43a5e3bb2b97.png',
-      '/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.png',
-      '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png',
-      '/lovable-uploads/7335e4e2-249c-4b29-b83a-0101453f6878.png',
-      '/lovable-uploads/aff7bebd-5943-45d9-84d8-a923abf07e24.png',
-      '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png',
-      '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png',
-      '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png',
-      '/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.png',
-      '/lovable-uploads/4d9ff093-d8bd-4855-80db-6c58534a8e44.png',
-      '/lovable-uploads/9537b0b1-89b0-4c63-ae02-494c98caab5d.png',
-      '/lovable-uploads/000f440d-ddb1-4c1b-9202-eef1ef588a8c.png',
-      '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png',
-      '/lovable-uploads/2209cb13-f5ad-47af-ad83-fac59b9edd3b.png',
-      '/lovable-uploads/227fa1b1-f9c2-4427-a969-9521d121dd51.png',
-      '/lovable-uploads/2adcc5fd-ef6d-4fee-8ed8-cc57be79fccf.png',
-      '/lovable-uploads/739b5c8c-7e7d-42ee-a412-963fad0a408d.png',
-      '/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.png',
-      '/lovable-uploads/86a8042b-af76-4da8-8aeb-218ab9c24059.png',
-      '/lovable-uploads/d8a74b43-f48a-42e0-b9a2-e0ff4ddbf75b.png',
-      '/lovable-uploads/b7c69e48-25b6-4da5-9ef4-4b2e57b31a78.png',
-      '/lovable-uploads/a1d4cb0c-9817-4f5e-a9a4-0f8b02d4e9cd.png'
-    ];
-
-    // Create deterministic hash from slug
-    let hash = 0;
-    for (let i = 0; i < slug.length; i++) {
-      const char = slug.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32bit integer
-    }
-    
-    // Use absolute value and modulo to get unique image index
-    const imageIndex = Math.abs(hash) % uniqueImages.length;
-    return uniqueImages[imageIndex];
-  };
-
   // Extract tags from content or create default ones
   const extractTags = (content: string, title: string) => {
     const defaultTags = [];
@@ -232,7 +187,7 @@ const ArticlePage = () => {
         <meta property="og:description" content={blogPost.excerpt || blogPost.title} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`${window.location.origin}/articles/${blogPost.slug}`} />
-        <meta property="og:image" content={blogPost.featured_image || getUniqueImageForArticle(blogPost.slug)} />
+        <meta property="og:image" content={blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content)} />
         <meta property="article:published_time" content={blogPost.created_at} />
         {blogPost.updated_at && (
           <meta property="article:modified_time" content={blogPost.updated_at} />
@@ -242,7 +197,7 @@ const ArticlePage = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={blogPost.title} />
         <meta name="twitter:description" content={blogPost.excerpt || blogPost.title} />
-        <meta name="twitter:image" content={blogPost.featured_image || getUniqueImageForArticle(blogPost.slug)} />
+        <meta name="twitter:image" content={blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content)} />
         
         {/* Structured Data */}
         <script type="application/ld+json">
@@ -251,7 +206,7 @@ const ArticlePage = () => {
             "@type": "Article",
             "headline": blogPost.title,
             "description": blogPost.excerpt || blogPost.title,
-            "image": blogPost.featured_image || getUniqueImageForArticle(blogPost.slug),
+            "image": blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content),
             "datePublished": blogPost.created_at,
             "dateModified": blogPost.updated_at || blogPost.created_at,
             "author": {
@@ -279,7 +234,7 @@ const ArticlePage = () => {
         title={blogPost.title}
         excerpt={blogPost.excerpt}
         content={blogPost.content}
-        featuredImage={blogPost.featured_image || getUniqueImageForArticle(blogPost.slug)}
+        featuredImage={blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content)}
         publishedDate={blogPost.created_at}
         readingTime={getReadingTime(blogPost.content)}
         tags={tags}
