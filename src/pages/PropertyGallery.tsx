@@ -19,6 +19,7 @@ const PropertyGallery = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cardImageIndices, setCardImageIndices] = useState<{ [key: string]: number }>({});
 
   // Function to prioritize exterior images
   const prioritizeExteriorImages = (images: string[]) => {
@@ -236,11 +237,47 @@ const PropertyGallery = () => {
                           {/* Main Image */}
                           <div className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden shadow-2xl">
                             <img
-                              src={property.property_images[0]}
+                              src={property.property_images[cardImageIndices[property.id] || 0]}
                               alt={property.title}
                               className="w-full h-full object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                            
+                            {/* Navigation Arrows on Card */}
+                            {property.property_images.length > 1 && (
+                              <>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    const currentIndex = cardImageIndices[property.id] || 0;
+                                    setCardImageIndices({
+                                      ...cardImageIndices,
+                                      [property.id]: currentIndex === 0 ? property.property_images.length - 1 : currentIndex - 1
+                                    });
+                                  }}
+                                >
+                                  <ChevronLeft className="w-6 h-6" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    const currentIndex = cardImageIndices[property.id] || 0;
+                                    setCardImageIndices({
+                                      ...cardImageIndices,
+                                      [property.id]: currentIndex === property.property_images.length - 1 ? 0 : currentIndex + 1
+                                    });
+                                  }}
+                                >
+                                  <ChevronRight className="w-6 h-6" />
+                                </Button>
+                              </>
+                            )}
                             
                             {/* Floating Info Panel */}
                             <motion.div 
