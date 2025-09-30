@@ -27,7 +27,6 @@ const PropertyWizardComponent = () => {
       phone: ''
     }
   });
-  const [showResult, setShowResult] = useState(false);
 
   const totalSteps = 5;
 
@@ -160,11 +159,12 @@ const PropertyWizardComponent = () => {
     }));
   };
 
-  const nextStep = () => {
+  const nextStep = async () => {
     if (currentStep < totalSteps) {
       setCurrentStep(prev => prev + 1);
     } else {
-      setShowResult(true);
+      // Submit form and go directly to thank you page
+      await handleFindProperties();
     }
   };
 
@@ -225,108 +225,6 @@ const PropertyWizardComponent = () => {
     return (currentStep / totalSteps) * 100;
   };
 
-  const resetWizard = () => {
-    setCurrentStep(1);
-    setSelections({
-      location: '',
-      propertyType: '',
-      budget: '',
-      features: [],
-      contactInfo: {
-        name: '',
-        email: '',
-        phone: ''
-      }
-    });
-    setShowResult(false);
-  };
-
-  if (showResult) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-primary to-primary-glow rounded-full mb-6">
-              <Check className="w-10 h-10 text-white" />
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Perfect Match Found!
-            </h1>
-            <p className="text-xl text-muted-foreground">
-              Based on your preferences, we've identified the ideal properties for you
-            </p>
-          </div>
-
-          <div>
-            <Card className="p-8 bg-gradient-to-r from-primary/5 to-primary-glow/5 border-primary/20 mb-8">
-              <CardContent className="p-0">
-                <h3 className="text-2xl font-bold text-foreground mb-6">Your Preferences Summary</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <MapPin className="w-5 h-5 text-primary" />
-                      <div>
-                        <span className="font-medium text-foreground">Location:</span>
-                        <span className="ml-2 text-muted-foreground capitalize">{selections.location}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Home className="w-5 h-5 text-primary" />
-                      <div>
-                        <span className="font-medium text-foreground">Property Type:</span>
-                        <span className="ml-2 text-muted-foreground capitalize">{selections.propertyType}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <DollarSign className="w-5 h-5 text-primary" />
-                      <div>
-                        <span className="font-medium text-foreground">Budget:</span>
-                        <span className="ml-2 text-muted-foreground">{selections.budget}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <Star className="w-5 h-5 text-primary mt-0.5" />
-                      <div>
-                        <span className="font-medium text-foreground">Features:</span>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          {selections.features.map((feature) => (
-                            <Badge key={feature} variant="secondary" className="capitalize">
-                              {feature.replace('-', ' ')}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                onClick={handleFindProperties}
-                size="lg"
-                className="bg-gradient-to-r from-primary to-primary-glow hover:from-primary-glow hover:to-primary text-white font-semibold px-8 py-4 rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl"
-              >
-                Find Properties
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-              <Button
-                onClick={resetWizard}
-                variant="outline"
-                size="lg"
-                className="px-8 py-4 rounded-xl border-2 border-primary/20 hover:border-primary/40"
-              >
-                Start Over
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-12 px-4">
