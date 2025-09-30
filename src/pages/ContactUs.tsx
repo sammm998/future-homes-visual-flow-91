@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +14,7 @@ import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 const ContactUs = () => {
+  const navigate = useNavigate();
   const {
     pageTitle,
     metaDescription,
@@ -53,15 +55,7 @@ const ContactUs = () => {
         toast.error('Ett fel uppstod när meddelandet skulle skickas. Försök igen.');
       } else {
         console.log('Success:', data);
-        toast.success('Tack för ditt meddelande! Vi kontaktar dig inom kort.');
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          property: '',
-          message: ''
-        });
+        navigate('/contact-thank-you');
       }
     } catch (error) {
       console.error('Error sending message:', error);

@@ -212,27 +212,13 @@ const PropertyWizardComponent = () => {
           description: "Your preferences have been saved, but we couldn't send a notification email.",
           variant: "default",
         });
-      } else {
-        toast({
-          title: "Success!",
-          description: "Your preferences have been sent to our team. We'll contact you soon!",
-        });
       }
     } catch (emailError) {
       console.error('Failed to send email notification:', emailError);
     }
 
-    // Navigate to the appropriate property search page based on location
-    const locationRoutes = {
-      'antalya': '/antalya',
-      'dubai': '/dubai', 
-      'cyprus': '/cyprus',
-      'mersin': '/mersin',
-      'bali': '/bali'
-    };
-    
-    const route = locationRoutes[selections.location] || '/antalya';
-    navigate(route);
+    // Navigate to thank you page
+    navigate('/wizard-thank-you');
   };
 
   const getStepProgress = () => {
