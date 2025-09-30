@@ -5,13 +5,17 @@ import { DesignControls } from "@/components/apartment-designer/DesignControls";
 import { useProperties } from "@/hooks/useProperties";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ApartmentDesigner = () => {
+  const [designMode, setDesignMode] = useState<'apartment' | 'villa' | 'complex'>('apartment');
   const [floorPlan, setFloorPlan] = useState('1+1');
   const [wallColor, setWallColor] = useState('#ffffff');
-  const [floorColor, setFloorColor] = useState('#deb887');
+  const [floorColor, setFloorColor] = useState('#c49a6c');
   const [selectedFurniture, setSelectedFurniture] = useState<string[]>(['sofa', 'bed', 'table']);
   const [selectedProperty, setSelectedProperty] = useState<string>('');
+  const [facadeColor, setFacadeColor] = useState('#e8e4dc');
+  const [roofColor, setRoofColor] = useState('#4a4a4a');
   const { properties } = useProperties();
 
   // Get unique apartment types from properties
@@ -43,14 +47,23 @@ const ApartmentDesigner = () => {
       <Navigation />
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Design Your Apartment</h1>
+          <h1 className="text-4xl font-bold mb-2">3D Property Designer</h1>
           <p className="text-muted-foreground text-lg">
-            Create your dream apartment in 3D - choose floor plan, colors and furniture
+            Design apartments, villas and complexes in realistic 3D
           </p>
         </div>
 
+        {/* Design Mode Tabs */}
+        <Tabs value={designMode} onValueChange={(v) => setDesignMode(v as any)} className="mb-6">
+          <TabsList className="grid w-full max-w-md grid-cols-3">
+            <TabsTrigger value="apartment">Apartment Interior</TabsTrigger>
+            <TabsTrigger value="villa">Villa Exterior</TabsTrigger>
+            <TabsTrigger value="complex">Complex Exterior</TabsTrigger>
+          </TabsList>
+        </Tabs>
+
         {/* Property Selector */}
-        {properties && properties.length > 0 && (
+        {designMode === 'apartment' && properties && properties.length > 0 && (
           <div className="mb-6 max-w-md">
             <Label htmlFor="property-select" className="text-lg font-semibold mb-2 block">
               Select Property
@@ -74,10 +87,13 @@ const ApartmentDesigner = () => {
           <div className="lg:col-span-2">
             <div className="aspect-video w-full">
               <ApartmentScene
+                designMode={designMode}
                 floorPlan={floorPlan}
                 selectedFurniture={selectedFurniture}
                 wallColor={wallColor}
                 floorColor={floorColor}
+                facadeColor={facadeColor}
+                roofColor={roofColor}
                 properties={properties as any || []}
               />
             </div>
@@ -88,6 +104,7 @@ const ApartmentDesigner = () => {
 
           <div>
             <DesignControls
+              designMode={designMode}
               floorPlan={floorPlan}
               setFloorPlan={setFloorPlan}
               wallColor={wallColor}
@@ -96,6 +113,10 @@ const ApartmentDesigner = () => {
               setFloorColor={setFloorColor}
               selectedFurniture={selectedFurniture}
               setSelectedFurniture={setSelectedFurniture}
+              facadeColor={facadeColor}
+              setFacadeColor={setFacadeColor}
+              roofColor={roofColor}
+              setRoofColor={setRoofColor}
             />
           </div>
         </div>

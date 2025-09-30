@@ -1,6 +1,8 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Grid, Environment } from '@react-three/drei';
 import { Room3D } from './Room3D';
+import { VillaExterior } from './VillaExterior';
+import { ComplexExterior } from './ComplexExterior';
 
 interface Property {
   id: string;
@@ -9,18 +11,24 @@ interface Property {
 }
 
 interface ApartmentSceneProps {
+  designMode: 'apartment' | 'villa' | 'complex';
   floorPlan: string;
   selectedFurniture: string[];
   wallColor: string;
   floorColor: string;
+  facadeColor: string;
+  roofColor: string;
   properties: Property[];
 }
 
 export const ApartmentScene = ({ 
+  designMode,
   floorPlan, 
   selectedFurniture,
   wallColor,
   floorColor,
+  facadeColor,
+  roofColor,
   properties
 }: ApartmentSceneProps) => {
   return (
@@ -68,14 +76,24 @@ export const ApartmentScene = ({
           position={[0, -0.01, 0]}
         />
 
-        {/* 3D Apartment Room */}
-        <Room3D 
-          floorPlan={floorPlan} 
-          wallColor={wallColor}
-          floorColor={floorColor}
-          selectedFurniture={selectedFurniture}
-          properties={properties}
-        />
+        {/* 3D Scene based on mode */}
+        {designMode === 'apartment' && (
+          <Room3D 
+            floorPlan={floorPlan} 
+            wallColor={wallColor}
+            floorColor={floorColor}
+            selectedFurniture={selectedFurniture}
+            properties={properties}
+          />
+        )}
+        
+        {designMode === 'villa' && (
+          <VillaExterior facadeColor={facadeColor} roofColor={roofColor} />
+        )}
+        
+        {designMode === 'complex' && (
+          <ComplexExterior facadeColor={facadeColor} roofColor={roofColor} />
+        )}
       </Canvas>
     </div>
   );
