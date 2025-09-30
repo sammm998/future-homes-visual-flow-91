@@ -48,7 +48,6 @@ const ExpensesBuyingPropertyTurkey = lazy(() => import("./pages/ExpensesBuyingPr
 const Newsletter = lazy(() => import("./components/Newsletter"));
 const ContactThankYou = lazy(() => import("./pages/ContactThankYou"));
 const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
-const ApartmentDesigner = lazy(() => import("./pages/ApartmentDesigner"));
 
 const VideoShowcase = lazy(() => import("./pages/VideoShowcase"));
 
@@ -153,7 +152,6 @@ function AppContent() {
       <Route path="/about-us" element={<AboutUs />} />
       
       <Route path="/video-showcase" element={<VideoShowcase />} />
-      <Route path="/apartment-designer" element={<ApartmentDesigner />} />
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/contact-thank-you" element={<ContactThankYou />} />
       <Route path="/wizard-thank-you" element={<WizardThankYou />} />
