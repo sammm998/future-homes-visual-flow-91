@@ -2,21 +2,23 @@ import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import { ApartmentScene } from "@/components/apartment-designer/ApartmentScene";
 import { DesignControls } from "@/components/apartment-designer/DesignControls";
+import { useProperties } from "@/hooks/useProperties";
 
 const ApartmentDesigner = () => {
-  const [floorPlan, setFloorPlan] = useState('2-bedroom');
+  const [floorPlan, setFloorPlan] = useState('1+1');
   const [wallColor, setWallColor] = useState('#ffffff');
   const [floorColor, setFloorColor] = useState('#deb887');
-  const [selectedFurniture, setSelectedFurniture] = useState<string[]>(['sofa', 'table']);
+  const [selectedFurniture, setSelectedFurniture] = useState<string[]>(['sofa', 'bed']);
+  const { properties } = useProperties();
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
       <main className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Designa Din Lägenhet</h1>
+          <h1 className="text-4xl font-bold mb-2">Design Your Apartment</h1>
           <p className="text-muted-foreground text-lg">
-            Skapa din drömlägenhet i 3D - välj planlösning, färger och möbler
+            Create your dream apartment in 3D - choose floor plan, colors and furniture
           </p>
         </div>
 
@@ -28,10 +30,11 @@ const ApartmentDesigner = () => {
                 selectedFurniture={selectedFurniture}
                 wallColor={wallColor}
                 floorColor={floorColor}
+                properties={properties as any || []}
               />
             </div>
             <p className="text-sm text-muted-foreground mt-4 text-center">
-              Dra för att rotera • Scrolla för att zooma
+              Drag to rotate • Scroll to zoom
             </p>
           </div>
 

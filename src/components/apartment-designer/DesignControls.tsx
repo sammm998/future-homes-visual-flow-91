@@ -24,24 +24,24 @@ export const DesignControls = ({
   setSelectedFurniture,
 }: DesignControlsProps) => {
   const furnitureOptions = [
-    { type: 'sofa', icon: Sofa, label: 'Soffa' },
-    { type: 'bed', icon: Bed, label: 'Säng' },
-    { type: 'table', icon: Table, label: 'Bord' },
-    { type: 'chair', icon: Armchair, label: 'Stol' },
+    { type: 'sofa', icon: Sofa, label: 'Sofa' },
+    { type: 'bed', icon: Bed, label: 'Bed' },
+    { type: 'table', icon: Table, label: 'Table' },
+    { type: 'chair', icon: Armchair, label: 'Chair' },
   ];
 
   const wallColors = [
-    { name: 'Vit', value: '#ffffff' },
+    { name: 'White', value: '#ffffff' },
     { name: 'Beige', value: '#f5f5dc' },
-    { name: 'Grå', value: '#d3d3d3' },
-    { name: 'Blå', value: '#e6f3ff' },
+    { name: 'Gray', value: '#d3d3d3' },
+    { name: 'Blue', value: '#e6f3ff' },
   ];
 
   const floorColors = [
-    { name: 'Ljus trä', value: '#deb887' },
-    { name: 'Mörk trä', value: '#8b4513' },
-    { name: 'Grå', value: '#808080' },
-    { name: 'Vit', value: '#f5f5f5' },
+    { name: 'Light Wood', value: '#deb887' },
+    { name: 'Dark Wood', value: '#8b4513' },
+    { name: 'Gray', value: '#808080' },
+    { name: 'White', value: '#f5f5f5' },
   ];
 
   const toggleFurniture = (type: string) => {
@@ -55,23 +55,28 @@ export const DesignControls = ({
   return (
     <div className="space-y-6 p-6 bg-card rounded-lg border border-border">
       <div>
-        <Label className="text-lg font-semibold mb-3 block">Planlösning</Label>
+        <Label className="text-lg font-semibold mb-3 block">Floor Plan</Label>
         <div className="grid grid-cols-3 gap-2">
-          {['1-bedroom', '2-bedroom', '3-bedroom'].map((plan) => (
+          {['1+1', '2+1', '3+1'].map((plan) => (
             <Button
               key={plan}
               variant={floorPlan === plan ? 'default' : 'outline'}
               onClick={() => setFloorPlan(plan)}
               className="w-full"
             >
-              {plan === '1-bedroom' ? '1 RoK' : plan === '2-bedroom' ? '2 RoK' : '3 RoK'}
+              {plan}
             </Button>
           ))}
         </div>
+        <p className="text-xs text-muted-foreground mt-2">
+          {floorPlan === '1+1' && '1 bedroom + living room'}
+          {floorPlan === '2+1' && '2 bedrooms + living room'}
+          {floorPlan === '3+1' && '3 bedrooms + living room'}
+        </p>
       </div>
 
       <div>
-        <Label className="text-lg font-semibold mb-3 block">Väggfärg</Label>
+        <Label className="text-lg font-semibold mb-3 block">Wall Color</Label>
         <div className="grid grid-cols-4 gap-2">
           {wallColors.map((color) => (
             <button
@@ -88,7 +93,7 @@ export const DesignControls = ({
       </div>
 
       <div>
-        <Label className="text-lg font-semibold mb-3 block">Golvfärg</Label>
+        <Label className="text-lg font-semibold mb-3 block">Floor Color</Label>
         <div className="grid grid-cols-4 gap-2">
           {floorColors.map((color) => (
             <button
@@ -105,7 +110,7 @@ export const DesignControls = ({
       </div>
 
       <div>
-        <Label className="text-lg font-semibold mb-3 block">Möbler</Label>
+        <Label className="text-lg font-semibold mb-3 block">Furniture</Label>
         <div className="grid grid-cols-2 gap-2">
           {furnitureOptions.map(({ type, icon: Icon, label }) => (
             <Button

@@ -69,7 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
                 Video Showcase
               </Link>
               <Link to="/apartment-designer" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
-                Designa Din Lägenhet
+                Design Your Apartment
               </Link>
               <Link to="/testimonials" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 Testimonials
