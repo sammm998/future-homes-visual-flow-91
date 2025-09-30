@@ -26,11 +26,11 @@ export const ApartmentScene = ({
   return (
     <div className="w-full h-full rounded-lg overflow-hidden border border-border bg-gradient-to-b from-slate-800 to-slate-900">
       <Canvas shadows dpr={[1, 2]}>
-        <PerspectiveCamera makeDefault position={[15, 12, 15]} fov={50} />
+        <PerspectiveCamera makeDefault position={[12, 16, 12]} fov={45} />
         <OrbitControls 
           enableDamping
           dampingFactor={0.05}
-          minDistance={8}
+          minDistance={10}
           maxDistance={35}
           maxPolarAngle={Math.PI / 2.2}
           minPolarAngle={Math.PI / 6}
