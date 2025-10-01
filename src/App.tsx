@@ -136,12 +136,19 @@ function App() {
 function AppContent() {
   const location = useLocation();
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const isFirstMount = React.useRef(true);
 
   useEffect(() => {
+    // Skip transition on first mount to avoid double loading
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+
     setIsTransitioning(true);
     const timer = setTimeout(() => {
       setIsTransitioning(false);
-    }, 2000); // 2 seconds as requested
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [location.pathname]);
