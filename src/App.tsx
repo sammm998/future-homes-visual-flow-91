@@ -121,7 +121,7 @@ function App() {
                 <Toaster />
                 <Sonner />
                 <ScrollToTop />
-                <Suspense fallback={<PageLoader />}>
+                <Suspense fallback={<div className="min-h-screen bg-background" />}>
                   <AppContent />
                 </Suspense>
               </BrowserRouter>
