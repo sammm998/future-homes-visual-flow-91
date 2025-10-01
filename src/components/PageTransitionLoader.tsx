@@ -6,16 +6,20 @@ export const PageTransitionLoader = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+      transition={{ 
+        duration: 0.8,
+        ease: "easeInOut"
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ backgroundColor: '#152437' }}
     >
       <motion.div
-        initial={{ scale: 1.2, opacity: 0 }}
+        initial={{ scale: 1.1, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
+        exit={{ scale: 1.1, opacity: 0 }}
         transition={{ 
-          duration: 0.5,
-          ease: [0.43, 0.13, 0.23, 0.96]
+          duration: 0.8,
+          ease: "easeInOut"
         }}
         className="text-center"
       >
@@ -26,9 +30,11 @@ export const PageTransitionLoader = () => {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ 
-            delay: 0.2,
-            duration: 0.4
+            delay: 0.3,
+            duration: 0.6,
+            ease: "easeInOut"
           }}
           className="text-lg md:text-xl text-gray-400 tracking-wide"
         >

@@ -89,7 +89,7 @@ const queryClient = new QueryClient({
 
 // Enhanced loading component with logo
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-black">
+  <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#152437' }}>
     <div className="text-center">
       <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.2em] text-white mb-4">
         FUTURE HOMES
