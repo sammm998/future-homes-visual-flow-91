@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
 import { GlobalPerformanceOptimizer } from "@/components/GlobalPerformanceOptimizer";
+import { AnimatePresence } from "framer-motion";
+import { PageTransitionLoader } from "@/components/PageTransitionLoader";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -125,8 +127,23 @@ function App() {
 }
 
 function AppContent() {
+  const location = useLocation();
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  useEffect(() => {
+    setIsTransitioning(true);
+    const timer = setTimeout(() => {
+      setIsTransitioning(false);
+    }, 2000); // 2 seconds as requested
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
   return (
     <>
+      <AnimatePresence mode="wait">
+        {isTransitioning && <PageTransitionLoader key="page-transition" />}
+      </AnimatePresence>
       <ConnectionStatus />
       <Routes>
       <Route path="/" element={
