@@ -7,7 +7,7 @@ export const PageTransitionLoader = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center"
+      className="fixed inset-0 z-50 bg-black flex items-center justify-center"
     >
       <motion.div
         initial={{ scale: 1.2, opacity: 0 }}
@@ -19,23 +19,21 @@ export const PageTransitionLoader = () => {
         }}
         className="text-center"
       >
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-[0.3em] text-foreground/20 mb-4">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.2em] text-white mb-4">
           FUTURE HOMES
         </h1>
         
-        <motion.div
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ 
             delay: 0.2,
             duration: 0.4
           }}
-          className="flex items-center justify-center gap-2"
+          className="text-lg md:text-xl text-gray-400 tracking-wide"
         >
-          <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-          <div className="w-2 h-2 bg-primary rounded-full animate-pulse delay-75" style={{ animationDelay: '0.15s' }} />
-          <div className="w-2 h-2 bg-primary rounded-full animate-pulse delay-150" style={{ animationDelay: '0.3s' }} />
-        </motion.div>
+          International Real Estate
+        </motion.p>
       </motion.div>
     </motion.div>
   );

@@ -87,10 +87,17 @@ const queryClient = new QueryClient({
   },
 });
 
-// Enhanced loading component  
+// Enhanced loading component with logo
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-background">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+  <div className="min-h-screen flex items-center justify-center bg-black">
+    <div className="text-center">
+      <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.2em] text-white mb-4">
+        FUTURE HOMES
+      </h1>
+      <p className="text-lg md:text-xl text-gray-400 tracking-wide">
+        International Real Estate
+      </p>
+    </div>
   </div>
 );
 
