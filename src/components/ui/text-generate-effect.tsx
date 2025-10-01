@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 export const TextGenerateEffect = ({
   words,
   className,
-  filter = true,
-  duration = 0.5,
+  filter = false,
+  duration = 0.3,
 }: {
   words: string;
   className?: string;
@@ -24,11 +24,11 @@ export const TextGenerateEffect = ({
         filter: filter ? "blur(0px)" : "none",
       },
       {
-        duration: duration ? duration : 1,
-        delay: stagger(0.2),
+        duration: duration,
+        delay: stagger(0.1),
       }
     );
-  }, [scope.current]);
+  }, [scope.current, filter, duration]);
 
   const renderWords = () => {
     return (
@@ -39,7 +39,7 @@ export const TextGenerateEffect = ({
               key={word + idx}
               className="dark:text-white text-black opacity-0"
               style={{
-                filter: filter ? "blur(10px)" : "none",
+                filter: "none",
               }}
             >
               {word}{" "}

@@ -27,6 +27,7 @@ export const TestimonialsColumn = (props: {
           repeatType: "loop",
         }}
         className="flex flex-col gap-6 pb-6 bg-background"
+        style={{ willChange: "transform" }}
       >
         {[
           ...new Array(2).fill(0).map((_, index) => (
