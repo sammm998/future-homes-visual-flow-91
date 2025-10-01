@@ -22,7 +22,7 @@ export const SEOHreflang: React.FC<SEOHreflangProps> = ({ path }) => {
     { code: 'ur', country: 'pk' }
   ];
 
-  const baseUrl = 'https://your-domain.com'; // Replace with actual domain
+  const baseUrl = 'https://futurehomesinternational.com';
   
   return (
     <Helmet>
