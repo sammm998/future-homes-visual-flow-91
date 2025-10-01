@@ -85,7 +85,7 @@ export const resilientQuery = async <T>(
       const result = await Promise.race([
         queryFn(),
         new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Query timeout')), 30000) // Increased to 30 seconds
+          setTimeout(() => reject(new Error('Query timeout')), 15000)
         )
       ]);
       

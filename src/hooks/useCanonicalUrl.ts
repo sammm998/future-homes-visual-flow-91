@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 
 export const useCanonicalUrl = () => {
   const location = useLocation();
-  const baseUrl = 'https://www.futurehomesinternational.com';
+  const baseUrl = 'https://futurehomesturkey.com';
   
   // Remove trailing slashes and ensure proper format
   const pathname = location.pathname === '/' ? '' : location.pathname.replace(/\/$/, '');

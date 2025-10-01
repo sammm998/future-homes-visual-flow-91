@@ -7,10 +7,10 @@ interface LanguageConfig {
 }
 
 export const supportedLanguages: LanguageConfig[] = [
-  { code: 'en', name: 'English', baseUrl: 'https://www.futurehomesinternational.com' },
-  { code: 'sv', name: 'Svenska', baseUrl: 'https://www.futurehomesinternational.com' },
-  { code: 'tr', name: 'Türkçe', baseUrl: 'https://www.futurehomesinternational.com' },
-  { code: 'ar', name: 'العربية', baseUrl: 'https://www.futurehomesinternational.com' },
+  { code: 'en', name: 'English', baseUrl: 'https://futurehomesturkey.com' },
+  { code: 'sv', name: 'Svenska', baseUrl: 'https://futurehomesturkey.com' },
+  { code: 'tr', name: 'Türkçe', baseUrl: 'https://futurehomesturkey.com' },
+  { code: 'ar', name: 'العربية', baseUrl: 'https://futurehomesturkey.com' },
 ];
 
 /**
@@ -29,7 +29,7 @@ export const getCurrentLanguage = (): string => {
  */
 export const getCanonicalUrl = (path: string = '', lang?: string): string => {
   const currentLang = lang || getCurrentLanguage();
-  const baseUrl = 'https://www.futurehomesinternational.com';
+  const baseUrl = 'https://futurehomesturkey.com';
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   
   // For English, return clean URL without lang parameter
