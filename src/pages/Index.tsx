@@ -26,6 +26,8 @@ import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import AIPropertyAssistant from "@/components/AIPropertyAssistant";
+import aliKaranImage from "@/assets/ali-karan-founder.png";
+
 const Index = () => {
   const {
     canonicalUrl,
@@ -318,6 +320,17 @@ const Index = () => {
       <Dialog open={showPopup} onOpenChange={setShowPopup}>
         <DialogContent className="max-w-lg mx-4 text-center">
           <DialogHeader className="space-y-4">
+            {/* Ali's Image */}
+            <div className="flex justify-center mb-4">
+              <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-primary/20">
+                <img 
+                  src={aliKaranImage} 
+                  alt="Ali Karan - Property Expert" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            
             <DialogTitle className="text-2xl font-bold text-foreground">
               Find Your Perfect Property
             </DialogTitle>
