@@ -42,6 +42,11 @@ const AntalyaPropertySearch = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   // Load filters from URL parameters and location state on mount
   useEffect(() => {
     const urlFilters: PropertyFilters = {
