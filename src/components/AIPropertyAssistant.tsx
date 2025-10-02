@@ -216,7 +216,7 @@ const AIPropertyAssistant = () => {
   };
 
   const quickSuggestions = [
-    "Show me apartments in Istanbul under €200,000",
+    "Show me apartments in Dubai under €200,000",
     "I'm looking for a 2-bedroom apartment near the sea",
     "Which areas do you recommend for investment?",
     "Show properties that offer Turkish citizenship"
