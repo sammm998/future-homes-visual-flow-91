@@ -12,7 +12,6 @@ const CurrencySelector: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[80px] border border-border/50"
       >
-        <span className="text-lg select-none">{selectedCurrency.flag}</span>
         <span 
           className="currency-display-wrapper notranslate font-mono text-xs font-bold tracking-wider" 
           lang="en"
@@ -52,7 +51,6 @@ const CurrencySelector: React.FC = () => {
                       : 'hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
-                  <span className="text-base select-none">{currency.flag}</span>
                   <span 
                     className="currency-display-wrapper notranslate font-mono text-xs font-bold tracking-wider" 
                     lang="en"
