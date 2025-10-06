@@ -49,7 +49,7 @@ const Newsletter = lazy(() => import("./components/Newsletter"));
 const ContactThankYou = lazy(() => import("./pages/ContactThankYou"));
 const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
 
-const VideoShowcase = lazy(() => import("./pages/VideoShowcase"));
+
 
 
 // Enhanced query client for global accessibility
@@ -151,7 +151,7 @@ function AppContent() {
       <Route path="/information" element={<Information />} />
       <Route path="/about-us" element={<AboutUs />} />
       
-      <Route path="/video-showcase" element={<VideoShowcase />} />
+      
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/contact-thank-you" element={<ContactThankYou />} />
       <Route path="/wizard-thank-you" element={<WizardThankYou />} />
