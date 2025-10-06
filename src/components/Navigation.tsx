@@ -8,19 +8,15 @@ import { AIHelpChat } from "./AIHelpChat";
 import Sidebar from "./Sidebar";
 import CurrencySelector from "./CurrencySelector";
 import UpdateBanner from "./UpdateBanner";
-
 interface NavigationProps {
   className?: string;
 }
-
-const Navigation: React.FC<NavigationProps> = ({ className }) => {
+const Navigation: React.FC<NavigationProps> = ({
+  className
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
-  
-
-
-  return (
-    <>
+  return <>
       {/* Update Banner */}
       <UpdateBanner />
       
@@ -34,7 +30,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
             </a>
             <a href="mailto:info@futurehomesturkey.com" className="flex items-center gap-2 hover:text-brand-accent transition-colors">
               <Mail size={14} />
-              <span className="text-xs sm:text-sm">info@futurehomesturkey.com</span>
+              <span className="text-xs sm:text-sm">info@futurehomesinternational.com</span>
             </a>
           </div>
           <div className="flex items-center gap-3">
@@ -61,20 +57,13 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/" className="flex items-center gap-2">
-                <img 
-                  src="/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png" 
-                  alt="Future Homes" 
-                  className="h-6 sm:h-8 w-auto"
-                />
+                <img src="/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png" alt="Future Homes" className="h-6 sm:h-8 w-auto" />
               </Link>
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-3">
               <CurrencySelector />
-              <div 
-                className="p-2 cursor-pointer hover:bg-gray-100 rounded-md transition-colors"
-                onClick={() => setIsOpen(true)}
-              >
+              <div className="p-2 cursor-pointer hover:bg-gray-100 rounded-md transition-colors" onClick={() => setIsOpen(true)}>
                 <Menu size={24} className="text-gray-700" />
               </div>
             </div>
@@ -83,11 +72,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
       </nav>
 
       {/* Sidebar */}
-      <Sidebar 
-        isOpen={isOpen} 
-        onClose={() => setIsOpen(false)} 
-        onAIHelpOpen={() => setIsAIHelpOpen(true)}
-      />
+      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} onAIHelpOpen={() => setIsAIHelpOpen(true)} />
 
       {/* AI Help Chat */}
       <AIHelpChat isOpen={isAIHelpOpen} onClose={() => setIsAIHelpOpen(false)} />
@@ -100,8 +85,6 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
           }
         ` : ''}
       `}</style>
-    </>
-  );
+    </>;
 };
-
 export default Navigation;
