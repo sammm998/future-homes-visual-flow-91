@@ -84,6 +84,11 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
         description: 'Contact Future Homes for expert property consultation. Multilingual team available 24/7. Free property valuation, investment advice, and personalized service worldwide.',
         keywords: 'contact Future Homes, real estate consultation, property advice, international property experts, property consultation'
       },
+      '/video-showcase': {
+        title: 'Property Video Tours | Virtual Property Showcase',
+        description: 'Explore our exclusive property video tours. Virtual walkthroughs of luxury properties in Turkey, Dubai, Cyprus & Bali. Professional video showcases - see before you buy.',
+        keywords: 'property video tours, virtual property viewing, property showcase videos, real estate video tours, property walkthroughs'
+      },
       '/testimonials': {
         title: 'Client Testimonials | Real Estate Success Stories & Reviews',
         description: 'Read authentic testimonials from satisfied Future Homes clients. Real success stories from property investors who found their dream homes worldwide.',

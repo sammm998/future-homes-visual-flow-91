@@ -47,14 +47,13 @@ export const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
       {/* DNS Prefetch for external domains */}
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
       <link rel="dns-prefetch" href="//images.unsplash.com" />
-      <link rel="dns-prefetch" href="//kiogiyemoqbnuvclneoe.supabase.co" />
+      <link rel="dns-prefetch" href="//api.elevenlabs.io" />
       
       {/* Preconnect to critical resources */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link rel="preconnect" href="https://kiogiyemoqbnuvclneoe.supabase.co" />
       
-      {/* Critical CSS and fonts preload */}
+      {/* Critical CSS inlining hint */}
       <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       
       {/* Prefetch next likely pages */}
@@ -62,19 +61,11 @@ export const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
         <link key={route} rel="prefetch" href={route} />
       ))}
       
-      {/* Preload critical images */}
-      {preloadImages.slice(0, 3).map(src => (
-        <link key={src} rel="preload" href={src} as="image" />
-      ))}
-      
       {/* Performance hints */}
       <meta httpEquiv="x-dns-prefetch-control" content="on" />
       
       {/* Critical resource hints */}
       <link rel="preload" href="/placeholder.svg" as="image" />
-      
-      {/* Enable HTTP/3 hint */}
-      <meta httpEquiv="Accept-CH" content="DPR, Viewport-Width, Width" />
     </Helmet>
   );
 };
