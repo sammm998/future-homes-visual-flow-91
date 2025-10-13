@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuContent } from "@/components/ui/navigation-menu";
-import { Menu, Phone, Mail, Facebook, Instagram, Linkedin } from "lucide-react";
+import { Menu, Mail, Facebook, Instagram, Linkedin } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { AIHelpChat } from "./AIHelpChat";
@@ -24,10 +24,6 @@ const Navigation: React.FC<NavigationProps> = ({
       <div className="bg-brand-secondary text-white py-2 px-4">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-2 sm:mb-0 text-center sm:text-left">
-            <a href="tel:+905523032750" className="flex items-center gap-2 hover:text-brand-accent transition-colors">
-              <Phone size={14} />
-              <span className="text-xs sm:text-sm">+90 552 303 27 50</span>
-            </a>
             <a href="mailto:info@futurehomesturkey.com" className="flex items-center gap-2 hover:text-brand-accent transition-colors">
               <Mail size={14} />
               <span className="text-xs sm:text-sm">info@futurehomesinternational.com</span>
