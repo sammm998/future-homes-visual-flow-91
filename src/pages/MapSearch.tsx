@@ -15,6 +15,7 @@ interface Property {
   price: string;
   google_maps_embed: string | null;
   slug: string | null;
+  property_image: string | null;
 }
 
 const MapSearch = () => {
@@ -86,7 +87,7 @@ const MapSearch = () => {
         // Fetch all active properties
         const { data: properties, error } = await supabase
           .from('properties')
-          .select('id, ref_no, title, location, price, google_maps_embed, slug')
+          .select('id, ref_no, title, location, price, google_maps_embed, slug, property_image')
           .eq('is_active', true);
 
         if (error) throw error;
@@ -157,13 +158,35 @@ const MapSearch = () => {
             // Create rich popup with property card
             const popupContent = document.createElement('div');
             popupContent.style.cssText = 'padding: 0; min-width: 300px; max-width: 350px;';
+            
+            const imageUrl = property.property_image || '/placeholder.svg';
+            
             popupContent.innerHTML = `
               <div style="
                 background: white;
-                border-radius: 8px;
+                border-radius: 12px;
                 overflow: hidden;
                 box-shadow: 0 4px 20px rgba(0,0,0,0.15);
               ">
+                ${property.property_image ? `
+                  <div style="
+                    width: 100%;
+                    height: 180px;
+                    overflow: hidden;
+                    background: #f0f0f0;
+                  ">
+                    <img 
+                      src="${imageUrl}" 
+                      alt="${property.title}"
+                      style="
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                      "
+                      onerror="this.style.display='none'; this.parentElement.style.height='0px';"
+                    />
+                  </div>
+                ` : ''}
                 <div style="padding: 16px;">
                   <div style="
                     display: inline-block;
@@ -252,10 +275,11 @@ const MapSearch = () => {
                 const visitBtn = document.getElementById(`visit-property-${property.id}`);
                 if (visitBtn) {
                   visitBtn.addEventListener('click', () => {
-                    if (property.slug) {
-                      navigate(`/property/${property.slug}`);
-                    } else if (property.ref_no) {
-                      navigate(`/property/${property.ref_no}`);
+                    // Use ref_no as primary identifier
+                    if (property.ref_no) {
+                      window.location.href = `/property/${property.ref_no}`;
+                    } else if (property.slug) {
+                      window.location.href = `/property/${property.slug}`;
                     }
                   });
                 }
