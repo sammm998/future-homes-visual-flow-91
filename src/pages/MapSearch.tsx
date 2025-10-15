@@ -10,7 +10,6 @@ import PropertyFilter from '@/components/PropertyFilter';
 import markerIcon from '@/assets/marker-icon.jpeg';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
-
 interface Property {
   id: string;
   ref_no: string;
@@ -25,7 +24,6 @@ interface Property {
   property_district: string | null;
   amenities: string[] | null;
 }
-
 const MapSearch = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -50,7 +48,9 @@ const MapSearch = () => {
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const currentPopupRef = useRef<mapboxgl.Popup | null>(null);
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const isMobile = useIsMobile();
 
   // Filter properties based on current filters (memoized for performance)
@@ -63,8 +63,7 @@ const MapSearch = () => {
 
       // Bedrooms filter
       if (filters.bedrooms && filters.bedrooms !== 'studio') {
-        const bedroomsMatch = property.bedrooms?.toLowerCase().includes(filters.bedrooms) || 
-                             property.title?.toLowerCase().includes(`${filters.bedrooms}+1`);
+        const bedroomsMatch = property.bedrooms?.toLowerCase().includes(filters.bedrooms) || property.title?.toLowerCase().includes(`${filters.bedrooms}+1`);
         if (!bedroomsMatch) return false;
       }
       if (filters.bedrooms === 'studio' && !property.bedrooms?.toLowerCase().includes('studio')) {
@@ -80,8 +79,7 @@ const MapSearch = () => {
 
       // District filter
       if (filters.district) {
-        const districtMatch = property.property_district?.toLowerCase().includes(filters.district.toLowerCase()) ||
-                             property.location?.toLowerCase().includes(filters.district.toLowerCase());
+        const districtMatch = property.property_district?.toLowerCase().includes(filters.district.toLowerCase()) || property.location?.toLowerCase().includes(filters.district.toLowerCase());
         if (!districtMatch) return false;
       }
 
@@ -101,52 +99,45 @@ const MapSearch = () => {
       if (filters.facilities?.length > 0) {
         const propertyAmenities = property.amenities || [];
         if (propertyAmenities.length === 0) return false;
-        
+
         // Create a normalized set for faster lookup
-        const normalizedAmenities = new Set(
-          propertyAmenities.map(a => a.toLowerCase().replace(/\s+/g, '-'))
-        );
-        
-        const hasAllFacilities = filters.facilities.every(facility => 
-          normalizedAmenities.has(facility) || normalizedAmenities.has(facility.replace(/-/g, ' '))
-        );
+        const normalizedAmenities = new Set(propertyAmenities.map(a => a.toLowerCase().replace(/\s+/g, '-')));
+        const hasAllFacilities = filters.facilities.every(facility => normalizedAmenities.has(facility) || normalizedAmenities.has(facility.replace(/-/g, ' ')));
         if (!hasAllFacilities) return false;
       }
-
       return true;
     });
   }, [properties, filters]);
-
-
   const extractCoordinates = (url: string | null, refNo: string | null, location: string): [number, number] | null => {
     // First try to get from property coordinates map (with location context for Bali)
     const mappedCoords = getPropertyCoordinates(refNo, location);
     if (mappedCoords) return mappedCoords;
-    
+
     // Fallback to URL parsing
     if (!url) return null;
-    
+
     // Match patterns like @25.0365811,55.2066422 or !3d25.0391345!4d55.2176352
     const atMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
     if (atMatch) {
       return [parseFloat(atMatch[2]), parseFloat(atMatch[1])]; // [lng, lat]
     }
-    
     const coordMatch = url.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
     if (coordMatch) {
       return [parseFloat(coordMatch[2]), parseFloat(coordMatch[1])]; // [lng, lat]
     }
-    
     return null;
   };
-
   useEffect(() => {
     const fetchMapboxToken = async () => {
       try {
-        const { data, error } = await supabase.functions.invoke('map-proxy', {
-          body: { action: 'get-token' }
+        const {
+          data,
+          error
+        } = await supabase.functions.invoke('map-proxy', {
+          body: {
+            action: 'get-token'
+          }
         });
-        
         if (error) throw error;
         if (data?.token) {
           setMapboxToken(data.token);
@@ -166,28 +157,22 @@ const MapSearch = () => {
         });
       }
     };
-
     fetchMapboxToken();
   }, []);
-
   useEffect(() => {
     if (!mapContainer.current || !mapboxToken) return;
-
     const initMap = async () => {
       try {
         // Fetch all active properties
-        const { data: propertiesData, error } = await supabase
-          .from('properties')
-          .select('id, ref_no, title, location, price, google_maps_embed, slug, property_image, property_type, bedrooms, property_district, amenities')
-          .eq('is_active', true);
-
+        const {
+          data: propertiesData,
+          error
+        } = await supabase.from('properties').select('id, ref_no, title, location, price, google_maps_embed, slug, property_image, property_type, bedrooms, property_district, amenities').eq('is_active', true);
         if (error) throw error;
-
         setProperties(propertiesData || []);
 
         // Initialize map with optimized settings
         mapboxgl.accessToken = mapboxToken;
-        
         map.current = new mapboxgl.Map({
           container: mapContainer.current,
           style: mapStyle,
@@ -199,14 +184,12 @@ const MapSearch = () => {
           renderWorldCopies: false,
           touchZoomRotate: true,
           touchPitch: true,
-          attributionControl: false, // Remove attribution for cleaner look
+          attributionControl: false // Remove attribution for cleaner look
         });
-
         map.current.on('load', () => {
           setLoading(false);
         });
-
-        map.current.on('error', (e) => {
+        map.current.on('error', e => {
           console.error('Map error:', e);
           setLoading(false);
         });
@@ -214,11 +197,10 @@ const MapSearch = () => {
         // Add navigation controls with mobile optimization and higher z-index
         const nav = new mapboxgl.NavigationControl({
           visualizePitch: !isMobile,
-          showCompass: !isMobile,
+          showCompass: !isMobile
         });
-        
         map.current.addControl(nav, 'top-right');
-        
+
         // Increase z-index for navigation controls using CSS
         setTimeout(() => {
           const navControls = document.querySelector('.mapboxgl-ctrl-top-right');
@@ -237,19 +219,19 @@ const MapSearch = () => {
                 'tileSize': 512,
                 'maxzoom': 14
               });
-              map.current.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+              map.current.setTerrain({
+                'source': 'mapbox-dem',
+                'exaggeration': 1.5
+              });
             }
           });
         }
-
       } catch (error) {
         console.error('Error initializing map:', error);
         setLoading(false);
       }
     };
-
     initMap();
-
     return () => {
       map.current?.remove();
     };
@@ -271,18 +253,15 @@ const MapSearch = () => {
       // Clear existing markers
       markersRef.current.forEach(marker => marker.remove());
       markersRef.current = [];
-
       const bounds = new mapboxgl.LngLatBounds();
       const markerSize = isMobile ? 40 : 50;
 
       // Create all markers
       filteredProperties.forEach((property: Property) => {
         const coords = extractCoordinates(property.google_maps_embed, property.ref_no, property.location);
-        
         if (!coords) return;
-
         bounds.extend(coords);
-        
+
         // Optimized marker element
         const el = document.createElement('div');
         el.className = 'custom-marker';
@@ -343,8 +322,7 @@ const MapSearch = () => {
               </div>
             </div>
           `;
-          
-          return new mapboxgl.Popup({ 
+          return new mapboxgl.Popup({
             offset: 25,
             closeButton: true,
             closeOnClick: false,
@@ -353,20 +331,15 @@ const MapSearch = () => {
         };
 
         // Add marker
-        const marker = new mapboxgl.Marker(el)
-          .setLngLat(coords)
-          .addTo(map.current!);
-
+        const marker = new mapboxgl.Marker(el).setLngLat(coords).addTo(map.current!);
         markersRef.current.push(marker);
 
         // Show popup on click
-        el.addEventListener('click', (e) => {
+        el.addEventListener('click', e => {
           e.stopPropagation();
-          
           if (currentPopupRef.current) {
             currentPopupRef.current.remove();
           }
-          
           const popup = createPopup();
           popup.addTo(map.current!);
           currentPopupRef.current = popup;
@@ -385,64 +358,42 @@ const MapSearch = () => {
 
     return () => clearTimeout(timer);
   }, [filteredProperties, isMobile]);
-
   const handleFilterChange = useCallback((newFilters: any) => {
     setFilters(newFilters);
     if (isMobile) {
       setFilterMenuOpen(false);
     }
   }, [isMobile]);
-
   const handleSearch = useCallback(() => {
     toast({
       title: "Search Complete",
-      description: `Found ${filteredProperties.length} properties matching your criteria.`,
+      description: `Found ${filteredProperties.length} properties matching your criteria.`
     });
     if (isMobile) {
       setFilterMenuOpen(false);
     }
   }, [filteredProperties.length, toast, isMobile]);
-
-  return (
-    <div className="relative w-full h-screen overflow-hidden flex">
-      {loading && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-[1000] flex items-center justify-center">
+  return <div className="relative w-full h-screen overflow-hidden flex">
+      {loading && <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-[1000] flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
             <p className="text-muted-foreground text-sm">Loading map...</p>
           </div>
-        </div>
-      )}
+        </div>}
       
       {/* Mobile Filter Toggle Button - positioned below map controls */}
-      {isMobile && (
-        <Button
-          onClick={() => setFilterMenuOpen(!filterMenuOpen)}
-          className="fixed top-16 left-4 z-20 shadow-lg"
-          size="icon"
-        >
+      {isMobile && <Button onClick={() => setFilterMenuOpen(!filterMenuOpen)} size="icon" className="fixed top-16 left-4 z-20 shadow-lg my-[11px]">
           {filterMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
-      )}
+        </Button>}
 
       {/* Left Sidebar Filter - Responsive */}
-      <div 
-        className={`
-          ${isMobile 
-            ? 'fixed inset-y-0 left-0 w-[85vw] max-w-sm transform transition-transform duration-300 ease-in-out z-30' 
-            : 'w-72 flex-shrink-0 relative z-10'
-          }
+      <div className={`
+          ${isMobile ? 'fixed inset-y-0 left-0 w-[85vw] max-w-sm transform transition-transform duration-300 ease-in-out z-30' : 'w-72 flex-shrink-0 relative z-10'}
           ${isMobile && !filterMenuOpen ? '-translate-x-full' : 'translate-x-0'}
           h-screen flex flex-col bg-background border-r shadow-lg
-        `}
-      >
+        `}>
         <div className="flex-1 overflow-y-auto p-3">
-          <PropertyFilter 
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onSearch={handleSearch}
-            horizontal={false}
-          />
+          <PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch} horizontal={false} />
         </div>
         
         {/* Results Counter */}
@@ -456,65 +407,34 @@ const MapSearch = () => {
       </div>
 
       {/* Mobile backdrop */}
-      {isMobile && filterMenuOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-20"
-          onClick={() => setFilterMenuOpen(false)}
-        />
-      )}
+      {isMobile && filterMenuOpen && <div className="fixed inset-0 bg-black/50 z-20" onClick={() => setFilterMenuOpen(false)} />}
 
       {/* Map Style Controls - Responsive positioning with higher z-index */}
-      <div 
-        className={`
+      <div className={`
           absolute top-4 z-[60] flex gap-1 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-lg
           ${isMobile ? 'left-4 right-4 justify-center' : 'left-[304px]'}
           ${isMobile && filterMenuOpen ? 'hidden' : 'flex'}
-        `}
-      >
-        <button
-          onClick={() => setMapStyle('mapbox://styles/mapbox/streets-v12')}
-          className={`px-2 md:px-3 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-medium transition-all ${
-            mapStyle === 'mapbox://styles/mapbox/streets-v12'
-              ? 'bg-primary text-primary-foreground'
-              : 'hover:bg-accent'
-          }`}
-        >
+        `}>
+        <button onClick={() => setMapStyle('mapbox://styles/mapbox/streets-v12')} className={`px-2 md:px-3 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-medium transition-all ${mapStyle === 'mapbox://styles/mapbox/streets-v12' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'}`}>
           Street
         </button>
-        <button
-          onClick={() => setMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}
-          className={`px-2 md:px-3 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-medium transition-all ${
-            mapStyle === 'mapbox://styles/mapbox/satellite-streets-v12'
-              ? 'bg-primary text-primary-foreground'
-              : 'hover:bg-accent'
-          }`}
-        >
+        <button onClick={() => setMapStyle('mapbox://styles/mapbox/satellite-streets-v12')} className={`px-2 md:px-3 py-1.5 md:py-2 rounded-md text-xs md:text-sm font-medium transition-all ${mapStyle === 'mapbox://styles/mapbox/satellite-streets-v12' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'}`}>
           Satellite
         </button>
-        {!isMobile && (
-          <button
-            onClick={() => {
-              if (map.current) {
-                const currentPitch = map.current.getPitch();
-                map.current.easeTo({
-                  pitch: currentPitch === 0 ? 60 : 0,
-                  duration: 1000
-                });
-              }
-            }}
-            className="px-3 py-2 rounded-md text-sm font-medium hover:bg-accent transition-all"
-          >
+        {!isMobile && <button onClick={() => {
+        if (map.current) {
+          const currentPitch = map.current.getPitch();
+          map.current.easeTo({
+            pitch: currentPitch === 0 ? 60 : 0,
+            duration: 1000
+          });
+        }
+      }} className="px-3 py-2 rounded-md text-sm font-medium hover:bg-accent transition-all">
             3D
-          </button>
-        )}
+          </button>}
       </div>
       
-      <div 
-        ref={mapContainer} 
-        className="flex-1 h-screen"
-      />
-    </div>
-  );
+      <div ref={mapContainer} className="flex-1 h-screen" />
+    </div>;
 };
-
 export default MapSearch;
