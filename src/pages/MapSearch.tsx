@@ -199,6 +199,7 @@ const MapSearch = () => {
           renderWorldCopies: false,
           touchZoomRotate: true,
           touchPitch: true,
+          attributionControl: false, // Remove attribution for cleaner look
         });
 
         map.current.on('load', () => {
@@ -210,25 +211,34 @@ const MapSearch = () => {
           setLoading(false);
         });
 
-        // Add navigation controls with mobile optimization
-        map.current.addControl(
-          new mapboxgl.NavigationControl({
-            visualizePitch: !isMobile,
-            showCompass: !isMobile,
-          }),
-          'top-right'
-        );
+        // Add navigation controls with mobile optimization and higher z-index
+        const nav = new mapboxgl.NavigationControl({
+          visualizePitch: !isMobile,
+          showCompass: !isMobile,
+        });
+        
+        map.current.addControl(nav, 'top-right');
+        
+        // Increase z-index for navigation controls using CSS
+        setTimeout(() => {
+          const navControls = document.querySelector('.mapboxgl-ctrl-top-right');
+          if (navControls instanceof HTMLElement) {
+            navControls.style.zIndex = '50';
+          }
+        }, 100);
 
         // Only add terrain on desktop for better performance
         if (!isMobile) {
           map.current.on('load', () => {
-            map.current!.addSource('mapbox-dem', {
-              'type': 'raster-dem',
-              'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-              'tileSize': 512,
-              'maxzoom': 14
-            });
-            map.current!.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+            if (map.current) {
+              map.current.addSource('mapbox-dem', {
+                'type': 'raster-dem',
+                'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+                'tileSize': 512,
+                'maxzoom': 14
+              });
+              map.current.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+            }
           });
         }
 
@@ -256,7 +266,7 @@ const MapSearch = () => {
   useEffect(() => {
     if (!map.current || filteredProperties.length === 0) return;
 
-    // Debounce marker updates for better performance
+    // Longer debounce for better performance on mobile
     const timer = setTimeout(() => {
       // Clear existing markers
       markersRef.current.forEach(marker => marker.remove());
@@ -364,10 +374,10 @@ const MapSearch = () => {
         map.current.fitBounds(bounds, {
           padding: isMobile ? 50 : 80,
           maxZoom: isMobile ? 11 : 12,
-          duration: 600
+          duration: 400
         });
       }
-    }, 300); // 300ms debounce
+    }, isMobile ? 500 : 300); // Longer debounce on mobile
 
     return () => clearTimeout(timer);
   }, [filteredProperties, isMobile]);
@@ -400,11 +410,11 @@ const MapSearch = () => {
         </div>
       )}
       
-      {/* Mobile Filter Toggle Button */}
+      {/* Mobile Filter Toggle Button - positioned below map controls */}
       {isMobile && (
         <Button
           onClick={() => setFilterMenuOpen(!filterMenuOpen)}
-          className="fixed top-4 left-4 z-20 shadow-lg"
+          className="fixed top-16 left-4 z-20 shadow-lg"
           size="icon"
         >
           {filterMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -449,10 +459,10 @@ const MapSearch = () => {
         />
       )}
 
-      {/* Map Style Controls - Responsive positioning */}
+      {/* Map Style Controls - Responsive positioning with higher z-index */}
       <div 
         className={`
-          absolute top-4 z-10 flex gap-1 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-lg
+          absolute top-4 z-[60] flex gap-1 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-lg
           ${isMobile ? 'left-4 right-4 justify-center' : 'left-[304px]'}
           ${isMobile && filterMenuOpen ? 'hidden' : 'flex'}
         `}
