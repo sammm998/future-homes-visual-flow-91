@@ -6,6 +6,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getPropertyCoordinates } from '@/utils/propertyCoordinates';
+import PropertyFilter from '@/components/PropertyFilter';
 
 interface Property {
   id: string;
@@ -16,6 +17,9 @@ interface Property {
   google_maps_embed: string | null;
   slug: string | null;
   property_image: string | null;
+  property_type: string | null;
+  bedrooms: string | null;
+  property_district: string | null;
 }
 
 const MapSearch = () => {
@@ -23,10 +27,81 @@ const MapSearch = () => {
   const map = useRef<mapboxgl.Map | null>(null);
   const [loading, setLoading] = useState(true);
   const [mapboxToken, setMapboxToken] = useState<string>('');
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
+  const [filters, setFilters] = useState({
+    propertyType: '',
+    bedrooms: '',
+    location: '',
+    district: '',
+    minPrice: '',
+    maxPrice: '',
+    minSquareFeet: '',
+    maxSquareFeet: '',
+    facilities: [] as string[],
+    referenceNo: '',
+    sortBy: ''
+  });
+  const markersRef = useRef<mapboxgl.Marker[]>([]);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Extract coordinates from Google Maps URL or use mapping
+  // Filter properties based on current filters
+  const filterProperties = (propertiesToFilter: Property[]) => {
+    return propertiesToFilter.filter((property: Property) => {
+      // Property type filter
+      if (filters.propertyType && property.property_type?.toLowerCase() !== filters.propertyType.toLowerCase()) {
+        return false;
+      }
+
+      // Bedrooms filter
+      if (filters.bedrooms && filters.bedrooms !== 'studio') {
+        const bedroomsMatch = property.bedrooms?.toLowerCase().includes(filters.bedrooms) || 
+                             property.title?.toLowerCase().includes(`${filters.bedrooms}+1`);
+        if (!bedroomsMatch) return false;
+      }
+      if (filters.bedrooms === 'studio' && !property.bedrooms?.toLowerCase().includes('studio')) {
+        return false;
+      }
+
+      // Location filter
+      if (filters.location && filters.location !== 'all') {
+        if (!property.location?.toLowerCase().includes(filters.location.toLowerCase())) {
+          return false;
+        }
+      }
+
+      // District filter
+      if (filters.district) {
+        const districtMatch = property.property_district?.toLowerCase().includes(filters.district.toLowerCase()) ||
+                             property.location?.toLowerCase().includes(filters.district.toLowerCase());
+        if (!districtMatch) return false;
+      }
+
+      // Reference number filter
+      if (filters.referenceNo && !property.ref_no?.toLowerCase().includes(filters.referenceNo.toLowerCase())) {
+        return false;
+      }
+
+      // Price filter
+      if (filters.minPrice || filters.maxPrice) {
+        const priceValue = parseFloat(property.price?.replace(/[^0-9.]/g, '') || '0');
+        if (filters.minPrice && priceValue < parseFloat(filters.minPrice)) return false;
+        if (filters.maxPrice && priceValue > parseFloat(filters.maxPrice)) return false;
+      }
+
+      return true;
+    });
+  };
+
+  // Apply filters whenever they change
+  useEffect(() => {
+    if (properties.length > 0) {
+      const filtered = filterProperties(properties);
+      setFilteredProperties(filtered);
+    }
+  }, [filters, properties]);
+
   const extractCoordinates = (url: string | null, refNo: string | null, location: string): [number, number] | null => {
     // First try to get from property coordinates map (with location context for Bali)
     const mappedCoords = getPropertyCoordinates(refNo, location);
@@ -85,12 +160,15 @@ const MapSearch = () => {
     const initMap = async () => {
       try {
         // Fetch all active properties
-        const { data: properties, error } = await supabase
+        const { data: propertiesData, error } = await supabase
           .from('properties')
-          .select('id, ref_no, title, location, price, google_maps_embed, slug, property_image')
+          .select('id, ref_no, title, location, price, google_maps_embed, slug, property_image, property_type, bedrooms, property_district')
           .eq('is_active', true);
 
         if (error) throw error;
+
+        setProperties(propertiesData || []);
+        setFilteredProperties(propertiesData || []);
 
         // Initialize map
         mapboxgl.accessToken = mapboxToken;
@@ -124,182 +202,6 @@ const MapSearch = () => {
           'top-right'
         );
 
-        // Add markers for each property with coordinates
-        const bounds = new mapboxgl.LngLatBounds();
-        let markerCount = 0;
-
-        properties?.forEach((property: Property) => {
-          const coords = extractCoordinates(property.google_maps_embed, property.ref_no, property.location);
-          
-          if (coords) {
-            // Create custom marker element
-            const el = document.createElement('div');
-            el.className = 'custom-marker';
-            el.style.cursor = 'pointer';
-            el.innerHTML = `
-              <div style="
-                background: hsl(var(--primary));
-                color: white;
-                width: 44px;
-                height: 44px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                font-size: 11px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-                border: 3px solid white;
-              ">
-                ${property.ref_no || '?'}
-              </div>
-            `;
-
-            // Create rich popup with property card
-            const popupContent = document.createElement('div');
-            popupContent.style.cssText = 'padding: 0; min-width: 300px; max-width: 350px;';
-            
-            const imageUrl = property.property_image || '/placeholder.svg';
-            
-            popupContent.innerHTML = `
-              <div style="
-                background: white;
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-              ">
-                ${property.property_image ? `
-                  <div style="
-                    width: 100%;
-                    height: 180px;
-                    overflow: hidden;
-                    background: #f0f0f0;
-                  ">
-                    <img 
-                      src="${imageUrl}" 
-                      alt="${property.title}"
-                      style="
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                      "
-                      onerror="this.style.display='none'; this.parentElement.style.height='0px';"
-                    />
-                  </div>
-                ` : ''}
-                <div style="padding: 16px;">
-                  <div style="
-                    display: inline-block;
-                    background: hsl(var(--primary));
-                    color: white;
-                    padding: 4px 10px;
-                    border-radius: 12px;
-                    font-size: 11px;
-                    font-weight: 600;
-                    margin-bottom: 10px;
-                  ">
-                    REF: ${property.ref_no}
-                  </div>
-                  <h3 style="
-                    margin: 0 0 12px 0;
-                    font-weight: 700;
-                    font-size: 17px;
-                    line-height: 1.3;
-                    color: #1a1a1a;
-                  ">${property.title}</h3>
-                  <div style="
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    margin-bottom: 12px;
-                    color: #666;
-                    font-size: 13px;
-                  ">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                      <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                    <span>${property.location}</span>
-                  </div>
-                  <div style="
-                    font-size: 22px;
-                    font-weight: 700;
-                    color: hsl(var(--primary));
-                    margin-bottom: 16px;
-                  ">${property.price}</div>
-                  <button 
-                    id="visit-property-${property.id}"
-                    style="
-                      width: 100%;
-                      background: hsl(var(--primary));
-                      color: white;
-                      border: none;
-                      padding: 12px 20px;
-                      border-radius: 8px;
-                      font-size: 14px;
-                      font-weight: 600;
-                      cursor: pointer;
-                      transition: all 0.2s;
-                      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-                    "
-                    onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)';"
-                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.15)';"
-                  >
-                    Visit Property →
-                  </button>
-                </div>
-              </div>
-            `;
-
-            // Create popup
-            const popup = new mapboxgl.Popup({ 
-              offset: 30,
-              closeButton: true,
-              closeOnClick: false,
-              maxWidth: '400px'
-            }).setDOMContent(popupContent);
-
-            // Add marker
-            const marker = new mapboxgl.Marker(el)
-              .setLngLat(coords)
-              .setPopup(popup)
-              .addTo(map.current!);
-
-            // Handle click to show popup
-            el.addEventListener('click', (e) => {
-              e.stopPropagation();
-              popup.addTo(map.current!);
-              
-              // Add event listener to the button after popup is shown
-              setTimeout(() => {
-                const visitBtn = document.getElementById(`visit-property-${property.id}`);
-                if (visitBtn) {
-                  visitBtn.addEventListener('click', () => {
-                    // Use ref_no as primary identifier
-                    if (property.ref_no) {
-                      window.location.href = `/property/${property.ref_no}`;
-                    } else if (property.slug) {
-                      window.location.href = `/property/${property.slug}`;
-                    }
-                  });
-                }
-              }, 100);
-            });
-
-            bounds.extend(coords);
-            markerCount++;
-          }
-        });
-
-        // Fit map to markers if any exist
-        if (markerCount > 0) {
-          map.current.fitBounds(bounds, {
-            padding: { top: 100, bottom: 100, left: 100, right: 100 },
-            maxZoom: 12
-          });
-        }
-
-        console.log(`Map initialized with ${markerCount} properties`);
       } catch (error) {
         console.error('Error initializing map:', error);
         toast({
@@ -318,6 +220,206 @@ const MapSearch = () => {
     };
   }, [mapboxToken, navigate]);
 
+  // Update markers when filtered properties change
+  useEffect(() => {
+    if (!map.current || filteredProperties.length === 0) return;
+
+    // Clear existing markers
+    markersRef.current.forEach(marker => marker.remove());
+    markersRef.current = [];
+
+    const bounds = new mapboxgl.LngLatBounds();
+    let markerCount = 0;
+
+    filteredProperties.forEach((property: Property) => {
+      const coords = extractCoordinates(property.google_maps_embed, property.ref_no, property.location);
+      
+      if (coords) {
+        // Create custom marker element with F
+        const el = document.createElement('div');
+        el.className = 'custom-marker';
+        el.style.cursor = 'pointer';
+        el.innerHTML = `
+          <div style="
+            background: linear-gradient(135deg, #ff5722 0%, #ff1744 100%);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(255, 23, 68, 0.4);
+            border: 3px solid white;
+            font-family: 'Arial Black', sans-serif;
+          ">
+            F
+          </div>
+        `;
+
+        // Create rich popup with property card
+        const popupContent = document.createElement('div');
+        popupContent.style.cssText = 'padding: 0; min-width: 300px; max-width: 350px;';
+        
+        const imageUrl = property.property_image || '/placeholder.svg';
+        
+        popupContent.innerHTML = `
+          <div style="
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+          ">
+            ${property.property_image ? `
+              <div style="
+                width: 100%;
+                height: 180px;
+                overflow: hidden;
+                background: #f0f0f0;
+              ">
+                <img 
+                  src="${imageUrl}" 
+                  alt="${property.title}"
+                  style="
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                  "
+                  onerror="this.style.display='none'; this.parentElement.style.height='0px';"
+                />
+              </div>
+            ` : ''}
+            <div style="padding: 16px;">
+              <div style="
+                display: inline-block;
+                background: linear-gradient(135deg, #ff5722 0%, #ff1744 100%);
+                color: white;
+                padding: 4px 10px;
+                border-radius: 12px;
+                font-size: 11px;
+                font-weight: 600;
+                margin-bottom: 10px;
+              ">
+                REF: ${property.ref_no}
+              </div>
+              <h3 style="
+                margin: 0 0 12px 0;
+                font-weight: 700;
+                font-size: 17px;
+                line-height: 1.3;
+                color: #1a1a1a;
+              ">${property.title}</h3>
+              <div style="
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                margin-bottom: 12px;
+                color: #666;
+                font-size: 13px;
+              ">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>${property.location}</span>
+              </div>
+              <div style="
+                font-size: 22px;
+                font-weight: 700;
+                color: #ff5722;
+                margin-bottom: 16px;
+              ">${property.price}</div>
+              <button 
+                id="visit-property-${property.id}"
+                style="
+                  width: 100%;
+                  background: linear-gradient(135deg, #ff5722 0%, #ff1744 100%);
+                  color: white;
+                  border: none;
+                  padding: 12px 20px;
+                  border-radius: 8px;
+                  font-size: 14px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: all 0.2s;
+                  box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+                "
+                onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(255, 87, 34, 0.4)';"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(255, 87, 34, 0.3)';"
+              >
+                Visit Property →
+              </button>
+            </div>
+          </div>
+        `;
+
+        // Create popup
+        const popup = new mapboxgl.Popup({ 
+          offset: 30,
+          closeButton: true,
+          closeOnClick: false,
+          maxWidth: '400px'
+        }).setDOMContent(popupContent);
+
+        // Add marker
+        const marker = new mapboxgl.Marker(el)
+          .setLngLat(coords)
+          .setPopup(popup)
+          .addTo(map.current!);
+
+        markersRef.current.push(marker);
+
+        // Handle click to show popup
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          popup.addTo(map.current!);
+          
+          // Add event listener to the button after popup is shown
+          setTimeout(() => {
+            const visitBtn = document.getElementById(`visit-property-${property.id}`);
+            if (visitBtn) {
+              visitBtn.addEventListener('click', () => {
+                // Use ref_no as primary identifier
+                if (property.ref_no) {
+                  window.location.href = `/property/${property.ref_no}`;
+                } else if (property.slug) {
+                  window.location.href = `/property/${property.slug}`;
+                }
+              });
+            }
+          }, 100);
+        });
+
+        bounds.extend(coords);
+        markerCount++;
+      }
+    });
+
+    // Fit map to markers if any exist
+    if (markerCount > 0 && map.current) {
+      map.current.fitBounds(bounds, {
+        padding: { top: 100, bottom: 100, left: 100, right: 100 },
+        maxZoom: 12
+      });
+    }
+
+    console.log(`Map updated with ${markerCount} properties`);
+  }, [filteredProperties]);
+
+  const handleFilterChange = (newFilters: any) => {
+    setFilters(newFilters);
+  };
+
+  const handleSearch = () => {
+    // Filters are already applied through useEffect
+    toast({
+      title: "Search Complete",
+      description: `Found ${filteredProperties.length} properties matching your criteria.`,
+    });
+  };
+
   return (
     <div className="relative w-full min-h-screen">
       {loading && (
@@ -329,18 +431,28 @@ const MapSearch = () => {
         </div>
       )}
       
+      {/* Filter Panel */}
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[100] w-[95%] max-w-7xl">
+        <PropertyFilter 
+          filters={filters}
+          onFilterChange={handleFilterChange}
+          onSearch={handleSearch}
+          horizontal={true}
+        />
+      </div>
+
+      {/* Results Counter */}
+      <div className="absolute top-[120px] left-4 bg-background/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg z-10">
+        <p className="text-sm font-medium">
+          Showing <span className="text-primary font-bold">{filteredProperties.length}</span> properties
+        </p>
+      </div>
+      
       <div 
         ref={mapContainer} 
         className="w-full h-screen"
         style={{ minHeight: '100vh' }}
       />
-      
-      <div className="absolute top-4 left-4 bg-background/95 backdrop-blur-sm p-4 rounded-lg shadow-lg max-w-sm z-10">
-        <h1 className="text-2xl font-bold mb-2">Property Map Search</h1>
-        <p className="text-sm text-muted-foreground">
-          Click on any marker to view property details. Markers show the reference number of each property.
-        </p>
-      </div>
     </div>
   );
 };
