@@ -576,6 +576,18 @@ const MapSearch = () => {
             top: 10px !important;
           }
         }
+        
+        /* Ensure Select dropdowns appear above map elements */
+        [data-radix-popper-content-wrapper] {
+          z-index: 150 !important;
+        }
+        
+        /* Ensure all radix popover content is above other elements */
+        [role="dialog"],
+        [role="menu"],
+        [role="listbox"] {
+          z-index: 150 !important;
+        }
       `}</style>
     </div>
   );
