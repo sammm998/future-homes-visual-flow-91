@@ -282,8 +282,8 @@ const MapSearch = () => {
         box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         cursor: pointer;
         overflow: hidden;
-        background-image: url('/favicon.ico');
-        background-size: cover;
+        background-image: url('/favicon.png');
+        background-size: contain;
         background-position: center;
         transition: all 0.2s ease;
       `;
