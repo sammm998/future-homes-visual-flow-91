@@ -49,6 +49,18 @@ const MapSearch = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Filter properties based on current filters (memoized for performance)
   const filteredProperties = useMemo(() => {
@@ -350,14 +362,20 @@ const MapSearch = () => {
         
         console.log('Marker clicked:', property.ref_no);
         
-        if (currentPopupRef.current) {
-          currentPopupRef.current.remove();
+        // On mobile, show fullscreen modal
+        if (isMobile) {
+          setSelectedProperty(property);
+        } else {
+          // On desktop, show regular popup
+          if (currentPopupRef.current) {
+            currentPopupRef.current.remove();
+          }
+          
+          const popup = createPopup();
+          marker.setPopup(popup);
+          popup.addTo(map.current!);
+          currentPopupRef.current = popup;
         }
-        
-        const popup = createPopup();
-        marker.setPopup(popup);
-        popup.addTo(map.current!);
-        currentPopupRef.current = popup;
       });
     });
 
@@ -392,6 +410,69 @@ const MapSearch = () => {
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
             <p className="text-muted-foreground">Loading properties map...</p>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Fullscreen Property Modal */}
+      {selectedProperty && isMobile && (
+        <div className="fixed inset-0 z-[200] bg-background flex flex-col">
+          {/* Close Button */}
+          <button
+            onClick={() => setSelectedProperty(null)}
+            className="absolute top-4 right-4 z-10 bg-background/95 backdrop-blur-sm p-2 rounded-full shadow-lg border"
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          {/* Property Content */}
+          <div className="flex-1 overflow-y-auto">
+            {selectedProperty.property_image && (
+              <img 
+                src={selectedProperty.property_image} 
+                alt={selectedProperty.title}
+                className="w-full h-64 object-cover"
+              />
+            )}
+            
+            <div className="p-6 space-y-4">
+              <div className="inline-block bg-primary text-primary-foreground px-3 py-1 rounded-lg text-sm font-medium">
+                REF: {selectedProperty.ref_no}
+              </div>
+              
+              <h2 className="text-2xl font-bold">{selectedProperty.title}</h2>
+              
+              <p className="text-muted-foreground flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {selectedProperty.location}
+              </p>
+              
+              <div className="text-3xl font-bold text-primary">
+                {selectedProperty.price}
+              </div>
+              
+              {selectedProperty.bedrooms && (
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-medium">Bedrooms:</span> {selectedProperty.bedrooms}
+                </p>
+              )}
+              
+              {selectedProperty.property_type && (
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-medium">Type:</span> {selectedProperty.property_type}
+                </p>
+              )}
+              
+              <button
+                onClick={() => navigate(`/property/${selectedProperty.ref_no || selectedProperty.slug}`)}
+                className="w-full bg-primary text-primary-foreground py-4 rounded-lg font-medium text-lg shadow-lg hover:opacity-90 transition-opacity"
+              >
+                Visit Property →
+              </button>
+            </div>
           </div>
         </div>
       )}
