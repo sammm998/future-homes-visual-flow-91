@@ -273,24 +273,23 @@ const MapSearch = () => {
       // Simplified marker - using favicon for fast loading
       const el = document.createElement('div');
       el.className = 'custom-marker';
-      el.style.cssText = `
-        width: 40px;
-        height: 40px;
-        background: white;
-        border-radius: 50%;
-        border: 3px solid white;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        cursor: pointer;
-        overflow: hidden;
-        background-image: url('/favicon.png');
-        background-size: contain;
-        background-position: center;
-        transition: all 0.2s ease;
-      `;
+      el.style.width = '40px';
+      el.style.height = '40px';
+      el.style.background = 'white';
+      el.style.borderRadius = '50%';
+      el.style.border = '3px solid white';
+      el.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+      el.style.cursor = 'pointer';
+      el.style.overflow = 'hidden';
+      el.style.backgroundImage = 'url(/favicon.png)';
+      el.style.backgroundSize = 'contain';
+      el.style.backgroundPosition = 'center';
+      el.style.backgroundRepeat = 'no-repeat';
+      el.style.transition = 'all 0.2s ease';
       
       // Hover effect
       el.addEventListener('mouseenter', () => {
-        el.style.borderColor = 'hsl(var(--primary))';
+        el.style.borderColor = '#0066CC';
         el.style.borderWidth = '4px';
         el.style.boxShadow = '0 4px 12px rgba(0,0,0,0.4)';
       });
@@ -311,17 +310,17 @@ const MapSearch = () => {
                 style="width: 100%; height: 150px; object-fit: cover; display: block;" />
             ` : ''}
             <div style="padding: 12px;">
-              <div style="background: hsl(var(--primary)); color: white; padding: 3px 8px; 
+              <div style="background: #0066CC; color: white; padding: 3px 8px; 
                 border-radius: 8px; font-size: 10px; display: inline-block; margin-bottom: 8px;">
                 REF: ${property.ref_no}
               </div>
               <h3 style="margin: 0 0 8px 0; font-size: 15px; font-weight: 700;">${property.title}</h3>
               <p style="margin: 0 0 8px 0; font-size: 12px; color: #666;">${property.location}</p>
-              <div style="font-size: 18px; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 10px;">
+              <div style="font-size: 18px; font-weight: 700; color: #0066CC; margin-bottom: 10px;">
                 ${property.price}
               </div>
               <button onclick="window.location.href='/property/${property.ref_no || property.slug}'"
-                style="width: 100%; background: hsl(var(--primary)); color: white; border: none; 
+                style="width: 100%; background: #0066CC; color: white; border: none; 
                 padding: 8px; border-radius: 6px; font-size: 13px; cursor: pointer;">
                 Visit Property →
               </button>
@@ -347,12 +346,16 @@ const MapSearch = () => {
       // Show popup on click
       el.addEventListener('click', (e) => {
         e.stopPropagation();
+        e.preventDefault();
+        
+        console.log('Marker clicked:', property.ref_no);
         
         if (currentPopupRef.current) {
           currentPopupRef.current.remove();
         }
         
         const popup = createPopup();
+        marker.setPopup(popup);
         popup.addTo(map.current!);
         currentPopupRef.current = popup;
       });
