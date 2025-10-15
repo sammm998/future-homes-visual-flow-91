@@ -62,6 +62,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
               <Link to="/property-wizard" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 Easy Find
               </Link>
+              <Link to="/map-search" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+                Map Search
+              </Link>
               <Link to="/about-us" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 About Us
               </Link>

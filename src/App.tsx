@@ -50,6 +50,7 @@ const ContactThankYou = lazy(() => import("./pages/ContactThankYou"));
 const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
 
 const VideoShowcase = lazy(() => import("./pages/VideoShowcase"));
+const MapSearch = lazy(() => import("./pages/MapSearch"));
 
 
 // Enhanced query client for global accessibility
@@ -138,6 +139,7 @@ function AppContent() {
       
       <Route path="/property-wizard" element={<PropertyWizard />} />
       <Route path="/ai-property-search" element={<AIPropertySearch />} />
+      <Route path="/map-search" element={<MapSearch />} />
       
       <Route path="/antalya" element={<AntalyaPropertySearch />} />
       <Route path="/dubai" element={<DubaiPropertySearch />} />
