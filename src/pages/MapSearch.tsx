@@ -376,14 +376,20 @@ const MapSearch = () => {
           popup.addTo(map.current!);
           currentPopupRef.current = popup;
           
-          // Wait for popup to render, then pan to show it fully
+          // Wait for popup to render, then center it perfectly
           setTimeout(() => {
-            // Pan map to center the marker with proper offset to show full popup
-            map.current!.panTo(coords, {
-              offset: [0, 100], // Offset to show popup above center
-              animate: true
+            const mapContainer = map.current!.getContainer();
+            const mapHeight = mapContainer.clientHeight;
+            
+            // Calculate offset to center popup (move marker down so popup appears in center)
+            // Popup is ~300px tall, so offset marker down by 150px
+            map.current!.easeTo({
+              center: coords,
+              offset: [0, 150] as [number, number], // Move view up so popup is centered
+              duration: 500,
+              essential: true
             });
-          }, 100);
+          }, 50);
         }
       });
     });
