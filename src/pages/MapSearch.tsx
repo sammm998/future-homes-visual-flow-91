@@ -420,55 +420,59 @@ const MapSearch = () => {
           {/* Close Button */}
           <button
             onClick={() => setSelectedProperty(null)}
-            className="absolute top-4 right-4 z-10 bg-background/95 backdrop-blur-sm p-2 rounded-full shadow-lg border"
+            className="absolute top-3 right-3 z-10 bg-background/95 backdrop-blur-sm p-2 rounded-full shadow-lg border"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5" />
           </button>
 
-          {/* Property Content */}
-          <div className="flex-1 overflow-y-auto">
+          {/* Property Content - Fixed height sections */}
+          <div className="flex-1 flex flex-col h-full">
+            {/* Image Section - Fixed height */}
             {selectedProperty.property_image && (
-              <img 
-                src={selectedProperty.property_image} 
-                alt={selectedProperty.title}
-                className="w-full h-64 object-cover"
-              />
+              <div className="h-[35vh] flex-shrink-0">
+                <img 
+                  src={selectedProperty.property_image} 
+                  alt={selectedProperty.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
             )}
             
-            <div className="p-6 space-y-4">
-              <div className="inline-block bg-primary text-primary-foreground px-3 py-1 rounded-lg text-sm font-medium">
-                REF: {selectedProperty.ref_no}
+            {/* Content Section - Flexible but constrained */}
+            <div className="flex-1 flex flex-col p-4 overflow-hidden">
+              <div className="flex-1 space-y-2 min-h-0">
+                <div className="inline-block bg-primary text-primary-foreground px-2 py-1 rounded-lg text-xs font-medium">
+                  REF: {selectedProperty.ref_no}
+                </div>
+                
+                <h2 className="text-xl font-bold line-clamp-2">{selectedProperty.title}</h2>
+                
+                <p className="text-sm text-muted-foreground flex items-center gap-1">
+                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="line-clamp-1">{selectedProperty.location}</span>
+                </p>
+                
+                <div className="text-2xl font-bold text-primary">
+                  {selectedProperty.price}
+                </div>
+                
+                <div className="flex gap-4 text-xs text-muted-foreground">
+                  {selectedProperty.bedrooms && (
+                    <span><span className="font-medium">Bedrooms:</span> {selectedProperty.bedrooms}</span>
+                  )}
+                  {selectedProperty.property_type && (
+                    <span><span className="font-medium">Type:</span> {selectedProperty.property_type}</span>
+                  )}
+                </div>
               </div>
               
-              <h2 className="text-2xl font-bold">{selectedProperty.title}</h2>
-              
-              <p className="text-muted-foreground flex items-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                {selectedProperty.location}
-              </p>
-              
-              <div className="text-3xl font-bold text-primary">
-                {selectedProperty.price}
-              </div>
-              
-              {selectedProperty.bedrooms && (
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-medium">Bedrooms:</span> {selectedProperty.bedrooms}
-                </p>
-              )}
-              
-              {selectedProperty.property_type && (
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-medium">Type:</span> {selectedProperty.property_type}
-                </p>
-              )}
-              
+              {/* Button - Always visible at bottom */}
               <button
                 onClick={() => navigate(`/property/${selectedProperty.ref_no || selectedProperty.slug}`)}
-                className="w-full bg-primary text-primary-foreground py-4 rounded-lg font-medium text-lg shadow-lg hover:opacity-90 transition-opacity"
+                className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium shadow-lg hover:opacity-90 transition-opacity mt-3 flex-shrink-0"
               >
                 Visit Property →
               </button>
