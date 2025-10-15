@@ -7,6 +7,7 @@ import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getPropertyCoordinates } from '@/utils/propertyCoordinates';
 import PropertyFilter from '@/components/PropertyFilter';
+import markerIcon from '@/assets/marker-icon.jpeg';
 
 interface Property {
   id: string;
@@ -257,27 +258,28 @@ const MapSearch = () => {
       const coords = extractCoordinates(property.google_maps_embed, property.ref_no, property.location);
       
       if (coords) {
-        // Create custom marker element with F
+        // Create custom marker element with logo
         const el = document.createElement('div');
         el.className = 'custom-marker';
         el.style.cursor = 'pointer';
         el.innerHTML = `
           <div style="
-            background: linear-gradient(135deg, #ff5722 0%, #ff1744 100%);
-            color: white;
-            width: 44px;
-            height: 44px;
+            width: 50px;
+            height: 50px;
+            background: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 24px;
-            box-shadow: 0 4px 12px rgba(255, 23, 68, 0.4);
-            border: 3px solid white;
-            font-family: 'Arial Black', sans-serif;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 3px solid #ff5722;
+            overflow: hidden;
           ">
-            F
+            <img src="${markerIcon}" alt="Property" style="
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            " />
           </div>
         `;
 
@@ -462,17 +464,19 @@ const MapSearch = () => {
       )}
       
       {/* Left Sidebar Filter */}
-      <div className="w-80 flex-shrink-0 h-screen overflow-y-auto bg-background border-r z-10">
-        <div className="p-4">
+      <div className="w-80 flex-shrink-0 h-screen flex flex-col bg-background border-r z-10">
+        <div className="flex-1 overflow-y-auto p-4">
           <PropertyFilter 
             filters={filters}
             onFilterChange={handleFilterChange}
             onSearch={handleSearch}
             horizontal={false}
           />
-          
-          {/* Results Counter */}
-          <div className="mt-4 bg-muted/50 px-4 py-3 rounded-lg">
+        </div>
+        
+        {/* Results Counter - Fixed at bottom */}
+        <div className="flex-shrink-0 border-t p-4 bg-background">
+          <div className="bg-muted/50 px-4 py-3 rounded-lg">
             <p className="text-sm font-medium">
               Showing <span className="text-primary font-bold">{filteredProperties.length}</span> properties
             </p>
@@ -480,27 +484,41 @@ const MapSearch = () => {
         </div>
       </div>
 
-      {/* Map Style Controls */}
-      <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
+      {/* Map Style Controls - Moved to top-left, next to zoom controls */}
+      <div className="absolute top-4 left-[336px] z-10 flex gap-2 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-lg">
         <button
           onClick={() => setMapStyle('mapbox://styles/mapbox/streets-v12')}
-          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+          className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
             mapStyle === 'mapbox://styles/mapbox/streets-v12'
-              ? 'bg-primary text-primary-foreground shadow-lg'
-              : 'bg-background/95 backdrop-blur-sm hover:bg-accent'
+              ? 'bg-primary text-primary-foreground'
+              : 'hover:bg-accent'
           }`}
         >
           Street
         </button>
         <button
           onClick={() => setMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}
-          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+          className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
             mapStyle === 'mapbox://styles/mapbox/satellite-streets-v12'
-              ? 'bg-primary text-primary-foreground shadow-lg'
-              : 'bg-background/95 backdrop-blur-sm hover:bg-accent'
+              ? 'bg-primary text-primary-foreground'
+              : 'hover:bg-accent'
           }`}
         >
           Satellite
+        </button>
+        <button
+          onClick={() => {
+            if (map.current) {
+              const currentPitch = map.current.getPitch();
+              map.current.easeTo({
+                pitch: currentPitch === 0 ? 60 : 0,
+                duration: 1000
+              });
+            }
+          }}
+          className="px-3 py-2 rounded-md text-sm font-medium hover:bg-accent transition-all"
+        >
+          3D
         </button>
       </div>
       
