@@ -23,11 +23,60 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
   const navigate = useNavigate();
   const { selectedCurrency } = useCurrency();
   
+  // District options grouped by location
+  const districtsByLocation: Record<string, Array<{value: string, label: string}>> = {
+    'Antalya': [
+      { value: 'dosemealti', label: 'Döşemealtı' },
+      { value: 'altintas', label: 'Altintas' },
+      { value: 'konyaalti', label: 'Konyaalti' },
+      { value: 'muratpasa', label: 'Muratpasa' },
+      { value: 'lara', label: 'Lara' },
+      { value: 'belek', label: 'Belek' },
+      { value: 'kemer', label: 'Kemer' },
+      { value: 'kepez', label: 'Kepez' },
+      { value: 'aksu', label: 'Aksu' }
+    ],
+    'Dubai': [
+      { value: 'sports-city', label: 'Sports City' },
+      { value: 'dubailand', label: 'Dubailand' },
+      { value: 'jumeirah-lake-towers', label: 'Jumeirah Lake Towers' },
+      { value: 'al-furjan', label: 'Al Furjan' },
+      { value: 'bukadra', label: 'Bukadra' },
+      { value: 'marina', label: 'Marina' },
+      { value: 'motor-city', label: 'Motor City' },
+      { value: 'meydan', label: 'Meydan' },
+      { value: 'islands', label: 'Islands' },
+      { value: 'downtown', label: 'Downtown' },
+      { value: 'dubai-hills', label: 'Dubai Hills' },
+      { value: 'al-safa-one', label: 'Al Safa One' },
+      { value: 'al-warsan', label: 'Al Warsan' },
+      { value: 'land-residence-complex', label: 'Land Residence Complex' },
+      { value: 'investment-park', label: 'Investment Park' },
+      { value: 'studio-city', label: 'Studio City' },
+      { value: 'al-jaddaf', label: 'Al Jaddaf' },
+      { value: 'dubai-south', label: 'Dubai South' },
+      { value: 'jumeirah-village-circle', label: 'Jumeirah Village Circle' },
+      { value: 'jumeirah-village-triangle', label: 'Jumeirah Village Triangle' },
+      { value: 'al-satwa', label: 'Al Satwa' }
+    ],
+    'Mersin': [
+      { value: 'fethiye', label: 'Fethiye' },
+      { value: 'milas', label: 'Milas' }
+    ]
+  };
+  
+  // Get available districts based on selected location
+  const availableDistricts = filters.location && districtsByLocation[filters.location] 
+    ? districtsByLocation[filters.location]
+    : [];
+  
   const handleFilterUpdate = (key: string, value: string | string[]) => {
     const newFilters = { ...filters, [key]: value };
     
-    // If location changes, redirect to the appropriate page
+    // If location changes, reset district and redirect to the appropriate page
     if (key === 'location' && typeof value === 'string' && value !== filters.location) {
+      newFilters.district = ''; // Reset district when location changes
+      
       const locationRoutes: Record<string, string> = {
         'Antalya': '/antalya',
         'Mersin': '/mersin',
@@ -70,7 +119,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
     return (
       <Card className="w-full">
         <CardContent className="pt-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-10 gap-3 items-end">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-11 gap-3 items-end">
             {/* Property Type */}
             <div>
               <Label htmlFor="propertyType" className="text-xs mb-1 block">Property Type</Label>
@@ -120,6 +169,27 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                    <SelectItem value="Cyprus">Cyprus</SelectItem>
                    <SelectItem value="Bali">Bali</SelectItem>
                  </SelectContent>
+              </Select>
+            </div>
+
+            {/* District */}
+            <div>
+              <Label htmlFor="district" className="text-xs mb-1 block">District</Label>
+              <Select 
+                value={filters.district} 
+                onValueChange={(value) => handleFilterUpdate('district', value)}
+                disabled={availableDistricts.length === 0}
+              >
+                <SelectTrigger className="h-9">
+                  <SelectValue placeholder={availableDistricts.length === 0 ? "Select location first" : "Select District"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableDistricts.map(district => (
+                    <SelectItem key={district.value} value={district.value}>
+                      {district.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
 
@@ -303,43 +373,20 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
           {/* Property District */}
           <div>
             <Label htmlFor="district">Property District</Label>
-            <Select value={filters.district} onValueChange={(value) => handleFilterUpdate('district', value)}>
+            <Select 
+              value={filters.district} 
+              onValueChange={(value) => handleFilterUpdate('district', value)}
+              disabled={availableDistricts.length === 0}
+            >
               <SelectTrigger>
-                <SelectValue placeholder="Select District" />
+                <SelectValue placeholder={availableDistricts.length === 0 ? "Select location first" : "Select District"} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="dosemealti">Döşemealtı</SelectItem>
-                <SelectItem value="altintas">Altintas</SelectItem>
-                <SelectItem value="konyaalti">Konyaalti</SelectItem>
-                <SelectItem value="muratpasa">Muratpasa</SelectItem>
-                <SelectItem value="lara">Lara</SelectItem>
-                <SelectItem value="belek">Belek</SelectItem>
-                <SelectItem value="kemer">Kemer</SelectItem>
-                <SelectItem value="kepez">Kepez</SelectItem>
-                <SelectItem value="aksu">Aksu</SelectItem>
-                <SelectItem value="fethiye">Fethiye</SelectItem>
-                <SelectItem value="milas">Milas</SelectItem>
-                <SelectItem value="sports-city">Sports City</SelectItem>
-                <SelectItem value="dubailand">Dubailand</SelectItem>
-                <SelectItem value="jumeirah-lake-towers">Jumeirah Lake Towers</SelectItem>
-                <SelectItem value="al-furjan">Al Furjan</SelectItem>
-                <SelectItem value="bukadra">Bukadra</SelectItem>
-                <SelectItem value="marina">Marina</SelectItem>
-                <SelectItem value="motor-city">Motor City</SelectItem>
-                <SelectItem value="meydan">Meydan</SelectItem>
-                <SelectItem value="islands">Islands</SelectItem>
-                <SelectItem value="downtown">Downtown</SelectItem>
-                <SelectItem value="dubai-hills">Dubai Hills</SelectItem>
-                <SelectItem value="al-safa-one">Al Safa One</SelectItem>
-                <SelectItem value="al-warsan">Al Warsan</SelectItem>
-                <SelectItem value="land-residence-complex">Land Residence Complex</SelectItem>
-                <SelectItem value="investment-park">Investment Park</SelectItem>
-                <SelectItem value="studio-city">Studio City</SelectItem>
-                <SelectItem value="al-jaddaf">Al Jaddaf</SelectItem>
-                <SelectItem value="dubai-south">Dubai South</SelectItem>
-                <SelectItem value="jumeirah-village-circle">Jumeirah Village Circle</SelectItem>
-                <SelectItem value="jumeirah-village-triangle">Jumeirah Village Triangle</SelectItem>
-                <SelectItem value="al-satwa">Al Satwa</SelectItem>
+                {availableDistricts.map(district => (
+                  <SelectItem key={district.value} value={district.value}>
+                    {district.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
