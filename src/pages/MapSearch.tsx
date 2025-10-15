@@ -344,7 +344,8 @@ const MapSearch = () => {
           offset: 25,
           closeButton: true,
           closeOnClick: false,
-          maxWidth: '300px'
+          maxWidth: '300px',
+          anchor: 'bottom'
         }).setDOMContent(popupContent);
       };
 
@@ -375,6 +376,14 @@ const MapSearch = () => {
           marker.setPopup(popup);
           popup.addTo(map.current!);
           currentPopupRef.current = popup;
+          
+          // Pan map to ensure popup is fully visible
+          map.current!.easeTo({
+            center: coords,
+            offset: [0, -150] as [number, number],
+            duration: 500,
+            padding: { top: 100, bottom: 100, left: 100, right: 100 }
+          });
         }
       });
     });
