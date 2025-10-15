@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface Property {
   id: string;
@@ -21,6 +22,7 @@ const MapSearch = () => {
   const [loading, setLoading] = useState(true);
   const [mapboxToken, setMapboxToken] = useState<string>('');
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   // Extract coordinates from Google Maps URL
   const extractCoordinates = (url: string | null): [number, number] | null => {
@@ -50,9 +52,20 @@ const MapSearch = () => {
         if (error) throw error;
         if (data?.token) {
           setMapboxToken(data.token);
+        } else {
+          toast({
+            title: "Map Error",
+            description: "Could not load map. Please try again later.",
+            variant: "destructive"
+          });
         }
       } catch (error) {
         console.error('Error fetching Mapbox token:', error);
+        toast({
+          title: "Map Error",
+          description: "Could not connect to map service.",
+          variant: "destructive"
+        });
       }
     };
 
@@ -79,8 +92,22 @@ const MapSearch = () => {
           container: mapContainer.current,
           style: 'mapbox://styles/mapbox/streets-v12',
           center: [35, 35], // Centered on Middle East
-          zoom: 4,
-          pitch: 45,
+          zoom: 3,
+          pitch: 0,
+        });
+
+        map.current.on('load', () => {
+          console.log('Map loaded successfully');
+          setLoading(false);
+        });
+
+        map.current.on('error', (e) => {
+          console.error('Map error:', e);
+          toast({
+            title: "Map Error",
+            description: "Failed to load map tiles.",
+            variant: "destructive"
+          });
         });
 
         map.current.addControl(
@@ -155,14 +182,19 @@ const MapSearch = () => {
         // Fit map to markers if any exist
         if (markerCount > 0) {
           map.current.fitBounds(bounds, {
-            padding: { top: 50, bottom: 50, left: 50, right: 50 },
-            maxZoom: 15
+            padding: { top: 100, bottom: 100, left: 100, right: 100 },
+            maxZoom: 12
           });
         }
 
-        setLoading(false);
+        console.log(`Map initialized with ${markerCount} properties`);
       } catch (error) {
         console.error('Error initializing map:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load properties on map.",
+          variant: "destructive"
+        });
         setLoading(false);
       }
     };
@@ -175,9 +207,9 @@ const MapSearch = () => {
   }, [mapboxToken, navigate]);
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative w-full min-h-screen">
       {loading && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex items-center justify-center">
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-[1000] flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
             <p className="text-muted-foreground">Loading properties map...</p>
@@ -185,7 +217,11 @@ const MapSearch = () => {
         </div>
       )}
       
-      <div ref={mapContainer} className="absolute inset-0" />
+      <div 
+        ref={mapContainer} 
+        className="w-full h-screen"
+        style={{ minHeight: '100vh' }}
+      />
       
       <div className="absolute top-4 left-4 bg-background/95 backdrop-blur-sm p-4 rounded-lg shadow-lg max-w-sm z-10">
         <h1 className="text-2xl font-bold mb-2">Property Map Search</h1>
