@@ -291,22 +291,26 @@ const MapSearch = () => {
           height: ${markerSize}px;
           background: white;
           border-radius: 50%;
-          border: 2px solid white;
+          border: 3px solid white;
           box-shadow: 0 2px 8px rgba(0,0,0,0.2);
           cursor: pointer;
           overflow: hidden;
           background-image: url('${property.property_image || markerIcon}');
           background-size: cover;
           background-position: center;
-          transition: transform 0.2s;
+          transition: all 0.2s ease;
         `;
 
-        // Hover effect
+        // Stable hover effect - only border color changes
         el.addEventListener('mouseenter', () => {
-          el.style.transform = 'scale(1.1)';
+          el.style.borderColor = 'hsl(var(--primary))';
+          el.style.borderWidth = '4px';
+          el.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
         });
         el.addEventListener('mouseleave', () => {
-          el.style.transform = 'scale(1)';
+          el.style.borderColor = 'white';
+          el.style.borderWidth = '3px';
+          el.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
         });
 
         // Create popup content lazily on click
