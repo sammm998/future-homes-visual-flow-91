@@ -308,15 +308,17 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectValue placeholder="Select District" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="fethiye">Fethiye</SelectItem>
-                <SelectItem value="milas">Milas</SelectItem>
-                <SelectItem value="belek">Belek</SelectItem>
-                <SelectItem value="kepez">Kepez</SelectItem>
+                <SelectItem value="dosemealti">Döşemealtı</SelectItem>
                 <SelectItem value="altintas">Altintas</SelectItem>
                 <SelectItem value="konyaalti">Konyaalti</SelectItem>
                 <SelectItem value="muratpasa">Muratpasa</SelectItem>
+                <SelectItem value="lara">Lara</SelectItem>
+                <SelectItem value="belek">Belek</SelectItem>
+                <SelectItem value="kemer">Kemer</SelectItem>
+                <SelectItem value="kepez">Kepez</SelectItem>
                 <SelectItem value="aksu">Aksu</SelectItem>
-                <SelectItem value="dosemealti">Döşemealtı</SelectItem>
+                <SelectItem value="fethiye">Fethiye</SelectItem>
+                <SelectItem value="milas">Milas</SelectItem>
                 <SelectItem value="sports-city">Sports City</SelectItem>
                 <SelectItem value="dubailand">Dubailand</SelectItem>
                 <SelectItem value="jumeirah-lake-towers">Jumeirah Lake Towers</SelectItem>
