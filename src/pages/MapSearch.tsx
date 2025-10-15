@@ -258,7 +258,10 @@ const MapSearch = () => {
       const coords = extractCoordinates(property.google_maps_embed, property.ref_no, property.location);
       
       if (coords) {
-        // Create custom marker element with logo
+        // Use property image or fallback to placeholder
+        const markerImageUrl = property.property_image || '/placeholder.svg';
+        
+        // Create custom marker element with property image
         const el = document.createElement('div');
         el.className = 'custom-marker';
         el.style.cursor = 'pointer';
@@ -273,12 +276,13 @@ const MapSearch = () => {
             justify-content: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             overflow: hidden;
+            border: 2px solid white;
           ">
-            <img src="${markerIcon}" alt="Property" style="
+            <img src="${markerImageUrl}" alt="${property.title}" style="
               width: 100%;
               height: 100%;
               object-fit: cover;
-            " />
+            " onerror="this.src='${markerIcon}'" />
           </div>
         `;
 
