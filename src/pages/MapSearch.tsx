@@ -21,6 +21,7 @@ interface Property {
   property_type: string | null;
   bedrooms: string | null;
   property_district: string | null;
+  amenities: string[] | null;
 }
 
 const MapSearch = () => {
@@ -92,6 +93,18 @@ const MapSearch = () => {
           const priceValue = parseFloat(property.price?.replace(/[^0-9.]/g, '') || '0');
           if (filters.minPrice && priceValue < parseFloat(filters.minPrice)) return false;
           if (filters.maxPrice && priceValue > parseFloat(filters.maxPrice)) return false;
+        }
+
+        // Facilities filter
+        if (filters.facilities && Array.isArray(filters.facilities) && filters.facilities.length > 0) {
+          const propertyAmenities = property.amenities || [];
+          const hasAllFacilities = filters.facilities.every(facility => 
+            propertyAmenities.some(amenity => 
+              amenity.toLowerCase().replace(/\s+/g, '-') === facility ||
+              amenity.toLowerCase() === facility.replace(/-/g, ' ')
+            )
+          );
+          if (!hasAllFacilities) return false;
         }
 
         return true;
@@ -167,7 +180,7 @@ const MapSearch = () => {
         // Fetch all active properties
         const { data: propertiesData, error } = await supabase
           .from('properties')
-          .select('id, ref_no, title, location, price, google_maps_embed, slug, property_image, property_type, bedrooms, property_district')
+          .select('id, ref_no, title, location, price, google_maps_embed, slug, property_image, property_type, bedrooms, property_district, amenities')
           .eq('is_active', true);
 
         if (error) throw error;
@@ -499,8 +512,8 @@ const MapSearch = () => {
       )}
       
       {/* Left Sidebar Filter */}
-      <div className="w-80 flex-shrink-0 h-screen flex flex-col bg-background border-r z-10">
-        <div className="flex-1 overflow-y-auto p-4">
+      <div className="w-72 flex-shrink-0 h-screen flex flex-col bg-background border-r z-10">
+        <div className="flex-1 overflow-y-auto p-3">
           <PropertyFilter 
             filters={filters}
             onFilterChange={handleFilterChange}
@@ -510,9 +523,9 @@ const MapSearch = () => {
         </div>
         
         {/* Results Counter - Fixed at bottom */}
-        <div className="flex-shrink-0 border-t p-4 bg-background">
-          <div className="bg-muted/50 px-4 py-3 rounded-lg">
-            <p className="text-sm font-medium">
+        <div className="flex-shrink-0 border-t p-3 bg-background">
+          <div className="bg-muted/50 px-3 py-2 rounded-lg">
+            <p className="text-xs font-medium">
               Showing <span className="text-primary font-bold">{filteredProperties.length}</span> properties
             </p>
           </div>
@@ -520,7 +533,7 @@ const MapSearch = () => {
       </div>
 
       {/* Map Style Controls - Moved to top-left, next to zoom controls */}
-      <div className="absolute top-4 left-[336px] z-10 flex gap-2 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-lg">
+      <div className="absolute top-4 left-[304px] z-10 flex gap-2 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-lg">
         <button
           onClick={() => setMapStyle('mapbox://styles/mapbox/streets-v12')}
           className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${

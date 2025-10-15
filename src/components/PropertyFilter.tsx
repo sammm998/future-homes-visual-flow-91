@@ -319,15 +319,15 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
   return (
     <GlowCard customSize={true} className="w-full h-auto p-0 border-0">
       <Card className="w-full h-full bg-transparent border-none shadow-none">
-        <CardHeader>
-          <CardTitle>Search Properties</CardTitle>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Search Properties</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-3">
           {/* Property Type */}
           <div>
-            <Label htmlFor="propertyType">Property Type</Label>
+            <Label htmlFor="propertyType" className="text-xs">Property Type</Label>
             <Select value={filters.propertyType} onValueChange={(value) => handleFilterUpdate('propertyType', value)}>
-              <SelectTrigger>
+              <SelectTrigger className="h-9 text-xs">
                 <SelectValue placeholder="Select Type" />
               </SelectTrigger>
               <SelectContent>
@@ -341,9 +341,9 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
           {/* Bedrooms */}
           <div>
-            <Label htmlFor="bedrooms">Bedrooms</Label>
+            <Label htmlFor="bedrooms" className="text-xs">Bedrooms</Label>
             <Select value={filters.bedrooms} onValueChange={(value) => handleFilterUpdate('bedrooms', value)}>
-              <SelectTrigger>
+              <SelectTrigger className="h-9 text-xs">
                 <SelectValue placeholder="Select Bedrooms" />
               </SelectTrigger>
               <SelectContent>
@@ -359,9 +359,9 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
           {/* Property Location */}
           <div>
-            <Label htmlFor="location">Property Location</Label>
+            <Label htmlFor="location" className="text-xs">Location</Label>
             <Select value={filters.location} onValueChange={(value) => handleFilterUpdate('location', value)}>
-              <SelectTrigger>
+              <SelectTrigger className="h-9 text-xs">
                 <SelectValue placeholder="Select Location" />
               </SelectTrigger>
                <SelectContent>
@@ -377,13 +377,13 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
           {/* Property District */}
           <div>
-            <Label htmlFor="district">Property District</Label>
+            <Label htmlFor="district" className="text-xs">District</Label>
             <Select 
               value={filters.district} 
               onValueChange={(value) => handleFilterUpdate('district', value)}
               disabled={availableDistricts.length === 0}
             >
-              <SelectTrigger>
+              <SelectTrigger className="h-9 text-xs">
                 <SelectValue placeholder={availableDistricts.length === 0 ? "Select location first" : "Select District"} />
               </SelectTrigger>
               <SelectContent>
@@ -398,49 +398,24 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
           {/* Property Price */}
           <div>
-            <Label>Property Price</Label>
+            <Label className="text-xs">Price</Label>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <Label htmlFor="minPrice" className="text-sm">Min Price</Label>
                 <Input 
                   id="minPrice"
-                  placeholder={`${selectedCurrency.symbol}0`}
+                  placeholder={`Min ${selectedCurrency.symbol}`}
                   value={filters.minPrice}
                   onChange={(e) => handleFilterUpdate('minPrice', e.target.value)}
+                  className="h-9 text-xs"
                 />
               </div>
               <div>
-                <Label htmlFor="maxPrice" className="text-sm">Max Price</Label>
                 <Input 
                   id="maxPrice"
-                  placeholder={`${selectedCurrency.symbol}1,000,000`}
+                  placeholder={`Max ${selectedCurrency.symbol}`}
                   value={filters.maxPrice}
                   onChange={(e) => handleFilterUpdate('maxPrice', e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Square Feet */}
-          <div>
-            <Label>Square Feet</Label>
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <Label htmlFor="minSquareFeet" className="text-sm">Min</Label>
-                <Input 
-                  id="minSquareFeet"
-                  placeholder="0"
-                  value={filters.minSquareFeet}
-                  onChange={(e) => handleFilterUpdate('minSquareFeet', e.target.value)}
-                />
-              </div>
-              <div>
-                <Label htmlFor="maxSquareFeet" className="text-sm">Max</Label>
-                <Input 
-                  id="maxSquareFeet"
-                  placeholder="1000"
-                  value={filters.maxSquareFeet}
-                  onChange={(e) => handleFilterUpdate('maxSquareFeet', e.target.value)}
+                  className="h-9 text-xs"
                 />
               </div>
             </div>
@@ -448,8 +423,8 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
           {/* Facilities */}
           <div>
-            <Label htmlFor="facilities">Facilities</Label>
-            <div className="space-y-2 mt-2">
+            <Label htmlFor="facilities" className="text-xs">Facilities</Label>
+            <div className="space-y-1.5 mt-1.5">
               {["Swimming Pool", "Gym", "Parking", "Garden", "Balcony", "Terrace", "Elevator", "Security", "Air Conditioning"].map((facility) => (
                 <div key={facility} className="flex items-center space-x-2">
                   <Checkbox
@@ -474,8 +449,9 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                       
                       handleFilterUpdate('facilities', currentFacilities);
                     }}
+                    className="h-3.5 w-3.5"
                   />
-                  <Label htmlFor={`vertical-${facility.toLowerCase().replace(" ", "-")}`} className="text-sm">
+                  <Label htmlFor={`vertical-${facility.toLowerCase().replace(" ", "-")}`} className="text-xs font-normal cursor-pointer">
                     {facility}
                   </Label>
                 </div>
@@ -485,20 +461,21 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
           {/* Reference Number */}
           <div>
-            <Label htmlFor="referenceNo">Reference Number</Label>
+            <Label htmlFor="referenceNo" className="text-xs">Reference Number</Label>
             <Input 
               id="referenceNo"
-              placeholder="Enter reference number..."
+              placeholder="Enter ref no..."
               value={filters.referenceNo || ''}
               onChange={(e) => handleFilterUpdate('referenceNo', e.target.value)}
+              className="h-9 text-xs"
             />
           </div>
 
           {/* Sort By */}
           <div>
-            <Label htmlFor="sortBy">Sort By</Label>
+            <Label htmlFor="sortBy" className="text-xs">Sort By</Label>
             <Select value={filters.sortBy} onValueChange={(value) => handleFilterUpdate('sortBy', value)}>
-              <SelectTrigger>
+              <SelectTrigger className="h-9 text-xs">
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
                 <SelectContent>
@@ -516,11 +493,11 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
           </div>
 
           {/* Search Button */}
-          <div className="space-y-3">
-            <Button className="w-full" onClick={onSearch}>
+          <div className="space-y-2 pt-2">
+            <Button className="w-full h-9 text-xs" onClick={onSearch}>
               Search
             </Button>
-            <Button variant="secondary" className="w-full" onClick={handleReset}>
+            <Button variant="secondary" className="w-full h-9 text-xs" onClick={handleReset}>
               Reset
             </Button>
           </div>
