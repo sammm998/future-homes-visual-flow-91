@@ -351,7 +351,7 @@ const MapSearch = () => {
             <div style="padding: 16px;">
               <div style="
                 display: inline-block;
-                background: linear-gradient(135deg, #ff5722 0%, #ff1744 100%);
+                background: hsl(var(--primary));
                 color: white;
                 padding: 4px 10px;
                 border-radius: 12px;
@@ -385,14 +385,14 @@ const MapSearch = () => {
               <div style="
                 font-size: 22px;
                 font-weight: 700;
-                color: #ff5722;
+                color: hsl(var(--primary));
                 margin-bottom: 16px;
               ">${property.price}</div>
               <button 
                 id="visit-property-${property.id}"
                 style="
                   width: 100%;
-                  background: linear-gradient(135deg, #ff5722 0%, #ff1744 100%);
+                  background: hsl(var(--primary));
                   color: white;
                   border: none;
                   padding: 12px 20px;
@@ -401,10 +401,10 @@ const MapSearch = () => {
                   font-weight: 600;
                   cursor: pointer;
                   transition: all 0.2s;
-                  box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+                  box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
                 "
-                onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(255, 87, 34, 0.4)';"
-                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(255, 87, 34, 0.3)';"
+                onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px hsl(var(--primary) / 0.4)';"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px hsl(var(--primary) / 0.3)';"
               >
                 Visit Property →
               </button>
