@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { getPropertyCoordinates } from '@/utils/propertyCoordinates';
 
 interface Property {
   id: string;
@@ -24,8 +25,13 @@ const MapSearch = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Extract coordinates from Google Maps URL
-  const extractCoordinates = (url: string | null): [number, number] | null => {
+  // Extract coordinates from Google Maps URL or use mapping
+  const extractCoordinates = (url: string | null, refNo: string | null): [number, number] | null => {
+    // First try to get from property coordinates map
+    const mappedCoords = getPropertyCoordinates(refNo);
+    if (mappedCoords) return mappedCoords;
+    
+    // Fallback to URL parsing
     if (!url) return null;
     
     // Match patterns like @25.0365811,55.2066422 or !3d25.0391345!4d55.2176352
@@ -122,41 +128,49 @@ const MapSearch = () => {
         let markerCount = 0;
 
         properties?.forEach((property: Property) => {
-          const coords = extractCoordinates(property.google_maps_embed);
+          const coords = extractCoordinates(property.google_maps_embed, property.ref_no);
           
           if (coords) {
             // Create custom marker
             const el = document.createElement('div');
             el.className = 'custom-marker';
-            el.style.width = '40px';
-            el.style.height = '40px';
             el.style.cursor = 'pointer';
             el.innerHTML = `
               <div style="
                 background: hsl(var(--primary));
                 color: white;
-                width: 40px;
-                height: 40px;
+                width: 42px;
+                height: 42px;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 font-weight: bold;
-                font-size: 12px;
+                font-size: 11px;
                 box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-                border: 2px solid white;
+                border: 3px solid white;
+                transition: transform 0.2s;
               ">
                 ${property.ref_no || '?'}
               </div>
             `;
 
+            // Add hover effect
+            el.addEventListener('mouseenter', () => {
+              el.style.transform = 'scale(1.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+              el.style.transform = 'scale(1)';
+            });
+
             // Create popup
             const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
-              <div style="padding: 8px; max-width: 250px;">
-                <h3 style="margin: 0 0 8px 0; font-weight: 600; font-size: 14px;">${property.title}</h3>
-                <p style="margin: 0 0 4px 0; font-size: 12px; color: #666;">📍 ${property.location}</p>
-                <p style="margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: hsl(var(--primary));">${property.price}</p>
+              <div style="padding: 10px; max-width: 280px;">
+                <h3 style="margin: 0 0 8px 0; font-weight: 600; font-size: 15px; line-height: 1.3;">${property.title}</h3>
+                <p style="margin: 0 0 4px 0; font-size: 13px; color: #666;">📍 ${property.location}</p>
+                <p style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: hsl(var(--primary));">${property.price}</p>
                 <p style="margin: 0; font-size: 11px; color: #999;">Ref: ${property.ref_no}</p>
+                <p style="margin: 4px 0 0 0; font-size: 11px; color: #2563eb;">Click marker to view details</p>
               </div>
             `);
 
