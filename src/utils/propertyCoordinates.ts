@@ -78,6 +78,10 @@ export const propertyCoordinatesMap: Record<string, [number, number]> = {
   '8032': [33.605593, 35.352027],     // Aloha Life Esentepe
   '8033': [32.9137778, 35.1818611],   // Los Angelos Mmt
   
+  // Bali properties (note: these share ref_no with Cyprus, handled by location in code)
+  'bali_8001': [115.1346704, -8.6547111],   // Aquamarine I
+  'bali_8002': [115.1350881, -8.6498071],   // Aquamarine 2
+  
   // Dubai properties (estimated central Dubai coordinates)
   '10001': [55.2176352, 25.0391345],
   '10002': [55.1458611, 25.0251668],
@@ -94,7 +98,14 @@ export const propertyCoordinatesMap: Record<string, [number, number]> = {
   '10065': [55.1467, 25.1124],
 };
 
-export const getPropertyCoordinates = (refNo: string | null): [number, number] | null => {
+export const getPropertyCoordinates = (refNo: string | null, location?: string | null): [number, number] | null => {
   if (!refNo) return null;
+  
+  // Handle Bali properties with conflicting ref_no
+  if (location && location.toLowerCase().includes('bali')) {
+    if (refNo === '8001') return propertyCoordinatesMap['bali_8001'];
+    if (refNo === '8002') return propertyCoordinatesMap['bali_8002'];
+  }
+  
   return propertyCoordinatesMap[refNo] || null;
 };

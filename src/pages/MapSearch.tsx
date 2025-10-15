@@ -27,9 +27,9 @@ const MapSearch = () => {
   const { toast } = useToast();
 
   // Extract coordinates from Google Maps URL or use mapping
-  const extractCoordinates = (url: string | null, refNo: string | null): [number, number] | null => {
-    // First try to get from property coordinates map
-    const mappedCoords = getPropertyCoordinates(refNo);
+  const extractCoordinates = (url: string | null, refNo: string | null, location: string): [number, number] | null => {
+    // First try to get from property coordinates map (with location context for Bali)
+    const mappedCoords = getPropertyCoordinates(refNo, location);
     if (mappedCoords) return mappedCoords;
     
     // Fallback to URL parsing
@@ -129,7 +129,7 @@ const MapSearch = () => {
         let markerCount = 0;
 
         properties?.forEach((property: Property) => {
-          const coords = extractCoordinates(property.google_maps_embed, property.ref_no);
+          const coords = extractCoordinates(property.google_maps_embed, property.ref_no, property.location);
           
           if (coords) {
             // Create custom marker element
