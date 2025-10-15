@@ -30,7 +30,6 @@ const MapSearch = () => {
   const [loading, setLoading] = useState(true);
   const [mapboxToken, setMapboxToken] = useState<string>('');
   const [properties, setProperties] = useState<Property[]>([]);
-  const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
   const [mapStyle, setMapStyle] = useState('mapbox://styles/mapbox/streets-v12');
   const [filters, setFilters] = useState({
     propertyType: '',
@@ -51,74 +50,69 @@ const MapSearch = () => {
   const { toast } = useToast();
 
   // Filter properties based on current filters (memoized for performance)
-  const filterProperties = useMemo(() => {
-    return (propertiesToFilter: Property[]) => {
-      return propertiesToFilter.filter((property: Property) => {
-        // Property type filter
-        if (filters.propertyType && property.property_type?.toLowerCase() !== filters.propertyType.toLowerCase()) {
+  const filteredProperties = useMemo(() => {
+    return properties.filter((property: Property) => {
+      // Property type filter
+      if (filters.propertyType && property.property_type?.toLowerCase() !== filters.propertyType.toLowerCase()) {
+        return false;
+      }
+
+      // Bedrooms filter
+      if (filters.bedrooms && filters.bedrooms !== 'studio') {
+        const bedroomsMatch = property.bedrooms?.toLowerCase().includes(filters.bedrooms) || 
+                             property.title?.toLowerCase().includes(`${filters.bedrooms}+1`);
+        if (!bedroomsMatch) return false;
+      }
+      if (filters.bedrooms === 'studio' && !property.bedrooms?.toLowerCase().includes('studio')) {
+        return false;
+      }
+
+      // Location filter
+      if (filters.location && filters.location !== 'all') {
+        if (!property.location?.toLowerCase().includes(filters.location.toLowerCase())) {
           return false;
         }
+      }
 
-        // Bedrooms filter
-        if (filters.bedrooms && filters.bedrooms !== 'studio') {
-          const bedroomsMatch = property.bedrooms?.toLowerCase().includes(filters.bedrooms) || 
-                               property.title?.toLowerCase().includes(`${filters.bedrooms}+1`);
-          if (!bedroomsMatch) return false;
-        }
-        if (filters.bedrooms === 'studio' && !property.bedrooms?.toLowerCase().includes('studio')) {
-          return false;
-        }
+      // District filter
+      if (filters.district) {
+        const districtMatch = property.property_district?.toLowerCase().includes(filters.district.toLowerCase()) ||
+                             property.location?.toLowerCase().includes(filters.district.toLowerCase());
+        if (!districtMatch) return false;
+      }
 
-        // Location filter
-        if (filters.location && filters.location !== 'all') {
-          if (!property.location?.toLowerCase().includes(filters.location.toLowerCase())) {
-            return false;
-          }
-        }
+      // Reference number filter
+      if (filters.referenceNo && !property.ref_no?.toLowerCase().includes(filters.referenceNo.toLowerCase())) {
+        return false;
+      }
 
-        // District filter
-        if (filters.district) {
-          const districtMatch = property.property_district?.toLowerCase().includes(filters.district.toLowerCase()) ||
-                               property.location?.toLowerCase().includes(filters.district.toLowerCase());
-          if (!districtMatch) return false;
-        }
+      // Price filter
+      if (filters.minPrice || filters.maxPrice) {
+        const priceValue = parseFloat(property.price?.replace(/[^0-9.]/g, '') || '0');
+        if (filters.minPrice && priceValue < parseFloat(filters.minPrice)) return false;
+        if (filters.maxPrice && priceValue > parseFloat(filters.maxPrice)) return false;
+      }
 
-        // Reference number filter
-        if (filters.referenceNo && !property.ref_no?.toLowerCase().includes(filters.referenceNo.toLowerCase())) {
-          return false;
-        }
+      // Facilities filter - optimized
+      if (filters.facilities?.length > 0) {
+        const propertyAmenities = property.amenities || [];
+        if (propertyAmenities.length === 0) return false;
+        
+        // Create a normalized set for faster lookup
+        const normalizedAmenities = new Set(
+          propertyAmenities.map(a => a.toLowerCase().replace(/\s+/g, '-'))
+        );
+        
+        const hasAllFacilities = filters.facilities.every(facility => 
+          normalizedAmenities.has(facility) || normalizedAmenities.has(facility.replace(/-/g, ' '))
+        );
+        if (!hasAllFacilities) return false;
+      }
 
-        // Price filter
-        if (filters.minPrice || filters.maxPrice) {
-          const priceValue = parseFloat(property.price?.replace(/[^0-9.]/g, '') || '0');
-          if (filters.minPrice && priceValue < parseFloat(filters.minPrice)) return false;
-          if (filters.maxPrice && priceValue > parseFloat(filters.maxPrice)) return false;
-        }
+      return true;
+    });
+  }, [properties, filters]);
 
-        // Facilities filter
-        if (filters.facilities && Array.isArray(filters.facilities) && filters.facilities.length > 0) {
-          const propertyAmenities = property.amenities || [];
-          const hasAllFacilities = filters.facilities.every(facility => 
-            propertyAmenities.some(amenity => 
-              amenity.toLowerCase().replace(/\s+/g, '-') === facility ||
-              amenity.toLowerCase() === facility.replace(/-/g, ' ')
-            )
-          );
-          if (!hasAllFacilities) return false;
-        }
-
-        return true;
-      });
-    };
-  }, [filters]);
-
-  // Apply filters whenever they change
-  useEffect(() => {
-    if (properties.length > 0) {
-      const filtered = filterProperties(properties);
-      setFilteredProperties(filtered);
-    }
-  }, [filters, properties]);
 
   const extractCoordinates = (url: string | null, refNo: string | null, location: string): [number, number] | null => {
     // First try to get from property coordinates map (with location context for Bali)
@@ -186,7 +180,6 @@ const MapSearch = () => {
         if (error) throw error;
 
         setProperties(propertiesData || []);
-        setFilteredProperties(propertiesData || []);
 
         // Initialize map
         mapboxgl.accessToken = mapboxToken;
@@ -281,8 +274,8 @@ const MapSearch = () => {
       }
     });
 
-    // Use requestAnimationFrame for smooth rendering
-    const addMarkersInBatches = (startIndex: number = 0, batchSize: number = 20) => {
+    // Use requestAnimationFrame for smooth rendering (increased batch size)
+    const addMarkersInBatches = (startIndex: number = 0, batchSize: number = 50) => {
       const endIndex = Math.min(startIndex + batchSize, markersToAdd.length);
       
       for (let i = startIndex; i < endIndex; i++) {
