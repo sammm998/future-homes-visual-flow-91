@@ -7,7 +7,7 @@ import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getPropertyCoordinates } from '@/utils/propertyCoordinates';
 import PropertyFilter from '@/components/PropertyFilter';
-import markerIcon from '@/assets/marker-icon.jpeg';
+import { Menu, X } from 'lucide-react';
 
 interface Property {
   id: string;
@@ -48,6 +48,7 @@ const MapSearch = () => {
   const currentPopupRef = useRef<mapboxgl.Popup | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   // Filter properties based on current filters (memoized for performance)
   const filteredProperties = useMemo(() => {
@@ -269,22 +270,36 @@ const MapSearch = () => {
 
       bounds.extend(coords);
       
-      // Simplified marker - just image, no complex HTML
+      // Simplified marker - using favicon for fast loading
       const el = document.createElement('div');
       el.className = 'custom-marker';
       el.style.cssText = `
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         background: white;
         border-radius: 50%;
-        border: 2px solid white;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        border: 3px solid white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         cursor: pointer;
         overflow: hidden;
-        background-image: url('${property.property_image || markerIcon}');
+        background-image: url('/favicon.ico');
         background-size: cover;
         background-position: center;
+        transition: all 0.2s ease;
       `;
+      
+      // Hover effect
+      el.addEventListener('mouseenter', () => {
+        el.style.borderColor = 'hsl(var(--primary))';
+        el.style.borderWidth = '4px';
+        el.style.boxShadow = '0 4px 12px rgba(0,0,0,0.4)';
+      });
+      
+      el.addEventListener('mouseleave', () => {
+        el.style.borderColor = 'white';
+        el.style.borderWidth = '3px';
+        el.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+      });
 
       // Create popup content lazily on click
       const createPopup = () => {
@@ -378,9 +393,22 @@ const MapSearch = () => {
         </div>
       )}
       
-      {/* Left Sidebar Filter */}
-      <div className="w-72 flex-shrink-0 h-screen flex flex-col bg-background border-r z-10">
-        <div className="flex-1 overflow-y-auto p-3">
+      {/* Mobile Filter Toggle Button */}
+      <button
+        onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
+        className="md:hidden fixed top-4 left-4 z-[100] bg-background/95 backdrop-blur-sm p-3 rounded-lg shadow-lg border"
+      >
+        {isMobileFilterOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      </button>
+
+      {/* Left Sidebar Filter - Desktop & Mobile Drawer */}
+      <div className={`
+        fixed md:relative
+        ${isMobileFilterOpen ? 'left-0' : '-left-full md:left-0'}
+        top-0 h-screen w-72 flex-shrink-0 flex flex-col bg-background border-r z-[90]
+        transition-all duration-300 ease-in-out
+      `}>
+        <div className="flex-1 overflow-y-auto p-3 pt-16 md:pt-3">
           <PropertyFilter 
             filters={filters}
             onFilterChange={handleFilterChange}
@@ -399,11 +427,19 @@ const MapSearch = () => {
         </div>
       </div>
 
-      {/* Map Style Controls - Moved to top-left, next to zoom controls */}
-      <div className="absolute top-4 left-[304px] z-10 flex gap-2 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-lg">
+      {/* Mobile Overlay */}
+      {isMobileFilterOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/50 z-[80]"
+          onClick={() => setIsMobileFilterOpen(false)}
+        />
+      )}
+
+      {/* Map Style Controls */}
+      <div className="absolute top-4 left-4 md:left-[304px] z-[60] flex gap-2 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-lg mt-14 md:mt-0">
         <button
           onClick={() => setMapStyle('mapbox://styles/mapbox/streets-v12')}
-          className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
+          className={`px-2 md:px-3 py-2 rounded-md text-xs md:text-sm font-medium transition-all ${
             mapStyle === 'mapbox://styles/mapbox/streets-v12'
               ? 'bg-primary text-primary-foreground'
               : 'hover:bg-accent'
@@ -413,7 +449,7 @@ const MapSearch = () => {
         </button>
         <button
           onClick={() => setMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}
-          className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
+          className={`px-2 md:px-3 py-2 rounded-md text-xs md:text-sm font-medium transition-all ${
             mapStyle === 'mapbox://styles/mapbox/satellite-streets-v12'
               ? 'bg-primary text-primary-foreground'
               : 'hover:bg-accent'
@@ -431,7 +467,7 @@ const MapSearch = () => {
               });
             }
           }}
-          className="px-3 py-2 rounded-md text-sm font-medium hover:bg-accent transition-all"
+          className="px-2 md:px-3 py-2 rounded-md text-xs md:text-sm font-medium hover:bg-accent transition-all"
         >
           3D
         </button>
@@ -441,6 +477,18 @@ const MapSearch = () => {
         ref={mapContainer} 
         className="flex-1 h-screen"
       />
+      
+      <style>{`
+        .mapboxgl-ctrl-top-right {
+          top: 120px !important;
+        }
+        
+        @media (min-width: 768px) {
+          .mapboxgl-ctrl-top-right {
+            top: 10px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
