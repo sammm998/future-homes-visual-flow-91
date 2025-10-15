@@ -111,6 +111,8 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
       district: '',
       minPrice: '',
       maxPrice: '',
+      minSquareFeet: '',
+      maxSquareFeet: '',
       facilities: [],
       referenceNo: '',
       sortBy: ''
@@ -419,6 +421,30 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
             </div>
           </div>
 
+          {/* Square Feet */}
+          <div>
+            <Label>Square Feet</Label>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <Label htmlFor="minSquareFeet" className="text-sm">Min</Label>
+                <Input 
+                  id="minSquareFeet"
+                  placeholder="0"
+                  value={filters.minSquareFeet}
+                  onChange={(e) => handleFilterUpdate('minSquareFeet', e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="maxSquareFeet" className="text-sm">Max</Label>
+                <Input 
+                  id="maxSquareFeet"
+                  placeholder="1000"
+                  value={filters.maxSquareFeet}
+                  onChange={(e) => handleFilterUpdate('maxSquareFeet', e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
 
           {/* Facilities */}
           <div>
