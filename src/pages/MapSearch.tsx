@@ -131,7 +131,7 @@ const MapSearch = () => {
           const coords = extractCoordinates(property.google_maps_embed, property.ref_no);
           
           if (coords) {
-            // Create custom marker
+            // Create custom marker element
             const el = document.createElement('div');
             el.className = 'custom-marker';
             el.style.cursor = 'pointer';
@@ -139,53 +139,127 @@ const MapSearch = () => {
               <div style="
                 background: hsl(var(--primary));
                 color: white;
-                width: 42px;
-                height: 42px;
+                width: 44px;
+                height: 44px;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 font-weight: bold;
                 font-size: 11px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.4);
                 border: 3px solid white;
-                transition: transform 0.2s;
               ">
                 ${property.ref_no || '?'}
               </div>
             `;
 
-            // Add hover effect
-            el.addEventListener('mouseenter', () => {
-              el.style.transform = 'scale(1.1)';
-            });
-            el.addEventListener('mouseleave', () => {
-              el.style.transform = 'scale(1)';
-            });
+            // Create rich popup with property card
+            const popupContent = document.createElement('div');
+            popupContent.style.cssText = 'padding: 0; min-width: 300px; max-width: 350px;';
+            popupContent.innerHTML = `
+              <div style="
+                background: white;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+              ">
+                <div style="padding: 16px;">
+                  <div style="
+                    display: inline-block;
+                    background: hsl(var(--primary));
+                    color: white;
+                    padding: 4px 10px;
+                    border-radius: 12px;
+                    font-size: 11px;
+                    font-weight: 600;
+                    margin-bottom: 10px;
+                  ">
+                    REF: ${property.ref_no}
+                  </div>
+                  <h3 style="
+                    margin: 0 0 12px 0;
+                    font-weight: 700;
+                    font-size: 17px;
+                    line-height: 1.3;
+                    color: #1a1a1a;
+                  ">${property.title}</h3>
+                  <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    margin-bottom: 12px;
+                    color: #666;
+                    font-size: 13px;
+                  ">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>${property.location}</span>
+                  </div>
+                  <div style="
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: hsl(var(--primary));
+                    margin-bottom: 16px;
+                  ">${property.price}</div>
+                  <button 
+                    id="visit-property-${property.id}"
+                    style="
+                      width: 100%;
+                      background: hsl(var(--primary));
+                      color: white;
+                      border: none;
+                      padding: 12px 20px;
+                      border-radius: 8px;
+                      font-size: 14px;
+                      font-weight: 600;
+                      cursor: pointer;
+                      transition: all 0.2s;
+                      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+                    "
+                    onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)';"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.15)';"
+                  >
+                    Visit Property →
+                  </button>
+                </div>
+              </div>
+            `;
 
             // Create popup
-            const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
-              <div style="padding: 10px; max-width: 280px;">
-                <h3 style="margin: 0 0 8px 0; font-weight: 600; font-size: 15px; line-height: 1.3;">${property.title}</h3>
-                <p style="margin: 0 0 4px 0; font-size: 13px; color: #666;">📍 ${property.location}</p>
-                <p style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: hsl(var(--primary));">${property.price}</p>
-                <p style="margin: 0; font-size: 11px; color: #999;">Ref: ${property.ref_no}</p>
-                <p style="margin: 4px 0 0 0; font-size: 11px; color: #2563eb;">Click marker to view details</p>
-              </div>
-            `);
+            const popup = new mapboxgl.Popup({ 
+              offset: 30,
+              closeButton: true,
+              closeOnClick: false,
+              maxWidth: '400px'
+            }).setDOMContent(popupContent);
 
-            // Add marker with click handler
+            // Add marker
             const marker = new mapboxgl.Marker(el)
               .setLngLat(coords)
               .setPopup(popup)
               .addTo(map.current!);
 
-            el.addEventListener('click', () => {
-              if (property.slug) {
-                navigate(`/property/${property.slug}`);
-              } else if (property.ref_no) {
-                navigate(`/property/${property.ref_no}`);
-              }
+            // Handle click to show popup
+            el.addEventListener('click', (e) => {
+              e.stopPropagation();
+              popup.addTo(map.current!);
+              
+              // Add event listener to the button after popup is shown
+              setTimeout(() => {
+                const visitBtn = document.getElementById(`visit-property-${property.id}`);
+                if (visitBtn) {
+                  visitBtn.addEventListener('click', () => {
+                    if (property.slug) {
+                      navigate(`/property/${property.slug}`);
+                    } else if (property.ref_no) {
+                      navigate(`/property/${property.ref_no}`);
+                    }
+                  });
+                }
+              }, 100);
             });
 
             bounds.extend(coords);
