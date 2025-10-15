@@ -29,6 +29,7 @@ const MapSearch = () => {
   const [mapboxToken, setMapboxToken] = useState<string>('');
   const [properties, setProperties] = useState<Property[]>([]);
   const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
+  const [mapStyle, setMapStyle] = useState('mapbox://styles/mapbox/streets-v12');
   const [filters, setFilters] = useState({
     propertyType: '',
     bedrooms: '',
@@ -43,6 +44,7 @@ const MapSearch = () => {
     sortBy: ''
   });
   const markersRef = useRef<mapboxgl.Marker[]>([]);
+  const currentPopupRef = useRef<mapboxgl.Popup | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -175,7 +177,7 @@ const MapSearch = () => {
         
         map.current = new mapboxgl.Map({
           container: mapContainer.current,
-          style: 'mapbox://styles/mapbox/streets-v12',
+          style: mapStyle,
           center: [35, 35], // Centered on Middle East
           zoom: 3,
           pitch: 0,
@@ -195,12 +197,25 @@ const MapSearch = () => {
           });
         });
 
+        // Add navigation controls
         map.current.addControl(
           new mapboxgl.NavigationControl({
             visualizePitch: true,
           }),
           'top-right'
         );
+
+        // Add terrain/satellite control
+        map.current.on('load', () => {
+          // Add 3D terrain
+          map.current!.addSource('mapbox-dem', {
+            'type': 'raster-dem',
+            'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
+            'tileSize': 512,
+            'maxzoom': 14
+          });
+          map.current!.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+        });
 
       } catch (error) {
         console.error('Error initializing map:', error);
@@ -219,6 +234,13 @@ const MapSearch = () => {
       map.current?.remove();
     };
   }, [mapboxToken, navigate]);
+
+  // Update map style when changed
+  useEffect(() => {
+    if (map.current) {
+      map.current.setStyle(mapStyle);
+    }
+  }, [mapStyle]);
 
   // Update markers when filtered properties change
   useEffect(() => {
@@ -374,7 +396,15 @@ const MapSearch = () => {
         // Handle click to show popup
         el.addEventListener('click', (e) => {
           e.stopPropagation();
+          
+          // Close previous popup if exists
+          if (currentPopupRef.current) {
+            currentPopupRef.current.remove();
+          }
+          
+          // Show new popup and store reference
           popup.addTo(map.current!);
+          currentPopupRef.current = popup;
           
           // Add event listener to the button after popup is shown
           setTimeout(() => {
@@ -421,7 +451,7 @@ const MapSearch = () => {
   };
 
   return (
-    <div className="relative w-full min-h-screen">
+    <div className="relative w-full h-screen overflow-hidden flex">
       {loading && (
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-[1000] flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
@@ -431,27 +461,52 @@ const MapSearch = () => {
         </div>
       )}
       
-      {/* Filter Panel */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[100] w-[95%] max-w-7xl">
-        <PropertyFilter 
-          filters={filters}
-          onFilterChange={handleFilterChange}
-          onSearch={handleSearch}
-          horizontal={true}
-        />
+      {/* Left Sidebar Filter */}
+      <div className="w-80 flex-shrink-0 h-screen overflow-y-auto bg-background border-r z-10">
+        <div className="p-4">
+          <PropertyFilter 
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onSearch={handleSearch}
+            horizontal={false}
+          />
+          
+          {/* Results Counter */}
+          <div className="mt-4 bg-muted/50 px-4 py-3 rounded-lg">
+            <p className="text-sm font-medium">
+              Showing <span className="text-primary font-bold">{filteredProperties.length}</span> properties
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Results Counter */}
-      <div className="absolute top-[120px] left-4 bg-background/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg z-10">
-        <p className="text-sm font-medium">
-          Showing <span className="text-primary font-bold">{filteredProperties.length}</span> properties
-        </p>
+      {/* Map Style Controls */}
+      <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
+        <button
+          onClick={() => setMapStyle('mapbox://styles/mapbox/streets-v12')}
+          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+            mapStyle === 'mapbox://styles/mapbox/streets-v12'
+              ? 'bg-primary text-primary-foreground shadow-lg'
+              : 'bg-background/95 backdrop-blur-sm hover:bg-accent'
+          }`}
+        >
+          Street
+        </button>
+        <button
+          onClick={() => setMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}
+          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+            mapStyle === 'mapbox://styles/mapbox/satellite-streets-v12'
+              ? 'bg-primary text-primary-foreground shadow-lg'
+              : 'bg-background/95 backdrop-blur-sm hover:bg-accent'
+          }`}
+        >
+          Satellite
+        </button>
       </div>
       
       <div 
         ref={mapContainer} 
-        className="w-full h-screen"
-        style={{ minHeight: '100vh' }}
+        className="flex-1 h-screen"
       />
     </div>
   );
