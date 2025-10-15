@@ -251,7 +251,7 @@ const MapSearch = () => {
     }
   }, [mapStyle]);
 
-  // Update markers when filtered properties change (optimized with clustering)
+  // Update markers when filtered properties change (optimized)
   useEffect(() => {
     if (!map.current || filteredProperties.length === 0) return;
 
@@ -260,225 +260,99 @@ const MapSearch = () => {
     markersRef.current = [];
 
     const bounds = new mapboxgl.LngLatBounds();
-    let markerCount = 0;
 
-    // Batch create markers for better performance
-    const markersToAdd: { coords: [number, number]; property: Property }[] = [];
-
+    // Create all markers at once (no batching)
     filteredProperties.forEach((property: Property) => {
       const coords = extractCoordinates(property.google_maps_embed, property.ref_no, property.location);
       
-      if (coords) {
-        markersToAdd.push({ coords, property });
-        bounds.extend(coords);
-      }
-    });
+      if (!coords) return;
 
-    // Use requestAnimationFrame for smooth rendering (increased batch size)
-    const addMarkersInBatches = (startIndex: number = 0, batchSize: number = 50) => {
-      const endIndex = Math.min(startIndex + batchSize, markersToAdd.length);
+      bounds.extend(coords);
       
-      for (let i = startIndex; i < endIndex; i++) {
-        const { coords, property } = markersToAdd[i];
-        
-        // Use property image or fallback to placeholder
-        const markerImageUrl = property.property_image || '/placeholder.svg';
-        
-        // Create custom marker element with property image
-        const el = document.createElement('div');
-        el.className = 'custom-marker';
-        el.style.cursor = 'pointer';
-        el.innerHTML = `
-          <div style="
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            border: 2px solid white;
-          ">
-            <img 
-              src="${markerImageUrl}" 
-              alt="${property.title}" 
-              loading="lazy"
-              style="
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-              " 
-              onerror="this.src='${markerIcon}'" 
-            />
-          </div>
-        `;
+      // Simplified marker - just image, no complex HTML
+      const el = document.createElement('div');
+      el.className = 'custom-marker';
+      el.style.cssText = `
+        width: 50px;
+        height: 50px;
+        background: white;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        cursor: pointer;
+        overflow: hidden;
+        background-image: url('${property.property_image || markerIcon}');
+        background-size: cover;
+        background-position: center;
+      `;
 
-        // Create rich popup with property card (lazy loaded)
+      // Create popup content lazily on click
+      const createPopup = () => {
         const popupContent = document.createElement('div');
-        popupContent.style.cssText = 'padding: 0; min-width: 300px; max-width: 350px;';
-        
-        const imageUrl = property.property_image || '/placeholder.svg';
-        
         popupContent.innerHTML = `
-          <div style="
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-          ">
+          <div style="padding: 0; min-width: 280px;">
             ${property.property_image ? `
-              <div style="
-                width: 100%;
-                height: 180px;
-                overflow: hidden;
-                background: #f0f0f0;
-              ">
-                <img 
-                  src="${imageUrl}" 
-                  alt="${property.title}"
-                  loading="lazy"
-                  style="
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                  "
-                  onerror="this.style.display='none'; this.parentElement.style.height='0px';"
-                />
-              </div>
+              <img src="${property.property_image}" alt="${property.title}" 
+                style="width: 100%; height: 150px; object-fit: cover; display: block;" />
             ` : ''}
-            <div style="padding: 16px;">
-              <div style="
-                display: inline-block;
-                background: hsl(var(--primary));
-                color: white;
-                padding: 4px 10px;
-                border-radius: 12px;
-                font-size: 11px;
-                font-weight: 600;
-                margin-bottom: 10px;
-              ">
+            <div style="padding: 12px;">
+              <div style="background: hsl(var(--primary)); color: white; padding: 3px 8px; 
+                border-radius: 8px; font-size: 10px; display: inline-block; margin-bottom: 8px;">
                 REF: ${property.ref_no}
               </div>
-              <h3 style="
-                margin: 0 0 12px 0;
-                font-weight: 700;
-                font-size: 17px;
-                line-height: 1.3;
-                color: #1a1a1a;
-              ">${property.title}</h3>
-              <div style="
-                display: flex;
-                align-items: center;
-                gap: 6px;
-                margin-bottom: 12px;
-                color: #666;
-                font-size: 13px;
-              ">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                <span>${property.location}</span>
+              <h3 style="margin: 0 0 8px 0; font-size: 15px; font-weight: 700;">${property.title}</h3>
+              <p style="margin: 0 0 8px 0; font-size: 12px; color: #666;">${property.location}</p>
+              <div style="font-size: 18px; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 10px;">
+                ${property.price}
               </div>
-              <div style="
-                font-size: 22px;
-                font-weight: 700;
-                color: hsl(var(--primary));
-                margin-bottom: 16px;
-              ">${property.price}</div>
-              <button 
-                id="visit-property-${property.id}"
-                style="
-                  width: 100%;
-                  background: hsl(var(--primary));
-                  color: white;
-                  border: none;
-                  padding: 12px 20px;
-                  border-radius: 8px;
-                  font-size: 14px;
-                  font-weight: 600;
-                  cursor: pointer;
-                  transition: all 0.2s;
-                  box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
-                "
-                onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px hsl(var(--primary) / 0.4)';"
-                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px hsl(var(--primary) / 0.3)';"
-              >
+              <button onclick="window.location.href='/property/${property.ref_no || property.slug}'"
+                style="width: 100%; background: hsl(var(--primary)); color: white; border: none; 
+                padding: 8px; border-radius: 6px; font-size: 13px; cursor: pointer;">
                 Visit Property →
               </button>
             </div>
           </div>
         `;
-
-        // Create popup
-        const popup = new mapboxgl.Popup({ 
-          offset: 30,
+        
+        return new mapboxgl.Popup({ 
+          offset: 25,
           closeButton: true,
           closeOnClick: false,
-          maxWidth: '400px'
+          maxWidth: '300px'
         }).setDOMContent(popupContent);
+      };
 
-        // Add marker
-        const marker = new mapboxgl.Marker(el)
-          .setLngLat(coords)
-          .setPopup(popup)
-          .addTo(map.current!);
+      // Add marker
+      const marker = new mapboxgl.Marker(el)
+        .setLngLat(coords)
+        .addTo(map.current!);
 
-        markersRef.current.push(marker);
+      markersRef.current.push(marker);
 
-        // Handle click to show popup
-        el.addEventListener('click', (e) => {
-          e.stopPropagation();
-          
-          // Close previous popup if exists
-          if (currentPopupRef.current) {
-            currentPopupRef.current.remove();
-          }
-          
-          // Show new popup and store reference
-          popup.addTo(map.current!);
-          currentPopupRef.current = popup;
-          
-          // Add event listener to the button after popup is shown
-          setTimeout(() => {
-            const visitBtn = document.getElementById(`visit-property-${property.id}`);
-            if (visitBtn) {
-              visitBtn.addEventListener('click', () => {
-                // Use ref_no as primary identifier
-                if (property.ref_no) {
-                  window.location.href = `/property/${property.ref_no}`;
-                } else if (property.slug) {
-                  window.location.href = `/property/${property.slug}`;
-                }
-              });
-            }
-          }, 100);
-        });
-
-        markerCount++;
-      }
-
-      // Continue with next batch
-      if (endIndex < markersToAdd.length) {
-        requestAnimationFrame(() => addMarkersInBatches(endIndex, batchSize));
-      } else {
-        // All markers added, fit bounds
-        if (markerCount > 0 && map.current) {
-          map.current.fitBounds(bounds, {
-            padding: { top: 100, bottom: 100, left: 100, right: 100 },
-            maxZoom: 12,
-            duration: 1000
-          });
+      // Show popup on click
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        if (currentPopupRef.current) {
+          currentPopupRef.current.remove();
         }
-      }
-    };
+        
+        const popup = createPopup();
+        popup.addTo(map.current!);
+        currentPopupRef.current = popup;
+      });
+    });
 
-    // Start adding markers in batches
-    requestAnimationFrame(() => addMarkersInBatches());
+    // Fit bounds once after all markers are added
+    if (markersRef.current.length > 0 && map.current) {
+      map.current.fitBounds(bounds, {
+        padding: 80,
+        maxZoom: 12,
+        duration: 800
+      });
+    }
 
-    console.log(`Map will update with ${markersToAdd.length} properties`);
+    console.log(`Added ${markersRef.current.length} markers to map`);
   }, [filteredProperties]);
 
   const handleFilterChange = (newFilters: any) => {
