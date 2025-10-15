@@ -44,19 +44,39 @@ export const propertyCoordinatesMap: Record<string, [number, number]> = {
   '1344': [34.366009, 36.6426005],
   '3002': [34.366009, 36.6426005],
   
-  // Cyprus (KKTC) properties
-  '5001': [33.201503, 35.3371624], // 8001 mapped to 5001
-  '5002': [33.202531, 35.34417],
-  '5003': [33.218139, 35.337263],
-  '5004': [32.9061242, 35.1764653],
-  '5005': [32.9025625, 35.1789375],
-  '5006': [32.906012, 35.179232],
-  '5007': [32.904449, 35.1820389],
-  '8028': [33.201503, 35.3371624],
-  
-  // Bali properties
-  '8001': [115.1346704, -8.6547111],
-  '8002': [115.1350881, -8.6498071],
+  // Cyprus (KKTC) properties - corrected coordinates from Google Maps
+  '8001': [33.201503, 35.3371624],    // EMTAN OLIVE HILL ALSANCAK - GIRNE
+  '8002': [33.202531, 35.34417],      // KAVANLAR YAPI KAVAN CITY 2
+  '8003': [33.218139, 35.337263],     // Green Hill Yeşiltepe
+  '8004': [32.9061242, 35.1764653],   // Aphrodite Park Lefke
+  '8005': [32.9025625, 35.1789375],   // Aphrodite Wellness
+  '8006': [32.906012, 35.179232],     // Aphrodite Aqua
+  '8007': [32.904449, 35.1820389],    // Coastral Heaven
+  '8008': [33.21484, 35.345095],      // Monde Life Villa
+  '8009': [33.668127, 35.360682],     // Habitat Esentepe Tatlısu
+  '8010': [33.622869, 35.355041],     // Lavanta Villas Bahçeli
+  '8011': [33.6517119, 35.3575487],   // Poseidon Tatlısu
+  '8012': [33.6755665, 35.3639506],   // Atlantis Tatlısu Carrington
+  '8013': [33.5803678, 35.3474189],   // Ceasar Cliff
+  '8014': [33.6627887, 35.3600884],   // Aqua View Tatlısu
+  '8015': [33.6778771, 35.3652531],   // Malibu Tatlısu
+  '8016': [33.7117485, 35.3859254],   // Ceasar Breeze Tatlısu
+  '8017': [33.52414, 35.331343],      // Heaven's Hill Karaağaç Baştaşlar
+  '8018': [33.653818, 35.3574324],    // Cest La vie Evergreen Tatlısu
+  '8019': [33.709852, 35.3812459],    // Hawaii Homes Tatlısu
+  '8020': [33.5883406, 35.3513525],   // Aqua Blue
+  '8021': [33.662293, 35.357623],     // Oasis Tatlısu
+  '8022': [33.6408574, 35.3546512],   // Bahamas III
+  '8024': [33.539912, 35.339874],     // Hanging Gardens / Wonder Stone / Golden Circle
+  '8025': [33.5338333, 35.3394722],   // Sea Magic Garden
+  '8026': [33.706828, 35.379046],     // Akanthou Villas
+  '8027': [33.8974287, 35.2507078],   // Grand Saphire 4. Etap
+  '8028': [33.527546, 35.336678],     // Vasilla View
+  '8029': [33.649542, 35.352936],     // Aqua Country
+  '8030': [33.9605105, 35.3253088],   // Velaris
+  '8031': [33.894007, 35.254387],     // Grand Sapphire Blu
+  '8032': [33.605593, 35.352027],     // Aloha Life Esentepe
+  '8033': [32.9137778, 35.1818611],   // Los Angelos Mmt
   
   // Dubai properties (estimated central Dubai coordinates)
   '10001': [55.2176352, 25.0391345],
