@@ -73,24 +73,29 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
   const handleFilterUpdate = (key: string, value: string | string[]) => {
     const newFilters = { ...filters, [key]: value };
     
-    // If location changes, reset district and redirect to the appropriate page
+    // If location changes, reset district and redirect to the appropriate page (ONLY if not on map-search)
     if (key === 'location' && typeof value === 'string' && value !== filters.location) {
       newFilters.district = ''; // Reset district when location changes
       
-      const locationRoutes: Record<string, string> = {
-        'Antalya': '/antalya',
-        'Mersin': '/mersin',
-        'Dubai': '/dubai',
-        'Cyprus': '/cyprus',
-        'Bali': '/bali'
-      };
+      // Check if we're on the map-search page - if so, don't navigate
+      const isMapSearch = window.location.pathname === '/map-search';
       
-      if (locationRoutes[value]) {
-        // Navigate to the new location page with the updated filters
-        navigate(locationRoutes[value], { 
-          state: { filters: newFilters }
-        });
-        return;
+      if (!isMapSearch) {
+        const locationRoutes: Record<string, string> = {
+          'Antalya': '/antalya',
+          'Mersin': '/mersin',
+          'Dubai': '/dubai',
+          'Cyprus': '/cyprus',
+          'Bali': '/bali'
+        };
+        
+        if (locationRoutes[value]) {
+          // Navigate to the new location page with the updated filters
+          navigate(locationRoutes[value], { 
+            state: { filters: newFilters }
+          });
+          return;
+        }
       }
     }
     

@@ -272,7 +272,6 @@ const MapSearch = () => {
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            border: 3px solid #ff5722;
             overflow: hidden;
           ">
             <img src="${markerIcon}" alt="Property" style="
