@@ -4,6 +4,7 @@ import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from 'dompurify';
 import Navigation from "@/components/Navigation";
+import SEOHead from "@/components/SEOHead";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ContentSection } from "@/components/ContentSection";
@@ -420,6 +421,12 @@ const Information = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/10">
+      <SEOHead
+        title="Property Investment Guide | Real Estate Information & Insights"
+        description="Expert guides on property investment, Turkish citizenship, buying process, legal requirements, and real estate insights for Turkey, Dubai, Cyprus & more."
+        keywords="property investment guide, real estate information, Turkish citizenship, property buying guide, investment tips, real estate news"
+        canonicalUrl="https://futurehomesturkey.com/information"
+      />
       <Navigation />
       <NavBar items={[]} onFilterChange={() => {}} activeFilter="" />
       

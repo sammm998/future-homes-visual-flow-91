@@ -1,5 +1,6 @@
 import React from 'react';
 import Navigation from "@/components/Navigation";
+import SEOHead from "@/components/SEOHead";
 import { FocusCards } from "@/components/ui/focus-cards";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
@@ -123,6 +124,12 @@ const Testimonials = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
+        <SEOHead
+          title="Client Testimonials | Real Customer Reviews & Success Stories"
+          description="Read authentic reviews from our satisfied clients who found their dream properties. Real testimonials from customers in Turkey, Dubai, Cyprus & beyond."
+          keywords="client testimonials, customer reviews, property buyer reviews, real estate testimonials, success stories, client feedback"
+          canonicalUrl="https://futurehomesturkey.com/testimonials"
+        />
         <Navigation />
         <main className="pt-32 pb-20">
           <div className="container mx-auto px-4">

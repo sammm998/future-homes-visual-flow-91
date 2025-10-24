@@ -7,6 +7,7 @@ import { Timeline } from "@/components/ui/timeline";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, Square, Calendar, Car, Home, Plane, Waves, CheckCircle, Star, Award, Images, X } from "lucide-react";
 import Navigation from "@/components/Navigation";
+import SEOHead from "@/components/SEOHead";
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
 import { formatPriceFromString } from '@/utils/priceFormatting';
@@ -375,8 +376,33 @@ const PropertyDetail = () => {
 
   const agent = getAgentData(property.agent);
 
+  // Generate SEO metadata
+  const propertyTitle = `${property.title} - ${property.location} | Future Homes`;
+  const propertyDescription = `${property.title} in ${property.location}. ${property.bedrooms} bedrooms, ${property.bathrooms} bathrooms, ${property.area} area. Price: ${property.price}. ${property.description?.substring(0, 100)}...`;
+  const propertyKeywords = `${property.location} property, ${property.propertyType}, ${property.bedrooms} bedroom ${property.propertyType.toLowerCase()}, real estate ${property.location}, property for sale ${property.location}`;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      <SEOHead
+        title={propertyTitle}
+        description={propertyDescription}
+        keywords={propertyKeywords}
+        canonicalUrl={`https://futurehomesturkey.com/property/${property.refNo || property.id}`}
+        ogImage={property.images?.[0] || property.image}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": property.title,
+          "description": property.description,
+          "image": property.images || [property.image],
+          "offers": {
+            "@type": "Offer",
+            "price": property.price?.replace(/[^0-9.]/g, ''),
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock"
+          }
+        }}
+      />
       <Navigation />
       
       {/* Image Modal */}

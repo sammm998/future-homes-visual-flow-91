@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useNavigate } from 'react-router-dom';
+import SEOHead from '@/components/SEOHead';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -257,7 +258,15 @@ const MapSearch = () => {
     };
   }, [mapboxToken, navigate]);
 
-  // Update map style when changed
+  return (
+    <div className="relative h-screen w-full overflow-hidden">
+      <SEOHead
+        title="Property Map Search | Interactive Property Finder on Map"
+        description="Search properties on an interactive map. Explore available properties in Turkey, Dubai, Cyprus and more with our visual map search tool."
+        keywords="property map search, interactive map, property location search, map property finder, visual property search"
+        canonicalUrl="https://futurehomesturkey.com/map-search"
+      />
+      {/* Loading State */}
   useEffect(() => {
     if (map.current) {
       map.current.setStyle(mapStyle);

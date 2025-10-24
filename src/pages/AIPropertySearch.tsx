@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import Navigation from '@/components/Navigation';
+import SEOHead from '@/components/SEOHead';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
@@ -153,6 +154,12 @@ const AIPropertySearch = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEOHead
+        title="AI Property Search | Smart Property Finder with AI Assistant"
+        description="Use our AI-powered property search to find your perfect home. Chat with our intelligent assistant for personalized property recommendations."
+        keywords="AI property search, smart property finder, AI assistant, intelligent property search, automated property matching"
+        canonicalUrl="https://futurehomesturkey.com/ai-property-search"
+      />
       <Navigation />
       
       <div className="flex-1 flex flex-col">
