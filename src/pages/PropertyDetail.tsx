@@ -387,7 +387,7 @@ const PropertyDetail = () => {
         title={propertyTitle}
         description={propertyDescription}
         keywords={propertyKeywords}
-        canonicalUrl={`https://futurehomesturkey.com/property/${property.refNo || property.id}`}
+        canonicalUrl={`https://futurehomesinternational.com/property/${property.refNo || property.id}`}
         ogImage={property.images?.[0] || property.image}
         structuredData={{
           "@context": "https://schema.org",

@@ -6,9 +6,9 @@ const ContactThankYou = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Thank You for Contacting Us | Future Homes Turkey"
-        description="Thank you for reaching out to Future Homes Turkey. We'll get back to you shortly."
-        canonicalUrl="https://futurehomesturkey.com/contact-thank-you"
+        title="Thank You for Contacting Us | Future Homes International"
+        description="Thank you for reaching out to Future Homes International. We'll get back to you shortly."
+        canonicalUrl="https://futurehomesinternational.com/contact-thank-you"
       />
       <Navigation />
       <ThankYouContent

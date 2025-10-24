@@ -18,9 +18,10 @@ const NotFound = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="404 - Page Not Found | Future Homes Turkey"
-        description="The page you're looking for doesn't exist. Return to Future Homes Turkey to explore premium properties in Turkey, Dubai, Cyprus and more."
-        keywords="404, page not found, Future Homes Turkey"
+        title="404 - Page Not Found | Future Homes International"
+        description="The page you're looking for doesn't exist. Return to Future Homes International to explore premium properties in Turkey, Dubai, Cyprus and more."
+        keywords="404, page not found, Future Homes International"
+        canonicalUrl="https://futurehomesinternational.com/404"
         noindex={true}
       />
       <Navigation />

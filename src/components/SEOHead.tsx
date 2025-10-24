@@ -32,9 +32,9 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   article,
   noindex = false
 }) => {
-  const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://futurehomesturkey.com');
-  const siteName = 'Future Homes Turkey';
-  const defaultImage = 'https://futurehomesturkey.com/og-image.jpg';
+  const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://futurehomesinternational.com');
+  const siteName = 'Future Homes International';
+  const defaultImage = 'https://futurehomesinternational.com/og-image.jpg';
 
   return (
     <Helmet>

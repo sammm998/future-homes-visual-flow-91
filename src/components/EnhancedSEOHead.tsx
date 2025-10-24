@@ -33,7 +33,7 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
 }) => {
   const currentLanguage = getLanguageFromUrl();
   const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
-  const baseUrl = 'https://futurehomesturkey.com';
+  const baseUrl = 'https://futurehomesinternational.com';
   const defaultImage = `${baseUrl}/images/future-homes-og-image.jpg`;
   
   // Generate hreflang URLs

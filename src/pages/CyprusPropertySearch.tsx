@@ -206,7 +206,7 @@ const CyprusPropertySearch = () => {
         title="Cyprus Real Estate - EU Citizenship Through Property Investment | Future Homes"
         description="Discover Cyprus properties with EU citizenship benefits. Luxury homes, apartments & villas. Cyprus citizenship by investment programs. Expert guidance for European property investment."
         keywords="Cyprus real estate, EU citizenship by investment, Cyprus property for sale, European property investment, Cyprus citizenship program, luxury homes Cyprus, property investment Europe, Cyprus Golden Visa"
-        canonicalUrl="https://futurehomesturkey.com/cyprus"
+        canonicalUrl="https://futurehomesinternational.com/cyprus"
       />
       <Navigation />
       

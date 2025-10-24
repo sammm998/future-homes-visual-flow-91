@@ -6,9 +6,9 @@ const WizardThankYou = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Thank You for Using Easy Find | Future Homes Turkey"
+        title="Thank You for Using Easy Find | Future Homes International"
         description="Thank you for using our property search wizard. We're preparing personalized recommendations for you."
-        canonicalUrl="https://futurehomesturkey.com/wizard-thank-you"
+        canonicalUrl="https://futurehomesinternational.com/wizard-thank-you"
       />
       <Navigation />
       <ThankYouContent

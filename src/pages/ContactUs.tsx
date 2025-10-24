@@ -65,7 +65,7 @@ const ContactUs = () => {
     }
   };
   return <div className="min-h-screen bg-background">
-      <SEOHead title={pageTitle || "Contact Us | Future Homes Turkey"} description={metaDescription || "Contact Future Homes Turkey for property inquiries. Expert guidance for real estate investment in Turkey, Dubai, Cyprus & Europe."} keywords="contact future homes, property inquiry, real estate contact, Turkey property contact" canonicalUrl="https://futurehomesturkey.com/contact-us" />
+      <SEOHead title={pageTitle || "Contact Us | Future Homes International"} description={metaDescription || "Contact Future Homes International for property inquiries. Expert guidance for real estate investment in Turkey, Dubai, Cyprus & Europe."} keywords="contact future homes, property inquiry, real estate contact, Turkey property contact" canonicalUrl="https://futurehomesinternational.com/contact-us" />
       <Navigation />
       
       {/* Dynamic Content Sections */}

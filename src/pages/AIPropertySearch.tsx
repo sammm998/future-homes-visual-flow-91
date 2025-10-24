@@ -158,7 +158,7 @@ const AIPropertySearch = () => {
         title="AI Property Search | Smart Property Finder with AI Assistant"
         description="Use our AI-powered property search to find your perfect home. Chat with our intelligent assistant for personalized property recommendations."
         keywords="AI property search, smart property finder, AI assistant, intelligent property search, automated property matching"
-        canonicalUrl="https://futurehomesturkey.com/ai-property-search"
+        canonicalUrl="https://futurehomesinternational.com/ai-property-search"
       />
       <Navigation />
       

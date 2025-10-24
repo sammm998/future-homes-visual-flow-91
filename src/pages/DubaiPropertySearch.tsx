@@ -244,7 +244,7 @@ const DubaiPropertySearch = () => {
         title="Dubai Properties Investment | Future Homes UAE"
         description="Premium Dubai real estate with guaranteed returns. Luxury apartments & villas with world-class amenities. Expert investment guidance."
         keywords="Dubai properties, Dubai real estate, property investment Dubai, luxury apartments Dubai, villas Dubai"
-        canonicalUrl="https://futurehomesturkey.com/dubai"
+        canonicalUrl="https://futurehomesinternational.com/dubai"
       />
       <Navigation />
       

@@ -128,7 +128,7 @@ const Testimonials = () => {
           title="Client Testimonials | Real Customer Reviews & Success Stories"
           description="Read authentic reviews from our satisfied clients who found their dream properties. Real testimonials from customers in Turkey, Dubai, Cyprus & beyond."
           keywords="client testimonials, customer reviews, property buyer reviews, real estate testimonials, success stories, client feedback"
-          canonicalUrl="https://futurehomesturkey.com/testimonials"
+          canonicalUrl="https://futurehomesinternational.com/testimonials"
         />
         <Navigation />
         <main className="pt-32 pb-20">

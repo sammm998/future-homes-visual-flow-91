@@ -425,7 +425,7 @@ const Information = () => {
         title="Property Investment Guide | Real Estate Information & Insights"
         description="Expert guides on property investment, Turkish citizenship, buying process, legal requirements, and real estate insights for Turkey, Dubai, Cyprus & more."
         keywords="property investment guide, real estate information, Turkish citizenship, property buying guide, investment tips, real estate news"
-        canonicalUrl="https://futurehomesturkey.com/information"
+        canonicalUrl="https://futurehomesinternational.com/information"
       />
       <Navigation />
       <NavBar items={[]} onFilterChange={() => {}} activeFilter="" />
