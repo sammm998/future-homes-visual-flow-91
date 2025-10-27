@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { 
   ChevronLeft, 
   ChevronRight, 
   RotateCcw, 
-  Home,
   Palette,
   X
 } from 'lucide-react';
@@ -28,79 +27,23 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
   propertyTitle,
   onClose 
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [lastMouseX, setLastMouseX] = useState(0);
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const [wallColor, setWallColor] = useState('#FFFFFF');
-  const [floorColor, setFloorColor] = useState('#D4A574');
   const [colorFilter, setColorFilter] = useState('none');
-  const [imageError, setImageError] = useState(false);
-  const imageRef = useRef<HTMLImageElement | null>(null);
 
-  useEffect(() => {
-    setImageError(false);
-    const img = new Image();
-    img.src = images[currentImageIndex];
-    img.onload = () => {
-      imageRef.current = img;
-      drawImage();
-    };
-    img.onerror = (e) => {
-      console.error('Failed to load image:', images[currentImageIndex], e);
-      setImageError(true);
-    };
-  }, [currentImageIndex, rotation, zoom, colorFilter, wallColor, floorColor]);
-
-  const drawImage = () => {
-    const canvas = canvasRef.current;
-    const img = imageRef.current;
-    if (!canvas || !img) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const getFilterStyle = () => {
+    const filters = [];
     
-    ctx.save();
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.rotate((rotation * Math.PI) / 180);
-    ctx.scale(zoom, zoom);
+    if (colorFilter === '#FFE6E6') filters.push('sepia(0.3) saturate(1.2) hue-rotate(-10deg)');
+    else if (colorFilter === '#E6F2FF') filters.push('sepia(0.2) saturate(1.1) hue-rotate(180deg)');
+    else if (colorFilter === '#FFF9E6') filters.push('brightness(1.1) saturate(0.9)');
+    else if (colorFilter === '#F0F0F0') filters.push('grayscale(0.1) brightness(1.05)');
     
-    const imgWidth = img.width;
-    const imgHeight = img.height;
-    const scale = Math.max(canvas.width / imgWidth, canvas.height / imgHeight);
-    const scaledWidth = imgWidth * scale;
-    const scaledHeight = imgHeight * scale;
-    
-    ctx.drawImage(
-      img,
-      -scaledWidth / 2,
-      -scaledHeight / 2,
-      scaledWidth,
-      scaledHeight
-    );
-
-    // Apply color filters
-    if (colorFilter !== 'none') {
-      ctx.globalCompositeOperation = 'multiply';
-      ctx.fillStyle = colorFilter;
-      ctx.fillRect(
-        -scaledWidth / 2,
-        -scaledHeight / 2,
-        scaledWidth,
-        scaledHeight
-      );
-      ctx.globalCompositeOperation = 'source-over';
-    }
-
-    ctx.restore();
+    return filters.join(' ');
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -111,7 +54,7 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
     const deltaX = e.clientX - lastMouseX;
-    setRotation(prev => (prev + deltaX * 0.5) % 360);
+    setRotation(prev => prev + deltaX * 0.3);
     setLastMouseX(e.clientX);
   };
 
@@ -127,7 +70,7 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
     const deltaX = e.touches[0].clientX - lastMouseX;
-    setRotation(prev => (prev + deltaX * 0.5) % 360);
+    setRotation(prev => prev + deltaX * 0.3);
     setLastMouseX(e.touches[0].clientX);
   };
 
@@ -150,23 +93,6 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
     setZoom(1);
     setColorFilter('none');
   };
-
-  const wallColors = [
-    { name: 'White', value: '#FFFFFF' },
-    { name: 'Beige', value: '#F5F5DC' },
-    { name: 'Light Gray', value: '#D3D3D3' },
-    { name: 'Soft Blue', value: '#ADD8E6' },
-    { name: 'Sage Green', value: '#9DC183' },
-    { name: 'Warm Taupe', value: '#D0BCAC' },
-  ];
-
-  const floorColors = [
-    { name: 'Light Wood', value: '#D4A574' },
-    { name: 'Dark Wood', value: '#8B4513' },
-    { name: 'White Tile', value: '#F8F8F8' },
-    { name: 'Gray Tile', value: '#808080' },
-    { name: 'Marble', value: '#E8E8E8' },
-  ];
 
   return (
     <div className="fixed inset-0 z-50 bg-black">
@@ -210,54 +136,10 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
 
       {/* Color Picker Panel */}
       {showColorPicker && (
-        <div className="absolute top-20 right-4 z-10 bg-white rounded-lg shadow-xl p-4 w-80">
-          <h3 className="font-bold mb-4">Customize Colors</h3>
+        <div className="absolute top-20 right-4 z-10 bg-background rounded-lg shadow-xl p-4 w-80 border">
+          <h3 className="font-bold mb-4">Customize Appearance</h3>
           
           <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium mb-2 block">Wall Color</label>
-              <Select value={wallColor} onValueChange={setWallColor}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {wallColors.map(color => (
-                    <SelectItem key={color.value} value={color.value}>
-                      <div className="flex items-center gap-2">
-                        <div 
-                          className="w-4 h-4 rounded border" 
-                          style={{ backgroundColor: color.value }}
-                        />
-                        {color.name}
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium mb-2 block">Floor Color</label>
-              <Select value={floorColor} onValueChange={setFloorColor}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {floorColors.map(color => (
-                    <SelectItem key={color.value} value={color.value}>
-                      <div className="flex items-center gap-2">
-                        <div 
-                          className="w-4 h-4 rounded border" 
-                          style={{ backgroundColor: color.value }}
-                        />
-                        {color.name}
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
             <div>
               <label className="text-sm font-medium mb-2 block">Color Filter</label>
               <Select value={colorFilter} onValueChange={setColorFilter}>
@@ -266,9 +148,9 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">None</SelectItem>
-                  <SelectItem value="#FFE6E6">Warm</SelectItem>
-                  <SelectItem value="#E6F2FF">Cool</SelectItem>
-                  <SelectItem value="#FFF9E6">Soft</SelectItem>
+                  <SelectItem value="#FFE6E6">Warm Tone</SelectItem>
+                  <SelectItem value="#E6F2FF">Cool Tone</SelectItem>
+                  <SelectItem value="#FFF9E6">Soft Light</SelectItem>
                   <SelectItem value="#F0F0F0">Neutral</SelectItem>
                 </SelectContent>
               </Select>
@@ -277,10 +159,9 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
         </div>
       )}
 
-      {/* Main Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full cursor-move"
+      {/* Main Image Viewer */}
+      <div 
+        className="w-full h-full overflow-hidden cursor-move select-none flex items-center justify-center"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -288,32 +169,19 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-      />
-
-      {/* Error Message */}
-      {imageError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-20">
-          <div className="bg-background p-8 rounded-lg shadow-xl max-w-md text-center">
-            <h3 className="text-xl font-bold mb-2">Image Loading Error</h3>
-            <p className="text-muted-foreground mb-4">
-              Unable to load this image due to access restrictions.
-            </p>
-            <p className="text-sm text-muted-foreground mb-4">
-              Image {currentImageIndex + 1} of {images.length}
-            </p>
-            <div className="flex gap-2 justify-center">
-              {images.length > 1 && (
-                <Button onClick={nextImage} variant="outline">
-                  Try Next Image
-                </Button>
-              )}
-              <Button onClick={onClose}>
-                Close Viewer
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      >
+        <img
+          src={images[currentImageIndex]}
+          alt={`${propertyTitle} - Image ${currentImageIndex + 1}`}
+          className="max-w-none h-full object-contain"
+          style={{
+            transform: `rotate(${rotation}deg) scale(${zoom})`,
+            filter: getFilterStyle(),
+            transition: isDragging ? 'none' : 'transform 0.1s ease-out',
+          }}
+          draggable={false}
+        />
+      </div>
 
       {/* Navigation Controls */}
       <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/80 to-transparent p-6">
@@ -371,7 +239,7 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
 
           {/* Instructions */}
           <p className="text-center text-white/70 text-sm">
-            Drag to rotate • Scroll to zoom • Click palette to customize colors
+            Drag to rotate • Use zoom slider • Click palette to apply filters
           </p>
         </div>
       </div>
