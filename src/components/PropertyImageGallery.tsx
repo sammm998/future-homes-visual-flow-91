@@ -4,9 +4,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ChevronLeft, ChevronRight, MapPin, Image, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Image, X, Palette } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
+import { ImageEditorDialog } from './ImageEditorDialog';
 
 interface Property {
   id: string;
@@ -38,6 +39,8 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
   const [locationFilters, setLocationFilters] = useState<string[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<string>(locationFilter || 'all');
   const [error, setError] = useState<string | null>(null);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [editingImage, setEditingImage] = useState<{ src: string; alt: string } | null>(null);
 
   const THUMBNAILS_PER_PAGE = 8; // Number of thumbnails to show per page
 
@@ -306,13 +309,30 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
               </p>
             </DialogHeader>
 
-            <Button
-              onClick={closeImageModal}
-              className="absolute top-2 md:top-4 right-2 md:right-4 z-10 bg-black/70 text-white hover:bg-black/90"
-              size="icon"
-            >
-              <X className="w-3 h-3 md:w-4 md:h-4" />
-            </Button>
+            <div className="absolute top-2 md:top-4 right-2 md:right-4 z-10 flex gap-2">
+              <Button
+                onClick={() => {
+                  setEditingImage({
+                    src: selectedProperty?.property_images?.[currentImageIndex] || '',
+                    alt: `${selectedProperty?.title} - Image ${currentImageIndex + 1}`
+                  });
+                  setIsEditorOpen(true);
+                }}
+                className="bg-black/70 text-white hover:bg-black/90 gap-2"
+                size="sm"
+              >
+                <Palette className="w-3 h-3 md:w-4 md:h-4" />
+                <span className="hidden md:inline">Redigera</span>
+              </Button>
+              
+              <Button
+                onClick={closeImageModal}
+                className="bg-black/70 text-white hover:bg-black/90"
+                size="icon"
+              >
+                <X className="w-3 h-3 md:w-4 md:h-4" />
+              </Button>
+            </div>
 
             {selectedProperty && (
               <div className="relative w-full h-full bg-black">
@@ -440,6 +460,19 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
             )}
           </DialogContent>
         </Dialog>
+
+        {/* Image Editor Dialog */}
+        {editingImage && (
+          <ImageEditorDialog
+            isOpen={isEditorOpen}
+            onClose={() => {
+              setIsEditorOpen(false);
+              setEditingImage(null);
+            }}
+            imageSrc={editingImage.src}
+            imageAlt={editingImage.alt}
+          />
+        )}
       </div>
     </section>
   );
