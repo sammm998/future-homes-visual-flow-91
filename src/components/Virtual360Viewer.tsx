@@ -1,7 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { TextureLoader, BackSide, DoubleSide } from 'three';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { 
@@ -10,7 +7,8 @@ import {
   RotateCcw, 
   Palette,
   X,
-  Home
+  ZoomIn,
+  ZoomOut
 } from 'lucide-react';
 import {
   Select,
@@ -26,107 +24,126 @@ interface Virtual360ViewerProps {
   onClose: () => void;
 }
 
-// Panorama Sphere Component
-function PanoramaSphere({ imageUrl, wallColor, floorColor, colorFilter }: { 
-  imageUrl: string; 
-  wallColor: string;
-  floorColor: string;
-  colorFilter: string;
-}) {
-  const meshRef = useRef<any>();
-  const texture = useLoader(TextureLoader, imageUrl);
-
-  useFrame(() => {
-    if (meshRef.current) {
-      // Gentle automatic rotation when not dragging
-      meshRef.current.rotation.y += 0.0005;
-    }
-  });
-
-  const getFilterValues = () => {
-    switch (colorFilter) {
-      case 'warm': return { r: 1.2, g: 1.0, b: 0.9 };
-      case 'cool': return { r: 0.9, g: 1.0, b: 1.2 };
-      case 'soft': return { r: 1.1, g: 1.1, b: 0.95 };
-      case 'neutral': return { r: 0.95, g: 0.95, b: 0.95 };
-      default: return { r: 1, g: 1, b: 1 };
-    }
-  };
-
-  const filter = getFilterValues();
-
-  return (
-    <mesh ref={meshRef} rotation={[0, Math.PI, 0]}>
-      <sphereGeometry args={[500, 60, 40]} />
-      <meshBasicMaterial 
-        map={texture} 
-        side={BackSide}
-        color={[filter.r, filter.g, filter.b]}
-        toneMapped={false}
-      />
-    </mesh>
-  );
-}
-
-// Wall and Floor Overlays (simplified colored planes for demo)
-function ColorOverlays({ wallColor, floorColor, opacity }: { 
-  wallColor: string;
-  floorColor: string;
-  opacity: number;
-}) {
-  if (opacity === 0) return null;
-
-  return (
-    <>
-      {/* Floor plane */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -200, 0]}>
-        <circleGeometry args={[400, 32]} />
-        <meshBasicMaterial 
-          color={floorColor} 
-          transparent 
-          opacity={opacity * 0.3}
-          side={DoubleSide}
-        />
-      </mesh>
-      
-      {/* Wall tint sphere */}
-      <mesh>
-        <sphereGeometry args={[490, 60, 40]} />
-        <meshBasicMaterial 
-          color={wallColor} 
-          transparent 
-          opacity={opacity * 0.15}
-          side={BackSide}
-        />
-      </mesh>
-    </>
-  );
-}
-
 const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({ 
   images, 
   propertyTitle,
   onClose 
 }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const [wallColor, setWallColor] = useState('#FFFFFF');
-  const [floorColor, setFloorColor] = useState('#D4A574');
-  const [colorFilter, setColorFilter] = useState('none');
-  const [colorOpacity, setColorOpacity] = useState(0);
+  const [brightness, setBrightness] = useState(100);
+  const [contrast, setContrast] = useState(100);
+  const [saturation, setSaturation] = useState(100);
+  const [hue, setHue] = useState(0);
+  const [warmth, setWarmth] = useState(0);
+  const [zoom, setZoom] = useState(1);
   const [imageError, setImageError] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setImageError(false);
-    // Preload image to check if it loads
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.src = images[currentImageIndex];
+    img.onload = () => {
+      imageRef.current = img;
+      drawImage();
+    };
     img.onerror = () => {
-      console.error('Failed to load 360 image:', images[currentImageIndex]);
+      console.error('Failed to load image:', images[currentImageIndex]);
       setImageError(true);
     };
   }, [currentImageIndex, images]);
+
+  useEffect(() => {
+    drawImage();
+  }, [brightness, contrast, saturation, hue, warmth, zoom, position]);
+
+  const drawImage = () => {
+    const canvas = canvasRef.current;
+    const img = imageRef.current;
+    if (!canvas || !img) return;
+
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    ctx.save();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Apply CSS filters
+    const filters = [
+      `brightness(${brightness}%)`,
+      `contrast(${contrast}%)`,
+      `saturate(${saturation}%)`,
+      `hue-rotate(${hue}deg)`,
+    ];
+    ctx.filter = filters.join(' ');
+
+    // Calculate scaling to cover the canvas
+    const imgAspect = img.width / img.height;
+    const canvasAspect = canvas.width / canvas.height;
+    
+    let drawWidth = canvas.width * zoom;
+    let drawHeight = canvas.height * zoom;
+    
+    if (imgAspect > canvasAspect) {
+      drawHeight = canvas.height * zoom;
+      drawWidth = drawHeight * imgAspect;
+    } else {
+      drawWidth = canvas.width * zoom;
+      drawHeight = drawWidth / imgAspect;
+    }
+
+    const x = (canvas.width - drawWidth) / 2 + position.x;
+    const y = (canvas.height - drawHeight) / 2 + position.y;
+
+    ctx.drawImage(img, x, y, drawWidth, drawHeight);
+
+    // Apply warmth overlay
+    if (warmth !== 0) {
+      ctx.globalCompositeOperation = 'multiply';
+      const warmthValue = warmth / 100;
+      if (warmth > 0) {
+        ctx.fillStyle = `rgba(255, 200, 150, ${warmthValue * 0.3})`;
+      } else {
+        ctx.fillStyle = `rgba(150, 200, 255, ${Math.abs(warmthValue) * 0.3})`;
+      }
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    ctx.restore();
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setPosition({
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y,
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY * -0.001;
+    setZoom(prev => Math.max(0.5, Math.min(3, prev + delta)));
+  };
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
@@ -137,29 +154,14 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
   };
 
   const resetView = () => {
-    setColorFilter('none');
-    setWallColor('#FFFFFF');
-    setFloorColor('#D4A574');
-    setColorOpacity(0);
+    setBrightness(100);
+    setContrast(100);
+    setSaturation(100);
+    setHue(0);
+    setWarmth(0);
+    setZoom(1);
+    setPosition({ x: 0, y: 0 });
   };
-
-  const wallColors = [
-    { name: 'White', value: '#FFFFFF' },
-    { name: 'Beige', value: '#F5F5DC' },
-    { name: 'Light Gray', value: '#D3D3D3' },
-    { name: 'Soft Blue', value: '#ADD8E6' },
-    { name: 'Sage Green', value: '#9DC183' },
-    { name: 'Warm Taupe', value: '#D0BCAC' },
-  ];
-
-  const floorColors = [
-    { name: 'Light Wood', value: '#D4A574' },
-    { name: 'Dark Wood', value: '#8B4513' },
-    { name: 'White Tile', value: '#F8F8F8' },
-    { name: 'Gray Tile', value: '#808080' },
-    { name: 'Marble', value: '#E8E8E8' },
-    { name: 'Black Tile', value: '#2C2C2C' },
-  ];
 
   return (
     <div className="fixed inset-0 z-50 bg-black">
@@ -169,7 +171,7 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
           <div>
             <h2 className="text-white text-xl font-bold">{propertyTitle}</h2>
             <p className="text-white/70 text-sm">
-              360° View - Image {currentImageIndex + 1} of {images.length}
+              Image {currentImageIndex + 1} of {images.length}
             </p>
           </div>
           <div className="flex gap-2">
@@ -201,122 +203,119 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
         </div>
       </div>
 
-      {/* Color Picker Panel */}
+      {/* Adjustments Panel */}
       {showColorPicker && (
         <div className="absolute top-20 right-4 z-10 bg-background rounded-lg shadow-xl p-4 w-80 border max-h-[70vh] overflow-y-auto">
-          <h3 className="font-bold mb-4">Customize Appearance</h3>
+          <h3 className="font-bold mb-4">Adjust Image</h3>
           
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium mb-2 block">Wall Color</label>
-              <Select value={wallColor} onValueChange={setWallColor}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {wallColors.map(color => (
-                    <SelectItem key={color.value} value={color.value}>
-                      <div className="flex items-center gap-2">
-                        <div 
-                          className="w-4 h-4 rounded border" 
-                          style={{ backgroundColor: color.value }}
-                        />
-                        {color.name}
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium mb-2 block">Floor Color</label>
-              <Select value={floorColor} onValueChange={setFloorColor}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {floorColors.map(color => (
-                    <SelectItem key={color.value} value={color.value}>
-                      <div className="flex items-center gap-2">
-                        <div 
-                          className="w-4 h-4 rounded border" 
-                          style={{ backgroundColor: color.value }}
-                        />
-                        {color.name}
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
               <label className="text-sm font-medium mb-2 block">
-                Color Intensity ({Math.round(colorOpacity * 100)}%)
+                Brightness: {brightness}%
               </label>
               <Slider
-                value={[colorOpacity]}
-                onValueChange={(value) => setColorOpacity(value[0])}
-                min={0}
-                max={1}
-                step={0.1}
+                value={[brightness]}
+                onValueChange={(value) => setBrightness(value[0])}
+                min={50}
+                max={150}
+                step={1}
                 className="w-full"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-2 block">Light Filter</label>
-              <Select value={colorFilter} onValueChange={setColorFilter}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="none">None</SelectItem>
-                  <SelectItem value="warm">Warm Light</SelectItem>
-                  <SelectItem value="cool">Cool Light</SelectItem>
-                  <SelectItem value="soft">Soft Light</SelectItem>
-                  <SelectItem value="neutral">Neutral</SelectItem>
-                </SelectContent>
-              </Select>
+              <label className="text-sm font-medium mb-2 block">
+                Contrast: {contrast}%
+              </label>
+              <Slider
+                value={[contrast]}
+                onValueChange={(value) => setContrast(value[0])}
+                min={50}
+                max={150}
+                step={1}
+                className="w-full"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">
+                Saturation: {saturation}%
+              </label>
+              <Slider
+                value={[saturation]}
+                onValueChange={(value) => setSaturation(value[0])}
+                min={0}
+                max={200}
+                step={1}
+                className="w-full"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">
+                Warmth: {warmth > 0 ? '+' : ''}{warmth}
+              </label>
+              <Slider
+                value={[warmth]}
+                onValueChange={(value) => setWarmth(value[0])}
+                min={-100}
+                max={100}
+                step={5}
+                className="w-full"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Negative = cooler, Positive = warmer
+              </p>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">
+                Hue Shift: {hue}°
+              </label>
+              <Slider
+                value={[hue]}
+                onValueChange={(value) => setHue(value[0])}
+                min={-180}
+                max={180}
+                step={5}
+                className="w-full"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">
+                Zoom: {Math.round(zoom * 100)}%
+              </label>
+              <Slider
+                value={[zoom]}
+                onValueChange={(value) => setZoom(value[0])}
+                min={0.5}
+                max={3}
+                step={0.1}
+                className="w-full"
+              />
             </div>
           </div>
         </div>
       )}
 
-      {/* 360 Canvas */}
+      {/* Image Canvas */}
       {!imageError ? (
-        <Canvas
-          camera={{ position: [0, 0, 0.1], fov: 75 }}
-          style={{ width: '100%', height: '100%' }}
-        >
-          <PanoramaSphere 
-            imageUrl={images[currentImageIndex]}
-            wallColor={wallColor}
-            floorColor={floorColor}
-            colorFilter={colorFilter}
-          />
-          <ColorOverlays 
-            wallColor={wallColor}
-            floorColor={floorColor}
-            opacity={colorOpacity}
-          />
-          <OrbitControls
-            enableZoom={true}
-            enablePan={false}
-            rotateSpeed={-0.5}
-            zoomSpeed={0.5}
-            minDistance={0.1}
-            maxDistance={10}
-            target={[0, 0, 0]}
-          />
-        </Canvas>
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full cursor-move"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onWheel={handleWheel}
+        />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-20">
           <div className="bg-background p-8 rounded-lg shadow-xl max-w-md text-center">
             <h3 className="text-xl font-bold mb-2">Image Loading Error</h3>
             <p className="text-muted-foreground mb-4">
-              Unable to load this 360° image.
+              Unable to load this image.
             </p>
             <p className="text-sm text-muted-foreground mb-4">
               Image {currentImageIndex + 1} of {images.length}
@@ -380,7 +379,7 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
 
           {/* Instructions */}
           <p className="text-center text-white/70 text-sm">
-            Drag to look around • Scroll to zoom • Click palette to customize colors
+            Drag to pan • Scroll to zoom • Click palette to adjust colors & lighting
           </p>
         </div>
       </div>
