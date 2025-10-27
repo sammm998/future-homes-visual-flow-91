@@ -21,8 +21,8 @@ import { t } from '@/utils/translations';
 import { useSearchParams } from 'react-router-dom';
 
 // Function to map property location to route
-const getLocationRoute = (location: string): string => {
-  if (!location) return '/antalya'; // Default fallback
+const getLocationRoute = (location: string | undefined | null): string => {
+  if (!location || typeof location !== 'string') return '/antalya'; // Default fallback
   
   const locationLower = location.toLowerCase();
   if (locationLower.includes('dubai')) return '/dubai';
