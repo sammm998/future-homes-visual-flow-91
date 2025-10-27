@@ -88,7 +88,7 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
       {/* Background Video - YouTube embed */}
       <div className="absolute inset-0">
         <iframe
-          src="https://www.youtube.com/embed/F7N_4SyQaPk?autoplay=1&mute=1&loop=1&playlist=F7N_4SyQaPk&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+          src="https://www.youtube.com/embed/jl0LxdFEA_c?autoplay=1&mute=1&loop=1&playlist=jl0LxdFEA_c&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
           className="absolute object-cover"
           style={{
             width: 'calc(100vw + 20vh)',
