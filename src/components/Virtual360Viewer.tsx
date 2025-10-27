@@ -38,11 +38,12 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
   const [wallColor, setWallColor] = useState('#FFFFFF');
   const [floorColor, setFloorColor] = useState('#D4A574');
   const [colorFilter, setColorFilter] = useState('none');
+  const [imageError, setImageError] = useState(false);
   const imageRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
+    setImageError(false);
     const img = new Image();
-    img.crossOrigin = "anonymous";
     img.src = images[currentImageIndex];
     img.onload = () => {
       imageRef.current = img;
@@ -50,13 +51,7 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
     };
     img.onerror = (e) => {
       console.error('Failed to load image:', images[currentImageIndex], e);
-      // Try without crossOrigin if it fails
-      const imgRetry = new Image();
-      imgRetry.src = images[currentImageIndex];
-      imgRetry.onload = () => {
-        imageRef.current = imgRetry;
-        drawImage();
-      };
+      setImageError(true);
     };
   }, [currentImageIndex, rotation, zoom, colorFilter, wallColor, floorColor]);
 
@@ -294,6 +289,31 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       />
+
+      {/* Error Message */}
+      {imageError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-20">
+          <div className="bg-background p-8 rounded-lg shadow-xl max-w-md text-center">
+            <h3 className="text-xl font-bold mb-2">Image Loading Error</h3>
+            <p className="text-muted-foreground mb-4">
+              Unable to load this image due to access restrictions.
+            </p>
+            <p className="text-sm text-muted-foreground mb-4">
+              Image {currentImageIndex + 1} of {images.length}
+            </p>
+            <div className="flex gap-2 justify-center">
+              {images.length > 1 && (
+                <Button onClick={nextImage} variant="outline">
+                  Try Next Image
+                </Button>
+              )}
+              <Button onClick={onClose}>
+                Close Viewer
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Navigation Controls */}
       <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/80 to-transparent p-6">
