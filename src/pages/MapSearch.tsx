@@ -297,18 +297,18 @@ const MapSearch = () => {
       el.style.backgroundSize = 'contain';
       el.style.backgroundPosition = 'center';
       el.style.backgroundRepeat = 'no-repeat';
-      el.style.transition = 'all 0.2s ease';
+      el.style.willChange = 'auto';
+      el.style.transform = 'translate3d(0, 0, 0)';
+      el.style.backfaceVisibility = 'hidden';
       
-      // Hover effect
+      // Hover effect - only change color and shadow, not size
       el.addEventListener('mouseenter', () => {
         el.style.borderColor = '#0066CC';
-        el.style.borderWidth = '4px';
-        el.style.boxShadow = '0 4px 12px rgba(0,0,0,0.4)';
+        el.style.boxShadow = '0 4px 12px rgba(0,102,204,0.5)';
       });
       
       el.addEventListener('mouseleave', () => {
         el.style.borderColor = 'white';
-        el.style.borderWidth = '3px';
         el.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
       });
 
@@ -348,8 +348,13 @@ const MapSearch = () => {
         }).setDOMContent(popupContent);
       };
 
-      // Add marker
-      const marker = new mapboxgl.Marker(el)
+      // Add marker with anchor set to center for stable positioning
+      const marker = new mapboxgl.Marker({
+        element: el,
+        anchor: 'center',
+        pitchAlignment: 'viewport',
+        rotationAlignment: 'viewport'
+      })
         .setLngLat(coords)
         .addTo(map.current!);
 
