@@ -117,11 +117,16 @@ const InteractiveVirtualTour = () => {
                   className="overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
                   onClick={() => handlePropertySelect(property.id, property.ref_no)}
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden">
+                  <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                     <img
                       src={property.property_image || property.property_images?.[0] || '/placeholder.svg'}
                       alt={property.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      loading="lazy"
+                      onError={(e) => {
+                        console.error('Failed to load property image:', property.property_image);
+                        e.currentTarget.src = '/placeholder.svg';
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                     <div className="absolute bottom-4 left-4 right-4">

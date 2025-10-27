@@ -48,6 +48,16 @@ const Virtual360Viewer: React.FC<Virtual360ViewerProps> = ({
       imageRef.current = img;
       drawImage();
     };
+    img.onerror = (e) => {
+      console.error('Failed to load image:', images[currentImageIndex], e);
+      // Try without crossOrigin if it fails
+      const imgRetry = new Image();
+      imgRetry.src = images[currentImageIndex];
+      imgRetry.onload = () => {
+        imageRef.current = imgRetry;
+        drawImage();
+      };
+    };
   }, [currentImageIndex, rotation, zoom, colorFilter, wallColor, floorColor]);
 
   const drawImage = () => {

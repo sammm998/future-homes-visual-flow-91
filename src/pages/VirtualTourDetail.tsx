@@ -170,14 +170,23 @@ const VirtualTourDetail = () => {
                 {allImages.slice(0, 4).map((image, idx) => (
                   <div 
                     key={idx}
-                    className="aspect-video rounded-lg overflow-hidden cursor-pointer hover:opacity-75 transition-opacity"
+                    className="aspect-video rounded-lg overflow-hidden cursor-pointer hover:opacity-75 transition-opacity relative bg-muted"
                     onClick={() => setShowViewer(true)}
                   >
                     <img 
                       src={image} 
                       alt={`Preview ${idx + 1}`}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error('Failed to load preview image:', image);
+                        e.currentTarget.style.display = 'none';
+                      }}
                     />
+                    {idx === 0 && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                        <Play className="h-12 w-12 text-white" />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
