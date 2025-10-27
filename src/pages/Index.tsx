@@ -14,6 +14,7 @@ import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import FounderSection from "@/components/FounderSection";
 import { ZoomParallax } from "@/components/ui/zoom-parallax";
 import { useTestimonials } from "@/hooks/useTestimonials";
+import { PropertyMarquee } from "@/components/PropertyMarquee";
 import SEOHead from "@/components/SEOHead";
 import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 import { useSEO } from "@/hooks/useSEO";
@@ -206,6 +207,9 @@ const Index = () => {
       <div className="w-full">
         <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png" title={heroTitle || "Future Homes"} subtitle="Your Future Real Estate Partner" />
       </div>
+      
+      {/* Property Images Marquee */}
+      <PropertyMarquee />
       
       {/* Before & After Feature */}
       <div className="w-full">
