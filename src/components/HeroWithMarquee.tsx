@@ -31,6 +31,14 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
   const [refNo, setRefNo] = useState("");
   const [propertyImages, setPropertyImages] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
+  // Advanced search filters
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [minSqFt, setMinSqFt] = useState("");
+  const [maxSqFt, setMaxSqFt] = useState("");
+  const [sortBy, setSortBy] = useState("");
 
   useEffect(() => {
     const fetchPropertyImages = async () => {
@@ -72,9 +80,14 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
     if (bedrooms) params.append('bedrooms', bedrooms);
     if (location) params.append('location', location);
     if (refNo) params.append('refNo', refNo);
+    if (minPrice) params.append('minPrice', minPrice);
+    if (maxPrice) params.append('maxPrice', maxPrice);
+    if (minSqFt) params.append('minSqFt', minSqFt);
+    if (maxSqFt) params.append('maxSqFt', maxSqFt);
+    if (sortBy) params.append('sortBy', sortBy);
     
     navigate(`/properties?${params.toString()}`);
-  }, [navigate, searchType, propertyType, bedrooms, location, refNo]);
+  }, [navigate, searchType, propertyType, bedrooms, location, refNo, minPrice, maxPrice, minSqFt, maxSqFt, sortBy]);
 
   const FADE_IN_ANIMATION_VARIANTS = {
     hidden: { opacity: 0, y: 10 },
@@ -254,6 +267,79 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
                   </div>
                 </div>
 
+                {/* Advanced Search Toggle */}
+                <div className="mb-4">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => setShowAdvanced(!showAdvanced)}
+                    className="text-sm"
+                  >
+                    {showAdvanced ? "Hide" : "Show"} Advanced Search
+                  </Button>
+                </div>
+
+                {/* Advanced Search Fields */}
+                {showAdvanced && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 p-4 bg-muted/50 rounded-lg">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Min Price ({String(selectedCurrency)})</label>
+                      <Input
+                        type="number"
+                        placeholder="Min"
+                        value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
+                        className="h-10"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Max Price ({String(selectedCurrency)})</label>
+                      <Input
+                        type="number"
+                        placeholder="Max"
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
+                        className="h-10"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Min Size (m²)</label>
+                      <Input
+                        type="number"
+                        placeholder="Min"
+                        value={minSqFt}
+                        onChange={(e) => setMinSqFt(e.target.value)}
+                        className="h-10"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Max Size (m²)</label>
+                      <Input
+                        type="number"
+                        placeholder="Max"
+                        value={maxSqFt}
+                        onChange={(e) => setMaxSqFt(e.target.value)}
+                        className="h-10"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="text-sm font-medium mb-2 block">Sort By</label>
+                      <Select value={sortBy} onValueChange={setSortBy}>
+                        <SelectTrigger className="h-10">
+                          <SelectValue placeholder="Sort by..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="price_asc">Price: Low to High</SelectItem>
+                          <SelectItem value="price_desc">Price: High to Low</SelectItem>
+                          <SelectItem value="size_asc">Size: Small to Large</SelectItem>
+                          <SelectItem value="size_desc">Size: Large to Small</SelectItem>
+                          <SelectItem value="newest">Newest First</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                )}
+
                 <Button
                   onClick={() => {
                     handleSearch();
@@ -270,9 +356,9 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
         </motion.div>
       </div>
 
-      {/* Animated Image Marquee at Bottom - Larger Images */}
+      {/* Animated Image Marquee at Bottom - Lower position to show more video */}
       {propertyImages.length > 0 && (
-        <div className="absolute bottom-0 left-0 w-full h-2/5 md:h-1/2 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] z-0">
+        <div className="absolute bottom-0 left-0 w-full h-1/4 md:h-1/3 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] z-0">
           <motion.div
             className="flex gap-6"
             animate={{
@@ -287,7 +373,7 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
             {duplicatedImages.map((src, index) => (
               <div
                 key={index}
-                className="relative aspect-[3/4] h-56 md:h-80 lg:h-96 flex-shrink-0"
+                className="relative aspect-[3/4] h-48 md:h-64 lg:h-80 flex-shrink-0"
                 style={{
                   rotate: `${(index % 2 === 0 ? -2 : 5)}deg`,
                 }}
