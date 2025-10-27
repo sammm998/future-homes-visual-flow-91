@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Grid, List, MapPin, Bed, Bath, Square, Heart, Search, Filter, Eye, Palette } from 'lucide-react';
+import { Grid, List, MapPin, Bed, Bath, Square, Heart, Search, Filter, Eye } from 'lucide-react';
 import { useProperties } from '@/hooks/useProperties';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,7 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import OptimizedPropertyImage from '@/components/OptimizedPropertyImage';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { formatPriceFromString } from '@/utils/priceFormatting';
-import { ImageEditorDialog } from './ImageEditorDialog';
 
 interface Property {
   id: string;
@@ -36,8 +35,6 @@ const ModernGallery = () => {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
-  const [isEditorOpen, setIsEditorOpen] = useState(false);
-  const [editingImage, setEditingImage] = useState<{ src: string; alt: string } | null>(null);
 
   const filteredProperties = properties.filter((property: Property) => {
     // Filter out properties with CDN images
@@ -237,13 +234,7 @@ const ModernGallery = () => {
                         </DialogTrigger>
                         <DialogContent className="w-full h-full max-w-none max-h-none m-0 p-4 md:p-6 overflow-hidden">
                           {selectedProperty && (
-                            <PropertyGalleryModal 
-                              property={selectedProperty}
-                              onEditImage={(src, alt) => {
-                                setEditingImage({ src, alt });
-                                setIsEditorOpen(true);
-                              }}
-                            />
+                            <PropertyGalleryModal property={selectedProperty} />
                           )}
                         </DialogContent>
                       </Dialog>
@@ -301,24 +292,11 @@ const ModernGallery = () => {
           </motion.div>
         </div>
       </section>
-
-      {/* Image Editor Dialog */}
-      {editingImage && (
-        <ImageEditorDialog
-          isOpen={isEditorOpen}
-          onClose={() => {
-            setIsEditorOpen(false);
-            setEditingImage(null);
-          }}
-          imageSrc={editingImage.src}
-          imageAlt={editingImage.alt}
-        />
-      )}
     </div>
   );
 };
 
-const PropertyGalleryModal = ({ property, onEditImage }: { property: Property; onEditImage: (src: string, alt: string) => void }) => {
+const PropertyGalleryModal = ({ property }: { property: Property }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   // Filter out CDN images and ensure we always have at least one valid image
   const images = property.property_images?.filter(img => img && img.trim() !== '' && !img.includes('cdn.futurehomesturkey.com')) || 
@@ -366,19 +344,9 @@ const PropertyGalleryModal = ({ property, onEditImage }: { property: Property; o
             </>
           )}
           
-          {/* Image Counter and Edit Button */}
-          <div className="absolute top-2 md:top-4 right-2 md:right-4 flex gap-2 items-center">
-            <Button
-              onClick={() => onEditImage(images[currentImageIndex], `${property.title} - Image ${currentImageIndex + 1}`)}
-              className="bg-black/70 text-white hover:bg-black/90 gap-2"
-              size="sm"
-            >
-              <Palette className="w-3 h-3 md:w-4 md:h-4" />
-              <span className="hidden md:inline">Redigera</span>
-            </Button>
-            <div className="bg-black/70 text-white px-2 py-1 md:px-3 md:py-2 rounded-lg text-xs md:text-sm">
-              {currentImageIndex + 1} / {images.length}
-            </div>
+          {/* Image Counter */}
+          <div className="absolute top-2 md:top-4 right-2 md:right-4 bg-black/70 text-white px-2 py-1 md:px-3 md:py-2 rounded-lg text-xs md:text-sm">
+            {currentImageIndex + 1} / {images.length}
           </div>
         </div>
         

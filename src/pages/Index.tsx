@@ -1,5 +1,5 @@
 import Navigation from "@/components/Navigation";
-import HeroWithMarquee from "@/components/HeroWithMarquee";
+import Hero from "@/components/Hero";
 import { motion } from "framer-motion";
 import TeamSection from "@/components/TeamSection";
 import { LazyComponent, LazyShuffleGrid, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
@@ -20,6 +20,7 @@ import { useSEO } from "@/hooks/useSEO";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import { useMemo, useEffect, useState } from "react";
+// Removed useSyncAllData - database-only approach
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
@@ -201,13 +202,9 @@ const Index = () => {
         </div>
        )} */}
       
-      {/* Hero Section with Marquee */}
+      {/* Hero Section - Database content with fallback */}
       <div className="w-full">
-        <HeroWithMarquee 
-          backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png" 
-          title={heroTitle || "Future Homes"} 
-          subtitle="Your Future Real Estate Partner" 
-        />
+        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png" title={heroTitle || "Future Homes"} subtitle="Your Future Real Estate Partner" />
       </div>
       
       {/* Before & After Feature */}
