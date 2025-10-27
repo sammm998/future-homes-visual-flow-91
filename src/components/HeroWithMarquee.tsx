@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Search, MapPin, Home, Building, Store } from "lucide-react";
 import { Spotlight } from "@/components/ui/spotlight";
 import { useCurrency } from "@/contexts/CurrencyContext";
@@ -29,6 +30,7 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
   const [location, setLocation] = useState("");
   const [refNo, setRefNo] = useState("");
   const [propertyImages, setPropertyImages] = useState<string[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     const fetchPropertyImages = async () => {
@@ -83,13 +85,10 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
 
   return (
     <section className="relative w-full h-screen overflow-hidden">
-      {/* Background Video */}
+      {/* Background Video - YouTube embed */}
       <div className="absolute inset-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        <iframe
+          src="https://www.youtube.com/embed/F7N_4SyQaPk?autoplay=1&mute=1&loop=1&playlist=F7N_4SyQaPk&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
           className="absolute object-cover"
           style={{
             width: 'calc(100vw + 20vh)',
@@ -99,11 +98,12 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%) scale(1.2)',
-            objectFit: 'cover'
+            objectFit: 'cover',
+            pointerEvents: 'none'
           }}
-        >
-          <source src="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png" type="video/mp4" />
-        </video>
+          allow="autoplay; encrypted-media"
+          frameBorder="0"
+        />
         <div className="absolute inset-0 bg-black/50"></div>
       </div>
       
@@ -149,116 +149,132 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
           {subtitle || "Your Future Real Estate Partner"}
         </motion.p>
 
-        {/* Search Card */}
+        {/* Search Button with Dialog */}
         <motion.div
           initial="hidden"
           animate="show"
           variants={FADE_IN_ANIMATION_VARIANTS}
           transition={{ delay: 0.6 }}
-          className="w-full max-w-5xl"
         >
-          <Card className="bg-white/10 backdrop-blur-sm border-white/20 p-4 md:p-6 rounded-2xl">
-            {/* Search Type Tabs */}
-            <div className="flex justify-center mb-6">
-              <div className="bg-white/10 rounded-lg p-1 inline-flex">
-                <button
-                  className={cn(
-                    "px-6 py-2 rounded-md text-sm font-medium transition-all",
-                    searchType === "Buy"
-                      ? "bg-white text-black"
-                      : "text-white hover:bg-white/10"
-                  )}
-                  onClick={() => setSearchType("Buy")}
+          <Dialog open={showFilters} onOpenChange={setShowFilters}>
+            <DialogTrigger asChild>
+              <Button
+                size="lg"
+                className="h-14 px-12 bg-primary text-primary-foreground hover:bg-primary/90 text-lg font-semibold rounded-full"
+              >
+                <Search className="mr-2" size={24} />
+                Search Properties
+              </Button>
+            </DialogTrigger>
+            
+            <DialogContent className="max-w-5xl">
+              <Card className="border-0 shadow-none">
+                {/* Search Type Tabs */}
+                <div className="flex justify-center mb-6">
+                  <div className="bg-muted rounded-lg p-1 inline-flex">
+                    <button
+                      className={cn(
+                        "px-6 py-2 rounded-md text-sm font-medium transition-all",
+                        searchType === "Buy"
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-muted-foreground/10"
+                      )}
+                      onClick={() => setSearchType("Buy")}
+                    >
+                      Buy
+                    </button>
+                    <button
+                      className={cn(
+                        "px-6 py-2 rounded-md text-sm font-medium transition-all",
+                        searchType === "Rent"
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-muted-foreground/10"
+                      )}
+                      onClick={() => setSearchType("Rent")}
+                    >
+                      Rent
+                    </button>
+                  </div>
+                </div>
+
+                {/* Search Filters */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+                  <Select value={propertyType} onValueChange={setPropertyType}>
+                    <SelectTrigger className="h-12">
+                      <SelectValue placeholder="Property Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="apartments">
+                        <div className="flex items-center gap-2">
+                          <Building size={16} />
+                          Apartments
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="villas">
+                        <div className="flex items-center gap-2">
+                          <Home size={16} />
+                          Villas
+                        </div>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <Select value={bedrooms} onValueChange={setBedrooms}>
+                    <SelectTrigger className="h-12">
+                      <SelectValue placeholder="Bedrooms" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="studio">Studio</SelectItem>
+                      <SelectItem value="1">1</SelectItem>
+                      <SelectItem value="2">2</SelectItem>
+                      <SelectItem value="3">3</SelectItem>
+                      <SelectItem value="4">4+</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <Select value={location} onValueChange={setLocation}>
+                    <SelectTrigger className="h-12">
+                      <SelectValue placeholder="Location" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="antalya">Antalya</SelectItem>
+                      <SelectItem value="alanya">Alanya</SelectItem>
+                      <SelectItem value="dubai">Dubai</SelectItem>
+                      <SelectItem value="cyprus">Cyprus</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <div className="lg:col-span-2">
+                    <Input
+                      placeholder="Reference No or Keywords"
+                      value={refNo}
+                      onChange={(e) => setRefNo(e.target.value)}
+                      className="h-12"
+                    />
+                  </div>
+                </div>
+
+                <Button
+                  onClick={() => {
+                    handleSearch();
+                    setShowFilters(false);
+                  }}
+                  className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 text-base font-semibold"
                 >
-                  Buy
-                </button>
-                <button
-                  className={cn(
-                    "px-6 py-2 rounded-md text-sm font-medium transition-all",
-                    searchType === "Rent"
-                      ? "bg-white text-black"
-                      : "text-white hover:bg-white/10"
-                  )}
-                  onClick={() => setSearchType("Rent")}
-                >
-                  Rent
-                </button>
-              </div>
-            </div>
-
-            {/* Search Filters */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-              <Select value={propertyType} onValueChange={setPropertyType}>
-                <SelectTrigger className="h-12 bg-white border-0 text-black">
-                  <SelectValue placeholder="Property Type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="apartments">
-                    <div className="flex items-center gap-2">
-                      <Building size={16} />
-                      Apartments
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="villas">
-                    <div className="flex items-center gap-2">
-                      <Home size={16} />
-                      Villas
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select value={bedrooms} onValueChange={setBedrooms}>
-                <SelectTrigger className="h-12 bg-white border-0 text-black">
-                  <SelectValue placeholder="Bedrooms" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="studio">Studio</SelectItem>
-                  <SelectItem value="1">1</SelectItem>
-                  <SelectItem value="2">2</SelectItem>
-                  <SelectItem value="3">3</SelectItem>
-                  <SelectItem value="4">4+</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select value={location} onValueChange={setLocation}>
-                <SelectTrigger className="h-12 bg-white border-0 text-black">
-                  <SelectValue placeholder="Location" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="antalya">Antalya</SelectItem>
-                  <SelectItem value="alanya">Alanya</SelectItem>
-                  <SelectItem value="dubai">Dubai</SelectItem>
-                  <SelectItem value="cyprus">Cyprus</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <div className="lg:col-span-2">
-                <Input
-                  placeholder="Reference No or Keywords"
-                  value={refNo}
-                  onChange={(e) => setRefNo(e.target.value)}
-                  className="h-12 bg-white border-0 text-black"
-                />
-              </div>
-            </div>
-
-            <Button
-              onClick={handleSearch}
-              className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 text-base font-semibold"
-            >
-              <Search className="mr-2" size={20} />
-              Search Properties
-            </Button>
-          </Card>
+                  <Search className="mr-2" size={20} />
+                  Search Properties
+                </Button>
+              </Card>
+            </DialogContent>
+          </Dialog>
         </motion.div>
       </div>
 
-      {/* Animated Image Marquee at Bottom */}
+      {/* Animated Image Marquee at Bottom - Larger Images */}
       {propertyImages.length > 0 && (
-        <div className="absolute bottom-0 left-0 w-full h-1/4 md:h-1/3 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] z-0">
+        <div className="absolute bottom-0 left-0 w-full h-2/5 md:h-1/2 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] z-0">
           <motion.div
-            className="flex gap-4"
+            className="flex gap-6"
             animate={{
               x: ["-50%", "0%"],
               transition: {
@@ -271,7 +287,7 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
             {duplicatedImages.map((src, index) => (
               <div
                 key={index}
-                className="relative aspect-[3/4] h-32 md:h-48 flex-shrink-0"
+                className="relative aspect-[3/4] h-56 md:h-80 lg:h-96 flex-shrink-0"
                 style={{
                   rotate: `${(index % 2 === 0 ? -2 : 5)}deg`,
                 }}
@@ -279,7 +295,7 @@ const HeroWithMarquee: React.FC<HeroWithMarqueeProps> = ({
                 <img
                   src={src}
                   alt={`Property image ${index + 1}`}
-                  className="w-full h-full object-cover rounded-2xl shadow-md"
+                  className="w-full h-full object-cover rounded-2xl shadow-xl"
                 />
               </div>
             ))}
