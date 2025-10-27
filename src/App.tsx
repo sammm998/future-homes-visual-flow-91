@@ -51,6 +51,8 @@ const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
 
 const VideoShowcase = lazy(() => import("./pages/VideoShowcase"));
 const MapSearch = lazy(() => import("./pages/MapSearch"));
+const InteractiveVirtualTour = lazy(() => import("./pages/InteractiveVirtualTour"));
+const VirtualTourDetail = lazy(() => import("./pages/VirtualTourDetail"));
 
 
 // Enhanced query client for global accessibility
@@ -154,6 +156,8 @@ function AppContent() {
       <Route path="/about-us" element={<AboutUs />} />
       
       <Route path="/video-showcase" element={<VideoShowcase />} />
+      <Route path="/interactive-virtual-tour" element={<InteractiveVirtualTour />} />
+      <Route path="/virtual-tour/:propertyId" element={<VirtualTourDetail />} />
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/contact-thank-you" element={<ContactThankYou />} />
       <Route path="/wizard-thank-you" element={<WizardThankYou />} />
