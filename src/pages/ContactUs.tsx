@@ -119,7 +119,7 @@ const ContactUs = () => {
                   </CardHeader>
                   <CardContent>
                     <a
-                      href="mailto:info@futurehomesturkey.com"
+                      href="mailto:info@futurehomesinternational.com"
                       className="text-muted-foreground hover:text-primary transition-colors cursor-pointer break-all"
                     >
                       info@futurehomesinternational.com
