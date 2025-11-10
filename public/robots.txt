@@ -7,18 +7,7 @@ Disallow: /temp/
 Disallow: /test/
 
 # Sitemaps
-Sitemap: https://futurehomesturkey.com/sitemap.xml
-Sitemap: https://futurehomesturkey.com/sitemap_en.xml
-Sitemap: https://futurehomesturkey.com/sitemap_de.xml
-Sitemap: https://futurehomesturkey.com/sitemap_sv.xml
-Sitemap: https://futurehomesturkey.com/sitemap_da.xml
-Sitemap: https://futurehomesturkey.com/sitemap_no.xml
-Sitemap: https://futurehomesturkey.com/sitemap_ru.xml
-Sitemap: https://futurehomesturkey.com/sitemap_ur.xml
-Sitemap: https://futurehomesturkey.com/sitemap_ar.xml
-Sitemap: https://futurehomesturkey.com/sitemap_fa.xml
-Sitemap: https://futurehomesturkey.com/sitemap_tr.xml
-Sitemap: https://futurehomesturkey.com/sitemap_es.xml
+Sitemap: https://futurehomesinternational.com/sitemap.xml
 
 # Crawl-delay (optional)
 Crawl-delay: 1

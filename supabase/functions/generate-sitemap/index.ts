@@ -40,7 +40,10 @@ serve(async (req) => {
       .eq('status', 'available');
 
     const currentDate = new Date().toISOString().split('T')[0];
-    const baseUrl = 'https://futurehomesturkey.com';
+    const baseUrl = 'https://futurehomesinternational.com';
+    
+    // Supported languages for multi-language sitemap
+    const languages = ['en', 'sv', 'tr', 'ar'];
 
     // Static pages - Core pages with updated structure
     const staticPages = [
@@ -79,17 +82,41 @@ serve(async (req) => {
     ];
 
     let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
 
-    // Add static pages
+    // Add static pages with language alternates
     staticPages.forEach(page => {
+      // Default English version
       sitemapXml += `
   <url>
     <loc>${baseUrl}${page.url}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
-    <priority>${page.priority}</priority>
+    <priority>${page.priority}</priority>`;
+      
+      // Add xhtml:link alternates for each language
+      languages.forEach(lang => {
+        const langUrl = lang === 'en' ? `${baseUrl}${page.url}` : `${baseUrl}${page.url}${page.url.includes('?') ? '&' : '?'}lang=${lang}`;
+        sitemapXml += `
+    <xhtml:link rel="alternate" hreflang="${lang}" href="${langUrl}" />`;
+      });
+      
+      sitemapXml += `
   </url>`;
+      
+      // Add alternate language versions as separate entries
+      languages.forEach(lang => {
+        if (lang !== 'en') {
+          const langUrl = `${baseUrl}${page.url}${page.url.includes('?') ? '&' : '?'}lang=${lang}`;
+          sitemapXml += `
+  <url>
+    <loc>${langUrl}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${parseFloat(page.priority) - 0.1}</priority>
+  </url>`;
+        }
+      });
     });
 
     // Add property pages with enhanced metadata
