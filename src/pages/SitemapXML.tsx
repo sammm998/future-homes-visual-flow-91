@@ -1,40 +1,59 @@
-import { useEffect } from 'react';
-import { enhancedSupabase } from "@/lib/supabase-enhanced";
+import { useEffect, useState } from 'react';
 
 const SitemapXML = () => {
+  const [sitemap, setSitemap] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const generateSitemap = async () => {
+    const fetchSitemap = async () => {
       try {
-        const { data, error } = await enhancedSupabase.functions.invoke('generate-sitemap');
+        // Call the edge function directly via fetch
+        const response = await fetch(
+          'https://kiogiyemoqbnuvclneoe.supabase.co/functions/v1/generate-sitemap',
+          {
+            headers: {
+              'Content-Type': 'application/xml',
+            },
+          }
+        );
         
-        if (error) {
-          console.error('Error generating sitemap:', error);
-          return;
+        if (!response.ok) {
+          throw new Error('Failed to fetch sitemap');
         }
 
-        // Set the response as XML
-        const response = new Response(data, {
-          headers: {
-            'Content-Type': 'application/xml',
-          },
-        });
-        
-        // Replace the current page content with the XML
-        document.open();
-        document.write(await response.text());
-        document.close();
+        const xmlText = await response.text();
+        setSitemap(xmlText);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching sitemap:', error);
+        setLoading(false);
       }
     };
 
-    generateSitemap();
+    fetchSitemap();
   }, []);
 
+  if (loading) {
+    return (
+      <div style={{ padding: '20px', fontFamily: 'monospace' }}>
+        <p>Generating sitemap...</p>
+      </div>
+    );
+  }
+
+  // Render as pre-formatted XML
   return (
-    <div>
-      <p>Generating sitemap...</p>
-    </div>
+    <pre
+      style={{
+        margin: 0,
+        padding: 0,
+        fontFamily: 'monospace',
+        fontSize: '12px',
+        whiteSpace: 'pre-wrap',
+        wordWrap: 'break-word',
+      }}
+      dangerouslySetInnerHTML={{ __html: sitemap }}
+    />
   );
 };
 
