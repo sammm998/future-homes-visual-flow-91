@@ -88,11 +88,11 @@ const Index = () => {
   const homePageStructuredData = {
     "@context": "https://schema.org",
     "@type": ["WebSite", "RealEstateAgent", "Organization"],
-    "name": "Future Homes Turkey",
+    "name": "Future Homes International",
     "alternateName": "Future Homes Turkey Real Estate",
-    "url": "https://futurehomesturkey.com",
-    "logo": "https://futurehomesturkey.com/logo.png",
-    "description": "Premier international real estate agency specializing in luxury properties in Turkey, UAE, Cyprus, and Bali. Expert guidance for property investment, citizenship programs, and overseas real estate.",
+    "url": "https://futurehomesinternational.com",
+    "logo": "https://futurehomesinternational.com/favicon-512x512.png",
+    "description": "Leading international real estate agency specializing in premium properties across Turkey, UAE, Cyprus, and Bali. Expert guidance for property investment, citizenship programs, and luxury overseas real estate.",
     "sameAs": ["https://www.facebook.com/futurehomesturkey", "https://www.instagram.com/futurehomesturkey", "https://www.linkedin.com/company/futurehomesturkey", "https://twitter.com/futurehomestr"],
     "contactPoint": {
       "@type": "ContactPoint",
@@ -189,7 +189,7 @@ const Index = () => {
         ]}
         prefetchRoutes={['/antalya', '/dubai', '/cyprus']}
       />
-      <SEOHead title={pageTitle || "Future Homes Turkey - Premium International Real Estate Investment"} description={metaDescription || "Discover premium real estate investment opportunities in Turkey, Dubai, Cyprus, and Bali. Expert guidance for property investment, Turkish citizenship programs, and luxury overseas homes. Your international investment future starts here."} keywords="real estate Turkey, property investment Dubai, Cyprus properties, Turkish citizenship, Antalya real estate, luxury homes Turkey, overseas property investment, international real estate, property for sale Turkey, investment opportunities" canonicalUrl={currentCanonicalUrl} structuredData={[homePageStructuredData, faqStructuredData]} />
+      <SEOHead title={pageTitle || "Future Homes International | Buy Property in Turkey, Dubai, Cyprus & Bali"} description={metaDescription || "Expert guidance for international real estate investment. Premium properties in Turkey, Dubai, Cyprus & Bali. Turkish citizenship programs, luxury apartments & villas. Your trusted global property partner."} keywords="buy property Turkey, real estate investment Dubai, Cyprus properties for sale, Bali luxury villas, Turkish citizenship investment, Antalya apartments, international property, overseas real estate, Future Homes" canonicalUrl={currentCanonicalUrl} structuredData={[homePageStructuredData, faqStructuredData]} />
       <OrganizationSchema />
       <Navigation />
 

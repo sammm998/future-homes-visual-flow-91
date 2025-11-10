@@ -241,9 +241,9 @@ const DubaiPropertySearch = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Dubai Properties Investment | Future Homes UAE"
-        description="Premium Dubai real estate with guaranteed returns. Luxury apartments & villas with world-class amenities. Expert investment guidance."
-        keywords="Dubai properties, Dubai real estate, property investment Dubai, luxury apartments Dubai, villas Dubai"
+        title="Buy Property in Dubai UAE | Luxury Real Estate Investment | Future Homes"
+        description="Premium Dubai real estate with guaranteed ROI. Luxury apartments, penthouses & villas with world-class amenities. Expert property investment guidance in UAE."
+        keywords="buy property Dubai, Dubai real estate investment, luxury apartments Dubai, Dubai properties for sale, UAE property investment, Dubai villas, property Dubai Marina, Downtown Dubai homes"
         canonicalUrl="https://futurehomesinternational.com/dubai"
       />
       <Navigation />

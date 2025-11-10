@@ -8,21 +8,21 @@ const OrganizationSchema: React.FC<OrganizationSchemaProps> = ({ location }) => 
   const organizationData = {
     "@context": "https://schema.org",
     "@type": ["Organization", "RealEstateAgent"],
-    "name": "Future Homes Turkey",
+    "name": "Future Homes International",
     "alternateName": "Future Homes",
-    "url": "https://futurehomesturkey.com",
-    "logo": "https://futurehomesturkey.com/logo.png",
-    "description": "Premier international real estate agency specializing in luxury properties across Turkey, UAE, Cyprus, and Bali. Expert guidance for property investment and citizenship programs.",
+    "url": "https://futurehomesinternational.com",
+    "logo": "https://futurehomesinternational.com/favicon-512x512.png",
+    "description": "Leading international real estate agency specializing in premium properties across Turkey, UAE, Cyprus, and Bali. Expert guidance for property investment and citizenship programs.",
     "foundingDate": "2020",
-    "legalName": "Future Homes Turkey Real Estate",
+    "legalName": "Future Homes International Real Estate",
     "telephone": "+90-242-000-0000",
-    "email": "info@futurehomesturkey.com",
+    "email": "info@futurehomesinternational.com",
     "contactPoint": [
       {
         "@type": "ContactPoint",
         "telephone": "+90-242-000-0000",
         "contactType": "customer service",
-        "email": "info@futurehomesturkey.com",
+        "email": "info@futurehomesinternational.com",
         "availableLanguage": ["English", "Turkish", "Arabic", "Russian", "German"],
         "areaServed": ["TR", "AE", "CY", "ID", "GB", "DE", "RU"]
       },
@@ -30,7 +30,7 @@ const OrganizationSchema: React.FC<OrganizationSchemaProps> = ({ location }) => 
         "@type": "ContactPoint",
         "telephone": "+971-4-000-0000",
         "contactType": "sales",
-        "email": "dubai@futurehomesturkey.com",
+        "email": "dubai@futurehomesinternational.com",
         "availableLanguage": ["English", "Arabic"],
         "areaServed": ["AE", "SA", "QA", "KW"]
       }

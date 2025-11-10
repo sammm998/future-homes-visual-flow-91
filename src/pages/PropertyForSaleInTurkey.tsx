@@ -103,10 +103,10 @@ const PropertyForSaleInTurkey = () => {
   return (
     <div className="min-h-screen bg-background">
       <EnhancedSEOHead
-        title="Property for Sale in Turkey | Future Homes Turkey"
-        description="Discover premium properties for sale in Turkey. Luxury villas, apartments & investment opportunities in Antalya, Alanya, Mersin. Expert guidance included."
-        keywords={['Property for sale in Turkey', 'Real estate in Turkey', 'Buy property in Turkey', 'Houses for sale in Turkey', 'Investment property in Turkey']}
-        canonical="https://futurehomesturkey.com/property-for-sale-in-turkey"
+        title="Property for Sale in Turkey | Buy Turkish Real Estate | Future Homes International"
+        description="Buy property in Turkey with expert guidance. Premium villas, apartments & investment opportunities in Antalya, Alanya, Mersin. Turkish citizenship available through $400k+ investment."
+        keywords={['property for sale Turkey', 'buy property in Turkey', 'Turkish real estate', 'houses for sale Turkey', 'investment property Turkey', 'Turkey citizenship property', 'Antalya property', 'Turkish apartments']}
+        canonical="https://futurehomesinternational.com/property-for-sale-in-turkey"
         structuredData={structuredData}
       />
       

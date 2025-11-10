@@ -203,9 +203,9 @@ const CyprusPropertySearch = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Cyprus Real Estate - EU Citizenship Through Property Investment | Future Homes"
-        description="Discover Cyprus properties with EU citizenship benefits. Luxury homes, apartments & villas. Cyprus citizenship by investment programs. Expert guidance for European property investment."
-        keywords="Cyprus real estate, EU citizenship by investment, Cyprus property for sale, European property investment, Cyprus citizenship program, luxury homes Cyprus, property investment Europe, Cyprus Golden Visa"
+        title="Cyprus Property for Sale | EU Citizenship by Investment | Future Homes"
+        description="Buy property in Cyprus and gain EU citizenship. Luxury homes, apartments & villas with citizenship program benefits. Expert guidance for European property investment & Cyprus Golden Visa."
+        keywords="Cyprus property for sale, EU citizenship by investment, buy property Cyprus, Cyprus citizenship program, European property investment, Cyprus Golden Visa, luxury homes Cyprus, Cyprus real estate EU passport"
         canonicalUrl="https://futurehomesinternational.com/cyprus"
       />
       <Navigation />
