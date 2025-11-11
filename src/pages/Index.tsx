@@ -27,7 +27,6 @@ import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import AIPropertyAssistant from "@/components/AIPropertyAssistant";
 import aliKaranImage from "@/assets/ali-karan-founder.png";
-import DestinationSlides from "@/components/DestinationSlides";
 
 const Index = () => {
   const {
@@ -203,13 +202,10 @@ const Index = () => {
         </div>
       )}
       
-      {/* Hero Section - Database content with fallback */}
+      {/* Hero Section with Integrated Destination Slides */}
       <div className="w-full">
-        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png" title={heroTitle || "Future Homes"} subtitle="Your Future Real Estate Partner" />
+        <Hero title={heroTitle || "Future Homes"} subtitle="Your Future Real Estate Partner" />
       </div>
-      
-      {/* Destination Slides */}
-      <DestinationSlides />
       
       {/* Before & After Feature */}
       <div className="w-full">
