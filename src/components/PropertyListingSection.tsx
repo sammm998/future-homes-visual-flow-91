@@ -16,13 +16,39 @@ const PropertyListingSection = () => {
 
   // Filter properties by main location category
   const filteredProperties = useMemo(() => {
-    if (selectedLocation === 'all') {
-      return properties;
-    }
-    return properties.filter(property => {
-      const location = property.location?.toLowerCase() || '';
-      const selectedLower = selectedLocation.toLowerCase();
-      return location.includes(selectedLower);
+    let filtered = selectedLocation === 'all' 
+      ? properties 
+      : properties.filter(property => {
+          const location = property.location?.toLowerCase() || '';
+          const selectedLower = selectedLocation.toLowerCase();
+          return location.includes(selectedLower);
+        });
+
+    // Sort by price: mid-range first (1400-5000), then high prices, then low prices
+    return filtered.sort((a, b) => {
+      const parsePrice = (price: string) => {
+        const numStr = price.replace(/[^\d]/g, '');
+        return parseInt(numStr) || 0;
+      };
+
+      const priceA = parsePrice(a.price || '0');
+      const priceB = parsePrice(b.price || '0');
+
+      const getMidRangePriority = (price: number) => {
+        if (price >= 1400 && price <= 5000) return 1; // Mid-range first
+        if (price > 5000) return 2; // High prices second
+        return 3; // Low prices last
+      };
+
+      const priorityA = getMidRangePriority(priceA);
+      const priorityB = getMidRangePriority(priceB);
+
+      if (priorityA !== priorityB) {
+        return priorityA - priorityB;
+      }
+
+      // Within same priority group, sort ascending
+      return priceA - priceB;
     });
   }, [properties, selectedLocation]);
 
