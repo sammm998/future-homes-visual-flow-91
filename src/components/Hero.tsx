@@ -170,7 +170,7 @@ const Hero: React.FC<HeroProps> = ({
   }, []);
 
   return (
-    <div className="w-full min-h-screen relative overflow-hidden">
+    <div className="w-full min-h-screen relative overflow-hidden -mt-20 pt-20">
       {/* Static background as fallback */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
       
