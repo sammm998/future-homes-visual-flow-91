@@ -11,23 +11,19 @@ const PropertyListingSection = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  // Extract unique locations from properties
-  const locations = useMemo(() => {
-    const uniqueLocations = new Set<string>();
-    properties.forEach(property => {
-      if (property.location) {
-        uniqueLocations.add(property.location);
-      }
-    });
-    return ['all', ...Array.from(uniqueLocations)];
-  }, [properties]);
+  // Main location categories
+  const locations = ['all', 'Antalya', 'Mersin', 'Dubai', 'Cyprus', 'Bali'];
 
-  // Filter properties by location
+  // Filter properties by main location category
   const filteredProperties = useMemo(() => {
     if (selectedLocation === 'all') {
       return properties;
     }
-    return properties.filter(property => property.location === selectedLocation);
+    return properties.filter(property => {
+      const location = property.location?.toLowerCase() || '';
+      const selectedLower = selectedLocation.toLowerCase();
+      return location.includes(selectedLower);
+    });
   }, [properties, selectedLocation]);
 
   // Pagination logic
