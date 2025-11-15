@@ -9,47 +9,92 @@ const PropertyListingSection = () => {
   const { properties, loading } = useProperties();
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 4;
 
   // Main location categories
   const locations = ['all', 'Antalya', 'Mersin', 'Dubai', 'Cyprus', 'Bali'];
 
   // Filter properties by main location category
   const filteredProperties = useMemo(() => {
-    let filtered = selectedLocation === 'all' 
-      ? properties 
-      : properties.filter(property => {
-          const location = property.location?.toLowerCase() || '';
-          const selectedLower = selectedLocation.toLowerCase();
-          return location.includes(selectedLower);
-        });
-
-    // Sort by price: mid-range first (1400-5000), then high prices, then low prices
-    return filtered.sort((a, b) => {
-      const parsePrice = (price: string) => {
-        const numStr = price.replace(/[^\d]/g, '');
-        return parseInt(numStr) || 0;
+    let filtered = [];
+    
+    if (selectedLocation === 'all') {
+      // Get one property from each location for a mix
+      const locationGroups = {
+        Antalya: properties.filter(p => p.location?.toLowerCase().includes('antalya')),
+        Mersin: properties.filter(p => p.location?.toLowerCase().includes('mersin')),
+        Dubai: properties.filter(p => p.location?.toLowerCase().includes('dubai')),
+        Cyprus: properties.filter(p => p.location?.toLowerCase().includes('cyprus')),
       };
 
-      const priceA = parsePrice(a.price || '0');
-      const priceB = parsePrice(b.price || '0');
+      // Get one from each location (prioritizing mid-range prices)
+      Object.values(locationGroups).forEach(group => {
+        if (group.length > 0) {
+          // Sort group by price priority and take the first one
+          const sorted = group.sort((a, b) => {
+            const parsePrice = (price: string) => {
+              const numStr = price.replace(/[^\d]/g, '');
+              return parseInt(numStr) || 0;
+            };
 
-      const getMidRangePriority = (price: number) => {
-        if (price >= 1400 && price <= 5000) return 1; // Mid-range first
-        if (price > 5000) return 2; // High prices second
-        return 3; // Low prices last
-      };
+            const priceA = parsePrice(a.price || '0');
+            const priceB = parsePrice(b.price || '0');
 
-      const priorityA = getMidRangePriority(priceA);
-      const priorityB = getMidRangePriority(priceB);
+            const getMidRangePriority = (price: number) => {
+              if (price >= 1400 && price <= 5000) return 1;
+              if (price > 5000) return 2;
+              return 3;
+            };
 
-      if (priorityA !== priorityB) {
-        return priorityA - priorityB;
-      }
+            const priorityA = getMidRangePriority(priceA);
+            const priorityB = getMidRangePriority(priceB);
 
-      // Within same priority group, sort ascending
-      return priceA - priceB;
-    });
+            if (priorityA !== priorityB) {
+              return priorityA - priorityB;
+            }
+
+            return priceA - priceB;
+          });
+          
+          filtered.push(sorted[0]);
+        }
+      });
+    } else {
+      // Filter by selected location
+      filtered = properties.filter(property => {
+        const location = property.location?.toLowerCase() || '';
+        const selectedLower = selectedLocation.toLowerCase();
+        return location.includes(selectedLower);
+      });
+
+      // Sort by price: mid-range first (1400-5000), then high prices, then low prices
+      filtered = filtered.sort((a, b) => {
+        const parsePrice = (price: string) => {
+          const numStr = price.replace(/[^\d]/g, '');
+          return parseInt(numStr) || 0;
+        };
+
+        const priceA = parsePrice(a.price || '0');
+        const priceB = parsePrice(b.price || '0');
+
+        const getMidRangePriority = (price: number) => {
+          if (price >= 1400 && price <= 5000) return 1;
+          if (price > 5000) return 2;
+          return 3;
+        };
+
+        const priorityA = getMidRangePriority(priceA);
+        const priorityB = getMidRangePriority(priceB);
+
+        if (priorityA !== priorityB) {
+          return priorityA - priorityB;
+        }
+
+        return priceA - priceB;
+      });
+    }
+
+    return filtered;
   }, [properties, selectedLocation]);
 
   // Pagination logic

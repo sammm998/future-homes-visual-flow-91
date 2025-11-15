@@ -727,7 +727,7 @@ export type Database = {
           created_at: string
           id: string
           insertion_rate_check: boolean | null
-          ip_address: unknown | null
+          ip_address: unknown
           property_id: string | null
           source_info: Json | null
           user_agent: string | null
@@ -737,7 +737,7 @@ export type Database = {
           created_at?: string
           id?: string
           insertion_rate_check?: boolean | null
-          ip_address?: unknown | null
+          ip_address?: unknown
           property_id?: string | null
           source_info?: Json | null
           user_agent?: string | null
@@ -747,7 +747,7 @@ export type Database = {
           created_at?: string
           id?: string
           insertion_rate_check?: boolean | null
-          ip_address?: unknown | null
+          ip_address?: unknown
           property_id?: string | null
           source_info?: Json | null
           user_agent?: string | null
@@ -776,42 +776,6 @@ export type Database = {
           page_url?: string
           scan_type?: string
           texts_found?: number
-        }
-        Relationships: []
-      }
-      scraped_content: {
-        Row: {
-          content_type: string | null
-          created_at: string
-          html_content: string
-          id: string
-          is_active: boolean | null
-          processed_html_content: string | null
-          scraped_at: string
-          title: string | null
-          url: string
-        }
-        Insert: {
-          content_type?: string | null
-          created_at?: string
-          html_content: string
-          id?: string
-          is_active?: boolean | null
-          processed_html_content?: string | null
-          scraped_at?: string
-          title?: string | null
-          url: string
-        }
-        Update: {
-          content_type?: string | null
-          created_at?: string
-          html_content?: string
-          id?: string
-          is_active?: boolean | null
-          processed_html_content?: string | null
-          scraped_at?: string
-          title?: string | null
-          url?: string
         }
         Relationships: []
       }
@@ -1173,7 +1137,7 @@ export type Database = {
       property_insertion_monitoring: {
         Row: {
           created_at: string | null
-          ip_address: unknown | null
+          ip_address: unknown
           is_active: boolean | null
           location: string | null
           ref_no: string | null
@@ -1221,22 +1185,13 @@ export type Database = {
       }
     }
     Functions: {
-      ensure_current_user_is_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      ensure_current_user_is_admin: { Args: never; Returns: string }
       generate_property_slug: {
         Args: { id_param: string; title_param: string }
         Returns: string
       }
-      get_complete_schema: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
-      get_current_user_admin_status: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      get_complete_schema: { Args: never; Returns: Json }
+      get_current_user_admin_status: { Args: never; Returns: boolean }
       get_min_apartment_price: {
         Args: { apartment_types_json: Json }
         Returns: string
@@ -1252,10 +1207,7 @@ export type Database = {
         }
         Returns: boolean
       }
-      is_admin: {
-        Args: { user_id?: string }
-        Returns: boolean
-      }
+      is_admin: { Args: { user_id?: string }; Returns: boolean }
       normalize_price_to_eur: {
         Args: { price_string: string }
         Returns: string
