@@ -90,7 +90,7 @@ const Index = () => {
     "@context": "https://schema.org",
     "@type": ["WebSite", "RealEstateAgent", "Organization"],
     "name": "Future Homes International",
-    "alternateName": "Future Homes Turkey Real Estate",
+    "alternateName": "Future Homes International Real Estate",
     "url": "https://futurehomesinternational.com",
     "logo": "https://futurehomesinternational.com/favicon-512x512.png",
     "description": "Leading international real estate agency specializing in premium properties across Turkey, UAE, Cyprus, and Bali. Expert guidance for property investment, citizenship programs, and luxury overseas real estate.",

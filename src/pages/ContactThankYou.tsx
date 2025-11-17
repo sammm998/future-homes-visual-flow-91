@@ -13,7 +13,7 @@ const ContactThankYou = () => {
       <Navigation />
       <ThankYouContent
         title="Thank You for Reaching Out!"
-        description="We've received your message and appreciate you contacting Future Homes Turkey. Our team will review your inquiry and get back to you as soon as possible."
+        description="We've received your message and appreciate you contacting Future Homes International. Our team will review your inquiry and get back to you as soon as possible."
       />
     </div>
   );

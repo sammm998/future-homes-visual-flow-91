@@ -123,11 +123,11 @@ const ExpensesBuyingPropertyTurkey = () => {
     "description": "Comprehensive guide to property purchase costs in Turkey. Learn about taxes, fees, legal costs, and ongoing expenses when buying Turkish real estate.",
     "author": {
       "@type": "Organization",
-      "name": "Future Homes Turkey"
+      "name": "Future Homes International"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Future Homes Turkey",
+      "name": "Future Homes International",
       "logo": {
         "@type": "ImageObject",
         "url": "https://futurehomesturkey.com/images/future-homes-logo.png"

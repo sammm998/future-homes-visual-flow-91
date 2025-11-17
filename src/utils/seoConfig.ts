@@ -41,7 +41,7 @@ export const getLanguageFromUrl = (): string => {
 export const seoPages: Record<string, Record<string, SEOConfig>> = {
   'property-for-sale-in-turkey': {
     en: {
-      title: 'Property for Sale in Turkey | Future Homes Turkey',
+      title: 'Property for Sale in Turkey | Future Homes International',
       description: 'Discover premium properties for sale in Turkey. Luxury villas, apartments & investment opportunities in Antalya, Alanya, Mersin. Expert guidance included.',
       keywords: ['Property for sale in Turkey', 'Real estate in Turkey', 'Buy property in Turkey', 'Houses for sale in Turkey', 'Investment property in Turkey'],
       h1: 'Property for Sale in Turkey',
