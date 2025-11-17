@@ -65,7 +65,7 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Future Homes Turkey",
+    "name": "Future Homes International",
     "url": baseUrl,
     "potentialAction": {
       "@type": "SearchAction",
@@ -77,7 +77,7 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
-    "name": "Future Homes Turkey",
+    "name": "Future Homes International",
     "url": baseUrl,
     "logo": `${baseUrl}/images/future-homes-logo.png`,
     "email": "info@futurehomesturkey.com",
@@ -117,7 +117,7 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
       <meta property="og:image" content={ogImage || defaultImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:site_name" content="Future Homes Turkey" />
+      <meta property="og:site_name" content="Future Homes International" />
       <meta property="og:locale" content={currentLanguage === 'en' ? 'en_US' : `${currentLanguage}_${currentLanguage.toUpperCase()}`} />
       
       {/* Article-specific Open Graph */}
