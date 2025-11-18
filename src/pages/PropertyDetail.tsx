@@ -175,7 +175,7 @@ const getPropertyData = async (id: string) => {
         distanceToBeach: dbProperty.distance_to_beach_km ? `${dbProperty.distance_to_beach_km} km` : undefined,
         agent: "Isra Adala",
         contactPhone: "+905523032750",
-        contactEmail: "info@futurehomesturkey.com"
+        contactEmail: "info@futurehomesinternational.com"
       };
     }
   } catch (error) {
@@ -606,8 +606,8 @@ const PropertyDetail = () => {
                     
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
                       <Mail className="h-4 w-4 text-green-600" />
-                      <a href={`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
-                        {property?.contactEmail || "info@futurehomesturkey.com"}
+                      <a href={`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
+                        {property?.contactEmail || "info@futurehomesinternational.com"}
                       </a>
                     </div>
                   </div>
@@ -617,7 +617,7 @@ const PropertyDetail = () => {
                       <Phone className="h-4 w-4 mr-2" />
                       Call Now
                     </Button>
-                    <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
+                    <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
                       <Mail className="h-4 w-4 mr-2" />
                       Send Message
                     </Button>
@@ -642,8 +642,8 @@ const PropertyDetail = () => {
                     </div>
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
                       <Mail className="h-4 w-4 text-green-600" />
-                      <a href={`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
-                        {property?.contactEmail || "info@futurehomesturkey.com"}
+                      <a href={`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
+                        {property?.contactEmail || "info@futurehomesinternational.com"}
                       </a>
                     </div>
                   </div>
@@ -653,7 +653,7 @@ const PropertyDetail = () => {
                       <Phone className="h-4 w-4 mr-2" />
                       Call Now
                     </Button>
-                    <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
+                    <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
                       <Mail className="h-4 w-4 mr-2" />
                       Send Message
                     </Button>
