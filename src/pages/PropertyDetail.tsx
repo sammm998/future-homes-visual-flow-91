@@ -394,8 +394,14 @@ const PropertyDetail = () => {
       <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
         {/* Back Button */}
         <Button variant="ghost" onClick={() => {
-        const locationRoute = getLocationRoute(property?.location || '');
-        navigate(locationRoute);
+        // Use returnUrl from state if available, otherwise fallback to location route
+        const returnUrl = location.state?.returnUrl;
+        if (returnUrl) {
+          navigate(returnUrl);
+        } else {
+          const locationRoute = getLocationRoute(property?.location || '');
+          navigate(locationRoute);
+        }
       }} className="mb-8">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Properties

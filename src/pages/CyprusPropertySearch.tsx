@@ -184,9 +184,13 @@ const CyprusPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    // Navigate to the property detail page using the UUID
+    // Save current URL with all search params for back navigation
+    const currentUrl = `${location.pathname}${location.search}`;
     navigate(`/property/${property.id}`, { 
-      state: { from: '/cyprus' } 
+      state: { 
+        from: '/cyprus',
+        returnUrl: currentUrl
+      } 
     });
   };
 
