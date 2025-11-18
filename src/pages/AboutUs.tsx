@@ -60,7 +60,7 @@ const AboutUs = () => {
   }];
   const languages = ["Norwegian", "Swedish", "English", "Russian", "French", "Arabic", "Farsi", "German", "Urdu"];
   const stats = [{
-    number: "500+",
+    number: "1000+",
     label: "Happy Clients"
   }, {
     number: "1000+",
