@@ -258,7 +258,7 @@ const AboutUs = () => {
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-500/20 to-blue-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Building className="w-10 h-10 text-blue-500" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-center">Turkey Office</h3>
+                <h3 className="text-2xl font-bold mb-4 text-center">Antalya Office</h3>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <MapPin className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
