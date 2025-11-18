@@ -14,7 +14,6 @@ import { formatPriceFromString } from '@/utils/priceFormatting';
 import ervinaImage from '@/assets/ervina-koksel.png';
 // Using Isra Adala's image
 const israImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/xwui0x0wkwm.png';
-
 import { supabase } from '@/integrations/supabase/client';
 import { OptimizedPropertyImage } from '@/components/OptimizedPropertyImage';
 import { t } from '@/utils/translations';
@@ -23,14 +22,14 @@ import { useSearchParams } from 'react-router-dom';
 // Function to map property location to route
 const getLocationRoute = (location: string | undefined | null): string => {
   if (!location || typeof location !== 'string') return '/antalya'; // Default fallback
-  
+
   const locationLower = location.toLowerCase();
   if (locationLower.includes('dubai')) return '/dubai';
   if (locationLower.includes('antalya')) return '/antalya';
   if (locationLower.includes('cyprus')) return '/cyprus';
   if (locationLower.includes('mersin')) return '/mersin';
   if (locationLower.includes('bali')) return '/bali';
-  
+
   // Default to Antalya for unknown locations
   return '/antalya';
 };
@@ -38,71 +37,67 @@ const getLocationRoute = (location: string | undefined | null): string => {
 // Agent data with images
 const getAgentData = (agentName: string) => {
   const agents: Record<string, any> = {
-     "Ervina Köksel": {
-       name: "Ervina Köksel",
-       image: ervinaImage,
-       title: "Sales Office Supervisor",
-       experience: "Experienced sales representative",
-       specialties: ["Property Sales", "Customer Service", "Office Management"]
-     },
-     "Isra Adala": {
-        name: "Isra Adala",
-        image: israImage,
-        title: "Sales Representative",
-        experience: "Expert in real estate investment and property management",
-        specialties: ["Property Investment", "Customer Relations", "International Sales"]
-      },
-     "Dubai Properties Team": {
-        name: "Dubai Properties Team",
-        image: israImage, // Using Isra's image as placeholder for team
-        title: "Sales Representative",
-        experience: "Expert team specializing in international property sales",
-         specialties: ["International Sales", "Property Investment", "Customer Relations"]
-       }
-   };
-   return agents[agentName] || {
+    "Ervina Köksel": {
+      name: "Ervina Köksel",
+      image: ervinaImage,
+      title: "Sales Office Supervisor",
+      experience: "Experienced sales representative",
+      specialties: ["Property Sales", "Customer Service", "Office Management"]
+    },
+    "Isra Adala": {
       name: "Isra Adala",
       image: israImage,
-      title: "Sales Representative", 
+      title: "Sales Representative",
       experience: "Expert in real estate investment and property management",
       specialties: ["Property Investment", "Customer Relations", "International Sales"]
-    };
+    },
+    "Dubai Properties Team": {
+      name: "Dubai Properties Team",
+      image: israImage,
+      // Using Isra's image as placeholder for team
+      title: "Sales Representative",
+      experience: "Expert team specializing in international property sales",
+      specialties: ["International Sales", "Property Investment", "Customer Relations"]
+    }
+  };
+  return agents[agentName] || {
+    name: "Isra Adala",
+    image: israImage,
+    title: "Sales Representative",
+    experience: "Expert in real estate investment and property management",
+    specialties: ["Property Investment", "Customer Relations", "International Sales"]
+  };
 };
 
 // Get property data - database only approach
 const getPropertyData = async (id: string) => {
   console.log('getPropertyData: Looking for property with ID:', id);
-  
+
   // Try database lookup - this is now the only source
   try {
     // Try to find by ref_no first
-    let { data: dbProperty, error } = await supabase
-      .from('properties')
-      .select('*')
-      .eq('ref_no', id)
-      .eq('is_active', true)
-      .limit(1)
-      .maybeSingle();
-
-    console.log('getPropertyData: Database lookup by ref_no result:', { dbProperty, error });
+    let {
+      data: dbProperty,
+      error
+    } = await supabase.from('properties').select('*').eq('ref_no', id).eq('is_active', true).limit(1).maybeSingle();
+    console.log('getPropertyData: Database lookup by ref_no result:', {
+      dbProperty,
+      error
+    });
 
     // If not found by ref_no, try by id (for UUID format)
     if (!dbProperty && !error) {
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       if (uuidRegex.test(id)) {
-        const result = await supabase
-          .from('properties')
-          .select('*')
-          .eq('id', id)
-          .eq('is_active', true)
-          .maybeSingle();
-        
+        const result = await supabase.from('properties').select('*').eq('id', id).eq('is_active', true).maybeSingle();
         dbProperty = result.data;
         error = result.error;
-        console.log('getPropertyData: Database lookup by UUID result:', { dbProperty, error });
+        console.log('getPropertyData: Database lookup by UUID result:', {
+          dbProperty,
+          error
+        });
       }
     }
-
     if (!error && dbProperty) {
       console.log('getPropertyData: Found property in database:', dbProperty.title);
       // Parse the facilities array and convert to clean format
@@ -112,7 +107,7 @@ const getPropertyData = async (id: string) => {
       } else if (typeof dbProperty.facilities === 'string') {
         facilities = dbProperty.facilities.split(',').map(f => f.trim());
       }
-      
+
       // Clean up facilities - remove duplicates and empty values
       facilities = [...new Set(facilities.filter(f => f && f.trim()))];
 
@@ -127,14 +122,11 @@ const getPropertyData = async (id: string) => {
 
       // Parse pricing from apartment_types (prioritized) or property_prices_by_room (fallback)
       let pricing: any[] = [];
-      
+
       // First try apartment_types if available
       if (dbProperty.apartment_types) {
         try {
-          const apartmentTypes = typeof dbProperty.apartment_types === 'string' 
-            ? JSON.parse(dbProperty.apartment_types)
-            : dbProperty.apartment_types;
-          
+          const apartmentTypes = typeof dbProperty.apartment_types === 'string' ? JSON.parse(dbProperty.apartment_types) : dbProperty.apartment_types;
           if (Array.isArray(apartmentTypes) && apartmentTypes.length > 0) {
             pricing = apartmentTypes.map((apt: any) => ({
               type: apt.type ? `${apt.type} Apartment` : 'Apartment',
@@ -146,7 +138,7 @@ const getPropertyData = async (id: string) => {
           console.warn('Failed to parse apartment_types:', error);
         }
       }
-      
+
       // Fallback to property_prices_by_room if no apartment_types
       if (pricing.length === 0 && dbProperty.property_prices_by_room) {
         const priceText = dbProperty.property_prices_by_room;
@@ -163,7 +155,6 @@ const getPropertyData = async (id: string) => {
           return null;
         }).filter(Boolean);
       }
-
       return {
         id: dbProperty.ref_no,
         title: dbProperty.title,
@@ -195,18 +186,24 @@ const getPropertyData = async (id: string) => {
   console.log('getPropertyData: Property not found in database for ID:', id);
   return null;
 };
-
 const PropertyDetail = () => {
-  const { id } = useParams();
+  const {
+    id
+  } = useParams();
   const [searchParams] = useSearchParams();
   const language = searchParams.get('lang') || 'en';
   const navigate = useNavigate();
   const location = useLocation();
-  const { formatPrice } = useCurrency();
-  
+  const {
+    formatPrice
+  } = useCurrency();
+
   // Use the database-focused useProperty hook for all lookups
-  const { property, loading, error } = useProperty(id || '');
-  
+  const {
+    property,
+    loading,
+    error
+  } = useProperty(id || '');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
 
@@ -226,8 +223,7 @@ const PropertyDetail = () => {
 
   // Optimized loading state with skeleton
   if (loading) {
-    return (
-      <div className="min-h-screen bg-background">
+    return <div className="min-h-screen bg-background">
         <Navigation />
         <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
           {/* Skeleton loader for faster perceived performance */}
@@ -248,14 +244,12 @@ const PropertyDetail = () => {
             </div>
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
 
   // Show error state
   if (error) {
-    return (
-      <div className="min-h-screen bg-background">
+    return <div className="min-h-screen bg-background">
         <Navigation />
         <div className="container mx-auto px-4 pt-32">
           <div className="text-center py-20">
@@ -271,21 +265,12 @@ const PropertyDetail = () => {
               </div>
               
               <div className="space-y-4">
-                <Button 
-                  onClick={() => navigate(-1)} 
-                  variant="outline" 
-                  className="w-full"
-                  size="lg"
-                >
+                <Button onClick={() => navigate(-1)} variant="outline" className="w-full" size="lg">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Go Back
                 </Button>
                 
-                <Button 
-                  onClick={() => navigate('/')} 
-                  className="w-full"
-                  size="lg"
-                >
+                <Button onClick={() => navigate('/')} className="w-full" size="lg">
                   <Home className="h-4 w-4 mr-2" />
                   Go Home
                 </Button>
@@ -299,14 +284,12 @@ const PropertyDetail = () => {
             </div>
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
 
   // Show property not found if no property data
   if (!property) {
-    return (
-      <div className="min-h-screen bg-background">
+    return <div className="min-h-screen bg-background">
         <Navigation />
         <div className="container mx-auto px-4 pt-32">
           <div className="text-center py-20">
@@ -323,142 +306,97 @@ const PropertyDetail = () => {
             </Button>
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   const nextImage = () => {
     if (property.images && property.images.length > 0) {
-      setCurrentImageIndex((prev) => (prev + 1) % property.images.length);
+      setCurrentImageIndex(prev => (prev + 1) % property.images.length);
     }
   };
-
   const prevImage = () => {
     if (property.images && property.images.length > 0) {
-      setCurrentImageIndex((prev) => (prev - 1 + property.images.length) % property.images.length);
+      setCurrentImageIndex(prev => (prev - 1 + property.images.length) % property.images.length);
     }
   };
-
   const getTimelineData = () => {
     const timeline = [];
-    
     timeline.push({
       title: "Property Listed",
       content: "Property added to our portfolio with detailed specifications and pricing",
       date: "Available Now"
     });
-
     if (property.buildingComplete) {
       const completionDate = new Date(property.buildingComplete);
       const isCompleted = completionDate <= new Date();
-      
       timeline.push({
         title: isCompleted ? "Construction Completed" : "Expected Completion",
-        content: isCompleted 
-          ? "Building construction has been completed and is ready for occupancy"
-          : "Estimated completion date based on current construction progress",
-        date: completionDate.toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric' 
+        content: isCompleted ? "Building construction has been completed and is ready for occupancy" : "Estimated completion date based on current construction progress",
+        date: completionDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
         })
       });
     }
-
     timeline.push({
       title: "Ready for Purchase",
       content: "Property is available for immediate purchase with all documentation ready",
       date: "Contact Us"
     });
-
     return timeline;
   };
-
   const agent = getAgentData(property.agent);
 
   // Generate SEO metadata
   const propertyTitle = `${property.title} - ${property.location || 'Property'} | Future Homes`;
   const propertyDescription = `${property.title} in ${property.location || 'Turkey'}. ${property.bedrooms || 'N/A'} bedrooms, ${property.bathrooms || 'N/A'} bathrooms, ${property.area || 'N/A'} area. Price: ${property.price}. ${property.description?.substring(0, 100) || ''}...`;
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <SEOHead
-        title={propertyTitle}
-        description={propertyDescription}
-        keywords={propertyKeywords}
-        canonicalUrl={`https://futurehomesinternational.com/property/${property.refNo || property.id}`}
-        ogImage={property.images?.[0] || property.image}
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "Product",
-          "name": property.title,
-          "description": property.description,
-          "image": property.images || [property.image],
-          "offers": {
-            "@type": "Offer",
-            "price": property.price?.replace(/[^0-9.]/g, ''),
-            "priceCurrency": "EUR",
-            "availability": "https://schema.org/InStock"
-          }
-        }}
-      />
+  return <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      <SEOHead title={propertyTitle} description={propertyDescription} keywords={propertyKeywords} canonicalUrl={`https://futurehomesinternational.com/property/${property.refNo || property.id}`} ogImage={property.images?.[0] || property.image} structuredData={{
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": property.title,
+      "description": property.description,
+      "image": property.images || [property.image],
+      "offers": {
+        "@type": "Offer",
+        "price": property.price?.replace(/[^0-9.]/g, ''),
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock"
+      }
+    }} />
       <Navigation />
       
       {/* Image Modal */}
-      {showImageModal && property.images && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setShowImageModal(false)}>
-          <div className="relative max-w-6xl max-h-full" onClick={(e) => e.stopPropagation()}>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowImageModal(false)}
-              className="absolute -top-4 -right-4 text-white hover:bg-white/20 bg-black/50 rounded-full z-50"
-            >
+      {showImageModal && property.images && <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setShowImageModal(false)}>
+          <div className="relative max-w-6xl max-h-full" onClick={e => e.stopPropagation()}>
+            <Button variant="ghost" size="icon" onClick={() => setShowImageModal(false)} className="absolute -top-4 -right-4 text-white hover:bg-white/20 bg-black/50 rounded-full z-50">
               <X className="h-6 w-6" />
             </Button>
             
-            <OptimizedPropertyImage
-              src={property.images[currentImageIndex] || property.image || "/placeholder.svg"}
-              alt={`Property view ${currentImageIndex + 1}`}
-              className="max-h-[95vh] max-w-full object-contain rounded-lg"
-              priority={true}
-            />
+            <OptimizedPropertyImage src={property.images[currentImageIndex] || property.image || "/placeholder.svg"} alt={`Property view ${currentImageIndex + 1}`} className="max-h-[95vh] max-w-full object-contain rounded-lg" priority={true} />
             
-            {property.images.length > 1 && (
-              <>
-                <button
-                  onClick={prevImage}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-all"
-                >
+            {property.images.length > 1 && <>
+                <button onClick={prevImage} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-all">
                   <ChevronLeft className="h-6 w-6" />
                 </button>
-                <button
-                  onClick={nextImage}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-all"
-                >
+                <button onClick={nextImage} className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-all">
                   <ChevronRight className="h-6 w-6" />
                 </button>
-              </>
-            )}
+              </>}
             
             <div className="text-white text-center mt-4">
               {currentImageIndex + 1} / {property.images.length}
             </div>
           </div>
-        </div>
-      )}
+        </div>}
 
       <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
         {/* Back Button */}
-        <Button
-          variant="ghost"
-          onClick={() => {
-            const locationRoute = getLocationRoute(property?.location || '');
-            navigate(locationRoute);
-          }}
-          className="mb-8"
-        >
+        <Button variant="ghost" onClick={() => {
+        const locationRoute = getLocationRoute(property?.location || '');
+        navigate(locationRoute);
+      }} className="mb-8">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Properties
         </Button>
@@ -491,70 +429,35 @@ const PropertyDetail = () => {
               <h2 className="text-2xl font-semibold">Gallery</h2>
               <div className="space-y-4">
                 {/* Main Image */}
-                <div 
-                  className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer group"
-                  onClick={() => setShowImageModal(true)}
-                >
-                  <OptimizedPropertyImage
-                    src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"}
-                    alt={property.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    priority={true}
-                  />
+                <div className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer group" onClick={() => setShowImageModal(true)}>
+                  <OptimizedPropertyImage src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"} alt={property.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" priority={true} />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                     <Images className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   
                   {/* Navigation Arrows on Main Image */}
-                  {property.images && property.images.length > 1 && (
-                    <>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          prevImage();
-                        }}
-                      >
+                  {property.images && property.images.length > 1 && <>
+                      <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
+                    e.stopPropagation();
+                    prevImage();
+                  }}>
                         <ChevronLeft className="w-6 h-6" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          nextImage();
-                        }}
-                      >
+                      <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
+                    e.stopPropagation();
+                    nextImage();
+                  }}>
                         <ChevronRight className="w-6 h-6" />
                       </Button>
-                    </>
-                  )}
+                    </>}
                 </div>
                 
                 {/* Thumbnail Images */}
-                {property.images && property.images.length > 1 && (
-                  <div className="grid grid-cols-4 gap-2">
-                    {property.images.slice(0, 4).map((image: string, index: number) => (
-                      <div
-                        key={index}
-                        className={`aspect-square overflow-hidden rounded cursor-pointer border-2 transition-all ${
-                          currentImageIndex === index ? 'border-primary' : 'border-transparent hover:border-muted-foreground/50'
-                        }`}
-                        onClick={() => setCurrentImageIndex(index)}
-                      >
-                        <OptimizedPropertyImage
-                          src={image}
-                          alt={`View ${index + 1}`}
-                          className="w-full h-full object-cover"
-                          priority={false}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {property.images && property.images.length > 1 && <div className="grid grid-cols-4 gap-2">
+                    {property.images.slice(0, 4).map((image: string, index: number) => <div key={index} className={`aspect-square overflow-hidden rounded cursor-pointer border-2 transition-all ${currentImageIndex === index ? 'border-primary' : 'border-transparent hover:border-muted-foreground/50'}`} onClick={() => setCurrentImageIndex(index)}>
+                        <OptimizedPropertyImage src={image} alt={`View ${index + 1}`} className="w-full h-full object-cover" priority={false} />
+                      </div>)}
+                  </div>}
               </div>
             </div>
 
@@ -587,64 +490,52 @@ const PropertyDetail = () => {
             </div>
 
             {/* Property Description */}
-            {property.description && (
-              <div className="space-y-4">
+            {property.description && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">About This Property</h2>
                 <div className="p-6 border rounded-lg bg-gradient-to-br from-blue-50/50 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/5 border-blue-200/50 dark:border-blue-700/30">
                   <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                     {property.description}
                   </p>
                 </div>
-              </div>
-            )}
+              </div>}
 
             {/* Location Details */}
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold">Location & Nearby</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {property.distanceToAirport && (
-                  <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                {property.distanceToAirport && <div className="flex items-center space-x-3 p-4 border rounded-lg">
                     <Plane className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm text-muted-foreground">Distance to Airport</p>
                       <p className="font-semibold">{property.distanceToAirport}</p>
                     </div>
-                  </div>
-                )}
-                {property.distanceToBeach && (
-                  <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                  </div>}
+                {property.distanceToBeach && <div className="flex items-center space-x-3 p-4 border rounded-lg">
                     <Waves className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm text-muted-foreground">Distance to Beach</p>
                       <p className="font-semibold">{property.distanceToBeach}</p>
                     </div>
-                  </div>
-                )}
+                  </div>}
               </div>
             </div>
 
             {/* Features & Amenities */}
-            {property.features && property.features.length > 0 && (
-              <div className="space-y-4">
+            {property.features && property.features.length > 0 && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">Features & Amenities</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {property.features.map((feature: string, index: number) => (
-                    <div key={index} className="flex items-center space-x-2 p-3 border rounded-lg bg-gradient-to-r from-green-50/50 to-emerald-50/30 dark:from-green-900/10 dark:to-emerald-900/5 border-green-200/50 dark:border-green-700/30 hover:shadow-md transition-all duration-200">
+                  {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-2 p-3 border rounded-lg bg-gradient-to-r from-green-50/50 to-emerald-50/30 dark:from-green-900/10 dark:to-emerald-900/5 border-green-200/50 dark:border-green-700/30 hover:shadow-md transition-all duration-200">
                       <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
                       <span className="text-foreground font-medium">{feature}</span>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
-              </div>
-            )}
+              </div>}
 
             {/* Pricing Details */}
-            {property.pricing && property.pricing.length > 0 && (
-              <div className="space-y-4">
+            {property.pricing && property.pricing.length > 0 && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">Available Units & Pricing</h2>
                 <div className="space-y-3">
-                  {property.pricing.map((unit: any, index: number) => (
-                    <div key={index} className="p-4 border rounded-lg">
+                  {property.pricing.map((unit: any, index: number) => <div key={index} className="p-4 border rounded-lg">
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                         <div>
                           <h3 className="font-semibold">{unit.type}</h3>
@@ -654,11 +545,9 @@ const PropertyDetail = () => {
                           {formatPriceFromString(unit.price, formatPrice)}
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
-              </div>
-            )}
+              </div>}
 
 
             {/* Project Timeline */}
@@ -685,10 +574,7 @@ const PropertyDetail = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Completion:</span>
                   <span className="font-semibold">
-                    {property.buildingComplete 
-                      ? new Date(property.buildingComplete).getFullYear()
-                      : '2023'
-                    }
+                    {property.buildingComplete ? new Date(property.buildingComplete).getFullYear() : '2023'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -702,8 +588,7 @@ const PropertyDetail = () => {
             <div className="sticky top-8 p-6 border rounded-lg bg-gradient-to-br from-primary/5 via-card to-primary/10 backdrop-blur-sm shadow-lg">
               <h3 className="text-xl font-semibold mb-4 text-center">Contact Agent</h3>
               
-              {agent ? (
-                <div className="space-y-4">
+              {agent ? <div className="space-y-4">
                   <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-white/50 to-primary/5 rounded-xl border border-primary/20">
                     <Avatar className="h-14 w-14 ring-2 ring-primary/30">
                       <AvatarImage src={agent.image} />
@@ -718,12 +603,7 @@ const PropertyDetail = () => {
                   </div>
 
                   <div className="space-y-3">
-                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-blue-200/50 dark:border-blue-700/30">
-                      <Phone className="h-4 w-4 text-blue-600" />
-                      <a href={`tel:${property?.contactPhone || "+905523032750"}`} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
-                        {property?.contactPhone || "+90 552 303 27 50"}
-                      </a>
-                    </div>
+                    
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
                       <Mail className="h-4 w-4 text-green-600" />
                       <a href={`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
@@ -733,27 +613,16 @@ const PropertyDetail = () => {
                   </div>
 
                   <div className="space-y-3 pt-2">
-                    <Button 
-                      onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')}
-                      className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" 
-                      size="sm"
-                    >
+                    <Button onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
                       <Phone className="h-4 w-4 mr-2" />
                       Call Now
                     </Button>
-                    <Button 
-                      onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`, '_self')}
-                      variant="outline" 
-                      className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" 
-                      size="sm"
-                    >
+                    <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
                       <Mail className="h-4 w-4 mr-2" />
                       Send Message
                     </Button>
                   </div>
-                </div>
-              ) : (
-                <div className="space-y-4">
+                </div> : <div className="space-y-4">
                   <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-white/50 to-primary/5 rounded-xl border border-primary/20">
                     <Avatar className="h-14 w-14 ring-2 ring-primary/30">
                       <AvatarFallback className="bg-primary/20 text-primary font-bold">EK</AvatarFallback>
@@ -780,26 +649,16 @@ const PropertyDetail = () => {
                   </div>
 
                   <div className="space-y-3 pt-2">
-                    <Button 
-                      onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')}
-                      className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" 
-                      size="sm"
-                    >
+                    <Button onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
                       <Phone className="h-4 w-4 mr-2" />
                       Call Now
                     </Button>
-                    <Button 
-                      onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`, '_self')}
-                      variant="outline" 
-                      className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" 
-                      size="sm"
-                    >
+                    <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesturkey.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
                       <Mail className="h-4 w-4 mr-2" />
                       Send Message
                     </Button>
                   </div>
-                </div>
-              )}
+                </div>}
             </div>
 
             {/* Investment Highlights */}
@@ -851,8 +710,6 @@ const PropertyDetail = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default PropertyDetail;
