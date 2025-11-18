@@ -79,8 +79,15 @@ const BaliPropertySearch = () => {
 
     setFilters(urlFilters);
     
-    // Always show all properties by default (don't auto-apply filters)
-    setShowFiltered(false);
+    // Check if any filters are active (excluding location and sortBy defaults)
+    const hasActiveFilters = Object.entries(urlFilters).some(([key, value]) => {
+      if (key === 'location' || key === 'sortBy') return false;
+      if (Array.isArray(value)) return value.length > 0;
+      return value && value !== '';
+    });
+    
+    // Apply filters if there are active filters in URL
+    setShowFiltered(hasActiveFilters);
   }, [searchParams, location.state]);
 
   // Filter properties by location (Bali) and active status from database and map to expected format
