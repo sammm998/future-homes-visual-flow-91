@@ -49,6 +49,11 @@ const AntalyaPropertySearch = () => {
 
   // Load filters from URL parameters and location state on mount
   useEffect(() => {
+    console.log('🔍 Antalya: Loading filters from URL', {
+      searchParams: Object.fromEntries(searchParams.entries()),
+      locationState: location.state
+    });
+    
     const urlFilters: PropertyFilters = {
       propertyType: searchParams.get('propertyType') || '',
       bedrooms: searchParams.get('bedrooms') || '',
@@ -79,6 +84,12 @@ const AntalyaPropertySearch = () => {
       if (key === 'location' || key === 'sortBy') return false;
       if (Array.isArray(value)) return value.length > 0;
       return value && value !== '';
+    });
+    
+    console.log('🔍 Antalya: Filter check', {
+      urlFilters,
+      hasActiveFilters,
+      willShowFiltered: hasActiveFilters
     });
     
     setShowFiltered(hasActiveFilters);
@@ -170,9 +181,9 @@ const AntalyaPropertySearch = () => {
       }
     });
 
-    // Update URL without triggering navigation
-    const newUrl = `${location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-    window.history.replaceState({}, '', newUrl);
+    // Use navigate with replace to update URL and React Router state
+    const newSearch = params.toString();
+    navigate(`${location.pathname}${newSearch ? '?' + newSearch : ''}`, { replace: true });
   };
   const handleSearch = () => {
     setShowFiltered(true);
@@ -181,6 +192,12 @@ const AntalyaPropertySearch = () => {
   const handlePropertyClick = (property: any) => {
     // Save current URL with all search params for back navigation
     const currentUrl = `${location.pathname}${location.search}`;
+    console.log('🏠 Antalya: Navigating to property', {
+      currentUrl,
+      pathname: location.pathname,
+      search: location.search,
+      property: property.refNo || property.id
+    });
     navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, {
       state: {
         from: '/antalya',

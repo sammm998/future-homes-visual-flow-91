@@ -217,9 +217,9 @@ const DubaiPropertySearch = () => {
       }
     });
     
-    // Update URL without triggering navigation
-    const newUrl = `${location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-    window.history.replaceState({}, '', newUrl);
+    // Use navigate with replace to update URL and React Router state
+    const newSearch = params.toString();
+    navigate(`${location.pathname}${newSearch ? '?' + newSearch : ''}`, { replace: true });
   };
 
   const handleSearch = () => {

@@ -396,10 +396,17 @@ const PropertyDetail = () => {
         <Button variant="ghost" onClick={() => {
         // Use returnUrl from state if available, otherwise fallback to location route
         const returnUrl = location.state?.returnUrl;
+        console.log('⬅️ PropertyDetail: Back button clicked', {
+          returnUrl,
+          locationState: location.state,
+          propertyLocation: property?.location
+        });
         if (returnUrl) {
+          console.log('⬅️ PropertyDetail: Navigating to returnUrl:', returnUrl);
           navigate(returnUrl);
         } else {
           const locationRoute = getLocationRoute(property?.location || '');
+          console.log('⬅️ PropertyDetail: Navigating to locationRoute:', locationRoute);
           navigate(locationRoute);
         }
       }} className="mb-8">
