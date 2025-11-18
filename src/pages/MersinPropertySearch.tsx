@@ -83,12 +83,14 @@ const MersinPropertySearch = () => {
 
     setFilters(urlFilters);
     
-    // Show filtered results if any filters are applied
-    const hasFilters = Object.entries(urlFilters).some(([key, value]) => {
-      return value && value !== '' && value !== 'ref' && value !== 'Mersin';
+    // Check if any filters are active (excluding location and sortBy defaults)
+    const hasActiveFilters = Object.entries(urlFilters).some(([key, value]) => {
+      if (key === 'location' || key === 'sortBy') return false;
+      if (Array.isArray(value)) return value.length > 0;
+      return value && value !== '';
     });
     
-    setShowFiltered(hasFilters);
+    setShowFiltered(hasActiveFilters);
   }, [searchParams, location.state]);
   
   // Filter properties to only show Mersin properties

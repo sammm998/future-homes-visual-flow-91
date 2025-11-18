@@ -76,9 +76,27 @@ const DubaiPropertySearch = () => {
       referenceNo: searchParams.get('referenceNumber') || searchParams.get('referenceNo') || ''
     };
 
+    // Merge with location state if available
+    const stateFilters = location.state?.filters;
+    if (stateFilters) {
+      Object.keys(stateFilters).forEach(key => {
+        if (stateFilters[key] && stateFilters[key] !== '') {
+          urlFilters[key as keyof PropertyFilters] = stateFilters[key];
+        }
+      });
+    }
+
     setFilters(urlFilters);
-    setShowFiltered(false);
-  }, [searchParams]);
+    
+    // Check if any filters are active (excluding location and sortBy defaults)
+    const hasActiveFilters = Object.entries(urlFilters).some(([key, value]) => {
+      if (key === 'location' || key === 'sortBy') return false;
+      if (Array.isArray(value)) return value.length > 0;
+      return value && value !== '';
+    });
+    
+    setShowFiltered(hasActiveFilters);
+  }, [searchParams, location.state]);
 
   // Filter and transform properties for Dubai
   const dubaiProperties = useMemo(() => {
