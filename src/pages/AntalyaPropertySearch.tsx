@@ -179,9 +179,12 @@ const AntalyaPropertySearch = () => {
     setCurrentPage(1);
   };
   const handlePropertyClick = (property: any) => {
+    // Save current URL with all search params for back navigation
+    const currentUrl = `${location.pathname}${location.search}`;
     navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, {
       state: {
-        from: '/antalya'
+        from: '/antalya',
+        returnUrl: currentUrl
       }
     });
   };

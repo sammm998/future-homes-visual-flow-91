@@ -220,8 +220,13 @@ const MersinPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
+    // Save current URL with all search params for back navigation
+    const currentUrl = `${location.pathname}${location.search}`;
     navigate(`/property/${property.id}`, { 
-      state: { from: '/mersin' }
+      state: { 
+        from: '/mersin',
+        returnUrl: currentUrl
+      }
     });
   };
 
