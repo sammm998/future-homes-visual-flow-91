@@ -110,20 +110,6 @@ export const seoPages: Record<string, Record<string, SEOConfig>> = {
       }
     }
   },
-  'video-showcase': {
-    en: {
-      title: 'Property Video Tours | Virtual Property Showcase',
-      description: 'Explore our exclusive property video tours. Virtual walkthroughs of luxury properties in Turkey, Dubai, Cyprus. See before you buy with professional video showcases.',
-      keywords: ['Property video tours', 'Virtual property viewing', 'Property showcase videos', 'Real estate video tours', 'Property walkthroughs'],
-      h1: 'Property Video Showcase',
-      structuredData: {
-        "@context": "https://schema.org",
-        "@type": "VideoGallery",
-        "name": "Future Homes Property Video Showcase",
-        "description": "Professional video tours of premium properties across Turkey, Dubai, and Cyprus"
-      }
-    }
-  },
   'testimonials': {
     en: {
       title: 'Client Testimonials | Success Stories & Reviews',
