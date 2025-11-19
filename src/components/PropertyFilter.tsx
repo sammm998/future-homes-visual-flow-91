@@ -90,8 +90,23 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
         };
         
         if (locationRoutes[value]) {
-          // Navigate to the new location page with the updated filters
-          navigate(locationRoutes[value], { 
+          // Build URL with filters as query parameters
+          const params = new URLSearchParams();
+          Object.entries(newFilters).forEach(([key, val]) => {
+            if (val && val !== '' && key !== 'location') {
+              if (Array.isArray(val) && val.length > 0) {
+                params.set(key, val.join(','));
+              } else if (typeof val === 'string' && val !== '') {
+                params.set(key, val);
+              }
+            }
+          });
+          
+          const queryString = params.toString();
+          const targetUrl = `${locationRoutes[value]}${queryString ? '?' + queryString : ''}`;
+          
+          // Navigate to the new location page with filters in both URL and state
+          navigate(targetUrl, { 
             state: { filters: newFilters }
           });
           return;
