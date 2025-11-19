@@ -79,9 +79,10 @@ const AntalyaPropertySearch = () => {
     }
     setFilters(urlFilters);
 
-    // Check if any filters are active (excluding location and sortBy defaults)
+    // Check if any filters are active (excluding location default, but including sortBy if changed)
     const hasActiveFilters = Object.entries(urlFilters).some(([key, value]) => {
-      if (key === 'location' || key === 'sortBy') return false;
+      if (key === 'location') return false;
+      if (key === 'sortBy') return value !== 'ref'; // Include sortBy if it's not default
       if (Array.isArray(value)) return value.length > 0;
       return value && value !== '';
     });
