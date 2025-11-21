@@ -587,7 +587,9 @@ const PropertyDetail = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Completion:</span>
                   <span className="font-semibold">
-                    {property.buildingComplete ? new Date(property.buildingComplete).getFullYear() : '2023'}
+                    {property.buildingComplete 
+                      ? new Date(property.buildingComplete).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+                      : 'Jun 2023'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
