@@ -141,10 +141,10 @@ const ExpensesBuyingPropertyTurkey = () => {
   return (
     <div className="min-h-screen bg-background">
       <EnhancedSEOHead
-        title="Expenses When Buying Property in Turkey - Complete Cost Guide 2024"
-        description="Comprehensive guide to property purchase costs in Turkey. Learn about taxes, fees, legal costs, and ongoing expenses when buying Turkish real estate."
-        keywords={['Property buying costs Turkey', 'Turkey real estate taxes', 'Property purchase expenses Turkey', 'Turkish property fees', 'Real estate costs Turkey']}
-        canonical="https://futurehomesturkey.com/articles/expenses-buying-property-turkey"
+        title="Expenses When Buying Property - Complete Cost Guide 2024"
+        description="Comprehensive guide to property purchase costs. Learn about taxes, fees, legal costs, and ongoing expenses when buying real estate internationally."
+        keywords={['Property buying costs', 'Real estate taxes', 'Property purchase expenses', 'Property fees', 'Real estate costs']}
+        canonical="https://futurehomesturkey.com/articles/expenses-buying-property"
         structuredData={structuredData}
         articleData={{
           publishedTime: "2024-06-28T00:00:00Z",

@@ -139,10 +139,10 @@ const OffPlanPropertyTurkey = () => {
   return (
     <div className="min-h-screen bg-background">
       <EnhancedSEOHead
-        title="Off-Plan Property Turkey | Pre-Construction Investment"
-        description="Discover off-plan properties in Turkey with 10-20% discounts, flexible payment plans, and modern specifications. Investment opportunities in Antalya, Alanya & more."
-        keywords={['Off-plan property Turkey', 'Pre-construction Turkey', 'Turkey property investment', 'New developments Turkey', 'Construction phase property']}
-        canonical="https://futurehomesturkey.com/off-plan-property-turkey"
+        title="Off-Plan Property | Pre-Construction Investment"
+        description="Discover off-plan properties with 10-20% discounts, flexible payment plans, and modern specifications. Investment opportunities worldwide."
+        keywords={['Off-plan property', 'Pre-construction', 'property investment', 'New developments', 'Construction phase property']}
+        canonical="https://futurehomesturkey.com/off-plan-property"
         structuredData={structuredData}
       />
       

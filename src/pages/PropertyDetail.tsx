@@ -349,7 +349,7 @@ const PropertyDetail = () => {
 
   // Generate SEO metadata
   const propertyTitle = `${property.title} - ${property.location || 'Property'} | Future Homes`;
-  const propertyDescription = `${property.title} in ${property.location || 'Turkey'}. ${property.bedrooms || 'N/A'} bedrooms, ${property.bathrooms || 'N/A'} bathrooms, ${property.area || 'N/A'} area. Price: ${property.price}. ${property.description?.substring(0, 100) || ''}...`;
+  const propertyDescription = `${property.title} in ${property.location || 'prime location'}. ${property.bedrooms || 'N/A'} bedrooms, ${property.bathrooms || 'N/A'} bathrooms, ${property.area || 'N/A'} area. Price: ${property.price}. ${property.description?.substring(0, 100) || ''}...`;
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
   return <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <SEOHead title={propertyTitle} description={propertyDescription} keywords={propertyKeywords} canonicalUrl={`https://futurehomesinternational.com/property/${property.refNo || property.id}`} ogImage={property.images?.[0] || property.image} structuredData={{

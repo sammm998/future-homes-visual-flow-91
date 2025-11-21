@@ -127,10 +127,10 @@ const ApartmentsForSaleInTurkey = () => {
   return (
     <div className="min-h-screen bg-background">
       <EnhancedSEOHead
-        title="Apartments for Sale in Turkey | Modern Living Spaces"
-        description="Find luxury apartments for sale in Turkey. Modern 1-4 bedroom apartments in prime locations. Beachfront, city center & investment options available."
-        keywords={['Apartments for sale in Turkey', 'Luxury apartments Turkey', 'Beachfront apartments Turkey', 'Modern apartments Turkey', 'Turkey apartment investment']}
-        canonical="https://futurehomesturkey.com/apartments-for-sale-in-turkey"
+        title="Apartments for Sale | Modern Living Spaces"
+        description="Find luxury apartments for sale. Modern 1-4 bedroom apartments in prime locations. Beachfront, city center & investment options available."
+        keywords={['Apartments for sale', 'Luxury apartments', 'Beachfront apartments', 'Modern apartments', 'apartment investment']}
+        canonical="https://futurehomesturkey.com/apartments-for-sale"
         structuredData={structuredData}
       />
       
