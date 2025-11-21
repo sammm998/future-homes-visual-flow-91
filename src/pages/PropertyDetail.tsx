@@ -580,9 +580,7 @@ const PropertyDetail = () => {
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Property Type:</span>
-                  <Badge variant="secondary" className="bg-primary/10 text-primary">
-                    {property.propertyType}
-                  </Badge>
+                  <span className="font-semibold">{property.propertyType || 'Apartments'}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">Completion:</span>
