@@ -207,7 +207,7 @@ const AntalyaPropertySearch = () => {
     });
   };
   return <div className="min-h-screen bg-background">
-      <SEOHead title="Buy Property in Antalya Turkey | Real Estate & Apartments for Sale | Future Homes" description="Discover premium properties in Antalya, Turkey. Luxury beachfront apartments, villas & investment opportunities. Turkish citizenship programs available. Expert guidance from Future Homes International." keywords="Antalya real estate, buy property Antalya, Turkey property for sale, Antalya apartments, Turkish citizenship by investment, beachfront properties Antalya, luxury villas Turkey, property investment Antalya, Antalya homes" canonicalUrl={canonicalUrl} hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))} />
+      <SEOHead title="Buy Property in Antalya | Real Estate & Apartments for Sale | Future Homes" description="Discover premium properties in Antalya. Luxury beachfront apartments, villas & investment opportunities. Citizenship programs available. Expert guidance from Future Homes International." keywords="Antalya real estate, buy property Antalya, property for sale, Antalya apartments, citizenship by investment, beachfront properties Antalya, property investment Antalya, Antalya homes" canonicalUrl={canonicalUrl} hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))} />
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">

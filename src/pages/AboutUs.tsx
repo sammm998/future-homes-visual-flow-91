@@ -73,7 +73,7 @@ const AboutUs = () => {
     label: "Languages"
   }];
   return <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <SEOHead title={pageTitle || "About Future Homes International | Leading Global Real Estate Experts"} description={metaDescription || "Leading international real estate experts since 2010. Property investment opportunities in Turkey, Dubai, Cyprus & Bali with citizenship programs. Trusted by thousands of investors worldwide."} keywords="Future Homes International, real estate company, property investment experts, international property consultants, Turkish citizenship program, global real estate services" canonicalUrl="https://futurehomesinternational.com/about-us" />
+      <SEOHead title={pageTitle || "About Future Homes International | Leading Global Real Estate Experts"} description={metaDescription || "Leading international real estate experts since 2010. Property investment opportunities worldwide with citizenship programs. Trusted by thousands of investors globally."} keywords="Future Homes International, real estate company, property investment experts, international property consultants, citizenship program, global real estate services" canonicalUrl="https://futurehomesinternational.com/about-us" />
       <Navigation />
 
       {/* Hero Section */}
