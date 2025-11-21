@@ -78,12 +78,12 @@ const handler = async (req: Request): Promise<Response> => {
 
     emailContent += `
       <hr>
-      <p><em>This message was sent from ${sourceLabels[formData.source]} on Future Homes Turkey website.</em></p>
+      <p><em>This message was sent from ${sourceLabels[formData.source]} on Future Homes International website.</em></p>
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "Future Homes Turkey <info@futurehomesturkey.com>",
-      to: ["info@futurehomesturkey.com"],
+      from: "Future Homes International <info@futurehomesinternational.com>",
+      to: ["info@futurehomesinternational.com"],
       subject: `New Contact Inquiry from ${name}`,
       html: emailContent,
     });

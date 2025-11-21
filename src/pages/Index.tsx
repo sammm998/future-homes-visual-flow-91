@@ -99,7 +99,7 @@ const Index = () => {
       "@type": "ContactPoint",
       "telephone": "+90-242-000-0000",
       "contactType": "customer service",
-      "email": "info@futurehomesturkey.com",
+      "email": "info@futurehomesinternational.com",
       "availableLanguage": ["English", "Turkish", "Arabic", "Russian"]
     },
     "address": {

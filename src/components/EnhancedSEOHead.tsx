@@ -80,7 +80,7 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
     "name": "Future Homes International",
     "url": baseUrl,
     "logo": `${baseUrl}/images/future-homes-logo.png`,
-    "email": "info@futurehomesturkey.com",
+    "email": "info@futurehomesinternational.com",
     "telephone": "+90 552 303 27 50",
     "address": {
       "@type": "PostalAddress",
