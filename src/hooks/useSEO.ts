@@ -31,7 +31,7 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
           "description": "Leading international real estate agency specializing in luxury properties",
           "url": baseUrl,
           "telephone": "+90-242-322-2222",
-          "email": "info@futurehomesturkey.com",
+          "email": "info@futurehomesinternational.com",
           "address": {
             "@type": "PostalAddress",
             "addressCountry": "TR",

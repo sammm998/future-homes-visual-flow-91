@@ -31,7 +31,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-2 sm:mb-0 text-center sm:text-left">
             <a
-              href="mailto:info@futurehomesturkey.com"
+              href="mailto:info@futurehomesinternational.com"
               className="flex items-center gap-2 hover:text-brand-accent transition-colors"
             >
               <Mail size={14} />

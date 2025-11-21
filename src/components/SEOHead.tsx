@@ -106,7 +106,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       ))}
       
       {/* Business Contact Information */}
-      <meta name="contact" content="info@futurehomesturkey.com" />
+      <meta name="contact" content="info@futurehomesinternational.com" />
       <meta name="coverage" content="Worldwide" />
       <meta name="distribution" content="Global" />
       <meta name="rating" content="General" />

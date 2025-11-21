@@ -35,10 +35,10 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Send notification email to info@futurehomesturkey.com
+    // Send notification email to info@futurehomesinternational.com
     const emailResponse = await resend.emails.send({
-      from: "Future Homes Turkey <info@futurehomesturkey.com>",
-      to: ["info@futurehomesturkey.com"],
+      from: "Future Homes International <info@futurehomesinternational.com>",
+      to: ["info@futurehomesinternational.com"],
       subject: "New Newsletter Subscription",
       html: `
         <h1>New Newsletter Subscriber</h1>
@@ -46,7 +46,7 @@ const handler = async (req: Request): Promise<Response> => {
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Subscription Date:</strong> ${new Date().toLocaleString()}</p>
         <br>
-        <p>Best regards,<br>Future Homes Turkey Website</p>
+        <p>Best regards,<br>Future Homes International Website</p>
       `,
     });
 

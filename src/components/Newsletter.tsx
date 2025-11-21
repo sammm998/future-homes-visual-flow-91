@@ -108,7 +108,7 @@ const Newsletter = memo(() => {
               
               <div>
                 <h3 className="text-xl font-semibold mb-2">Email</h3>
-                <a href="mailto:info@futurehomesturkey.com" className="opacity-90 hover:text-brand-accent transition-colors">info@futurehomesturkey.com</a>
+                <a href="mailto:info@futurehomesinternational.com" className="opacity-90 hover:text-brand-accent transition-colors">info@futurehomesinternational.com</a>
               </div>
               
               <div>
