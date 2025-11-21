@@ -21,9 +21,9 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
     // Route-specific SEO data
     const routeData: Record<string, Partial<SEOData>> = {
       '/': {
-        title: 'Future Homes International | Premium Properties in Turkey, Dubai & Cyprus',
-        description: 'Discover luxury properties for sale in Turkey, Dubai, Cyprus & Bali. Expert real estate services, citizenship programs, investment opportunities. Your dream home awaits.',
-        keywords: 'luxury real estate, property investment, Turkey properties, Dubai real estate, Cyprus properties, international real estate, citizenship programs',
+        title: 'Future Homes International | Premium Properties Worldwide',
+        description: 'Discover luxury properties for sale worldwide. Expert real estate services in Dubai, Cyprus & Bali. Citizenship programs, investment opportunities. Your dream home awaits.',
+        keywords: 'luxury real estate, property investment, international properties, Dubai real estate, Cyprus properties, international real estate, citizenship programs',
         structuredData: {
           "@context": "https://schema.org",
           "@type": "RealEstateAgent",
@@ -41,7 +41,7 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
       },
       '/antalya': {
         title: 'Properties for Sale in Antalya | Mediterranean Luxury Real Estate',
-        description: 'Premium properties for sale in Antalya, Turkey. Luxury apartments, villas & investment opportunities in Konyaaltı, Lara & city center. Mediterranean lifestyle awaits.',
+        description: 'Premium properties for sale in Antalya. Luxury apartments, villas & investment opportunities in Konyaaltı, Lara & city center. Mediterranean lifestyle awaits.',
         keywords: 'Antalya real estate, properties for sale Antalya, luxury apartments Antalya, villas for sale Antalya, Mediterranean properties'
       },
       '/dubai': {
@@ -56,8 +56,8 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
       },
       '/mersin': {
         title: 'Properties for Sale in Mersin | Emerging Coastal Market',
-        description: 'Find premium properties for sale in Mersin, Turkey. Modern apartments, luxury homes & investment opportunities along the Mediterranean coast. High growth potential.',
-        keywords: 'Mersin real estate, properties for sale Mersin, coastal properties Turkey, investment opportunities Mersin'
+        description: 'Find premium properties for sale in Mersin. Modern apartments, luxury homes & investment opportunities along the Mediterranean coast. High growth potential.',
+        keywords: 'Mersin real estate, properties for sale Mersin, coastal properties, investment opportunities Mersin'
       },
       '/bali': {
         title: 'Properties for Sale in Bali | Tropical Paradise Investment',
@@ -76,7 +76,7 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
       },
       '/about-us': {
         title: 'About Future Homes International | Your Trusted Real Estate Partner',
-        description: 'Learn about Future Homes International - leading real estate agency with 15+ years experience. Multilingual team, full-service support, offices in Turkey, Dubai & Cyprus.',
+        description: 'Learn about Future Homes International - leading real estate agency with 15+ years experience. Multilingual team, full-service support, offices worldwide.',
         keywords: 'about Future Homes, real estate company, property experts, international real estate, multilingual real estate team'
       },
       '/contact-us': {
@@ -95,9 +95,9 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
         keywords: 'property investment guide, real estate information, property buying guide, investment advice, real estate market insights'
       },
       '/articles/expenses-buying-property-turkey': {
-        title: 'Complete Guide: Property Buying Costs in Turkey 2024',
-        description: 'Comprehensive breakdown of all costs when buying property in Turkey - taxes, fees, legal costs, and hidden expenses. Updated 2024 guide with current rates.',
-        keywords: 'property buying costs Turkey, Turkey property taxes, real estate fees Turkey, property purchase expenses, Turkey investment costs'
+        title: 'Complete Guide: Property Buying Costs 2024 | Future Homes International',
+        description: 'Comprehensive breakdown of all costs when buying international property - taxes, fees, legal costs, and hidden expenses. Updated 2024 guide with current rates.',
+        keywords: 'property buying costs, property taxes, real estate fees, property purchase expenses, investment costs'
       }
     };
 
@@ -105,7 +105,7 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
     
     return {
       title: route.title || 'Future Homes International - Premium Real Estate Worldwide',
-      description: route.description || 'Discover premium properties worldwide with Future Homes. Expert real estate services in Turkey, Dubai, Cyprus, Bali, Antalya, Mersin with citizenship programs.',
+      description: route.description || 'Discover premium properties worldwide with Future Homes. Expert real estate services in Dubai, Cyprus, Bali, Antalya, Mersin with citizenship programs.',
       keywords: route.keywords || 'real estate, property investment, international properties, luxury homes, citizenship programs',
       canonicalUrl: currentUrl,
       ogImage: `${baseUrl}/og-image.jpg`,
@@ -152,7 +152,7 @@ export const usePropertySEO = (property: any, location: string) => {
         "address": {
           "@type": "PostalAddress",
           "addressLocality": location,
-          "addressCountry": location === 'Dubai' ? 'UAE' : location === 'Cyprus' ? 'Cyprus' : location === 'France' ? 'France' : 'Turkey'
+          "addressCountry": location === 'Dubai' ? 'UAE' : location === 'Cyprus' ? 'Cyprus' : location === 'France' ? 'France' : location === 'Bali' ? 'Indonesia' : 'International'
         },
         "image": property.image,
         "offers": {
