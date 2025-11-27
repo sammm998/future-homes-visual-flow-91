@@ -151,9 +151,16 @@ const BaliPropertySearch = () => {
   }, [allProperties]);
 
   const filteredProperties = useMemo(() => {
-    // Always apply filterProperties to ensure sorting by reference number
-    return filterProperties(baliProperties, filters);
-  }, [baliProperties, filters]);
+    if (showFiltered) {
+      return filterProperties(baliProperties, filters);
+    }
+    // When no filters active, just sort by reference number
+    return [...baliProperties].sort((a, b) => {
+      const refA = parseInt(a.refNo || '0');
+      const refB = parseInt(b.refNo || '0');
+      return refA - refB;
+    });
+  }, [baliProperties, filters, showFiltered]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
