@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import baliImage from '@/assets/bali-destination.jpg';
+import marinaImage from '@/assets/marina-destination.jpg';
 
 const HeroSlider = () => {
   const slides = [
@@ -14,7 +15,7 @@ const HeroSlider = () => {
       alt: "Dubai - Modern Metropolis"
     },
     {
-      image: "/lovable-uploads/ae81b7b2-74ce-4693-b5bf-43a5e3bb2b97.png",
+      image: marinaImage,
       alt: "Mersin - Mediterranean Coastal"
     },
     {
