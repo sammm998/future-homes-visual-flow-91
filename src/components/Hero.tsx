@@ -158,10 +158,48 @@ const Hero: React.FC<HeroProps> = ({
     navigate(`${targetRoute}?${searchParams.toString()}`);
   };
 
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
+  // Lazy load video after critical content
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVideoLoaded(true);
+    }, 100); // Minimal delay to let critical content render first
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="w-full min-h-screen relative overflow-hidden -mt-20 pt-20">
-      {/* Static background */}
+      {/* Static background as fallback */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
+      
+      {/* YouTube Background Video - Lazy loaded */}
+      {videoLoaded && (
+        <div className="absolute inset-0 w-full h-full">
+          <iframe
+            className="absolute"
+            src="https://www.youtube.com/embed/jl0LxdFEA_c?autoplay=1&mute=1&loop=1&playlist=jl0LxdFEA_c&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
+            title="Background Video"
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            loading="lazy"
+            style={{
+              pointerEvents: 'none',
+              width: 'calc(100vw + 20vh)',
+              height: 'calc(100vh + 20vw)', 
+              minWidth: '177.77vh',
+              minHeight: '56.25vw',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%) scale(1.2)',
+              objectFit: 'cover'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/50"></div>
+        </div>
+      )}
       
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"
