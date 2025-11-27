@@ -281,21 +281,59 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
     console.log(`🏢 facilities filter (${filters.facilities.join(', ')}): ${beforeCount} → ${filtered.length} properties`);
   }
 
-  // Sort results - Default to reference number (lowest to highest)
+  // Sort results based on sortBy filter
+  const sortBy = filters.sortBy || 'ref';
+  
   filtered.sort((a, b) => {
-    // Extract numeric part from reference numbers for proper sorting
-    const getRefNumber = (refNo: string | undefined): number => {
-      if (!refNo) return 999999; // Put properties without refNo at the end
-      const match = refNo.match(/\d+/);
-      return match ? parseInt(match[0]) : 999999;
-    };
-    
-    const refA = getRefNumber(a.refNo);
-    const refB = getRefNumber(b.refNo);
-    return refA - refB; // Ascending order (lowest to highest)
+    switch (sortBy) {
+      case 'price-low': {
+        // Sort by price ascending (lowest to highest)
+        const getPriceValue = (priceStr: string): number => {
+          if (!priceStr) return 0;
+          // Handle price ranges like "€150,000 <> €300,000" - use minimum price
+          if (priceStr.includes('<>')) {
+            const priceParts = priceStr.split('<>').map(part => part.trim());
+            return parseInt(priceParts[0].replace(/[€$£,]/g, '')) || 0;
+          }
+          return parseInt(priceStr.replace(/[€$£,]/g, '')) || 0;
+        };
+        const priceA = getPriceValue(a.price);
+        const priceB = getPriceValue(b.price);
+        return priceA - priceB;
+      }
+      
+      case 'price-high': {
+        // Sort by price descending (highest to lowest)
+        const getPriceValue = (priceStr: string): number => {
+          if (!priceStr) return 0;
+          // Handle price ranges like "€150,000 <> €300,000" - use maximum price
+          if (priceStr.includes('<>')) {
+            const priceParts = priceStr.split('<>').map(part => part.trim());
+            return parseInt(priceParts[1].replace(/[€$£,]/g, '')) || 0;
+          }
+          return parseInt(priceStr.replace(/[€$£,]/g, '')) || 0;
+        };
+        const priceA = getPriceValue(a.price);
+        const priceB = getPriceValue(b.price);
+        return priceB - priceA;
+      }
+      
+      case 'ref':
+      default: {
+        // Sort by reference number (lowest to highest)
+        const getRefNumber = (refNo: string | undefined): number => {
+          if (!refNo) return 999999; // Put properties without refNo at the end
+          const match = refNo.match(/\d+/);
+          return match ? parseInt(match[0]) : 999999;
+        };
+        const refA = getRefNumber(a.refNo);
+        const refB = getRefNumber(b.refNo);
+        return refA - refB;
+      }
+    }
   });
   
-  console.log(`🔄 sorted by reference number (lowest to highest): ${filtered.length} properties`);
+  console.log(`🔄 sorted by ${sortBy}: ${filtered.length} properties`);
 
   console.log('✅ filterProperties: Final result:', filtered.length, 'properties');
   return filtered;
