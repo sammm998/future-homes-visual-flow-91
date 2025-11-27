@@ -151,9 +151,16 @@ const AntalyaPropertySearch = () => {
     }));
   }, [allProperties]);
   const filteredProperties = useMemo(() => {
-    // Always apply filterProperties to ensure sorting by reference number
-    return filterProperties(antalyaProperties, filters);
-  }, [antalyaProperties, filters]);
+    if (showFiltered) {
+      return filterProperties(antalyaProperties, filters);
+    }
+    // When no filters active, just sort by reference number
+    return [...antalyaProperties].sort((a, b) => {
+      const refA = parseInt(a.refNo || '0');
+      const refB = parseInt(b.refNo || '0');
+      return refA - refB;
+    });
+  }, [antalyaProperties, filters, showFiltered]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
