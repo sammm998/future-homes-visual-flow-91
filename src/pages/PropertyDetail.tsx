@@ -567,7 +567,7 @@ const PropertyDetail = () => {
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold">Project Timeline</h2>
               <div className="p-6 border rounded-lg">
-                <Timeline data={getTimelineData()} />
+                <Timeline data={getTimelineData()} location={property.location} />
               </div>
             </div>
           </div>

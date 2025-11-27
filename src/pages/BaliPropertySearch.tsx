@@ -151,11 +151,9 @@ const BaliPropertySearch = () => {
   }, [allProperties]);
 
   const filteredProperties = useMemo(() => {
-    if (showFiltered) {
-      return filterProperties(baliProperties, filters);
-    }
-    return baliProperties;
-  }, [baliProperties, filters, showFiltered]);
+    // Always apply filterProperties to ensure sorting by reference number
+    return filterProperties(baliProperties, filters);
+  }, [baliProperties, filters]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);

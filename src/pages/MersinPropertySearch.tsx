@@ -167,11 +167,9 @@ const MersinPropertySearch = () => {
   }, [propertyImages]);
 
   const filteredProperties = useMemo(() => {
-    if (showFiltered) {
-      return filterProperties(properties, filters);
-    }
-    return properties;
-  }, [properties, showFiltered, filters]);
+    // Always apply filterProperties to ensure sorting by reference number
+    return filterProperties(properties, filters);
+  }, [properties, filters]);
 
   const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
   const paginatedProperties = useMemo(() => {
