@@ -151,11 +151,9 @@ const AntalyaPropertySearch = () => {
     }));
   }, [allProperties]);
   const filteredProperties = useMemo(() => {
-    if (showFiltered) {
-      return filterProperties(antalyaProperties, filters);
-    }
-    return antalyaProperties;
-  }, [antalyaProperties, filters, showFiltered]);
+    // Always apply filterProperties to ensure sorting by reference number
+    return filterProperties(antalyaProperties, filters);
+  }, [antalyaProperties, filters]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);

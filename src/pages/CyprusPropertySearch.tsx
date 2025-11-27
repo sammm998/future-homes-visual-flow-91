@@ -133,11 +133,9 @@ const CyprusPropertySearch = () => {
   const properties = cyprusProperties;
 
   const filteredProperties = useMemo(() => {
-    if (showFiltered) {
-      return filterProperties(properties, filters);
-    }
-    return properties;
-  }, [properties, filters, showFiltered]);
+    // Always apply filterProperties to ensure sorting by reference number
+    return filterProperties(properties, filters);
+  }, [properties, filters]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
