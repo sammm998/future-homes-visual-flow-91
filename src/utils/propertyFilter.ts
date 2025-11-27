@@ -281,54 +281,21 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
     console.log(`🏢 facilities filter (${filters.facilities.join(', ')}): ${beforeCount} → ${filtered.length} properties`);
   }
 
-  // Sort results
-  if (filters.sortBy) {
-    filtered.sort((a, b) => {
-      switch (filters.sortBy) {
-        case 'price-low':
-        case 'low-to-high':
-          const priceA = parseInt(a.price.replace(/[€$£,]/g, '')) || 0;
-          const priceB = parseInt(b.price.replace(/[€$£,]/g, '')) || 0;
-          return priceA - priceB;
-        case 'price-high':
-        case 'high-to-low':
-          const priceA2 = parseInt(a.price.replace(/[€$£,]/g, '')) || 0;
-          const priceB2 = parseInt(b.price.replace(/[€$£,]/g, '')) || 0;
-          return priceB2 - priceA2;
-        case 'newest':
-          // Handle both string and number IDs
-          const idA = typeof b.id === 'string' ? parseInt(b.id) || 0 : b.id;
-          const idB = typeof a.id === 'string' ? parseInt(a.id) || 0 : a.id;
-          return idA - idB; // Newer properties have higher IDs
-        case 'oldest':
-          const idA2 = typeof a.id === 'string' ? parseInt(a.id) || 0 : a.id;
-          const idB2 = typeof b.id === 'string' ? parseInt(b.id) || 0 : b.id;
-          return idA2 - idB2; // Older properties have lower IDs
-        case 'area-large':
-          const areaA = parseInt(a.area.split(' <> ')[0]);
-          const areaB = parseInt(b.area.split(' <> ')[0]);
-          return areaB - areaA; // Largest first
-        case 'area-small':
-          const areaA2 = parseInt(a.area.split(' <> ')[0]);
-          const areaB2 = parseInt(b.area.split(' <> ')[0]);
-          return areaA2 - areaB2; // Smallest first
-        case 'bedrooms-most':
-          const bedroomsA = parseInt(a.bedrooms.split(' <> ')[0] || a.bedrooms);
-          const bedroomsB = parseInt(b.bedrooms.split(' <> ')[0] || b.bedrooms);
-          return bedroomsB - bedroomsA; // Most bedrooms first
-        case 'bedrooms-least':
-          const bedroomsA2 = parseInt(a.bedrooms.split(' <> ')[0] || a.bedrooms);
-          const bedroomsB2 = parseInt(b.bedrooms.split(' <> ')[0] || b.bedrooms);
-          return bedroomsA2 - bedroomsB2; // Least bedrooms first
-        case 'ref':
-        default:
-          const defaultIdA = typeof a.id === 'string' ? parseInt(a.id) || 0 : a.id;
-          const defaultIdB = typeof b.id === 'string' ? parseInt(b.id) || 0 : b.id;
-          return defaultIdA - defaultIdB;
-      }
-    });
-    console.log(`🔄 sorted by ${filters.sortBy}: ${filtered.length} properties`);
-  }
+  // Sort results - Default to reference number (lowest to highest)
+  filtered.sort((a, b) => {
+    // Extract numeric part from reference numbers for proper sorting
+    const getRefNumber = (refNo: string | undefined): number => {
+      if (!refNo) return 999999; // Put properties without refNo at the end
+      const match = refNo.match(/\d+/);
+      return match ? parseInt(match[0]) : 999999;
+    };
+    
+    const refA = getRefNumber(a.refNo);
+    const refB = getRefNumber(b.refNo);
+    return refA - refB; // Ascending order (lowest to highest)
+  });
+  
+  console.log(`🔄 sorted by reference number (lowest to highest): ${filtered.length} properties`);
 
   console.log('✅ filterProperties: Final result:', filtered.length, 'properties');
   return filtered;
