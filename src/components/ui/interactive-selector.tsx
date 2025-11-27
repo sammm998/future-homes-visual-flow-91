@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaBuilding, FaTree, FaUmbrellaBeach, FaMountain } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import baliImage from '@/assets/bali-destination.jpg';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 const InteractiveSelector = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -89,6 +96,58 @@ const InteractiveSelector = () => {
               Discover premium properties in the world's most desirable locations
             </p>
           </motion.div>
+        </div>
+
+        {/* Carousel Section */}
+        <div className="mb-12 lg:mb-16">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full max-w-6xl mx-auto"
+          >
+            <CarouselContent>
+              {options.map((option, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <div 
+                    className="relative h-[400px] rounded-xl overflow-hidden shadow-elegant cursor-pointer group"
+                    onClick={() => navigate(option.path)}
+                  >
+                    <img 
+                      src={option.image} 
+                      alt={option.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-12 h-12 bg-primary/90 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20">
+                          {option.icon}
+                        </div>
+                        <div className="text-white">
+                          <h3 className="text-2xl font-bold">{option.title}</h3>
+                          <p className="text-white/80 text-sm">{option.description}</p>
+                        </div>
+                      </div>
+                      <p className="font-semibold text-sm mb-3 text-slate-50">{option.propertyCount}</p>
+                      <button 
+                        className="bg-primary hover:bg-primary-glow text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors w-full"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(option.path);
+                        }}
+                      >
+                        View Properties
+                      </button>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-4" />
+            <CarouselNext className="right-4" />
+          </Carousel>
         </div>
 
         {/* Responsive Options Container */}
