@@ -44,9 +44,9 @@ const PropertyImageGalleryPreview = () => {
             className="mb-8"
           >
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6">
-              <span className="block text-foreground mb-2">Upptäck</span>
+              <span className="block text-foreground mb-2">Discover</span>
               <span className="block bg-gradient-to-r from-primary via-primary-glow to-accent bg-clip-text text-transparent">
-                Våra Fastigheter
+                Our Properties
               </span>
             </h2>
             
@@ -67,12 +67,12 @@ const PropertyImageGalleryPreview = () => {
             className="max-w-4xl mx-auto mb-10"
           >
             <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed mb-4">
-              Utforska vackra bilder från vår 
-              <span className="font-semibold text-foreground"> exklusiva fastighetsportfölj</span> över 
-              <span className="font-semibold text-foreground"> flera platser</span>.
+              Explore stunning visuals from our 
+              <span className="font-semibold text-foreground"> exclusive property portfolio</span> across 
+              <span className="font-semibold text-foreground"> multiple locations</span>.
             </p>
             <p className="text-lg text-muted-foreground/80">
-              Varje bild berättar en historia om lyx, komfort och exceptionell design.
+              Each image tells a story of luxury, comfort, and exceptional design.
             </p>
           </motion.div>
         </motion.div>
