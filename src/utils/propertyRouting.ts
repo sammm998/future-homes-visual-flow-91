@@ -13,6 +13,7 @@ export const findPropertyLocationByRefNo = async (refNo: string): Promise<string
     if (!error && data?.location) {
       const location = data.location.toLowerCase();
       if (location.includes('dubai')) return '/dubai';
+      if (location.includes('istanbul')) return '/istanbul';
       if (location.includes('antalya')) return '/antalya';
       if (location.includes('cyprus')) return '/cyprus';
       if (location.includes('mersin')) return '/mersin';

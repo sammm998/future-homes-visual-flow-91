@@ -25,6 +25,7 @@ const getLocationRoute = (location: string | undefined | null): string => {
 
   const locationLower = location.toLowerCase();
   if (locationLower.includes('dubai')) return '/dubai';
+  if (locationLower.includes('istanbul')) return '/istanbul';
   if (locationLower.includes('antalya')) return '/antalya';
   if (locationLower.includes('cyprus')) return '/cyprus';
   if (locationLower.includes('mersin')) return '/mersin';

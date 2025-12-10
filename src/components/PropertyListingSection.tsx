@@ -12,7 +12,7 @@ const PropertyListingSection = () => {
   const itemsPerPage = 4;
 
   // Main location categories
-  const locations = ['all', 'Antalya', 'Mersin', 'Dubai', 'Cyprus', 'Bali'];
+  const locations = ['all', 'Antalya', 'Istanbul', 'Mersin', 'Dubai', 'Cyprus', 'Bali'];
 
   // Filter properties by main location category
   const filteredProperties = useMemo(() => {
@@ -22,6 +22,7 @@ const PropertyListingSection = () => {
       // Get one property from each location for a mix
       const locationGroups = {
         Antalya: properties.filter(p => p.location?.toLowerCase().includes('antalya')),
+        Istanbul: properties.filter(p => p.location?.toLowerCase().includes('istanbul')),
         Mersin: properties.filter(p => p.location?.toLowerCase().includes('mersin')),
         Dubai: properties.filter(p => p.location?.toLowerCase().includes('dubai')),
         Cyprus: properties.filter(p => p.location?.toLowerCase().includes('cyprus')),
