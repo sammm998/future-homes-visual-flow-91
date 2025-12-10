@@ -21,6 +21,7 @@ const PropertyWizard = lazy(() => import("./pages/PropertyWizard"));
 const AIPropertySearch = lazy(() => import("./pages/AIPropertySearch"));
 
 const AntalyaPropertySearch = lazy(() => import("./pages/AntalyaPropertySearch"));
+const IstanbulPropertySearch = lazy(() => import("./pages/IstanbulPropertySearch"));
 const DubaiPropertySearch = lazy(() => {
   console.log('🏙️ Loading DubaiPropertySearch component...');
   return import("./pages/DubaiPropertySearch").catch(error => {
@@ -139,6 +140,7 @@ function AppContent() {
       <Route path="/map-search" element={<MapSearch />} />
       
       <Route path="/antalya" element={<AntalyaPropertySearch />} />
+      <Route path="/istanbul" element={<IstanbulPropertySearch />} />
       <Route path="/dubai" element={<DubaiPropertySearch />} />
       <Route path="/cyprus" element={<CyprusPropertySearch />} />
       <Route path="/mersin" element={<MersinPropertySearch />} />

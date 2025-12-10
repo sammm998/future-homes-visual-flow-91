@@ -62,6 +62,18 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
     'Mersin': [
       { value: 'fethiye', label: 'Fethiye' },
       { value: 'milas', label: 'Milas' }
+    ],
+    'Istanbul': [
+      { value: 'besiktas', label: 'Beşiktaş' },
+      { value: 'kadikoy', label: 'Kadıköy' },
+      { value: 'sisli', label: 'Şişli' },
+      { value: 'beyoglu', label: 'Beyoğlu' },
+      { value: 'uskudar', label: 'Üsküdar' },
+      { value: 'sariyer', label: 'Sarıyer' },
+      { value: 'bakirkoy', label: 'Bakırköy' },
+      { value: 'atasehir', label: 'Ataşehir' },
+      { value: 'maltepe', label: 'Maltepe' },
+      { value: 'pendik', label: 'Pendik' }
     ]
   };
   
@@ -83,6 +95,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
       if (!isMapSearch) {
         const locationRoutes: Record<string, string> = {
           'Antalya': '/antalya',
+          'Istanbul': '/istanbul',
           'Mersin': '/mersin',
           'Dubai': '/dubai',
           'Cyprus': '/cyprus',
@@ -184,6 +197,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                  <SelectContent>
                    <SelectItem value="all">All</SelectItem>
                    <SelectItem value="Antalya">Antalya</SelectItem>
+                   <SelectItem value="Istanbul">Istanbul</SelectItem>
                    <SelectItem value="Mersin">Mersin</SelectItem>
                    <SelectItem value="Dubai">Dubai</SelectItem>
                    <SelectItem value="Cyprus">Cyprus</SelectItem>
@@ -382,6 +396,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                <SelectContent>
                  <SelectItem value="all">All</SelectItem>
                  <SelectItem value="Antalya">Antalya</SelectItem>
+                 <SelectItem value="Istanbul">Istanbul</SelectItem>
                  <SelectItem value="Mersin">Mersin</SelectItem>
                  <SelectItem value="Dubai">Dubai</SelectItem>
                  <SelectItem value="Cyprus">Cyprus</SelectItem>
