@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaMapMarkerAlt, FaBuilding, FaTree, FaUmbrellaBeach, FaMountain } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaBuilding, FaTree, FaUmbrellaBeach, FaMountain, FaMosque } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import baliImage from '@/assets/bali-destination.jpg';
+import istanbulImage from '@/assets/istanbul-destination.jpg';
 const InteractiveSelector = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -14,6 +15,13 @@ const InteractiveSelector = () => {
     image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png",
     icon: <FaUmbrellaBeach size={20} className="text-white" />,
     path: "/antalya"
+  }, {
+    title: "Istanbul",
+    description: "Where East Meets West",
+    propertyCount: "45+ Properties",
+    image: istanbulImage,
+    icon: <FaMosque size={20} className="text-white" />,
+    path: "/istanbul"
   }, {
     title: "Dubai",
     description: "Modern Metropolis",
