@@ -74,6 +74,16 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
       { value: 'atasehir', label: 'Ataşehir' },
       { value: 'maltepe', label: 'Maltepe' },
       { value: 'pendik', label: 'Pendik' }
+    ],
+    'Bali': [
+      { value: 'seminyak', label: 'Seminyak' },
+      { value: 'canggu', label: 'Canggu' },
+      { value: 'ubud', label: 'Ubud' },
+      { value: 'sanur', label: 'Sanur' },
+      { value: 'kuta', label: 'Kuta' },
+      { value: 'jimbaran', label: 'Jimbaran' },
+      { value: 'nusa-dua', label: 'Nusa Dua' },
+      { value: 'uluwatu', label: 'Uluwatu' }
     ]
   };
   
