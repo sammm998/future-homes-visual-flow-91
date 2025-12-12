@@ -140,6 +140,7 @@ const Hero: React.FC<HeroProps> = ({
     // Navigate directly to location-specific pages with filters
     const locationRoutes: Record<string, string> = {
       'Antalya': '/antalya',
+      'Istanbul': '/istanbul',
       'Dubai': '/dubai', 
       'Cyprus': '/cyprus',
       'Mersin': '/mersin',
@@ -275,24 +276,30 @@ const Hero: React.FC<HeroProps> = ({
                           Antalya
                         </div>
                       </SelectItem>
+                      <SelectItem value="Istanbul">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Istanbul
+                        </div>
+                      </SelectItem>
                       <SelectItem value="Mersin">
                         <div className="flex items-center gap-2">
                           <MapPin size={16} />
                           Mersin
                         </div>
                       </SelectItem>
-                       <SelectItem value="Cyprus">
-                         <div className="flex items-center gap-2">
-                           <MapPin size={16} />
-                           Cyprus
-                         </div>
-                       </SelectItem>
-                       <SelectItem value="Bali">
-                         <div className="flex items-center gap-2">
-                           <MapPin size={16} />
-                           Bali
-                         </div>
-                       </SelectItem>
+                      <SelectItem value="Cyprus">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Cyprus
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Bali">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Bali
+                        </div>
+                      </SelectItem>
                       <SelectItem value="Dubai">
                         <div className="flex items-center gap-2">
                           <MapPin size={16} />

@@ -3,12 +3,17 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import baliImage from '@/assets/bali-destination.jpg';
 import marinaImage from '@/assets/marina-destination.jpg';
+import istanbulImage from '@/assets/istanbul-destination.jpg';
 
 const HeroSlider = () => {
   const slides = [
     {
       image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png",
       alt: "Antalya - Turkish Riviera Paradise"
+    },
+    {
+      image: istanbulImage,
+      alt: "Istanbul - Where East Meets West"
     },
     {
       image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.png",

@@ -26,6 +26,7 @@ const PropertyListingSection = () => {
         Mersin: properties.filter(p => p.location?.toLowerCase().includes('mersin')),
         Dubai: properties.filter(p => p.location?.toLowerCase().includes('dubai')),
         Cyprus: properties.filter(p => p.location?.toLowerCase().includes('cyprus')),
+        Bali: properties.filter(p => p.location?.toLowerCase().includes('bali')),
       };
 
       // Get one from each location (prioritizing mid-range prices)
