@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { supportedLanguages, getCurrentLanguage } from '@/utils/seoUtils';
 
 interface SEOHeadProps {
   title: string;
@@ -8,7 +9,7 @@ interface SEOHeadProps {
   canonicalUrl?: string;
   ogImage?: string;
   ogType?: string;
-  structuredData?: object;
+  structuredData?: object | object[];
   hreflangUrls?: { [key: string]: string };
   article?: {
     publishedTime?: string;
@@ -18,6 +19,7 @@ interface SEOHeadProps {
     tags?: string[];
   };
   noindex?: boolean;
+  breadcrumbs?: Array<{name: string, url: string}>;
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
@@ -30,11 +32,93 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   structuredData,
   hreflangUrls = {},
   article,
-  noindex = false
+  noindex = false,
+  breadcrumbs
 }) => {
   const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://futurehomesinternational.com');
   const siteName = 'Future Homes International';
   const defaultImage = 'https://futurehomesinternational.com/og-image.jpg';
+  const currentLanguage = getCurrentLanguage();
+  const baseUrl = 'https://futurehomesinternational.com';
+
+  // Generate hreflang URLs if not provided
+  const generateHreflangUrls = () => {
+    if (Object.keys(hreflangUrls).length > 0) return hreflangUrls;
+    
+    const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+    const result: { [key: string]: string } = {};
+    
+    supportedLanguages.forEach(lang => {
+      if (lang.code === 'en') {
+        result[lang.code] = `${baseUrl}${path}`;
+      } else {
+        const separator = path.includes('?') ? '&' : '?';
+        result[lang.code] = `${baseUrl}${path}${separator}lang=${lang.code}`;
+      }
+    });
+    
+    return result;
+  };
+
+  const finalHreflangUrls = generateHreflangUrls();
+
+  // Organization structured data (always included)
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "Future Homes International",
+    "url": baseUrl,
+    "logo": `${baseUrl}/favicon.png`,
+    "email": "info@futurehomesinternational.com",
+    "telephone": "+90 552 303 27 50",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Antalya",
+      "addressCountry": "TR"
+    },
+    "areaServed": ["TR", "AE", "CY", "ID"],
+    "sameAs": [
+      "https://www.instagram.com/futurehomesturkey",
+      "https://www.facebook.com/futurehomesturkey"
+    ],
+    "priceRange": "€€€"
+  };
+
+  // WebSite structured data with SearchAction
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": siteName,
+    "url": baseUrl,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${baseUrl}/ai-property-search?q={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  // Breadcrumb structured data
+  const breadcrumbSchema = breadcrumbs ? {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.name,
+      "item": item.url
+    }))
+  } : null;
+
+  // Determine locale for og:locale
+  const getOgLocale = () => {
+    const localeMap: Record<string, string> = {
+      'en': 'en_US',
+      'sv': 'sv_SE',
+      'tr': 'tr_TR',
+      'ar': 'ar_SA'
+    };
+    return localeMap[currentLanguage] || 'en_US';
+  };
 
   return (
     <Helmet>
@@ -53,6 +137,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta name="google-site-verification" content="tX9miiJWQEEYeB5sWZ8ZeSrcL_RViXlqe_l9fxM7UfQ" />
       
       {/* Primary Meta Tags */}
+      <html lang={currentLanguage} />
       <title>{title}</title>
       <meta name="title" content={title} />
       <meta name="description" content={description} />
@@ -61,11 +146,19 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta name="author" content="Future Homes International" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-      <meta name="language" content="English" />
+      <meta name="language" content={currentLanguage === 'en' ? 'English' : currentLanguage} />
       <meta name="revisit-after" content="7 days" />
+      <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+      <meta name="bingbot" content="index, follow" />
       
       {/* Canonical URL */}
       <link rel="canonical" href={currentUrl} />
+      
+      {/* Hreflang Tags for International SEO */}
+      {Object.entries(finalHreflangUrls).map(([lang, url]) => (
+        <link key={lang} rel="alternate" hrefLang={lang} href={url} />
+      ))}
+      <link rel="alternate" hrefLang="x-default" href={finalHreflangUrls['en'] || currentUrl} />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={ogType} />
@@ -75,8 +168,20 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta property="og:image" content={ogImage || defaultImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={title} />
       <meta property="og:site_name" content={siteName} />
-      <meta property="og:locale" content="en_US" />
+      <meta property="og:locale" content={getOgLocale()} />
+      
+      {/* Alternate locales for Facebook */}
+      {supportedLanguages.filter(l => l.code !== currentLanguage).map(lang => {
+        const localeMap: Record<string, string> = {
+          'en': 'en_US',
+          'sv': 'sv_SE',
+          'tr': 'tr_TR',
+          'ar': 'ar_SA'
+        };
+        return <meta key={lang.code} property="og:locale:alternate" content={localeMap[lang.code]} />;
+      })}
       
       {/* Article specific Open Graph tags */}
       {article && (
@@ -97,13 +202,9 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage || defaultImage} />
+      <meta name="twitter:image:alt" content={title} />
       <meta name="twitter:site" content="@FutureHomesTR" />
       <meta name="twitter:creator" content="@FutureHomesTR" />
-      
-      {/* Hreflang Tags for International SEO */}
-      {Object.entries(hreflangUrls).map(([lang, url]) => (
-        <link key={lang} rel="alternate" hrefLang={lang} href={url} />
-      ))}
       
       {/* Business Contact Information */}
       <meta name="contact" content="info@futurehomesinternational.com" />
@@ -135,11 +236,36 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <link rel="dns-prefetch" href="//images.unsplash.com" />
       <link rel="dns-prefetch" href="//kiogiyemoqbnuvclneoe.supabase.co" />
       
-      {/* Structured Data */}
-      {structuredData && (
+      {/* Core Structured Data - Organization */}
+      <script type="application/ld+json">
+        {JSON.stringify(organizationSchema)}
+      </script>
+      
+      {/* Core Structured Data - WebSite */}
+      <script type="application/ld+json">
+        {JSON.stringify(websiteSchema)}
+      </script>
+      
+      {/* Breadcrumb Structured Data */}
+      {breadcrumbSchema && (
         <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
+          {JSON.stringify(breadcrumbSchema)}
         </script>
+      )}
+      
+      {/* Custom Structured Data */}
+      {structuredData && (
+        Array.isArray(structuredData) 
+          ? structuredData.map((data, index) => (
+              <script key={index} type="application/ld+json">
+                {JSON.stringify(data)}
+              </script>
+            ))
+          : (
+              <script type="application/ld+json">
+                {JSON.stringify(structuredData)}
+              </script>
+            )
       )}
       
       {/* Additional Performance and Security Headers */}

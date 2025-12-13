@@ -9,6 +9,8 @@ import { Eye, Grid } from "lucide-react";
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useProperties } from "@/hooks/useProperties";
+import { useSEOLanguage } from "@/hooks/useSEOLanguage";
+import { generateLocationSchema, generatePropertyListSchema, generateBreadcrumbSchema } from "@/utils/seoUtils";
 import {
   Pagination,
   PaginationContent,
