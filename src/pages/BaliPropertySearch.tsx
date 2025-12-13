@@ -10,6 +10,7 @@ import { useProperties } from '@/hooks/useProperties';
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
+import { generateLocationSchema, generatePropertyListSchema, generateBreadcrumbSchema } from "@/utils/seoUtils";
 import {
   Pagination,
   PaginationContent,
@@ -218,6 +219,26 @@ const BaliPropertySearch = () => {
         keywords="Bali properties, Bali real estate, property investment Bali, Seminyak villas, Canggu apartments, Indonesia property, Bali investment"
         canonicalUrl={canonicalUrl}
         hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))}
+        structuredData={[
+          generateLocationSchema('Bali', 'Premium real estate in Bali, Indonesia. Luxury villas, apartments with strong rental yields in Seminyak, Canggu, Ubud & more.'),
+          generateBreadcrumbSchema([
+            { name: 'Home', url: 'https://futurehomesinternational.com' },
+            { name: 'Bali Properties', url: 'https://futurehomesinternational.com/bali' }
+          ]),
+          generatePropertyListSchema(
+            baliProperties.slice(0, 10).map(p => ({
+              title: p.title,
+              price: p.price,
+              url: `https://futurehomesinternational.com/property/${p.refNo || p.uuid}`,
+              image: p.image
+            })),
+            'Properties for Sale in Bali'
+          )
+        ]}
+        breadcrumbs={[
+          { name: 'Home', url: 'https://futurehomesinternational.com' },
+          { name: 'Bali Properties', url: 'https://futurehomesinternational.com/bali' }
+        ]}
       />
       <Navigation />
       

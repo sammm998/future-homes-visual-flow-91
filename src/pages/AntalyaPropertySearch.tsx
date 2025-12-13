@@ -10,6 +10,7 @@ import { useProperties } from '@/hooks/useProperties';
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
+import { generateLocationSchema, generatePropertyListSchema, generateBreadcrumbSchema } from "@/utils/seoUtils";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 const AntalyaPropertySearch = () => {
   const {
@@ -212,7 +213,25 @@ const AntalyaPropertySearch = () => {
     });
   };
   return <div className="min-h-screen bg-background">
-      <SEOHead title="Buy Property in Antalya | Real Estate & Apartments for Sale | Future Homes" description="Discover premium properties in Antalya. Luxury beachfront apartments, villas & investment opportunities. Citizenship programs available. Expert guidance from Future Homes International." keywords="Antalya real estate, buy property Antalya, property for sale, Antalya apartments, citizenship by investment, beachfront properties Antalya, property investment Antalya, Antalya homes" canonicalUrl={canonicalUrl} hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))} />
+      <SEOHead title="Buy Property in Antalya | Real Estate & Apartments for Sale | Future Homes" description="Discover premium properties in Antalya. Luxury beachfront apartments, villas & investment opportunities. Citizenship programs available. Expert guidance from Future Homes International." keywords="Antalya real estate, buy property Antalya, property for sale, Antalya apartments, citizenship by investment, beachfront properties Antalya, property investment Antalya, Antalya homes" canonicalUrl={canonicalUrl} hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))} structuredData={[
+        generateLocationSchema('Antalya', 'Premium beachfront real estate in Antalya, Turkey. Luxury apartments, villas & investment properties with citizenship programs.'),
+        generateBreadcrumbSchema([
+          { name: 'Home', url: 'https://futurehomesinternational.com' },
+          { name: 'Antalya Properties', url: 'https://futurehomesinternational.com/antalya' }
+        ]),
+        generatePropertyListSchema(
+          antalyaProperties.slice(0, 10).map(p => ({
+            title: p.title,
+            price: p.price,
+            url: `https://futurehomesinternational.com/property/${p.refNo || p.uuid}`,
+            image: p.image
+          })),
+          'Properties for Sale in Antalya'
+        )
+      ]} breadcrumbs={[
+        { name: 'Home', url: 'https://futurehomesinternational.com' },
+        { name: 'Antalya Properties', url: 'https://futurehomesinternational.com/antalya' }
+      ]} />
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">

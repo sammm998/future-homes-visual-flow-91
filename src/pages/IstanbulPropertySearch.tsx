@@ -10,6 +10,7 @@ import { useProperties } from '@/hooks/useProperties';
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
+import { generateLocationSchema, generatePropertyListSchema, generateBreadcrumbSchema } from "@/utils/seoUtils";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 const IstanbulPropertySearch = () => {
@@ -176,7 +177,27 @@ const IstanbulPropertySearch = () => {
         description="Discover premium properties in Istanbul. Luxury apartments, villas & investment opportunities in Turkey's largest city. Citizenship programs available. Expert guidance from Future Homes International." 
         keywords="Istanbul real estate, buy property Istanbul, property for sale, Istanbul apartments, citizenship by investment, property investment Istanbul, Istanbul homes" 
         canonicalUrl={canonicalUrl} 
-        hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))} 
+        hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))}
+        structuredData={[
+          generateLocationSchema('Istanbul', 'Premium real estate in Istanbul, Turkey\'s cultural and economic capital. Luxury apartments, villas & investment properties with citizenship programs.'),
+          generateBreadcrumbSchema([
+            { name: 'Home', url: 'https://futurehomesinternational.com' },
+            { name: 'Istanbul Properties', url: 'https://futurehomesinternational.com/istanbul' }
+          ]),
+          generatePropertyListSchema(
+            istanbulProperties.slice(0, 10).map(p => ({
+              title: p.title,
+              price: p.price,
+              url: `https://futurehomesinternational.com/property/${p.refNo || p.uuid}`,
+              image: p.image
+            })),
+            'Properties for Sale in Istanbul'
+          )
+        ]}
+        breadcrumbs={[
+          { name: 'Home', url: 'https://futurehomesinternational.com' },
+          { name: 'Istanbul Properties', url: 'https://futurehomesinternational.com/istanbul' }
+        ]}
       />
       <Navigation />
       

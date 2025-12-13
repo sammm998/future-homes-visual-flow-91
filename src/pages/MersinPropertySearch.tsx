@@ -10,6 +10,7 @@ import { useProperties } from "@/hooks/useProperties";
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
+import { generateLocationSchema, generatePropertyListSchema, generateBreadcrumbSchema } from "@/utils/seoUtils";
 import useImagePreloading from "@/hooks/useImagePreloading";
 import { preloadCriticalImages } from "@/utils/imageOptimization";
 import OptimizedPropertyImage from "@/components/OptimizedPropertyImage";
