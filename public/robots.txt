@@ -1,13 +1,35 @@
+# Future Homes International - Robots.txt
+# https://futurehomesinternational.com
+
 User-agent: *
 Allow: /
+
+# Disallow admin and internal routes
 Disallow: /admin/
+Disallow: /admin
 Disallow: /api/
 Disallow: /_*
 Disallow: /temp/
 Disallow: /test/
+Disallow: /*?*utm_
+Disallow: /*?*fbclid
+Disallow: /*?*gclid
 
-# Sitemaps
+# Allow language versions
+Allow: /*?lang=
+
+# Googlebot specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bingbot specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# Sitemaps - Primary sitemap location
 Sitemap: https://futurehomesinternational.com/sitemap.xml
 
-# Crawl-delay (optional)
-Crawl-delay: 1
+# Host
+Host: https://futurehomesinternational.com

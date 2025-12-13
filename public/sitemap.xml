@@ -1,103 +1,227 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage with all language alternates -->
   <url>
     <loc>https://futurehomesinternational.com/</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/" />
     <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/?lang=sv" />
     <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/?lang=tr" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/" />
   </url>
+  
+  <!-- Property Wizard -->
   <url>
     <loc>https://futurehomesinternational.com/property-wizard</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/property-wizard" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/property-wizard?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/property-wizard?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/property-wizard?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/property-wizard" />
   </url>
+  
+  <!-- AI Property Search -->
   <url>
     <loc>https://futurehomesinternational.com/ai-property-search</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/ai-property-search" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/ai-property-search?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/ai-property-search?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/ai-property-search?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/ai-property-search" />
   </url>
+  
+  <!-- Antalya -->
   <url>
     <loc>https://futurehomesinternational.com/antalya</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/antalya" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/antalya?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/antalya?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/antalya?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/antalya" />
   </url>
+  
+  <!-- Istanbul -->
+  <url>
+    <loc>https://futurehomesinternational.com/istanbul</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/istanbul" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/istanbul?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/istanbul?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/istanbul?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/istanbul" />
+  </url>
+  
+  <!-- Dubai -->
   <url>
     <loc>https://futurehomesinternational.com/dubai</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/dubai" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/dubai?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/dubai?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/dubai?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/dubai" />
   </url>
+  
+  <!-- Cyprus -->
   <url>
     <loc>https://futurehomesinternational.com/cyprus</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/cyprus" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/cyprus?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/cyprus?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/cyprus?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/cyprus" />
   </url>
+  
+  <!-- Mersin -->
   <url>
     <loc>https://futurehomesinternational.com/mersin</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/mersin" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/mersin?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/mersin?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/mersin?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/mersin" />
   </url>
+  
+  <!-- Bali -->
   <url>
     <loc>https://futurehomesinternational.com/bali</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/bali" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/bali?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/bali?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/bali?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/bali" />
   </url>
+  
+  <!-- About Us -->
   <url>
     <loc>https://futurehomesinternational.com/about-us</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/about-us" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/about-us?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/about-us?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/about-us?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/about-us" />
   </url>
+  
+  <!-- Contact Us -->
   <url>
     <loc>https://futurehomesinternational.com/contact-us</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/contact-us" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/contact-us?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/contact-us?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/contact-us?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/contact-us" />
   </url>
+  
+  <!-- Testimonials -->
   <url>
     <loc>https://futurehomesinternational.com/testimonials</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/testimonials" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/testimonials?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/testimonials?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/testimonials?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/testimonials" />
   </url>
+  
+  <!-- Information -->
   <url>
     <loc>https://futurehomesinternational.com/information</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/information" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/information?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/information?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/information?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/information" />
   </url>
+  
+  <!-- Property Gallery -->
   <url>
-    <loc>https://futurehomesinternational.com/gallery</loc>
-    <lastmod>2025-11-10</lastmod>
+    <loc>https://futurehomesinternational.com/property-gallery</loc>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/property-gallery" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/property-gallery?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/property-gallery?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/property-gallery?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/property-gallery" />
   </url>
-  <url>
-    <loc>https://futurehomesinternational.com/video-showcase</loc>
-    <lastmod>2025-11-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
+  
+  <!-- Property for Sale in Turkey (SEO Landing) -->
   <url>
     <loc>https://futurehomesinternational.com/property-for-sale-in-turkey</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/property-for-sale-in-turkey" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/property-for-sale-in-turkey?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/property-for-sale-in-turkey?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/property-for-sale-in-turkey?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/property-for-sale-in-turkey" />
   </url>
+  
+  <!-- Turkish Citizenship by Investment -->
   <url>
     <loc>https://futurehomesinternational.com/turkish-citizenship-by-investment</loc>
-    <lastmod>2025-11-10</lastmod>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/turkish-citizenship-by-investment" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/turkish-citizenship-by-investment?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/turkish-citizenship-by-investment?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/turkish-citizenship-by-investment?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/turkish-citizenship-by-investment" />
   </url>
+  
+  <!-- Ali Karan Team Page -->
+  <url>
+    <loc>https://futurehomesinternational.com/ali-karan</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/ali-karan" />
+    <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/ali-karan?lang=sv" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/ali-karan?lang=tr" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/ali-karan?lang=ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/ali-karan" />
+  </url>
+
 </urlset>
