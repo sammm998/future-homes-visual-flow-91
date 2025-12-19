@@ -37,7 +37,10 @@ const ContactUs = () => {
     setIsSubmitting(true);
     try {
       const { data, error } = await supabase.functions.invoke("send-contact-notification", {
-        body: formData,
+        body: {
+          ...formData,
+          source: 'contact-form'
+        },
       });
       if (error) {
         console.error("Error:", error);
