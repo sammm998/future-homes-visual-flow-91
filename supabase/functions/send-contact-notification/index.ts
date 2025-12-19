@@ -13,11 +13,11 @@ interface ContactFormData {
   firstName?: string;
   lastName?: string;
   name?: string;
-  email: string;
-  phone: string;
+  email?: string;
+  phone?: string;
   property?: string;
   message?: string;
-  source: 'contact-form' | 'ai-chat' | 'property-wizard';
+  source?: 'contact-form' | 'ai-chat' | 'property-wizard';
   selections?: {
     location?: string;
     propertyType?: string;
@@ -38,18 +38,19 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Generate email content based on source
     const name = formData.name || `${formData.firstName || ''} ${formData.lastName || ''}`.trim();
-    const sourceLabels = {
+    const sourceLabels: Record<string, string> = {
       'contact-form': 'Contact Form',
       'ai-chat': 'AI Help Chat',
       'property-wizard': 'Property Search Wizard'
     };
+    const sourceLabel = sourceLabels[formData.source] || 'Website';
 
     let emailContent = `
       <h2>New Contact Inquiry from Website</h2>
-      <p><strong>Source:</strong> ${sourceLabels[formData.source]}</p>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${formData.email}</p>
-      <p><strong>Phone:</strong> ${formData.phone}</p>
+      <p><strong>Source:</strong> ${sourceLabel}</p>
+      <p><strong>Name:</strong> ${name || 'Not provided'}</p>
+      <p><strong>Email:</strong> ${formData.email || 'Not provided'}</p>
+      <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
     `;
 
     // Add property-specific content for contact form
@@ -78,7 +79,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     emailContent += `
       <hr>
-      <p><em>This message was sent from ${sourceLabels[formData.source]} on Future Homes International website.</em></p>
+      <p><em>This message was sent from ${sourceLabel} on Future Homes International website.</em></p>
     `;
 
     const emailResponse = await resend.emails.send({
