@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Award, Users, MapPin, Phone, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import aliKaranImage from "@/assets/ali-karan-founder.png";
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
+
 
 export default function AliKaran() {
   const [imageError, setImageError] = useState(false);
@@ -219,7 +219,7 @@ export default function AliKaran() {
         </motion.div>
       </div>
 
-      <ElevenLabsWidget />
+      
     </div>
   );
 }

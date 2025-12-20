@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
+
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import Navigation from "@/components/Navigation";
 import PropertyFilter from "@/components/PropertyFilter";
@@ -495,8 +495,6 @@ const DubaiPropertySearch = () => {
         </div>
       </div>
 
-      {/* ElevenLabs Widget */}
-      <ElevenLabsWidget />
     </div>
   );
 };
