@@ -35,22 +35,31 @@ const ContactUs = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
     try {
       const { data, error } = await supabase.functions.invoke("send-contact-notification", {
         body: {
           ...formData,
-          source: 'contact-form'
+          source: "contact-form",
         },
       });
-      if (error) {
-        console.error("Error:", error);
-        toast.error("Ett fel uppstod när meddelandet skulle skickas. Försök igen.");
-      } else {
-        console.log("Success:", data);
-        navigate("/contact-thank-you");
+
+      // Edge function now always returns 200; failures are expressed as { success: false }
+      if (error || data?.success === false) {
+        const messageFromApi = (data as any)?.error?.message as string | undefined;
+
+        console.warn("Contact notification failed:", error ?? data);
+        toast.error(
+          messageFromApi?.includes("Too many requests")
+            ? "För många försök på kort tid. Vänta några sekunder och försök igen."
+            : "Ett fel uppstod när meddelandet skulle skickas. Försök igen."
+        );
+        return;
       }
+
+      navigate("/contact-thank-you");
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.warn("Error sending message:", error);
       toast.error("Ett fel uppstod när meddelandet skulle skickas. Försök igen.");
     } finally {
       setIsSubmitting(false);

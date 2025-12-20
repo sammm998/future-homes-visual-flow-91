@@ -91,9 +91,10 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     if (emailResponse?.error) {
-      console.error("Resend error:", emailResponse.error);
+      // IMPORTANT: return 200 so frontend can handle gracefully (avoid Supabase FunctionsHttpError)
+      console.warn("Resend error:", emailResponse.error);
       return new Response(JSON.stringify({ success: false, error: emailResponse.error }), {
-        status: 502,
+        status: 200,
         headers: {
           "Content-Type": "application/json",
           ...corsHeaders,
@@ -113,9 +114,15 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("Error in send-contact-notification function:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({
+        success: false,
+        error: {
+          message: error?.message ?? "Unknown error",
+        },
+      }),
       {
-        status: 500,
+        // Return 200 so the client can show a friendly message without crashing
+        status: 200,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       }
     );

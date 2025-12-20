@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Home, MapPin, DollarSign, Users, Building, Waves, Mountain, TreePine, Palmtree, Check, ArrowRight, ArrowLeft, Star, User, Mail, Phone } from 'lucide-react';
+import { Home, MapPin, DollarSign, Users, Building, Waves, Mountain, TreePine, Palmtree, Check, ArrowRight, ArrowLeft, Star, User, Mail, Phone, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -27,6 +27,7 @@ const PropertyWizardComponent = () => {
       phone: ''
     }
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const totalSteps = 5;
 
@@ -163,10 +164,14 @@ const PropertyWizardComponent = () => {
   const nextStep = async () => {
     if (currentStep < totalSteps) {
       setCurrentStep(prev => prev + 1);
-    } else {
-      // Submit form and go directly to thank you page
-      await handleFindProperties();
+      return;
     }
+
+    // Prevent duplicate submits (double click) which can trigger Resend rate limiting
+    if (isSubmitting) return;
+
+    // Submit form and go directly to thank you page
+    await handleFindProperties();
   };
 
   const prevStep = () => {
@@ -189,9 +194,12 @@ const PropertyWizardComponent = () => {
   };
 
   const handleFindProperties = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     try {
       // Send email notification with all selections
-      const emailResponse = await supabase.functions.invoke('send-contact-notification', {
+      const { data, error } = await supabase.functions.invoke('send-contact-notification', {
         body: {
           name: selections.contactInfo.name,
           email: selections.contactInfo.email,
@@ -206,16 +214,21 @@ const PropertyWizardComponent = () => {
         }
       });
 
-      if (emailResponse.error) {
-        console.error('Email notification error:', emailResponse.error);
+      // Edge function now always returns 200; failures are expressed as { success: false }
+      if (error || data?.success === false) {
+        const messageFromApi = (data as any)?.error?.message as string | undefined;
+
+        console.warn('Email notification failed:', error ?? data);
         toast({
-          title: "Note",
-          description: "Your preferences have been saved, but we couldn't send a notification email.",
+          title: "Notis",
+          description: messageFromApi?.includes("Too many requests")
+            ? "För många försök på kort tid. Vi sparade dina val, men kunde inte skicka e-post just nu."
+            : "Vi sparade dina val, men kunde inte skicka e-post just nu.",
           variant: "default",
         });
       }
     } catch (emailError) {
-      console.error('Failed to send email notification:', emailError);
+      console.warn('Failed to send email notification:', emailError);
     }
 
     // Navigate to thank you page
@@ -415,11 +428,20 @@ const PropertyWizardComponent = () => {
 
           <Button
             onClick={nextStep}
-            disabled={!isStepValid()}
+            disabled={!isStepValid() || isSubmitting}
             className="bg-gradient-to-r from-primary to-primary-glow hover:from-primary-glow hover:to-primary text-white font-semibold px-6 py-3 rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl disabled:opacity-50 disabled:hover:scale-100"
           >
-            {currentStep === totalSteps ? 'Get Results' : 'Next'}
-            <ArrowRight className="ml-2 w-4 h-4" />
+            {isSubmitting ? (
+              <>
+                Sending...
+                <Loader2 className="ml-2 w-4 h-4 animate-spin" />
+              </>
+            ) : (
+              <>
+                {currentStep === totalSteps ? 'Get Results' : 'Next'}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </>
+            )}
           </Button>
         </div>
       </div>
