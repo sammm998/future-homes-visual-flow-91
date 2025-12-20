@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
+
 import { useNavigate, Link, useLocation, useSearchParams } from 'react-router-dom';
 import Navigation from "@/components/Navigation";
 import PropertyFilter from "@/components/PropertyFilter";
@@ -513,8 +513,6 @@ const BaliPropertySearch = () => {
         </div>
       </div>
 
-      {/* ElevenLabs Widget */}
-      <ElevenLabsWidget />
     </div>
   );
 };

@@ -5,7 +5,7 @@ import Navigation from './Navigation';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
-import ElevenLabsWidget from './ElevenLabsWidget';
+
 import { motion } from 'framer-motion';
 
 interface ArticleLayoutProps {
@@ -244,8 +244,6 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
         </div>
       </div>
       
-      {/* ElevenLabs Widget */}
-      <ElevenLabsWidget />
     </div>
   );
 };

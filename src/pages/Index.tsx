@@ -8,7 +8,7 @@ import Newsletter from "@/components/Newsletter";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
 import PropertyImageGalleryPreview from "@/components/PropertyImageGalleryPreview";
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
+
 import TestimonialsMasonryGrid from "@/components/TestimonialsMasonryGrid";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
 import FounderSection from "@/components/FounderSection";
@@ -314,8 +314,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ElevenLabs Widget */}
-      <ElevenLabsWidget />
 
       {/* 30-second popup */}
       <Dialog open={showPopup} onOpenChange={setShowPopup}>

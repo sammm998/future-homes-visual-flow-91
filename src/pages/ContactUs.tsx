@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import SEOHead from "@/components/SEOHead";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
+
 const ContactUs = () => {
   const navigate = useNavigate();
   const { pageTitle, metaDescription, contentSections, isLoading: contentLoading } = useWebsiteContent("contact-us");
@@ -271,8 +271,6 @@ const ContactUs = () => {
         </div>
       </section>
 
-      {/* ElevenLabs Conversational AI Widget */}
-      <elevenlabs-convai agent-id="agent_01jzfqzb51eha8drdp5z56zavy"></elevenlabs-convai>
     </div>
   );
 };

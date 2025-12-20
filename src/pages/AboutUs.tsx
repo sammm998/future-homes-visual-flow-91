@@ -1,5 +1,5 @@
 import Navigation from "@/components/Navigation";
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Globe, Users, Heart, Shield, FileText, Home, CreditCard, Plane, Languages, CheckCircle, Mail, Star, Award, Target, Building } from "lucide-react";
@@ -437,8 +437,6 @@ const AboutUs = () => {
         </section>
       </div>
 
-      {/* ElevenLabs Widget */}
-      <ElevenLabsWidget />
     </div>;
 };
 export default AboutUs;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import ElevenLabsWidget from "@/components/ElevenLabsWidget";
+
 import { useNavigate } from "react-router-dom";
 import DOMPurify from 'dompurify';
 import Navigation from "@/components/Navigation";
@@ -555,8 +555,6 @@ const Information = () => {
         </div>
       </div>
       
-      {/* ElevenLabs Widget */}
-      <ElevenLabsWidget />
     </div>
   );
 };
