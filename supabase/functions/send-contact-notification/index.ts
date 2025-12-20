@@ -84,7 +84,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "Future Homes International <onboarding@resend.dev>",
-      to: ["info@futurehomesinternational.com"],
+      to: ["info@futurehomesturkey.com"],
       replyTo: formData.email || undefined,
       subject: `New Contact Inquiry from ${name || 'Website Visitor'}`,
       html: emailContent,
