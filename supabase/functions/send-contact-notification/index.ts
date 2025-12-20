@@ -83,16 +83,27 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "Future Homes International <onboarding@resend.dev>",
+      from: "Future Homes Turkey <info@futurehomesturkey.com>",
       to: ["info@futurehomesturkey.com"],
       replyTo: formData.email || undefined,
       subject: `New Contact Inquiry from ${name || 'Website Visitor'}`,
       html: emailContent,
     });
 
+    if (emailResponse?.error) {
+      console.error("Resend error:", emailResponse.error);
+      return new Response(JSON.stringify({ success: false, error: emailResponse.error }), {
+        status: 502,
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
+      });
+    }
+
     console.log("Email sent successfully:", emailResponse);
 
-    return new Response(JSON.stringify({ success: true, data: emailResponse }), {
+    return new Response(JSON.stringify({ success: true, data: emailResponse.data }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
