@@ -29,16 +29,16 @@ interface PropertyCardProps {
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const { formatPrice } = useCurrency();
   const getImageUrl = () => {
-    console.log('🏠 PropertyCard image sources:', {
-      property_image: property.image,
-      property_images: property.property_images,
-      first_image: property.property_images?.[0]
-    });
-    
-    if (property.image) return property.image;
-    if (property.property_images && property.property_images.length > 0) {
+    // Priority: property_images array first, then single image field
+    if (property.property_images && property.property_images.length > 0 && property.property_images[0]) {
+      console.log('🏠 PropertyCard using property_images[0]:', property.property_images[0]);
       return property.property_images[0];
     }
+    if (property.image) {
+      console.log('🏠 PropertyCard using image:', property.image);
+      return property.image;
+    }
+    console.log('🏠 PropertyCard using default image');
     return 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp';
   };
 
