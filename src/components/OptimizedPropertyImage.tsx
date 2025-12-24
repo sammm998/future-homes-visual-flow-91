@@ -79,12 +79,12 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   };
 
   // Create different sizes for responsive loading
-  const createSrcSet = () => {
-    if (!src || src.includes('placeholder.svg')) return '';
-    
-    const sizes = [400, 600, 800, 1200];
-    return sizes
-      .map(size => `${createOptimizedUrl(src, size)} ${size}w`)
+  const createSrcSet = (baseSrc: string) => {
+    if (!baseSrc || baseSrc.includes('placeholder.svg') || baseSrc.startsWith('data:')) return '';
+
+    const widths = [400, 600, 800, 1200];
+    return widths
+      .map(w => `${createOptimizedUrl(baseSrc, w)} ${w}w`)
       .join(', ');
   };
 
@@ -174,7 +174,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       <img
         ref={imgRef}
         src={currentSrc ? createOptimizedUrl(currentSrc, width) : blurPlaceholder}
-        srcSet={currentSrc ? createSrcSet() : undefined}
+        srcSet={currentSrc ? createSrcSet(currentSrc) : undefined}
         sizes={sizes || "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
         alt={alt}
         className={cn(
