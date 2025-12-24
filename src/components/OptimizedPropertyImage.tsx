@@ -37,17 +37,29 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     // Try original first
     if (attemptNumber === 0) return originalSrc;
     
-    // If Supabase/CDN image fails, try different image service
-    if (attemptNumber === 1) {
-      // Try a different property image from a reliable source
-      console.log('🔄 Trying reliable property placeholder');
-      return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
+    // If Supabase/CDN image fails, try without optimization parameters
+    if (attemptNumber === 1 && originalSrc.includes('supabase')) {
+      // Try the original URL without any parameters
+      try {
+        const url = new URL(originalSrc);
+        url.search = ''; // Remove all query parameters
+        console.log('🔄 Trying without optimization params:', url.toString());
+        return url.toString();
+      } catch {
+        return originalSrc;
+      }
+    }
+    
+    // If CDN fails, try without transformations
+    if (attemptNumber === 1 && originalSrc.includes('cdn.futurehomesturkey.com')) {
+      console.log('🔄 Retrying CDN image:', originalSrc);
+      return originalSrc;
     }
     
     // If that fails, try simple placeholder
     if (attemptNumber === 2) {
-      console.log('🔄 Trying via.placeholder.com');
-      return "https://via.placeholder.com/400x300/f3f4f6/9ca3af?text=Property+Image";
+      console.log('🔄 Trying placeholder');
+      return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
     }
     
     // Final fallback - base64 placeholder
@@ -55,32 +67,14 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     return blurPlaceholder;
   };
 
-  // Create optimized image URLs
+  // Create optimized image URLs - return as-is to avoid transformation issues
   const createOptimizedUrl = (originalUrl: string, targetWidth: number) => {
     if (!originalUrl || originalUrl.includes('placeholder.svg') || originalUrl.startsWith('data:')) {
       return originalUrl;
     }
     
-    // Handle Supabase storage URLs with better optimization
-    if (originalUrl.includes('supabase') && originalUrl.includes('storage')) {
-      try {
-        const url = new URL(originalUrl);
-        url.searchParams.set('width', targetWidth.toString());
-        url.searchParams.set('quality', '85'); // Slightly reduced quality for faster loading
-        url.searchParams.set('format', 'webp');
-        url.searchParams.set('resize', 'contain');
-        return url.toString();
-      } catch (error) {
-        console.warn('Failed to optimize URL:', originalUrl);
-        return originalUrl;
-      }
-    }
-    
-    // For external CDN URLs (like cdn.futurehomesturkey.com), return as-is
-    if (originalUrl.includes('cdn.futurehomesturkey.com')) {
-      return originalUrl;
-    }
-    
+    // Return URLs as-is to avoid transformation failures
+    // Both Supabase and CDN URLs should work without additional parameters
     return originalUrl;
   };
 

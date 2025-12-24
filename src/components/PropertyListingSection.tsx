@@ -18,15 +18,24 @@ const PropertyListingSection = () => {
   const filteredProperties = useMemo(() => {
     let filtered = [];
     
+    // Helper function to check location match - must start with the location name
+    const matchesLocation = (propertyLocation: string | undefined, targetLocation: string) => {
+      if (!propertyLocation) return false;
+      const normalized = propertyLocation.toLowerCase().trim();
+      const target = targetLocation.toLowerCase();
+      // Match if location starts with target or if it's exactly the target
+      return normalized === target || normalized.startsWith(target + ',') || normalized.startsWith(target + ' ');
+    };
+    
     if (selectedLocation === 'all') {
       // Get one property from each location for a mix
       const locationGroups = {
-        Antalya: properties.filter(p => p.location?.toLowerCase().includes('antalya')),
-        Istanbul: properties.filter(p => p.location?.toLowerCase().includes('istanbul')),
-        Mersin: properties.filter(p => p.location?.toLowerCase().includes('mersin')),
-        Dubai: properties.filter(p => p.location?.toLowerCase().includes('dubai')),
-        Cyprus: properties.filter(p => p.location?.toLowerCase().includes('cyprus')),
-        Bali: properties.filter(p => p.location?.toLowerCase().includes('bali')),
+        Antalya: properties.filter(p => matchesLocation(p.location, 'antalya')),
+        Istanbul: properties.filter(p => matchesLocation(p.location, 'istanbul')),
+        Mersin: properties.filter(p => matchesLocation(p.location, 'mersin')),
+        Dubai: properties.filter(p => matchesLocation(p.location, 'dubai')),
+        Cyprus: properties.filter(p => matchesLocation(p.location, 'cyprus')),
+        Bali: properties.filter(p => matchesLocation(p.location, 'bali')),
       };
 
       // Get one from each location (prioritizing mid-range prices)
@@ -62,12 +71,8 @@ const PropertyListingSection = () => {
         }
       });
     } else {
-      // Filter by selected location
-      filtered = properties.filter(property => {
-        const location = property.location?.toLowerCase() || '';
-        const selectedLower = selectedLocation.toLowerCase();
-        return location.includes(selectedLower);
-      });
+      // Filter by selected location - use strict matching
+      filtered = properties.filter(property => matchesLocation(property.location, selectedLocation));
 
       // Sort by price: mid-range first (1400-5000), then high prices, then low prices
       filtered = filtered.sort((a, b) => {
