@@ -33,6 +33,7 @@ const CyprusPropertySearch = lazy(() => import("./pages/CyprusPropertySearch"));
 const MersinPropertySearch = lazy(() => import("./pages/MersinPropertySearch"));
 const BaliPropertySearch = lazy(() => import("./pages/BaliPropertySearch"));
 
+
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const Testimonials = lazy(() => import("./pages/Testimonials"));
 const Information = lazy(() => import("./pages/Information"));
@@ -42,16 +43,8 @@ const AliKaran = lazy(() => import("./pages/AliKaran"));
 const Article = lazy(() => import("./pages/Article"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const ExpensesBuyingPropertyTurkey = lazy(() => import("./pages/ExpensesBuyingPropertyTurkey"));
-const PropertyGallery = lazy(() => import("./pages/PropertyGallery"));
-
-// SEO pages
-const PropertyForSaleInTurkey = lazy(() => import("./pages/PropertyForSaleInTurkey"));
-const ApartmentsForSaleInTurkey = lazy(() => import("./pages/ApartmentsForSaleInTurkey"));
-const LuxuryVillasInTurkey = lazy(() => import("./pages/LuxuryVillasInTurkey"));
-const OffPlanPropertyTurkey = lazy(() => import("./pages/OffPlanPropertyTurkey"));
-const TurkishCitizenshipByInvestment = lazy(() => import("./pages/TurkishCitizenshipByInvestment"));
-
 const Newsletter = lazy(() => import("./components/Newsletter"));
 const ContactThankYou = lazy(() => import("./pages/ContactThankYou"));
 const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
