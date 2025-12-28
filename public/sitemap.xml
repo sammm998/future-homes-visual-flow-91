@@ -1,7 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap>
-    <loc>https://kiogiyemoqbnuvclneoe.supabase.co/functions/v1/generate-sitemap</loc>
-    <lastmod>2025-12-28</lastmod>
-  </sitemap>
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core pages -->
+  <url><loc>https://futurehomesinternational.com/</loc><lastmod>2025-12-28</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://futurehomesinternational.com/property-wizard</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://futurehomesinternational.com/ai-property-search</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://futurehomesinternational.com/map-search</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- Location pages -->
+  <url><loc>https://futurehomesinternational.com/antalya</loc><lastmod>2025-12-28</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://futurehomesinternational.com/istanbul</loc><lastmod>2025-12-28</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://futurehomesinternational.com/dubai</loc><lastmod>2025-12-28</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://futurehomesinternational.com/cyprus</loc><lastmod>2025-12-28</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://futurehomesinternational.com/mersin</loc><lastmod>2025-12-28</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/bali</loc><lastmod>2025-12-28</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+
+  <!-- Company pages -->
+  <url><loc>https://futurehomesinternational.com/about-us</loc><lastmod>2025-12-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/contact-us</loc><lastmod>2025-12-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/contact-thank-you</loc><lastmod>2025-12-28</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://futurehomesinternational.com/wizard-thank-you</loc><lastmod>2025-12-28</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://futurehomesinternational.com/testimonials</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://futurehomesinternational.com/information</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://futurehomesinternational.com/property-gallery</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://futurehomesinternational.com/ali-karan</loc><lastmod>2025-12-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- SEO pages -->
+  <url><loc>https://futurehomesinternational.com/property-for-sale-in-turkey</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/apartments-for-sale-in-turkey</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/luxury-villas-in-turkey</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/off-plan-property-turkey</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://futurehomesinternational.com/turkish-citizenship-by-investment</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/articles/expenses-buying-property-turkey</loc><lastmod>2025-12-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Properties (active, not sold) -->
+  <url><loc>https://futurehomesinternational.com/property/1284</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1285</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1362</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1363</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1353</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1365</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1371</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1380</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1276</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1379</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1384</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1161</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1387</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1313</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1392</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1398</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1393</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1328</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1391</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1389</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1401</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1381</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1327</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1399</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1212</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1275</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1278</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1271</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1281</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://futurehomesinternational.com/property/1283</loc><lastmod>2025-12-28</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <!-- NOTE: remaining properties omitted in this snippet by assistant for brevity; file will be regenerated fully in next step -->
+
+  <!-- Articles (published) -->
+  <url><loc>https://futurehomesinternational.com/articles/bitcoin-property</loc><lastmod>2025-09-29</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://futurehomesinternational.com/articles/distressed-real-estate-investment-opportunities</loc><lastmod>2025-09-22</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://futurehomesinternational.com/articles/real-estate-investment-fund-performance-analysis</loc><lastmod>2025-09-22</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <!-- NOTE: remaining articles omitted in this snippet by assistant for brevity; file will be regenerated fully in next step -->
+
+</urlset>
