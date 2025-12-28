@@ -22,25 +22,58 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseKey);
     
     // Fetch ALL active properties (exclude sold ones for sitemap)
-    const { data: properties, error: propertiesError } = await supabase
-      .from('properties')
-      .select('id, ref_no, slug, updated_at, status, location, title, property_type, price, property_district')
-      .eq('is_active', true)
-      .not('status', 'ilike', '%sold%');
+    // Use pagination to get ALL properties (Supabase has 1000 row limit)
+    let allProperties: any[] = [];
+    let offset = 0;
+    const limit = 1000;
     
-    if (propertiesError) {
-      console.error('Error fetching properties:', propertiesError);
+    while (true) {
+      const { data: propertiesBatch, error: propertiesError } = await supabase
+        .from('properties')
+        .select('id, ref_no, slug, updated_at, status, location, title, property_type, price, property_district')
+        .eq('is_active', true)
+        .or('status.is.null,status.not.ilike.%sold%')
+        .range(offset, offset + limit - 1);
+      
+      if (propertiesError) {
+        console.error('Error fetching properties:', propertiesError);
+        break;
+      }
+      
+      if (!propertiesBatch || propertiesBatch.length === 0) break;
+      
+      allProperties = [...allProperties, ...propertiesBatch];
+      if (propertiesBatch.length < limit) break;
+      offset += limit;
     }
+    
+    const properties = allProperties;
+    console.log(`Fetched ${properties.length} properties`);
 
-    // Fetch ALL published blog posts
-    const { data: blogPosts, error: blogError } = await supabase
-      .from('blog_posts')
-      .select('slug, updated_at, title, language_code')
-      .eq('published', true);
-
-    if (blogError) {
-      console.error('Error fetching blog posts:', blogError);
+    // Fetch ALL published blog posts with pagination
+    let allBlogPosts: any[] = [];
+    offset = 0;
+    
+    while (true) {
+      const { data: blogBatch, error: blogError } = await supabase
+        .from('blog_posts')
+        .select('slug, updated_at, title, language_code, parent_post_id')
+        .eq('published', true)
+        .range(offset, offset + limit - 1);
+      
+      if (blogError) {
+        console.error('Error fetching blog posts:', blogError);
+        break;
+      }
+      
+      if (!blogBatch || blogBatch.length === 0) break;
+      
+      allBlogPosts = [...allBlogPosts, ...blogBatch];
+      if (blogBatch.length < limit) break;
+      offset += limit;
     }
+    
+    const blogPosts = allBlogPosts;
 
     // Fetch distinct locations for location pages
     const { data: locationData, error: locationError } = await supabase
@@ -141,7 +174,7 @@ serve(async (req) => {
   </url>`;
     });
 
-    // Add ALL property pages
+    // Add ALL property pages - prioritize ID for unique URLs
     console.log(`Adding ${properties?.length || 0} properties to sitemap`);
     if (properties && properties.length > 0) {
       properties.forEach(property => {
@@ -149,13 +182,13 @@ serve(async (req) => {
           ? new Date(property.updated_at).toISOString().split('T')[0]
           : currentDate;
         
-        // Use slug first, then ref_no, then id
-        const propertyIdentifier = property.slug || property.ref_no || property.id;
+        // Always use ID for consistent, unique URLs
+        const propertyId = property.id;
         
-        if (propertyIdentifier) {
+        if (propertyId) {
           sitemapXml += `
   <url>
-    <loc>${baseUrl}/property/${propertyIdentifier}</loc>
+    <loc>${baseUrl}/property/${propertyId}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>`;
@@ -163,13 +196,13 @@ serve(async (req) => {
           // Add hreflang alternates
           languages.forEach(lang => {
             const langUrl = lang === 'en' 
-              ? `${baseUrl}/property/${propertyIdentifier}` 
-              : `${baseUrl}/property/${propertyIdentifier}?lang=${lang}`;
+              ? `${baseUrl}/property/${propertyId}` 
+              : `${baseUrl}/property/${propertyId}?lang=${lang}`;
             sitemapXml += `
     <xhtml:link rel="alternate" hreflang="${lang}" href="${langUrl}" />`;
           });
           sitemapXml += `
-    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/property/${propertyIdentifier}" />`;
+    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/property/${propertyId}" />`;
           
           sitemapXml += `
   </url>`;
@@ -177,11 +210,15 @@ serve(async (req) => {
       });
     }
 
-    // Add ALL blog articles
+    // Add ALL blog articles - only parent posts (English or no language code, and no parent_post_id)
     console.log(`Adding ${blogPosts?.length || 0} blog posts to sitemap`);
     if (blogPosts && blogPosts.length > 0) {
-      // Filter to only include parent posts (no language_code or English)
-      const parentPosts = blogPosts.filter(post => !post.language_code || post.language_code === 'en');
+      // Filter to only include parent posts (no parent_post_id means it's a parent)
+      const parentPosts = blogPosts.filter(post => 
+        !post.parent_post_id && (!post.language_code || post.language_code === 'en')
+      );
+      
+      console.log(`Filtered to ${parentPosts.length} parent blog posts`);
       
       parentPosts.forEach(post => {
         const lastmod = post.updated_at 
