@@ -21,18 +21,55 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
     
-    // Fetch all properties with more details for better SEO
-    const { data: properties } = await supabase
+    // Fetch ALL active properties (exclude sold ones for sitemap)
+    const { data: properties, error: propertiesError } = await supabase
       .from('properties')
-      .select('id, ref_no, updated_at, status, location, title, property_type, price')
-      .eq('status', 'available')
-      .eq('is_active', true);
+      .select('id, ref_no, slug, updated_at, status, location, title, property_type, price, property_district')
+      .eq('is_active', true)
+      .not('status', 'ilike', '%sold%');
+    
+    if (propertiesError) {
+      console.error('Error fetching properties:', propertiesError);
+    }
 
-    // Fetch all blog posts
-    const { data: blogPosts } = await supabase
+    // Fetch ALL published blog posts
+    const { data: blogPosts, error: blogError } = await supabase
       .from('blog_posts')
       .select('slug, updated_at, title, language_code')
       .eq('published', true);
+
+    if (blogError) {
+      console.error('Error fetching blog posts:', blogError);
+    }
+
+    // Fetch distinct locations for location pages
+    const { data: locationData, error: locationError } = await supabase
+      .from('properties')
+      .select('location, property_district')
+      .eq('is_active', true)
+      .not('status', 'ilike', '%sold%');
+
+    if (locationError) {
+      console.error('Error fetching locations:', locationError);
+    }
+
+    // Extract unique main locations (first part before comma)
+    const uniqueLocations = new Set<string>();
+    const uniqueDistricts = new Set<string>();
+    
+    if (locationData) {
+      locationData.forEach(item => {
+        if (item.location) {
+          const mainLocation = item.location.split(',')[0].trim().toLowerCase();
+          if (mainLocation) {
+            uniqueLocations.add(mainLocation);
+          }
+        }
+        if (item.property_district) {
+          uniqueDistricts.add(item.property_district.toLowerCase());
+        }
+      });
+    }
 
     const currentDate = new Date().toISOString().split('T')[0];
     const baseUrl = 'https://futurehomesinternational.com';
@@ -40,19 +77,11 @@ serve(async (req) => {
     // Supported languages for multi-language sitemap
     const languages = ['en', 'sv', 'tr', 'ar'];
 
-    // Static pages - Core pages with updated structure
+    // Static pages - Core pages
     const staticPages = [
       { url: '/', priority: '1.0', changefreq: 'daily' },
       { url: '/property-wizard', priority: '0.9', changefreq: 'weekly' },
       { url: '/ai-property-search', priority: '0.9', changefreq: 'weekly' },
-      
-      // Location-specific property search pages (main destinations)
-      { url: '/antalya', priority: '0.9', changefreq: 'daily' },
-      { url: '/istanbul', priority: '0.9', changefreq: 'daily' },
-      { url: '/dubai', priority: '0.9', changefreq: 'daily' },
-      { url: '/cyprus', priority: '0.9', changefreq: 'daily' },
-      { url: '/mersin', priority: '0.8', changefreq: 'daily' },
-      { url: '/bali', priority: '0.8', changefreq: 'daily' },
       
       // Company and information pages
       { url: '/about-us', priority: '0.8', changefreq: 'monthly' },
@@ -62,6 +91,7 @@ serve(async (req) => {
       
       // Media and showcase pages
       { url: '/property-gallery', priority: '0.6', changefreq: 'weekly' },
+      { url: '/articles', priority: '0.7', changefreq: 'daily' },
       
       // Team pages
       { url: '/ali-karan', priority: '0.6', changefreq: 'monthly' },
@@ -75,12 +105,22 @@ serve(async (req) => {
       { url: '/expenses-buying-property-turkey', priority: '0.7', changefreq: 'monthly' },
     ];
 
+    // Add dynamic location pages from database
+    const locationPages: Array<{ url: string; priority: string; changefreq: string }> = [];
+    uniqueLocations.forEach(location => {
+      // Only add if we have a matching route
+      const validLocations = ['antalya', 'istanbul', 'dubai', 'cyprus', 'mersin', 'bali'];
+      if (validLocations.includes(location)) {
+        locationPages.push({ url: `/${location}`, priority: '0.9', changefreq: 'daily' });
+      }
+    });
+
     let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">`;
 
     // Add static pages with language alternates
-    staticPages.forEach(page => {
-      // Default English version with full hreflang alternates
+    const allStaticPages = [...staticPages, ...locationPages];
+    allStaticPages.forEach(page => {
       sitemapXml += `
   <url>
     <loc>${baseUrl}${page.url}</loc>
@@ -88,7 +128,7 @@ serve(async (req) => {
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>`;
       
-      // Add xhtml:link alternates for each language (including self-referencing)
+      // Add xhtml:link alternates for each language
       languages.forEach(lang => {
         const langUrl = lang === 'en' ? `${baseUrl}${page.url}` : `${baseUrl}${page.url}${page.url.includes('?') ? '&' : '?'}lang=${lang}`;
         sitemapXml += `
@@ -99,103 +139,51 @@ serve(async (req) => {
       
       sitemapXml += `
   </url>`;
-      
-      // Add alternate language versions as separate URL entries with their own hreflang sets
-      languages.forEach(lang => {
-        if (lang !== 'en') {
-          const langUrl = `${baseUrl}${page.url}${page.url.includes('?') ? '&' : '?'}lang=${lang}`;
-          sitemapXml += `
-  <url>
-    <loc>${langUrl}</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>${page.changefreq}</changefreq>
-    <priority>${(parseFloat(page.priority) - 0.05).toFixed(2)}</priority>`;
-          
-          // Add hreflang alternates for this language version too
-          languages.forEach(altLang => {
-            const altUrl = altLang === 'en' ? `${baseUrl}${page.url}` : `${baseUrl}${page.url}${page.url.includes('?') ? '&' : '?'}lang=${altLang}`;
-            sitemapXml += `
-    <xhtml:link rel="alternate" hreflang="${altLang}" href="${altUrl}" />`;
-          });
-          sitemapXml += `
-    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}${page.url}" />`;
-          
-          sitemapXml += `
-  </url>`;
-        }
-      });
     });
 
-    // Add property pages with enhanced metadata and language alternates
+    // Add ALL property pages
+    console.log(`Adding ${properties?.length || 0} properties to sitemap`);
     if (properties && properties.length > 0) {
       properties.forEach(property => {
         const lastmod = property.updated_at 
           ? new Date(property.updated_at).toISOString().split('T')[0]
           : currentDate;
         
-        // Main property page by ref_no (primary) with language alternates
-        if (property.ref_no) {
+        // Use slug first, then ref_no, then id
+        const propertyIdentifier = property.slug || property.ref_no || property.id;
+        
+        if (propertyIdentifier) {
           sitemapXml += `
   <url>
-    <loc>${baseUrl}/property/${property.ref_no}</loc>
+    <loc>${baseUrl}/property/${propertyIdentifier}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>`;
           
-          // Add hreflang alternates for property pages
+          // Add hreflang alternates
           languages.forEach(lang => {
             const langUrl = lang === 'en' 
-              ? `${baseUrl}/property/${property.ref_no}` 
-              : `${baseUrl}/property/${property.ref_no}?lang=${lang}`;
+              ? `${baseUrl}/property/${propertyIdentifier}` 
+              : `${baseUrl}/property/${propertyIdentifier}?lang=${lang}`;
             sitemapXml += `
     <xhtml:link rel="alternate" hreflang="${lang}" href="${langUrl}" />`;
           });
           sitemapXml += `
-    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/property/${property.ref_no}" />`;
+    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/property/${propertyIdentifier}" />`;
           
           sitemapXml += `
   </url>`;
-          
-          // Add language versions for property pages
-          languages.forEach(lang => {
-            if (lang !== 'en') {
-              sitemapXml += `
-  <url>
-    <loc>${baseUrl}/property/${property.ref_no}?lang=${lang}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>`;
-              
-              languages.forEach(altLang => {
-                const altUrl = altLang === 'en' 
-                  ? `${baseUrl}/property/${property.ref_no}` 
-                  : `${baseUrl}/property/${property.ref_no}?lang=${altLang}`;
-                sitemapXml += `
-    <xhtml:link rel="alternate" hreflang="${altLang}" href="${altUrl}" />`;
-              });
-              sitemapXml += `
-    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/property/${property.ref_no}" />`;
-              
-              sitemapXml += `
-  </url>`;
-            }
-          });
         }
-        
-        // Also add by UUID for direct access
-        sitemapXml += `
-  <url>
-    <loc>${baseUrl}/property/${property.id}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>`;
       });
     }
 
-    // Add blog articles with language alternates
+    // Add ALL blog articles
+    console.log(`Adding ${blogPosts?.length || 0} blog posts to sitemap`);
     if (blogPosts && blogPosts.length > 0) {
-      blogPosts.forEach(post => {
+      // Filter to only include parent posts (no language_code or English)
+      const parentPosts = blogPosts.filter(post => !post.language_code || post.language_code === 'en');
+      
+      parentPosts.forEach(post => {
         const lastmod = post.updated_at 
           ? new Date(post.updated_at).toISOString().split('T')[0]
           : currentDate;
@@ -207,7 +195,7 @@ serve(async (req) => {
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>`;
         
-        // Add hreflang alternates for blog posts
+        // Add hreflang alternates
         languages.forEach(lang => {
           const langUrl = lang === 'en' 
             ? `${baseUrl}/articles/${post.slug}` 
@@ -226,11 +214,13 @@ serve(async (req) => {
     sitemapXml += `
 </urlset>`;
 
+    console.log(`Generated sitemap with ${allStaticPages.length} static pages, ${properties?.length || 0} properties, ${blogPosts?.length || 0} blog posts`);
+
     return new Response(sitemapXml, {
       headers: {
         ...corsHeaders,
         'Content-Type': 'application/xml',
-        'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+        'Cache-Control': 'public, max-age=3600',
       },
     });
 
