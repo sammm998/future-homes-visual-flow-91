@@ -192,7 +192,7 @@ const MersinPropertySearch = () => {
     return [...properties].sort((a, b) => {
       const refA = parseInt(a.refNo || '0');
       const refB = parseInt(b.refNo || '0');
-      return refA - refB;
+      return refB - refA; // Descending order (highest ref first)
     });
   }, [properties, showFiltered, filters]);
 
