@@ -25,10 +25,27 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [currentSrc, setCurrentSrc] = useState(priority ? src : '');
   const [fallbackAttempts, setFallbackAttempts] = useState(0);
   const imgRef = useRef<HTMLImageElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // Helper to validate image URL
+  const isValidImageUrl = (url: string | undefined | null): boolean => {
+    if (!url || typeof url !== 'string') return false;
+    const trimmed = url.trim();
+    if (!trimmed || trimmed === '' || trimmed === 'null' || trimmed === 'undefined') return false;
+    if (trimmed.includes('placeholder.svg')) return false;
+    if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://') && !trimmed.startsWith('data:')) return false;
+    return true;
+  };
+
+  // Get valid source or default
+  const getValidSrc = (originalSrc: string): string => {
+    if (isValidImageUrl(originalSrc)) return originalSrc;
+    return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
+  };
+
+  const [currentSrc, setCurrentSrc] = useState(priority ? getValidSrc(src) : '');
 
   // Fallback image sources with better error handling
   const getFallbackSrc = (originalSrc: string, attemptNumber: number): string => {
@@ -102,9 +119,16 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   `);
 
   useEffect(() => {
+    // Reset state when src changes
+    setFallbackAttempts(0);
+    setError(false);
+    setIsLoading(true);
+    
+    const validSrc = getValidSrc(src);
+    
     if (priority) {
       // For priority images, load immediately
-      setCurrentSrc(src);
+      setCurrentSrc(validSrc);
       return;
     }
 
@@ -115,7 +139,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !currentSrc) {
-            setCurrentSrc(src);
+            setCurrentSrc(validSrc);
             observerRef.current?.unobserve(entry.target);
           }
         });
@@ -129,7 +153,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     observerRef.current.observe(imgRef.current);
 
     return () => observerRef.current?.disconnect();
-  }, [src, priority, currentSrc]);
+  }, [src, priority]);
 
   const handleLoad = () => {
     console.log('✅ Image loaded successfully:', src);
