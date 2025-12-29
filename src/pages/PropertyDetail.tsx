@@ -522,10 +522,17 @@ const PropertyDetail = () => {
             {/* Property Description */}
             {property.description && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">About This Property</h2>
-                <div className="p-6 border rounded-lg bg-gradient-to-br from-blue-50/50 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/5 border-blue-200/50 dark:border-blue-700/30">
-                  <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                    {property.description}
-                  </p>
+                <div className="p-6 border rounded-lg bg-gradient-to-br from-blue-50/50 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/5 border-blue-200/50 dark:border-blue-700/30 space-y-4">
+                  {property.description.split(/\n\n+/).map((paragraph: string, index: number) => (
+                    <p key={index} className="text-muted-foreground leading-relaxed">
+                      {paragraph.split(/\n/).map((line: string, lineIndex: number, arr: string[]) => (
+                        <React.Fragment key={lineIndex}>
+                          {line}
+                          {lineIndex < arr.length - 1 && <br />}
+                        </React.Fragment>
+                      ))}
+                    </p>
+                  ))}
                 </div>
               </div>}
 
