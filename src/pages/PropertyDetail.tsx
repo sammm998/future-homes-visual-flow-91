@@ -397,18 +397,34 @@ const PropertyDetail = () => {
         <Button variant="ghost" onClick={() => {
         // Use returnUrl from state if available, otherwise fallback to location route
         const returnUrl = location.state?.returnUrl;
+        const savedPage = location.state?.savedPage;
+        const savedScrollY = location.state?.savedScrollY;
         console.log('⬅️ PropertyDetail: Back button clicked', {
           returnUrl,
+          savedPage,
+          savedScrollY,
           locationState: location.state,
           propertyLocation: property?.location
         });
         if (returnUrl) {
-          console.log('⬅️ PropertyDetail: Navigating to returnUrl:', returnUrl);
-          navigate(returnUrl);
+          console.log('⬅️ PropertyDetail: Navigating to returnUrl with saved state:', returnUrl);
+          navigate(returnUrl, {
+            state: {
+              returnedFromProperty: true,
+              savedPage,
+              savedScrollY
+            }
+          });
         } else {
           const locationRoute = getLocationRoute(property?.location || '');
           console.log('⬅️ PropertyDetail: Navigating to locationRoute:', locationRoute);
-          navigate(locationRoute);
+          navigate(locationRoute, {
+            state: {
+              returnedFromProperty: true,
+              savedPage,
+              savedScrollY
+            }
+          });
         }
       }} className="mb-8">
           <ArrowLeft className="h-4 w-4 mr-2" />

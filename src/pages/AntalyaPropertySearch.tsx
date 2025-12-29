@@ -43,10 +43,27 @@ const AntalyaPropertySearch = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
-  // Scroll to top when page changes
+  // Restore page and scroll position when returning from property detail
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentPage]);
+    const state = location.state as { 
+      returnedFromProperty?: boolean;
+      savedPage?: number;
+      savedScrollY?: number;
+    } | null;
+
+    if (state?.returnedFromProperty) {
+      if (state.savedPage) {
+        setCurrentPage(state.savedPage);
+      }
+      if (state.savedScrollY !== undefined) {
+        const timer = setTimeout(() => {
+          window.scrollTo({ top: state.savedScrollY, behavior: 'instant' });
+        }, 100);
+        return () => clearTimeout(timer);
+      }
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   // Load filters from URL parameters and location state on mount
   useEffect(() => {
@@ -197,18 +214,21 @@ const AntalyaPropertySearch = () => {
     setCurrentPage(1);
   };
   const handlePropertyClick = (property: any) => {
-    // Save current URL with all search params for back navigation
+    // Save current URL, page number and scroll position for back navigation
     const currentUrl = `${location.pathname}${location.search}`;
+    const currentScrollY = window.scrollY;
     console.log('🏠 Antalya: Navigating to property', {
       currentUrl,
-      pathname: location.pathname,
-      search: location.search,
+      currentPage,
+      currentScrollY,
       property: property.refNo || property.id
     });
     navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, {
       state: {
         from: '/antalya',
-        returnUrl: currentUrl
+        returnUrl: currentUrl,
+        savedPage: currentPage,
+        savedScrollY: currentScrollY
       }
     });
   };

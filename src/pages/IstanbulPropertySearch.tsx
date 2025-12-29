@@ -37,9 +37,27 @@ const IstanbulPropertySearch = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
+  // Restore page and scroll position when returning from property detail
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentPage]);
+    const state = location.state as { 
+      returnedFromProperty?: boolean;
+      savedPage?: number;
+      savedScrollY?: number;
+    } | null;
+
+    if (state?.returnedFromProperty) {
+      if (state.savedPage) {
+        setCurrentPage(state.savedPage);
+      }
+      if (state.savedScrollY !== undefined) {
+        const timer = setTimeout(() => {
+          window.scrollTo({ top: state.savedScrollY, behavior: 'instant' });
+        }, 100);
+        return () => clearTimeout(timer);
+      }
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     const urlFilters: PropertyFilters = {
@@ -162,10 +180,13 @@ const IstanbulPropertySearch = () => {
 
   const handlePropertyClick = (property: any) => {
     const currentUrl = `${location.pathname}${location.search}`;
+    const currentScrollY = window.scrollY;
     navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, {
       state: {
         from: '/istanbul',
-        returnUrl: currentUrl
+        returnUrl: currentUrl,
+        savedPage: currentPage,
+        savedScrollY: currentScrollY
       }
     });
   };
