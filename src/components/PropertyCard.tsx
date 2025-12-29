@@ -29,17 +29,37 @@ interface PropertyCardProps {
 const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
   const { formatPrice } = useCurrency();
   const getImageUrl = () => {
+    const defaultImage = 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp';
+    
+    // Helper to validate if URL is usable
+    const isValidImageUrl = (url: string | undefined | null): boolean => {
+      if (!url || typeof url !== 'string') return false;
+      const trimmed = url.trim();
+      if (!trimmed || trimmed === '' || trimmed === 'null' || trimmed === 'undefined') return false;
+      // Check for empty/placeholder patterns
+      if (trimmed.includes('placeholder.svg')) return false;
+      // Must be a valid URL format
+      if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://') && !trimmed.startsWith('data:')) return false;
+      return true;
+    };
+    
     // Priority: property_images array first, then single image field
-    if (property.property_images && property.property_images.length > 0 && property.property_images[0]) {
-      console.log('🏠 PropertyCard using property_images[0]:', property.property_images[0]);
-      return property.property_images[0];
+    if (property.property_images && Array.isArray(property.property_images)) {
+      // Find first valid image in array
+      const validImage = property.property_images.find(img => isValidImageUrl(img));
+      if (validImage) {
+        console.log('🏠 PropertyCard using property_images:', validImage);
+        return validImage;
+      }
     }
-    if (property.image) {
+    
+    if (isValidImageUrl(property.image)) {
       console.log('🏠 PropertyCard using image:', property.image);
       return property.image;
     }
-    console.log('🏠 PropertyCard using default image');
-    return 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp';
+    
+    console.log('🏠 PropertyCard using default image for:', property.title);
+    return defaultImage;
   };
 
   const getStatusConfig = (status: string) => {
