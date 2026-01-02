@@ -12,8 +12,8 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import ervinaImage from '@/assets/ervina-koksel.png';
-// Using Isra Adala's image
-const israImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/xwui0x0wkwm.png';
+// Using Batuhan Kunt's image
+const batuhanImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ukys641vbp.jpeg';
 import { supabase } from '@/integrations/supabase/client';
 import { OptimizedPropertyImage } from '@/components/OptimizedPropertyImage';
 import { t } from '@/utils/translations';
@@ -45,25 +45,24 @@ const getAgentData = (agentName: string) => {
       experience: "Experienced sales representative",
       specialties: ["Property Sales", "Customer Service", "Office Management"]
     },
-    "Isra Adala": {
-      name: "Isra Adala",
-      image: israImage,
+    "Batuhan Kunt": {
+      name: "Batuhan Kunt",
+      image: batuhanImage,
       title: "Sales Representative",
       experience: "Expert in real estate investment and property management",
       specialties: ["Property Investment", "Customer Relations", "International Sales"]
     },
     "Dubai Properties Team": {
       name: "Dubai Properties Team",
-      image: israImage,
-      // Using Isra's image as placeholder for team
+      image: batuhanImage,
       title: "Sales Representative",
       experience: "Expert team specializing in international property sales",
       specialties: ["International Sales", "Property Investment", "Customer Relations"]
     }
   };
   return agents[agentName] || {
-    name: "Isra Adala",
-    image: israImage,
+    name: "Batuhan Kunt",
+    image: batuhanImage,
     title: "Sales Representative",
     experience: "Expert in real estate investment and property management",
     specialties: ["Property Investment", "Customer Relations", "International Sales"]
@@ -174,7 +173,7 @@ const getPropertyData = async (id: string) => {
         images: images,
         distanceToAirport: dbProperty.distance_to_airport_km ? `${dbProperty.distance_to_airport_km} km` : undefined,
         distanceToBeach: dbProperty.distance_to_beach_km ? `${dbProperty.distance_to_beach_km} km` : undefined,
-        agent: "Isra Adala",
+        agent: "Batuhan Kunt",
         contactPhone: "+905523032750",
         contactEmail: "info@futurehomesinternational.com"
       };
