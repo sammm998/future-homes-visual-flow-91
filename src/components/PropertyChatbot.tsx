@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { X, Send, MessageCircle, Mic, MicOff, Home, Calendar, MapPin, Phone } from "lucide-react";
+import { X, Send, MessageCircle, Mic, MicOff, Home, Calendar, MapPin, ChevronLeft, ChevronRight, Bot, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -34,16 +34,12 @@ interface BookingForm {
   time: string;
 }
 
+type ChatView = "welcome" | "chat" | "voice";
+
 export function PropertyChatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      text: "Hello! I'm your AI property assistant. How can I help you find your dream home today?",
-      sender: "ai",
-      timestamp: new Date(),
-    },
-  ]);
+  const [currentView, setCurrentView] = useState<ChatView>("welcome");
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
@@ -56,6 +52,7 @@ export function PropertyChatbot() {
   });
   const [isVoiceActive, setIsVoiceActive] = useState(false);
   const [isVoiceConnecting, setIsVoiceConnecting] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -63,6 +60,21 @@ export function PropertyChatbot() {
   const dcRef = useRef<RTCDataChannel | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { toast } = useToast();
+
+  const popularAreas = [
+    { name: "Dubai", icon: "🏙️", color: "from-amber-400 to-orange-500" },
+    { name: "Antalya", icon: "🌊", color: "from-blue-400 to-cyan-500" },
+    { name: "Cyprus", icon: "🏝️", color: "from-emerald-400 to-teal-500" },
+    { name: "Mersin", icon: "🌅", color: "from-purple-400 to-pink-500" },
+    { name: "Bali", icon: "🌴", color: "from-green-400 to-emerald-500" },
+  ];
+
+  const quickActions = [
+    { icon: Bot, label: "AI Chat", description: "Chat with our AI assistant", action: () => startChat() },
+    { icon: Mic, label: "Voice", description: "Talk to our AI", action: () => setCurrentView("voice") },
+    { icon: Home, label: "Browse", description: "View all listings", action: () => { startChat(); handleSendMessage("Show me available properties"); } },
+    { icon: Calendar, label: "Book", description: "Schedule a viewing", action: () => { startChat(); setShowBookingForm(true); } },
+  ];
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -73,10 +85,33 @@ export function PropertyChatbot() {
 
   // Focus input when chat opens
   useEffect(() => {
-    if (isOpen && inputRef.current && !isLoading) {
+    if (isOpen && currentView === "chat" && inputRef.current && !isLoading) {
       inputRef.current.focus();
     }
-  }, [isOpen, isLoading]);
+  }, [isOpen, currentView, isLoading]);
+
+  const startChat = () => {
+    if (messages.length === 0) {
+      setMessages([{
+        id: 1,
+        text: "Hello! I'm your AI property assistant. How can I help you find your dream home today?",
+        sender: "ai",
+        timestamp: new Date(),
+      }]);
+    }
+    setCurrentView("chat");
+  };
+
+  const cleanAIResponse = (text: string): string => {
+    // Remove markdown characters like *, #, **, etc.
+    return text
+      .replace(/\*\*/g, '')
+      .replace(/\*/g, '')
+      .replace(/#{1,6}\s?/g, '')
+      .replace(/`/g, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  };
 
   const handleSendMessage = async (text?: string) => {
     const messageText = text || inputValue.trim();
@@ -94,7 +129,6 @@ export function PropertyChatbot() {
     setIsLoading(true);
 
     try {
-      // Build conversation history
       const conversationHistory = messages.map(msg => ({
         sender: msg.sender,
         text: msg.text
@@ -109,9 +143,11 @@ export function PropertyChatbot() {
 
       if (error) throw error;
 
+      const cleanedResponse = cleanAIResponse(data.response || "I'm sorry, I couldn't process that. Please try again.");
+
       const aiMessage: Message = {
         id: messages.length + 2,
-        text: data.response || "I'm sorry, I couldn't process that. Please try again.",
+        text: cleanedResponse,
         sender: "ai",
         timestamp: new Date(),
         properties: data.properties || []
@@ -119,7 +155,6 @@ export function PropertyChatbot() {
 
       setMessages(prev => [...prev, aiMessage]);
 
-      // Check if user wants to book
       const lowerText = messageText.toLowerCase();
       if (lowerText.includes('book') || lowerText.includes('boka') || lowerText.includes('meeting') || lowerText.includes('möte') || lowerText.includes('visning')) {
         setTimeout(() => setShowBookingForm(true), 500);
@@ -191,10 +226,8 @@ export function PropertyChatbot() {
   const startVoiceChat = useCallback(async () => {
     setIsVoiceConnecting(true);
     try {
-      // Request microphone permission
       await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      // Get ephemeral token from edge function
       const { data, error } = await supabase.functions.invoke('chatbot-voice-token');
       
       if (error || !data?.client_secret?.value) {
@@ -203,31 +236,33 @@ export function PropertyChatbot() {
 
       const EPHEMERAL_KEY = data.client_secret.value;
 
-      // Create audio element
       audioRef.current = document.createElement("audio");
       audioRef.current.autoplay = true;
 
-      // Create peer connection
       pcRef.current = new RTCPeerConnection();
 
-      // Set up remote audio
       pcRef.current.ontrack = (e) => {
         if (audioRef.current) {
           audioRef.current.srcObject = e.streams[0];
         }
       };
 
-      // Add local audio track
       const ms = await navigator.mediaDevices.getUserMedia({ audio: true });
       pcRef.current.addTrack(ms.getTracks()[0]);
 
-      // Set up data channel
       dcRef.current = pcRef.current.createDataChannel("oai-events");
       dcRef.current.addEventListener("message", (e) => {
         const event = JSON.parse(e.data);
         console.log("Voice event:", event.type);
         
-        // Handle transcription events
+        if (event.type === 'response.audio.delta') {
+          setIsSpeaking(true);
+        }
+        
+        if (event.type === 'response.audio.done') {
+          setIsSpeaking(false);
+        }
+        
         if (event.type === 'conversation.item.input_audio_transcription.completed') {
           const userText = event.transcript;
           if (userText) {
@@ -244,9 +279,10 @@ export function PropertyChatbot() {
         if (event.type === 'response.audio_transcript.done') {
           const aiText = event.transcript;
           if (aiText) {
+            const cleanedText = cleanAIResponse(aiText);
             const aiMessage: Message = {
               id: Date.now() + 1,
-              text: aiText,
+              text: cleanedText,
               sender: "ai",
               timestamp: new Date(),
             };
@@ -255,11 +291,9 @@ export function PropertyChatbot() {
         }
       });
 
-      // Create and set local description
       const offer = await pcRef.current.createOffer();
       await pcRef.current.setLocalDescription(offer);
 
-      // Connect to OpenAI's Realtime API
       const baseUrl = "https://api.openai.com/v1/realtime";
       const model = "gpt-4o-realtime-preview-2024-12-17";
       const sdpResponse = await fetch(`${baseUrl}?model=${model}`, {
@@ -305,6 +339,7 @@ export function PropertyChatbot() {
       audioRef.current.srcObject = null;
     }
     setIsVoiceActive(false);
+    setIsSpeaking(false);
     
     toast({
       title: "Voice Chat Ended",
@@ -319,12 +354,425 @@ export function PropertyChatbot() {
     }
   };
 
-  const quickActions = [
-    { icon: Home, label: "Browse Properties", action: () => handleSendMessage("Show me available properties") },
-    { icon: Calendar, label: "Book Viewing", action: () => setShowBookingForm(true) },
-  ];
+  // Property Carousel Component
+  const PropertyCarousel = ({ properties }: { properties: PropertyResult[] }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    
+    const nextSlide = () => {
+      setCurrentIndex((prev) => (prev + 1) % properties.length);
+    };
+    
+    const prevSlide = () => {
+      setCurrentIndex((prev) => (prev - 1 + properties.length) % properties.length);
+    };
 
-  const popularAreas = ["Dubai", "Antalya", "Cyprus"];
+    if (properties.length === 0) return null;
+
+    return (
+      <div className="mt-3 relative">
+        <div className="overflow-hidden rounded-xl">
+          <div 
+            className="flex transition-transform duration-300 ease-out"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
+            {properties.map((property) => (
+              <Link 
+                key={property.id} 
+                to={`/property/${property.slug || property.id}`}
+                className="min-w-full"
+              >
+                <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+                  {property.image && (
+                    <div className="relative h-32">
+                      <img 
+                        src={property.image} 
+                        alt={property.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full">
+                        <span className="text-xs font-semibold text-blue-600">{property.price}</span>
+                      </div>
+                    </div>
+                  )}
+                  <div className="p-3">
+                    <h4 className="font-medium text-sm line-clamp-1 text-gray-900">{property.title}</h4>
+                    <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+                      <MapPin size={10} />
+                      <span className="line-clamp-1">{property.location}</span>
+                    </div>
+                    {property.bedrooms && (
+                      <span className="text-xs text-gray-400 mt-1 block">{property.bedrooms} bedrooms</span>
+                    )}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+        
+        {properties.length > 1 && (
+          <>
+            <button 
+              onClick={(e) => { e.preventDefault(); prevSlide(); }}
+              className="absolute left-1 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/90 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center hover:bg-white transition-colors"
+            >
+              <ChevronLeft size={14} />
+            </button>
+            <button 
+              onClick={(e) => { e.preventDefault(); nextSlide(); }}
+              className="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/90 backdrop-blur-sm rounded-full shadow-md flex items-center justify-center hover:bg-white transition-colors"
+            >
+              <ChevronRight size={14} />
+            </button>
+            <div className="flex justify-center gap-1 mt-2">
+              {properties.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`w-1.5 h-1.5 rounded-full transition-colors ${idx === currentIndex ? 'bg-blue-500' : 'bg-gray-300'}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    );
+  };
+
+  // Welcome View
+  const WelcomeView = () => (
+    <div className="flex-1 overflow-y-auto">
+      {/* Header with gradient */}
+      <div className="relative bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 p-6 text-white">
+        <button
+          onClick={() => setIsOpen(false)}
+          className="absolute top-3 right-3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+        >
+          <X className="w-4 h-4 text-white" />
+        </button>
+        
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+            <Bot className="w-6 h-6" />
+          </div>
+          <div>
+            <h2 className="font-semibold text-lg">ChatIQ</h2>
+            <p className="text-xs text-blue-100">AI Property Assistant</p>
+          </div>
+        </div>
+        
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-medium">Premium Plan</span>
+          </div>
+          <p className="text-xs text-blue-100">Find your perfect property with AI-powered assistance</p>
+        </div>
+      </div>
+
+      {/* Quick Access */}
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-semibold text-gray-900">Quick Access</h3>
+          <button className="text-xs text-blue-600 hover:text-blue-700">See All</button>
+        </div>
+        
+        <div className="grid grid-cols-4 gap-2 mb-6">
+          {quickActions.map((action, idx) => (
+            <button
+              key={idx}
+              onClick={action.action}
+              className="flex flex-col items-center gap-2 p-3 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl hover:from-blue-100 hover:to-indigo-100 transition-colors group"
+            >
+              <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center group-hover:shadow-md transition-shadow">
+                <action.icon className="w-5 h-5 text-blue-600" />
+              </div>
+              <span className="text-xs font-medium text-gray-700">{action.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Popular Areas */}
+        <h3 className="font-semibold text-gray-900 mb-3">Popular Areas</h3>
+        <div className="space-y-2">
+          {popularAreas.map((area, idx) => (
+            <button
+              key={idx}
+              onClick={() => { startChat(); handleSendMessage(`Show me properties in ${area.name}`); }}
+              className="w-full flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+            >
+              <div className={`w-10 h-10 bg-gradient-to-br ${area.color} rounded-xl flex items-center justify-center text-lg`}>
+                {area.icon}
+              </div>
+              <div className="flex-1 text-left">
+                <p className="font-medium text-gray-900">{area.name}</p>
+                <p className="text-xs text-gray-500">Explore properties</p>
+              </div>
+              <ChevronRight className="w-4 h-4 text-gray-400" />
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  // Voice View
+  const VoiceView = () => (
+    <div className="flex-1 flex flex-col bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+      {/* Header */}
+      <div className="flex items-center justify-between p-4">
+        <button
+          onClick={() => setCurrentView("welcome")}
+          className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+        >
+          <ChevronLeft className="w-5 h-5 text-white" />
+        </button>
+        <h2 className="font-semibold text-white">Voice</h2>
+        <button
+          onClick={() => setIsOpen(false)}
+          className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+        >
+          <X className="w-5 h-5 text-white" />
+        </button>
+      </div>
+
+      {/* Voice Animation */}
+      <div className="flex-1 flex flex-col items-center justify-center px-8">
+        <div className="relative mb-8">
+          {/* Animated rings */}
+          <motion.div
+            animate={isVoiceActive && isSpeaking ? { 
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.1, 0.3]
+            } : {}}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="absolute inset-0 w-40 h-40 bg-blue-400/30 rounded-full -m-8"
+          />
+          <motion.div
+            animate={isVoiceActive && isSpeaking ? { 
+              scale: [1, 1.15, 1],
+              opacity: [0.4, 0.2, 0.4]
+            } : {}}
+            transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
+            className="absolute inset-0 w-32 h-32 bg-blue-400/40 rounded-full -m-4"
+          />
+          
+          {/* Main circle */}
+          <motion.div
+            animate={isVoiceActive ? { scale: [1, 1.05, 1] } : {}}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-24 h-24 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center shadow-2xl"
+          >
+            {isVoiceConnecting ? (
+              <div className="w-8 h-8 border-3 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                {isVoiceActive ? (
+                  <div className="flex gap-0.5">
+                    {[...Array(4)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        animate={isSpeaking ? { height: [8, 20, 8] } : { height: 8 }}
+                        transition={{ duration: 0.4, repeat: Infinity, delay: i * 0.1 }}
+                        className="w-1 bg-white rounded-full"
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <Mic className="w-6 h-6 text-white" />
+                )}
+              </div>
+            )}
+          </motion.div>
+        </div>
+
+        <p className="text-white/80 text-center text-sm mb-8 max-w-[200px]">
+          {isVoiceActive 
+            ? isSpeaking 
+              ? "AI is speaking..." 
+              : "Listening... speak now"
+            : "Online education offers flexibility to learn at your own pace, access to a wide range of courses from......"
+          }
+        </p>
+
+        {/* Control Button */}
+        <button
+          onClick={isVoiceActive ? stopVoiceChat : startVoiceChat}
+          disabled={isVoiceConnecting}
+          className={`w-16 h-16 rounded-full flex items-center justify-center transition-all shadow-xl ${
+            isVoiceActive 
+              ? 'bg-red-500 hover:bg-red-600' 
+              : 'bg-white hover:bg-gray-100'
+          }`}
+        >
+          {isVoiceConnecting ? (
+            <div className="w-6 h-6 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+          ) : isVoiceActive ? (
+            <MicOff className="w-6 h-6 text-white" />
+          ) : (
+            <Mic className="w-6 h-6 text-blue-600" />
+          )}
+        </button>
+        
+        <p className="text-white/60 text-xs mt-4">
+          {isVoiceActive ? "Tap to end call" : "Tap to start voice chat"}
+        </p>
+      </div>
+    </div>
+  );
+
+  // Chat View
+  const ChatView = () => (
+    <>
+      {/* Header */}
+      <div className="flex items-center gap-3 p-4 border-b bg-white">
+        <button
+          onClick={() => setCurrentView("welcome")}
+          className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4 text-gray-600" />
+        </button>
+        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+          <Bot className="w-5 h-5 text-white" />
+        </div>
+        <div className="flex-1">
+          <h3 className="font-semibold text-gray-900">ChatIQ</h3>
+          <p className="text-xs text-green-500">● Online</p>
+        </div>
+        <button
+          onClick={() => setIsOpen(false)}
+          className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
+        >
+          <X className="w-4 h-4 text-gray-600" />
+        </button>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-blue-50/50 to-white" ref={chatContainerRef}>
+        {messages.map((message) => (
+          <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-[85%]`}>
+              <div className={`rounded-2xl px-4 py-3 ${
+                message.sender === 'user' 
+                  ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-br-md' 
+                  : 'bg-white text-gray-900 rounded-bl-md shadow-sm border border-gray-100'
+              }`}>
+                <p className="text-sm leading-relaxed">{message.text}</p>
+              </div>
+              
+              {/* Property Carousel */}
+              {message.properties && message.properties.length > 0 && (
+                <PropertyCarousel properties={message.properties} />
+              )}
+              
+              <p className="text-xs text-gray-400 mt-1 px-1">
+                {message.timestamp.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
+              </p>
+            </div>
+          </div>
+        ))}
+        
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="bg-white rounded-2xl rounded-bl-md px-4 py-3 shadow-sm border border-gray-100">
+              <div className="flex gap-1.5">
+                <motion.span animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 1, repeat: Infinity }} className="w-2 h-2 bg-blue-400 rounded-full" />
+                <motion.span animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 1, repeat: Infinity, delay: 0.2 }} className="w-2 h-2 bg-blue-400 rounded-full" />
+                <motion.span animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 1, repeat: Infinity, delay: 0.4 }} className="w-2 h-2 bg-blue-400 rounded-full" />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Booking Form */}
+      <AnimatePresence>
+        {showBookingForm && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="border-t bg-white p-4 space-y-3"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-sm text-gray-900">Book a Viewing</h3>
+              <button onClick={() => setShowBookingForm(false)} className="text-gray-400 hover:text-gray-600">
+                <X size={16} />
+              </button>
+            </div>
+            <Input
+              placeholder="Your name"
+              value={bookingForm.name}
+              onChange={(e) => setBookingForm(prev => ({ ...prev, name: e.target.value }))}
+              className="h-9 text-sm rounded-xl"
+            />
+            <Input
+              placeholder="Email"
+              type="email"
+              value={bookingForm.email}
+              onChange={(e) => setBookingForm(prev => ({ ...prev, email: e.target.value }))}
+              className="h-9 text-sm rounded-xl"
+            />
+            <Input
+              placeholder="Phone"
+              type="tel"
+              value={bookingForm.phone}
+              onChange={(e) => setBookingForm(prev => ({ ...prev, phone: e.target.value }))}
+              className="h-9 text-sm rounded-xl"
+            />
+            <div className="grid grid-cols-2 gap-2">
+              <Input
+                type="date"
+                value={bookingForm.date}
+                onChange={(e) => setBookingForm(prev => ({ ...prev, date: e.target.value }))}
+                className="h-9 text-sm rounded-xl"
+              />
+              <Input
+                type="time"
+                value={bookingForm.time}
+                onChange={(e) => setBookingForm(prev => ({ ...prev, time: e.target.value }))}
+                className="h-9 text-sm rounded-xl"
+              />
+            </div>
+            <Button onClick={handleBookingSubmit} className="w-full h-9 text-sm rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600" disabled={isLoading}>
+              Confirm Booking
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Input Area */}
+      <div className="border-t bg-white p-3">
+        <div className="flex items-center gap-2 bg-gray-50 rounded-2xl p-1.5">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setCurrentView("voice")}
+            className="h-9 w-9 rounded-xl hover:bg-white"
+          >
+            <Mic className="w-4 h-4 text-gray-500" />
+          </Button>
+          <Input
+            ref={inputRef}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Type a prompt..."
+            className="flex-1 h-9 border-0 bg-transparent focus-visible:ring-0 text-sm"
+            disabled={isLoading}
+          />
+          <Button 
+            onClick={() => handleSendMessage()}
+            disabled={!inputValue.trim() || isLoading}
+            size="icon"
+            className="h-9 w-9 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
+          >
+            <Send className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+    </>
+  );
 
   return (
     <>
@@ -336,7 +784,7 @@ export function PropertyChatbot() {
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#1E293B] rounded-full shadow-lg flex items-center justify-center hover:bg-[#334155] transition-colors"
+            className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full shadow-lg flex items-center justify-center hover:from-blue-600 hover:to-indigo-700 transition-all hover:scale-105"
             aria-label="Open chat"
           >
             <MessageCircle className="w-6 h-6 text-white" />
@@ -352,248 +800,11 @@ export function PropertyChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-6 right-6 z-50 w-[380px] h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed bottom-6 right-6 z-50 w-[380px] h-[650px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-gray-100"
           >
-            {/* Header with Hero Image */}
-            <div className="relative h-40 bg-gradient-to-b from-black/60 to-black/30">
-              <img 
-                src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800"
-                alt="Premium Real Estate"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20" />
-              <button
-                onClick={() => setIsOpen(false)}
-                className="absolute top-3 right-3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
-              >
-                <X className="w-4 h-4 text-white" />
-              </button>
-              <div className="absolute bottom-4 left-4 right-4">
-                <p className="text-xs text-blue-300 font-medium tracking-wide">PREMIUM REAL ESTATE</p>
-                <h2 className="text-2xl font-serif text-white mt-1">Find Your<br/>Dream Home</h2>
-              </div>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="p-4 border-b space-y-3">
-              {/* AI Property Search */}
-              <button 
-                onClick={() => {
-                  handleSendMessage("Help me find a property");
-                }}
-                className="w-full flex items-center gap-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
-              >
-                <div className="w-12 h-12 bg-[#1E293B] rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                <div className="flex-1 text-left">
-                  <p className="font-semibold text-gray-900">AI Property Search</p>
-                  <p className="text-sm text-gray-500">Describe what you're looking for</p>
-                </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-
-              {/* Browse & Book Buttons */}
-              <div className="grid grid-cols-2 gap-3">
-                <button 
-                  onClick={quickActions[0].action}
-                  className="flex flex-col items-center gap-2 p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors"
-                >
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <Home className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <span className="text-sm font-medium text-gray-900">Browse Listings</span>
-                </button>
-                <button 
-                  onClick={quickActions[1].action}
-                  className="flex flex-col items-center gap-2 p-4 bg-green-50 rounded-xl hover:bg-green-100 transition-colors"
-                >
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                    <Calendar className="w-5 h-5 text-green-600" />
-                  </div>
-                  <span className="text-sm font-medium text-gray-900">Book Viewing</span>
-                </button>
-              </div>
-
-              {/* Popular Areas */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs font-medium text-blue-600 tracking-wide">POPULAR AREAS</p>
-                  <button className="text-xs text-gray-500 hover:text-gray-700">See Map</button>
-                </div>
-                <div className="flex gap-2">
-                  {popularAreas.map((area) => (
-                    <button
-                      key={area}
-                      onClick={() => handleSendMessage(`Show me properties in ${area}`)}
-                      className="px-4 py-2 bg-gray-100 rounded-full text-sm text-gray-700 hover:bg-gray-200 transition-colors"
-                    >
-                      {area}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4" ref={chatContainerRef}>
-              {messages.map((message) => (
-                <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] ${message.sender === 'user' ? 'order-1' : ''}`}>
-                    <div className={`rounded-2xl px-4 py-2.5 ${
-                      message.sender === 'user' 
-                        ? 'bg-[#1E293B] text-white rounded-br-md' 
-                        : 'bg-gray-100 text-gray-900 rounded-bl-md'
-                    }`}>
-                      <p className="text-sm">{message.text}</p>
-                    </div>
-                    
-                    {/* Property Cards */}
-                    {message.properties && message.properties.length > 0 && (
-                      <div className="mt-2 space-y-2">
-                        {message.properties.map((property) => (
-                          <Link key={property.id} to={`/property/${property.slug || property.id}`}>
-                            <Card className="hover:shadow-md transition-shadow overflow-hidden">
-                              <div className="flex">
-                                {property.image && (
-                                  <img 
-                                    src={property.image} 
-                                    alt={property.title}
-                                    className="w-20 h-20 object-cover"
-                                  />
-                                )}
-                                <CardContent className="p-2 flex-1">
-                                  <h4 className="font-medium text-xs line-clamp-1">{property.title}</h4>
-                                  <div className="flex items-center gap-1 text-xs text-gray-500 mt-0.5">
-                                    <MapPin size={10} />
-                                    <span className="line-clamp-1">{property.location}</span>
-                                  </div>
-                                  <p className="text-xs font-semibold text-blue-600 mt-1">{property.price}</p>
-                                </CardContent>
-                              </div>
-                            </Card>
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                    
-                    <p className="text-xs text-gray-400 mt-1 px-1">
-                      {message.timestamp.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
-                    </p>
-                  </div>
-                </div>
-              ))}
-              
-              {isLoading && (
-                <div className="flex justify-start">
-                  <div className="bg-gray-100 rounded-2xl rounded-bl-md px-4 py-3">
-                    <div className="flex gap-1">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Booking Form */}
-            <AnimatePresence>
-              {showBookingForm && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="border-t bg-gray-50 p-4 space-y-3"
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-semibold text-sm">Book a Viewing</h3>
-                    <button onClick={() => setShowBookingForm(false)} className="text-gray-400 hover:text-gray-600">
-                      <X size={16} />
-                    </button>
-                  </div>
-                  <Input
-                    placeholder="Your name"
-                    value={bookingForm.name}
-                    onChange={(e) => setBookingForm(prev => ({ ...prev, name: e.target.value }))}
-                    className="h-9 text-sm"
-                  />
-                  <Input
-                    placeholder="Email"
-                    type="email"
-                    value={bookingForm.email}
-                    onChange={(e) => setBookingForm(prev => ({ ...prev, email: e.target.value }))}
-                    className="h-9 text-sm"
-                  />
-                  <Input
-                    placeholder="Phone"
-                    type="tel"
-                    value={bookingForm.phone}
-                    onChange={(e) => setBookingForm(prev => ({ ...prev, phone: e.target.value }))}
-                    className="h-9 text-sm"
-                  />
-                  <div className="grid grid-cols-2 gap-2">
-                    <Input
-                      placeholder="Date"
-                      type="date"
-                      value={bookingForm.date}
-                      onChange={(e) => setBookingForm(prev => ({ ...prev, date: e.target.value }))}
-                      className="h-9 text-sm"
-                    />
-                    <Input
-                      placeholder="Time"
-                      type="time"
-                      value={bookingForm.time}
-                      onChange={(e) => setBookingForm(prev => ({ ...prev, time: e.target.value }))}
-                      className="h-9 text-sm"
-                    />
-                  </div>
-                  <Button onClick={handleBookingSubmit} className="w-full h-9 text-sm" disabled={isLoading}>
-                    Confirm Booking
-                  </Button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Input Area */}
-            <div className="border-t p-3 flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={isVoiceActive ? stopVoiceChat : startVoiceChat}
-                disabled={isVoiceConnecting}
-                className={`h-10 w-10 rounded-full ${isVoiceActive ? 'bg-red-100 text-red-600 hover:bg-red-200' : 'hover:bg-gray-100'}`}
-              >
-                {isVoiceConnecting ? (
-                  <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
-                ) : isVoiceActive ? (
-                  <MicOff className="w-5 h-5" />
-                ) : (
-                  <Mic className="w-5 h-5" />
-                )}
-              </Button>
-              <Input
-                ref={inputRef}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Ask about properties..."
-                className="flex-1 h-10 rounded-full border-gray-200"
-                disabled={isLoading || isVoiceActive}
-              />
-              <Button 
-                onClick={() => handleSendMessage()}
-                disabled={!inputValue.trim() || isLoading}
-                size="icon"
-                className="h-10 w-10 rounded-full bg-[#1E293B] hover:bg-[#334155]"
-              >
-                <Send className="w-4 h-4" />
-              </Button>
-            </div>
+            {currentView === "welcome" && <WelcomeView />}
+            {currentView === "voice" && <VoiceView />}
+            {currentView === "chat" && <ChatView />}
           </motion.div>
         )}
       </AnimatePresence>
