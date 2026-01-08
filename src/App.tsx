@@ -13,6 +13,7 @@ import { GlobalPerformanceOptimizer } from "@/components/GlobalPerformanceOptimi
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
+import { PropertyChatbot } from "@/components/PropertyChatbot";
 import "./utils/cleanConsole";
 
 // Lazy load all page components for better performance
@@ -127,6 +128,7 @@ function AppContent() {
   return (
     <>
       <ConnectionStatus />
+      <PropertyChatbot />
       <Routes>
       <Route path="/" element={
         <>
