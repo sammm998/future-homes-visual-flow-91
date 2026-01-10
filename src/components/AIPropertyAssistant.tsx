@@ -294,10 +294,11 @@ const AIPropertyAssistant = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <Button
-              onClick={() => setIsOpen(true)}
-              size="lg"
-              className="bg-gradient-to-r from-primary via-primary-glow to-primary text-white px-8 py-4 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
+            <a
+              href="https://futurehomesai.one/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex bg-gradient-to-r from-primary via-primary-glow to-primary text-white px-8 py-4 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative flex items-center gap-3">
@@ -305,7 +306,7 @@ const AIPropertyAssistant = () => {
                 <span>Start Conversation with AI</span>
                 <MessageCircle className="w-5 h-5" />
               </div>
-            </Button>
+            </a>
           </motion.div>
         </motion.div>
 
@@ -322,14 +323,11 @@ const AIPropertyAssistant = () => {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {quickSuggestions.map((suggestion, index) => (
-              <motion.button
+              <motion.a
                 key={index}
-                onClick={() => {
-                  setIsOpen(true);
-                  setTimeout(() => {
-                    setNewMessage(suggestion);
-                  }, 500);
-                }}
+                href="https://futurehomesai.one/"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="bg-card/60 backdrop-blur-sm border border-border/30 rounded-xl p-4 text-left hover:bg-card/80 hover:border-primary/30 transition-all duration-300 group"
@@ -340,7 +338,7 @@ const AIPropertyAssistant = () => {
                     "{suggestion}"
                   </span>
                 </div>
-              </motion.button>
+              </motion.a>
             ))}
           </div>
         </motion.div>
