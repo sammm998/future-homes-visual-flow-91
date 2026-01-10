@@ -21,6 +21,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import userAvatar from "@/assets/avatars/user-avatar.jpg";
 import aiAvatar from "@/assets/avatars/ai-avatar.jpg";
+import emmaAvatar from "@/assets/emma-ai-assistant.png";
 
 interface Message {
   id: number;
@@ -239,6 +240,25 @@ const AIPropertyAssistant = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
+          {/* Emma AI Avatar */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-6"
+          >
+            <div className="relative inline-block">
+              <img 
+                src={emmaAvatar} 
+                alt="Emma - AI Property Assistant" 
+                className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-primary/20 shadow-xl"
+              />
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 border-3 border-background rounded-full" />
+            </div>
+            <p className="text-primary font-medium mt-3">Emma</p>
+          </motion.div>
+
           <div className="inline-flex items-center gap-3 bg-primary/10 rounded-full px-6 py-3 mb-6">
             <Bot className="w-5 h-5 text-primary" />
             <span className="text-primary font-medium">AI Property Assistant</span>
