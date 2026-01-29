@@ -1,61 +1,49 @@
 
-# Plan: Fix Slow Property and Listing Pages with Image Loading Issues
+# Plan: Fix Property URLs with Slugs, Language Support, and Performance
 
-## Problem Analysis
+## Problem Summary
 
-After analyzing the codebase, I've identified several performance bottlenecks causing slow page loads and images not displaying:
+Based on my investigation, I identified the following issues:
 
-### Issue 1: All Properties Fetched Every Time
-- `useProperties()` hook fetches ALL properties from the database with no limit
-- This includes ~200+ properties, causing slow initial loads
-- Each listing page (Antalya, Dubai, Cyprus, etc.) re-fetches everything
+1. **URLs use UUIDs instead of slugs**: The `handlePropertyClick` functions in listing pages use `property.uuid` or `property.id` as the URL path instead of `property.slug`
+2. **PropertyCard uses correct slug logic** but listing pages bypass PropertyCard's click handler with their own `handlePropertyClick` that uses wrong identifiers
+3. **Language parameter not preserved**: When navigating to property pages, the `?lang=` parameter from the current URL is not carried over
+4. **Additional performance issues**: Some pages still have logging and could benefit from optimization
 
-### Issue 2: OptimizedPropertyImage Loading Logic Issues
-- Images wait for IntersectionObserver to trigger before loading
-- Even with `priority={true}`, the component uses a blur placeholder first
-- `currentSrc` state starts empty for non-priority images, causing delays
-- Multiple fallback attempts (up to 4) with delays add to loading time
+## Root Cause Analysis
 
-### Issue 3: PropertyCard Always Sets `priority={true}`
-- Line 108: `priority={true}` is always set, but the OptimizedPropertyImage component ignores this for lazy-loaded images
-- The priority prop doesn't properly cascade to force immediate loading
+### Issue 1: Wrong URL identifiers in handlePropertyClick
 
-### Issue 4: Heavy Console Logging in Production
-- Debug logs on every image load and property check slow down rendering
-- `console.log` calls throughout PropertyCard, OptimizedPropertyImage, and listing pages
+In AntalyaPropertySearch.tsx (line 209):
+```javascript
+navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, {...}
+```
 
-### Issue 5: No Initial Data Limit
-- Listing pages show 20 properties per page but fetch ALL properties upfront
-- No server-side pagination
+The priority order is wrong. It should be:
+```javascript
+navigate(`/property/${property.slug || property.refNo || property.id}`, {...}
+```
 
----
+Similar issues exist in:
+- CyprusPropertySearch.tsx (line 217): Uses `property.id` directly
+- MersinPropertySearch.tsx: Same pattern
+- All other listing pages
+
+### Issue 2: Language parameter not preserved
+
+When clicking a property, the current language is lost because the navigation doesn't include the `?lang=` parameter. The fix requires:
+1. Reading current language from URL
+2. Appending it to the property URL when navigating
 
 ## Implementation Plan
 
-### Phase 1: Fix OptimizedPropertyImage for Instant Loading
+### Phase 1: Fix handlePropertyClick in All Listing Pages
 
-**File: `src/components/OptimizedPropertyImage.tsx`**
+Update the `handlePropertyClick` function in each listing page to:
+1. Use `property.slug` as the primary URL identifier
+2. Preserve the `?lang=` parameter from the current URL
 
-Changes:
-1. Remove the delay caused by starting with empty `currentSrc`
-2. For `priority={true}` images, set `currentSrc` immediately without placeholder
-3. Increase rootMargin to 600px for even earlier loading
-4. Add `loading="eager"` for priority images
-5. Remove excessive console.log statements (keep only error logs)
-6. Simplify fallback logic to reduce delays
-
-### Phase 2: Optimize PropertyCard Image Loading
-
-**File: `src/components/PropertyCard.tsx`**
-
-Changes:
-1. Accept optional `priority` prop from parent components
-2. Remove excessive console.log statements
-3. Pass priority to OptimizedPropertyImage based on prop
-
-### Phase 3: Add Priority Loading for First Properties
-
-**Files:**
+**Files to modify:**
 - `src/pages/AntalyaPropertySearch.tsx`
 - `src/pages/DubaiPropertySearch.tsx`
 - `src/pages/CyprusPropertySearch.tsx`
@@ -63,120 +51,118 @@ Changes:
 - `src/pages/MersinPropertySearch.tsx`
 - `src/pages/BaliPropertySearch.tsx`
 
-Changes for each:
-1. Pass `priority={index < 6}` to first 6 PropertyCards
-2. This ensures above-the-fold images load immediately
-3. Remove debug console.log statements
-
-### Phase 4: Add Database Pagination
-
-**File: `src/hooks/useProperties.ts`**
-
-Changes:
-1. Add optional `limit` parameter
-2. Limit initial fetch to 100 properties max
-3. Add `locationFilter` parameter for location-specific fetches
-
-**Files: Listing pages**
-
-Changes:
-1. Pass location filter to useProperties for more efficient queries
-2. Reduce initial data load
-
-### Phase 5: Optimize PropertyDetail Page
-
-**File: `src/pages/PropertyDetail.tsx`**
-
-Changes:
-1. Add preload links for first property image
-2. Set first image to `priority={true}` with eager loading
-3. Preload additional gallery images in the background
-
-### Phase 6: Clean Up Console Logging
-
-Remove or reduce console.log statements in:
-- `src/components/OptimizedPropertyImage.tsx`
-- `src/components/PropertyCard.tsx`
-- `src/pages/DubaiPropertySearch.tsx`
-- `src/pages/AntalyaPropertySearch.tsx`
-- `src/lib/supabase-enhanced.ts`
-
----
-
-## Technical Details
-
-### OptimizedPropertyImage Changes
-
-```text
-Current flow:
-1. Component mounts → currentSrc = '' (empty)
-2. Wait for IntersectionObserver
-3. Observer triggers → setCurrentSrc(validSrc)
-4. Image starts loading → shows blur placeholder
-5. Image loads → show actual image
-
-Improved flow:
-1. Component mounts → currentSrc = validSrc (immediate for priority)
-2. Image starts loading immediately
-3. No IntersectionObserver delay for priority images
-4. Faster perceived performance
+**New handlePropertyClick pattern:**
+```javascript
+const handlePropertyClick = (property: any) => {
+  const currentUrl = `${location.pathname}${location.search}`;
+  const currentScrollY = window.scrollY;
+  
+  // Get current language parameter
+  const searchParams = new URLSearchParams(location.search);
+  const lang = searchParams.get('lang');
+  
+  // Use slug as primary identifier
+  const propertyPath = property.slug || property.refNo || property.ref_no || property.id;
+  const langParam = lang ? `?lang=${lang}` : '';
+  
+  navigate(`/property/${propertyPath}${langParam}`, {
+    state: {
+      from: '/antalya',
+      returnUrl: currentUrl,
+      savedPage: currentPage,
+      savedScrollY: currentScrollY
+    }
+  });
+};
 ```
 
-### PropertyCard Priority Prop
+### Phase 2: Update PropertyCard Link Generation
 
-```typescript
-interface PropertyCardProps {
-  property: Property;
-  priority?: boolean; // NEW: Allow parent to set priority
-}
+Update PropertyCard to also include language parameter in its generated URLs.
 
-// Pass to OptimizedPropertyImage
-<OptimizedPropertyImage
-  src={getImageUrl()}
-  alt={property.title}
-  priority={priority} // Pass through from parent
-/>
+**File:** `src/components/PropertyCard.tsx`
+
+Change:
+```javascript
+const propertyUrl = property.slug 
+  ? `/property/${property.slug}` 
+  : property.refNo || property.ref_no 
+    ? `/property/${property.refNo || property.ref_no}` 
+    : `/property/${property.id}`;
 ```
 
-### Listing Page Priority for First 6 Items
+To:
+```javascript
+// Get current language from URL
+const location = useLocation();
+const searchParams = new URLSearchParams(location.search);
+const lang = searchParams.get('lang');
+const langParam = lang ? `?lang=${lang}` : '';
 
-```typescript
-{paginatedProperties.map((property, index) => (
-  <PropertyCard 
-    key={property.id} 
-    property={property}
-    priority={index < 6} // First 6 cards load immediately
-  />
-))}
+const propertyPath = property.slug 
+  || property.refNo 
+  || property.ref_no 
+  || property.id;
+  
+const propertyUrl = `/property/${propertyPath}${langParam}`;
 ```
 
----
+### Phase 3: Update SEO Schema URLs
+
+Fix the SEO schema URLs in listing pages to use slugs instead of refNo or uuid.
+
+**Example change in AntalyaPropertySearch.tsx:**
+```javascript
+generatePropertyListSchema(
+  antalyaProperties.slice(0, 10).map(p => ({
+    title: p.title,
+    price: p.price,
+    url: `https://futurehomesinternational.com/property/${p.slug || p.refNo || p.uuid}`,
+    image: p.image
+  })),
+  'Properties for Sale in Antalya'
+)
+```
+
+### Phase 4: Update PropertyDetail canonical URL
+
+Update the SEOHead canonical URL in PropertyDetail to use slug.
+
+**File:** `src/pages/PropertyDetail.tsx`
+
+Change:
+```javascript
+canonicalUrl={`https://futurehomesinternational.com/property/${property.refNo || property.id}`}
+```
+
+To:
+```javascript
+canonicalUrl={`https://futurehomesinternational.com/property/${property.slug || property.refNo || property.id}`}
+```
+
+### Phase 5: Performance Optimizations
+
+1. Remove remaining console.log statements in PropertyDetail.tsx (lines 401-406, 409, 419)
+2. Add proper image preloading hints
 
 ## Files to Modify
 
 | File | Changes |
 |------|---------|
-| `src/components/OptimizedPropertyImage.tsx` | Fix initial load, remove delays, reduce logging |
-| `src/components/PropertyCard.tsx` | Add priority prop, remove logging |
-| `src/pages/AntalyaPropertySearch.tsx` | Add priority to first cards, reduce logging |
-| `src/pages/DubaiPropertySearch.tsx` | Add priority to first cards, reduce logging |
-| `src/pages/CyprusPropertySearch.tsx` | Add priority to first cards |
-| `src/pages/IstanbulPropertySearch.tsx` | Add priority to first cards |
-| `src/pages/MersinPropertySearch.tsx` | Add priority to first cards |
-| `src/pages/BaliPropertySearch.tsx` | Add priority to first cards |
-| `src/pages/PropertyDetail.tsx` | Optimize image preloading |
-| `src/components/PropertyListingSection.tsx` | Add priority to first cards |
-| `src/hooks/useProperties.ts` | Add limit parameter |
-| `src/lib/supabase-enhanced.ts` | Reduce logging |
-
----
+| `src/pages/AntalyaPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
+| `src/pages/DubaiPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
+| `src/pages/CyprusPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
+| `src/pages/IstanbulPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
+| `src/pages/MersinPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
+| `src/pages/BaliPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
+| `src/components/PropertyCard.tsx` | Add language parameter to property URLs |
+| `src/pages/PropertyDetail.tsx` | Fix canonical URL, remove debug logs |
 
 ## Expected Results
 
 After implementation:
-- First 6 property images load immediately on listing pages
-- Property detail page images load instantly
-- Reduced network requests through pagination
-- Cleaner console output (no debug spam)
-- Faster perceived performance across all property pages
-- LCP improvement from ~4s to under 2s
+- Property URLs will use SEO-friendly slugs (e.g., `/property/luxury-apartments-in-antalya-altintas`)
+- Language parameter will be preserved when navigating (e.g., `/property/luxury-apartments?lang=sv`)
+- When switching language, property pages will update their content
+- Canonical URLs will use slugs for better SEO
+- Faster page loads with removed debug logging
