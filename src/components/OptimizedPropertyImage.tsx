@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import futureHomesLogo from '@/assets/future-homes-logo.png';
+import { imageCache } from '@/utils/imageCache';
 
 interface OptimizedPropertyImageProps {
   src: string;
@@ -23,12 +24,6 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
   showCenteredLogo = false
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [fallbackAttempts, setFallbackAttempts] = useState(0);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
   // Helper to validate image URL
   const isValidImageUrl = (url: string | undefined | null): boolean => {
     if (!url || typeof url !== 'string') return false;
@@ -45,13 +40,24 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
   };
 
-  // Initialize currentSrc immediately for priority images to avoid delay
-  const [currentSrc, setCurrentSrc] = useState(() => {
-    if (priority) {
-      return getValidSrc(src);
+  const validSrc = getValidSrc(src);
+  
+  // Check if image is already cached - if so, skip loading state entirely
+  const isCached = imageCache.isCached(validSrc);
+  
+  const [isLoading, setIsLoading] = useState(!isCached);
+  const [error, setError] = useState(false);
+  const [fallbackAttempts, setFallbackAttempts] = useState(0);
+  const [currentSrc, setCurrentSrc] = useState(validSrc);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // Immediately preload to cache if priority
+  useEffect(() => {
+    if (priority && validSrc) {
+      imageCache.preload(validSrc);
     }
-    return '';
-  });
+  }, [priority, validSrc]);
 
   // Fallback image sources - improved for faster fallback
   const getFallbackSrc = (originalSrc: string, attemptNumber: number): string => {
@@ -115,38 +121,22 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     // Reset state when src changes
     setFallbackAttempts(0);
     setError(false);
-    setIsLoading(true);
     
-    const validSrc = getValidSrc(src);
+    const newValidSrc = getValidSrc(src);
     
-    if (priority) {
-      // For priority images, load immediately without observer
-      setCurrentSrc(validSrc);
+    // Check cache first - if cached, no loading needed
+    if (imageCache.isCached(newValidSrc)) {
+      setCurrentSrc(newValidSrc);
+      setIsLoading(false);
       return;
     }
-
-    if (!imgRef.current) return;
-
-    // Intersection Observer with large rootMargin for very early loading
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !currentSrc) {
-            setCurrentSrc(validSrc);
-            observerRef.current?.unobserve(entry.target);
-          }
-        });
-      },
-      { 
-        threshold: 0.01,
-        rootMargin: '800px' // Even earlier loading for smoother experience
-      }
-    );
-
-    observerRef.current.observe(imgRef.current);
-
-    return () => observerRef.current?.disconnect();
-  }, [src, priority]);
+    
+    setIsLoading(true);
+    setCurrentSrc(newValidSrc);
+    
+    // Preload to cache for future use
+    imageCache.preload(newValidSrc);
+  }, [src]);
 
   const handleLoad = () => {
     setIsLoading(false);

@@ -25,7 +25,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { preloadImages, forceImageLoading } from '@/utils/imagePreloader';
-import { getLanguageSlug, getCurrentLanguage, buildLangParam } from "@/utils/slugHelpers";
+import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 
 const MersinPropertySearch = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
@@ -243,12 +243,11 @@ const MersinPropertySearch = () => {
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
     
-    // Get current language and use language-specific slug
+    // Get current language and build translated URL
     const lang = getCurrentLanguage(location.search);
-    const propertyPath = getLanguageSlug(property, lang);
-    const langParam = buildLangParam(lang);
+    const propertyUrl = buildPropertyUrl(property, lang);
     
-    navigate(`/property/${propertyPath}${langParam}`, { 
+    navigate(propertyUrl, { 
       state: { 
         from: '/mersin',
         returnUrl: currentUrl,

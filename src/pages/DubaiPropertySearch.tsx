@@ -20,7 +20,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { getLanguageSlug, getCurrentLanguage, buildLangParam } from "@/utils/slugHelpers";
+import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 
 const DubaiPropertySearch = () => {
   // Router hooks - must be called unconditionally at component top level
@@ -225,12 +225,11 @@ const DubaiPropertySearch = () => {
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
     
-    // Get current language and use language-specific slug
+    // Get current language and build translated URL
     const lang = getCurrentLanguage(location.search);
-    const propertyPath = getLanguageSlug(property, lang);
-    const langParam = buildLangParam(lang);
+    const propertyUrl = buildPropertyUrl(property, lang);
     
-    navigate(`/property/${propertyPath}${langParam}`, { 
+    navigate(propertyUrl, { 
       state: { 
         from: '/dubai',
         returnUrl: currentUrl,

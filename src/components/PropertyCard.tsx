@@ -5,6 +5,7 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import { Link, useLocation } from 'react-router-dom';
+import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 
 interface Property {
   id: string | number;
@@ -36,33 +37,15 @@ interface PropertyCardProps {
   priority?: boolean;
 }
 
-// Helper to get language-specific slug
-const getLanguageSlug = (property: Property, lang: string | null): string => {
-  if (!lang || lang === 'en') return property.slug || property.refNo || property.ref_no || String(property.id);
-  
-  const slugMap: Record<string, string | undefined> = {
-    sv: property.slug_sv,
-    tr: property.slug_tr,
-    ar: property.slug_ar,
-    ru: property.slug_ru,
-    no: property.slug_no,
-    da: property.slug_da,
-    fa: property.slug_fa,
-    ur: property.slug_ur,
-  };
-  
-  // Return language-specific slug or fall back to English slug
-  return slugMap[lang] || property.slug || property.refNo || property.ref_no || String(property.id);
-};
-
 const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = false }) => {
   const { formatPrice } = useCurrency();
-  const location = useLocation();
+  const routeLocation = useLocation();
   
   // Get current language parameter to preserve it in links
-  const searchParams = new URLSearchParams(location.search);
-  const lang = searchParams.get('lang');
-  const langParam = lang ? `?lang=${lang}` : '';
+  const lang = getCurrentLanguage(routeLocation.search);
+  
+  // Build translated URL with proper path segment
+  const propertyUrl = buildPropertyUrl(property, lang);
   
   const getImageUrl = () => {
     const defaultImage = 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp';
@@ -118,10 +101,6 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
   };
 
   const statusConfig = getStatusConfig(property.status);
-  
-  // Get language-specific slug for SEO-friendly URLs
-  const propertyPath = getLanguageSlug(property, lang);
-  const propertyUrl = `/property/${propertyPath}${langParam}`;
 
   return (
     <Link to={propertyUrl}>
