@@ -184,9 +184,12 @@ const Index = () => {
     }]
   };
   return <div className="min-h-screen overflow-x-hidden">
+      {/* Preload critical hero images for faster LCP */}
+      <link rel="preload" as="image" href="/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png" fetchPriority="high" />
       <PerformanceOptimizer 
         preloadImages={[
-          '/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png'
+          '/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png',
+          '/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png'
         ]}
         prefetchRoutes={['/antalya', '/dubai', '/cyprus']}
       />

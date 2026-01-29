@@ -53,6 +53,9 @@ const HeroSlider = () => {
               src={slide.image}
               alt={slide.alt}
               className="w-full h-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "auto"}
+              decoding={index === 0 ? "sync" : "async"}
             />
             <div className="absolute inset-0 bg-black/50"></div>
           </div>
