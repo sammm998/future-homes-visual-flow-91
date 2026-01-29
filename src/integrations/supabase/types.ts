@@ -445,6 +445,14 @@ export type Database = {
           ref_no: string | null
           sizes_m2: string | null
           slug: string | null
+          slug_ar: string | null
+          slug_da: string | null
+          slug_fa: string | null
+          slug_no: string | null
+          slug_ru: string | null
+          slug_sv: string | null
+          slug_tr: string | null
+          slug_ur: string | null
           starting_price_eur: string | null
           status: string | null
           title: string
@@ -482,6 +490,14 @@ export type Database = {
           ref_no?: string | null
           sizes_m2?: string | null
           slug?: string | null
+          slug_ar?: string | null
+          slug_da?: string | null
+          slug_fa?: string | null
+          slug_no?: string | null
+          slug_ru?: string | null
+          slug_sv?: string | null
+          slug_tr?: string | null
+          slug_ur?: string | null
           starting_price_eur?: string | null
           status?: string | null
           title: string
@@ -519,6 +535,14 @@ export type Database = {
           ref_no?: string | null
           sizes_m2?: string | null
           slug?: string | null
+          slug_ar?: string | null
+          slug_da?: string | null
+          slug_fa?: string | null
+          slug_no?: string | null
+          slug_ru?: string | null
+          slug_sv?: string | null
+          slug_tr?: string | null
+          slug_ur?: string | null
           starting_price_eur?: string | null
           status?: string | null
           title?: string

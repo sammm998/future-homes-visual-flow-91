@@ -139,7 +139,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       },
       { 
         threshold: 0.01,
-        rootMargin: '600px' // Very early loading as user scrolls
+        rootMargin: '800px' // Even earlier loading for smoother experience
       }
     );
 
