@@ -1,153 +1,182 @@
 
-# Plan: Language-Aware URLs and Homepage Performance Optimization
+# Plan: Fix Slow Property and Listing Pages with Image Loading Issues
 
-## Overview
-This plan addresses two key improvements:
-1. Update URLs to reflect the selected language when switching
-2. Significantly improve homepage loading speed and ensure images load instantly
+## Problem Analysis
 
----
+After analyzing the codebase, I've identified several performance bottlenecks causing slow page loads and images not displaying:
 
-## Part 1: Language-Aware URL Switching
+### Issue 1: All Properties Fetched Every Time
+- `useProperties()` hook fetches ALL properties from the database with no limit
+- This includes ~200+ properties, causing slow initial loads
+- Each listing page (Antalya, Dubai, Cyprus, etc.) re-fetches everything
 
-### Current Behavior
-- Language selection uses query parameters (`?lang=sv`, `?lang=tr`, etc.)
-- When language is changed, the URL updates via `navigate()` but only adds/removes the `lang` parameter
-- The `SimpleLanguageSelector` component handles language switching
+### Issue 2: OptimizedPropertyImage Loading Logic Issues
+- Images wait for IntersectionObserver to trigger before loading
+- Even with `priority={true}`, the component uses a blur placeholder first
+- `currentSrc` state starts empty for non-priority images, causing delays
+- Multiple fallback attempts (up to 4) with delays add to loading time
 
-### Implementation Changes
+### Issue 3: PropertyCard Always Sets `priority={true}`
+- Line 108: `priority={true}` is always set, but the OptimizedPropertyImage component ignores this for lazy-loaded images
+- The priority prop doesn't properly cascade to force immediate loading
 
-**1.1 Update SimpleLanguageSelector.tsx**
-- Modify the `handleLanguageChange` function to preserve existing URL parameters when switching languages
-- Ensure the language parameter is properly added/removed based on selection
-- Force a page reload or React Router navigation to update content
+### Issue 4: Heavy Console Logging in Production
+- Debug logs on every image load and property check slow down rendering
+- `console.log` calls throughout PropertyCard, OptimizedPropertyImage, and listing pages
 
-**1.2 Enhance SEO URL handling in seoUtils.ts**
-- Add more languages to the supported list (Norwegian `no`, Danish `da`, Urdu `ur`, Farsi `fa`, Russian `ru`)
-- Update `getHreflangUrls` to include all 9 supported languages
-- Ensure canonical URLs are correctly generated for all language variants
-
-**1.3 Update SEOHead component**
-- Ensure hreflang tags are generated for all supported languages
-- Update meta tags dynamically based on current language
+### Issue 5: No Initial Data Limit
+- Listing pages show 20 properties per page but fetch ALL properties upfront
+- No server-side pagination
 
 ---
 
-## Part 2: Homepage Performance Optimization
+## Implementation Plan
 
-### Current Performance Issues Identified
-1. **HeroSlider**: Loads 6 large background images simultaneously
-2. **PropertyListingSection**: Fetches 196 properties, displays 4 at a time
-3. **TestimonialsMasonryGrid**: Loads 12 testimonial images
-4. **PropertyImageGalleryPreview**: Loads 8 Unsplash images
-5. **TeamSection**: Loads team member images from database
-6. **InteractiveSelector**: Loads 6 destination images
-7. **FeatureDemo**: Loads 2 large comparison images
-8. **Multiple lazy-loaded components** that still load many images
+### Phase 1: Fix OptimizedPropertyImage for Instant Loading
 
-### Implementation Changes
+**File: `src/components/OptimizedPropertyImage.tsx`**
 
-**2.1 Critical Above-the-Fold Optimizations**
+Changes:
+1. Remove the delay caused by starting with empty `currentSrc`
+2. For `priority={true}` images, set `currentSrc` immediately without placeholder
+3. Increase rootMargin to 600px for even earlier loading
+4. Add `loading="eager"` for priority images
+5. Remove excessive console.log statements (keep only error logs)
+6. Simplify fallback logic to reduce delays
 
-*HeroSlider.tsx*
-- Add `loading="eager"` and `fetchPriority="high"` for first slide only
-- Preload only the first 2 slides, lazy-load the rest
-- Add proper width/height attributes for layout stability
+### Phase 2: Optimize PropertyCard Image Loading
 
-*Hero.tsx*
-- Preload hero background image using `<link rel="preload">`
-- Reduce animations that cause layout shift
+**File: `src/components/PropertyCard.tsx`**
 
-**2.2 Image Loading Strategy**
+Changes:
+1. Accept optional `priority` prop from parent components
+2. Remove excessive console.log statements
+3. Pass priority to OptimizedPropertyImage based on prop
 
-*OptimizedPropertyImage.tsx*
-- Reduce IntersectionObserver rootMargin from 200px to 400px for earlier loading
-- Add native `fetchPriority` support
-- Simplify fallback logic to reduce processing time
+### Phase 3: Add Priority Loading for First Properties
 
-*PropertyCard.tsx*
-- Set first 4 property cards to priority loading
-- Use smaller thumbnail sizes for grid view
+**Files:**
+- `src/pages/AntalyaPropertySearch.tsx`
+- `src/pages/DubaiPropertySearch.tsx`
+- `src/pages/CyprusPropertySearch.tsx`
+- `src/pages/IstanbulPropertySearch.tsx`
+- `src/pages/MersinPropertySearch.tsx`
+- `src/pages/BaliPropertySearch.tsx`
 
-**2.3 Component-Level Optimizations**
+Changes for each:
+1. Pass `priority={index < 6}` to first 6 PropertyCards
+2. This ensures above-the-fold images load immediately
+3. Remove debug console.log statements
 
-*PropertyListingSection.tsx*
-- Add `priority={index < 4}` to first 4 PropertyCards
-- Implement skeleton loading for smoother perceived performance
+### Phase 4: Add Database Pagination
 
-*TestimonialsMasonryGrid.tsx*
-- Add lazy loading for images below the fold
-- Reduce initial load to 8 testimonials instead of 12
-- Add `loading="lazy"` to non-critical images
+**File: `src/hooks/useProperties.ts`**
 
-*PropertyImageGalleryPreview.tsx*
-- Add `loading="lazy"` to all images
-- Use smaller image sizes (300px instead of 400px)
+Changes:
+1. Add optional `limit` parameter
+2. Limit initial fetch to 100 properties max
+3. Add `locationFilter` parameter for location-specific fetches
 
-*InteractiveSelector.tsx*
-- Preload only the active destination image
-- Add `loading="lazy"` to inactive images
+**Files: Listing pages**
 
-*TeamSection.tsx*
-- Add `loading="lazy"` to team member images
-- Add proper width/height for layout stability
+Changes:
+1. Pass location filter to useProperties for more efficient queries
+2. Reduce initial data load
 
-**2.4 Global Performance Enhancements**
+### Phase 5: Optimize PropertyDetail Page
 
-*Index.tsx*
-- Prioritize critical above-the-fold content
-- Defer non-critical sections using dynamic imports
-- Reduce popup delay timer impact (already at 60s, keep as is)
+**File: `src/pages/PropertyDetail.tsx`**
 
-*GlobalPerformanceOptimizer.tsx*
-- Add critical CSS for hero section
-- Implement resource hints for images
-- Add fetchPriority hints for critical images
+Changes:
+1. Add preload links for first property image
+2. Set first image to `priority={true}` with eager loading
+3. Preload additional gallery images in the background
 
-**2.5 Query and Data Fetching Optimizations**
+### Phase 6: Clean Up Console Logging
 
-*useProperties.ts*
-- Add a `limit` parameter to initial fetch (fetch only what's needed)
-- Implement pagination at the database level
-
-*useTestimonials.ts*
-- Limit initial fetch to 12 testimonials (what's displayed)
-- Add lazy loading for more testimonials
+Remove or reduce console.log statements in:
+- `src/components/OptimizedPropertyImage.tsx`
+- `src/components/PropertyCard.tsx`
+- `src/pages/DubaiPropertySearch.tsx`
+- `src/pages/AntalyaPropertySearch.tsx`
+- `src/lib/supabase-enhanced.ts`
 
 ---
 
 ## Technical Details
 
-### Files to Modify
+### OptimizedPropertyImage Changes
 
-| File | Changes |
-|------|---------|
-| `src/components/SimpleLanguageSelector.tsx` | Update navigation logic for language URLs |
-| `src/utils/seoUtils.ts` | Add missing languages (no, da, ur, fa, ru) |
-| `src/components/HeroSlider.tsx` | Add priority loading for first image |
-| `src/components/OptimizedPropertyImage.tsx` | Increase rootMargin, optimize loading |
-| `src/components/PropertyCard.tsx` | Pass priority prop through |
-| `src/components/PropertyListingSection.tsx` | Add priority to first 4 cards |
-| `src/components/TestimonialsMasonryGrid.tsx` | Reduce initial load, add lazy loading |
-| `src/components/PropertyImageGalleryPreview.tsx` | Add lazy loading |
-| `src/components/InteractiveSelector.tsx` | Add lazy loading for non-active |
-| `src/components/TeamSection.tsx` | Add lazy loading |
-| `src/components/ui/testimonials-columns-1.tsx` | Add lazy loading |
-| `src/pages/Index.tsx` | Add preload hints |
+```text
+Current flow:
+1. Component mounts → currentSrc = '' (empty)
+2. Wait for IntersectionObserver
+3. Observer triggers → setCurrentSrc(validSrc)
+4. Image starts loading → shows blur placeholder
+5. Image loads → show actual image
 
-### Performance Targets
-- First Contentful Paint (FCP): < 1.5s
-- Largest Contentful Paint (LCP): < 2.5s
-- All above-the-fold images loaded immediately
-- Below-the-fold images lazy-loaded as user scrolls
+Improved flow:
+1. Component mounts → currentSrc = validSrc (immediate for priority)
+2. Image starts loading immediately
+3. No IntersectionObserver delay for priority images
+4. Faster perceived performance
+```
+
+### PropertyCard Priority Prop
+
+```typescript
+interface PropertyCardProps {
+  property: Property;
+  priority?: boolean; // NEW: Allow parent to set priority
+}
+
+// Pass to OptimizedPropertyImage
+<OptimizedPropertyImage
+  src={getImageUrl()}
+  alt={property.title}
+  priority={priority} // Pass through from parent
+/>
+```
+
+### Listing Page Priority for First 6 Items
+
+```typescript
+{paginatedProperties.map((property, index) => (
+  <PropertyCard 
+    key={property.id} 
+    property={property}
+    priority={index < 6} // First 6 cards load immediately
+  />
+))}
+```
 
 ---
 
-## Implementation Order
+## Files to Modify
 
-1. **Phase 1**: Language URL switching (SimpleLanguageSelector, seoUtils)
-2. **Phase 2**: Hero section optimization (HeroSlider, Hero)
-3. **Phase 3**: Property section optimization (PropertyListingSection, PropertyCard)
-4. **Phase 4**: Testimonials and secondary sections
-5. **Phase 5**: Global performance optimizer updates
+| File | Changes |
+|------|---------|
+| `src/components/OptimizedPropertyImage.tsx` | Fix initial load, remove delays, reduce logging |
+| `src/components/PropertyCard.tsx` | Add priority prop, remove logging |
+| `src/pages/AntalyaPropertySearch.tsx` | Add priority to first cards, reduce logging |
+| `src/pages/DubaiPropertySearch.tsx` | Add priority to first cards, reduce logging |
+| `src/pages/CyprusPropertySearch.tsx` | Add priority to first cards |
+| `src/pages/IstanbulPropertySearch.tsx` | Add priority to first cards |
+| `src/pages/MersinPropertySearch.tsx` | Add priority to first cards |
+| `src/pages/BaliPropertySearch.tsx` | Add priority to first cards |
+| `src/pages/PropertyDetail.tsx` | Optimize image preloading |
+| `src/components/PropertyListingSection.tsx` | Add priority to first cards |
+| `src/hooks/useProperties.ts` | Add limit parameter |
+| `src/lib/supabase-enhanced.ts` | Reduce logging |
 
+---
+
+## Expected Results
+
+After implementation:
+- First 6 property images load immediately on listing pages
+- Property detail page images load instantly
+- Reduced network requests through pagination
+- Cleaner console output (no debug spam)
+- Faster perceived performance across all property pages
+- LCP improvement from ~4s to under 2s
