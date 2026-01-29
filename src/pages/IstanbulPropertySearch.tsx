@@ -256,7 +256,7 @@ const IstanbulPropertySearch = () => {
                 {paginatedProperties.map((property, propertyIndex) => (
                   <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
                     <div className="w-full max-w-sm mx-auto">
-                      <PropertyCard property={property} />
+                      <PropertyCard property={property} priority={propertyIndex < 3} />
                     </div>
                   </div>
                 ))}
@@ -328,7 +328,7 @@ const IstanbulPropertySearch = () => {
               <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {paginatedProperties.map((property, propertyIndex) => (
                   <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                    <PropertyCard property={property} />
+                    <PropertyCard property={property} priority={propertyIndex < 6} />
                   </div>
                 ))}
               </div>

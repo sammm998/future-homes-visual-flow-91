@@ -326,7 +326,7 @@ const CyprusPropertySearch = () => {
               paginatedProperties.map((property, propertyIndex) => (
                 <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
                   <div className="w-full max-w-sm mx-auto">
-                    <PropertyCard property={property} />
+                    <PropertyCard property={property} priority={propertyIndex < 3} />
                   </div>
                 </div>
               ))
@@ -424,7 +424,7 @@ const CyprusPropertySearch = () => {
                 ) : (
                   paginatedProperties.map((property, propertyIndex) => (
                     <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                      <PropertyCard property={property} />
+                      <PropertyCard property={property} priority={propertyIndex < 6} />
                     </div>
                   ))
                 )}

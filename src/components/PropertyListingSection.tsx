@@ -171,14 +171,15 @@ const PropertyListingSection = () => {
         {currentProperties.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              {currentProperties.map((property) => (
+              {currentProperties.map((property, index) => (
                 <PropertyCard 
                   key={property.id} 
                   property={{
                     ...property,
                     area: property.sizes_m2 || '',
                     refNo: property.ref_no,
-                  }} 
+                  }}
+                  priority={index < 4}
                 />
               ))}
             </div>

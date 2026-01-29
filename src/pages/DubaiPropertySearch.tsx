@@ -22,20 +22,10 @@ import {
 } from "@/components/ui/pagination";
 
 const DubaiPropertySearch = () => {
-  console.log('🏙️ DubaiPropertySearch component starting...');
-  console.log('🌍 User location and browser info:', {
-    userAgent: navigator.userAgent,
-    language: navigator.language,
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    location: window.location.href
-  });
-  
   // Router hooks - must be called unconditionally at component top level
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
-  
-  console.log('🏙️ Dubai route accessed:', location.pathname);
   
   // Data hooks
   const { properties: allProperties, loading, error } = useProperties();
@@ -121,33 +111,17 @@ const DubaiPropertySearch = () => {
 
   // Filter and transform properties for Dubai
   const dubaiProperties = useMemo(() => {
-    console.log('🏠 Processing all properties:', allProperties?.length || 0);
-    
     if (!allProperties || allProperties.length === 0) {
-      console.log('❌ No properties available');
       return [];
     }
 
-    // Filter for Dubai properties, active status, and exclude sold properties
     const filtered = allProperties.filter(property => {
       const isDubai = property.location?.toLowerCase().includes('dubai');
       const isActive = (property as any).is_active === true;
       const isNotSold = !property.status?.toLowerCase().includes('sold');
-      console.log('🔍 Property check:', {
-        ref: property.ref_no,
-        location: property.location,
-        status: property.status,
-        isDubai,
-        isActive,
-        isNotSold,
-        included: isDubai && isActive && isNotSold
-      });
       return isDubai && isActive && isNotSold;
     });
 
-    console.log('✅ Filtered Dubai properties:', filtered.length);
-
-    // Deduplicate by ref_no, keeping the most recent
     const uniqueProperties = filtered.reduce((acc, property) => {
       const key = property.ref_no || property.id;
       acc[key] = property;
@@ -155,18 +129,11 @@ const DubaiPropertySearch = () => {
     }, {} as Record<string, any>);
 
     const uniqueList = Object.values(uniqueProperties);
-    console.log('🎯 Unique Dubai properties:', uniqueList.length);
 
-    // Transform to expected format
     return uniqueList.map((property, index) => {
-      console.log('🔄 Transforming property:', property.ref_no, property.title);
-      
-      // Determine property status - use original status from database
       let status = property.status || 'available';
       
-      // Handle compound statuses (multiple statuses separated by commas)
       if (status.includes(',')) {
-        // If multiple statuses, prioritize certain ones
         if (status.toLowerCase().includes('sold')) {
           status = 'sold';
         } else if (status.toLowerCase().includes('under construction')) {
@@ -176,7 +143,6 @@ const DubaiPropertySearch = () => {
         } else if (status.toLowerCase().includes('for residence permit')) {
           status = 'For Residence Permit';
         } else {
-          // Use the first status if no priority match
           status = status.split(',')[0].trim();
         }
       }
@@ -267,7 +233,6 @@ const DubaiPropertySearch = () => {
   };
 
   if (loading) {
-    console.log('🏙️ Dubai page loading...');
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
@@ -279,7 +244,6 @@ const DubaiPropertySearch = () => {
   }
 
   if (error) {
-    console.error('❌ Dubai page error:', error);
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
@@ -349,7 +313,7 @@ const DubaiPropertySearch = () => {
                 {paginatedProperties.map((property, propertyIndex) => (
                   <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
                     <div className="w-full max-w-sm mx-auto">
-                      <PropertyCard property={property} />
+                      <PropertyCard property={property} priority={propertyIndex < 3} />
                     </div>
                   </div>
                 ))}
@@ -419,7 +383,7 @@ const DubaiPropertySearch = () => {
               <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {paginatedProperties.map((property, propertyIndex) => (
                   <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                    <PropertyCard property={property} />
+                    <PropertyCard property={property} priority={propertyIndex < 6} />
                   </div>
                 ))}
               </div>

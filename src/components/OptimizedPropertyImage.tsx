@@ -45,42 +45,39 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
   };
 
-  const [currentSrc, setCurrentSrc] = useState(priority ? getValidSrc(src) : '');
+  // Initialize currentSrc immediately for priority images to avoid delay
+  const [currentSrc, setCurrentSrc] = useState(() => {
+    if (priority) {
+      return getValidSrc(src);
+    }
+    return '';
+  });
 
-  // Fallback image sources with better error handling
+  // Fallback image sources - simplified for faster fallback
   const getFallbackSrc = (originalSrc: string, attemptNumber: number): string => {
-    console.log('🔍 Getting fallback source for attempt:', attemptNumber, originalSrc);
-    
-    // Try original first
     if (attemptNumber === 0) return originalSrc;
     
-    // If Supabase/CDN image fails, try without optimization parameters
+    // Try without query params for Supabase
     if (attemptNumber === 1 && originalSrc.includes('supabase')) {
-      // Try the original URL without any parameters
       try {
         const url = new URL(originalSrc);
-        url.search = ''; // Remove all query parameters
-        console.log('🔄 Trying without optimization params:', url.toString());
+        url.search = '';
         return url.toString();
       } catch {
         return originalSrc;
       }
     }
     
-    // If CDN fails, try without transformations
+    // CDN retry
     if (attemptNumber === 1 && originalSrc.includes('cdn.futurehomesturkey.com')) {
-      console.log('🔄 Retrying CDN image:', originalSrc);
       return originalSrc;
     }
     
-    // If that fails, try simple placeholder
+    // Default fallback
     if (attemptNumber === 2) {
-      console.log('🔄 Trying placeholder');
       return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
     }
     
-    // Final fallback - base64 placeholder
-    console.log('🔄 Trying base64 fallback');
     return blurPlaceholder;
   };
 
@@ -127,14 +124,14 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     const validSrc = getValidSrc(src);
     
     if (priority) {
-      // For priority images, load immediately
+      // For priority images, load immediately without observer
       setCurrentSrc(validSrc);
       return;
     }
 
     if (!imgRef.current) return;
 
-    // Intersection Observer for lazy loading with increased rootMargin for much earlier loading
+    // Intersection Observer with large rootMargin for very early loading
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -146,7 +143,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       },
       { 
         threshold: 0.01,
-        rootMargin: '400px' // Increased from 200px to load much earlier as user scrolls
+        rootMargin: '600px' // Very early loading as user scrolls
       }
     );
 
@@ -156,22 +153,19 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   }, [src, priority]);
 
   const handleLoad = () => {
-    console.log('✅ Image loaded successfully:', src);
     setIsLoading(false);
   };
 
   const handleError = () => {
-    console.log('❌ Image failed to load:', currentSrc, 'attempt:', fallbackAttempts);
     
     // Try fallback sources before showing error
-    if (fallbackAttempts < 3) { // Increased to 3 attempts
+    if (fallbackAttempts < 3) {
       const nextAttempt = fallbackAttempts + 1;
       const fallbackSrc = getFallbackSrc(src, nextAttempt);
-      console.log('🔄 Trying fallback image:', fallbackSrc);
       setFallbackAttempts(nextAttempt);
       setCurrentSrc(fallbackSrc);
-      setError(false); // Reset error state when trying fallback
-      setIsLoading(true); // Show loading again
+      setError(false);
+      setIsLoading(true);
       return;
     }
     

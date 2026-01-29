@@ -24,41 +24,30 @@ interface Property {
 
 interface PropertyCardProps {
   property: Property;
+  priority?: boolean;
 }
 
-const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
+const PropertyCard: React.FC<PropertyCardProps> = ({ property, priority = false }) => {
   const { formatPrice } = useCurrency();
   const getImageUrl = () => {
     const defaultImage = 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp';
     
-    // Helper to validate if URL is usable
     const isValidImageUrl = (url: string | undefined | null): boolean => {
       if (!url || typeof url !== 'string') return false;
       const trimmed = url.trim();
       if (!trimmed || trimmed === '' || trimmed === 'null' || trimmed === 'undefined') return false;
-      // Check for empty/placeholder patterns
       if (trimmed.includes('placeholder.svg')) return false;
-      // Must be a valid URL format
       if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://') && !trimmed.startsWith('data:')) return false;
       return true;
     };
     
-    // Priority: property_images array first, then single image field
     if (property.property_images && Array.isArray(property.property_images)) {
-      // Find first valid image in array
       const validImage = property.property_images.find(img => isValidImageUrl(img));
-      if (validImage) {
-        console.log('🏠 PropertyCard using property_images:', validImage);
-        return validImage;
-      }
+      if (validImage) return validImage;
     }
     
-    if (isValidImageUrl(property.image)) {
-      console.log('🏠 PropertyCard using image:', property.image);
-      return property.image;
-    }
+    if (isValidImageUrl(property.image)) return property.image;
     
-    console.log('🏠 PropertyCard using default image for:', property.title);
     return defaultImage;
   };
 
@@ -105,7 +94,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             src={getImageUrl()}
             alt={property.title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-            priority={true}
+            priority={priority}
           />
           
           {/* Modern gradient overlay */}
