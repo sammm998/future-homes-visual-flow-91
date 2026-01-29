@@ -107,6 +107,10 @@ const TeamSection = () => {
                       src={member.image_url}
                       alt={member.name}
                       className="w-24 h-24 rounded-full mx-auto object-cover ring-4 ring-primary/10 group-hover:ring-primary/30 transition-all"
+                      loading="lazy"
+                      decoding="async"
+                      width={96}
+                      height={96}
                     />
                   ) : (
                     <div className="w-24 h-24 rounded-full mx-auto bg-gradient-to-br from-primary/20 to-primary-glow/20 flex items-center justify-center ring-4 ring-primary/10 group-hover:ring-primary/30 transition-all">

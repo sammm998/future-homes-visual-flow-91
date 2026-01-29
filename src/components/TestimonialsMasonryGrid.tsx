@@ -2,12 +2,15 @@ import * as React from 'react';
 import { useTestimonials } from '@/hooks/useTestimonials';
 
 // --- Reusable Card Component ---
-const TestimonialCard = ({ image, name, text }: { image: string; name: string; text: string }) => (
+const TestimonialCard = ({ image, name, text, priority = false }: { image: string; name: string; text: string; priority?: boolean }) => (
   <div className="relative rounded-2xl overflow-hidden group transition-transform duration-300 ease-in-out hover:scale-105 h-80">
     <img
       src={image}
       alt={name}
       className="w-full h-full object-cover"
+      loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : "auto"}
+      decoding="async"
       onError={(e) => {
         e.currentTarget.src = 'https://placehold.co/400x320/1a1a1a/ffffff?text=Image';
       }}
@@ -28,8 +31,8 @@ const TestimonialCard = ({ image, name, text }: { image: string; name: string; t
 const TestimonialsMasonryGrid = () => {
   const { testimonials } = useTestimonials();
 
-  // Use a subset of testimonials for the grid
-  const gridTestimonials = testimonials.slice(0, 12);
+  // Reduce initial load to 8 testimonials for better performance
+  const gridTestimonials = testimonials.slice(0, 8);
 
   return (
     <section className="py-20 bg-background">
@@ -50,6 +53,7 @@ const TestimonialsMasonryGrid = () => {
               image={testimonial.image}
               name={testimonial.name}
               text={testimonial.text}
+              priority={index < 4}
             />
           ))}
         </div>

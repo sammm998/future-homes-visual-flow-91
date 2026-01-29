@@ -34,23 +34,26 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
   }, [currentLanguageCode]);
 
   const handleLanguageChange = (selectedLanguage: typeof languages[0]) => {
-    const currentUrl = new URL(window.location.href);
     const currentPath = location.pathname;
+    const currentSearch = new URLSearchParams(location.search);
     
     if (selectedLanguage.code === 'en') {
       // For English, remove lang parameter
-      currentUrl.searchParams.delete('lang');
+      currentSearch.delete('lang');
     } else {
       // For other languages, set lang parameter
-      currentUrl.searchParams.set('lang', selectedLanguage.code);
+      currentSearch.set('lang', selectedLanguage.code);
     }
     
-    // Navigate to the new URL
-    const newUrl = currentPath + (currentUrl.search || '');
+    // Build new URL preserving all other parameters
+    const searchString = currentSearch.toString();
+    const newUrl = searchString ? `${currentPath}?${searchString}` : currentPath;
+    
+    // Navigate to the new URL - use replace to avoid history pollution
     navigate(newUrl, { replace: true });
     
-    // Keep currency unchanged when switching languages
-    // updateCurrencyFromLanguage(selectedLanguage.code);
+    // Update document lang attribute for accessibility
+    document.documentElement.lang = selectedLanguage.code;
     
     setIsOpen(false);
   };

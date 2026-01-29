@@ -9,7 +9,7 @@ interface SEOHreflangProps {
 export const SEOHreflang: React.FC<SEOHreflangProps> = ({ path }) => {
   
   
-  // Available languages for hreflang
+  // Available languages for hreflang - all 9 supported languages
   const languages = [
     { code: 'en', country: 'us' },
     { code: 'sv', country: 'se' },

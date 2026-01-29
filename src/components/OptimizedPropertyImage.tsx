@@ -134,7 +134,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
 
     if (!imgRef.current) return;
 
-    // Intersection Observer for lazy loading with reduced threshold for faster triggering
+    // Intersection Observer for lazy loading with increased rootMargin for much earlier loading
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -145,8 +145,8 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
         });
       },
       { 
-        threshold: 0.01, // Reduced from 0.1 for faster loading
-        rootMargin: '200px' // Increased from 100px to load earlier
+        threshold: 0.01,
+        rootMargin: '400px' // Increased from 200px to load much earlier as user scrolls
       }
     );
 
