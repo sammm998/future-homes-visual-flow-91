@@ -129,18 +129,29 @@ Now translate the following property title:`;
 }
 
 // Background translation function
-async function translateAllProperties(supabase: any, lovableApiKey: string, targetLanguages: string[]) {
-  let offset = 0;
-  const batchSize = 10;
+// IMPORTANT: We always fetch *the next batch of rows that still need translation*.
+// Using offset/range is unreliable because the dataset shrinks as we update rows.
+async function translateAllProperties(
+  supabase: any,
+  lovableApiKey: string,
+  targetLanguages: string[],
+  batchSize: number
+) {
+  let batch = 0;
   let totalTranslated = 0;
-  
+
+  // Any language missing => consider the property pending.
+  const anyMissingFilter = targetLanguages
+    .map((l) => `slug_${l}.is.null`)
+    .join(',');
+
   while (true) {
-    // Fetch batch of properties needing translation
     const { data: properties, error: fetchError } = await supabase
       .from('properties')
       .select('id, title, slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur')
       .eq('is_active', true)
-      .range(offset, offset + batchSize - 1);
+      .or(anyMissingFilter)
+      .limit(batchSize);
 
     if (fetchError) {
       console.error('Failed to fetch properties:', fetchError);
@@ -148,39 +159,32 @@ async function translateAllProperties(supabase: any, lovableApiKey: string, targ
     }
 
     if (!properties || properties.length === 0) {
-      console.log('No more properties to process');
+      console.log(`Background translation complete. Total translated: ${totalTranslated}`);
       break;
     }
 
-    console.log(`Processing batch ${offset / batchSize + 1}: ${properties.length} properties`);
+    batch += 1;
+    console.log(`Processing batch ${batch}: ${properties.length} properties`);
 
     for (const property of properties) {
       const updates: Record<string, string> = {};
-      
+
       for (const lang of targetLanguages) {
         const slugColumn = `slug_${lang}` as keyof typeof property;
-        
+
         // Skip if already translated
-        if (property[slugColumn]) {
-          continue;
-        }
-        
-        // Translate the title
+        if (property[slugColumn]) continue;
+
         const translatedTitle = await translateText(property.title, lang, lovableApiKey);
         const translatedSlug = generateSlug(translatedTitle);
-        
+
         if (translatedSlug && translatedSlug.length > 5 && translatedSlug !== property.slug) {
           updates[`slug_${lang}`] = translatedSlug;
         } else {
-          // If translation failed or is same as English, use English slug with language suffix
           updates[`slug_${lang}`] = `${property.slug}-${lang}`;
         }
-        
-        // Small delay between translations
-        await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      // Update property if there are translations
       if (Object.keys(updates).length > 0) {
         const { error: updateError } = await supabase
           .from('properties')
@@ -195,14 +199,7 @@ async function translateAllProperties(supabase: any, lovableApiKey: string, targ
         }
       }
     }
-
-    offset += batchSize;
-    
-    // Small delay between batches
-    await new Promise(resolve => setTimeout(resolve, 500));
   }
-  
-  console.log(`Background translation complete. Total translated: ${totalTranslated}`);
 }
 
 serve(async (req) => {
@@ -259,11 +256,11 @@ serve(async (req) => {
       }
     }
 
-    // Run in background mode
+     // Run in background mode
     if (runInBackground) {
       // Use EdgeRuntime.waitUntil for background processing
       (globalThis as any).EdgeRuntime?.waitUntil?.(
-        translateAllProperties(supabase, lovableApiKey, targetLanguages)
+         translateAllProperties(supabase, lovableApiKey, targetLanguages, batchSize)
       );
       
       return new Response(
@@ -276,7 +273,7 @@ serve(async (req) => {
       );
     }
 
-    // Synchronous mode - just process one batch
+     // Synchronous mode - just process one batch (based on missing Swedish slug)
     const { data: properties, error: fetchError } = await supabase
       .from('properties')
       .select('id, title, slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur')

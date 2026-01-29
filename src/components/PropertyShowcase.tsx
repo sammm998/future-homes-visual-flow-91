@@ -1,12 +1,14 @@
 
 import React, { memo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperties } from '@/hooks/useProperties';
 import { formatPriceFromString } from '@/utils/priceFormatting';
+import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 
 const PropertyShowcase = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { formatPrice } = useCurrency();
   const { properties, loading } = useProperties();
   
@@ -14,7 +16,8 @@ const PropertyShowcase = () => {
   const showcaseProperties = properties.slice(0, 6);
 
   const handlePropertyClick = (property: any) => {
-    navigate(`/property/${property.ref_no || property.id}`);
+    const lang = getCurrentLanguage(location.search);
+    navigate(buildPropertyUrl(property, lang));
   };
 
   if (loading) {
