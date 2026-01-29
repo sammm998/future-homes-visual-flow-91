@@ -20,6 +20,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { getLanguageSlug, getCurrentLanguage, buildLangParam } from "@/utils/slugHelpers";
 
 const DubaiPropertySearch = () => {
   // Router hooks - must be called unconditionally at component top level
@@ -224,13 +225,10 @@ const DubaiPropertySearch = () => {
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
     
-    // Get current language parameter to preserve it
-    const searchParams = new URLSearchParams(location.search);
-    const lang = searchParams.get('lang');
-    
-    // Use slug as primary identifier for SEO-friendly URLs
-    const propertyPath = property.slug || property.refNo || property.uuid || property.id;
-    const langParam = lang ? `?lang=${lang}` : '';
+    // Get current language and use language-specific slug
+    const lang = getCurrentLanguage(location.search);
+    const propertyPath = getLanguageSlug(property, lang);
+    const langParam = buildLangParam(lang);
     
     navigate(`/property/${propertyPath}${langParam}`, { 
       state: { 

@@ -24,8 +24,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
 import { preloadImages, forceImageLoading } from '@/utils/imagePreloader';
+import { getLanguageSlug, getCurrentLanguage, buildLangParam } from "@/utils/slugHelpers";
 
 const MersinPropertySearch = () => {
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
@@ -243,13 +243,10 @@ const MersinPropertySearch = () => {
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
     
-    // Get current language parameter to preserve it
-    const searchParams = new URLSearchParams(location.search);
-    const lang = searchParams.get('lang');
-    
-    // Use slug as primary identifier for SEO-friendly URLs
-    const propertyPath = property.slug || property.refNo || property.ref_no || property.id;
-    const langParam = lang ? `?lang=${lang}` : '';
+    // Get current language and use language-specific slug
+    const lang = getCurrentLanguage(location.search);
+    const propertyPath = getLanguageSlug(property, lang);
+    const langParam = buildLangParam(lang);
     
     navigate(`/property/${propertyPath}${langParam}`, { 
       state: { 

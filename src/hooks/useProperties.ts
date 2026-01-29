@@ -13,7 +13,7 @@ export const useProperties = () => {
         const data = await resilientQuery(async () => {
           const { data, error } = await enhancedSupabase
             .from('properties')
-            .select('*')
+            .select('*, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur')
             .order('created_at', { ascending: false });
           
           if (error) throw error;
@@ -31,11 +31,11 @@ export const useProperties = () => {
         throw err;
       }
     },
-    staleTime: 15 * 60 * 1000, // Increased to 15 minutes for UAE users
-    gcTime: 30 * 60 * 1000, // Increased to 30 minutes
+    staleTime: 5 * 60 * 1000, // Reduced to 5 minutes for faster updates
+    gcTime: 15 * 60 * 1000, // Reduced to 15 minutes
     refetchOnWindowFocus: false,
-    retry: 2, // Reduced since resilientQuery handles retries
-    retryDelay: 5000,
+    retry: 2,
+    retryDelay: 3000,
     networkMode: 'offlineFirst',
   });
 

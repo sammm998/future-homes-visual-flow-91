@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { MapPin, Bed, Bath, Maximize2 } from 'lucide-react';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
@@ -12,6 +11,14 @@ interface Property {
   refNo?: string;
   ref_no?: string;
   slug?: string;
+  slug_sv?: string;
+  slug_tr?: string;
+  slug_ar?: string;
+  slug_ru?: string;
+  slug_no?: string;
+  slug_da?: string;
+  slug_fa?: string;
+  slug_ur?: string;
   title: string;
   location: string;
   price: string;
@@ -29,7 +36,26 @@ interface PropertyCardProps {
   priority?: boolean;
 }
 
-const PropertyCard: React.FC<PropertyCardProps> = ({ property, priority = false }) => {
+// Helper to get language-specific slug
+const getLanguageSlug = (property: Property, lang: string | null): string => {
+  if (!lang || lang === 'en') return property.slug || property.refNo || property.ref_no || String(property.id);
+  
+  const slugMap: Record<string, string | undefined> = {
+    sv: property.slug_sv,
+    tr: property.slug_tr,
+    ar: property.slug_ar,
+    ru: property.slug_ru,
+    no: property.slug_no,
+    da: property.slug_da,
+    fa: property.slug_fa,
+    ur: property.slug_ur,
+  };
+  
+  // Return language-specific slug or fall back to English slug
+  return slugMap[lang] || property.slug || property.refNo || property.ref_no || String(property.id);
+};
+
+const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = false }) => {
   const { formatPrice } = useCurrency();
   const location = useLocation();
   
@@ -93,8 +119,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, priority = false 
 
   const statusConfig = getStatusConfig(property.status);
   
-  // Use slug for SEO-friendly URLs with language parameter
-  const propertyPath = property.slug || property.refNo || property.ref_no || property.id;
+  // Get language-specific slug for SEO-friendly URLs
+  const propertyPath = getLanguageSlug(property, lang);
   const propertyUrl = `/property/${propertyPath}${langParam}`;
 
   return (
@@ -209,6 +235,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, priority = false 
       </Card>
     </Link>
   );
-};
+});
+
+PropertyCard.displayName = 'PropertyCard';
 
 export default PropertyCard;
