@@ -12,12 +12,12 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import ervinaImage from '@/assets/ervina-koksel.png';
+import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 // Using Batuhan Kunt's image
 const batuhanImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ukys641vbp.jpeg';
 import { supabase } from '@/integrations/supabase/client';
 import { OptimizedPropertyImage } from '@/components/OptimizedPropertyImage';
 import { t } from '@/utils/translations';
-import { useSearchParams } from 'react-router-dom';
 
 // Function to map property location to route
 const getLocationRoute = (location: string | undefined | null): string => {
@@ -203,10 +203,10 @@ const PropertyDetail = () => {
   const {
     id
   } = useParams();
-  const [searchParams] = useSearchParams();
-  const language = searchParams.get('lang') || 'en';
   const navigate = useNavigate();
   const location = useLocation();
+  const lang = getCurrentLanguage(location.search);
+  const language = lang || 'en';
   const {
     formatPrice
   } = useCurrency();
@@ -219,6 +219,20 @@ const PropertyDetail = () => {
   } = useProperty(id || '');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
+
+  // If user changes language while on a property page, update the URL to the translated path + slug.
+  useEffect(() => {
+    if (!property || !lang) return;
+    const expectedUrl = buildPropertyUrl(property, lang);
+    const expectedPathname = expectedUrl.split('?')[0];
+
+    if (location.pathname !== expectedPathname) {
+      navigate(expectedUrl, {
+        replace: true,
+        state: location.state
+      });
+    }
+  }, [property, lang, location.pathname, location.state, navigate]);
 
   // Preload critical images for faster display
   useEffect(() => {
@@ -364,8 +378,10 @@ const PropertyDetail = () => {
   const propertyTitle = `${property.title} - ${property.location || 'Property'} | Future Homes`;
   const propertyDescription = `${property.title} in ${property.location || 'prime location'}. ${property.bedrooms || 'N/A'} bedrooms, ${property.bathrooms || 'N/A'} bathrooms, ${property.area || 'N/A'} area. Price: ${property.price}. ${property.description?.substring(0, 100) || ''}...`;
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
+
+  const canonicalUrl = `https://futurehomesinternational.com${buildPropertyUrl(property, lang)}`;
   return <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <SEOHead title={propertyTitle} description={propertyDescription} keywords={propertyKeywords} canonicalUrl={`https://futurehomesinternational.com/property/${property.slug || property.refNo || property.id}`} ogImage={property.images?.[0] || property.image} structuredData={{
+      <SEOHead title={propertyTitle} description={propertyDescription} keywords={propertyKeywords} canonicalUrl={canonicalUrl} ogImage={property.images?.[0] || property.image} structuredData={{
       "@context": "https://schema.org",
       "@type": "Product",
       "name": property.title,

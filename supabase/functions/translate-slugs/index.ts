@@ -33,10 +33,11 @@ const TRANSLATION_EXAMPLES: Record<string, { en: string, translated: string }> =
 
 // Generate URL-safe slug from text
 function generateSlug(text: string): string {
-  // First, transliterate non-Latin characters
-  const transliterated = text
+  // Keep unicode letters for languages like Arabic/Russian while still
+  // normalizing common Latin diacritics for consistent URLs.
+  const normalized = text
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+    .replace(/[\u0300-\u036f]/g, '') // Remove diacritics (Latin)
     // Transliterate common Swedish characters
     .replace(/[åÅ]/g, 'a')
     .replace(/[äÄ]/g, 'a')
@@ -46,17 +47,17 @@ function generateSlug(text: string): string {
     .replace(/[ğĞ]/g, 'g')
     .replace(/[üÜ]/g, 'u')
     .replace(/[çÇ]/g, 'c')
-    .replace(/[ıİ]/g, 'i')
-    // Remove all non-ASCII characters (Arabic, Russian, etc. - they become romanized words in the translation)
-    .replace(/[^\x00-\x7F]/g, '');
-  
-  return transliterated
+    .replace(/[ıİ]/g, 'i');
+
+  return normalized
+    .trim()
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/-+/g, '-') // Replace multiple hyphens with single
-    .replace(/^-+|-+$/g, '') // Trim hyphens from start/end
-    .substring(0, 100); // Limit length
+    // Remove punctuation/symbols but keep letters+numbers from all scripts.
+    .replace(/[^\p{L}\p{N}\s-]/gu, '')
+    .replace(/\s+/gu, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 100);
 }
 
 // Translate text using Lovable AI Gateway

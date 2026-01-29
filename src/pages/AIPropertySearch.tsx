@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { MessageCircle, MapPin, Bed, Bath, Maximize } from 'lucide-react';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   ChatBubble,
   ChatBubbleAvatar,
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/chat-bubble";
 import userAvatar from "@/assets/avatars/user-avatar.jpg";
 import aiAvatar from "@/assets/avatars/ai-avatar.jpg";
+import { buildLangParam, getCurrentLanguage, getTranslatedPropertyPath } from '@/utils/slugHelpers';
 
 interface Message {
   id: number;
@@ -42,6 +43,10 @@ const AIPropertySearch = () => {
   console.log('AIPropertySearch component loaded - new version');
   const { toast } = useToast();
   const { formatPrice } = useCurrency();
+  const routeLocation = useLocation();
+  const lang = getCurrentLanguage(routeLocation.search);
+  const propertyPath = getTranslatedPropertyPath(lang);
+  const langParam = buildLangParam(lang);
   
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -205,7 +210,7 @@ const AIPropertySearch = () => {
                     {message.propertyLinks && message.propertyLinks.length > 0 && (
                       <div className="mt-4 space-y-3">
                         {message.propertyLinks.map((property) => (
-                          <Link key={property.id} to={`/property/${property.id}`}>
+                          <Link key={property.id} to={`/${propertyPath}/${property.id}${langParam}`}>
                             <Card className="hover:shadow-md transition-shadow cursor-pointer">
                               <CardContent className="p-4">
                                 <div className="flex gap-4">
