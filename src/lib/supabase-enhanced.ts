@@ -62,12 +62,10 @@ export const checkConnection = async (): Promise<boolean> => {
     connectionState.isOnline = false;
     connectionState.failureCount++;
     
-    // Detect potential ISP blocking
     if (error.message?.includes('network') || error.message?.includes('timeout') || error.name === 'AbortError') {
       connectionState.isBlocked = connectionState.failureCount > 3;
     }
     
-    console.warn('Connection check failed:', error.message);
     return false;
   }
 };
@@ -105,7 +103,6 @@ export const resilientQuery = async <T>(
       
       if (attempt < maxRetries) {
         const delay = backoffMs * Math.pow(2, attempt);
-        console.warn(`Query attempt ${attempt + 1} failed, retrying in ${delay}ms:`, error.message);
         await new Promise(resolve => setTimeout(resolve, delay));
       }
     }

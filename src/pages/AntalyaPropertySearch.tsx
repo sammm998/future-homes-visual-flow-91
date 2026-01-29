@@ -67,11 +67,6 @@ const AntalyaPropertySearch = () => {
 
   // Load filters from URL parameters and location state on mount
   useEffect(() => {
-    console.log('🔍 Antalya: Loading filters from URL', {
-      searchParams: Object.fromEntries(searchParams.entries()),
-      locationState: location.state
-    });
-    
     const urlFilters: PropertyFilters = {
       propertyType: searchParams.get('propertyType') || '',
       bedrooms: searchParams.get('bedrooms') || '',
@@ -100,15 +95,9 @@ const AntalyaPropertySearch = () => {
     // Check if any filters are active (excluding location default, but including sortBy if changed)
     const hasActiveFilters = Object.entries(urlFilters).some(([key, value]) => {
       if (key === 'location') return false;
-      if (key === 'sortBy') return value !== 'ref'; // Include sortBy if it's not default
+      if (key === 'sortBy') return value !== 'ref';
       if (Array.isArray(value)) return value.length > 0;
       return value && value !== '';
-    });
-    
-    console.log('🔍 Antalya: Filter check', {
-      urlFilters,
-      hasActiveFilters,
-      willShowFiltered: hasActiveFilters
     });
     
     setShowFiltered(hasActiveFilters);
@@ -214,15 +203,8 @@ const AntalyaPropertySearch = () => {
     setCurrentPage(1);
   };
   const handlePropertyClick = (property: any) => {
-    // Save current URL, page number and scroll position for back navigation
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
-    console.log('🏠 Antalya: Navigating to property', {
-      currentUrl,
-      currentPage,
-      currentScrollY,
-      property: property.refNo || property.id
-    });
     navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, {
       state: {
         from: '/antalya',
@@ -287,13 +269,13 @@ const AntalyaPropertySearch = () => {
           <div className="flex-1 min-w-0">
             {/* Mobile Layout: One property per screen */}
             <div className="block md:hidden">
-              <div className="space-y-6">
-                {paginatedProperties.map((property, propertyIndex) => <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
-                    <div className="w-full max-w-sm mx-auto">
-                      <PropertyCard property={property} />
-                    </div>
-                  </div>)}
-              </div>
+            <div className="space-y-6">
+              {paginatedProperties.map((property, propertyIndex) => <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+                  <div className="w-full max-w-sm mx-auto">
+                    <PropertyCard property={property} priority={propertyIndex < 3} />
+                  </div>
+                </div>)}
+            </div>
               
               {/* Pagination for mobile */}
               {totalPages > 1 && <div className="flex justify-center mt-8">
@@ -370,7 +352,7 @@ const AntalyaPropertySearch = () => {
               {/* Properties Grid */}
               <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {paginatedProperties.map((property, propertyIndex) => <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                    <PropertyCard property={property} />
+                    <PropertyCard property={property} priority={propertyIndex < 6} />
                   </div>)}
               </div>
               

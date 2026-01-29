@@ -114,13 +114,9 @@ const MersinPropertySearch = () => {
   
   // Filter properties to only show Mersin properties
   const mersinProperties = useMemo(() => {
-    console.log('🏠 MersinPropertySearch: Processing properties, total received:', allProperties?.length || 0);
-    console.log('📝 MersinPropertySearch: Sample properties:', allProperties?.slice(0, 2));
-    
     const filtered = allProperties.filter(property => {
       const hasLocation = property.location?.toLowerCase().includes('mersin');
       const isNotSold = !property.status?.toLowerCase().includes('sold');
-      console.log('🔍 Property', property.ref_no, '- Location:', property.location, '- Status:', property.status, '- Matches Mersin:', hasLocation, '- Not Sold:', isNotSold);
       return hasLocation && isNotSold;
     }).map(property => ({
       id: parseInt(property.ref_no) || parseInt(property.id),
@@ -155,11 +151,9 @@ const MersinPropertySearch = () => {
       })(),
       image: property.property_image || (property.property_images && property.property_images.length > 0 ? property.property_images[0] : "https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp"),
       property_images: property.property_images,
-      coordinates: [36.7987, 34.6420] as [number, number] // Default Mersin coordinates
+      coordinates: [36.7987, 34.6420] as [number, number]
     }));
     
-    console.log('✅ MersinPropertySearch: Filtered Mersin properties:', filtered.length);
-    console.log('📊 MersinPropertySearch: Sample filtered:', filtered.slice(0, 2));
     return filtered;
   }, [allProperties]);
 
@@ -397,14 +391,13 @@ const MersinPropertySearch = () => {
               </div>
             )}
 
-            {/* Mobile Layout: One property per screen */}
             {filteredProperties.length > 0 && (
               <div className="block md:hidden">
                 <div className="space-y-6">
                    {paginatedProperties.map((property, propertyIndex) => (
                      <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
                       <div className="w-full max-w-sm mx-auto">
-                        <PropertyCard property={property} />
+                        <PropertyCard property={property} priority={propertyIndex < 3} />
                       </div>
                     </div>
                   ))}
@@ -484,7 +477,7 @@ const MersinPropertySearch = () => {
                 <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                   {paginatedProperties.map((property, propertyIndex) => (
                     <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
-                      <PropertyCard property={property} />
+                      <PropertyCard property={property} priority={propertyIndex < 6} />
                     </div>
                   ))}
                 </div>

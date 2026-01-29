@@ -9,8 +9,6 @@ export const useProperties = () => {
   const { data: properties = [], isLoading: loading, error } = useQuery({
     queryKey: ['properties'],
     queryFn: async () => {
-      console.log('🔍 useProperties: Making resilient API call to fetch properties');
-      
       try {
         const data = await resilientQuery(async () => {
           const { data, error } = await enhancedSupabase
@@ -18,22 +16,15 @@ export const useProperties = () => {
             .select('*')
             .order('created_at', { ascending: false });
           
-          if (error) {
-            console.error('❌ useProperties: Database error:', error);
-            throw error;
-          }
+          if (error) throw error;
           
           return data || [];
-        }, 5, 2000); // 5 retries with 2s base delay
+        }, 3, 1500);
         
-        console.log('✅ useProperties: Successfully fetched', data?.length || 0, 'properties');
         return data;
       } catch (err: any) {
-        console.error('❌ useProperties: All retries failed:', err);
-        
         // Return fallback data if offline or blocked
         if (!isOnline || err.message?.includes('network') || err.message?.includes('timeout')) {
-          console.log('🔄 useProperties: Returning fallback data due to connectivity issues');
           return fallbackPropertyData;
         }
         
