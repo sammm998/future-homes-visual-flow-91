@@ -1,168 +1,145 @@
 
-# Plan: Fix Property URLs with Slugs, Language Support, and Performance
+# Plan: Translated Property URL Slugs + Performance Boost
 
-## Problem Summary
+## Problem Analysis
 
-Based on my investigation, I identified the following issues:
+Currently, property URLs show English slugs regardless of language selection:
+- English: `/property/peaceful-spacious-apartments-in-antalya`
+- Swedish (selected): `/property/peaceful-spacious-apartments-in-antalya?lang=sv`
 
-1. **URLs use UUIDs instead of slugs**: The `handlePropertyClick` functions in listing pages use `property.uuid` or `property.id` as the URL path instead of `property.slug`
-2. **PropertyCard uses correct slug logic** but listing pages bypass PropertyCard's click handler with their own `handlePropertyClick` that uses wrong identifiers
-3. **Language parameter not preserved**: When navigating to property pages, the `?lang=` parameter from the current URL is not carried over
-4. **Additional performance issues**: Some pages still have logging and could benefit from optimization
+The user expects the slug to be translated when changing language.
 
-## Root Cause Analysis
+## Technical Findings
 
-### Issue 1: Wrong URL identifiers in handlePropertyClick
+1. **Database State**: All 159 properties only have English slugs. The `parent_property_id` column exists for translation linking but is unused.
+2. **Translation Infrastructure**: The `translate-text` edge function exists and uses Google Translate API.
+3. **Current Flow**: Language switching adds `?lang=` but doesn't modify the URL path.
 
-In AntalyaPropertySearch.tsx (line 209):
-```javascript
-navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, {...}
+## Proposed Solution
+
+### Option A: Database-Stored Translated Slugs (Recommended)
+Store pre-translated slugs for each language combination in the database:
+
+```text
+properties table:
+- id: abc123
+- title: "Peaceful apartments in Antalya"
+- slug: "peaceful-apartments-in-antalya"  (English)
+- slug_sv: "fridfulla-lagenheter-i-antalya" (Swedish)
+- slug_tr: "antalyada-huzurlu-daireler" (Turkish)
+- ...etc
 ```
 
-The priority order is wrong. It should be:
-```javascript
-navigate(`/property/${property.slug || property.refNo || property.id}`, {...}
-```
+**Pros**: Fast lookups, SEO-friendly, cacheable
+**Cons**: Requires database migration and batch translation of ~159 properties × 8 languages
 
-Similar issues exist in:
-- CyprusPropertySearch.tsx (line 217): Uses `property.id` directly
-- MersinPropertySearch.tsx: Same pattern
-- All other listing pages
+### Option B: Dynamic Slug Translation with Caching
+Translate slugs on-the-fly using the edge function, with aggressive caching:
 
-### Issue 2: Language parameter not preserved
+1. When navigating to a property with `?lang=sv`, fetch the translated slug
+2. Cache the translation in localStorage/sessionStorage
+3. Update the URL to show the translated slug
 
-When clicking a property, the current language is lost because the navigation doesn't include the `?lang=` parameter. The fix requires:
-1. Reading current language from URL
-2. Appending it to the property URL when navigating
+**Pros**: No database changes needed
+**Cons**: Initial translation latency, API costs
+
+### Option C: Hybrid Approach (Recommended Implementation)
+1. Add translated slug columns to database
+2. Create a migration script to batch-translate all slugs
+3. Update navigation to use language-specific slugs
+4. Update property lookup to search all slug columns
+
+---
 
 ## Implementation Plan
 
-### Phase 1: Fix handlePropertyClick in All Listing Pages
-
-Update the `handlePropertyClick` function in each listing page to:
-1. Use `property.slug` as the primary URL identifier
-2. Preserve the `?lang=` parameter from the current URL
-
-**Files to modify:**
-- `src/pages/AntalyaPropertySearch.tsx`
-- `src/pages/DubaiPropertySearch.tsx`
-- `src/pages/CyprusPropertySearch.tsx`
-- `src/pages/IstanbulPropertySearch.tsx`
-- `src/pages/MersinPropertySearch.tsx`
-- `src/pages/BaliPropertySearch.tsx`
-
-**New handlePropertyClick pattern:**
-```javascript
-const handlePropertyClick = (property: any) => {
-  const currentUrl = `${location.pathname}${location.search}`;
-  const currentScrollY = window.scrollY;
-  
-  // Get current language parameter
-  const searchParams = new URLSearchParams(location.search);
-  const lang = searchParams.get('lang');
-  
-  // Use slug as primary identifier
-  const propertyPath = property.slug || property.refNo || property.ref_no || property.id;
-  const langParam = lang ? `?lang=${lang}` : '';
-  
-  navigate(`/property/${propertyPath}${langParam}`, {
-    state: {
-      from: '/antalya',
-      returnUrl: currentUrl,
-      savedPage: currentPage,
-      savedScrollY: currentScrollY
-    }
-  });
-};
+### Phase 1: Database Schema Update
+Add translated slug columns to the `properties` table:
+```sql
+ALTER TABLE properties
+ADD COLUMN slug_sv TEXT,
+ADD COLUMN slug_tr TEXT,
+ADD COLUMN slug_ar TEXT,
+ADD COLUMN slug_ru TEXT,
+ADD COLUMN slug_no TEXT,
+ADD COLUMN slug_da TEXT,
+ADD COLUMN slug_fa TEXT,
+ADD COLUMN slug_ur TEXT;
 ```
 
-### Phase 2: Update PropertyCard Link Generation
+### Phase 2: Create Batch Translation Edge Function
+New edge function `translate-slugs` that:
+1. Fetches all properties with missing translated slugs
+2. Translates titles to each language
+3. Generates URL-safe slugs from translated titles
+4. Updates the database
 
-Update PropertyCard to also include language parameter in its generated URLs.
+### Phase 3: Update Property Lookup
+Modify `useProperty.ts` to:
+1. Check current language from URL
+2. Search for property by language-specific slug column first
+3. Fall back to English slug if not found
 
-**File:** `src/components/PropertyCard.tsx`
-
-Change:
-```javascript
-const propertyUrl = property.slug 
-  ? `/property/${property.slug}` 
-  : property.refNo || property.ref_no 
-    ? `/property/${property.refNo || property.ref_no}` 
-    : `/property/${property.id}`;
-```
-
-To:
-```javascript
-// Get current language from URL
-const location = useLocation();
-const searchParams = new URLSearchParams(location.search);
-const lang = searchParams.get('lang');
-const langParam = lang ? `?lang=${lang}` : '';
-
-const propertyPath = property.slug 
-  || property.refNo 
-  || property.ref_no 
-  || property.id;
-  
-const propertyUrl = `/property/${propertyPath}${langParam}`;
-```
-
-### Phase 3: Update SEO Schema URLs
-
-Fix the SEO schema URLs in listing pages to use slugs instead of refNo or uuid.
-
-**Example change in AntalyaPropertySearch.tsx:**
-```javascript
-generatePropertyListSchema(
-  antalyaProperties.slice(0, 10).map(p => ({
-    title: p.title,
-    price: p.price,
-    url: `https://futurehomesinternational.com/property/${p.slug || p.refNo || p.uuid}`,
-    image: p.image
-  })),
-  'Properties for Sale in Antalya'
-)
-```
-
-### Phase 4: Update PropertyDetail canonical URL
-
-Update the SEOHead canonical URL in PropertyDetail to use slug.
-
-**File:** `src/pages/PropertyDetail.tsx`
-
-Change:
-```javascript
-canonicalUrl={`https://futurehomesinternational.com/property/${property.refNo || property.id}`}
-```
-
-To:
-```javascript
-canonicalUrl={`https://futurehomesinternational.com/property/${property.slug || property.refNo || property.id}`}
-```
+### Phase 4: Update Navigation with Translated URLs
+Modify listing pages and PropertyCard to:
+1. Get current language
+2. Use the correct language slug for property links
+3. Generate language-specific URLs
 
 ### Phase 5: Performance Optimizations
+Additional speed improvements:
+1. Add database index on all slug columns
+2. Implement preloading for property images
+3. Add prefetching for next page of properties
+4. Reduce stale time for faster perceived updates
 
-1. Remove remaining console.log statements in PropertyDetail.tsx (lines 401-406, 409, 419)
-2. Add proper image preloading hints
+---
 
-## Files to Modify
+## Files to Modify/Create
 
 | File | Changes |
 |------|---------|
-| `src/pages/AntalyaPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
-| `src/pages/DubaiPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
-| `src/pages/CyprusPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
-| `src/pages/IstanbulPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
-| `src/pages/MersinPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
-| `src/pages/BaliPropertySearch.tsx` | Fix handlePropertyClick to use slug + lang param |
-| `src/components/PropertyCard.tsx` | Add language parameter to property URLs |
-| `src/pages/PropertyDetail.tsx` | Fix canonical URL, remove debug logs |
+| `supabase/migrations/add_translated_slugs.sql` | Add translated slug columns |
+| `supabase/functions/translate-slugs/index.ts` | New batch translation function |
+| `src/hooks/useProperty.ts` | Language-aware slug lookup |
+| `src/hooks/useProperties.ts` | Fetch all slug columns |
+| `src/components/PropertyCard.tsx` | Use language-specific slug in URL |
+| `src/pages/AntalyaPropertySearch.tsx` | Use language slug in handlePropertyClick |
+| `src/pages/DubaiPropertySearch.tsx` | Use language slug in handlePropertyClick |
+| `src/pages/CyprusPropertySearch.tsx` | Use language slug in handlePropertyClick |
+| `src/pages/IstanbulPropertySearch.tsx` | Use language slug in handlePropertyClick |
+| `src/pages/MersinPropertySearch.tsx` | Use language slug in handlePropertyClick |
+| `src/pages/BaliPropertySearch.tsx` | Use language slug in handlePropertyClick |
+| `src/components/OptimizedPropertyImage.tsx` | Further optimize loading |
+
+---
+
+## Performance Optimizations
+
+### Image Loading (Additional)
+1. Add `<link rel="preload">` for first 4 property images on listing pages
+2. Implement native lazy loading with `loading="lazy"` for below-fold images
+3. Use smaller image sizes for thumbnails (300px instead of 400px)
+
+### Data Fetching
+1. Add database indexes on slug columns for faster lookups
+2. Reduce query timeout from 15s to 5s stale time
+3. Prefetch next page of properties when user nears bottom
+
+### Rendering
+1. Use `React.memo` on PropertyCard to prevent unnecessary re-renders
+2. Virtualize property grid for large result sets
+3. Add skeleton loading states for smoother perceived performance
+
+---
 
 ## Expected Results
 
 After implementation:
-- Property URLs will use SEO-friendly slugs (e.g., `/property/luxury-apartments-in-antalya-altintas`)
-- Language parameter will be preserved when navigating (e.g., `/property/luxury-apartments?lang=sv`)
-- When switching language, property pages will update their content
-- Canonical URLs will use slugs for better SEO
-- Faster page loads with removed debug logging
+- URLs display translated slugs when language is changed
+  - EN: `/property/luxury-apartments-in-antalya`
+  - SV: `/property/lyxiga-lagenheter-i-antalya?lang=sv`
+  - TR: `/property/antalyada-luks-daireler?lang=tr`
+- Property pages load faster with optimized image preloading
+- Better SEO with language-specific URLs for search engines
+- Improved user experience with consistent language throughout the browsing journey
