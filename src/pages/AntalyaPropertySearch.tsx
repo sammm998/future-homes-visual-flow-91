@@ -12,7 +12,7 @@ import SEOHead from "@/components/SEOHead";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import { generateLocationSchema, generatePropertyListSchema, generateBreadcrumbSchema } from "@/utils/seoUtils";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { getLanguageSlug, getCurrentLanguage, buildLangParam } from "@/utils/slugHelpers";
+import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 const AntalyaPropertySearch = () => {
   const {
     canonicalUrl,
@@ -208,12 +208,11 @@ const AntalyaPropertySearch = () => {
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
     
-    // Get current language and use language-specific slug
+    // Get current language and build translated URL
     const lang = getCurrentLanguage(location.search);
-    const propertyPath = getLanguageSlug(property, lang);
-    const langParam = buildLangParam(lang);
+    const propertyUrl = buildPropertyUrl(property, lang);
     
-    navigate(`/property/${propertyPath}${langParam}`, {
+    navigate(propertyUrl, {
       state: {
         from: '/antalya',
         returnUrl: currentUrl,

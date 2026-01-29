@@ -1,3 +1,28 @@
+// Translated path segments for /property/
+export const PATH_TRANSLATIONS: Record<string, string> = {
+  en: 'property',
+  sv: 'fastighet',
+  tr: 'mulk',
+  ar: 'aqar',      // عقار
+  ru: 'nedvizhimost', // недвижимость
+  no: 'eiendom',
+  da: 'ejendom',
+  fa: 'melk',      // ملک
+  ur: 'jaidad',    // جائیداد
+};
+
+// Reverse mapping for path lookup
+export const PATH_TO_LANG: Record<string, string> = Object.entries(PATH_TRANSLATIONS).reduce(
+  (acc, [lang, path]) => ({ ...acc, [path]: lang }),
+  {}
+);
+
+// Get translated path segment for property
+export const getTranslatedPropertyPath = (lang: string | null): string => {
+  if (!lang || lang === 'en') return 'property';
+  return PATH_TRANSLATIONS[lang] || 'property';
+};
+
 // Helper to get language-specific slug from a property
 export const getLanguageSlug = (property: any, lang: string | null): string => {
   if (!lang || lang === 'en') {
@@ -28,4 +53,22 @@ export const getCurrentLanguage = (search: string): string | null => {
 // Build language parameter string
 export const buildLangParam = (lang: string | null): string => {
   return lang ? `?lang=${lang}` : '';
+};
+
+// Build full translated property URL
+export const buildPropertyUrl = (property: any, lang: string | null): string => {
+  const path = getTranslatedPropertyPath(lang);
+  const slug = getLanguageSlug(property, lang);
+  const langParam = buildLangParam(lang);
+  return `/${path}/${slug}${langParam}`;
+};
+
+// Extract language from URL path (for translated paths like /fastighet/)
+export const getLanguageFromPath = (pathname: string): string | null => {
+  const pathParts = pathname.split('/').filter(Boolean);
+  if (pathParts.length > 0) {
+    const pathSegment = pathParts[0].toLowerCase();
+    return PATH_TO_LANG[pathSegment] || null;
+  }
+  return null;
 };

@@ -146,8 +146,17 @@ function AppContent() {
       <Route path="/mersin" element={<MersinPropertySearch />} />
       <Route path="/bali" element={<BaliPropertySearch />} />
       
-      
+      {/* Property detail routes - all languages */}
       <Route path="/property/:id" element={<PropertyDetail />} />
+      <Route path="/fastighet/:id" element={<PropertyDetail />} />
+      <Route path="/mulk/:id" element={<PropertyDetail />} />
+      <Route path="/aqar/:id" element={<PropertyDetail />} />
+      <Route path="/nedvizhimost/:id" element={<PropertyDetail />} />
+      <Route path="/eiendom/:id" element={<PropertyDetail />} />
+      <Route path="/ejendom/:id" element={<PropertyDetail />} />
+      <Route path="/melk/:id" element={<PropertyDetail />} />
+      <Route path="/jaidad/:id" element={<PropertyDetail />} />
+      
       <Route path="/testimonials" element={<Testimonials />} />
       <Route path="/information" element={<Information />} />
       <Route path="/about-us" element={<AboutUs />} />

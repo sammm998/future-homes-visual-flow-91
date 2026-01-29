@@ -1,6 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { enhancedSupabase, resilientQuery, fallbackPropertyData } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
+import { useEffect } from 'react';
+import { preloadPropertyImages } from '@/utils/imageCache';
 
 export const useProperties = () => {
   const queryClient = useQueryClient();
@@ -38,6 +40,14 @@ export const useProperties = () => {
     retryDelay: 3000,
     networkMode: 'offlineFirst',
   });
+
+  // Preload images when properties are loaded
+  useEffect(() => {
+    if (properties.length > 0) {
+      // Preload first 12 property images for instant display
+      preloadPropertyImages(properties.slice(0, 12));
+    }
+  }, [properties]);
 
   const deleteProperty = async (id: string) => {
     if (!id) {

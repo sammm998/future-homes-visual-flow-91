@@ -69,20 +69,23 @@ const getAgentData = (agentName: string) => {
   };
 };
 
-// Get property data - database only approach
+// Get property data - database only approach with multi-language slug support
 const getPropertyData = async (id: string) => {
   // Try database lookup - this is now the only source
   try {
-    // Try to find by slug first (SEO-friendly URLs)
+    // Build OR filter for all slug columns (English + all translated slugs)
+    const slugFilter = `slug.eq.${id},slug_sv.eq.${id},slug_tr.eq.${id},slug_ar.eq.${id},slug_ru.eq.${id},slug_no.eq.${id},slug_da.eq.${id},slug_fa.eq.${id},slug_ur.eq.${id}`;
+    
+    // Try to find by any slug first (SEO-friendly URLs)
     let { data: dbProperty, error } = await supabase
       .from('properties')
       .select('*')
-      .eq('slug', id)
+      .or(slugFilter)
       .eq('is_active', true)
       .limit(1)
       .maybeSingle();
 
-    // If not found by slug, try by ref_no
+    // If not found by any slug, try by ref_no
     if (!dbProperty && !error) {
       const result = await supabase
         .from('properties')
