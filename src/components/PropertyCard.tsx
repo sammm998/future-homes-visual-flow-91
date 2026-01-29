@@ -5,7 +5,7 @@ import { MapPin, Bed, Bath, Maximize2 } from 'lucide-react';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import { formatPriceFromString } from '@/utils/priceFormatting';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface Property {
   id: string | number;
@@ -31,6 +31,13 @@ interface PropertyCardProps {
 
 const PropertyCard: React.FC<PropertyCardProps> = ({ property, priority = false }) => {
   const { formatPrice } = useCurrency();
+  const location = useLocation();
+  
+  // Get current language parameter to preserve it in links
+  const searchParams = new URLSearchParams(location.search);
+  const lang = searchParams.get('lang');
+  const langParam = lang ? `?lang=${lang}` : '';
+  
   const getImageUrl = () => {
     const defaultImage = 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp';
     
@@ -58,7 +65,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, priority = false 
     
     const normalizedStatus = status.toLowerCase().trim();
     
-    // Remove "sold" status as per user request - no properties should show as sold
     if (normalizedStatus.includes('under construction')) {
       return { variant: 'default' as const, text: 'Under Construction', className: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25' };
     }
@@ -81,19 +87,15 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, priority = false 
       return { variant: 'default' as const, text: 'Available', className: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25' };
     }
     
-    // Default case - capitalize first letter and use gradient
     const capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
     return { variant: 'default' as const, text: capitalizedStatus, className: 'bg-gradient-to-r from-gray-500 to-slate-600 text-white shadow-lg shadow-gray-500/25' };
   };
 
   const statusConfig = getStatusConfig(property.status);
   
-  // Use slug for SEO-friendly URLs, fallback to refNo or id
-  const propertyUrl = property.slug 
-    ? `/property/${property.slug}` 
-    : property.refNo || property.ref_no 
-      ? `/property/${property.refNo || property.ref_no}` 
-      : `/property/${property.id}`;
+  // Use slug for SEO-friendly URLs with language parameter
+  const propertyPath = property.slug || property.refNo || property.ref_no || property.id;
+  const propertyUrl = `/property/${propertyPath}${langParam}`;
 
   return (
     <Link to={propertyUrl}>

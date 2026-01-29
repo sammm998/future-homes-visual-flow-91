@@ -206,7 +206,16 @@ const AntalyaPropertySearch = () => {
   const handlePropertyClick = (property: any) => {
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
-    navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, {
+    
+    // Get current language parameter to preserve it
+    const searchParams = new URLSearchParams(location.search);
+    const lang = searchParams.get('lang');
+    
+    // Use slug as primary identifier for SEO-friendly URLs
+    const propertyPath = property.slug || property.refNo || property.ref_no || property.id;
+    const langParam = lang ? `?lang=${lang}` : '';
+    
+    navigate(`/property/${propertyPath}${langParam}`, {
       state: {
         from: '/antalya',
         returnUrl: currentUrl,
@@ -226,7 +235,7 @@ const AntalyaPropertySearch = () => {
           antalyaProperties.slice(0, 10).map(p => ({
             title: p.title,
             price: p.price,
-            url: `https://futurehomesinternational.com/property/${p.refNo || p.uuid}`,
+            url: `https://futurehomesinternational.com/property/${p.slug || p.refNo || p.uuid}`,
             image: p.image
           })),
           'Properties for Sale in Antalya'

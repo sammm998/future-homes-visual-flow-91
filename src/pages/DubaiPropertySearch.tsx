@@ -221,12 +221,18 @@ const DubaiPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    // Save current URL, page number and scroll position for back navigation
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
-    // Use slug for SEO-friendly URLs, fallback to refNo or uuid
+    
+    // Get current language parameter to preserve it
+    const searchParams = new URLSearchParams(location.search);
+    const lang = searchParams.get('lang');
+    
+    // Use slug as primary identifier for SEO-friendly URLs
     const propertyPath = property.slug || property.refNo || property.uuid || property.id;
-    navigate(`/property/${propertyPath}`, { 
+    const langParam = lang ? `?lang=${lang}` : '';
+    
+    navigate(`/property/${propertyPath}${langParam}`, { 
       state: { 
         from: '/dubai',
         returnUrl: currentUrl,

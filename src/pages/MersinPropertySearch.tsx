@@ -240,10 +240,18 @@ const MersinPropertySearch = () => {
   };
 
   const handlePropertyClick = (property: any) => {
-    // Save current URL, page number and scroll position for back navigation
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
-    navigate(`/property/${property.id}`, { 
+    
+    // Get current language parameter to preserve it
+    const searchParams = new URLSearchParams(location.search);
+    const lang = searchParams.get('lang');
+    
+    // Use slug as primary identifier for SEO-friendly URLs
+    const propertyPath = property.slug || property.refNo || property.ref_no || property.id;
+    const langParam = lang ? `?lang=${lang}` : '';
+    
+    navigate(`/property/${propertyPath}${langParam}`, { 
       state: { 
         from: '/mersin',
         returnUrl: currentUrl,
