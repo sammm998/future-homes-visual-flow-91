@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getPropertyCoordinates } from '@/utils/propertyCoordinates';
 import PropertyFilter from '@/components/PropertyFilter';
 import { Menu, X } from 'lucide-react';
+import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 
 interface Property {
   id: string;
@@ -17,6 +18,14 @@ interface Property {
   price: string;
   google_maps_embed: string | null;
   slug: string | null;
+  slug_sv?: string | null;
+  slug_tr?: string | null;
+  slug_ar?: string | null;
+  slug_ru?: string | null;
+  slug_no?: string | null;
+  slug_da?: string | null;
+  slug_fa?: string | null;
+  slug_ur?: string | null;
   property_image: string | null;
   property_type: string | null;
   bedrooms: string | null;
@@ -47,10 +56,13 @@ const MapSearch = () => {
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const currentPopupRef = useRef<mapboxgl.Popup | null>(null);
   const navigate = useNavigate();
+  const routeLocation = useLocation();
   const { toast } = useToast();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  const lang = getCurrentLanguage(routeLocation.search);
 
   // Detect mobile on mount
   useEffect(() => {
@@ -187,7 +199,7 @@ const MapSearch = () => {
         // Fetch all active properties
         const { data: propertiesData, error } = await supabase
           .from('properties')
-          .select('id, ref_no, title, location, price, google_maps_embed, slug, property_image, property_type, bedrooms, property_district, amenities')
+          .select('id, ref_no, title, location, price, google_maps_embed, slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, property_image, property_type, bedrooms, property_district, amenities')
           .eq('is_active', true);
 
         if (error) throw error;
@@ -314,6 +326,7 @@ const MapSearch = () => {
 
       // Create popup content lazily on click
       const createPopup = () => {
+        const propertyUrl = buildPropertyUrl(property, lang);
         const popupContent = document.createElement('div');
         popupContent.innerHTML = `
           <div style="padding: 0; min-width: 280px;">
@@ -331,7 +344,7 @@ const MapSearch = () => {
               <div style="font-size: 18px; font-weight: 700; color: #0066CC; margin-bottom: 10px;">
                 ${property.price}
               </div>
-              <button onclick="window.location.href='/property/${property.ref_no || property.slug}'"
+              <button onclick="window.location.href='${propertyUrl}'"
                 style="width: 100%; background: #0066CC; color: white; border: none; 
                 padding: 8px; border-radius: 6px; font-size: 13px; cursor: pointer;">
                 Visit Property →
@@ -491,7 +504,7 @@ const MapSearch = () => {
               
               {/* Button - Always visible at bottom */}
               <button
-                onClick={() => navigate(`/property/${selectedProperty.ref_no || selectedProperty.slug}`)}
+                onClick={() => navigate(buildPropertyUrl(selectedProperty, lang))}
                 className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium shadow-lg hover:opacity-90 transition-opacity mt-3 flex-shrink-0"
               >
                 Visit Property →
