@@ -53,9 +53,14 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     return '';
   });
 
-  // Fallback image sources - simplified for faster fallback
+  // Fallback image sources - improved for faster fallback
   const getFallbackSrc = (originalSrc: string, attemptNumber: number): string => {
     if (attemptNumber === 0) return originalSrc;
+    
+    // For CDN images that fail, go straight to Unsplash fallback
+    if (originalSrc.includes('cdn.futurehomesturkey.com')) {
+      return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
+    }
     
     // Try without query params for Supabase
     if (attemptNumber === 1 && originalSrc.includes('supabase')) {
@@ -64,21 +69,12 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
         url.search = '';
         return url.toString();
       } catch {
-        return originalSrc;
+        return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
       }
     }
     
-    // CDN retry
-    if (attemptNumber === 1 && originalSrc.includes('cdn.futurehomesturkey.com')) {
-      return originalSrc;
-    }
-    
-    // Default fallback
-    if (attemptNumber === 2) {
-      return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
-    }
-    
-    return blurPlaceholder;
+    // Default fallback for any other failed image
+    return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
   };
 
   // Create optimized image URLs - return as-is to avoid transformation issues

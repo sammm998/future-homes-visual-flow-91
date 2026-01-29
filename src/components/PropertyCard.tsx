@@ -10,6 +10,8 @@ import { Link } from 'react-router-dom';
 interface Property {
   id: string | number;
   refNo?: string;
+  ref_no?: string;
+  slug?: string;
   title: string;
   location: string;
   price: string;
@@ -85,9 +87,16 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, priority = false 
   };
 
   const statusConfig = getStatusConfig(property.status);
+  
+  // Use slug for SEO-friendly URLs, fallback to refNo or id
+  const propertyUrl = property.slug 
+    ? `/property/${property.slug}` 
+    : property.refNo || property.ref_no 
+      ? `/property/${property.refNo || property.ref_no}` 
+      : `/property/${property.id}`;
 
   return (
-    <Link to={`/property/${property.id}`}>
+    <Link to={propertyUrl}>
       <Card className="group cursor-pointer overflow-hidden h-full bg-gradient-to-br from-card via-card/95 to-card/90 backdrop-blur-md border border-border/20 hover:border-primary/40 transition-all duration-700 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1">
         <div className="relative aspect-[4/3] overflow-hidden">
           <OptimizedPropertyImage

@@ -107,8 +107,10 @@ const IstanbulPropertySearch = () => {
     }, {} as Record<string, any>);
     
     return Object.values(uniqueProperties).map((property, index) => ({
-      id: parseInt(property.ref_no || index.toString()),
+      id: property.id, // Keep original UUID for key
       refNo: property.ref_no,
+      ref_no: property.ref_no,
+      slug: property.slug, // Add slug for SEO-friendly URLs
       title: property.title,
       location: property.location,
       price: property.price,
@@ -181,7 +183,9 @@ const IstanbulPropertySearch = () => {
   const handlePropertyClick = (property: any) => {
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
-    navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, {
+    // Use slug for SEO-friendly URLs, fallback to refNo or uuid
+    const propertyPath = property.slug || property.refNo || property.uuid || property.id;
+    navigate(`/property/${propertyPath}`, {
       state: {
         from: '/istanbul',
         returnUrl: currentUrl,

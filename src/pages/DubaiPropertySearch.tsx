@@ -148,8 +148,10 @@ const DubaiPropertySearch = () => {
       }
 
       return {
-        id: parseInt(property.ref_no) || index,
+        id: property.id, // Keep original UUID for key
         refNo: property.ref_no,
+        ref_no: property.ref_no,
+        slug: property.slug, // Add slug for SEO-friendly URLs
         title: property.title,
         location: property.location,
         price: property.price,
@@ -222,7 +224,9 @@ const DubaiPropertySearch = () => {
     // Save current URL, page number and scroll position for back navigation
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
-    navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, { 
+    // Use slug for SEO-friendly URLs, fallback to refNo or uuid
+    const propertyPath = property.slug || property.refNo || property.uuid || property.id;
+    navigate(`/property/${propertyPath}`, { 
       state: { 
         from: '/dubai',
         returnUrl: currentUrl,

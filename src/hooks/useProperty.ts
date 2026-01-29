@@ -16,29 +16,41 @@ export const useProperty = (id: string) => {
         let dbProperty: any = null;
         let dbError: any = null;
 
-        // Try to find by ref_no first
-        const { data: refProperty, error: refError } = await enhancedSupabase
+        // Try to find by slug first (for SEO-friendly URLs)
+        const { data: slugProperty, error: slugError } = await enhancedSupabase
           .from('properties')
           .select('*')
-          .eq('ref_no', id)
+          .eq('slug', id)
           .eq('is_active', true)
           .maybeSingle();
 
-        if (!refError && refProperty) {
-          dbProperty = refProperty;
+        if (!slugError && slugProperty) {
+          dbProperty = slugProperty;
         } else {
-          // If not found by ref_no, try by UUID
-          const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-          if (uuidRegex.test(id)) {
-            const { data: uuidProperty, error: uuidError } = await enhancedSupabase
-              .from('properties')
-              .select('*')
-              .eq('id', id)
-              .eq('is_active', true)
-              .maybeSingle();
-            
-            dbProperty = uuidProperty;
-            dbError = uuidError;
+          // Try to find by ref_no
+          const { data: refProperty, error: refError } = await enhancedSupabase
+            .from('properties')
+            .select('*')
+            .eq('ref_no', id)
+            .eq('is_active', true)
+            .maybeSingle();
+
+          if (!refError && refProperty) {
+            dbProperty = refProperty;
+          } else {
+            // If not found by ref_no, try by UUID
+            const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+            if (uuidRegex.test(id)) {
+              const { data: uuidProperty, error: uuidError } = await enhancedSupabase
+                .from('properties')
+                .select('*')
+                .eq('id', id)
+                .eq('is_active', true)
+                .maybeSingle();
+              
+              dbProperty = uuidProperty;
+              dbError = uuidError;
+            }
           }
         }
 

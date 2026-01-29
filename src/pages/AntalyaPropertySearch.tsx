@@ -113,9 +113,10 @@ const AntalyaPropertySearch = () => {
       return acc;
     }, {} as Record<string, any>);
     return Object.values(uniqueProperties).map((property, index) => ({
-      id: parseInt(property.ref_no || index.toString()),
-      // Use ref_no as numeric ID, fallback to index
+      id: property.id, // Keep original UUID for key
       refNo: property.ref_no,
+      ref_no: property.ref_no,
+      slug: property.slug, // Add slug for SEO-friendly URLs
       title: property.title,
       location: property.location,
       price: property.price,
