@@ -126,8 +126,10 @@ const BaliPropertySearch = () => {
 
     return Object.values(uniqueProperties)
       .map((property, index) => ({
-        id: parseInt(property.ref_no || index.toString()), // Use ref_no as numeric ID, fallback to index
+        id: property.id, // Keep original UUID for key
         refNo: property.ref_no,
+        ref_no: property.ref_no,
+        slug: property.slug, // Add slug for SEO-friendly URLs
         title: property.title,
         location: property.location,
         price: property.price,
@@ -220,7 +222,9 @@ const BaliPropertySearch = () => {
     // Save current URL, page number and scroll position for back navigation
     const currentUrl = `${location.pathname}${location.search}`;
     const currentScrollY = window.scrollY;
-    navigate(`/property/${(property as any).uuid || property.refNo || property.id}`, { 
+    // Use slug for SEO-friendly URLs, fallback to refNo or uuid
+    const propertyPath = property.slug || property.refNo || property.uuid || property.id;
+    navigate(`/property/${propertyPath}`, { 
       state: { 
         from: '/bali',
         returnUrl: currentUrl,

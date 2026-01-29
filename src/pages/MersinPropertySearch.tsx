@@ -119,8 +119,10 @@ const MersinPropertySearch = () => {
       const isNotSold = !property.status?.toLowerCase().includes('sold');
       return hasLocation && isNotSold;
     }).map(property => ({
-      id: parseInt(property.ref_no) || parseInt(property.id),
-      refNo: property.ref_no, // Add this mapping for reference number filtering
+      id: property.id, // Keep original UUID for key
+      refNo: property.ref_no,
+      ref_no: property.ref_no,
+      slug: property.slug, // Add slug for SEO-friendly URLs
       title: property.title,
       location: property.location,
       price: property.price,

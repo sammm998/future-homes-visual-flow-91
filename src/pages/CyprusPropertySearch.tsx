@@ -111,8 +111,10 @@ const CyprusPropertySearch = () => {
       const isNotSold = !property.status?.toLowerCase().includes('sold');
       return hasLocation && isNotSold;
     }).map(property => ({
-      id: parseInt(property.ref_no) || parseInt(property.id),
+      id: property.id, // Keep original UUID for key
       refNo: property.ref_no,
+      ref_no: property.ref_no,
+      slug: property.slug, // Add slug for SEO-friendly URLs
       title: property.title,
       location: property.location,
       price: property.price,
