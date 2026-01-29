@@ -71,35 +71,46 @@ const getAgentData = (agentName: string) => {
 
 // Get property data - database only approach
 const getPropertyData = async (id: string) => {
-  console.log('getPropertyData: Looking for property with ID:', id);
-
   // Try database lookup - this is now the only source
   try {
-    // Try to find by ref_no first
-    let {
-      data: dbProperty,
-      error
-    } = await supabase.from('properties').select('*').eq('ref_no', id).eq('is_active', true).limit(1).maybeSingle();
-    console.log('getPropertyData: Database lookup by ref_no result:', {
-      dbProperty,
-      error
-    });
+    // Try to find by slug first (SEO-friendly URLs)
+    let { data: dbProperty, error } = await supabase
+      .from('properties')
+      .select('*')
+      .eq('slug', id)
+      .eq('is_active', true)
+      .limit(1)
+      .maybeSingle();
 
-    // If not found by ref_no, try by id (for UUID format)
+    // If not found by slug, try by ref_no
+    if (!dbProperty && !error) {
+      const result = await supabase
+        .from('properties')
+        .select('*')
+        .eq('ref_no', id)
+        .eq('is_active', true)
+        .limit(1)
+        .maybeSingle();
+      dbProperty = result.data;
+      error = result.error;
+    }
+
+    // If not found by ref_no, try by UUID
     if (!dbProperty && !error) {
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       if (uuidRegex.test(id)) {
-        const result = await supabase.from('properties').select('*').eq('id', id).eq('is_active', true).maybeSingle();
+        const result = await supabase
+          .from('properties')
+          .select('*')
+          .eq('id', id)
+          .eq('is_active', true)
+          .maybeSingle();
         dbProperty = result.data;
         error = result.error;
-        console.log('getPropertyData: Database lookup by UUID result:', {
-          dbProperty,
-          error
-        });
       }
     }
+    
     if (!error && dbProperty) {
-      console.log('getPropertyData: Found property in database:', dbProperty.title);
       // Parse the facilities array and convert to clean format
       let facilities: string[] = [];
       if (dbProperty.property_facilities && Array.isArray(dbProperty.property_facilities)) {
@@ -178,12 +189,11 @@ const getPropertyData = async (id: string) => {
         contactEmail: "info@futurehomesinternational.com"
       };
     }
-  } catch (error) {
-    console.error('Database lookup error:', error);
+  } catch (err) {
+    // Database lookup failed silently
   }
 
   // Property not found
-  console.log('getPropertyData: Property not found in database for ID:', id);
   return null;
 };
 const PropertyDetail = () => {
@@ -352,7 +362,7 @@ const PropertyDetail = () => {
   const propertyDescription = `${property.title} in ${property.location || 'prime location'}. ${property.bedrooms || 'N/A'} bedrooms, ${property.bathrooms || 'N/A'} bathrooms, ${property.area || 'N/A'} area. Price: ${property.price}. ${property.description?.substring(0, 100) || ''}...`;
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
   return <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <SEOHead title={propertyTitle} description={propertyDescription} keywords={propertyKeywords} canonicalUrl={`https://futurehomesinternational.com/property/${property.refNo || property.id}`} ogImage={property.images?.[0] || property.image} structuredData={{
+      <SEOHead title={propertyTitle} description={propertyDescription} keywords={propertyKeywords} canonicalUrl={`https://futurehomesinternational.com/property/${property.slug || property.refNo || property.id}`} ogImage={property.images?.[0] || property.image} structuredData={{
       "@context": "https://schema.org",
       "@type": "Product",
       "name": property.title,
@@ -398,15 +408,8 @@ const PropertyDetail = () => {
         const returnUrl = location.state?.returnUrl;
         const savedPage = location.state?.savedPage;
         const savedScrollY = location.state?.savedScrollY;
-        console.log('⬅️ PropertyDetail: Back button clicked', {
-          returnUrl,
-          savedPage,
-          savedScrollY,
-          locationState: location.state,
-          propertyLocation: property?.location
-        });
+        
         if (returnUrl) {
-          console.log('⬅️ PropertyDetail: Navigating to returnUrl with saved state:', returnUrl);
           navigate(returnUrl, {
             state: {
               returnedFromProperty: true,
