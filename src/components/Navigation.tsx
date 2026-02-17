@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { AIHelpChat } from "./AIHelpChat";
 import Sidebar from "./Sidebar";
 import CurrencySelector from "./CurrencySelector";
+import SimpleLanguageSelector from "./SimpleLanguageSelector";
 import UpdateBanner from "./UpdateBanner";
 interface NavigationProps {
   className?: string;
@@ -91,12 +92,13 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-3">
+              <SimpleLanguageSelector />
               <CurrencySelector />
               <div
-                className="p-2 cursor-pointer hover:bg-gray-100 rounded-md transition-colors"
+                className="p-2 cursor-pointer hover:bg-muted rounded-md transition-colors"
                 onClick={() => setIsOpen(true)}
               >
-                <Menu size={24} className="text-gray-700" />
+                <Menu size={24} className="text-foreground" />
               </div>
             </div>
           </div>
