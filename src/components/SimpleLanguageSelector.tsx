@@ -70,18 +70,34 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
     fetchProperty();
   }, [propertySlug]);
 
-  const handleLanguageChange = (selectedLanguage: typeof languages[0]) => {
+  const handleLanguageChange = async (selectedLanguage: typeof languages[0]) => {
     const langCode = selectedLanguage.code === 'en' ? null : selectedLanguage.code;
+    setIsOpen(false);
+    document.documentElement.lang = selectedLanguage.code;
 
-    // If on a property page with data, build fully localized URL
-    if (propertySlug && propertyData) {
-      const newPath = getTranslatedPropertyPath(langCode);
-      const newSlug = getLanguageSlug(propertyData, langCode);
-      const langParam = langCode ? `?lang=${langCode}` : '';
-      navigate(`/${newPath}/${newSlug}${langParam}`, { replace: true });
-      document.documentElement.lang = selectedLanguage.code;
-      setIsOpen(false);
-      return;
+    // If on a property page, always try to build fully localized URL
+    if (propertySlug) {
+      let data = propertyData;
+
+      // If property data hasn't loaded yet, fetch it now
+      if (!data) {
+        const slugFilter = `slug.eq.${propertySlug},slug_sv.eq.${propertySlug},slug_tr.eq.${propertySlug},slug_ar.eq.${propertySlug},slug_ru.eq.${propertySlug},slug_no.eq.${propertySlug},slug_da.eq.${propertySlug},slug_fa.eq.${propertySlug},slug_ur.eq.${propertySlug}`;
+        const { data: fetched } = await supabase
+          .from('properties')
+          .select('slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur')
+          .or(slugFilter)
+          .eq('is_active', true)
+          .maybeSingle();
+        data = fetched;
+      }
+
+      if (data) {
+        const newPath = getTranslatedPropertyPath(langCode);
+        const newSlug = getLanguageSlug(data, langCode);
+        const langParam = langCode ? `?lang=${langCode}` : '';
+        navigate(`/${newPath}/${newSlug}${langParam}`, { replace: true });
+        return;
+      }
     }
 
     // Default: just update ?lang= param
@@ -95,8 +111,6 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
     const searchString = currentSearch.toString();
     const newUrl = searchString ? `${location.pathname}?${searchString}` : location.pathname;
     navigate(newUrl, { replace: true });
-    document.documentElement.lang = selectedLanguage.code;
-    setIsOpen(false);
   };
 
   return (
