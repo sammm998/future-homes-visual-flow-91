@@ -15,36 +15,21 @@ export const GlobalPerformanceOptimizer: React.FC<GlobalPerformanceOptimizerProp
   useEffect(() => {
     if (!enableImageOptimization) return;
 
-    // Set high priority for all images to load immediately
-    const allImages = document.querySelectorAll('img');
-    allImages.forEach((img) => {
-      img.setAttribute('fetchpriority', 'high');
-      img.setAttribute('loading', 'eager');
-      // Add fade-in effect
-      img.style.transition = 'opacity 0.3s ease-in-out';
-    });
-    
-    // Preload images that are still loading
+    // Only optimize images near viewport, not all images
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target as HTMLImageElement;
-          if (!img.complete) {
-            // Force immediate loading
-            const newImg = new Image();
-            newImg.onload = () => {
-              img.src = newImg.src;
-            };
-            newImg.src = img.src;
-          }
+          img.style.transition = 'opacity 0.3s ease-in-out';
           observer.unobserve(img);
         }
       });
     }, {
       threshold: 0,
-      rootMargin: '200px' // Start loading 200px before visible
+      rootMargin: '100px'
     });
 
+    const allImages = document.querySelectorAll('img');
     allImages.forEach(img => observer.observe(img));
 
     return () => observer.disconnect();

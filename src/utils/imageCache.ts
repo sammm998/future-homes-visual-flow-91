@@ -46,8 +46,8 @@ class ImageCacheManager {
       !url.startsWith('data:')
     );
 
-    // Preload first 6 immediately (high priority)
-    const immediate = validUrls.slice(0, 6);
+    // Preload first 3 immediately (high priority)
+    const immediate = validUrls.slice(0, 3);
     await Promise.all(immediate.map(url => this.preload(url)));
 
     // Queue the rest for background loading

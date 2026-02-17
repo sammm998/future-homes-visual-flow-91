@@ -8,7 +8,6 @@ import { Suspense, lazy } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
-import { GlobalPerformanceOptimizer } from "@/components/GlobalPerformanceOptimizer";
 
 import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -99,14 +98,6 @@ function App() {
           <CurrencyProvider>
             <TooltipProvider>
               <BrowserRouter>
-                <GlobalPerformanceOptimizer 
-                  criticalImages={[
-                    '/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png',
-                    'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/rl9q4mj1esj.jpg'
-                  ]}
-                  enableImageOptimization={true}
-                  enableResourceHints={true}
-                />
                 <PerformanceMonitor logLevel="none" />
                 <Toaster />
                 <Sonner />
