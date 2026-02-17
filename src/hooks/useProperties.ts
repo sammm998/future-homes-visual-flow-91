@@ -44,8 +44,8 @@ export const useProperties = () => {
   // Preload images when properties are loaded
   useEffect(() => {
     if (properties.length > 0) {
-      // Preload first 12 property images for instant display
-      preloadPropertyImages(properties.slice(0, 12));
+      // Preload only first 3 property images to avoid bandwidth saturation
+      preloadPropertyImages(properties.slice(0, 3));
     }
   }, [properties]);
 

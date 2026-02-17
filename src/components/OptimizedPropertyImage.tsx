@@ -189,7 +189,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
         )}
         onLoad={handleLoad}
         onError={handleError}
-        loading="eager"
+        loading={priority ? "eager" : "lazy"}
         decoding="async"
         fetchPriority={priority ? "high" : "auto"}
       />

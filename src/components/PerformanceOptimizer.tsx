@@ -64,8 +64,7 @@ export const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
       {/* Performance hints */}
       <meta httpEquiv="x-dns-prefetch-control" content="on" />
       
-      {/* Critical resource hints */}
-      <link rel="preload" href="/placeholder.svg" as="image" />
+      {/* Performance hints */}
     </Helmet>
   );
 };
