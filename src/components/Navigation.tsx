@@ -92,7 +92,6 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-3">
-              <SimpleLanguageSelector />
               <CurrencySelector />
               <div
                 className="p-2 cursor-pointer hover:bg-muted rounded-md transition-colors"
