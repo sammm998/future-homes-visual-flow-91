@@ -220,19 +220,23 @@ const PropertyDetail = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
 
-  // If user changes language while on a property page, update the URL to the translated path + slug.
+  // Redirect to fully translated URL whenever property data is available.
+  // This handles: initial load with ?lang=sv, language changes, and mismatched paths.
   useEffect(() => {
-    if (!property || !lang) return;
+    if (!property) return;
+    
     const expectedUrl = buildPropertyUrl(property, lang);
     const expectedPathname = expectedUrl.split('?')[0];
+    const currentUrl = `${location.pathname}${location.search}`;
 
-    if (location.pathname !== expectedPathname) {
+    // Redirect if pathname doesn't match (wrong path segment or slug)
+    if (location.pathname !== expectedPathname || currentUrl !== expectedUrl) {
       navigate(expectedUrl, {
         replace: true,
         state: location.state
       });
     }
-  }, [property, lang, location.pathname, location.state, navigate]);
+  }, [property, lang, location.pathname, location.search, location.state, navigate]);
 
   // Preload critical images for faster display
   useEffect(() => {
