@@ -248,14 +248,6 @@ All colors MUST be HSL.
 
 
 
-/* ElevenLabs Widget Styling */
-elevenlabs-convai {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  z-index: 9999 !important;
-}
-
 /* Modern Gallery Animations & Effects */
 @layer utilities {
   .bg-grid-pattern {

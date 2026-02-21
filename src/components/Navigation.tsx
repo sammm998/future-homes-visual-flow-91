@@ -111,19 +111,6 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
 
       {/* AI Help Chat */}
       <AIHelpChat isOpen={isAIHelpOpen} onClose={() => setIsAIHelpOpen(false)} />
-
-      {/* Hide ElevenLabs widget when mobile menu is open */}
-      <style>{`
-        ${
-          isOpen
-            ? `
-          elevenlabs-convai {
-            display: none !important;
-          }
-        `
-            : ""
-        }
-      `}</style>
     </>
   );
 };

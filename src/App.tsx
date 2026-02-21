@@ -116,7 +116,7 @@ function App() {
 }
 
 function AppContent() {
-  // Sync language URL when ?lang= changes (e.g. from ElevenLabs widget)
+  // Sync language URL when ?lang= changes (e.g. from Elfsight widget)
   useLanguageUrlSync();
 
   return (
