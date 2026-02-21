@@ -44,17 +44,12 @@ export const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
 
   return (
     <Helmet>
-      {/* DNS Prefetch for external domains */}
-      <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-      <link rel="dns-prefetch" href="//images.unsplash.com" />
-      <link rel="dns-prefetch" href="//api.elevenlabs.io" />
+      {/* DNS Prefetch for actually used external domains */}
+      <link rel="dns-prefetch" href="//kiogiyemoqbnuvclneoe.supabase.co" />
+      <link rel="dns-prefetch" href="//static.elfsight.com" />
       
-      {/* Preconnect to critical resources */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      
-      {/* Critical CSS inlining hint */}
-      <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      {/* Preconnect to critical Supabase domain */}
+      <link rel="preconnect" href="https://kiogiyemoqbnuvclneoe.supabase.co" crossOrigin="anonymous" />
       
       {/* Prefetch next likely pages */}
       {prefetchRoutes.map(route => (
@@ -63,8 +58,6 @@ export const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
       
       {/* Performance hints */}
       <meta httpEquiv="x-dns-prefetch-control" content="on" />
-      
-      {/* Performance hints */}
     </Helmet>
   );
 };

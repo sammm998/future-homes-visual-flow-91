@@ -86,6 +86,8 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
                 <img
                   src="/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png"
                   alt="Future Homes"
+                  width={152}
+                  height={42}
                   className="h-6 sm:h-8 w-auto"
                 />
               </Link>
