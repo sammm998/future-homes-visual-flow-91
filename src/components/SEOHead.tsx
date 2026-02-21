@@ -122,20 +122,6 @@ const SEOHead: React.FC<SEOHeadProps> = ({
 
   return (
     <Helmet>
-      {/* Google Analytics */}
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-BVKH3BBPG0"></script>
-      <script>
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-BVKH3BBPG0');
-        `}
-      </script>
-      
-      {/* Google Search Console Verification */}
-      <meta name="google-site-verification" content="tX9miiJWQEEYeB5sWZ8ZeSrcL_RViXlqe_l9fxM7UfQ" />
-      
       {/* Primary Meta Tags */}
       <html lang={currentLanguage} />
       <title>{title}</title>
@@ -231,9 +217,6 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <link rel="apple-touch-icon" href="/favicon.png" />
       
       {/* Preconnect for Performance */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link rel="dns-prefetch" href="//images.unsplash.com" />
       <link rel="dns-prefetch" href="//kiogiyemoqbnuvclneoe.supabase.co" />
       
       {/* Core Structured Data - Organization */}
@@ -268,9 +251,6 @@ const SEOHead: React.FC<SEOHeadProps> = ({
             )
       )}
       
-      {/* Additional Performance and Security Headers */}
-      <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-      <meta httpEquiv="cache-control" content="public, max-age=31536000" />
       <meta name="format-detection" content="telephone=no" />
     </Helmet>
   );

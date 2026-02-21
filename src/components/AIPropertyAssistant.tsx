@@ -58,14 +58,6 @@ const AIPropertyAssistant = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Notify ElevenLabs widget about popup state
-  useEffect(() => {
-    const event = new CustomEvent('aiPropertyAssistantToggle', {
-      detail: { isOpen }
-    });
-    window.dispatchEvent(event);
-  }, [isOpen]);
-
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
     if (chatContainerRef.current) {
