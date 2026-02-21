@@ -44,10 +44,29 @@ export const getLanguageSlug = (property: any, lang: string | null): string => {
   return slugMap[lang] || property.slug || property.refNo || property.ref_no || property.id;
 };
 
-// Get current language from URL search params
+// Get current language from URL search params, falling back to localStorage
 export const getCurrentLanguage = (search: string): string | null => {
   const searchParams = new URLSearchParams(search);
-  return searchParams.get('lang');
+  const langFromUrl = searchParams.get('lang');
+  
+  if (langFromUrl) {
+    if (typeof window !== 'undefined') {
+      if (langFromUrl === 'en') {
+        localStorage.removeItem('preferred_language');
+      } else {
+        localStorage.setItem('preferred_language', langFromUrl);
+      }
+    }
+    return langFromUrl;
+  }
+  
+  // Fall back to localStorage
+  if (typeof window !== 'undefined') {
+    const savedLang = localStorage.getItem('preferred_language');
+    if (savedLang && savedLang !== 'en') return savedLang;
+  }
+  
+  return null;
 };
 
 // Build language parameter string

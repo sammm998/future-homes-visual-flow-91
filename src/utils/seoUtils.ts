@@ -20,14 +20,30 @@ export const supportedLanguages: LanguageConfig[] = [
 ];
 
 /**
- * Get the current language from URL parameters
+ * Get the current language from URL parameters, falling back to localStorage
  */
 export const getCurrentLanguage = (): string => {
   if (typeof window === 'undefined') return 'en';
   
   const urlParams = new URLSearchParams(window.location.search);
-  const lang = urlParams.get('lang');
-  return lang && supportedLanguages.some(l => l.code === lang) ? lang : 'en';
+  const langFromUrl = urlParams.get('lang');
+  
+  if (langFromUrl && supportedLanguages.some(l => l.code === langFromUrl)) {
+    if (langFromUrl === 'en') {
+      localStorage.removeItem('preferred_language');
+    } else {
+      localStorage.setItem('preferred_language', langFromUrl);
+    }
+    return langFromUrl;
+  }
+  
+  // Fall back to localStorage
+  const savedLang = localStorage.getItem('preferred_language');
+  if (savedLang && supportedLanguages.some(l => l.code === savedLang)) {
+    return savedLang;
+  }
+  
+  return 'en';
 };
 
 /**
