@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
+import React, { useState, useEffect, useContext, createContext, useCallback } from 'react';
 
 export interface Currency {
   code: string;
@@ -25,22 +25,50 @@ const CURRENCY_CODES = {
   AUD: 'AUD'
 } as const;
 
-export const currencies: Currency[] = [
-  { code: CURRENCY_CODES.EUR, symbol: '€', flag: '🇪🇺', country: 'EUR', rate: 1 },
-  { code: CURRENCY_CODES.USD, symbol: '$', flag: '🇺🇸', country: 'USD', rate: 1.05 },
-  { code: CURRENCY_CODES.GBP, symbol: '£', flag: '🇬🇧', country: 'GBP', rate: 0.85 },
-  { code: CURRENCY_CODES.SEK, symbol: 'kr', flag: '🇸🇪', country: 'SEK', rate: 11.19 },
-  { code: CURRENCY_CODES.NOK, symbol: 'kr', flag: '🇳🇴', country: 'NOK', rate: 11.45 },
-  { code: CURRENCY_CODES.DKK, symbol: 'kr', flag: '🇩🇰', country: 'DKK', rate: 7.45 },
-  { code: CURRENCY_CODES.TRY, symbol: '₺', flag: '🇹🇷', country: 'TRY', rate: 47.63 },
-  { code: CURRENCY_CODES.AED, symbol: 'د.إ', flag: '🇦🇪', country: 'AED', rate: 3.85 },
-  { code: CURRENCY_CODES.IRR, symbol: '﷼', flag: '🇮🇷', country: 'IRR', rate: 44650 },
-  { code: CURRENCY_CODES.RUB, symbol: '₽', flag: '🇷🇺', country: 'RUB', rate: 95.50 },
-  { code: CURRENCY_CODES.CHF, symbol: 'Fr', flag: '🇨🇭', country: 'CHF', rate: 0.94 },
-  { code: CURRENCY_CODES.CAD, symbol: 'C$', flag: '🇨🇦', country: 'CAD', rate: 1.47 },
-  { code: CURRENCY_CODES.AUD, symbol: 'A$', flag: '🇦🇺', country: 'AUD', rate: 1.65 },
-] as const;
+// Fallback rates (used only if API fails)
+const FALLBACK_RATES: Record<string, number> = {
+  EUR: 1,
+  USD: 1.05,
+  GBP: 0.85,
+  SEK: 11.19,
+  NOK: 11.45,
+  DKK: 7.45,
+  TRY: 47.63,
+  AED: 3.85,
+  IRR: 44650,
+  RUB: 95.50,
+  CHF: 0.94,
+  CAD: 1.47,
+  AUD: 1.65,
+};
 
+const CURRENCY_META: Omit<Currency, 'rate'>[] = [
+  { code: CURRENCY_CODES.EUR, symbol: '€', flag: '🇪🇺', country: 'EUR' },
+  { code: CURRENCY_CODES.USD, symbol: '$', flag: '🇺🇸', country: 'USD' },
+  { code: CURRENCY_CODES.GBP, symbol: '£', flag: '🇬🇧', country: 'GBP' },
+  { code: CURRENCY_CODES.SEK, symbol: 'kr', flag: '🇸🇪', country: 'SEK' },
+  { code: CURRENCY_CODES.NOK, symbol: 'kr', flag: '🇳🇴', country: 'NOK' },
+  { code: CURRENCY_CODES.DKK, symbol: 'kr', flag: '🇩🇰', country: 'DKK' },
+  { code: CURRENCY_CODES.TRY, symbol: '₺', flag: '🇹🇷', country: 'TRY' },
+  { code: CURRENCY_CODES.AED, symbol: 'د.إ', flag: '🇦🇪', country: 'AED' },
+  { code: CURRENCY_CODES.IRR, symbol: '﷼', flag: '🇮🇷', country: 'IRR' },
+  { code: CURRENCY_CODES.RUB, symbol: '₽', flag: '🇷🇺', country: 'RUB' },
+  { code: CURRENCY_CODES.CHF, symbol: 'Fr', flag: '🇨🇭', country: 'CHF' },
+  { code: CURRENCY_CODES.CAD, symbol: 'C$', flag: '🇨🇦', country: 'CAD' },
+  { code: CURRENCY_CODES.AUD, symbol: 'A$', flag: '🇦🇺', country: 'AUD' },
+];
+
+const buildCurrencies = (rates: Record<string, number>): Currency[] =>
+  CURRENCY_META.map(meta => ({
+    ...meta,
+    rate: rates[meta.code] ?? FALLBACK_RATES[meta.code] ?? 1,
+  }));
+
+// Initial currencies with fallback rates
+export let currencies: Currency[] = buildCurrencies(FALLBACK_RATES);
+
+const CACHE_KEY = 'exchange_rates_cache';
+const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
 interface CurrencyContextType {
   selectedCurrency: Currency;
@@ -51,33 +79,78 @@ interface CurrencyContextType {
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
-export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [selectedCurrency, setSelectedCurrencyState] = useState<Currency>(currencies[0]); // EUR as default
+const fetchLiveRates = async (): Promise<Record<string, number> | null> => {
+  // Check cache first
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      const { rates, timestamp } = JSON.parse(cached);
+      if (Date.now() - timestamp < CACHE_DURATION) {
+        return rates;
+      }
+    }
+  } catch {}
 
-  const convertPrice = (price: number, fromCurrency: string = 'EUR'): number => {
+  try {
+    const res = await fetch('https://open.er-api.com/v6/latest/EUR');
+    if (!res.ok) throw new Error('API failed');
+    const data = await res.json();
+    if (data.result === 'success' && data.rates) {
+      const rates: Record<string, number> = {};
+      for (const code of Object.keys(FALLBACK_RATES)) {
+        rates[code] = data.rates[code] ?? FALLBACK_RATES[code];
+      }
+      // Cache the rates
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ rates, timestamp: Date.now() }));
+      console.log('Live exchange rates loaded successfully');
+      return rates;
+    }
+  } catch (err) {
+    console.warn('Failed to fetch live exchange rates, using fallback:', err);
+  }
+  return null;
+};
+
+export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [liveRates, setLiveRates] = useState<Record<string, number>>(FALLBACK_RATES);
+  const [selectedCurrency, setSelectedCurrencyState] = useState<Currency>(
+    () => buildCurrencies(FALLBACK_RATES)[0]
+  );
+
+  // Fetch live rates on mount
+  useEffect(() => {
+    fetchLiveRates().then(rates => {
+      if (rates) {
+        setLiveRates(rates);
+        currencies = buildCurrencies(rates);
+        // Update selected currency with new rate
+        setSelectedCurrencyState(prev => {
+          const updated = currencies.find(c => c.code === prev.code);
+          return updated || prev;
+        });
+      }
+    });
+  }, []);
+
+  const convertPrice = useCallback((price: number, fromCurrency: string = 'EUR'): number => {
     if (fromCurrency === 'EUR') {
       return price * selectedCurrency.rate;
     }
-    // If converting from another currency, first convert to EUR, then to target
-    const fromCurrencyData = currencies.find(c => c.code === fromCurrency);
-    if (!fromCurrencyData) return price;
-    
-    const eurPrice = price / fromCurrencyData.rate;
+    const fromRate = liveRates[fromCurrency] ?? FALLBACK_RATES[fromCurrency] ?? 1;
+    const eurPrice = price / fromRate;
     return eurPrice * selectedCurrency.rate;
-  };
+  }, [selectedCurrency.rate, liveRates]);
 
-  const formatPrice = (price: number): string => {
+  const formatPrice = useCallback((price: number): string => {
     const convertedPrice = convertPrice(price);
     
-    // Format number based on currency
     const formatter = new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: selectedCurrency.code === 'IRR' ? 0 : 0,
-      maximumFractionDigits: selectedCurrency.code === 'IRR' ? 0 : 0,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     });
 
     const formattedNumber = formatter.format(Math.round(convertedPrice));
     
-    // Different positioning for different currencies
     if (selectedCurrency.code === 'USD') {
       return `$${formattedNumber}`;
     } else if (selectedCurrency.code === 'EUR') {
@@ -87,26 +160,21 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     } else {
       return `${selectedCurrency.symbol}${formattedNumber}`;
     }
-  };
-
+  }, [convertPrice, selectedCurrency.code, selectedCurrency.symbol]);
 
   useEffect(() => {
-    // Force load currency from localStorage on every render
     const loadStoredCurrency = () => {
       const storedCurrencyCode = localStorage.getItem('currency');
       if (storedCurrencyCode) {
         const currency = currencies.find(c => c.code === storedCurrencyCode);
         if (currency && currency.code !== selectedCurrency.code) {
-          console.log('Restoring currency from localStorage:', currency.code);
           setSelectedCurrencyState(currency);
         }
       }
     };
 
-    // Load immediately
     loadStoredCurrency();
 
-    // Listen for storage changes to sync across tabs
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'currency' && e.newValue) {
         const currency = currencies.find(c => c.code === e.newValue);
@@ -116,7 +184,6 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
     };
 
-    // Also listen for page visibility changes (when user switches tabs)
     const handleVisibilityChange = () => {
       if (!document.hidden) {
         loadStoredCurrency();
@@ -130,7 +197,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       window.removeEventListener('storage', handleStorageChange);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []); // Only run once on mount
+  }, []);
 
   const setSelectedCurrency = (currency: Currency) => {
     if (!currency?.code) return;
@@ -138,14 +205,8 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const validCurrency = currencies.find(c => c.code === currency.code);
     if (!validCurrency) return;
     
-    console.log('Setting currency to:', validCurrency.code);
     setSelectedCurrencyState(validCurrency);
     localStorage.setItem('currency', validCurrency.code);
-    
-    // Force update the DOM immediately
-    setTimeout(() => {
-      localStorage.setItem('currency', validCurrency.code);
-    }, 0);
   };
 
   return (
