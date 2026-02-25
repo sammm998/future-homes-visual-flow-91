@@ -138,8 +138,8 @@ const InteractiveSelector = () => {
                   duration: 0.5,
                   delay: 0.2
                 }} className="text-white">
-                    <h3 className="text-2xl lg:text-3xl font-bold mb-1 notranslate" translate="no">{option.title}</h3>
-                          <p className="text-white/80 text-sm lg:text-base mb-2 notranslate" translate="no">{option.description}</p>
+                    <h3 className="text-2xl lg:text-3xl font-bold mb-1 notranslate" translate="no"><span className="notranslate" translate="no">{option.title}</span></h3>
+                          <p className="text-white/80 text-sm lg:text-base mb-2 notranslate" translate="no"><span className="notranslate" translate="no">{option.description}</span></p>
                           <p className="font-semibold text-sm mb-3 text-slate-50">{option.propertyCount}</p>
                           <button className="bg-primary hover:bg-primary-glow text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors" onClick={e => {
                     e.stopPropagation();
@@ -180,8 +180,8 @@ const InteractiveSelector = () => {
                       {option.icon}
                     </div>
                     <div className="text-white flex-grow">
-                      <h3 className="text-lg sm:text-xl font-bold mb-1 notranslate" translate="no">{option.title}</h3>
-                      <p className="text-white/80 text-sm mb-1 notranslate" translate="no">{option.description}</p>
+                      <h3 className="text-lg sm:text-xl font-bold mb-1 notranslate" translate="no"><span className="notranslate" translate="no">{option.title}</span></h3>
+                      <p className="text-white/80 text-sm mb-1 notranslate" translate="no"><span className="notranslate" translate="no">{option.description}</span></p>
                       <p className="font-semibold text-xs sm:text-sm mb-2 text-slate-50">{option.propertyCount}</p>
                       <button className="bg-primary hover:bg-primary-glow text-white px-3 py-1 rounded text-xs font-semibold transition-colors" onClick={e => {
                     e.stopPropagation();
