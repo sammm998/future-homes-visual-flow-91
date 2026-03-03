@@ -63,10 +63,10 @@ export default function FounderSection() {
               <div className="p-8 lg:p-12 flex flex-col justify-center">
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-3xl font-bold text-foreground mb-2">
+                    <h3 className="text-3xl font-bold text-foreground mb-2 notranslate" translate="no">
                       Ali Karan
                     </h3>
-                    <p className="text-lg text-primary font-semibold mb-4">
+                    <p className="text-lg text-primary font-semibold mb-4 notranslate" translate="no">
                       Founder & CEO
                     </p>
                     <p className="text-muted-foreground leading-relaxed">

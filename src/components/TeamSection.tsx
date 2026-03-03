@@ -121,10 +121,10 @@ const TeamSection = () => {
 
                 {/* Info */}
                 <div className="text-center">
-                  <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {member.name}
+                  <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors notranslate" translate="no">
+                    <span className="notranslate" translate="no">{member.name}</span>
                   </h3>
-                  <p className="text-primary font-medium mb-3">{member.position}</p>
+                  <p className="text-primary font-medium mb-3 notranslate" translate="no"><span className="notranslate" translate="no">{member.position}</span></p>
                   
                   {member.bio && (
                     <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
