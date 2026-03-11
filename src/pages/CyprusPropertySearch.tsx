@@ -109,8 +109,7 @@ const CyprusPropertySearch = () => {
   const cyprusProperties = useMemo(() => {
     const filtered = allProperties.filter(property => {
       const hasLocation = property.location?.toLowerCase().includes('cyprus');
-      const isNotSold = !property.status?.toLowerCase().includes('sold');
-      return hasLocation && isNotSold;
+      return hasLocation;
     }).map(property => ({
       id: property.id, // Keep original UUID for key
       refNo: property.ref_no,

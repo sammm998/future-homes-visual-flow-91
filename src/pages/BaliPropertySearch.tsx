@@ -114,9 +114,7 @@ const BaliPropertySearch = () => {
   const baliProperties = useMemo(() => {
     const filteredProperties = allProperties
       .filter(property => 
-        property.location?.toLowerCase().includes('bali') && 
-        (property as any).is_active === true &&
-        !property.status?.toLowerCase().includes('sold')
+        property.location?.toLowerCase().includes('bali')
       );
 
     // Deduplicate by ref_no, keeping the most recent one (last in array)

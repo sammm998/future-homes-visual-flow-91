@@ -75,6 +75,9 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
     
     const normalizedStatus = status.toLowerCase().trim();
     
+    if (normalizedStatus.includes('sold')) {
+      return { variant: 'default' as const, text: 'SOLD', className: 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/25' };
+    }
     if (normalizedStatus.includes('under construction')) {
       return { variant: 'default' as const, text: 'Under Construction', className: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25' };
     }

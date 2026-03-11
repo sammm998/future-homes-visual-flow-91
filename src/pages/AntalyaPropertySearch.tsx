@@ -106,7 +106,7 @@ const AntalyaPropertySearch = () => {
 
   // Filter properties by location (Antalya) and active status from database and map to expected format
   const antalyaProperties = useMemo(() => {
-    const filteredProperties = allProperties.filter(property => property.location?.toLowerCase().includes('antalya') && (property as any).is_active === true && !property.status?.toLowerCase().includes('sold'));
+    const filteredProperties = allProperties.filter(property => property.location?.toLowerCase().includes('antalya'));
 
     // Deduplicate by ref_no, keeping the most recent one (last in array)
     const uniqueProperties = filteredProperties.reduce((acc, property) => {

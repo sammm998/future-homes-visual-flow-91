@@ -118,9 +118,7 @@ const DubaiPropertySearch = () => {
 
     const filtered = allProperties.filter(property => {
       const isDubai = property.location?.toLowerCase().includes('dubai');
-      const isActive = (property as any).is_active === true;
-      const isNotSold = !property.status?.toLowerCase().includes('sold');
-      return isDubai && isActive && isNotSold;
+      return isDubai;
     });
 
     const uniqueProperties = filtered.reduce((acc, property) => {
