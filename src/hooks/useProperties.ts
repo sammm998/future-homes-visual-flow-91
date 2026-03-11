@@ -16,6 +16,7 @@ export const useProperties = () => {
           const { data, error } = await enhancedSupabase
             .from('properties')
             .select('*, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur')
+            .eq('is_active', true)
             .order('created_at', { ascending: false });
           
           if (error) throw error;

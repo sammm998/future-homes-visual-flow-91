@@ -97,9 +97,7 @@ const IstanbulPropertySearch = () => {
 
   const istanbulProperties = useMemo(() => {
     const filteredProperties = allProperties.filter(property => 
-      property.location?.toLowerCase().includes('istanbul') && 
-      (property as any).is_active === true && 
-      !property.status?.toLowerCase().includes('sold')
+      property.location?.toLowerCase().includes('istanbul')
     );
 
     const uniqueProperties = filteredProperties.reduce((acc, property) => {
