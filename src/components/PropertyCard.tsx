@@ -59,12 +59,13 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       return true;
     };
     
+    // Prioritize the main image (property_image) set in CMS
+    if (isValidImageUrl(property.image)) return property.image;
+    
     if (property.property_images && Array.isArray(property.property_images)) {
       const validImage = property.property_images.find(img => isValidImageUrl(img));
       if (validImage) return validImage;
     }
-    
-    if (isValidImageUrl(property.image)) return property.image;
     
     return defaultImage;
   };
