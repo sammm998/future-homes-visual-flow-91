@@ -350,7 +350,7 @@ const AntalyaPropertySearch = () => {
               {/* Toolbar */}
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-muted-foreground notranslate" translate="no">
                     Showing {filteredProperties.length} of {antalyaProperties.length} properties
                   </span>
                 </div>
