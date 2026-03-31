@@ -300,10 +300,10 @@ const Hero: React.FC<HeroProps> = ({
                           <span className="notranslate" translate="no">Bali</span>
                         </div>
                       </SelectItem>
-                      <SelectItem value="Dubai">
-                        <div className="flex items-center gap-2">
+                      <SelectItem value="Dubai" className="notranslate">
+                        <div className="flex items-center gap-2 notranslate" translate="no">
                           <MapPin size={16} />
-                          Dubai
+                          <span className="notranslate" translate="no">Dubai</span>
                         </div>
                       </SelectItem>
                     </SelectContent>
