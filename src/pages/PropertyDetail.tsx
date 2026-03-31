@@ -537,7 +537,7 @@ const PropertyDetail = () => {
                 <div className="flex items-center space-x-3 p-4 border rounded-lg">
                   <Square className="h-5 w-5 text-primary" />
                   <div>
-                    <p className="text-sm text-muted-foreground">{t('area', language)}</p>
+                    <p className="text-sm text-muted-foreground notranslate" translate="no">{t('area', language)}</p>
                     <p className="font-semibold">{property.area || 'N/A'}</p>
                   </div>
                 </div>
