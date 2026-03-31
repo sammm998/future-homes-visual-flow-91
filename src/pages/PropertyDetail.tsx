@@ -659,8 +659,8 @@ const PropertyDetail = () => {
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-semibold text-foreground">{agent.name}</h4>
-                      <p className="text-sm text-primary font-medium">{agent.title}</p>
+                      <h4 className="font-semibold text-foreground notranslate" translate="no">{agent.name}</h4>
+                      <p className="text-sm text-primary font-medium notranslate" translate="no">{agent.title}</p>
                     </div>
                   </div>
 
@@ -690,8 +690,8 @@ const PropertyDetail = () => {
                       <AvatarFallback className="bg-primary/20 text-primary font-bold">EK</AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-semibold text-foreground">{property.agent}</h4>
-                      <p className="text-sm text-primary font-medium">Sales Representative</p>
+                      <h4 className="font-semibold text-foreground notranslate" translate="no">{property.agent}</h4>
+                      <p className="text-sm text-primary font-medium notranslate" translate="no">Sales Representative</p>
                     </div>
                   </div>
 

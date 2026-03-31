@@ -269,35 +269,35 @@ const Hero: React.FC<HeroProps> = ({
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
                       <SelectValue placeholder="Property Location" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Antalya">
-                        <div className="flex items-center gap-2">
+                    <SelectContent className="notranslate" translate="no">
+                      <SelectItem value="Antalya" className="notranslate">
+                        <div className="flex items-center gap-2 notranslate" translate="no">
                           <MapPin size={16} />
-                          Antalya
+                          <span className="notranslate" translate="no">Antalya</span>
                         </div>
                       </SelectItem>
-                      <SelectItem value="Istanbul">
-                        <div className="flex items-center gap-2">
+                      <SelectItem value="Istanbul" className="notranslate">
+                        <div className="flex items-center gap-2 notranslate" translate="no">
                           <MapPin size={16} />
-                          Istanbul
+                          <span className="notranslate" translate="no">Istanbul</span>
                         </div>
                       </SelectItem>
-                      <SelectItem value="Mersin">
-                        <div className="flex items-center gap-2">
+                      <SelectItem value="Mersin" className="notranslate">
+                        <div className="flex items-center gap-2 notranslate" translate="no">
                           <MapPin size={16} />
-                          Mersin
+                          <span className="notranslate" translate="no">Mersin</span>
                         </div>
                       </SelectItem>
-                      <SelectItem value="Cyprus">
-                        <div className="flex items-center gap-2">
+                      <SelectItem value="Cyprus" className="notranslate">
+                        <div className="flex items-center gap-2 notranslate" translate="no">
                           <MapPin size={16} />
-                          Cyprus
+                          <span className="notranslate" translate="no">Cyprus</span>
                         </div>
                       </SelectItem>
-                      <SelectItem value="Bali">
-                        <div className="flex items-center gap-2">
+                      <SelectItem value="Bali" className="notranslate">
+                        <div className="flex items-center gap-2 notranslate" translate="no">
                           <MapPin size={16} />
-                          Bali
+                          <span className="notranslate" translate="no">Bali</span>
                         </div>
                       </SelectItem>
                       <SelectItem value="Dubai">
