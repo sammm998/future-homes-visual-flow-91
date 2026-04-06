@@ -554,6 +554,13 @@ export const translations: Record<string, Record<string, string>> = {
     'home.view_all_properties': 'Se Alle Eiendommer', 'home.price_on_request': 'Pris på forespørsel',
     'home.founder_ceo': 'Grunnlegger & Daglig Leder',
 
+  
+    'home.faq1_q': 'Kan utlendinger kjøpe eiendom?', 'home.faq1_a': 'Ja, de fleste land ønsker utenlandske investorer velkommen.',
+    'home.faq2_q': 'Hva er typiske kostnader?', 'home.faq2_a': 'Kostnader varierer, vanligvis 4-10% av eiendomsverdien.',
+    'home.faq3_q': 'Hvilke land tilbyr statsborgerskap?', 'home.faq3_a': 'Tyrkia ($400k), Kypros (€2M), Portugal (€280k).',
+    'home.faq4_q': 'Trenger jeg advokat?', 'home.faq4_a': 'Sterkt anbefalt for internasjonale kjøp.',
+    'home.faq5_q': 'Hvilke løpende kostnader?', 'home.faq5_a': 'Eiendomsskatt, forsikring, vedlikehold og forvaltning.',
+    'home.faq6_q': 'Hvordan fungerer betalingsplaner?', 'home.faq6_a': 'Fleksible planer med 20-30% forskudd og avdrag.',
   },
 
   da: {
@@ -695,6 +702,13 @@ export const translations: Record<string, Record<string, string>> = {
     'home.view_all_properties': 'Se Alle Ejendomme', 'home.price_on_request': 'Pris på forespørgsel',
     'home.founder_ceo': 'Grundlægger & Direktør',
 
+  
+    'home.faq1_q': 'Kan udlændinge købe ejendom?', 'home.faq1_a': 'Ja, de fleste lande byder udenlandske investorer velkommen.',
+    'home.faq2_q': 'Hvad er typiske omkostninger?', 'home.faq2_a': 'Omkostninger varierer, typisk 4-10% af ejendomsværdien.',
+    'home.faq3_q': 'Hvilke lande tilbyder statsborgerskab?', 'home.faq3_a': 'Tyrkiet ($400k), Cypern (€2M), Portugal (€280k).',
+    'home.faq4_q': 'Har jeg brug for en advokat?', 'home.faq4_a': 'Stærkt anbefalet ved internationale køb.',
+    'home.faq5_q': 'Hvilke løbende omkostninger?', 'home.faq5_a': 'Ejendomsskat, forsikring, vedligeholdelse og administration.',
+    'home.faq6_q': 'Hvordan fungerer betalingsplaner?', 'home.faq6_a': 'Fleksible planer med 20-30% udbetaling og afdrag.',
   },
 
   tr: {
@@ -836,6 +850,13 @@ export const translations: Record<string, Record<string, string>> = {
     'home.view_all_properties': 'Tüm Gayrimenkulleri Görüntüle', 'home.price_on_request': 'Fiyat talep üzerine',
     'home.founder_ceo': 'Kurucu & CEO',
 
+  
+    'home.faq1_q': 'Yabancılar mülk satın alabilir mi?', 'home.faq1_a': 'Evet, çoğu ülke yabancı yatırımcıları memnuniyetle karşılar.',
+    'home.faq2_q': 'Tipik maliyetler nelerdir?', 'home.faq2_a': 'Maliyetler genellikle mülk değerinin %4-10 arasında değişir.',
+    'home.faq3_q': 'Hangi ülkeler vatandaşlık sunuyor?', 'home.faq3_a': 'Türkiye ($400k), Kıbrıs (€2M), Portekiz (€280k).',
+    'home.faq4_q': 'Avukata ihtiyacım var mı?', 'home.faq4_a': 'Uluslararası alımlarda şiddetle tavsiye edilir.',
+    'home.faq5_q': 'Devam eden maliyetler nelerdir?', 'home.faq5_a': 'Emlak vergisi, sigorta, bakım ve yönetim ücretleri.',
+    'home.faq6_q': 'Ödeme planları nasıl çalışır?', 'home.faq6_a': '%20-30 peşinat ve taksitle esnek planlar.',
   },
 
   ar: {
@@ -977,6 +998,13 @@ export const translations: Record<string, Record<string, string>> = {
     'home.view_all_properties': 'عرض جميع العقارات', 'home.price_on_request': 'السعر عند الطلب',
     'home.founder_ceo': 'المؤسس والرئيس التنفيذي',
 
+  
+    'home.faq1_q': 'هل يمكن للأجانب شراء العقارات؟', 'home.faq1_a': 'نعم، معظم الدول ترحب بالمستثمرين الأجانب.',
+    'home.faq2_q': 'ما هي التكاليف النموذجية؟', 'home.faq2_a': 'تتراوح التكاليف عادة بين 4-10% من قيمة العقار.',
+    'home.faq3_q': 'أي الدول تقدم الجنسية؟', 'home.faq3_a': 'تركيا ($400k)، قبرص (€2M)، البرتغال (€280k).',
+    'home.faq4_q': 'هل أحتاج محامي؟', 'home.faq4_a': 'يوصى بشدة للمشتريات الدولية.',
+    'home.faq5_q': 'ما التكاليف المستمرة؟', 'home.faq5_a': 'ضرائب العقارات والتأمين والصيانة والإدارة.',
+    'home.faq6_q': 'كيف تعمل خطط الدفع؟', 'home.faq6_a': 'خطط مرنة بدفعة أولى 20-30% وأقساط.',
   },
 
   ru: {
@@ -1118,6 +1146,13 @@ export const translations: Record<string, Record<string, string>> = {
     'home.view_all_properties': 'Все Объекты', 'home.price_on_request': 'Цена по запросу',
     'home.founder_ceo': 'Основатель и Генеральный Директор',
 
+  
+    'home.faq1_q': 'Могут ли иностранцы покупать недвижимость?', 'home.faq1_a': 'Да, большинство стран приветствуют иностранных инвесторов.',
+    'home.faq2_q': 'Каковы типичные расходы?', 'home.faq2_a': 'Расходы обычно составляют 4-10% от стоимости недвижимости.',
+    'home.faq3_q': 'Какие страны предлагают гражданство?', 'home.faq3_a': 'Турция ($400k), Кипр (€2M), Португалия (€280k).',
+    'home.faq4_q': 'Нужен ли мне адвокат?', 'home.faq4_a': 'Настоятельно рекомендуется для международных покупок.',
+    'home.faq5_q': 'Какие текущие расходы?', 'home.faq5_a': 'Налоги, страхование, обслуживание и управление.',
+    'home.faq6_q': 'Как работают планы оплаты?', 'home.faq6_a': 'Гибкие планы с авансом 20-30% и рассрочкой.',
   },
 
   fa: {
@@ -1239,6 +1274,28 @@ export const translations: Record<string, Record<string, string>> = {
     'home.view_all_properties': 'مشاهده همه', 'home.price_on_request': 'قیمت با استعلام',
     'home.founder_ceo': 'بنیان‌گذار و مدیرعامل',
 
+  
+    'home.what_clients_say': 'مشتریان ما چه می‌گویند', 'home.what_clients_say_subtitle': 'ببینید چرا هزاران مشتری به ما اعتماد می‌کنند',
+    'home.news_insights': 'اخبار و بینش‌ها', 'home.stay_informed': 'مطلع بمانید',
+    'home.stay_informed_subtitle': 'آخرین روندهای بازار املاک را دنبال کنید',
+    'home.read_more': 'بیشتر بخوانید', 'home.view_all_articles': 'مشاهده همه مقالات',
+    'home.faq1_q': 'آیا خارجی‌ها می‌توانند ملک بخرند؟', 'home.faq1_a': 'بله، بیشتر کشورها از سرمایه‌گذاران خارجی استقبال می‌کنند.',
+    'home.faq2_q': 'هزینه‌های معمول چقدر است؟', 'home.faq2_a': 'هزینه‌ها معمولاً ۴ تا ۱۰ درصد ارزش ملک است.',
+    'home.faq3_q': 'کدام کشورها شهروندی ارائه می‌دهند؟', 'home.faq3_a': 'ترکیه ($400k)، قبرس (€2M)، پرتغال (€280k).',
+    'home.faq4_q': 'آیا به وکیل نیاز دارم؟', 'home.faq4_a': 'برای خریدهای بین‌المللی اکیداً توصیه می‌شود.',
+    'home.faq5_q': 'هزینه‌های جاری چیست؟', 'home.faq5_a': 'مالیات، بیمه، نگهداری و مدیریت.',
+    'home.faq6_q': 'برنامه‌های پرداخت چگونه کار می‌کنند؟', 'home.faq6_a': 'برنامه‌های منعطف با پیش‌پرداخت ۲۰-۳۰ درصد.',
+    'home.find_property_subtitle': 'بگذارید به شما کمک کنیم فرصت سرمایه‌گذاری ایده‌آل را پیدا کنید',
+    'home.discover_properties': 'املاک در ترکیه • دبی • اروپا',
+    'home.explore_subtitle': 'املاک ممتاز در مطلوب‌ترین مکان‌های جهان را کشف کنید',
+    'home.before_after_subtitle': 'تحول املاک ممتاز ما را ببینید',
+    'home.ai_assistant': 'دستیار هوش مصنوعی', 'home.ai_subtitle': 'دستیار هوش مصنوعی ما تمام ۱۸۰+ ملک ما را می‌شناسد.',
+    'home.ai_properties': '+۱۸۰ ملک', 'home.ai_properties_desc': 'دسترسی به کل پایگاه داده',
+    'home.ai_destinations': 'همه مقاصد', 'home.ai_destinations_desc': 'ترکیه، دبی، قبرس، بالی، مرسین',
+    'home.ai_support': 'پشتیبانی ۲۴/۷', 'home.ai_support_desc': 'کمک فوری AI',
+    'home.popular_questions': 'سوالات پرطرفدار:',
+    'home.premium_subtitle': 'مجموعه منتخب املاک لوکس ما را کاوش کنید',
+    'home.contact_property': 'تماس درباره این ملک', 'home.schedule_viewing': 'برنامه‌ریزی بازدید',
   },
 
   ur: {
@@ -1354,6 +1411,45 @@ export const translations: Record<string, Record<string, string>> = {
     'home.premium_properties': 'پریمیم جائیدادیں', 'home.view_all_properties': 'سب دیکھیں',
     'home.price_on_request': 'قیمت درخواست پر', 'home.founder_ceo': 'بانی اور سی ای او',
 
+  
+    'home.browse_properties': 'ہماری جائیدادیں دیکھیں',
+    'home.browse_subtitle': 'دنیا کے سب سے مطلوب مقامات پر پریمیم جائیدادیں دریافت کریں',
+    'home.all_locations': 'تمام مقامات', 'home.no_properties': 'کوئی جائیداد نہیں ملی۔',
+    'home.previous': 'پچھلا', 'home.next': 'اگلا',
+    'home.customer_reviews': 'صارفین کی رائے', 'home.customer_reviews_subtitle': 'ہمارے مطمئن صارفین کیا کہتے ہیں',
+    'home.what_people_say': 'لوگ کیا کہتے ہیں', 'home.what_people_say_subtitle': 'ہمارے صارفین کے حقیقی تجربات',
+    'home.what_clients_say': 'ہمارے کلائنٹس کیا کہتے ہیں', 'home.what_clients_say_subtitle': 'جانیں ہزاروں کلائنٹس ہم پر کیوں بھروسہ کرتے ہیں',
+    'home.meet_founder': 'ہمارے بانی سے ملیں', 'home.meet_founder_subtitle': 'ہماری کامیابی کے پیچھے کی بصیرت دیکھیں',
+    'home.founder_bio': 'علی کاران نے ۶ سال کے تجربے سے ۱۰۰۰ سے زائد کلائنٹس کی مدد کی ہے۔',
+    'home.years_experience': 'تجربہ', 'home.happy_clients': 'مطمئن صارفین', 'home.countries': 'ممالک',
+    'home.learn_more_ali': 'علی کے بارے میں مزید', 'home.meet_team': 'ہماری ٹیم سے', 'home.team': 'ملیں',
+    'home.meet_team_subtitle': 'ہمارے تجربہ کار پیشہ ور آپ کی رہنمائی کریں گے۔',
+    'home.news_insights': 'خبریں اور بصیرت', 'home.stay_informed': 'باخبر رہیں',
+    'home.stay_informed_subtitle': 'تازہ ترین جائیداد رجحانات سے باخبر رہیں',
+    'home.read_more': 'مزید پڑھیں', 'home.view_all_articles': 'تمام مضامین دیکھیں',
+    'home.faq_title': 'اکثر پوچھے گئے سوالات', 'home.faq_subtitle': 'عام سوالات کے جوابات',
+    'home.faq1_q': 'کیا غیر ملکی جائیداد خرید سکتے ہیں؟', 'home.faq1_a': 'جی ہاں، زیادہ تر ممالک غیر ملکی سرمایہ کاروں کا خیر مقدم کرتے ہیں۔',
+    'home.faq2_q': 'عام اخراجات کتنے ہیں؟', 'home.faq2_a': 'اخراجات عام طور پر جائیداد کی قیمت کا ۴-۱۰% ہوتے ہیں۔',
+    'home.faq3_q': 'کون سے ممالک شہریت دیتے ہیں؟', 'home.faq3_a': 'ترکی ($400k)، قبرص (€2M)، پرتگال (€280k).',
+    'home.faq4_q': 'کیا مجھے وکیل کی ضرورت ہے؟', 'home.faq4_a': 'بین الاقوامی خریداری کے لیے انتہائی تجویز کردہ ہے۔',
+    'home.faq5_q': 'جاری اخراجات کیا ہیں؟', 'home.faq5_a': 'ٹیکس، انشورنس، دیکھ بھال اور انتظامی فیس۔',
+    'home.faq6_q': 'ادائیگی کے منصوبے کیسے کام کرتے ہیں؟', 'home.faq6_a': '۲۰-۳۰% پیشگی ادائیگی اور قسطوں کے ساتھ لچکدار منصوبے۔',
+    'home.find_property': 'اپنی مثالی جائیداد تلاش کریں', 'home.find_property_subtitle': 'ہمیں مثالی سرمایہ کاری کا موقع تلاش کرنے دیں',
+    'home.start_journey': 'اپنا جائیداد سفر شروع کریں', 'home.discover_properties': 'ترکی • دبئی • یورپ میں جائیدادیں',
+    'home.maybe_later': 'شاید بعد میں',
+    'home.explore_destinations': 'مقامات کا جائزہ لیں', 'home.explore_subtitle': 'دنیا کے بہترین مقامات پر پریمیم جائیدادیں',
+    'home.view_properties': 'جائیدادیں دیکھیں',
+    'home.before_after': 'پہلے اور بعد', 'home.before_after_subtitle': 'ہماری جائیدادوں کی تبدیلی دیکھیں',
+    'home.ai_assistant': 'AI جائیداد اسسٹنٹ', 'home.ai_title': 'اپنی خوابوں کی جائیداد تلاش کریں',
+    'home.ai_subtitle': 'ہمارا AI اسسٹنٹ ہماری ۱۸۰+ جائیدادوں کو جانتا ہے۔',
+    'home.ai_properties': '+۱۸۰ جائیدادیں', 'home.ai_properties_desc': 'مکمل ڈیٹابیس تک رسائی',
+    'home.ai_destinations': 'تمام مقامات', 'home.ai_destinations_desc': 'ترکی، دبئی، قبرص، بالی، مرسین',
+    'home.ai_support': '۲۴/۷ سپورٹ', 'home.ai_support_desc': 'فوری AI مدد',
+    'home.start_conversation': 'AI سے گفتگو شروع کریں', 'home.popular_questions': 'مقبول سوالات:',
+    'home.premium_properties': 'پریمیم جائیدادیں', 'home.premium_subtitle': 'ہماری منتخب لگژری جائیدادیں دیکھیں',
+    'home.contact_property': 'اس جائیداد کے بارے میں رابطہ کریں', 'home.schedule_viewing': 'دورہ شیڈول کریں',
+    'home.view_all_properties': 'تمام جائیدادیں دیکھیں', 'home.price_on_request': 'قیمت درخواست پر',
+    'home.founder_ceo': 'بانی اور CEO',
   },
 
   es: {
@@ -1486,6 +1582,13 @@ export const translations: Record<string, Record<string, string>> = {
     'home.view_all_properties': 'Ver Todas las Propiedades', 'home.price_on_request': 'Precio a consultar',
     'home.founder_ceo': 'Fundador y CEO',
 
+  
+    'home.faq1_q': '¿Pueden los extranjeros comprar propiedades?', 'home.faq1_a': 'Sí, la mayoría de los países dan la bienvenida a inversores extranjeros.',
+    'home.faq2_q': '¿Cuáles son los costos típicos?', 'home.faq2_a': 'Los costos varían, típicamente 4-10% del valor de la propiedad.',
+    'home.faq3_q': '¿Qué países ofrecen ciudadanía?', 'home.faq3_a': 'Turquía ($400k), Chipre (€2M), Portugal (€280k).',
+    'home.faq4_q': '¿Necesito un abogado?', 'home.faq4_a': 'Muy recomendable para compras internacionales.',
+    'home.faq5_q': '¿Qué costos continuos hay?', 'home.faq5_a': 'Impuestos, seguros, mantenimiento y administración.',
+    'home.faq6_q': '¿Cómo funcionan los planes de pago?', 'home.faq6_a': 'Planes flexibles con 20-30% de enganche y cuotas.',
   },
 
   de: {
@@ -1618,6 +1721,13 @@ export const translations: Record<string, Record<string, string>> = {
     'home.view_all_properties': 'Alle Immobilien', 'home.price_on_request': 'Preis auf Anfrage',
     'home.founder_ceo': 'Gründer & Geschäftsführer',
 
+  
+    'home.faq1_q': 'Können Ausländer Immobilien kaufen?', 'home.faq1_a': 'Ja, die meisten Länder heißen ausländische Investoren willkommen.',
+    'home.faq2_q': 'Was sind typische Kosten?', 'home.faq2_a': 'Kosten variieren, typisch 4-10% des Immobilienwerts.',
+    'home.faq3_q': 'Welche Länder bieten Staatsbürgerschaft?', 'home.faq3_a': 'Türkei ($400k), Zypern (€2M), Portugal (€280k).',
+    'home.faq4_q': 'Brauche ich einen Anwalt?', 'home.faq4_a': 'Dringend empfohlen bei internationalen Käufen.',
+    'home.faq5_q': 'Welche laufenden Kosten?', 'home.faq5_a': 'Grundsteuer, Versicherung, Wartung und Verwaltung.',
+    'home.faq6_q': 'Wie funktionieren Zahlungspläne?', 'home.faq6_a': 'Flexible Pläne mit 20-30% Anzahlung und Raten.',
   },
 
   fr: {
@@ -1750,6 +1860,13 @@ export const translations: Record<string, Record<string, string>> = {
     'home.view_all_properties': 'Voir Toutes les Propriétés', 'home.price_on_request': 'Prix sur demande',
     'home.founder_ceo': 'Fondateur & PDG',
 
+  
+    'home.faq1_q': 'Les étrangers peuvent-ils acheter?', 'home.faq1_a': 'Oui, la plupart des pays accueillent les investisseurs étrangers.',
+    'home.faq2_q': 'Quels sont les coûts typiques?', 'home.faq2_a': 'Les coûts varient, typiquement 4-10% de la valeur du bien.',
+    'home.faq3_q': 'Quels pays offrent la citoyenneté?', 'home.faq3_a': 'Turquie ($400k), Chypre (€2M), Portugal (€280k).',
+    'home.faq4_q': 'Ai-je besoin d\'un avocat?', 'home.faq4_a': 'Fortement recommandé pour les achats internationaux.',
+    'home.faq5_q': 'Quels coûts récurrents?', 'home.faq5_a': 'Taxes, assurance, entretien et frais de gestion.',
+    'home.faq6_q': 'Comment fonctionnent les plans de paiement?', 'home.faq6_a': 'Plans flexibles avec 20-30% d\'acompte et versements.',
   },
 
   id: {
@@ -1882,6 +1999,13 @@ export const translations: Record<string, Record<string, string>> = {
     'home.view_all_properties': 'Lihat Semua Properti', 'home.price_on_request': 'Harga atas permintaan',
     'home.founder_ceo': 'Pendiri & CEO',
 
+  
+    'home.faq1_q': 'Bisakah orang asing membeli properti?', 'home.faq1_a': 'Ya, sebagian besar negara menyambut investor asing.',
+    'home.faq2_q': 'Berapa biaya yang umum?', 'home.faq2_a': 'Biaya bervariasi, biasanya 4-10% dari nilai properti.',
+    'home.faq3_q': 'Negara mana yang menawarkan kewarganegaraan?', 'home.faq3_a': 'Turki ($400k), Siprus (€2M), Portugal (€280k).',
+    'home.faq4_q': 'Apakah saya memerlukan pengacara?', 'home.faq4_a': 'Sangat disarankan untuk pembelian internasional.',
+    'home.faq5_q': 'Biaya apa saja yang berkelanjutan?', 'home.faq5_a': 'Pajak properti, asuransi, perawatan, dan manajemen.',
+    'home.faq6_q': 'Bagaimana cara kerja rencana pembayaran?', 'home.faq6_a': 'Rencana fleksibel dengan DP 20-30% dan cicilan.',
   },
 };
 
