@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
+import { useTranslation } from "@/hooks/useTranslation";
 import { motion } from "framer-motion";
 import TeamSection from "@/components/TeamSection";
 import { LazyComponent, LazyShuffleGrid, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
@@ -29,6 +30,7 @@ import PropertyListingSection from "@/components/PropertyListingSection";
 import aliKaranImage from "@/assets/ali-karan-founder.png";
 
 const Index = () => {
+  const { t } = useTranslation();
   const {
     canonicalUrl,
     hreflangUrls
