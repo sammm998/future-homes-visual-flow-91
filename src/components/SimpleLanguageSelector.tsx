@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getCurrentLanguage } from '@/utils/seoUtils';
@@ -7,17 +7,20 @@ import { supabase } from '@/integrations/supabase/client';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
   { code: 'sv', name: 'Svenska', flag: '🇸🇪' },
-  { code: 'no', name: 'Norsk', flag: '🇳🇴' },
   { code: 'da', name: 'Dansk', flag: '🇩🇰' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'no', name: 'Norsk', flag: '🇳🇴' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
   { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
-  { code: 'ur', name: 'اردو', flag: '🇵🇰' },
-  { code: 'fa', name: 'فارسی', flag: '🇮🇷' },
-  { code: 'ar', name: 'العربية', flag: '🇸🇦' },
   { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+  { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+  { code: 'fa', name: 'فارسی', flag: '🇮🇷' },
+  { code: 'ur', name: 'اردو', flag: '🇵🇰' },
+  { code: 'id', name: 'Bahasa Indonesia', flag: '🇮🇩' },
 ];
 
-// All property path segments
 const PROPERTY_PATH_SEGMENTS = new Set(Object.values(PATH_TRANSLATIONS));
 
 interface SimpleLanguageSelectorProps {
@@ -26,70 +29,40 @@ interface SimpleLanguageSelectorProps {
 
 const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ className = "" }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [propertyData, setPropertyData] = useState<any>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
   const currentLanguageCode = getCurrentLanguage();
-
   const currentLanguage = useMemo(() => {
     return languages.find(lang => lang.code === currentLanguageCode) || languages[0];
   }, [currentLanguageCode]);
 
-  // Detect property page and get the slug from the URL
   const propertySlug = useMemo(() => {
     const parts = location.pathname.split('/').filter(Boolean);
-    if (parts.length >= 2 && PROPERTY_PATH_SEGMENTS.has(parts[0])) {
-      return parts[1];
-    }
+    if (parts.length >= 2 && PROPERTY_PATH_SEGMENTS.has(parts[0])) return parts[1];
     return null;
   }, [location.pathname]);
 
-  // Fetch property slug data when on a property page
-  useEffect(() => {
-    if (!propertySlug) {
-      setPropertyData(null);
-      return;
+  const handleLanguageChange = async (selectedLanguage: typeof languages[0]) => {
+    const langCode = selectedLanguage.code === 'en' ? null : selectedLanguage.code;
+    setIsOpen(false);
+    document.documentElement.lang = selectedLanguage.code;
+    document.documentElement.dir = ['ar', 'fa', 'ur'].includes(selectedLanguage.code) ? 'rtl' : 'ltr';
+
+    if (langCode) {
+      localStorage.setItem('preferred_language', selectedLanguage.code);
+    } else {
+      localStorage.removeItem('preferred_language');
     }
 
-    const fetchProperty = async () => {
+    if (propertySlug) {
       const slugFilter = `slug.eq.${propertySlug},slug_sv.eq.${propertySlug},slug_tr.eq.${propertySlug},slug_ar.eq.${propertySlug},slug_ru.eq.${propertySlug},slug_no.eq.${propertySlug},slug_da.eq.${propertySlug},slug_fa.eq.${propertySlug},slug_ur.eq.${propertySlug}`;
-
       const { data } = await supabase
         .from('properties')
         .select('slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur')
         .or(slugFilter)
         .eq('is_active', true)
         .maybeSingle();
-
-      if (data) {
-        setPropertyData(data);
-      }
-    };
-
-    fetchProperty();
-  }, [propertySlug]);
-
-  const handleLanguageChange = async (selectedLanguage: typeof languages[0]) => {
-    const langCode = selectedLanguage.code === 'en' ? null : selectedLanguage.code;
-    setIsOpen(false);
-    document.documentElement.lang = selectedLanguage.code;
-
-    // If on a property page, always try to build fully localized URL
-    if (propertySlug) {
-      let data = propertyData;
-
-      // If property data hasn't loaded yet, fetch it now
-      if (!data) {
-        const slugFilter = `slug.eq.${propertySlug},slug_sv.eq.${propertySlug},slug_tr.eq.${propertySlug},slug_ar.eq.${propertySlug},slug_ru.eq.${propertySlug},slug_no.eq.${propertySlug},slug_da.eq.${propertySlug},slug_fa.eq.${propertySlug},slug_ur.eq.${propertySlug}`;
-        const { data: fetched } = await supabase
-          .from('properties')
-          .select('slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur')
-          .or(slugFilter)
-          .eq('is_active', true)
-          .maybeSingle();
-        data = fetched;
-      }
 
       if (data) {
         const newPath = getTranslatedPropertyPath(langCode);
@@ -100,14 +73,12 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
       }
     }
 
-    // Default: just update ?lang= param
     const currentSearch = new URLSearchParams(location.search);
     if (selectedLanguage.code === 'en') {
       currentSearch.delete('lang');
     } else {
       currentSearch.set('lang', selectedLanguage.code);
     }
-
     const searchString = currentSearch.toString();
     const newUrl = searchString ? `${location.pathname}?${searchString}` : location.pathname;
     navigate(newUrl, { replace: true });
@@ -125,7 +96,7 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-1 bg-background border border-border rounded shadow-lg z-50 min-w-[120px]">
+        <div className="absolute top-full right-0 mt-1 bg-background border border-border rounded shadow-lg z-50 min-w-[160px]">
           <div className="py-1 max-h-60 overflow-y-auto">
             {languages.map((language) => (
               <button
@@ -144,10 +115,7 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
       )}
 
       {isOpen && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={() => setIsOpen(false)}
-        />
+        <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
       )}
     </div>
   );

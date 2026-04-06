@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-
-
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -12,17 +11,16 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
-  
+  const { t } = useTranslation();
 
   const propertyLocations = [
-    { name: "Property in Antalya", href: "/antalya" },
-    { name: "Property in Istanbul", href: "/istanbul" },
-    { name: "Property in Mersin", href: "/mersin" },
-    { name: "Property in Cyprus", href: "/cyprus" },
-    { name: "Property in Dubai", href: "/dubai" },
-    { name: "Property in Bali", href: "/bali" }
+    { name: t('sidebar.antalya'), href: "/antalya" },
+    { name: t('sidebar.istanbul'), href: "/istanbul" },
+    { name: t('sidebar.mersin'), href: "/mersin" },
+    { name: t('sidebar.cyprus'), href: "/cyprus" },
+    { name: t('sidebar.dubai'), href: "/dubai" },
+    { name: t('sidebar.bali'), href: "/bali" }
   ];
-
 
   return (
     <AnimatePresence>
@@ -35,21 +33,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
           className="fixed top-0 right-0 h-full w-80 bg-background border-l shadow-xl z-50 overflow-y-auto"
         >
           <div className="flex flex-col h-full p-6">
-            {/* Close button */}
             <div className="flex justify-end mb-6">
               <button onClick={onClose} className="text-foreground hover:text-primary">
                 <X size={24} />
               </button>
             </div>
             
-            {/* Menu content */}
             <div className="space-y-6">
               <div>
-                <h3 className="text-foreground text-lg font-semibold mb-3">Properties</h3>
+                <h3 className="text-foreground text-lg font-semibold mb-3">{t('sidebar.properties')}</h3>
                 <div className="space-y-2 ml-2">
                   {propertyLocations.map((location) => (
                     <Link
-                      key={location.name}
+                      key={location.href}
                       to={location.href}
                       className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1"
                       onClick={onClose}
@@ -61,22 +57,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
               </div>
               
               <Link to="/property-wizard" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
-                Easy Find
+                {t('sidebar.easy_find')}
               </Link>
               <Link to="/map-search" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
-                Map Search
+                {t('sidebar.map_search')}
               </Link>
               <Link to="/about-us" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
-                About Us
+                {t('sidebar.about')}
               </Link>
               <Link to="/testimonials" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
-                Testimonials
+                {t('sidebar.testimonials')}
               </Link>
               <Link to="/information" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
-                Information
+                {t('sidebar.information')}
               </Link>
               <Link to="/contact-us" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
-                Contact Us
+                {t('sidebar.contact')}
               </Link>
               <a
                 href="https://futurehomesai.one/"
@@ -85,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
                 onClick={onClose}
                 className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1 text-left"
               >
-                AI Help
+                {t('sidebar.ai_help')}
               </a>
               
             </div>
