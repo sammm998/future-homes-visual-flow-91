@@ -709,6 +709,8 @@ export const translations: Record<string, Record<string, string>> = {
     'home.faq4_q': 'Har jeg brug for en advokat?', 'home.faq4_a': 'Stærkt anbefalet ved internationale køb.',
     'home.faq5_q': 'Hvilke løbende omkostninger?', 'home.faq5_a': 'Ejendomsskat, forsikring, vedligeholdelse og administration.',
     'home.faq6_q': 'Hvordan fungerer betalingsplaner?', 'home.faq6_a': 'Fleksible planer med 20-30% udbetaling og afdrag.',
+  
+    'home.ai_properties': '180+ Ejendomme', 'home.ai_properties_desc': 'Adgang til hele databasen', 'home.ai_destinations': 'Alle Destinationer', 'home.ai_destinations_desc': 'Tyrkiet, Dubai, Cypern, Bali, Mersin', 'home.ai_support': '24/7 Support', 'home.ai_support_desc': 'Øjeblikkelig AI-assistance',
   },
 
   tr: {
@@ -857,6 +859,8 @@ export const translations: Record<string, Record<string, string>> = {
     'home.faq4_q': 'Avukata ihtiyacım var mı?', 'home.faq4_a': 'Uluslararası alımlarda şiddetle tavsiye edilir.',
     'home.faq5_q': 'Devam eden maliyetler nelerdir?', 'home.faq5_a': 'Emlak vergisi, sigorta, bakım ve yönetim ücretleri.',
     'home.faq6_q': 'Ödeme planları nasıl çalışır?', 'home.faq6_a': '%20-30 peşinat ve taksitle esnek planlar.',
+  
+    'home.ai_properties': '180+ Mülk', 'home.ai_properties_desc': 'Tüm veritabanına erişim', 'home.ai_destinations': 'Tüm Destinasyonlar', 'home.ai_destinations_desc': 'Türkiye, Dubai, Kıbrıs, Bali, Mersin', 'home.ai_support': '24/7 Destek', 'home.ai_support_desc': 'Anında AI yardımı',
   },
 
   ar: {
@@ -1005,6 +1009,8 @@ export const translations: Record<string, Record<string, string>> = {
     'home.faq4_q': 'هل أحتاج محامي؟', 'home.faq4_a': 'يوصى بشدة للمشتريات الدولية.',
     'home.faq5_q': 'ما التكاليف المستمرة؟', 'home.faq5_a': 'ضرائب العقارات والتأمين والصيانة والإدارة.',
     'home.faq6_q': 'كيف تعمل خطط الدفع؟', 'home.faq6_a': 'خطط مرنة بدفعة أولى 20-30% وأقساط.',
+  
+    'home.ai_properties': '+180 عقار', 'home.ai_properties_desc': 'الوصول إلى قاعدة البيانات الكاملة', 'home.ai_destinations': 'جميع الوجهات', 'home.ai_destinations_desc': 'تركيا، دبي، قبرص، بالي، مرسين', 'home.ai_support': 'دعم 24/7', 'home.ai_support_desc': 'مساعدة AI فورية',
   },
 
   ru: {
@@ -1153,6 +1159,8 @@ export const translations: Record<string, Record<string, string>> = {
     'home.faq4_q': 'Нужен ли мне адвокат?', 'home.faq4_a': 'Настоятельно рекомендуется для международных покупок.',
     'home.faq5_q': 'Какие текущие расходы?', 'home.faq5_a': 'Налоги, страхование, обслуживание и управление.',
     'home.faq6_q': 'Как работают планы оплаты?', 'home.faq6_a': 'Гибкие планы с авансом 20-30% и рассрочкой.',
+  
+    'home.ai_properties': '180+ Объектов', 'home.ai_properties_desc': 'Доступ ко всей базе данных', 'home.ai_destinations': 'Все Направления', 'home.ai_destinations_desc': 'Турция, Дубай, Кипр, Бали, Мерсин', 'home.ai_support': 'Поддержка 24/7', 'home.ai_support_desc': 'Мгновенная помощь AI',
   },
 
   fa: {
@@ -1589,6 +1597,8 @@ export const translations: Record<string, Record<string, string>> = {
     'home.faq4_q': '¿Necesito un abogado?', 'home.faq4_a': 'Muy recomendable para compras internacionales.',
     'home.faq5_q': '¿Qué costos continuos hay?', 'home.faq5_a': 'Impuestos, seguros, mantenimiento y administración.',
     'home.faq6_q': '¿Cómo funcionan los planes de pago?', 'home.faq6_a': 'Planes flexibles con 20-30% de enganche y cuotas.',
+  
+    'home.ai_properties': '180+ Propiedades', 'home.ai_properties_desc': 'Acceso a toda la base de datos', 'home.ai_destinations': 'Todos los Destinos', 'home.ai_destinations_desc': 'Turquía, Dubai, Chipre, Bali, Mersin', 'home.ai_support': 'Soporte 24/7', 'home.ai_support_desc': 'Asistencia AI instantánea',
   },
 
   de: {
@@ -1728,6 +1738,8 @@ export const translations: Record<string, Record<string, string>> = {
     'home.faq4_q': 'Brauche ich einen Anwalt?', 'home.faq4_a': 'Dringend empfohlen bei internationalen Käufen.',
     'home.faq5_q': 'Welche laufenden Kosten?', 'home.faq5_a': 'Grundsteuer, Versicherung, Wartung und Verwaltung.',
     'home.faq6_q': 'Wie funktionieren Zahlungspläne?', 'home.faq6_a': 'Flexible Pläne mit 20-30% Anzahlung und Raten.',
+  
+    'home.ai_properties': '180+ Immobilien', 'home.ai_properties_desc': 'Zugang zur gesamten Datenbank', 'home.ai_destinations': 'Alle Reiseziele', 'home.ai_destinations_desc': 'Türkei, Dubai, Zypern, Bali, Mersin', 'home.ai_support': '24/7 Support', 'home.ai_support_desc': 'Sofortige KI-Hilfe',
   },
 
   fr: {
@@ -1867,6 +1879,8 @@ export const translations: Record<string, Record<string, string>> = {
     'home.faq4_q': 'Ai-je besoin d\'un avocat?', 'home.faq4_a': 'Fortement recommandé pour les achats internationaux.',
     'home.faq5_q': 'Quels coûts récurrents?', 'home.faq5_a': 'Taxes, assurance, entretien et frais de gestion.',
     'home.faq6_q': 'Comment fonctionnent les plans de paiement?', 'home.faq6_a': 'Plans flexibles avec 20-30% d\'acompte et versements.',
+  
+    'home.ai_properties': '180+ Propriétés', 'home.ai_properties_desc': 'Accès à toute la base de données', 'home.ai_destinations': 'Toutes les Destinations', 'home.ai_destinations_desc': 'Turquie, Dubaï, Chypre, Bali, Mersin', 'home.ai_support': 'Support 24/7', 'home.ai_support_desc': 'Assistance AI instantanée',
   },
 
   id: {
@@ -2006,6 +2020,8 @@ export const translations: Record<string, Record<string, string>> = {
     'home.faq4_q': 'Apakah saya memerlukan pengacara?', 'home.faq4_a': 'Sangat disarankan untuk pembelian internasional.',
     'home.faq5_q': 'Biaya apa saja yang berkelanjutan?', 'home.faq5_a': 'Pajak properti, asuransi, perawatan, dan manajemen.',
     'home.faq6_q': 'Bagaimana cara kerja rencana pembayaran?', 'home.faq6_a': 'Rencana fleksibel dengan DP 20-30% dan cicilan.',
+  
+    'home.ai_properties': '180+ Properti', 'home.ai_properties_desc': 'Akses ke seluruh database', 'home.ai_destinations': 'Semua Destinasi', 'home.ai_destinations_desc': 'Turki, Dubai, Siprus, Bali, Mersin', 'home.ai_support': 'Dukungan 24/7', 'home.ai_support_desc': 'Bantuan AI instan',
   },
 };
 
