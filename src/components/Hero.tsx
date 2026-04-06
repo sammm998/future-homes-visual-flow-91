@@ -436,7 +436,13 @@ const Hero: React.FC<HeroProps> = ({
                             <Checkbox id="underConstruction" checked={underConstruction} onCheckedChange={(checked) => setUnderConstruction(checked === true)} />
                             <Label htmlFor="underConstruction">{t('search.under_construction')}</Label>
                           </div>
-                        Search
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex justify-end mt-6">
+                      <Button onClick={handleSearch} className="w-full sm:w-auto">
+                        <Search size={16} className="mr-2" />
+                        {t('search.search')}
                       </Button>
                     </div>
                   </DialogContent>
@@ -444,7 +450,7 @@ const Hero: React.FC<HeroProps> = ({
 
                 <Button onClick={handleSearch} size="sm" className="w-full sm:w-auto bg-primary hover:bg-primary-glow px-4 h-8 text-xs">
                   <Search size={14} className="mr-1" />
-                  Search
+                  {t('search.search')}
                 </Button>
               </div>
             </Card>
