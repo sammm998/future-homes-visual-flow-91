@@ -209,7 +209,7 @@ const Index = () => {
       
       {/* Hero Section - Database content with fallback */}
       <div className="w-full">
-        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png" title={heroTitle || "Future Homes"} subtitle="Your Future Real Estate Partner" />
+        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png" title={heroTitle || t('hero.title')} subtitle={t('hero.subtitle')} />
       </div>
       
       {/* Property Listing Section with Location Filters */}
