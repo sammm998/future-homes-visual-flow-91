@@ -46,7 +46,7 @@ export const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
     <Helmet>
       {/* DNS Prefetch for actually used external domains */}
       <link rel="dns-prefetch" href="//kiogiyemoqbnuvclneoe.supabase.co" />
-      <link rel="dns-prefetch" href="//static.elfsight.com" />
+      
       
       {/* Preconnect to critical Supabase domain */}
       <link rel="preconnect" href="https://kiogiyemoqbnuvclneoe.supabase.co" crossOrigin="anonymous" />
