@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
+import { useTranslation } from "@/hooks/useTranslation";
 import { motion } from "framer-motion";
 import TeamSection from "@/components/TeamSection";
 import { LazyComponent, LazyShuffleGrid, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
@@ -29,6 +30,7 @@ import PropertyListingSection from "@/components/PropertyListingSection";
 import aliKaranImage from "@/assets/ali-karan-founder.png";
 
 const Index = () => {
+  const { t } = useTranslation();
   const {
     canonicalUrl,
     hreflangUrls
@@ -238,10 +240,10 @@ const Index = () => {
         <div className="container mx-auto px-4 mb-16">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-foreground mb-4">
-              Customer Reviews
+              {t('home.customer_reviews')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              See what our satisfied customers say about their experience
+              {t('home.customer_reviews_subtitle')}
             </p>
           </div>
         </div>
@@ -272,82 +274,50 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
-              Frequently Asked Questions
+              {t('home.faq_title')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get answers to the most common questions about buying property internationally
+              {t('home.faq_subtitle')}
             </p>
           </div>
           
           <div className="max-w-4xl mx-auto space-y-6">
-            <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">Can foreigners buy property internationally?</h3>
-              <p className="text-muted-foreground">Yes, most countries welcome foreign property investors with varying restrictions. Popular destinations like Turkey, UAE, Cyprus, and Portugal offer excellent opportunities for international buyers with proper legal frameworks.</p>
-            </div>
-            
-            <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">What are typical costs when buying property abroad?</h3>
-              <p className="text-muted-foreground">International property purchase costs vary by country but typically range from 4-10% of property value, including taxes, legal fees, translation costs, and administrative expenses. Dubai charges 4% registration fee, while European countries may charge 6-10% total costs.</p>
-            </div>
-            
-            <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">Which countries offer citizenship through property investment?</h3>
-              <p className="text-muted-foreground">Several countries offer citizenship or residency through property investment: Turkey ($400k minimum), Cyprus (€2M), Portugal (€280k for Golden Visa), Caribbean nations ($200k+), and various other programs with different investment thresholds.</p>
-            </div>
-            
-            <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">Do I need a lawyer when buying property internationally?</h3>
-              <p className="text-muted-foreground">While not always legally required, hiring a local lawyer is highly recommended for international property purchases. They ensure compliance with local laws, handle documentation, and protect your interests throughout the transaction process.</p>
-            </div>
-            
-            <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">What ongoing costs should I expect with international property?</h3>
-              <p className="text-muted-foreground">Annual costs vary by location but typically include property taxes (0.1-1.5%), insurance, maintenance fees for complexes, utilities, and property management fees if renting out. Some countries like UAE have no income tax, while others have rental income taxes.</p>
-            </div>
-            
-            <div className="bg-card border rounded-lg p-6">
-              <h3 className="text-lg font-semibold mb-3">How do payment plans work for international property purchases?</h3>
-              <p className="text-muted-foreground">Many international developers offer flexible payment plans, especially for off-plan properties. Typical plans involve 20-30% down payment, installments during construction (12-36 months), and final payment upon completion. Some offer interest-free terms.</p>
-            </div>
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="bg-card border rounded-lg p-6">
+                <h3 className="text-lg font-semibold mb-3">{t(`home.faq${i}_q`)}</h3>
+                <p className="text-muted-foreground">{t(`home.faq${i}_a`)}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
 
-      {/* 30-second popup */}
+      {/* 60-second popup */}
       <Dialog open={showPopup} onOpenChange={setShowPopup}>
         <DialogContent className="max-w-lg mx-4 text-center">
           <DialogHeader className="space-y-4">
-            {/* Ali's Image */}
             <div className="flex justify-center mb-4">
               <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-primary/20">
-                <img 
-                  src={aliKaranImage} 
-                  alt="Ali Karan - Property Expert" 
-                  className="w-full h-full object-cover"
-                />
+                <img src={aliKaranImage} alt="Ali Karan - Property Expert" className="w-full h-full object-cover" />
               </div>
             </div>
-            
             <DialogTitle className="text-2xl font-bold text-foreground">
-              Find Your Perfect Property
+              {t('home.find_property')}
             </DialogTitle>
             <p className="text-muted-foreground text-lg">
-              Let us help you discover the ideal investment opportunity
+              {t('home.find_property_subtitle')}
             </p>
           </DialogHeader>
           <div className="space-y-6 py-4">
-            <button onClick={() => {
-            setShowPopup(false);
-            window.location.href = '/property-wizard';
-          }} className="w-full bg-gradient-to-r from-primary to-primary-glow hover:from-primary/90 hover:to-primary-glow/90 text-primary-foreground py-4 px-6 rounded-xl font-semibold text-lg shadow-lg transition-all duration-300 transform hover:scale-105">
-              Start Your Property Journey
+            <button onClick={() => { setShowPopup(false); window.location.href = '/property-wizard'; }} className="w-full bg-gradient-to-r from-primary to-primary-glow hover:from-primary/90 hover:to-primary-glow/90 text-primary-foreground py-4 px-6 rounded-xl font-semibold text-lg shadow-lg transition-all duration-300 transform hover:scale-105">
+              {t('home.start_journey')}
             </button>
             <p className="text-sm text-muted-foreground">
-              Discover properties in Turkey • Dubai • Europe
+              {t('home.discover_properties')}
             </p>
             <button onClick={() => setShowPopup(false)} className="text-muted-foreground hover:text-foreground text-sm underline">
-              Maybe later
+              {t('home.maybe_later')}
             </button>
           </div>
         </DialogContent>
