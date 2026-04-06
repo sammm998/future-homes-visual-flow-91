@@ -87,7 +87,7 @@ export const useLanguageUrlSync = () => {
     syncPropertyUrl();
   }, [location.pathname, location.search, navigate]);
 
-  // Listen for external URL changes (e.g. from Elfsight widget)
+  // Listen for external URL changes
   useEffect(() => {
     const handlePopState = () => {
       const searchParams = new URLSearchParams(window.location.search);

@@ -12,6 +12,7 @@ import { Spotlight } from "@/components/ui/spotlight";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { findPropertyLocationByRefNo } from "@/utils/propertyRouting";
 import HeroSlider from "@/components/HeroSlider";
+import { useTranslation } from "@/hooks/useTranslation";
 
 
 
@@ -28,6 +29,7 @@ const Hero: React.FC<HeroProps> = ({
   
   const navigate = useNavigate();
   const { selectedCurrency, formatPrice } = useCurrency();
+  const { t } = useTranslation();
   const [searchType, setSearchType] = useState("Buy");
   const [propertyType, setPropertyType] = useState("");
   const [bedrooms, setBedrooms] = useState("");
@@ -175,10 +177,10 @@ const Hero: React.FC<HeroProps> = ({
         <div className="flex-1 p-4 sm:p-8 lg:p-16 relative z-10 flex flex-col justify-center items-center">
           <div className="max-w-6xl w-full text-center">
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 mb-4 sm:mb-6">
-              {title || "Future Homes"}
+              {title || t('hero.title')}
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-neutral-300 mb-8 sm:mb-12">
-              {subtitle || "Your Future Real Estate Partner"}
+              {subtitle || t('hero.subtitle')}
             </p>
 
             {/* Search Card - Responsive Layout */}
@@ -194,7 +196,7 @@ const Hero: React.FC<HeroProps> = ({
                     }`}
                     onClick={() => setSearchType("Buy")}
                   >
-                  Buy
+                  {t('search.buy')}
                   </button>
                   <button
                     className={`px-4 sm:px-6 py-2 rounded-md text-sm font-medium transition-all ${
@@ -204,7 +206,7 @@ const Hero: React.FC<HeroProps> = ({
                     }`}
                     onClick={() => setSearchType("Rent")}
                   >
-                  Rent
+                  {t('search.rent')}
                   </button>
                 </div>
               </div>
@@ -215,7 +217,7 @@ const Hero: React.FC<HeroProps> = ({
                 <div className="lg:col-span-1">
                   <Select value={propertyType} onValueChange={setPropertyType}>
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
-                      <SelectValue placeholder="Property Type" />
+                      <SelectValue placeholder={t('search.property_type')} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="apartments">
@@ -250,7 +252,7 @@ const Hero: React.FC<HeroProps> = ({
                 <div className="lg:col-span-1">
                   <Select value={bedrooms} onValueChange={setBedrooms}>
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
-                      <SelectValue placeholder="Bedrooms" />
+                      <SelectValue placeholder={t('search.bedrooms')} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="studio">Studio</SelectItem>
@@ -267,45 +269,15 @@ const Hero: React.FC<HeroProps> = ({
                 <div className="lg:col-span-1">
                   <Select value={location} onValueChange={setLocation}>
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
-                      <SelectValue placeholder="Property Location" />
+                      <SelectValue placeholder={t('search.location')} />
                     </SelectTrigger>
-                    <SelectContent className="notranslate" translate="no">
-                      <SelectItem value="Antalya" className="notranslate">
-                        <div className="flex items-center gap-2 notranslate" translate="no">
-                          <MapPin size={16} />
-                          <span className="notranslate" translate="no">Antalya</span>
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="Istanbul" className="notranslate">
-                        <div className="flex items-center gap-2 notranslate" translate="no">
-                          <MapPin size={16} />
-                          <span className="notranslate" translate="no">Istanbul</span>
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="Mersin" className="notranslate">
-                        <div className="flex items-center gap-2 notranslate" translate="no">
-                          <MapPin size={16} />
-                          <span className="notranslate" translate="no">Mersin</span>
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="Cyprus" className="notranslate">
-                        <div className="flex items-center gap-2 notranslate" translate="no">
-                          <MapPin size={16} />
-                          <span className="notranslate" translate="no">Cyprus</span>
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="Bali" className="notranslate">
-                        <div className="flex items-center gap-2 notranslate" translate="no">
-                          <MapPin size={16} />
-                          <span className="notranslate" translate="no">Bali</span>
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="Dubai" className="notranslate">
-                        <div className="flex items-center gap-2 notranslate" translate="no">
-                          <MapPin size={16} />
-                          <span className="notranslate" translate="no">Dubai</span>
-                        </div>
-                      </SelectItem>
+                    <SelectContent>
+                      <SelectItem value="Antalya"><div className="flex items-center gap-2"><MapPin size={16} />Antalya</div></SelectItem>
+                      <SelectItem value="Istanbul"><div className="flex items-center gap-2"><MapPin size={16} />Istanbul</div></SelectItem>
+                      <SelectItem value="Mersin"><div className="flex items-center gap-2"><MapPin size={16} />Mersin</div></SelectItem>
+                      <SelectItem value="Cyprus"><div className="flex items-center gap-2"><MapPin size={16} />Cyprus</div></SelectItem>
+                      <SelectItem value="Bali"><div className="flex items-center gap-2"><MapPin size={16} />Bali</div></SelectItem>
+                      <SelectItem value="Dubai"><div className="flex items-center gap-2"><MapPin size={16} />Dubai</div></SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -313,7 +285,7 @@ const Hero: React.FC<HeroProps> = ({
                 {/* Ref No */}
                 <div className="lg:col-span-1">
                   <Input
-                  placeholder="Reference No"
+                  placeholder={t('search.ref_no')}
                   value={refNo}
                   onChange={(e) => setRefNo(e.target.value)}
                     className="h-10 sm:h-12 bg-white border-0 text-black placeholder:text-gray-500 text-sm"
