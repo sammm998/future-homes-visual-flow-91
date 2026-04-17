@@ -9,11 +9,13 @@ import { Home, MapPin, DollarSign, Users, Building, Waves, Mountain, TreePine, P
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from '@/hooks/useTranslation';
 
 
 const PropertyWizardComponent = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
   
   const [currentStep, setCurrentStep] = useState(1);
   const [selections, setSelections] = useState({
@@ -31,99 +33,57 @@ const PropertyWizardComponent = () => {
 
   const totalSteps = 5;
 
-  // Animation variants without ease property
-  const containerVariants = {
-    hidden: { 
-      opacity: 0, 
-      x: -50, 
-      scale: 0.95 
-    },
-    visible: { 
-      opacity: 1, 
-      x: 0, 
-      scale: 1,
-      transition: { 
-        duration: 0.5, 
-        staggerChildren: 0.1
-      }
-    },
-    exit: { 
-      opacity: 0, 
-      x: 50, 
-      scale: 0.95,
-      transition: { duration: 0.3 }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.4 }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.4 }
-    }
-  };
-
   // Step data
-  const steps = {
+  const steps: any = {
     1: {
-      title: "Where would you like to invest?",
-      subtitle: "Choose your preferred location",
+      title: t('wizard.s1_title'),
+      subtitle: t('wizard.s1_sub'),
       options: [
-        { id: 'antalya', name: 'Antalya', icon: <Palmtree className="w-6 h-6" />, description: 'Turkish Riviera paradise', color: 'from-blue-500 to-cyan-500' },
-        { id: 'istanbul', name: 'Istanbul', icon: <Building className="w-6 h-6" />, description: 'Historic metropolis bridging continents', color: 'from-rose-500 to-red-500' },
-        { id: 'dubai', name: 'Dubai', icon: <Building className="w-6 h-6" />, description: 'Modern luxury metropolis', color: 'from-amber-500 to-orange-500' },
-        { id: 'cyprus', name: 'Cyprus', icon: <Waves className="w-6 h-6" />, description: 'Mediterranean island gem', color: 'from-emerald-500 to-teal-500' },
-        { id: 'mersin', name: 'Mersin', icon: <Mountain className="w-6 h-6" />, description: 'Coastal Mediterranean city', color: 'from-purple-500 to-indigo-500' },
-        { id: 'bali', name: 'Bali', icon: <TreePine className="w-6 h-6" />, description: 'Island of Gods paradise', color: 'from-green-500 to-emerald-500' }
+        { id: 'antalya', name: t('wizard.loc_antalya'), icon: <Palmtree className="w-6 h-6" />, description: t('wizard.loc_antalya_d'), color: 'from-blue-500 to-cyan-500' },
+        { id: 'istanbul', name: t('wizard.loc_istanbul'), icon: <Building className="w-6 h-6" />, description: t('wizard.loc_istanbul_d'), color: 'from-rose-500 to-red-500' },
+        { id: 'dubai', name: t('wizard.loc_dubai'), icon: <Building className="w-6 h-6" />, description: t('wizard.loc_dubai_d'), color: 'from-amber-500 to-orange-500' },
+        { id: 'cyprus', name: t('wizard.loc_cyprus'), icon: <Waves className="w-6 h-6" />, description: t('wizard.loc_cyprus_d'), color: 'from-emerald-500 to-teal-500' },
+        { id: 'mersin', name: t('wizard.loc_mersin'), icon: <Mountain className="w-6 h-6" />, description: t('wizard.loc_mersin_d'), color: 'from-purple-500 to-indigo-500' },
+        { id: 'bali', name: t('wizard.loc_bali'), icon: <TreePine className="w-6 h-6" />, description: t('wizard.loc_bali_d'), color: 'from-green-500 to-emerald-500' }
       ]
     },
     2: {
-      title: "What type of property interests you?",
-      subtitle: "Select your ideal property type",
+      title: t('wizard.s2_title'),
+      subtitle: t('wizard.s2_sub'),
       options: [
-        { id: 'apartment', name: 'Apartment', icon: <Building className="w-6 h-6" />, description: 'Modern city living', color: 'from-blue-500 to-purple-500' },
-        { id: 'villa', name: 'Villa', icon: <Home className="w-6 h-6" />, description: 'Luxury private residence', color: 'from-green-500 to-blue-500' },
-        { id: 'penthouse', name: 'Penthouse', icon: <Star className="w-6 h-6" />, description: 'Premium top-floor luxury', color: 'from-amber-500 to-red-500' },
-        { id: 'commercial', name: 'Commercial', icon: <Building className="w-6 h-6" />, description: 'Investment properties', color: 'from-indigo-500 to-purple-500' }
+        { id: 'apartment', name: t('wizard.pt_apartment'), icon: <Building className="w-6 h-6" />, description: t('wizard.pt_apartment_d'), color: 'from-blue-500 to-purple-500' },
+        { id: 'villa', name: t('wizard.pt_villa'), icon: <Home className="w-6 h-6" />, description: t('wizard.pt_villa_d'), color: 'from-green-500 to-blue-500' },
+        { id: 'penthouse', name: t('wizard.pt_penthouse'), icon: <Star className="w-6 h-6" />, description: t('wizard.pt_penthouse_d'), color: 'from-amber-500 to-red-500' },
+        { id: 'commercial', name: t('wizard.pt_commercial'), icon: <Building className="w-6 h-6" />, description: t('wizard.pt_commercial_d'), color: 'from-indigo-500 to-purple-500' }
       ]
     },
     3: {
-      title: "What's your investment budget?",
-      subtitle: "Choose your price range",
+      title: t('wizard.s3_title'),
+      subtitle: t('wizard.s3_sub'),
       options: [
-        { id: '0-100k', name: '$0 - $100K', icon: <DollarSign className="w-6 h-6" />, description: 'Starter investment', color: 'from-teal-500 to-green-500' },
-        { id: '100k-250k', name: '$100K - $250K', icon: <DollarSign className="w-6 h-6" />, description: 'Entry level investment', color: 'from-green-500 to-emerald-500' },
-        { id: '250k-500k', name: '$250K - $500K', icon: <DollarSign className="w-6 h-6" />, description: 'Mid-range properties', color: 'from-blue-500 to-cyan-500' },
-        { id: '500k-1m', name: '$500K - $1M', icon: <DollarSign className="w-6 h-6" />, description: 'Premium investments', color: 'from-purple-500 to-pink-500' },
-        { id: '1m+', name: '$1M+', icon: <DollarSign className="w-6 h-6" />, description: 'Luxury portfolio', color: 'from-amber-500 to-orange-500' }
+        { id: '0-100k', name: '$0 - $100K', icon: <DollarSign className="w-6 h-6" />, description: t('wizard.b_starter'), color: 'from-teal-500 to-green-500' },
+        { id: '100k-250k', name: '$100K - $250K', icon: <DollarSign className="w-6 h-6" />, description: t('wizard.b_entry'), color: 'from-green-500 to-emerald-500' },
+        { id: '250k-500k', name: '$250K - $500K', icon: <DollarSign className="w-6 h-6" />, description: t('wizard.b_mid'), color: 'from-blue-500 to-cyan-500' },
+        { id: '500k-1m', name: '$500K - $1M', icon: <DollarSign className="w-6 h-6" />, description: t('wizard.b_premium'), color: 'from-purple-500 to-pink-500' },
+        { id: '1m+', name: '$1M+', icon: <DollarSign className="w-6 h-6" />, description: t('wizard.b_luxury'), color: 'from-amber-500 to-orange-500' }
       ]
     },
     4: {
-      title: "What features are important to you?",
-      subtitle: "Select all that apply",
+      title: t('wizard.s4_title'),
+      subtitle: t('wizard.s4_sub'),
       multiSelect: true,
       options: [
-        { id: 'sea-view', name: 'Sea View', icon: <Waves className="w-6 h-6" />, description: 'Ocean or sea views', color: 'from-blue-500 to-cyan-500' },
-        { id: 'pool', name: 'Swimming Pool', icon: <Waves className="w-6 h-6" />, description: 'Private or shared pool', color: 'from-teal-500 to-blue-500' },
-        { id: 'gym', name: 'Fitness Center', icon: <Users className="w-6 h-6" />, description: 'On-site gym facilities', color: 'from-red-500 to-pink-500' },
-        { id: 'parking', name: 'Parking', icon: <MapPin className="w-6 h-6" />, description: 'Dedicated parking space', color: 'from-gray-500 to-slate-500' },
-        { id: 'security', name: '24/7 Security', icon: <Users className="w-6 h-6" />, description: 'Round-the-clock security', color: 'from-orange-500 to-red-500' },
-        { id: 'balcony', name: 'Balcony/Terrace', icon: <Home className="w-6 h-6" />, description: 'Outdoor living space', color: 'from-green-500 to-teal-500' }
+        { id: 'sea-view', name: t('wizard.f_sea'), icon: <Waves className="w-6 h-6" />, description: t('wizard.f_sea_d'), color: 'from-blue-500 to-cyan-500' },
+        { id: 'pool', name: t('wizard.f_pool'), icon: <Waves className="w-6 h-6" />, description: t('wizard.f_pool_d'), color: 'from-teal-500 to-blue-500' },
+        { id: 'gym', name: t('wizard.f_gym'), icon: <Users className="w-6 h-6" />, description: t('wizard.f_gym_d'), color: 'from-red-500 to-pink-500' },
+        { id: 'parking', name: t('wizard.f_parking'), icon: <MapPin className="w-6 h-6" />, description: t('wizard.f_parking_d'), color: 'from-gray-500 to-slate-500' },
+        { id: 'security', name: t('wizard.f_security'), icon: <Users className="w-6 h-6" />, description: t('wizard.f_security_d'), color: 'from-orange-500 to-red-500' },
+        { id: 'balcony', name: t('wizard.f_balcony'), icon: <Home className="w-6 h-6" />, description: t('wizard.f_balcony_d'), color: 'from-green-500 to-teal-500' }
       ]
     },
     5: {
-      title: "Almost there! Let's get in touch",
-      subtitle: "Please provide your contact information so we can assist you better",
+      title: t('wizard.s5_title'),
+      subtitle: t('wizard.s5_sub'),
       isContactForm: true
     }
   };
@@ -132,7 +92,6 @@ const PropertyWizardComponent = () => {
 
   const handleOptionSelect = (optionId: string) => {
     if (currentStep === 4) {
-      // Multi-select for features
       setSelections(prev => ({
         ...prev,
         features: prev.features.includes(optionId) 
@@ -140,24 +99,16 @@ const PropertyWizardComponent = () => {
           : [...prev.features, optionId]
       }));
     } else {
-      // Single select for other steps
       const stepKey = currentStep === 1 ? 'location' : 
                      currentStep === 2 ? 'propertyType' : 'budget';
-      
-      setSelections(prev => ({
-        ...prev,
-        [stepKey]: optionId
-      }));
+      setSelections(prev => ({ ...prev, [stepKey]: optionId }));
     }
   };
 
   const handleContactInfoChange = (field: string, value: string) => {
     setSelections(prev => ({
       ...prev,
-      contactInfo: {
-        ...prev.contactInfo,
-        [field]: value
-      }
+      contactInfo: { ...prev.contactInfo, [field]: value }
     }));
   };
 
@@ -166,18 +117,12 @@ const PropertyWizardComponent = () => {
       setCurrentStep(prev => prev + 1);
       return;
     }
-
-    // Prevent duplicate submits (double click) which can trigger Resend rate limiting
     if (isSubmitting) return;
-
-    // Submit form and go directly to thank you page
     await handleFindProperties();
   };
 
   const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(prev => prev - 1);
-    }
+    if (currentStep > 1) setCurrentStep(prev => prev - 1);
   };
 
   const isStepValid = () => {
@@ -198,7 +143,6 @@ const PropertyWizardComponent = () => {
     setIsSubmitting(true);
 
     try {
-      // Send email notification with all selections
       const { data, error } = await supabase.functions.invoke('send-contact-notification', {
         body: {
           name: selections.contactInfo.name,
@@ -214,10 +158,8 @@ const PropertyWizardComponent = () => {
         }
       });
 
-      // Edge function now always returns 200; failures are expressed as { success: false }
       if (error || data?.success === false) {
         const messageFromApi = (data as any)?.error?.message as string | undefined;
-
         console.warn('Email notification failed:', error ?? data);
         toast({
           title: "Notis",
@@ -231,14 +173,10 @@ const PropertyWizardComponent = () => {
       console.warn('Failed to send email notification:', emailError);
     }
 
-    // Navigate to thank you page
     navigate('/wizard-thank-you');
   };
 
-  const getStepProgress = () => {
-    return (currentStep / totalSteps) * 100;
-  };
-
+  const getStepProgress = () => (currentStep / totalSteps) * 100;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-12 px-4">
@@ -246,17 +184,16 @@ const PropertyWizardComponent = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Find Your Perfect Property
+            {t('wizard.find_perfect')}
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
-            Let us help you discover the ideal investment opportunity
+            {t('wizard.help_discover')}
           </p>
           
-          {/* Progress Bar */}
           <div className="w-full max-w-md mx-auto mb-8">
             <div className="flex justify-between text-sm text-muted-foreground mb-2">
-              <span>Step {currentStep} of {totalSteps}</span>
-              <span>{Math.round(getStepProgress())}% Complete</span>
+              <span>{t('wizard.step')} {currentStep} {t('wizard.of')} {totalSteps}</span>
+              <span>{Math.round(getStepProgress())}% {t('wizard.complete')}</span>
             </div>
             <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
               <div
@@ -286,35 +223,35 @@ const PropertyWizardComponent = () => {
                       <div className="space-y-4">
                         <div className="flex items-center gap-3 text-primary mb-4">
                           <User className="w-6 h-6" />
-                          <h3 className="text-xl font-semibold">Personal Information</h3>
+                          <h3 className="text-xl font-semibold">{t('wizard.personal_info')}</h3>
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="name" className="text-foreground">Full Name</Label>
+                          <Label htmlFor="name" className="text-foreground">{t('wizard.full_name')}</Label>
                           <Input
                             id="name"
-                            placeholder="Enter your full name"
+                            placeholder={t('wizard.full_name_ph')}
                             value={selections.contactInfo.name}
                             onChange={(e) => handleContactInfoChange('name', e.target.value)}
                             className="bg-background border-border"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="email" className="text-foreground">Email Address</Label>
+                          <Label htmlFor="email" className="text-foreground">{t('wizard.email')}</Label>
                           <Input
                             id="email"
                             type="email"
-                            placeholder="Enter your email"
+                            placeholder={t('wizard.email_ph')}
                             value={selections.contactInfo.email}
                             onChange={(e) => handleContactInfoChange('email', e.target.value)}
                             className="bg-background border-border"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="phone" className="text-foreground">Phone Number</Label>
+                          <Label htmlFor="phone" className="text-foreground">{t('wizard.phone')}</Label>
                           <Input
                             id="phone"
                             type="tel"
-                            placeholder="Enter your phone number"
+                            placeholder={t('wizard.phone_ph')}
                             value={selections.contactInfo.phone}
                             onChange={(e) => handleContactInfoChange('phone', e.target.value)}
                             className="bg-background border-border"
@@ -325,23 +262,23 @@ const PropertyWizardComponent = () => {
                         <div className="text-center">
                           <Mail className="w-16 h-16 mx-auto text-primary/40 mb-4" />
                           <h4 className="text-lg font-semibold text-foreground mb-2">
-                            Why do we need this?
+                            {t('wizard.why_need')}
                           </h4>
                           <p className="text-muted-foreground text-sm">
-                            We'll use your contact information to send you personalized property recommendations and schedule consultations.
+                            {t('wizard.why_desc')}
                           </p>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <Check className="w-4 h-4 text-primary" />
-                          <span>No spam, we promise</span>
+                          <span>{t('wizard.no_spam')}</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <Check className="w-4 h-4 text-primary" />
-                          <span>Personalized recommendations</span>
+                          <span>{t('wizard.personalized')}</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <Check className="w-4 h-4 text-primary" />
-                          <span>Priority access to new properties</span>
+                          <span>{t('wizard.priority')}</span>
                         </div>
                       </div>
                     </div>
@@ -350,16 +287,13 @@ const PropertyWizardComponent = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {currentStepData.options?.map((option, index) => {
+                {currentStepData.options?.map((option: any) => {
                   const isSelected = currentStep === 4 
                     ? selections.features.includes(option.id)
                     : selections[currentStep === 1 ? 'location' : currentStep === 2 ? 'propertyType' : 'budget'] === option.id;
 
                   return (
-                    <div
-                      key={option.id}
-                      className="relative group"
-                    >
+                    <div key={option.id} className="relative group">
                       <Card
                         className={`cursor-pointer transition-all duration-300 overflow-hidden border-2 ${
                           isSelected 
@@ -408,7 +342,7 @@ const PropertyWizardComponent = () => {
             className="px-6 py-3 rounded-xl border-2 border-primary/20 hover:border-primary/40 disabled:opacity-50"
           >
             <ArrowLeft className="mr-2 w-4 h-4" />
-            Previous
+            {t('wizard.previous')}
           </Button>
 
           <div className="flex gap-2">
@@ -433,12 +367,12 @@ const PropertyWizardComponent = () => {
           >
             {isSubmitting ? (
               <>
-                Sending...
+                {t('wizard.sending')}
                 <Loader2 className="ml-2 w-4 h-4 animate-spin" />
               </>
             ) : (
               <>
-                {currentStep === totalSteps ? 'Get Results' : 'Next'}
+                {currentStep === totalSteps ? t('wizard.get_results') : t('wizard.next')}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </>
             )}
