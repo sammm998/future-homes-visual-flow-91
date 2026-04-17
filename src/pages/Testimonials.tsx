@@ -135,7 +135,7 @@ const Testimonials = () => {
           <div className="container mx-auto px-4">
             <div className="text-center">
               <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
-              <p className="mt-4 text-muted-foreground">Loading testimonials...</p>
+              <p className="mt-4 text-muted-foreground">{t('testimonials.loading', language)}</p>
             </div>
           </div>
         </main>
@@ -170,7 +170,7 @@ const Testimonials = () => {
 
           {testimonials.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-muted-foreground text-lg">No testimonials available yet.</p>
+              <p className="text-muted-foreground text-lg">{t('testimonials.none', language)}</p>
             </div>
           ) : (
             <FocusCards cards={testimonials} onCardClick={handleCardClick} />
@@ -200,36 +200,36 @@ const Testimonials = () => {
             
             {selectedTestimonial?.customer_country && (
               <div>
-                <h3 className="text-lg font-semibold mb-2">Country</h3>
+                <h3 className="text-lg font-semibold mb-2">{t('testimonials.country', language)}</h3>
                 <p className="text-muted-foreground">{selectedTestimonial.customer_country}</p>
               </div>
             )}
             
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-semibold mb-2">Testimonial</h3>
+                <h3 className="text-lg font-semibold mb-2">{t('testimonials.testimonial', language)}</h3>
                 <p className="text-muted-foreground whitespace-pre-line">
-                  {selectedTestimonial?.review_text || "No testimonial text available"}
+                  {selectedTestimonial?.review_text || t('testimonials.no_text', language)}
                 </p>
               </div>
               
               {selectedTestimonial?.location && (
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Location</h3>
+                  <h3 className="text-lg font-semibold mb-2">{t('testimonials.location', language)}</h3>
                   <p className="text-muted-foreground">{selectedTestimonial.location}</p>
                 </div>
               )}
               
               {selectedTestimonial?.property_type && (
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Property Type</h3>
+                  <h3 className="text-lg font-semibold mb-2">{t('testimonials.property_type', language)}</h3>
                   <p className="text-muted-foreground capitalize">{selectedTestimonial.property_type}</p>
                 </div>
               )}
 
               {selectedTestimonial?.rating && (
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">Rating</h3>
+                  <h3 className="text-lg font-semibold mb-2">{t('testimonials.rating', language)}</h3>
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
                       <span

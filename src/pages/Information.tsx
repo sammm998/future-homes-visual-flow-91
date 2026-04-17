@@ -61,6 +61,7 @@ import {
   Coins 
 } from "lucide-react";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // Import new generated images
 import propertyInspectionChecklist from "@/assets/property-inspection-checklist.jpg";
@@ -86,52 +87,24 @@ import realEstateTechnologyTransformation from "@/assets/real-estate-technology-
 
 const Information = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   
   const [activeFilter, setActiveFilter] = useState<string>("all");
   const { blogPosts, loading } = useBlogPosts();
   const { heroTitle, heroSubtitle, contentSections, isLoading: contentLoading } = useWebsiteContent("information");
 
-  const filterItems = [{
-    name: "All",
-    value: "all",
-    icon: Filter
-  }, {
-    name: "Property",
-    value: "property",
-    icon: Home
-  }, {
-    name: "Legal",
-    value: "legal",
-    icon: Scale
-  }, {
-    name: "Finance",
-    value: "finance",
-    icon: DollarSign
-  }, {
-    name: "Living",
-    value: "living",
-    icon: Users
-  }, {
-    name: "Investment",
-    value: "investment",
-    icon: Briefcase
-  }, {
-    name: "Dubai",
-    value: "dubai",
-    icon: Building
-  }, {
-    name: "Bali",
-    value: "bali",
-    icon: TreePine
-  }, {
-    name: "Turkey",
-    value: "turkey",
-    icon: MapPin
-  }, {
-    name: "Cyprus",
-    value: "cyprus",
-    icon: Globe
-  }];
+  const filterItems = [
+    { name: t('info.all'), value: "all", icon: Filter },
+    { name: t('info.property'), value: "property", icon: Home },
+    { name: t('info.legal'), value: "legal", icon: Scale },
+    { name: t('info.finance'), value: "finance", icon: DollarSign },
+    { name: t('info.living'), value: "living", icon: Users },
+    { name: t('info.investment'), value: "investment", icon: Briefcase },
+    { name: t('info.dubai'), value: "dubai", icon: Building },
+    { name: t('info.bali'), value: "bali", icon: TreePine },
+    { name: t('info.turkey'), value: "turkey", icon: MapPin },
+    { name: t('info.cyprus'), value: "cyprus", icon: Globe },
+  ];
 
   // Helper function to determine category based on title/content
   const getArticleCategory = (title: string, content: string) => {
@@ -411,7 +384,7 @@ const Information = () => {
         <div className="pt-20 pb-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">Loading Articles...</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">{t('info.loading_articles')}</h1>
             </div>
           </div>
         </div>
@@ -444,13 +417,13 @@ const Information = () => {
 
           {/* Hero Section - Database content with fallback */}
           <div className="text-center mb-8">
-            <Badge className="mb-4">Information Center</Badge>
+            <Badge className="mb-4">{t('info.badge')}</Badge>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              {heroTitle || "Information Center"}
+              {heroTitle || t('info.hero_title')}
             </h1>
             <div className="max-w-4xl mx-auto">
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                {heroSubtitle || "Comprehensive guides and insights for property investment, legal requirements and living abroad. Everything you need to know about international real estate."}
+                {heroSubtitle || t('info.hero_subtitle')}
               </p>
             </div>
           </div>
@@ -522,7 +495,7 @@ const Information = () => {
                       handleArticleClick(article.slug);
                     }}
                   >
-                    Read More 
+                    {t('info.read_more')} 
                     <ArrowRight size={16} className="ml-2 transition-transform group-hover/button:translate-x-1" />
                   </Button>
                 </CardContent>
@@ -534,9 +507,9 @@ const Information = () => {
           {filteredArticles.length === 0 && (
             <div className="text-center py-16">
               <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold text-foreground mb-2">No Articles Found</h3>
+              <h3 className="text-2xl font-semibold text-foreground mb-2">{t('info.no_articles')}</h3>
               <p className="text-muted-foreground">
-                No articles match the selected filter. Try selecting a different category.
+                {t('info.no_articles_desc')}
               </p>
             </div>
           )}
@@ -549,7 +522,7 @@ const Information = () => {
               className="flex items-center gap-2"
             >
               <ArrowLeft size={16} />
-              Back to Home
+              {t('info.back_home')}
             </Button>
           </div>
         </div>
