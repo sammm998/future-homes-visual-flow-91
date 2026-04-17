@@ -1977,6 +1977,13 @@ export const translations: Record<string, Record<string, string>> = {
   },
 };
 
+// Merge extra translations
+import { translationsExtra } from './translationsExtra';
+for (const [lang, keys] of Object.entries(translationsExtra)) {
+  if (!translations[lang]) translations[lang] = {};
+  Object.assign(translations[lang], keys);
+}
+
 // Translation function with English fallback
 export const t = (key: string, language: string = 'en'): string => {
   const langTranslations = translations[language];
