@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.translate-blog-posts]
 verify_jwt = false
+
+[functions.translate-testimonials]
+verify_jwt = false
