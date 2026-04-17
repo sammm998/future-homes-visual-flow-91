@@ -1979,7 +1979,12 @@ export const translations: Record<string, Record<string, string>> = {
 
 // Merge extra translations
 import { translationsExtra } from './translationsExtra';
+import { translationsWizard } from './translationsWizard';
 for (const [lang, keys] of Object.entries(translationsExtra)) {
+  if (!translations[lang]) translations[lang] = {};
+  Object.assign(translations[lang], keys);
+}
+for (const [lang, keys] of Object.entries(translationsWizard)) {
   if (!translations[lang]) translations[lang] = {};
   Object.assign(translations[lang], keys);
 }
