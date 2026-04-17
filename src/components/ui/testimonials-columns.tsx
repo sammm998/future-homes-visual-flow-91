@@ -64,6 +64,8 @@ const TestimonialsColumns: React.FC<TestimonialsProps> = ({
   title = "What our clients say",
   subtitle = "Read testimonials from our satisfied customers worldwide"
 }) => {
+  const [searchParams] = useSearchParams();
+  const language = searchParams.get('lang') || 'en';
   const [testimonials, setTestimonials] = React.useState<Testimonial[]>([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -82,12 +84,32 @@ const TestimonialsColumns: React.FC<TestimonialsProps> = ({
         }
 
         if (data) {
-          const formattedTestimonials = data.map((item: any) => ({
-            text: item.review_text, // Keep original English text
-            image: item.image_url || "/placeholder.svg",
-            name: item.customer_name,
-            role: item.designation || (item.location ? `Customer - ${item.location}` : 'Customer')
-          }));
+          let translationsMap = new Map<string, { review_text: string; designation: string | null }>();
+          if (language && language !== 'en') {
+            const { data: translations } = await supabase
+              .from('testimonial_translations')
+              .select('testimonial_id, review_text, designation')
+              .eq('language_code', language)
+              .in('testimonial_id', data.map((d: any) => d.id));
+            if (translations) {
+              translations.forEach((t: any) => {
+                translationsMap.set(t.testimonial_id, {
+                  review_text: t.review_text,
+                  designation: t.designation,
+                });
+              });
+            }
+          }
+
+          const formattedTestimonials = data.map((item: any) => {
+            const tr = translationsMap.get(item.id);
+            return {
+              text: tr?.review_text || item.review_text,
+              image: item.image_url || "/placeholder.svg",
+              name: item.customer_name,
+              role: tr?.designation || item.designation || (item.location ? `Customer - ${item.location}` : 'Customer')
+            };
+          });
           setTestimonials(formattedTestimonials);
         }
       } catch (error) {
@@ -98,7 +120,7 @@ const TestimonialsColumns: React.FC<TestimonialsProps> = ({
     };
 
     fetchTestimonials();
-  }, []);
+  }, [language]);
 
   // Distribute testimonials evenly across columns
   const redistributeTestimonials = (items: Testimonial[], numColumns: number) => {
