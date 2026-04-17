@@ -306,7 +306,7 @@ const CyprusPropertySearch = () => {
               </div>
             ) : filteredProperties.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground text-lg">No properties found matching your criteria.</p>
+                <p className="text-muted-foreground text-lg">{t('city.no_match')}</p>
                 <Button 
                   onClick={() => {
                     setFilters({
@@ -405,7 +405,7 @@ const CyprusPropertySearch = () => {
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {filteredProperties.length === 0 ? (
                   <div className="text-center py-12 col-span-full">
-                    <p className="text-muted-foreground text-lg">No properties found matching your criteria.</p>
+                    <p className="text-muted-foreground text-lg">{t('city.no_match')}</p>
                     <Button 
                       onClick={() => {
                         setFilters({
