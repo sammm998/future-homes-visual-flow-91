@@ -50,6 +50,8 @@ const localImageMap: Record<string, string> = {
 };
 
 const TestimonialsCards = () => {
+  const [searchParams] = useSearchParams();
+  const language = searchParams.get('lang') || 'en';
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -68,7 +70,31 @@ const TestimonialsCards = () => {
         }
 
         if (data) {
-          setTestimonials(data);
+          let translationsMap = new Map<string, { review_text: string; designation: string | null }>();
+          if (language && language !== 'en') {
+            const { data: translations } = await supabase
+              .from('testimonial_translations')
+              .select('testimonial_id, review_text, designation')
+              .eq('language_code', language)
+              .in('testimonial_id', data.map((d: any) => d.id));
+            if (translations) {
+              translations.forEach((t: any) => {
+                translationsMap.set(t.testimonial_id, {
+                  review_text: t.review_text,
+                  designation: t.designation,
+                });
+              });
+            }
+          }
+          const merged = data.map((t: any) => {
+            const tr = translationsMap.get(t.id);
+            return {
+              ...t,
+              review_text: tr?.review_text || t.review_text,
+              designation: tr?.designation || t.designation,
+            };
+          });
+          setTestimonials(merged);
         }
       } catch (error) {
         console.error('Error:', error);
@@ -78,7 +104,7 @@ const TestimonialsCards = () => {
     };
 
     fetchTestimonials();
-  }, []);
+  }, [language]);
 
   if (loading) {
     return (
