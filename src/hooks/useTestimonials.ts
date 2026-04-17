@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { useSearchParams } from 'react-router-dom';
 
 interface Testimonial {
   text: string;
@@ -22,79 +23,65 @@ interface DbTestimonial {
 }
 
 export const useTestimonials = () => {
+  const [searchParams] = useSearchParams();
+  const language = searchParams.get('lang') || 'en';
+
   const { data: testimonials = [], isLoading: loading, error } = useQuery({
-    queryKey: ['testimonials'],
+    queryKey: ['testimonials', language],
     queryFn: async () => {
-      console.log('🔍 useTestimonials: Making API call to fetch testimonials');
-      
-      // Create timeout for better connection handling (Dubai users)
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => {
-        controller.abort();
-      }, 30000); // 30 second timeout
-      
-      try {
-        const { data, error } = await supabase
-          .from('testimonials')
-          .select('*')
-          .order('created_at', { ascending: false });
-        
-        clearTimeout(timeoutId);
+      const { data, error } = await supabase
+        .from('testimonials')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-        if (error) {
-          console.error('❌ useTestimonials: Database error:', error);
-          throw error;
-        }
+      if (error) throw error;
+      if (!data) return [];
 
-        if (data) {
-          console.log('✅ useTestimonials: Successfully fetched', data.length, 'testimonials');
-          // Transform database testimonials to the format expected by components
-          const transformedTestimonials: Testimonial[] = data.map((testimonial: DbTestimonial) => ({
-            text: testimonial.review_text,
-            image: testimonial.image_url || '/placeholder.svg',
-            name: testimonial.customer_name,
-            role: testimonial.designation || 
-                  (testimonial.location ? `Customer - ${testimonial.location}` : 'Customer')
-          }));
-
-          return transformedTestimonials;
+      // Fetch translations if not English
+      let translationsMap = new Map<string, { review_text: string; designation: string | null }>();
+      if (language && language !== 'en') {
+        const { data: translations } = await supabase
+          .from('testimonial_translations')
+          .select('testimonial_id, review_text, designation')
+          .eq('language_code', language)
+          .in('testimonial_id', data.map((d: any) => d.id));
+        if (translations) {
+          translations.forEach((t: any) => {
+            translationsMap.set(t.testimonial_id, {
+              review_text: t.review_text,
+              designation: t.designation,
+            });
+          });
         }
-        
-        return [];
-      } catch (err: any) {
-        clearTimeout(timeoutId);
-        if (err.name === 'AbortError') {
-          throw new Error('Request timeout - please check your internet connection');
-        }
-        throw err;
       }
+
+      const transformed: Testimonial[] = data.map((t: DbTestimonial) => {
+        const tr = translationsMap.get(t.id);
+        const reviewText = tr?.review_text || t.review_text;
+        const designation = tr?.designation || t.designation;
+        return {
+          text: reviewText,
+          image: t.image_url || '/placeholder.svg',
+          name: t.customer_name,
+          role:
+            designation ||
+            (t.location ? `Customer - ${t.location}` : 'Customer'),
+        };
+      });
+
+      return transformed;
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
     refetchOnWindowFocus: false,
-    retry: (failureCount, error) => {
-      // Don't retry on timeout or abort errors after 3 attempts
-      if (error?.message?.includes('timeout') || error?.message?.includes('AbortError')) {
-        return failureCount < 3;
-      }
-      // Don't retry on 4xx client errors
-      if (error?.message?.includes('400') || error?.message?.includes('404')) {
-        return false;
-      }
-      // Retry up to 5 times for network errors (good for Dubai users)
-      return failureCount < 5;
-    },
-    retryDelay: (attemptIndex) => {
-      // Exponential backoff: 2s, 4s, 8s, 16s, 30s max
-      return Math.min(2000 * Math.pow(2, attemptIndex), 30000);
-    },
+    retry: 2,
     networkMode: 'offlineFirst',
   });
 
-  return { 
-    testimonials, 
-    loading, 
+  return {
+    testimonials,
+    loading,
     error: error?.message,
-    refetch: () => {} // For backward compatibility
+    refetch: () => {},
   };
 };
