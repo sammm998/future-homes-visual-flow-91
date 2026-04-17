@@ -86,12 +86,33 @@ const Testimonials = () => {
       }
 
       if (data) {
-        // Transform data to match FocusCards expected format
-        const transformedData: CardTestimonial[] = data.map((testimonial: DbTestimonial) => ({
-          ...testimonial,
-          title: testimonial.customer_name,
-          src: localImageMap[testimonial.customer_name] || testimonial.image_url || '/placeholder.svg'
-        }));
+        // Fetch translations for current language
+        let translationsMap = new Map<string, { review_text: string; designation: string | null }>();
+        if (language && language !== 'en') {
+          const { data: translations } = await supabase
+            .from('testimonial_translations')
+            .select('testimonial_id, review_text, designation')
+            .eq('language_code', language)
+            .in('testimonial_id', data.map((d: any) => d.id));
+          if (translations) {
+            translations.forEach((t: any) => {
+              translationsMap.set(t.testimonial_id, {
+                review_text: t.review_text,
+                designation: t.designation,
+              });
+            });
+          }
+        }
+
+        const transformedData: CardTestimonial[] = data.map((testimonial: DbTestimonial) => {
+          const tr = translationsMap.get(testimonial.id);
+          return {
+            ...testimonial,
+            review_text: tr?.review_text || testimonial.review_text,
+            title: testimonial.customer_name,
+            src: localImageMap[testimonial.customer_name] || testimonial.image_url || '/placeholder.svg'
+          };
+        });
         setTestimonials(transformedData);
       }
     } catch (error) {
@@ -103,7 +124,8 @@ const Testimonials = () => {
 
   useEffect(() => {
     fetchTestimonials();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [language]);
 
   // Refresh data when component becomes visible again
   useEffect(() => {
