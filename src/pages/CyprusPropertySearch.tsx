@@ -21,8 +21,10 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const CyprusPropertySearch = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -254,18 +256,18 @@ const CyprusPropertySearch = () => {
         {/* SEO Intro Content */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">
-            Properties In Cyprus
+            {t('city.properties_in')} Cyprus
           </h1>
           <div className="prose max-w-none text-muted-foreground">
             <p className="mb-4">
-              Discover exceptional Cyprus real estate opportunities offering EU citizenship and residence benefits. Our premium collection features luxury villas, modern apartments, and investment properties in Cyprus's most desirable locations, providing direct access to European Union citizenship through property investment.
+              {t('cyprus.intro')}
             </p>
             <p className="mb-4">
-              Cyprus offers the fastest EU citizenship program through real estate investment, with properties starting from €300,000. Whether you're seeking beautiful coastal properties in Limassol, luxury developments in Paphos, or investment opportunities in Nicosia, Cyprus combines Mediterranean lifestyle with European Union privileges.
+              {t('cyprus.intro2')}
             </p>
           </div>
           <p className="text-sm text-muted-foreground mt-4">
-            {properties.length} properties found
+            {properties.length} {t('city.found')}
           </p>
         </div>
 

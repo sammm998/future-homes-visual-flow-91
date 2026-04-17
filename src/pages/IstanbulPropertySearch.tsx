@@ -13,8 +13,10 @@ import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import { generateLocationSchema, generatePropertyListSchema, generateBreadcrumbSchema } from "@/utils/seoUtils";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const IstanbulPropertySearch = () => {
+  const { t } = useTranslation();
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -231,18 +233,18 @@ const IstanbulPropertySearch = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">
-            Properties In Istanbul
+            {t('city.properties_in')} Istanbul
           </h1>
           <div className="prose max-w-none text-muted-foreground">
             <p className="mb-4">
-              Discover exceptional real estate opportunities in Istanbul, Turkey's cultural and economic heart where East meets West. Our carefully curated collection features luxury apartments, stunning villas, and investment properties perfect for those seeking Turkish citizenship through real estate investment.
+              {t('istanbul.intro')}
             </p>
             <p className="mb-4">
-              Istanbul offers a unique blend of ancient history and modern living, with world-class infrastructure, vibrant culture, and endless business opportunities. Whether you're looking for a city center apartment, Bosphorus view property, or investment opportunity, we have the perfect property for you.
+              {t('istanbul.intro2')}
             </p>
           </div>
           <p className="text-sm text-muted-foreground mt-4">
-            {loading ? 'Loading...' : `${istanbulProperties.length} properties found`}
+            {loading ? t('city.loading') : `${istanbulProperties.length} ${t('city.found')}`}
           </p>
         </div>
 
@@ -326,7 +328,7 @@ const IstanbulPropertySearch = () => {
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
                   <span className="text-sm text-muted-foreground notranslate" translate="no">
-                    Showing {filteredProperties.length} of {istanbulProperties.length} properties
+                    {t('city.showing')} {filteredProperties.length} {t('city.of')} {istanbulProperties.length} {t('city.properties')}
                   </span>
                 </div>
               </div>
@@ -389,10 +391,10 @@ const IstanbulPropertySearch = () => {
                   <div className="max-w-md mx-auto">
                     <Grid className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-foreground mb-2">
-                      No Properties Found
+                      {t('city.no_found')}
                     </h3>
                     <p className="text-muted-foreground mb-6">
-                      Try adjusting your search criteria to find more properties.
+                      {t('city.try_adjust')}
                     </p>
                     <Button onClick={() => {
                       setFilters({

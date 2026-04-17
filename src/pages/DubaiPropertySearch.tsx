@@ -21,8 +21,10 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const DubaiPropertySearch = () => {
+  const { t } = useTranslation();
   // Router hooks - must be called unconditionally at component top level
   const [searchParams] = useSearchParams();
   const location = useLocation();
@@ -273,18 +275,18 @@ const DubaiPropertySearch = () => {
         {/* SEO Intro Content */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">
-            Properties In Dubai
+            {t('city.properties_in')} Dubai
           </h1>
           <div className="prose max-w-none text-muted-foreground">
             <p className="mb-4">
-              Explore Dubai's most prestigious real estate opportunities in the world's fastest-growing luxury property market. Our exclusive collection features premium apartments, penthouses, and villas in Dubai's most sought-after locations, perfect for international investors seeking exceptional returns.
+              {t('dubai.intro')}
             </p>
             <p className="mb-4">
-              Dubai offers a tax-free environment, world-class infrastructure, and golden visa opportunities for property investors. Whether you're looking for a luxury residence in Downtown Dubai, a beachfront property in Dubai Marina, or an investment opportunity in Business Bay, our properties provide access to Dubai's thriving economy and cosmopolitan lifestyle.
+              {t('dubai.intro2')}
             </p>
           </div>
           <p className="text-sm text-muted-foreground mt-4">
-            {properties.length} properties found
+            {properties.length} {t('city.found')}
           </p>
         </div>
 
