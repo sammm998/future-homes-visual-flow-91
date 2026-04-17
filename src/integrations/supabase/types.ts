@@ -881,6 +881,44 @@ export type Database = {
         }
         Relationships: []
       }
+      testimonial_translations: {
+        Row: {
+          created_at: string
+          designation: string | null
+          id: string
+          language_code: string
+          review_text: string
+          testimonial_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          designation?: string | null
+          id?: string
+          language_code: string
+          review_text: string
+          testimonial_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          designation?: string | null
+          id?: string
+          language_code?: string
+          review_text?: string
+          testimonial_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "testimonial_translations_testimonial_id_fkey"
+            columns: ["testimonial_id"]
+            isOneToOne: false
+            referencedRelation: "testimonials"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       testimonials: {
         Row: {
           company_name: string | null
