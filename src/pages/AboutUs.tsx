@@ -47,10 +47,10 @@ const AboutUs = () => {
           <div className="text-center max-w-4xl mx-auto">
             <Badge className="mb-6 px-4 py-2 bg-white/10 text-white border-white/20">{t('about.badge')}</Badge>
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-              {heroTitle || t('about.hero_title')}
+              {t('about.hero_title')}
             </h1>
             <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto mb-8">
-              {heroSubtitle || t('about.hero_subtitle')}
+              {t('about.hero_subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="/contact-us" className="inline-flex items-center justify-center px-6 py-3 bg-white/10 text-white border border-white/20 font-medium rounded-full hover:bg-white/20 transition-all duration-300 text-sm">
