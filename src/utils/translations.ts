@@ -553,14 +553,6 @@ export const translations: Record<string, Record<string, string>> = {
     'home.contact_property': 'Kontakt Oss Om Denne', 'home.schedule_viewing': 'Bestill Visning',
     'home.view_all_properties': 'Se Alle Eiendommer', 'home.price_on_request': 'Pris på forespørsel',
     'home.founder_ceo': 'Grunnlegger & Daglig Leder',
-
-  
-    'home.faq1_q': 'Kan utlendinger kjøpe eiendom?', 'home.faq1_a': 'Ja, de fleste land ønsker utenlandske investorer velkommen.',
-    'home.faq2_q': 'Hva er typiske kostnader?', 'home.faq2_a': 'Kostnader varierer, vanligvis 4-10% av eiendomsverdien.',
-    'home.faq3_q': 'Hvilke land tilbyr statsborgerskap?', 'home.faq3_a': 'Tyrkia ($400k), Kypros (€2M), Portugal (€280k).',
-    'home.faq4_q': 'Trenger jeg advokat?', 'home.faq4_a': 'Sterkt anbefalt for internasjonale kjøp.',
-    'home.faq5_q': 'Hvilke løpende kostnader?', 'home.faq5_a': 'Eiendomsskatt, forsikring, vedlikehold og forvaltning.',
-    'home.faq6_q': 'Hvordan fungerer betalingsplaner?', 'home.faq6_a': 'Fleksible planer med 20-30% forskudd og avdrag.',
   },
 
   da: {
@@ -1418,46 +1410,6 @@ export const translations: Record<string, Record<string, string>> = {
     'home.before_after': 'پہلے اور بعد', 'home.start_conversation': 'AI سے بات شروع کریں',
     'home.premium_properties': 'پریمیم جائیدادیں', 'home.view_all_properties': 'سب دیکھیں',
     'home.price_on_request': 'قیمت درخواست پر', 'home.founder_ceo': 'بانی اور سی ای او',
-
-  
-    'home.browse_properties': 'ہماری جائیدادیں دیکھیں',
-    'home.browse_subtitle': 'دنیا کے سب سے مطلوب مقامات پر پریمیم جائیدادیں دریافت کریں',
-    'home.all_locations': 'تمام مقامات', 'home.no_properties': 'کوئی جائیداد نہیں ملی۔',
-    'home.previous': 'پچھلا', 'home.next': 'اگلا',
-    'home.customer_reviews': 'صارفین کی رائے', 'home.customer_reviews_subtitle': 'ہمارے مطمئن صارفین کیا کہتے ہیں',
-    'home.what_people_say': 'لوگ کیا کہتے ہیں', 'home.what_people_say_subtitle': 'ہمارے صارفین کے حقیقی تجربات',
-    'home.what_clients_say': 'ہمارے کلائنٹس کیا کہتے ہیں', 'home.what_clients_say_subtitle': 'جانیں ہزاروں کلائنٹس ہم پر کیوں بھروسہ کرتے ہیں',
-    'home.meet_founder': 'ہمارے بانی سے ملیں', 'home.meet_founder_subtitle': 'ہماری کامیابی کے پیچھے کی بصیرت دیکھیں',
-    'home.founder_bio': 'علی کاران نے ۶ سال کے تجربے سے ۱۰۰۰ سے زائد کلائنٹس کی مدد کی ہے۔',
-    'home.years_experience': 'تجربہ', 'home.happy_clients': 'مطمئن صارفین', 'home.countries': 'ممالک',
-    'home.learn_more_ali': 'علی کے بارے میں مزید', 'home.meet_team': 'ہماری ٹیم سے', 'home.team': 'ملیں',
-    'home.meet_team_subtitle': 'ہمارے تجربہ کار پیشہ ور آپ کی رہنمائی کریں گے۔',
-    'home.news_insights': 'خبریں اور بصیرت', 'home.stay_informed': 'باخبر رہیں',
-    'home.stay_informed_subtitle': 'تازہ ترین جائیداد رجحانات سے باخبر رہیں',
-    'home.read_more': 'مزید پڑھیں', 'home.view_all_articles': 'تمام مضامین دیکھیں',
-    'home.faq_title': 'اکثر پوچھے گئے سوالات', 'home.faq_subtitle': 'عام سوالات کے جوابات',
-    'home.faq1_q': 'کیا غیر ملکی جائیداد خرید سکتے ہیں؟', 'home.faq1_a': 'جی ہاں، زیادہ تر ممالک غیر ملکی سرمایہ کاروں کا خیر مقدم کرتے ہیں۔',
-    'home.faq2_q': 'عام اخراجات کتنے ہیں؟', 'home.faq2_a': 'اخراجات عام طور پر جائیداد کی قیمت کا ۴-۱۰% ہوتے ہیں۔',
-    'home.faq3_q': 'کون سے ممالک شہریت دیتے ہیں؟', 'home.faq3_a': 'ترکی ($400k)، قبرص (€2M)، پرتگال (€280k).',
-    'home.faq4_q': 'کیا مجھے وکیل کی ضرورت ہے؟', 'home.faq4_a': 'بین الاقوامی خریداری کے لیے انتہائی تجویز کردہ ہے۔',
-    'home.faq5_q': 'جاری اخراجات کیا ہیں؟', 'home.faq5_a': 'ٹیکس، انشورنس، دیکھ بھال اور انتظامی فیس۔',
-    'home.faq6_q': 'ادائیگی کے منصوبے کیسے کام کرتے ہیں؟', 'home.faq6_a': '۲۰-۳۰% پیشگی ادائیگی اور قسطوں کے ساتھ لچکدار منصوبے۔',
-    'home.find_property': 'اپنی مثالی جائیداد تلاش کریں', 'home.find_property_subtitle': 'ہمیں مثالی سرمایہ کاری کا موقع تلاش کرنے دیں',
-    'home.start_journey': 'اپنا جائیداد سفر شروع کریں', 'home.discover_properties': 'ترکی • دبئی • یورپ میں جائیدادیں',
-    'home.maybe_later': 'شاید بعد میں',
-    'home.explore_destinations': 'مقامات کا جائزہ لیں', 'home.explore_subtitle': 'دنیا کے بہترین مقامات پر پریمیم جائیدادیں',
-    'home.view_properties': 'جائیدادیں دیکھیں',
-    'home.before_after': 'پہلے اور بعد', 'home.before_after_subtitle': 'ہماری جائیدادوں کی تبدیلی دیکھیں',
-    'home.ai_assistant': 'AI جائیداد اسسٹنٹ', 'home.ai_title': 'اپنی خوابوں کی جائیداد تلاش کریں',
-    'home.ai_subtitle': 'ہمارا AI اسسٹنٹ ہماری ۱۸۰+ جائیدادوں کو جانتا ہے۔',
-    'home.ai_properties': '+۱۸۰ جائیدادیں', 'home.ai_properties_desc': 'مکمل ڈیٹابیس تک رسائی',
-    'home.ai_destinations': 'تمام مقامات', 'home.ai_destinations_desc': 'ترکی، دبئی، قبرص، بالی، مرسین',
-    'home.ai_support': '۲۴/۷ سپورٹ', 'home.ai_support_desc': 'فوری AI مدد',
-    'home.start_conversation': 'AI سے گفتگو شروع کریں', 'home.popular_questions': 'مقبول سوالات:',
-    'home.premium_properties': 'پریمیم جائیدادیں', 'home.premium_subtitle': 'ہماری منتخب لگژری جائیدادیں دیکھیں',
-    'home.contact_property': 'اس جائیداد کے بارے میں رابطہ کریں', 'home.schedule_viewing': 'دورہ شیڈول کریں',
-    'home.view_all_properties': 'تمام جائیدادیں دیکھیں', 'home.price_on_request': 'قیمت درخواست پر',
-    'home.founder_ceo': 'بانی اور CEO',
   },
 
   es: {
@@ -2024,6 +1976,13 @@ export const translations: Record<string, Record<string, string>> = {
     'home.ai_properties': '180+ Properti', 'home.ai_properties_desc': 'Akses ke seluruh database', 'home.ai_destinations': 'Semua Destinasi', 'home.ai_destinations_desc': 'Turki, Dubai, Siprus, Bali, Mersin', 'home.ai_support': 'Dukungan 24/7', 'home.ai_support_desc': 'Bantuan AI instan',
   },
 };
+
+// Merge extra translations
+import { translationsExtra } from './translationsExtra';
+for (const [lang, keys] of Object.entries(translationsExtra)) {
+  if (!translations[lang]) translations[lang] = {};
+  Object.assign(translations[lang], keys);
+}
 
 // Translation function with English fallback
 export const t = (key: string, language: string = 'en'): string => {
