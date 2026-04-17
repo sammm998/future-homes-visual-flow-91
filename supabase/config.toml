@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.translate-slugs]
 verify_jwt = false
+
+[functions.translate-blog-posts]
+verify_jwt = false
