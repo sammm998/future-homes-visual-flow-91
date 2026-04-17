@@ -21,8 +21,10 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const BaliPropertySearch = () => {
+  const { t } = useTranslation();
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
   
   // Router hooks - these should be called unconditionally
@@ -395,7 +397,7 @@ const BaliPropertySearch = () => {
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
                   <span className="text-sm text-muted-foreground notranslate" translate="no">
-                    Showing {filteredProperties.length} of {baliProperties.length} properties
+                    {t('city.showing')} {filteredProperties.length} {t('city.of')} {baliProperties.length} {t('city.properties')}
                   </span>
                 </div>
               </div>
@@ -474,10 +476,10 @@ const BaliPropertySearch = () => {
                   <div className="max-w-md mx-auto">
                     <Grid className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-foreground mb-2">
-                      No Properties Found
+                      {t('city.no_found')}
                     </h3>
                     <p className="text-muted-foreground mb-6">
-                      Try adjusting your search criteria to find more properties.
+                      {t('city.try_adjust')}
                     </p>
                     <Button 
                       onClick={() => {
