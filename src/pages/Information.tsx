@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import DOMPurify from 'dompurify';
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
@@ -85,11 +85,33 @@ import realEstateFundPerformanceAnalysis from "@/assets/real-estate-fund-perform
 import distressedRealEstateInvestment from "@/assets/distressed-real-estate-investment.jpg";
 import realEstateTechnologyTransformation from "@/assets/real-estate-technology-transformation.jpg";
 
+const STORAGE_KEY = 'fh:lastInfoFilter';
+
 const Information = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  
-  const [activeFilter, setActiveFilter] = useState<string>("all");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Read initial filter from URL (?cat=dubai) so deep-links and back-navigation work
+  const initialFilter = searchParams.get('cat') || sessionStorage.getItem(STORAGE_KEY) || 'all';
+  const [activeFilter, setActiveFilter] = useState<string>(initialFilter);
+
+  // Keep URL + sessionStorage in sync when the user switches filter
+  useEffect(() => {
+    try { sessionStorage.setItem(STORAGE_KEY, activeFilter); } catch {}
+    const next = new URLSearchParams(searchParams);
+    if (activeFilter && activeFilter !== 'all') {
+      next.set('cat', activeFilter);
+    } else {
+      next.delete('cat');
+    }
+    // Avoid pushing duplicate history entries
+    if (next.toString() !== searchParams.toString()) {
+      setSearchParams(next, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeFilter]);
+
   const { blogPosts, loading } = useBlogPosts();
   const { heroTitle, heroSubtitle, contentSections, isLoading: contentLoading } = useWebsiteContent("information");
 
