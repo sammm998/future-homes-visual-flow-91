@@ -5,6 +5,7 @@ import Navigation from './Navigation';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
+import CategoryHero, { detectCategory, type CategoryKey } from './CategoryHero';
 
 import { motion } from 'framer-motion';
 
@@ -22,7 +23,11 @@ interface ArticleLayoutProps {
   showShare?: boolean;
   className?: string;
   children?: React.ReactNode;
+  /** Optional explicit category. When omitted, detected from title+content. */
+  category?: CategoryKey;
 }
+
+const STORAGE_KEY = 'fh:lastInfoFilter';
 
 const ArticleLayout: React.FC<ArticleLayoutProps> = ({
   title,
@@ -37,9 +42,29 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
   backText = 'Back to Articles',
   showShare = true,
   className,
-  children
+  children,
+  category,
 }) => {
   const navigate = useNavigate();
+  const resolvedCategory: CategoryKey = category ?? detectCategory(title, content);
+
+  // Build a smart back URL that returns the user to the correct
+  // Information Center filter they came from. Falls back to backLink.
+  const handleBack = () => {
+    let target = backLink;
+    try {
+      const lastFilter = sessionStorage.getItem(STORAGE_KEY);
+      if (lastFilter && lastFilter !== 'all' && backLink === '/information') {
+        target = `/information?cat=${encodeURIComponent(lastFilter)}`;
+      } else if (backLink === '/information' && resolvedCategory && resolvedCategory !== 'all') {
+        // No stored filter but the article has a clear category — return to it
+        target = `/information?cat=${encodeURIComponent(resolvedCategory)}`;
+      }
+    } catch {
+      // sessionStorage unavailable — fall through to default backLink
+    }
+    navigate(target);
+  };
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'Recently published';
