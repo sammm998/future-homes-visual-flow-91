@@ -5,6 +5,7 @@ import Navigation from './Navigation';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
+import CategoryHero, { detectCategory, type CategoryKey } from './CategoryHero';
 
 import { motion } from 'framer-motion';
 
@@ -22,7 +23,11 @@ interface ArticleLayoutProps {
   showShare?: boolean;
   className?: string;
   children?: React.ReactNode;
+  /** Optional explicit category. When omitted, detected from title+content. */
+  category?: CategoryKey;
 }
+
+const STORAGE_KEY = 'fh:lastInfoFilter';
 
 const ArticleLayout: React.FC<ArticleLayoutProps> = ({
   title,
@@ -37,9 +42,29 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
   backText = 'Back to Articles',
   showShare = true,
   className,
-  children
+  children,
+  category,
 }) => {
   const navigate = useNavigate();
+  const resolvedCategory: CategoryKey = category ?? detectCategory(title, content);
+
+  // Build a smart back URL that returns the user to the correct
+  // Information Center filter they came from. Falls back to backLink.
+  const handleBack = () => {
+    let target = backLink;
+    try {
+      const lastFilter = sessionStorage.getItem(STORAGE_KEY);
+      if (lastFilter && lastFilter !== 'all' && backLink === '/information') {
+        target = `/information?cat=${encodeURIComponent(lastFilter)}`;
+      } else if (backLink === '/information' && resolvedCategory && resolvedCategory !== 'all') {
+        // No stored filter but the article has a clear category — return to it
+        target = `/information?cat=${encodeURIComponent(resolvedCategory)}`;
+      }
+    } catch {
+      // sessionStorage unavailable — fall through to default backLink
+    }
+    navigate(target);
+  };
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'Recently published';
@@ -91,7 +116,7 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
           >
             <Button 
               variant="ghost" 
-              onClick={() => navigate(backLink)}
+              onClick={handleBack}
               className="gap-2 hover:bg-muted/50 transition-colors"
             >
               <ArrowLeft size={18} />
@@ -101,10 +126,17 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
 
           {/* Article Container */}
           <div className="max-w-4xl mx-auto">
-            {/* Featured Image */}
+            {/* Category-branded hero — consistent design per topic */}
+            <CategoryHero
+              category={resolvedCategory}
+              title={title}
+              excerpt={excerpt}
+            />
+
+            {/* Optional featured image (shown below the branded hero) */}
             {featuredImage && (
               <motion.div 
-                className="relative h-64 md:h-96 w-full overflow-hidden rounded-2xl mb-8 shadow-elegant"
+                className="relative h-56 md:h-80 w-full overflow-hidden rounded-2xl mb-8 shadow-elegant"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6 }}
@@ -119,28 +151,6 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop';
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                
-                {/* Floating Title on Image */}
-                <div className="absolute bottom-6 left-6 right-6">
-                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight drop-shadow-2xl">
-                    {title}
-                  </h1>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Article Header (without image) */}
-            {!featuredImage && (
-              <motion.div 
-                className="mb-8 text-center"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-                  {title}
-                </h1>
               </motion.div>
             )}
 
@@ -232,7 +242,7 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
                   Discover more insights about property investment, legal requirements, and living abroad.
                 </p>
                 <Button 
-                  onClick={() => navigate('/information')} 
+                  onClick={handleBack} 
                   size="lg"
                   className="px-8 py-3"
                 >
