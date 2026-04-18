@@ -384,12 +384,15 @@ const Information = () => {
 
   const handleArticleClick = (slug: string) => {
     console.log(`Clicking article with slug: ${slug}`);
-    
+
+    // Persist current filter so the article's Back button can return to it
+    try { sessionStorage.setItem(STORAGE_KEY, activeFilter); } catch {}
+
     // Check if it's a database article (has proper slug from Supabase)
     const isDatabaseArticle = databaseArticles.some(article => article.slug === slug);
-    
+
     console.log(`Is database article: ${isDatabaseArticle}`);
-    
+
     if (isDatabaseArticle) {
       navigate(`/articles/${slug}`);
     } else {
