@@ -180,12 +180,16 @@ serve(async (req) => {
         });
         if (insErr) throw insErr;
         results.push({ postId: item.post.id, lang: item.lang.code, ok: true });
-      } catch (e) {
+      } catch (e: any) {
+        const msg = e instanceof Error
+          ? e.message
+          : (typeof e === "object" ? JSON.stringify(e) : String(e));
+        console.error(`Translation failed [${item.lang.code} / ${item.post.id}]:`, msg);
         results.push({
           postId: item.post.id,
           lang: item.lang.code,
           ok: false,
-          error: e instanceof Error ? e.message : String(e),
+          error: msg,
         });
       }
     }
