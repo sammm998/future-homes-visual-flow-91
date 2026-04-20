@@ -180,7 +180,12 @@ serve(async (req) => {
           content: item.post.content,
           targetLangName: item.lang.name,
         });
-        const childSlug = `${slugify(t.title)}-${item.lang.code}`.slice(0, 100);
+        const childSlug = buildChildSlug({
+          translatedTitle: t.title,
+          sourceSlug: item.post.slug,
+          postId: item.post.id,
+          langCode: item.lang.code,
+        });
         const { error: insErr } = await supabase.from("blog_posts").insert({
           title: t.title,
           slug: childSlug,
