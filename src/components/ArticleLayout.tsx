@@ -133,26 +133,7 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
               excerpt={excerpt}
             />
 
-            {/* Optional featured image (shown below the branded hero) */}
-            {featuredImage && (
-              <motion.div 
-                className="relative h-56 md:h-80 w-full overflow-hidden rounded-2xl mb-8 shadow-elegant"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
-              >
-                <img 
-                  src={featuredImage} 
-                  alt={title}
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                  loading="eager"
-                  fetchPriority="high"
-                  onError={(e) => {
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop';
-                  }}
-                />
-              </motion.div>
-            )}
+            {/* Featured image intentionally hidden — CategoryHero serves as the single visual */}
 
             {/* Article Meta */}
             <motion.div 
