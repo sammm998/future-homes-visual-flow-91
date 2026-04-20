@@ -112,6 +112,19 @@ function slugify(s: string): string {
     .slice(0, 80);
 }
 
+function buildChildSlug(opts: {
+  translatedTitle: string;
+  sourceSlug: string | null;
+  postId: string;
+  langCode: string;
+}): string {
+  const base =
+    slugify(opts.translatedTitle) ||
+    slugify(opts.sourceSlug || "") ||
+    opts.postId.slice(0, 8);
+  return `${base}-${opts.langCode}`.slice(0, 100);
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
