@@ -112,6 +112,19 @@ function slugify(s: string): string {
     .slice(0, 80);
 }
 
+function buildChildSlug(opts: {
+  translatedTitle: string;
+  sourceSlug: string | null;
+  postId: string;
+  langCode: string;
+}): string {
+  const base =
+    slugify(opts.translatedTitle) ||
+    slugify(opts.sourceSlug || "") ||
+    opts.postId.slice(0, 8);
+  return `${base}-${opts.langCode}`.slice(0, 100);
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -167,7 +180,12 @@ serve(async (req) => {
           content: item.post.content,
           targetLangName: item.lang.name,
         });
-        const childSlug = `${slugify(t.title)}-${item.lang.code}`.slice(0, 100);
+        const childSlug = buildChildSlug({
+          translatedTitle: t.title,
+          sourceSlug: item.post.slug,
+          postId: item.post.id,
+          langCode: item.lang.code,
+        });
         const { error: insErr } = await supabase.from("blog_posts").insert({
           title: t.title,
           slug: childSlug,
