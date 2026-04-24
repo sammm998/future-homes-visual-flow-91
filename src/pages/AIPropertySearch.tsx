@@ -186,6 +186,12 @@ const AIPropertySearch = () => {
   };
 
   const handleLanguageChange = (code: string) => {
+    // Persist language choice site-wide so all subsequent URLs translate
+    if (code === 'en') {
+      localStorage.removeItem('preferred_language');
+    } else {
+      localStorage.setItem('preferred_language', code);
+    }
     const params = new URLSearchParams(routeLocation.search);
     if (code === 'en') params.delete('lang');
     else params.set('lang', code);
