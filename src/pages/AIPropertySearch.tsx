@@ -8,15 +8,13 @@ import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
-  MapPin, Bed, Bath, Maximize, ArrowUp, Plus, Menu,
-  ArrowLeft, BookOpen, Building2, Users, UserCog, PhoneCall,
+  MapPin, Bed, Bath, Maximize, ArrowUp, Plus,
+  BookOpen, Building2,
   PenLine, Volume2, VolumeX, Mic, Search, TrendingUp, Map as MapIcon, Image as ImageIcon,
-  Globe, PanelLeftClose,
 } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
-import emmaAvatar from '@/assets/avatars/emma-avatar.jpg';
+import emmaAvatar from '@/assets/emma-ai-assistant.png';
 import { buildLangParam, getCurrentLanguage, getTranslatedPropertyPath } from '@/utils/slugHelpers';
 
 interface PropertyLink {
@@ -54,13 +52,6 @@ const SUGGESTED_PROMPTS = [
   { icon: ImageIcon, text: 'Show photos of modern luxury villas' },
 ];
 
-const NAV_ITEMS = [
-  { icon: Building2, label: 'Properties', to: '/property-for-sale-in-turkey' },
-  { icon: Users, label: 'Management', to: '/about-us' },
-  { icon: UserCog, label: 'Agents', to: '/about-us', hash: '#team' },
-  { icon: PhoneCall, label: 'Get in Touch', to: '/contact-us' },
-];
-
 const LANGUAGES = [
   { code: 'en', label: 'English' },
   { code: 'es', label: 'Español' },
@@ -88,8 +79,6 @@ const AIPropertySearch = () => {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
   const [readMode, setReadMode] = useState<ReadMode>('write');
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -186,7 +175,6 @@ const AIPropertySearch = () => {
   };
 
   const handleLanguageChange = (code: string) => {
-    // Persist language choice site-wide so all subsequent URLs translate
     if (code === 'en') {
       localStorage.removeItem('preferred_language');
     } else {
@@ -199,74 +187,6 @@ const AIPropertySearch = () => {
     window.location.href = `/ai-property-search${search ? `?${search}` : ''}`;
   };
 
-  const Sidebar = () => (
-    <div className="flex flex-col h-full bg-white text-gray-900 border-r border-gray-200">
-      {/* Logo + collapse */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
-        <Link to={`/${langParam}`} className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-md bg-[#0a2540] flex items-center justify-center">
-            <Building2 className="h-4 w-4 text-white" />
-          </div>
-          <span className="font-semibold text-sm tracking-tight">Future Homes AI</span>
-        </Link>
-        <button
-          className="hidden md:flex h-8 w-8 items-center justify-center rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
-          onClick={() => setDesktopSidebarOpen(false)}
-          aria-label="Collapse sidebar"
-        >
-          <PanelLeftClose className="h-4 w-4" />
-        </button>
-      </div>
-
-      {/* Nav */}
-      <nav className="px-3 py-3 space-y-0.5">
-        {NAV_ITEMS.map(item => (
-          <Link
-            key={item.label}
-            to={`${item.to}${langParam}${item.hash ?? ''}`}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
-          >
-            <item.icon className="h-4 w-4 text-gray-500" />
-            {item.label}
-          </Link>
-        ))}
-      </nav>
-
-      <div className="flex-1" />
-
-      {/* Language picker + back */}
-      <div className="border-t border-gray-100 p-3 space-y-2">
-        <div className="px-2">
-          <div className="flex items-center gap-2 px-2 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-            <Globe className="h-3.5 w-3.5" />
-            {LANGUAGES.find(l => l.code === lang)?.label || 'English'}
-          </div>
-          <div className="grid grid-cols-2 gap-1 px-1">
-            {LANGUAGES.map(l => (
-              <button
-                key={l.code}
-                onClick={() => handleLanguageChange(l.code)}
-                className={`text-left px-2 py-1.5 text-xs rounded-md transition-colors ${
-                  l.code === lang
-                    ? 'bg-[#0a2540] text-white'
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                {l.label}
-              </button>
-            ))}
-          </div>
-        </div>
-        <Link to={`/${langParam}`}>
-          <Button variant="ghost" className="w-full justify-start gap-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100">
-            <ArrowLeft className="h-4 w-4" />
-            Back to website
-          </Button>
-        </Link>
-      </div>
-    </div>
-  );
-
   return (
     <div dir="ltr" className="h-screen flex bg-white text-gray-900 overflow-hidden">
       <SEOHead
@@ -276,45 +196,31 @@ const AIPropertySearch = () => {
         canonicalUrl="https://futurehomesinternational.com/ai-property-search"
       />
 
-      {/* Desktop sidebar */}
-      {desktopSidebarOpen && (
-        <aside className="hidden md:flex w-72 flex-shrink-0">
-          <Sidebar />
-        </aside>
-      )}
-
-      {/* Mobile sidebar */}
-      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-        <SheetContent side="left" className="p-0 w-72 bg-white">
-          <Sidebar />
-        </SheetContent>
-      </Sheet>
-
       {/* Main */}
       <main className="flex-1 flex flex-col min-w-0 bg-white">
         {/* Top bar */}
         <header className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            {!desktopSidebarOpen && (
-              <button
-                className="hidden md:flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:bg-gray-100"
-                onClick={() => setDesktopSidebarOpen(true)}
-                aria-label="Open sidebar"
-              >
-                <Menu className="h-4 w-4" />
-              </button>
-            )}
-            <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden text-gray-600 hover:text-gray-900 hover:bg-gray-100">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-            </Sheet>
-          </div>
-          <Link to={`/${langParam}`} className="text-xs text-gray-500 hover:text-gray-700">
-            futurehomesinternational.com
+          <Link to={`/${langParam}`} className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-md bg-[#0a2540] flex items-center justify-center">
+              <Building2 className="h-4 w-4 text-white" />
+            </div>
+            <span className="font-semibold text-sm tracking-tight">Future Homes AI</span>
           </Link>
+          <div className="flex items-center gap-3">
+            <select
+              value={lang}
+              onChange={(e) => handleLanguageChange(e.target.value)}
+              className="text-xs text-gray-600 bg-transparent border border-gray-200 rounded-md px-2 py-1 focus:outline-none focus:border-gray-400"
+              aria-label="Language"
+            >
+              {LANGUAGES.map(l => (
+                <option key={l.code} value={l.code}>{l.label}</option>
+              ))}
+            </select>
+            <Link to={`/${langParam}`} className="text-xs text-gray-500 hover:text-gray-700 hidden sm:inline">
+              futurehomesinternational.com
+            </Link>
+          </div>
         </header>
 
         {/* Content area */}
@@ -421,111 +327,121 @@ const AIPropertySearch = () => {
             // ============ Chat thread ============
             <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
               <AnimatePresence initial={false}>
-                {messages.map((msg) => (
-                  <motion.div
-                    key={msg.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex gap-4"
-                  >
-                    <Avatar className="h-12 w-12 flex-shrink-0 ring-2 ring-white shadow-md">
-                      {msg.sender === 'ai' ? (
-                        <>
+                {messages.map((msg) => {
+                  const isUser = msg.sender === 'user';
+                  return (
+                    <motion.div
+                      key={msg.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className={`flex gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
+                    >
+                      {isUser ? (
+                        <Avatar className="h-9 w-9 flex-shrink-0">
+                          <AvatarFallback className="bg-gray-200 text-gray-700 text-xs">You</AvatarFallback>
+                        </Avatar>
+                      ) : (
+                        <Avatar className="h-12 w-12 flex-shrink-0 ring-2 ring-white shadow-md">
                           <AvatarImage src={emmaAvatar} alt="Emma" className="object-cover" />
                           <AvatarFallback className="bg-blue-600 text-white text-sm">E</AvatarFallback>
-                        </>
-                      ) : (
-                        <AvatarFallback className="bg-gray-200 text-gray-700 text-xs">You</AvatarFallback>
+                        </Avatar>
                       )}
-                    </Avatar>
-                    <div className="flex-1 min-w-0 space-y-3">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-sm font-semibold text-gray-900">
-                          {msg.sender === 'ai' ? 'Emma' : 'You'}
-                        </span>
-                      </div>
-                      <div className="prose prose-sm max-w-none prose-p:my-2 prose-headings:text-gray-900 prose-strong:text-gray-900 prose-li:my-0 prose-a:text-blue-600 text-gray-700">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                          {msg.text}
-                        </ReactMarkdown>
-                      </div>
 
-                      {msg.propertyLinks && msg.propertyLinks.length > 0 && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                          {msg.propertyLinks.map((p) => (
-                            <Link key={p.id} to={`/${propertyPath}/${p.id}${langParam}`}>
-                              <Card className="overflow-hidden bg-white border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all group">
-                                {p.image && (
-                                  <div className="aspect-video overflow-hidden bg-gray-100">
-                                    <img
-                                      src={p.image}
-                                      alt={p.title}
-                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                      loading="lazy"
-                                    />
-                                  </div>
-                                )}
-                                <CardContent className="p-3">
-                                  <h4 className="font-semibold text-sm text-gray-900 line-clamp-1 mb-1">{p.title}</h4>
-                                  <div className="flex items-center gap-1 text-gray-500 text-xs mb-2">
-                                    <MapPin className="h-3 w-3" />
-                                    <span className="truncate">{p.location}</span>
-                                  </div>
-                                  <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
-                                    {p.bedrooms != null && (
-                                      <span className="flex items-center gap-1"><Bed className="h-3 w-3" />{p.bedrooms}</span>
-                                    )}
-                                    {p.bathrooms != null && (
-                                      <span className="flex items-center gap-1"><Bath className="h-3 w-3" />{p.bathrooms}</span>
-                                    )}
-                                    {p.area != null && (
-                                      <span className="flex items-center gap-1"><Maximize className="h-3 w-3" />{p.area}m²</span>
-                                    )}
-                                  </div>
-                                  <div className="text-sm font-bold text-blue-600">{p.price}</div>
-                                </CardContent>
-                              </Card>
-                            </Link>
-                          ))}
+                      <div className={`flex-1 min-w-0 space-y-3 ${isUser ? 'flex flex-col items-end' : ''}`}>
+                        <div className={`max-w-[85%] ${isUser ? 'text-right' : ''}`}>
+                          <div className={`text-sm font-semibold text-gray-900 mb-1 ${isUser ? 'text-right' : ''}`}>
+                            {isUser ? 'You' : 'Emma'}
+                          </div>
+                          {isUser ? (
+                            <div className="inline-block bg-blue-600 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm whitespace-pre-wrap text-left">
+                              {msg.text}
+                            </div>
+                          ) : (
+                            <div className="prose prose-sm max-w-none prose-p:my-2 prose-headings:text-gray-900 prose-strong:text-gray-900 prose-li:my-0 prose-a:text-blue-600 text-gray-700">
+                              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {msg.text}
+                              </ReactMarkdown>
+                            </div>
+                          )}
                         </div>
-                      )}
 
-                      {msg.articleLinks && msg.articleLinks.length > 0 && (
-                        <div className="space-y-2 pt-2">
-                          <p className="text-xs uppercase tracking-wide text-gray-400 font-medium flex items-center gap-1.5">
-                            <BookOpen className="h-3 w-3" />
-                            Related guides
-                          </p>
-                          {msg.articleLinks.map((a) => (
-                            <Link key={a.id} to={`/article/${a.slug}${langParam}`}>
-                              <Card className="bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
-                                <CardContent className="p-3 flex gap-3 items-center">
-                                  {a.image && (
-                                    <img src={a.image} alt={a.title} className="h-14 w-14 object-cover rounded-md flex-shrink-0" loading="lazy" />
+                        {!isUser && msg.propertyLinks && msg.propertyLinks.length > 0 && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 w-full">
+                            {msg.propertyLinks.map((p) => (
+                              <Link key={p.id} to={`/${propertyPath}/${p.id}${langParam}`}>
+                                <Card className="overflow-hidden bg-white border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all group">
+                                  {p.image && (
+                                    <div className="aspect-video overflow-hidden bg-gray-100">
+                                      <img
+                                        src={p.image}
+                                        alt={p.title}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                        loading="lazy"
+                                      />
+                                    </div>
                                   )}
-                                  <div className="flex-1 min-w-0">
-                                    <h5 className="text-sm font-medium text-gray-900 line-clamp-1">{a.title}</h5>
-                                    {a.excerpt && (
-                                      <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">{a.excerpt}</p>
+                                  <CardContent className="p-3">
+                                    <h4 className="font-semibold text-sm text-gray-900 line-clamp-1 mb-1">{p.title}</h4>
+                                    <div className="flex items-center gap-1 text-gray-500 text-xs mb-2">
+                                      <MapPin className="h-3 w-3" />
+                                      <span className="truncate">{p.location}</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
+                                      {p.bedrooms != null && (
+                                        <span className="flex items-center gap-1"><Bed className="h-3 w-3" />{p.bedrooms}</span>
+                                      )}
+                                      {p.bathrooms != null && (
+                                        <span className="flex items-center gap-1"><Bath className="h-3 w-3" />{p.bathrooms}</span>
+                                      )}
+                                      {p.area != null && (
+                                        <span className="flex items-center gap-1"><Maximize className="h-3 w-3" />{p.area}m²</span>
+                                      )}
+                                    </div>
+                                    <div className="text-sm font-bold text-blue-600">{p.price}</div>
+                                  </CardContent>
+                                </Card>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+
+                        {!isUser && msg.articleLinks && msg.articleLinks.length > 0 && (
+                          <div className="space-y-2 pt-2 w-full">
+                            <p className="text-xs uppercase tracking-wide text-gray-400 font-medium flex items-center gap-1.5">
+                              <BookOpen className="h-3 w-3" />
+                              Related guides
+                            </p>
+                            {msg.articleLinks.map((a) => (
+                              <Link key={a.id} to={`/article/${a.slug}${langParam}`}>
+                                <Card className="bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
+                                  <CardContent className="p-3 flex gap-3 items-center">
+                                    {a.image && (
+                                      <img src={a.image} alt={a.title} className="h-14 w-14 object-cover rounded-md flex-shrink-0" loading="lazy" />
                                     )}
-                                  </div>
-                                </CardContent>
-                              </Card>
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
+                                    <div className="flex-1 min-w-0">
+                                      <h5 className="text-sm font-medium text-gray-900 line-clamp-1">{a.title}</h5>
+                                      {a.excerpt && (
+                                        <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">{a.excerpt}</p>
+                                      )}
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </AnimatePresence>
 
               {isLoading && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="flex gap-4"
+                  className="flex gap-3"
                 >
                   <Avatar className="h-12 w-12 flex-shrink-0 ring-2 ring-white shadow-md">
                     <AvatarImage src={emmaAvatar} alt="Emma" className="object-cover" />
