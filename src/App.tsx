@@ -48,6 +48,7 @@ const ExpensesBuyingPropertyTurkey = lazy(() => import("./pages/ExpensesBuyingPr
 const Newsletter = lazy(() => import("./components/Newsletter"));
 const ContactThankYou = lazy(() => import("./pages/ContactThankYou"));
 const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const MapSearch = lazy(() => import("./pages/MapSearch"));
 
 
