@@ -208,7 +208,7 @@ const MapSearch = () => {
 
         if (error) throw error;
 
-        setProperties(propertiesData || []);
+        setProperties((propertiesData as any) || []);
 
         // Initialize map
         mapboxgl.accessToken = mapboxToken;
