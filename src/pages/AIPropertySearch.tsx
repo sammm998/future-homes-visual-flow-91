@@ -8,12 +8,10 @@ import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
-  MapPin, Bed, Bath, Maximize, ArrowUp, Plus, Menu,
-  ArrowLeft, BookOpen, Building2, Users, UserCog, PhoneCall,
+  MapPin, Bed, Bath, Maximize, ArrowUp, Plus,
+  BookOpen, Building2,
   PenLine, Volume2, VolumeX, Mic, Search, TrendingUp, Map as MapIcon, Image as ImageIcon,
-  Globe, PanelLeftClose,
 } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
 import emmaAvatar from '@/assets/emma-ai-assistant.png';
@@ -54,12 +52,6 @@ const SUGGESTED_PROMPTS = [
   { icon: ImageIcon, text: 'Show photos of modern luxury villas' },
 ];
 
-const NAV_ITEMS = [
-  { icon: Building2, label: 'Properties', to: '/property-for-sale-in-turkey' },
-  { icon: Users, label: 'Management', to: '/about-us' },
-  { icon: UserCog, label: 'Agents', to: '/about-us', hash: '#team' },
-  { icon: PhoneCall, label: 'Get in Touch', to: '/contact-us' },
-];
 
 const LANGUAGES = [
   { code: 'en', label: 'English' },
@@ -88,8 +80,6 @@ const AIPropertySearch = () => {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
   const [readMode, setReadMode] = useState<ReadMode>('write');
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -199,74 +189,6 @@ const AIPropertySearch = () => {
     window.location.href = `/ai-property-search${search ? `?${search}` : ''}`;
   };
 
-  const Sidebar = () => (
-    <div className="flex flex-col h-full bg-white text-gray-900 border-r border-gray-200">
-      {/* Logo + collapse */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
-        <Link to={`/${langParam}`} className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-md bg-[#0a2540] flex items-center justify-center">
-            <Building2 className="h-4 w-4 text-white" />
-          </div>
-          <span className="font-semibold text-sm tracking-tight">Future Homes AI</span>
-        </Link>
-        <button
-          className="hidden md:flex h-8 w-8 items-center justify-center rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
-          onClick={() => setDesktopSidebarOpen(false)}
-          aria-label="Collapse sidebar"
-        >
-          <PanelLeftClose className="h-4 w-4" />
-        </button>
-      </div>
-
-      {/* Nav */}
-      <nav className="px-3 py-3 space-y-0.5">
-        {NAV_ITEMS.map(item => (
-          <Link
-            key={item.label}
-            to={`${item.to}${langParam}${item.hash ?? ''}`}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
-          >
-            <item.icon className="h-4 w-4 text-gray-500" />
-            {item.label}
-          </Link>
-        ))}
-      </nav>
-
-      <div className="flex-1" />
-
-      {/* Language picker + back */}
-      <div className="border-t border-gray-100 p-3 space-y-2">
-        <div className="px-2">
-          <div className="flex items-center gap-2 px-2 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-            <Globe className="h-3.5 w-3.5" />
-            {LANGUAGES.find(l => l.code === lang)?.label || 'English'}
-          </div>
-          <div className="grid grid-cols-2 gap-1 px-1">
-            {LANGUAGES.map(l => (
-              <button
-                key={l.code}
-                onClick={() => handleLanguageChange(l.code)}
-                className={`text-left px-2 py-1.5 text-xs rounded-md transition-colors ${
-                  l.code === lang
-                    ? 'bg-[#0a2540] text-white'
-                    : 'text-gray-600 hover:bg-gray-100'
-                }`}
-              >
-                {l.label}
-              </button>
-            ))}
-          </div>
-        </div>
-        <Link to={`/${langParam}`}>
-          <Button variant="ghost" className="w-full justify-start gap-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100">
-            <ArrowLeft className="h-4 w-4" />
-            Back to website
-          </Button>
-        </Link>
-      </div>
-    </div>
-  );
-
   return (
     <div dir="ltr" className="h-screen flex bg-white text-gray-900 overflow-hidden">
       <SEOHead
@@ -276,45 +198,31 @@ const AIPropertySearch = () => {
         canonicalUrl="https://futurehomesinternational.com/ai-property-search"
       />
 
-      {/* Desktop sidebar */}
-      {desktopSidebarOpen && (
-        <aside className="hidden md:flex w-72 flex-shrink-0">
-          <Sidebar />
-        </aside>
-      )}
-
-      {/* Mobile sidebar */}
-      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-        <SheetContent side="left" className="p-0 w-72 bg-white">
-          <Sidebar />
-        </SheetContent>
-      </Sheet>
-
       {/* Main */}
       <main className="flex-1 flex flex-col min-w-0 bg-white">
         {/* Top bar */}
         <header className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            {!desktopSidebarOpen && (
-              <button
-                className="hidden md:flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:bg-gray-100"
-                onClick={() => setDesktopSidebarOpen(true)}
-                aria-label="Open sidebar"
-              >
-                <Menu className="h-4 w-4" />
-              </button>
-            )}
-            <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden text-gray-600 hover:text-gray-900 hover:bg-gray-100">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-            </Sheet>
-          </div>
-          <Link to={`/${langParam}`} className="text-xs text-gray-500 hover:text-gray-700">
-            futurehomesinternational.com
+          <Link to={`/${langParam}`} className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-md bg-[#0a2540] flex items-center justify-center">
+              <Building2 className="h-4 w-4 text-white" />
+            </div>
+            <span className="font-semibold text-sm tracking-tight">Future Homes AI</span>
           </Link>
+          <div className="flex items-center gap-3">
+            <select
+              value={lang}
+              onChange={(e) => handleLanguageChange(e.target.value)}
+              className="text-xs text-gray-600 bg-transparent border border-gray-200 rounded-md px-2 py-1 focus:outline-none focus:border-gray-400"
+              aria-label="Language"
+            >
+              {LANGUAGES.map(l => (
+                <option key={l.code} value={l.code}>{l.label}</option>
+              ))}
+            </select>
+            <Link to={`/${langParam}`} className="text-xs text-gray-500 hover:text-gray-700 hidden sm:inline">
+              futurehomesinternational.com
+            </Link>
+          </div>
         </header>
 
         {/* Content area */}
