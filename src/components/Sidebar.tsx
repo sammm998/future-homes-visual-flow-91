@@ -74,13 +74,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
               <Link to="/contact-us" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.contact')}
               </Link>
-              <Link
-                to="/ai-property-search"
+              <a
+                href="https://futurehomesai.one/"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={onClose}
                 className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1 text-left"
               >
                 {t('sidebar.ai_help')}
-              </Link>
+              </a>
               
             </div>
           </div>

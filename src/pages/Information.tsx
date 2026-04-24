@@ -12,7 +12,6 @@ import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { articles as staticArticles } from '@/data/articlesData';
 
 import { Badge } from "@/components/ui/badge";
-import CategoryCardCover from "@/components/CategoryCardCover";
 import { NavBar } from "@/components/ui/tubelight-navbar";
 import { 
   ArrowRight, 
@@ -480,12 +479,28 @@ const Information = () => {
                 className="group hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden"
                 onClick={() => handleArticleClick(article.slug)}
               >
-                {/* Article Cover (branded category design) */}
+                {/* Article Image */}
                 <div className="relative h-48 w-full overflow-hidden">
-                  <CategoryCardCover
-                    category={article.category as any}
-                    title={article.title}
+                   <img 
+                    src={article.image} 
+                    alt={article.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      // Use a more reliable fallback image
+                      e.currentTarget.src = `https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop&crop=center`;
+                    }}
+                    loading="lazy"
                   />
+                  <div className="absolute top-4 right-4">
+                    <Badge variant="secondary" className="text-xs capitalize bg-white/90 backdrop-blur-sm">
+                      {article.category}
+                    </Badge>
+                  </div>
+                  <div className="absolute bottom-4 left-4">
+                    <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                      <article.icon className="w-6 h-6 text-primary" />
+                    </div>
+                  </div>
                 </div>
 
                 <CardHeader className="pb-4">

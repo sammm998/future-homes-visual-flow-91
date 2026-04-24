@@ -38,7 +38,7 @@ interface CategoryConfig {
 
 // All colors use HSL design tokens defined in index.css. We compose gradients
 // inline with hsl(var(--token) / alpha) so light/dark theme both look right.
-export const CATEGORY_MAP: Record<CategoryKey, CategoryConfig> = {
+const CATEGORY_MAP: Record<CategoryKey, CategoryConfig> = {
   property: {
     label: 'Property',
     icon: Home,

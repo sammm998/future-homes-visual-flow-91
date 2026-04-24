@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 const UpdateBanner = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -12,12 +11,14 @@ const UpdateBanner = () => {
       <div className="max-w-7xl mx-auto flex justify-center items-center text-sm">
         <span>
           Talk to our AI assistant Emma{' '}
-          <Link 
-            to="/ai-property-search"
+          <a 
+            href="https://futurehomesai.one/" 
+            target="_blank" 
+            rel="noopener noreferrer"
             className="underline hover:text-brand-accent transition-colors font-medium"
           >
             here
-          </Link>
+          </a>
         </span>
         <button 
           onClick={() => setIsVisible(false)}

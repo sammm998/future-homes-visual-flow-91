@@ -447,11 +447,7 @@ export type Database = {
           slug: string | null
           slug_ar: string | null
           slug_da: string | null
-          slug_de: string | null
-          slug_es: string | null
           slug_fa: string | null
-          slug_fr: string | null
-          slug_id: string | null
           slug_no: string | null
           slug_ru: string | null
           slug_sv: string | null
@@ -496,11 +492,7 @@ export type Database = {
           slug?: string | null
           slug_ar?: string | null
           slug_da?: string | null
-          slug_de?: string | null
-          slug_es?: string | null
           slug_fa?: string | null
-          slug_fr?: string | null
-          slug_id?: string | null
           slug_no?: string | null
           slug_ru?: string | null
           slug_sv?: string | null
@@ -545,11 +537,7 @@ export type Database = {
           slug?: string | null
           slug_ar?: string | null
           slug_da?: string | null
-          slug_de?: string | null
-          slug_es?: string | null
           slug_fa?: string | null
-          slug_fr?: string | null
-          slug_id?: string | null
           slug_no?: string | null
           slug_ru?: string | null
           slug_sv?: string | null
@@ -790,54 +778,6 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
-      }
-      property_translations: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: string
-          language_code: string
-          location: string | null
-          property_id: string
-          title: string | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          language_code: string
-          location?: string | null
-          property_id: string
-          title?: string | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          language_code?: string
-          location?: string | null
-          property_id?: string
-          title?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "property_translations_property_id_fkey"
-            columns: ["property_id"]
-            isOneToOne: false
-            referencedRelation: "properties"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "property_translations_property_id_fkey"
-            columns: ["property_id"]
-            isOneToOne: false
-            referencedRelation: "properties_public"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       scan_sessions: {
         Row: {

@@ -3,16 +3,12 @@ export const PATH_TRANSLATIONS: Record<string, string> = {
   en: 'property',
   sv: 'fastighet',
   tr: 'mulk',
-  ar: 'aqar',          // عقار
-  ru: 'nedvizhimost',  // недвижимость
+  ar: 'aqar',      // عقار
+  ru: 'nedvizhimost', // недвижимость
   no: 'eiendom',
   da: 'ejendom',
-  fa: 'melk',          // ملک
-  ur: 'jaidad',        // جائیداد
-  es: 'propiedad',
-  de: 'immobilie',
-  fr: 'propriete',
-  id: 'properti',
+  fa: 'melk',      // ملک
+  ur: 'jaidad',    // جائیداد
 };
 
 // Reverse mapping for path lookup
@@ -42,10 +38,6 @@ export const getLanguageSlug = (property: any, lang: string | null): string => {
     da: property.slug_da,
     fa: property.slug_fa,
     ur: property.slug_ur,
-    es: property.slug_es,
-    de: property.slug_de,
-    fr: property.slug_fr,
-    id: property.slug_id,
   };
   
   // Return language-specific slug or fall back to English slug

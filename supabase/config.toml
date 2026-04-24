@@ -11,6 +11,3 @@ verify_jwt = false
 
 [functions.translate-testimonials]
 verify_jwt = false
-
-[functions.setup-admin-account]
-verify_jwt = false
