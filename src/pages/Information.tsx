@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ContentSection } from "@/components/ContentSection";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
+import CategoryCardCover from "@/components/CategoryCardCover";
 import { articles as staticArticles } from '@/data/articlesData';
 
 import { Badge } from "@/components/ui/badge";
