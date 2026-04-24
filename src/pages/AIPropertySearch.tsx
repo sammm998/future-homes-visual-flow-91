@@ -214,18 +214,6 @@ const AIPropertySearch = () => {
 
       {/* Nav */}
       <nav className="px-3 py-3 space-y-0.5">
-        <button
-          onClick={handleNewChat}
-          className="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
-        >
-          <span className="flex items-center gap-3">
-            <MessageSquare className="h-4 w-4 text-gray-500" />
-            New chat
-          </span>
-          <span className="hidden sm:flex items-center gap-0.5 text-xs text-gray-400">
-            <Command className="h-3 w-3" /> K
-          </span>
-        </button>
         {NAV_ITEMS.map(item => (
           <Link
             key={item.label}
@@ -238,34 +226,7 @@ const AIPropertySearch = () => {
         ))}
       </nav>
 
-      {/* Conversations */}
-      {conversations.length > 0 && (
-        <>
-          <div className="px-6 pt-4 pb-2 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
-            Recent
-          </div>
-          <ScrollArea className="flex-1 px-3">
-            <div className="space-y-0.5 pb-2">
-              {conversations.map(c => (
-                <button
-                  key={c.id}
-                  onClick={() => { setActiveConvId(c.id); setSidebarOpen(false); }}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-sm truncate flex items-center gap-2 transition-colors ${
-                    c.id === activeConvId
-                      ? 'bg-gray-100 text-gray-900'
-                      : 'text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  <MessageSquare className="h-3.5 w-3.5 flex-shrink-0 opacity-60" />
-                  <span className="truncate">{c.title}</span>
-                </button>
-              ))}
-            </div>
-          </ScrollArea>
-        </>
-      )}
-
-      {!conversations.length && <div className="flex-1" />}
+      <div className="flex-1" />
 
       {/* Language picker + back */}
       <div className="border-t border-gray-100 p-3 space-y-2">
