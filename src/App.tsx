@@ -48,6 +48,7 @@ const ExpensesBuyingPropertyTurkey = lazy(() => import("./pages/ExpensesBuyingPr
 const Newsletter = lazy(() => import("./components/Newsletter"));
 const ContactThankYou = lazy(() => import("./pages/ContactThankYou"));
 const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const MapSearch = lazy(() => import("./pages/MapSearch"));
 
 
@@ -163,6 +164,7 @@ function AppContent() {
       <Route path="/articles/:slug" element={<ArticlePage />} />
       <Route path="/articles/expenses-buying-property-turkey" element={<ExpensesBuyingPropertyTurkey />} />
       <Route path="/sitemap.xml" element={<SitemapXML />} />
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="*" element={<NotFound />} />
       </Routes>
     </>
