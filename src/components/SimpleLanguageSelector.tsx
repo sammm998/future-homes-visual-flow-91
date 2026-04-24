@@ -59,7 +59,7 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
       const slugFilter = `slug.eq.${propertySlug},slug_sv.eq.${propertySlug},slug_tr.eq.${propertySlug},slug_ar.eq.${propertySlug},slug_ru.eq.${propertySlug},slug_no.eq.${propertySlug},slug_da.eq.${propertySlug},slug_fa.eq.${propertySlug},slug_ur.eq.${propertySlug},slug_es.eq.${propertySlug},slug_de.eq.${propertySlug},slug_fr.eq.${propertySlug},slug_id.eq.${propertySlug}`;
       const { data } = await supabase
         .from('properties')
-        .select('slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, slug_es, slug_de, slug_fr, slug_id')
+        .select('*')
         .or(slugFilter)
         .eq('is_active', true)
         .maybeSingle();
