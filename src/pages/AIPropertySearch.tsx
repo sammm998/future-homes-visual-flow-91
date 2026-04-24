@@ -251,7 +251,7 @@ const AIPropertySearch = () => {
             ))}
           </div>
         </div>
-        <Link to="/">
+        <Link to={`/${langParam}`}>
           <Button variant="ghost" className="w-full justify-start gap-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100">
             <ArrowLeft className="h-4 w-4" />
             Back to website
