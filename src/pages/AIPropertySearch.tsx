@@ -521,9 +521,9 @@ const AIPropertySearch = () => {
                   animate={{ opacity: 1 }}
                   className="flex gap-4"
                 >
-                  <Avatar className="h-9 w-9 flex-shrink-0">
-                    <AvatarImage src={emmaAvatar} alt="Emma" />
-                    <AvatarFallback className="bg-blue-600 text-white text-xs">E</AvatarFallback>
+                  <Avatar className="h-12 w-12 flex-shrink-0 ring-2 ring-white shadow-md">
+                    <AvatarImage src={emmaAvatar} alt="Emma" className="object-cover" />
+                    <AvatarFallback className="bg-blue-600 text-white text-sm">E</AvatarFallback>
                   </Avatar>
                   <div className="flex items-center gap-1.5 pt-3">
                     <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
