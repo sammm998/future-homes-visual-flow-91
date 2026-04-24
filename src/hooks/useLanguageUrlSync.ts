@@ -62,11 +62,11 @@ export const useLanguageUrlSync = () => {
 
     // Quick check: if path segment already matches, slug might still need updating
     const syncPropertyUrl = async () => {
-      const slugFilter = `slug.eq.${currentSlug},slug_sv.eq.${currentSlug},slug_tr.eq.${currentSlug},slug_ar.eq.${currentSlug},slug_ru.eq.${currentSlug},slug_no.eq.${currentSlug},slug_da.eq.${currentSlug},slug_fa.eq.${currentSlug},slug_ur.eq.${currentSlug}`;
+      const slugFilter = `slug.eq.${currentSlug},slug_sv.eq.${currentSlug},slug_tr.eq.${currentSlug},slug_ar.eq.${currentSlug},slug_ru.eq.${currentSlug},slug_no.eq.${currentSlug},slug_da.eq.${currentSlug},slug_fa.eq.${currentSlug},slug_ur.eq.${currentSlug},slug_es.eq.${currentSlug},slug_de.eq.${currentSlug},slug_fr.eq.${currentSlug},slug_id.eq.${currentSlug}`;
 
       const { data } = await supabase
         .from('properties')
-        .select('slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur')
+        .select('slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, slug_es, slug_de, slug_fr, slug_id')
         .or(slugFilter)
         .eq('is_active', true)
         .maybeSingle();
