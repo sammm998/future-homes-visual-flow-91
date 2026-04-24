@@ -8,12 +8,10 @@ import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
-  MapPin, Bed, Bath, Maximize, ArrowUp, Plus, Menu,
-  ArrowLeft, BookOpen, Building2, Users, UserCog, PhoneCall,
+  MapPin, Bed, Bath, Maximize, ArrowUp, Plus,
+  BookOpen, Building2,
   PenLine, Volume2, VolumeX, Mic, Search, TrendingUp, Map as MapIcon, Image as ImageIcon,
-  Globe, PanelLeftClose,
 } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
 import emmaAvatar from '@/assets/emma-ai-assistant.png';
@@ -88,8 +86,6 @@ const AIPropertySearch = () => {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
   const [readMode, setReadMode] = useState<ReadMode>('write');
 
   const scrollRef = useRef<HTMLDivElement>(null);
