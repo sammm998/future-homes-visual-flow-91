@@ -6,11 +6,12 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const SUPPORTED_LANGUAGES = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur'];
+const SUPPORTED_LANGUAGES = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id'];
 
 const LANGUAGE_NAMES: Record<string, string> = {
   'sv': 'Swedish', 'tr': 'Turkish', 'ar': 'Arabic', 'ru': 'Russian',
-  'no': 'Norwegian', 'da': 'Danish', 'fa': 'Persian/Farsi', 'ur': 'Urdu'
+  'no': 'Norwegian', 'da': 'Danish', 'fa': 'Persian/Farsi', 'ur': 'Urdu',
+  'es': 'Spanish', 'de': 'German', 'fr': 'French', 'id': 'Indonesian'
 };
 
 const TRANSLATION_EXAMPLES: Record<string, { en: string, translated: string }> = {
@@ -21,7 +22,11 @@ const TRANSLATION_EXAMPLES: Record<string, { en: string, translated: string }> =
   'no': { en: 'Luxury apartments with sea view in Antalya', translated: 'Luksus leiligheter med havutsikt i Antalya' },
   'da': { en: 'Luxury apartments with sea view in Antalya', translated: 'Luksus lejligheder med havudsigt i Antalya' },
   'fa': { en: 'Luxury apartments with sea view in Antalya', translated: 'آپارتمان های لوکس با منظره دریا در Antalya' },
-  'ur': { en: 'Luxury apartments with sea view in Antalya', translated: 'Antalya میں سمندری نظارے والے پرتعیش اپارٹمنٹس' }
+  'ur': { en: 'Luxury apartments with sea view in Antalya', translated: 'Antalya میں سمندری نظارے والے پرتعیش اپارٹمنٹس' },
+  'es': { en: 'Luxury apartments with sea view in Antalya', translated: 'Apartamentos de lujo con vistas al mar en Antalya' },
+  'de': { en: 'Luxury apartments with sea view in Antalya', translated: 'Luxuriöse Wohnungen mit Meerblick in Antalya' },
+  'fr': { en: 'Luxury apartments with sea view in Antalya', translated: 'Appartements de luxe avec vue sur la mer à Antalya' },
+  'id': { en: 'Luxury apartments with sea view in Antalya', translated: 'Apartemen mewah dengan pemandangan laut di Antalya' }
 };
 
 function generateSlug(text: string): string {
