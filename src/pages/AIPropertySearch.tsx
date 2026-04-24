@@ -84,8 +84,8 @@ const AIPropertySearch = () => {
   const propertyPath = getTranslatedPropertyPath(lang);
   const langParam = buildLangParam(lang);
 
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [activeConvId, setActiveConvId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -95,72 +95,12 @@ const AIPropertySearch = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Load conversations from localStorage
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        const restored = parsed.map((c: any) => ({
-          ...c,
-          createdAt: new Date(c.createdAt),
-          messages: c.messages.map((m: any) => ({ ...m, timestamp: new Date(m.timestamp) })),
-        }));
-        setConversations(restored);
-      }
-    } catch (e) {
-      console.error('Failed to load conversations', e);
-    }
-  }, []);
-
-  // Persist conversations
-  useEffect(() => {
-    if (conversations.length > 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations));
-    }
-  }, [conversations]);
-
-  // Cmd/Ctrl + K shortcut for new chat
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        handleNewChat();
-      }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const activeConv = conversations.find(c => c.id === activeConvId);
-  const messages = activeConv?.messages ?? [];
-
   // Auto-scroll on new messages
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
     }
   }, [messages, isLoading]);
-
-  const createNewConversation = (): Conversation => {
-    const newConv: Conversation = {
-      id: crypto.randomUUID(),
-      title: 'New chat',
-      messages: [],
-      conversationId: null,
-      createdAt: new Date(),
-    };
-    setConversations(prev => [newConv, ...prev]);
-    setActiveConvId(newConv.id);
-    return newConv;
-  };
-
-  const handleNewChat = () => {
-    setActiveConvId(null);
-    setSidebarOpen(false);
-    setTimeout(() => inputRef.current?.focus(), 100);
-  };
 
   const speak = (text: string) => {
     if (readMode !== 'speak' || typeof window === 'undefined' || !window.speechSynthesis) return;
@@ -178,9 +118,6 @@ const AIPropertySearch = () => {
     const trimmed = text.trim();
     if (!trimmed || isLoading) return;
 
-    let conv = activeConv;
-    if (!conv) conv = createNewConversation();
-
     const userMessage: Message = {
       id: crypto.randomUUID(),
       text: trimmed,
@@ -188,26 +125,17 @@ const AIPropertySearch = () => {
       timestamp: new Date(),
     };
 
-    const isFirstMessage = conv.messages.length === 0;
-    const updatedMessages = [...conv.messages, userMessage];
-
-    setConversations(prev => prev.map(c =>
-      c.id === conv!.id
-        ? { ...c, messages: updatedMessages, title: isFirstMessage ? trimmed.slice(0, 40) : c.title }
-        : c
-    ));
-
+    const historySnapshot = messages.map(m => ({ sender: m.sender, text: m.text }));
+    setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
 
     try {
-      const conversationHistory = conv.messages.map(m => ({ sender: m.sender, text: m.text }));
-
       const { data, error } = await supabase.functions.invoke('ai-chat', {
         body: {
           message: trimmed,
-          conversationHistory,
-          conversationId: conv.conversationId,
+          conversationHistory: historySnapshot,
+          conversationId,
         },
       });
 
@@ -223,15 +151,8 @@ const AIPropertySearch = () => {
         articleLinks: data?.articleLinks ?? [],
       };
 
-      setConversations(prev => prev.map(c =>
-        c.id === conv!.id
-          ? {
-              ...c,
-              messages: [...updatedMessages, aiMessage],
-              conversationId: data?.conversationId ?? c.conversationId,
-            }
-          : c
-      ));
+      setMessages(prev => [...prev, aiMessage]);
+      if (data?.conversationId) setConversationId(data.conversationId);
       speak(aiText);
     } catch (err) {
       console.error('AI chat error:', err);
@@ -241,9 +162,7 @@ const AIPropertySearch = () => {
         sender: 'ai',
         timestamp: new Date(),
       };
-      setConversations(prev => prev.map(c =>
-        c.id === conv!.id ? { ...c, messages: [...updatedMessages, errorMessage] } : c
-      ));
+      setMessages(prev => [...prev, errorMessage]);
       toast({
         title: 'Connection Error',
         description: 'Could not reach AI assistant.',
