@@ -19,7 +19,7 @@ export const useProperties = () => {
         const data = await resilientQuery(async () => {
           const { data, error } = await enhancedSupabase
             .from('properties')
-            .select('*, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur')
+            .select('*, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, slug_es, slug_de, slug_fr, slug_id')
             .eq('is_active', true)
             .not('status', 'ilike', '%sold%')
             .order('created_at', { ascending: false });
