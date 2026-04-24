@@ -164,6 +164,7 @@ function AppContent() {
       <Route path="/articles/:slug" element={<ArticlePage />} />
       <Route path="/articles/expenses-buying-property-turkey" element={<ExpensesBuyingPropertyTurkey />} />
       <Route path="/sitemap.xml" element={<SitemapXML />} />
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="*" element={<NotFound />} />
       </Routes>
     </>
