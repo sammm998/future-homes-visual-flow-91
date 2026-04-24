@@ -47,14 +47,6 @@ interface Message {
   articleLinks?: ArticleLink[];
 }
 
-interface Conversation {
-  id: string;
-  title: string;
-  messages: Message[];
-  conversationId: string | null;
-  createdAt: Date;
-}
-
 const SUGGESTED_PROMPTS = [
   { icon: Search, text: 'Find my dream apartment in Dubai' },
   { icon: TrendingUp, text: 'Which areas are best to invest in?' },
@@ -84,8 +76,6 @@ const LANGUAGES = [
 ];
 
 type ReadMode = 'write' | 'speak' | 'muted';
-
-const STORAGE_KEY = 'futurehomes_ai_conversations';
 
 const AIPropertySearch = () => {
   const { toast } = useToast();
