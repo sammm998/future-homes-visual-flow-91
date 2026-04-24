@@ -8,13 +8,12 @@ import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
-  MapPin, Bed, Bath, Maximize, ArrowUp, Plus, MessageSquare, Menu,
+  MapPin, Bed, Bath, Maximize, ArrowUp, Plus, Menu,
   ArrowLeft, BookOpen, Building2, Users, UserCog, PhoneCall,
   PenLine, Volume2, VolumeX, Mic, Search, TrendingUp, Map as MapIcon, Image as ImageIcon,
-  Globe, PanelLeftClose, Command,
+  Globe, PanelLeftClose,
 } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
 import emmaAvatar from '@/assets/avatars/emma-avatar.jpg';
@@ -48,14 +47,6 @@ interface Message {
   articleLinks?: ArticleLink[];
 }
 
-interface Conversation {
-  id: string;
-  title: string;
-  messages: Message[];
-  conversationId: string | null;
-  createdAt: Date;
-}
-
 const SUGGESTED_PROMPTS = [
   { icon: Search, text: 'Find my dream apartment in Dubai' },
   { icon: TrendingUp, text: 'Which areas are best to invest in?' },
@@ -86,8 +77,6 @@ const LANGUAGES = [
 
 type ReadMode = 'write' | 'speak' | 'muted';
 
-const STORAGE_KEY = 'futurehomes_ai_conversations';
-
 const AIPropertySearch = () => {
   const { toast } = useToast();
   const routeLocation = useLocation();
@@ -95,8 +84,8 @@ const AIPropertySearch = () => {
   const propertyPath = getTranslatedPropertyPath(lang);
   const langParam = buildLangParam(lang);
 
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [activeConvId, setActiveConvId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -106,72 +95,12 @@ const AIPropertySearch = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Load conversations from localStorage
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        const restored = parsed.map((c: any) => ({
-          ...c,
-          createdAt: new Date(c.createdAt),
-          messages: c.messages.map((m: any) => ({ ...m, timestamp: new Date(m.timestamp) })),
-        }));
-        setConversations(restored);
-      }
-    } catch (e) {
-      console.error('Failed to load conversations', e);
-    }
-  }, []);
-
-  // Persist conversations
-  useEffect(() => {
-    if (conversations.length > 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations));
-    }
-  }, [conversations]);
-
-  // Cmd/Ctrl + K shortcut for new chat
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        handleNewChat();
-      }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const activeConv = conversations.find(c => c.id === activeConvId);
-  const messages = activeConv?.messages ?? [];
-
   // Auto-scroll on new messages
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
     }
   }, [messages, isLoading]);
-
-  const createNewConversation = (): Conversation => {
-    const newConv: Conversation = {
-      id: crypto.randomUUID(),
-      title: 'New chat',
-      messages: [],
-      conversationId: null,
-      createdAt: new Date(),
-    };
-    setConversations(prev => [newConv, ...prev]);
-    setActiveConvId(newConv.id);
-    return newConv;
-  };
-
-  const handleNewChat = () => {
-    setActiveConvId(null);
-    setSidebarOpen(false);
-    setTimeout(() => inputRef.current?.focus(), 100);
-  };
 
   const speak = (text: string) => {
     if (readMode !== 'speak' || typeof window === 'undefined' || !window.speechSynthesis) return;
@@ -189,9 +118,6 @@ const AIPropertySearch = () => {
     const trimmed = text.trim();
     if (!trimmed || isLoading) return;
 
-    let conv = activeConv;
-    if (!conv) conv = createNewConversation();
-
     const userMessage: Message = {
       id: crypto.randomUUID(),
       text: trimmed,
@@ -199,26 +125,17 @@ const AIPropertySearch = () => {
       timestamp: new Date(),
     };
 
-    const isFirstMessage = conv.messages.length === 0;
-    const updatedMessages = [...conv.messages, userMessage];
-
-    setConversations(prev => prev.map(c =>
-      c.id === conv!.id
-        ? { ...c, messages: updatedMessages, title: isFirstMessage ? trimmed.slice(0, 40) : c.title }
-        : c
-    ));
-
+    const historySnapshot = messages.map(m => ({ sender: m.sender, text: m.text }));
+    setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
 
     try {
-      const conversationHistory = conv.messages.map(m => ({ sender: m.sender, text: m.text }));
-
       const { data, error } = await supabase.functions.invoke('ai-chat', {
         body: {
           message: trimmed,
-          conversationHistory,
-          conversationId: conv.conversationId,
+          conversationHistory: historySnapshot,
+          conversationId,
         },
       });
 
@@ -234,15 +151,8 @@ const AIPropertySearch = () => {
         articleLinks: data?.articleLinks ?? [],
       };
 
-      setConversations(prev => prev.map(c =>
-        c.id === conv!.id
-          ? {
-              ...c,
-              messages: [...updatedMessages, aiMessage],
-              conversationId: data?.conversationId ?? c.conversationId,
-            }
-          : c
-      ));
+      setMessages(prev => [...prev, aiMessage]);
+      if (data?.conversationId) setConversationId(data.conversationId);
       speak(aiText);
     } catch (err) {
       console.error('AI chat error:', err);
@@ -252,9 +162,7 @@ const AIPropertySearch = () => {
         sender: 'ai',
         timestamp: new Date(),
       };
-      setConversations(prev => prev.map(c =>
-        c.id === conv!.id ? { ...c, messages: [...updatedMessages, errorMessage] } : c
-      ));
+      setMessages(prev => [...prev, errorMessage]);
       toast({
         title: 'Connection Error',
         description: 'Could not reach AI assistant.',
@@ -306,18 +214,6 @@ const AIPropertySearch = () => {
 
       {/* Nav */}
       <nav className="px-3 py-3 space-y-0.5">
-        <button
-          onClick={handleNewChat}
-          className="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
-        >
-          <span className="flex items-center gap-3">
-            <MessageSquare className="h-4 w-4 text-gray-500" />
-            New chat
-          </span>
-          <span className="hidden sm:flex items-center gap-0.5 text-xs text-gray-400">
-            <Command className="h-3 w-3" /> K
-          </span>
-        </button>
         {NAV_ITEMS.map(item => (
           <Link
             key={item.label}
@@ -330,34 +226,7 @@ const AIPropertySearch = () => {
         ))}
       </nav>
 
-      {/* Conversations */}
-      {conversations.length > 0 && (
-        <>
-          <div className="px-6 pt-4 pb-2 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
-            Recent
-          </div>
-          <ScrollArea className="flex-1 px-3">
-            <div className="space-y-0.5 pb-2">
-              {conversations.map(c => (
-                <button
-                  key={c.id}
-                  onClick={() => { setActiveConvId(c.id); setSidebarOpen(false); }}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-sm truncate flex items-center gap-2 transition-colors ${
-                    c.id === activeConvId
-                      ? 'bg-gray-100 text-gray-900'
-                      : 'text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  <MessageSquare className="h-3.5 w-3.5 flex-shrink-0 opacity-60" />
-                  <span className="truncate">{c.title}</span>
-                </button>
-              ))}
-            </div>
-          </ScrollArea>
-        </>
-      )}
-
-      {!conversations.length && <div className="flex-1" />}
+      <div className="flex-1" />
 
       {/* Language picker + back */}
       <div className="border-t border-gray-100 p-3 space-y-2">
