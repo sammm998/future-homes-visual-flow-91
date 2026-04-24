@@ -447,7 +447,11 @@ export type Database = {
           slug: string | null
           slug_ar: string | null
           slug_da: string | null
+          slug_de: string | null
+          slug_es: string | null
           slug_fa: string | null
+          slug_fr: string | null
+          slug_id: string | null
           slug_no: string | null
           slug_ru: string | null
           slug_sv: string | null
@@ -492,7 +496,11 @@ export type Database = {
           slug?: string | null
           slug_ar?: string | null
           slug_da?: string | null
+          slug_de?: string | null
+          slug_es?: string | null
           slug_fa?: string | null
+          slug_fr?: string | null
+          slug_id?: string | null
           slug_no?: string | null
           slug_ru?: string | null
           slug_sv?: string | null
@@ -537,7 +545,11 @@ export type Database = {
           slug?: string | null
           slug_ar?: string | null
           slug_da?: string | null
+          slug_de?: string | null
+          slug_es?: string | null
           slug_fa?: string | null
+          slug_fr?: string | null
+          slug_id?: string | null
           slug_no?: string | null
           slug_ru?: string | null
           slug_sv?: string | null
