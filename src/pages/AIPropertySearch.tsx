@@ -217,7 +217,7 @@ const AIPropertySearch = () => {
         {NAV_ITEMS.map(item => (
           <Link
             key={item.label}
-            to={item.to}
+            to={`${item.to}${langParam}${item.hash ?? ''}`}
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
           >
             <item.icon className="h-4 w-4 text-gray-500" />
