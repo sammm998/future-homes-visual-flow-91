@@ -52,7 +52,6 @@ const SUGGESTED_PROMPTS = [
   { icon: ImageIcon, text: 'Show photos of modern luxury villas' },
 ];
 
-
 const LANGUAGES = [
   { code: 'en', label: 'English' },
   { code: 'es', label: 'Español' },
@@ -176,7 +175,6 @@ const AIPropertySearch = () => {
   };
 
   const handleLanguageChange = (code: string) => {
-    // Persist language choice site-wide so all subsequent URLs translate
     if (code === 'en') {
       localStorage.removeItem('preferred_language');
     } else {
@@ -329,111 +327,121 @@ const AIPropertySearch = () => {
             // ============ Chat thread ============
             <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
               <AnimatePresence initial={false}>
-                {messages.map((msg) => (
-                  <motion.div
-                    key={msg.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex gap-4"
-                  >
-                    <Avatar className="h-12 w-12 flex-shrink-0 ring-2 ring-white shadow-md">
-                      {msg.sender === 'ai' ? (
-                        <>
+                {messages.map((msg) => {
+                  const isUser = msg.sender === 'user';
+                  return (
+                    <motion.div
+                      key={msg.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className={`flex gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
+                    >
+                      {isUser ? (
+                        <Avatar className="h-9 w-9 flex-shrink-0">
+                          <AvatarFallback className="bg-gray-200 text-gray-700 text-xs">You</AvatarFallback>
+                        </Avatar>
+                      ) : (
+                        <Avatar className="h-12 w-12 flex-shrink-0 ring-2 ring-white shadow-md">
                           <AvatarImage src={emmaAvatar} alt="Emma" className="object-cover" />
                           <AvatarFallback className="bg-blue-600 text-white text-sm">E</AvatarFallback>
-                        </>
-                      ) : (
-                        <AvatarFallback className="bg-gray-200 text-gray-700 text-xs">You</AvatarFallback>
+                        </Avatar>
                       )}
-                    </Avatar>
-                    <div className="flex-1 min-w-0 space-y-3">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-sm font-semibold text-gray-900">
-                          {msg.sender === 'ai' ? 'Emma' : 'You'}
-                        </span>
-                      </div>
-                      <div className="prose prose-sm max-w-none prose-p:my-2 prose-headings:text-gray-900 prose-strong:text-gray-900 prose-li:my-0 prose-a:text-blue-600 text-gray-700">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                          {msg.text}
-                        </ReactMarkdown>
-                      </div>
 
-                      {msg.propertyLinks && msg.propertyLinks.length > 0 && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                          {msg.propertyLinks.map((p) => (
-                            <Link key={p.id} to={`/${propertyPath}/${p.id}${langParam}`}>
-                              <Card className="overflow-hidden bg-white border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all group">
-                                {p.image && (
-                                  <div className="aspect-video overflow-hidden bg-gray-100">
-                                    <img
-                                      src={p.image}
-                                      alt={p.title}
-                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                      loading="lazy"
-                                    />
-                                  </div>
-                                )}
-                                <CardContent className="p-3">
-                                  <h4 className="font-semibold text-sm text-gray-900 line-clamp-1 mb-1">{p.title}</h4>
-                                  <div className="flex items-center gap-1 text-gray-500 text-xs mb-2">
-                                    <MapPin className="h-3 w-3" />
-                                    <span className="truncate">{p.location}</span>
-                                  </div>
-                                  <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
-                                    {p.bedrooms != null && (
-                                      <span className="flex items-center gap-1"><Bed className="h-3 w-3" />{p.bedrooms}</span>
-                                    )}
-                                    {p.bathrooms != null && (
-                                      <span className="flex items-center gap-1"><Bath className="h-3 w-3" />{p.bathrooms}</span>
-                                    )}
-                                    {p.area != null && (
-                                      <span className="flex items-center gap-1"><Maximize className="h-3 w-3" />{p.area}m²</span>
-                                    )}
-                                  </div>
-                                  <div className="text-sm font-bold text-blue-600">{p.price}</div>
-                                </CardContent>
-                              </Card>
-                            </Link>
-                          ))}
+                      <div className={`flex-1 min-w-0 space-y-3 ${isUser ? 'flex flex-col items-end' : ''}`}>
+                        <div className={`max-w-[85%] ${isUser ? 'text-right' : ''}`}>
+                          <div className={`text-sm font-semibold text-gray-900 mb-1 ${isUser ? 'text-right' : ''}`}>
+                            {isUser ? 'You' : 'Emma'}
+                          </div>
+                          {isUser ? (
+                            <div className="inline-block bg-blue-600 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm whitespace-pre-wrap text-left">
+                              {msg.text}
+                            </div>
+                          ) : (
+                            <div className="prose prose-sm max-w-none prose-p:my-2 prose-headings:text-gray-900 prose-strong:text-gray-900 prose-li:my-0 prose-a:text-blue-600 text-gray-700">
+                              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {msg.text}
+                              </ReactMarkdown>
+                            </div>
+                          )}
                         </div>
-                      )}
 
-                      {msg.articleLinks && msg.articleLinks.length > 0 && (
-                        <div className="space-y-2 pt-2">
-                          <p className="text-xs uppercase tracking-wide text-gray-400 font-medium flex items-center gap-1.5">
-                            <BookOpen className="h-3 w-3" />
-                            Related guides
-                          </p>
-                          {msg.articleLinks.map((a) => (
-                            <Link key={a.id} to={`/article/${a.slug}${langParam}`}>
-                              <Card className="bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
-                                <CardContent className="p-3 flex gap-3 items-center">
-                                  {a.image && (
-                                    <img src={a.image} alt={a.title} className="h-14 w-14 object-cover rounded-md flex-shrink-0" loading="lazy" />
+                        {!isUser && msg.propertyLinks && msg.propertyLinks.length > 0 && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 w-full">
+                            {msg.propertyLinks.map((p) => (
+                              <Link key={p.id} to={`/${propertyPath}/${p.id}${langParam}`}>
+                                <Card className="overflow-hidden bg-white border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all group">
+                                  {p.image && (
+                                    <div className="aspect-video overflow-hidden bg-gray-100">
+                                      <img
+                                        src={p.image}
+                                        alt={p.title}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                        loading="lazy"
+                                      />
+                                    </div>
                                   )}
-                                  <div className="flex-1 min-w-0">
-                                    <h5 className="text-sm font-medium text-gray-900 line-clamp-1">{a.title}</h5>
-                                    {a.excerpt && (
-                                      <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">{a.excerpt}</p>
+                                  <CardContent className="p-3">
+                                    <h4 className="font-semibold text-sm text-gray-900 line-clamp-1 mb-1">{p.title}</h4>
+                                    <div className="flex items-center gap-1 text-gray-500 text-xs mb-2">
+                                      <MapPin className="h-3 w-3" />
+                                      <span className="truncate">{p.location}</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
+                                      {p.bedrooms != null && (
+                                        <span className="flex items-center gap-1"><Bed className="h-3 w-3" />{p.bedrooms}</span>
+                                      )}
+                                      {p.bathrooms != null && (
+                                        <span className="flex items-center gap-1"><Bath className="h-3 w-3" />{p.bathrooms}</span>
+                                      )}
+                                      {p.area != null && (
+                                        <span className="flex items-center gap-1"><Maximize className="h-3 w-3" />{p.area}m²</span>
+                                      )}
+                                    </div>
+                                    <div className="text-sm font-bold text-blue-600">{p.price}</div>
+                                  </CardContent>
+                                </Card>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+
+                        {!isUser && msg.articleLinks && msg.articleLinks.length > 0 && (
+                          <div className="space-y-2 pt-2 w-full">
+                            <p className="text-xs uppercase tracking-wide text-gray-400 font-medium flex items-center gap-1.5">
+                              <BookOpen className="h-3 w-3" />
+                              Related guides
+                            </p>
+                            {msg.articleLinks.map((a) => (
+                              <Link key={a.id} to={`/article/${a.slug}${langParam}`}>
+                                <Card className="bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
+                                  <CardContent className="p-3 flex gap-3 items-center">
+                                    {a.image && (
+                                      <img src={a.image} alt={a.title} className="h-14 w-14 object-cover rounded-md flex-shrink-0" loading="lazy" />
                                     )}
-                                  </div>
-                                </CardContent>
-                              </Card>
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
+                                    <div className="flex-1 min-w-0">
+                                      <h5 className="text-sm font-medium text-gray-900 line-clamp-1">{a.title}</h5>
+                                      {a.excerpt && (
+                                        <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">{a.excerpt}</p>
+                                      )}
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </AnimatePresence>
 
               {isLoading && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="flex gap-4"
+                  className="flex gap-3"
                 >
                   <Avatar className="h-12 w-12 flex-shrink-0 ring-2 ring-white shadow-md">
                     <AvatarImage src={emmaAvatar} alt="Emma" className="object-cover" />
