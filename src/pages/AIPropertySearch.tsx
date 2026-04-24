@@ -276,45 +276,31 @@ const AIPropertySearch = () => {
         canonicalUrl="https://futurehomesinternational.com/ai-property-search"
       />
 
-      {/* Desktop sidebar */}
-      {desktopSidebarOpen && (
-        <aside className="hidden md:flex w-72 flex-shrink-0">
-          <Sidebar />
-        </aside>
-      )}
-
-      {/* Mobile sidebar */}
-      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-        <SheetContent side="left" className="p-0 w-72 bg-white">
-          <Sidebar />
-        </SheetContent>
-      </Sheet>
-
       {/* Main */}
       <main className="flex-1 flex flex-col min-w-0 bg-white">
         {/* Top bar */}
         <header className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            {!desktopSidebarOpen && (
-              <button
-                className="hidden md:flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:bg-gray-100"
-                onClick={() => setDesktopSidebarOpen(true)}
-                aria-label="Open sidebar"
-              >
-                <Menu className="h-4 w-4" />
-              </button>
-            )}
-            <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden text-gray-600 hover:text-gray-900 hover:bg-gray-100">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-            </Sheet>
-          </div>
-          <Link to={`/${langParam}`} className="text-xs text-gray-500 hover:text-gray-700">
-            futurehomesinternational.com
+          <Link to={`/${langParam}`} className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-md bg-[#0a2540] flex items-center justify-center">
+              <Building2 className="h-4 w-4 text-white" />
+            </div>
+            <span className="font-semibold text-sm tracking-tight">Future Homes AI</span>
           </Link>
+          <div className="flex items-center gap-3">
+            <select
+              value={lang}
+              onChange={(e) => handleLanguageChange(e.target.value)}
+              className="text-xs text-gray-600 bg-transparent border border-gray-200 rounded-md px-2 py-1 focus:outline-none focus:border-gray-400"
+              aria-label="Language"
+            >
+              {LANGUAGES.map(l => (
+                <option key={l.code} value={l.code}>{l.label}</option>
+              ))}
+            </select>
+            <Link to={`/${langParam}`} className="text-xs text-gray-500 hover:text-gray-700 hidden sm:inline">
+              futurehomesinternational.com
+            </Link>
+          </div>
         </header>
 
         {/* Content area */}
