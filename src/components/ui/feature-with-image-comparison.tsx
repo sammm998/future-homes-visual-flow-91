@@ -38,7 +38,7 @@ function Feature() {
               {t('home.before_after_subtitle')}
             </p>
           </div>
-          <div className="pt-12 w-full">
+          <div className="pt-12 w-full" dir="ltr">
             <div
               className="relative aspect-video w-full h-full overflow-hidden rounded-2xl select-none"
               onMouseMove={onMouseMove}

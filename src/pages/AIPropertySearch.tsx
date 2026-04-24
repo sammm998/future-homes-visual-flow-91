@@ -10,9 +10,14 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Sparkles, MapPin, Bed, Bath, Maximize, Send, Plus, MessageSquare, Menu, ArrowLeft, BookOpen } from 'lucide-react';
+import {
+  MapPin, Bed, Bath, Maximize, ArrowUp, Plus, MessageSquare, Menu,
+  ArrowLeft, BookOpen, Building2, Users, UserCog, PhoneCall,
+  PenLine, Volume2, VolumeX, Mic, Search, TrendingUp, Map as MapIcon, Image as ImageIcon,
+  Globe, PanelLeftClose, Command,
+} from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
-import aiAvatar from "@/assets/avatars/ai-avatar.jpg";
+import emmaAvatar from '@/assets/avatars/emma-avatar.jpg';
 import { buildLangParam, getCurrentLanguage, getTranslatedPropertyPath } from '@/utils/slugHelpers';
 
 interface PropertyLink {
@@ -37,7 +42,7 @@ interface ArticleLink {
 interface Message {
   id: string;
   text: string;
-  sender: "user" | "ai";
+  sender: 'user' | 'ai';
   timestamp: Date;
   propertyLinks?: PropertyLink[];
   articleLinks?: ArticleLink[];
@@ -52,11 +57,34 @@ interface Conversation {
 }
 
 const SUGGESTED_PROMPTS = [
-  { icon: "🏖️", text: "Apartments in Antalya near the beach under €200,000" },
-  { icon: "🏙️", text: "Luxury villas in Dubai Marina with sea view" },
-  { icon: "🌴", text: "Investment properties in Cyprus" },
-  { icon: "📚", text: "How does Turkish citizenship by investment work?" },
+  { icon: Search, text: 'Find my dream apartment in Dubai' },
+  { icon: TrendingUp, text: 'Which areas are best to invest in?' },
+  { icon: MapIcon, text: 'Plan a viewing trip in Antalya' },
+  { icon: ImageIcon, text: 'Show photos of modern luxury villas' },
 ];
+
+const NAV_ITEMS = [
+  { icon: Building2, label: 'Properties', to: '/property-for-sale-in-turkey' },
+  { icon: Users, label: 'Management', to: '/about-us' },
+  { icon: UserCog, label: 'Agents', to: '/about-us#team' },
+  { icon: PhoneCall, label: 'Get in Touch', to: '/contact-us' },
+];
+
+const LANGUAGES = [
+  { code: 'en', label: 'English' },
+  { code: 'es', label: 'Español' },
+  { code: 'sv', label: 'Svenska' },
+  { code: 'da', label: 'Dansk' },
+  { code: 'de', label: 'Deutsch' },
+  { code: 'no', label: 'Norsk' },
+  { code: 'ru', label: 'Русский' },
+  { code: 'ur', label: 'اردو' },
+  { code: 'ar', label: 'العربية' },
+  { code: 'fa', label: 'فارسی' },
+  { code: 'tr', label: 'Türkçe' },
+];
+
+type ReadMode = 'write' | 'speak' | 'muted';
 
 const STORAGE_KEY = 'futurehomes_ai_conversations';
 
@@ -69,9 +97,11 @@ const AIPropertySearch = () => {
 
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConvId, setActiveConvId] = useState<string | null>(null);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
+  const [readMode, setReadMode] = useState<ReadMode>('write');
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -88,7 +118,6 @@ const AIPropertySearch = () => {
           messages: c.messages.map((m: any) => ({ ...m, timestamp: new Date(m.timestamp) })),
         }));
         setConversations(restored);
-        if (restored.length > 0) setActiveConvId(restored[0].id);
       }
     } catch (e) {
       console.error('Failed to load conversations', e);
@@ -101,6 +130,19 @@ const AIPropertySearch = () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations));
     }
   }, [conversations]);
+
+  // Cmd/Ctrl + K shortcut for new chat
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        handleNewChat();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const activeConv = conversations.find(c => c.id === activeConvId);
   const messages = activeConv?.messages ?? [];
@@ -115,7 +157,7 @@ const AIPropertySearch = () => {
   const createNewConversation = (): Conversation => {
     const newConv: Conversation = {
       id: crypto.randomUUID(),
-      title: "New chat",
+      title: 'New chat',
       messages: [],
       conversationId: null,
       createdAt: new Date(),
@@ -126,9 +168,21 @@ const AIPropertySearch = () => {
   };
 
   const handleNewChat = () => {
-    createNewConversation();
+    setActiveConvId(null);
     setSidebarOpen(false);
     setTimeout(() => inputRef.current?.focus(), 100);
+  };
+
+  const speak = (text: string) => {
+    if (readMode !== 'speak' || typeof window === 'undefined' || !window.speechSynthesis) return;
+    try {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = lang || 'en';
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utter);
+    } catch {
+      /* ignore */
+    }
   };
 
   const sendMessage = async (text: string) => {
@@ -141,7 +195,7 @@ const AIPropertySearch = () => {
     const userMessage: Message = {
       id: crypto.randomUUID(),
       text: trimmed,
-      sender: "user",
+      sender: 'user',
       timestamp: new Date(),
     };
 
@@ -154,7 +208,7 @@ const AIPropertySearch = () => {
         : c
     ));
 
-    setInputValue("");
+    setInputValue('');
     setIsLoading(true);
 
     try {
@@ -170,10 +224,11 @@ const AIPropertySearch = () => {
 
       if (error) throw error;
 
+      const aiText = data?.response || "Sorry, I couldn't process that. Please try again.";
       const aiMessage: Message = {
         id: crypto.randomUUID(),
-        text: data?.response || "Sorry, I couldn't process that. Please try again.",
-        sender: "ai",
+        text: aiText,
+        sender: 'ai',
         timestamp: new Date(),
         propertyLinks: data?.propertyLinks ?? [],
         articleLinks: data?.articleLinks ?? [],
@@ -188,21 +243,22 @@ const AIPropertySearch = () => {
             }
           : c
       ));
+      speak(aiText);
     } catch (err) {
       console.error('AI chat error:', err);
       const errorMessage: Message = {
         id: crypto.randomUUID(),
         text: "I'm having trouble connecting right now. Please try again in a moment.",
-        sender: "ai",
+        sender: 'ai',
         timestamp: new Date(),
       };
       setConversations(prev => prev.map(c =>
         c.id === conv!.id ? { ...c, messages: [...updatedMessages, errorMessage] } : c
       ));
       toast({
-        title: "Connection Error",
-        description: "Could not reach AI assistant.",
-        variant: "destructive",
+        title: 'Connection Error',
+        description: 'Could not reach AI assistant.',
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -221,42 +277,113 @@ const AIPropertySearch = () => {
     }
   };
 
-  const ConversationsList = () => (
-    <div className="flex flex-col h-full bg-zinc-950 text-zinc-100">
-      <div className="p-3 border-b border-zinc-800">
-        <Button
-          onClick={handleNewChat}
-          variant="outline"
-          className="w-full justify-start gap-2 bg-transparent border-zinc-700 text-zinc-100 hover:bg-zinc-800 hover:text-white"
+  const handleLanguageChange = (code: string) => {
+    const params = new URLSearchParams(routeLocation.search);
+    if (code === 'en') params.delete('lang');
+    else params.set('lang', code);
+    const search = params.toString();
+    window.location.href = `/ai-property-search${search ? `?${search}` : ''}`;
+  };
+
+  const Sidebar = () => (
+    <div className="flex flex-col h-full bg-white text-gray-900 border-r border-gray-200">
+      {/* Logo + collapse */}
+      <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
+        <Link to="/" className="flex items-center gap-2">
+          <div className="h-8 w-8 rounded-md bg-[#0a2540] flex items-center justify-center">
+            <Building2 className="h-4 w-4 text-white" />
+          </div>
+          <span className="font-semibold text-sm tracking-tight">Future Homes AI</span>
+        </Link>
+        <button
+          className="hidden md:flex h-8 w-8 items-center justify-center rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+          onClick={() => setDesktopSidebarOpen(false)}
+          aria-label="Collapse sidebar"
         >
-          <Plus className="h-4 w-4" />
-          New chat
-        </Button>
+          <PanelLeftClose className="h-4 w-4" />
+        </button>
       </div>
-      <ScrollArea className="flex-1">
-        <div className="p-2 space-y-1">
-          {conversations.length === 0 && (
-            <p className="text-xs text-zinc-500 px-3 py-2">No conversations yet</p>
-          )}
-          {conversations.map(c => (
-            <button
-              key={c.id}
-              onClick={() => { setActiveConvId(c.id); setSidebarOpen(false); }}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm truncate flex items-center gap-2 transition-colors ${
-                c.id === activeConvId
-                  ? 'bg-zinc-800 text-white'
-                  : 'text-zinc-300 hover:bg-zinc-800/60'
-              }`}
-            >
-              <MessageSquare className="h-3.5 w-3.5 flex-shrink-0 opacity-60" />
-              <span className="truncate">{c.title}</span>
-            </button>
-          ))}
+
+      {/* Nav */}
+      <nav className="px-3 py-3 space-y-0.5">
+        <button
+          onClick={handleNewChat}
+          className="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+        >
+          <span className="flex items-center gap-3">
+            <MessageSquare className="h-4 w-4 text-gray-500" />
+            New chat
+          </span>
+          <span className="hidden sm:flex items-center gap-0.5 text-xs text-gray-400">
+            <Command className="h-3 w-3" /> K
+          </span>
+        </button>
+        {NAV_ITEMS.map(item => (
+          <Link
+            key={item.label}
+            to={item.to}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+          >
+            <item.icon className="h-4 w-4 text-gray-500" />
+            {item.label}
+          </Link>
+        ))}
+      </nav>
+
+      {/* Conversations */}
+      {conversations.length > 0 && (
+        <>
+          <div className="px-6 pt-4 pb-2 text-[10px] font-semibold uppercase tracking-wider text-gray-400">
+            Recent
+          </div>
+          <ScrollArea className="flex-1 px-3">
+            <div className="space-y-0.5 pb-2">
+              {conversations.map(c => (
+                <button
+                  key={c.id}
+                  onClick={() => { setActiveConvId(c.id); setSidebarOpen(false); }}
+                  className={`w-full text-left px-3 py-2 rounded-lg text-sm truncate flex items-center gap-2 transition-colors ${
+                    c.id === activeConvId
+                      ? 'bg-gray-100 text-gray-900'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <MessageSquare className="h-3.5 w-3.5 flex-shrink-0 opacity-60" />
+                  <span className="truncate">{c.title}</span>
+                </button>
+              ))}
+            </div>
+          </ScrollArea>
+        </>
+      )}
+
+      {!conversations.length && <div className="flex-1" />}
+
+      {/* Language picker + back */}
+      <div className="border-t border-gray-100 p-3 space-y-2">
+        <div className="px-2">
+          <div className="flex items-center gap-2 px-2 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+            <Globe className="h-3.5 w-3.5" />
+            {LANGUAGES.find(l => l.code === lang)?.label || 'English'}
+          </div>
+          <div className="grid grid-cols-2 gap-1 px-1">
+            {LANGUAGES.map(l => (
+              <button
+                key={l.code}
+                onClick={() => handleLanguageChange(l.code)}
+                className={`text-left px-2 py-1.5 text-xs rounded-md transition-colors ${
+                  l.code === lang
+                    ? 'bg-[#0a2540] text-white'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                {l.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </ScrollArea>
-      <div className="p-3 border-t border-zinc-800">
         <Link to="/">
-          <Button variant="ghost" className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800">
+          <Button variant="ghost" className="w-full justify-start gap-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100">
             <ArrowLeft className="h-4 w-4" />
             Back to website
           </Button>
@@ -266,79 +393,157 @@ const AIPropertySearch = () => {
   );
 
   return (
-    <div className="h-screen flex bg-zinc-900 text-zinc-100 overflow-hidden">
+    <div dir="ltr" className="h-screen flex bg-white text-gray-900 overflow-hidden">
       <SEOHead
         title="AI Property Search | Future Homes International"
-        description="Chat with our AI assistant trained on 180+ properties. Get personalized recommendations and explore our guides."
-        keywords="AI property search, real estate AI, property assistant, futurehomes"
+        description="Chat with Emma, your personal AI assistant trained on 180+ properties and our complete property guides."
+        keywords="AI property search, real estate AI, property assistant, Future Homes, Emma"
         canonicalUrl="https://futurehomesinternational.com/ai-property-search"
       />
 
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex w-72 border-r border-zinc-800 flex-shrink-0">
-        <ConversationsList />
-      </aside>
+      {desktopSidebarOpen && (
+        <aside className="hidden md:flex w-72 flex-shrink-0">
+          <Sidebar />
+        </aside>
+      )}
 
       {/* Mobile sidebar */}
       <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-        <SheetContent side="left" className="p-0 w-72 bg-zinc-950 border-zinc-800">
-          <ConversationsList />
+        <SheetContent side="left" className="p-0 w-72 bg-white">
+          <Sidebar />
         </SheetContent>
       </Sheet>
 
-      {/* Main chat area */}
-      <main className="flex-1 flex flex-col min-w-0">
-        {/* Header */}
-        <header className="flex items-center gap-3 px-4 py-3 border-b border-zinc-800 bg-zinc-900/95 backdrop-blur">
-          <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden text-zinc-300 hover:text-white hover:bg-zinc-800">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-          </Sheet>
+      {/* Main */}
+      <main className="flex-1 flex flex-col min-w-0 bg-white">
+        {/* Top bar */}
+        <header className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-              <Sparkles className="h-4 w-4 text-white" />
-            </div>
-            <div>
-              <h1 className="text-sm font-semibold text-white">Future Homes AI</h1>
-              <p className="text-xs text-zinc-400">Your personal property assistant</p>
-            </div>
+            {!desktopSidebarOpen && (
+              <button
+                className="hidden md:flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:bg-gray-100"
+                onClick={() => setDesktopSidebarOpen(true)}
+                aria-label="Open sidebar"
+              >
+                <Menu className="h-4 w-4" />
+              </button>
+            )}
+            <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+            </Sheet>
           </div>
+          <Link to="/" className="text-xs text-gray-500 hover:text-gray-700">
+            futurehomesinternational.com
+          </Link>
         </header>
 
-        {/* Messages or welcome */}
+        {/* Content area */}
         <div ref={scrollRef} className="flex-1 overflow-y-auto">
           {messages.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center px-4 max-w-3xl mx-auto text-center">
-              <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-6">
-                <Sparkles className="h-8 w-8 text-white" />
+            // ============ Welcome screen (Emma) ============
+            <div className="min-h-full flex flex-col items-center justify-center px-4 py-10 max-w-3xl mx-auto w-full">
+              <div className="relative mb-6">
+                <div className="h-32 w-32 rounded-full overflow-hidden ring-4 ring-white shadow-xl">
+                  <img src={emmaAvatar} alt="Emma — your AI property assistant" className="w-full h-full object-cover" />
+                </div>
+                <span className="absolute bottom-2 right-2 h-4 w-4 rounded-full bg-emerald-500 ring-2 ring-white" />
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-                How can I help you today?
-              </h2>
-              <p className="text-zinc-400 mb-10 max-w-md">
-                I know all 180+ Future Homes properties and can help you find the perfect one — or answer questions from our guides.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-2xl">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+                Find your dream home with Emma
+              </h1>
+
+              {/* Mode pills */}
+              <div className="flex items-center gap-2 mb-6 flex-wrap justify-center">
+                <button
+                  onClick={() => setReadMode('write')}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                    readMode === 'write'
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  <PenLine className="h-4 w-4" /> Write
+                </button>
+                <button
+                  onClick={() => setReadMode('speak')}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                    readMode === 'speak'
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  <Volume2 className="h-4 w-4" /> Speak
+                </button>
+                <button
+                  onClick={() => setReadMode('muted')}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                    readMode === 'muted'
+                      ? 'bg-gray-700 text-white shadow-md'
+                      : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                  }`}
+                >
+                  <VolumeX className="h-4 w-4" /> Muted
+                </button>
+              </div>
+
+              {/* Input */}
+              <form onSubmit={handleSubmit} className="w-full max-w-2xl mb-3">
+                <div className="relative flex items-center gap-2 bg-white border border-gray-200 rounded-full pl-3 pr-2 py-2 shadow-sm focus-within:border-gray-300 focus-within:shadow-md transition-all">
+                  <button type="button" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <Plus className="h-5 w-5" />
+                  </button>
+                  <textarea
+                    ref={inputRef}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Ask a question..."
+                    rows={1}
+                    className="flex-1 bg-transparent border-0 resize-none focus:outline-none text-gray-900 placeholder:text-gray-400 text-sm leading-6 py-1"
+                    style={{ minHeight: '24px' }}
+                    disabled={isLoading}
+                  />
+                  <button type="button" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <Mic className="h-4 w-4" />
+                  </button>
+                  <Button
+                    type="submit"
+                    size="icon"
+                    disabled={!inputValue.trim() || isLoading}
+                    className="h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white disabled:bg-blue-300 flex-shrink-0"
+                  >
+                    <ArrowUp className="h-4 w-4" />
+                  </Button>
+                </div>
+              </form>
+
+              {/* Suggested actions */}
+              <div className="w-full max-w-2xl rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
                 {SUGGESTED_PROMPTS.map((prompt, i) => (
                   <button
                     key={i}
                     onClick={() => sendMessage(prompt.text)}
-                    className="text-left p-4 rounded-xl border border-zinc-800 bg-zinc-800/40 hover:bg-zinc-800 hover:border-zinc-700 transition-all group"
+                    className={`w-full flex items-center gap-3 px-4 py-3.5 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors ${
+                      i < SUGGESTED_PROMPTS.length - 1 ? 'border-b border-gray-100' : ''
+                    }`}
                   >
-                    <div className="flex items-start gap-3">
-                      <span className="text-2xl">{prompt.icon}</span>
-                      <span className="text-sm text-zinc-300 group-hover:text-white transition-colors">
-                        {prompt.text}
-                      </span>
-                    </div>
+                    <prompt.icon className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                    <span>{prompt.text}</span>
                   </button>
                 ))}
               </div>
+
+              <p className="text-xs text-gray-400 mt-6 text-center">
+                Emma can make mistakes. Verify important details with our team.
+              </p>
             </div>
           ) : (
+            // ============ Chat thread ============
             <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
               <AnimatePresence initial={false}>
                 {messages.map((msg) => (
@@ -349,36 +554,35 @@ const AIPropertySearch = () => {
                     transition={{ duration: 0.2 }}
                     className="flex gap-4"
                   >
-                    <Avatar className="h-8 w-8 flex-shrink-0">
+                    <Avatar className="h-9 w-9 flex-shrink-0">
                       {msg.sender === 'ai' ? (
                         <>
-                          <AvatarImage src={aiAvatar} alt="AI" />
-                          <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs">AI</AvatarFallback>
+                          <AvatarImage src={emmaAvatar} alt="Emma" />
+                          <AvatarFallback className="bg-blue-600 text-white text-xs">E</AvatarFallback>
                         </>
                       ) : (
-                        <AvatarFallback className="bg-zinc-700 text-white text-xs">You</AvatarFallback>
+                        <AvatarFallback className="bg-gray-200 text-gray-700 text-xs">You</AvatarFallback>
                       )}
                     </Avatar>
                     <div className="flex-1 min-w-0 space-y-3">
                       <div className="flex items-baseline gap-2">
-                        <span className="text-sm font-semibold text-white">
-                          {msg.sender === 'ai' ? 'Future Homes AI' : 'You'}
+                        <span className="text-sm font-semibold text-gray-900">
+                          {msg.sender === 'ai' ? 'Emma' : 'You'}
                         </span>
                       </div>
-                      <div className="prose prose-invert prose-sm max-w-none prose-p:my-2 prose-headings:text-white prose-strong:text-white prose-li:my-0">
+                      <div className="prose prose-sm max-w-none prose-p:my-2 prose-headings:text-gray-900 prose-strong:text-gray-900 prose-li:my-0 prose-a:text-blue-600 text-gray-700">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {msg.text}
                         </ReactMarkdown>
                       </div>
 
-                      {/* Property cards */}
                       {msg.propertyLinks && msg.propertyLinks.length > 0 && (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                           {msg.propertyLinks.map((p) => (
                             <Link key={p.id} to={`/${propertyPath}/${p.id}${langParam}`}>
-                              <Card className="overflow-hidden bg-zinc-800/50 border-zinc-700 hover:border-zinc-600 hover:bg-zinc-800 transition-all group">
+                              <Card className="overflow-hidden bg-white border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all group">
                                 {p.image && (
-                                  <div className="aspect-video overflow-hidden">
+                                  <div className="aspect-video overflow-hidden bg-gray-100">
                                     <img
                                       src={p.image}
                                       alt={p.title}
@@ -388,12 +592,12 @@ const AIPropertySearch = () => {
                                   </div>
                                 )}
                                 <CardContent className="p-3">
-                                  <h4 className="font-semibold text-sm text-white line-clamp-1 mb-1">{p.title}</h4>
-                                  <div className="flex items-center gap-1 text-zinc-400 text-xs mb-2">
+                                  <h4 className="font-semibold text-sm text-gray-900 line-clamp-1 mb-1">{p.title}</h4>
+                                  <div className="flex items-center gap-1 text-gray-500 text-xs mb-2">
                                     <MapPin className="h-3 w-3" />
                                     <span className="truncate">{p.location}</span>
                                   </div>
-                                  <div className="flex items-center gap-3 text-xs text-zinc-400 mb-2">
+                                  <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
                                     {p.bedrooms != null && (
                                       <span className="flex items-center gap-1"><Bed className="h-3 w-3" />{p.bedrooms}</span>
                                     )}
@@ -404,7 +608,7 @@ const AIPropertySearch = () => {
                                       <span className="flex items-center gap-1"><Maximize className="h-3 w-3" />{p.area}m²</span>
                                     )}
                                   </div>
-                                  <div className="text-sm font-bold text-blue-400">{p.price}</div>
+                                  <div className="text-sm font-bold text-blue-600">{p.price}</div>
                                 </CardContent>
                               </Card>
                             </Link>
@@ -412,24 +616,23 @@ const AIPropertySearch = () => {
                         </div>
                       )}
 
-                      {/* Article cards */}
                       {msg.articleLinks && msg.articleLinks.length > 0 && (
                         <div className="space-y-2 pt-2">
-                          <p className="text-xs uppercase tracking-wide text-zinc-500 font-medium flex items-center gap-1.5">
+                          <p className="text-xs uppercase tracking-wide text-gray-400 font-medium flex items-center gap-1.5">
                             <BookOpen className="h-3 w-3" />
                             Related guides
                           </p>
                           {msg.articleLinks.map((a) => (
                             <Link key={a.id} to={`/article/${a.slug}`}>
-                              <Card className="bg-zinc-800/30 border-zinc-700 hover:border-zinc-600 hover:bg-zinc-800 transition-all">
+                              <Card className="bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
                                 <CardContent className="p-3 flex gap-3 items-center">
                                   {a.image && (
                                     <img src={a.image} alt={a.title} className="h-14 w-14 object-cover rounded-md flex-shrink-0" loading="lazy" />
                                   )}
                                   <div className="flex-1 min-w-0">
-                                    <h5 className="text-sm font-medium text-white line-clamp-1">{a.title}</h5>
+                                    <h5 className="text-sm font-medium text-gray-900 line-clamp-1">{a.title}</h5>
                                     {a.excerpt && (
-                                      <p className="text-xs text-zinc-400 line-clamp-2 mt-0.5">{a.excerpt}</p>
+                                      <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">{a.excerpt}</p>
                                     )}
                                   </div>
                                 </CardContent>
@@ -449,14 +652,14 @@ const AIPropertySearch = () => {
                   animate={{ opacity: 1 }}
                   className="flex gap-4"
                 >
-                  <Avatar className="h-8 w-8 flex-shrink-0">
-                    <AvatarImage src={aiAvatar} alt="AI" />
-                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs">AI</AvatarFallback>
+                  <Avatar className="h-9 w-9 flex-shrink-0">
+                    <AvatarImage src={emmaAvatar} alt="Emma" />
+                    <AvatarFallback className="bg-blue-600 text-white text-xs">E</AvatarFallback>
                   </Avatar>
-                  <div className="flex items-center gap-1.5 pt-2">
-                    <div className="h-2 w-2 rounded-full bg-zinc-500 animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <div className="h-2 w-2 rounded-full bg-zinc-500 animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <div className="h-2 w-2 rounded-full bg-zinc-500 animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div className="flex items-center gap-1.5 pt-3">
+                    <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <div className="h-2 w-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </motion.div>
               )}
@@ -464,43 +667,76 @@ const AIPropertySearch = () => {
           )}
         </div>
 
-        {/* Input */}
-        <div className="border-t border-zinc-800 bg-zinc-900 p-4">
-          <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
-            <div className="relative flex items-end gap-2 bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus-within:border-zinc-600 transition-colors">
-              <textarea
-                ref={inputRef}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Message Future Homes AI..."
-                rows={1}
-                className="flex-1 bg-transparent border-0 resize-none focus:outline-none text-white placeholder:text-zinc-500 max-h-40 text-sm leading-6"
-                style={{
-                  minHeight: '24px',
-                  height: 'auto',
-                }}
-                onInput={(e) => {
-                  const target = e.target as HTMLTextAreaElement;
-                  target.style.height = 'auto';
-                  target.style.height = `${Math.min(target.scrollHeight, 160)}px`;
-                }}
-                disabled={isLoading}
-              />
-              <Button
-                type="submit"
-                size="icon"
-                disabled={!inputValue.trim() || isLoading}
-                className="h-8 w-8 rounded-lg bg-white text-zinc-900 hover:bg-zinc-200 disabled:bg-zinc-700 disabled:text-zinc-500 flex-shrink-0"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-            <p className="text-xs text-zinc-500 text-center mt-2">
-              Future Homes AI can make mistakes. Verify important details with our team.
-            </p>
-          </form>
-        </div>
+        {/* Bottom input — only shown when there are messages */}
+        {messages.length > 0 && (
+          <div className="border-t border-gray-100 bg-white p-4">
+            <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
+              <div className="flex items-center gap-2 mb-3 justify-center">
+                <button
+                  onClick={() => setReadMode('write')}
+                  type="button"
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    readMode === 'write' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  <PenLine className="h-3 w-3" /> Write
+                </button>
+                <button
+                  onClick={() => setReadMode('speak')}
+                  type="button"
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    readMode === 'speak' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  <Volume2 className="h-3 w-3" /> Speak
+                </button>
+                <button
+                  onClick={() => setReadMode('muted')}
+                  type="button"
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    readMode === 'muted' ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                  }`}
+                >
+                  <VolumeX className="h-3 w-3" /> Read out: {readMode === 'muted' ? 'Off' : 'On'}
+                </button>
+              </div>
+              <div className="relative flex items-center gap-2 bg-white border border-gray-200 rounded-full pl-3 pr-2 py-2 shadow-sm focus-within:border-gray-300 focus-within:shadow-md transition-all">
+                <button type="button" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
+                  <Plus className="h-5 w-5" />
+                </button>
+                <textarea
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Ask a question..."
+                  rows={1}
+                  className="flex-1 bg-transparent border-0 resize-none focus:outline-none text-gray-900 placeholder:text-gray-400 max-h-40 text-sm leading-6 py-1"
+                  style={{ minHeight: '24px' }}
+                  onInput={(e) => {
+                    const t = e.target as HTMLTextAreaElement;
+                    t.style.height = 'auto';
+                    t.style.height = `${Math.min(t.scrollHeight, 160)}px`;
+                  }}
+                  disabled={isLoading}
+                />
+                <button type="button" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
+                  <Mic className="h-4 w-4" />
+                </button>
+                <Button
+                  type="submit"
+                  size="icon"
+                  disabled={!inputValue.trim() || isLoading}
+                  className="h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white disabled:bg-blue-300 flex-shrink-0"
+                >
+                  <ArrowUp className="h-4 w-4" />
+                </Button>
+              </div>
+              <p className="text-xs text-gray-400 text-center mt-2">
+                Emma can make mistakes. Verify important details with our team.
+              </p>
+            </form>
+          </div>
+        )}
       </main>
     </div>
   );

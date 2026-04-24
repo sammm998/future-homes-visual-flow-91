@@ -42,7 +42,7 @@ const HeroSlider = () => {
   );
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden" ref={emblaRef}>
+    <div dir="ltr" className="absolute inset-0 w-full h-full overflow-hidden" ref={emblaRef}>
       <div className="flex h-full">
         {slides.map((slide, index) => (
           <div
