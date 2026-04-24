@@ -453,7 +453,7 @@ const PropertyDetail = () => {
         }
       }} className="mb-8">
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Properties
+          {t('pd.back_to_properties', language)}
         </Button>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -481,7 +481,7 @@ const PropertyDetail = () => {
 
             {/* Property Images */}
             <div className="space-y-6">
-              <h2 className="text-2xl font-semibold">Gallery</h2>
+              <h2 className="text-2xl font-semibold">{t('pd.gallery', language)}</h2>
               <div className="space-y-4">
                 {/* Main Image */}
                 <div className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer group" onClick={() => setShowImageModal(true)}>
@@ -518,7 +518,7 @@ const PropertyDetail = () => {
 
             {/* Basic Property Info */}
             <div className="space-y-6">
-              <h2 className="text-2xl font-semibold">Property Details</h2>
+              <h2 className="text-2xl font-semibold">{t('pd.property_details', language)}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex items-center space-x-3 p-4 border rounded-lg">
                   <Bed className="h-5 w-5 text-primary" />
@@ -546,7 +546,7 @@ const PropertyDetail = () => {
 
             {/* Property Description */}
             {property.description && <div className="space-y-4">
-                <h2 className="text-2xl font-semibold">About This Property</h2>
+                <h2 className="text-2xl font-semibold">{t('pd.about_property', language)}</h2>
                 <div className="p-6 border rounded-lg bg-gradient-to-br from-blue-50/50 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/5 border-blue-200/50 dark:border-blue-700/30 space-y-4">
                   {property.description.split(/\n\n+/).map((paragraph: string, index: number) => (
                     <p key={index} className="text-muted-foreground leading-relaxed">
@@ -563,19 +563,19 @@ const PropertyDetail = () => {
 
             {/* Location Details */}
             <div className="space-y-4">
-              <h2 className="text-2xl font-semibold">Location & Nearby</h2>
+              <h2 className="text-2xl font-semibold">{t('pd.location_nearby', language)}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {property.distanceToAirport && <div className="flex items-center space-x-3 p-4 border rounded-lg">
                     <Plane className="h-5 w-5 text-primary" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Distance to Airport</p>
+                      <p className="text-sm text-muted-foreground">{t('pd.distance_airport', language)}</p>
                       <p className="font-semibold">{property.distanceToAirport}</p>
                     </div>
                   </div>}
                 {property.distanceToBeach && <div className="flex items-center space-x-3 p-4 border rounded-lg">
                     <Waves className="h-5 w-5 text-primary" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Distance to Beach</p>
+                      <p className="text-sm text-muted-foreground">{t('pd.distance_beach', language)}</p>
                       <p className="font-semibold">{property.distanceToBeach}</p>
                     </div>
                   </div>}
@@ -584,7 +584,7 @@ const PropertyDetail = () => {
 
             {/* Features & Amenities */}
             {property.features && property.features.length > 0 && <div className="space-y-4">
-                <h2 className="text-2xl font-semibold">Features & Amenities</h2>
+                <h2 className="text-2xl font-semibold">{t('pd.features_amenities', language)}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-2 p-3 border rounded-lg bg-gradient-to-r from-green-50/50 to-emerald-50/30 dark:from-green-900/10 dark:to-emerald-900/5 border-green-200/50 dark:border-green-700/30 hover:shadow-md transition-all duration-200">
                       <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
@@ -595,7 +595,7 @@ const PropertyDetail = () => {
 
             {/* Pricing Details */}
             {property.pricing && property.pricing.length > 0 && <div className="space-y-4">
-                <h2 className="text-2xl font-semibold">Available Units & Pricing</h2>
+                <h2 className="text-2xl font-semibold">{t('pd.available_units', language)}</h2>
                 <div className="space-y-3">
                   {property.pricing.map((unit: any, index: number) => <div key={index} className="p-4 border rounded-lg">
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -614,7 +614,7 @@ const PropertyDetail = () => {
 
             {/* Project Timeline */}
             <div className="space-y-4">
-              <h2 className="text-2xl font-semibold">Project Timeline</h2>
+              <h2 className="text-2xl font-semibold">{t('pd.project_timeline', language)}</h2>
               <div className="p-6 border rounded-lg">
                 <Timeline data={getTimelineData()} location={property.location} />
               </div>
@@ -625,14 +625,14 @@ const PropertyDetail = () => {
           <div className="space-y-6">
             {/* Quick Info Card */}
             <div className="p-6 border rounded-lg bg-card/80 backdrop-blur-sm">
-              <h3 className="text-xl font-semibold mb-4">Quick Info</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('pd.quick_info', language)}</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Property Type:</span>
+                  <span className="text-muted-foreground">{t('pd.property_type', language)}:</span>
                   <span className="font-semibold">{property.propertyType || 'Apartments'}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Completion:</span>
+                  <span className="text-muted-foreground">{t('pd.completion', language)}:</span>
                   <span className="font-semibold">
                     {property.buildingComplete 
                       ? new Date(property.buildingComplete).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
@@ -640,7 +640,7 @@ const PropertyDetail = () => {
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Reference:</span>
+                  <span className="text-muted-foreground">{t('pd.ref_no', language)}:</span>
                   <span className="font-semibold">{property.refNo || property.id}</span>
                 </div>
               </div>
@@ -648,7 +648,7 @@ const PropertyDetail = () => {
 
             {/* Contact Agent Card - Now Sticky */}
             <div className="sticky top-8 p-6 border rounded-lg bg-gradient-to-br from-primary/5 via-card to-primary/10 backdrop-blur-sm shadow-lg">
-              <h3 className="text-xl font-semibold mb-4 text-center">Contact Agent</h3>
+              <h3 className="text-xl font-semibold mb-4 text-center">{t('pd.contact_agent', language)}</h3>
               
               {agent ? <div className="space-y-4">
                   <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-white/50 to-primary/5 rounded-xl border border-primary/20">
@@ -677,11 +677,11 @@ const PropertyDetail = () => {
                   <div className="space-y-3 pt-2">
                     <Button onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
                       <Phone className="h-4 w-4 mr-2" />
-                      Call Now
+                      {t('pd.call_now', language)}
                     </Button>
                     <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
                       <Mail className="h-4 w-4 mr-2" />
-                      Send Message
+                      {t('pd.send_message', language)}
                     </Button>
                   </div>
                 </div> : <div className="space-y-4">
@@ -691,7 +691,7 @@ const PropertyDetail = () => {
                     </Avatar>
                     <div>
                       <h4 className="font-semibold text-foreground notranslate" translate="no">{property.agent}</h4>
-                      <p className="text-sm text-primary font-medium notranslate" translate="no">Sales Representative</p>
+                      <p className="text-sm text-primary font-medium">{t('pd.sales_representative', language)}</p>
                     </div>
                   </div>
 
@@ -713,11 +713,11 @@ const PropertyDetail = () => {
                   <div className="space-y-3 pt-2">
                     <Button onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
                       <Phone className="h-4 w-4 mr-2" />
-                      Call Now
+                      {t('pd.call_now', language)}
                     </Button>
                     <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
                       <Mail className="h-4 w-4 mr-2" />
-                      Send Message
+                      {t('pd.send_message', language)}
                     </Button>
                   </div>
                 </div>}
@@ -725,7 +725,7 @@ const PropertyDetail = () => {
 
             {/* Investment Highlights */}
             <div className="p-6 border rounded-lg bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-900/10 dark:to-orange-900/5 border-amber-200/50 dark:border-amber-700/30">
-              <h3 className="text-lg font-semibold mb-4 text-center">Investment Highlights</h3>
+              <h3 className="text-lg font-semibold mb-4 text-center">{t('pd.investment_highlights', language)}</h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
                   <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-lg flex items-center justify-center">
