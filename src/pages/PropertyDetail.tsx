@@ -74,7 +74,7 @@ const getPropertyData = async (id: string) => {
   // Try database lookup - this is now the only source
   try {
     // Build OR filter for all slug columns (English + all translated slugs)
-    const slugFilter = `slug.eq.${id},slug_sv.eq.${id},slug_tr.eq.${id},slug_ar.eq.${id},slug_ru.eq.${id},slug_no.eq.${id},slug_da.eq.${id},slug_fa.eq.${id},slug_ur.eq.${id}`;
+    const slugFilter = `slug.eq.${id},slug_sv.eq.${id},slug_tr.eq.${id},slug_ar.eq.${id},slug_ru.eq.${id},slug_no.eq.${id},slug_da.eq.${id},slug_fa.eq.${id},slug_ur.eq.${id},slug_es.eq.${id},slug_de.eq.${id},slug_fr.eq.${id},slug_id.eq.${id}`;
     
     // Try to find by any slug first (SEO-friendly URLs)
     let { data: dbProperty, error } = await supabase

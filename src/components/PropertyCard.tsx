@@ -20,6 +20,10 @@ interface Property {
   slug_da?: string;
   slug_fa?: string;
   slug_ur?: string;
+  slug_es?: string;
+  slug_de?: string;
+  slug_fr?: string;
+  slug_id?: string;
   title: string;
   location: string;
   price: string;

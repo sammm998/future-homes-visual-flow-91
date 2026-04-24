@@ -42,6 +42,10 @@ export const getLanguageSlug = (property: any, lang: string | null): string => {
     da: property.slug_da,
     fa: property.slug_fa,
     ur: property.slug_ur,
+    es: property.slug_es,
+    de: property.slug_de,
+    fr: property.slug_fr,
+    id: property.slug_id,
   };
   
   // Return language-specific slug or fall back to English slug
