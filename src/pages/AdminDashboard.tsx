@@ -1,5 +1,6 @@
 import React from 'react';
 import AdminCleanup from '@/components/AdminCleanup';
+import AdminPropertyTranslator from '@/components/AdminPropertyTranslator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Database, AlertTriangle, TrendingUp } from 'lucide-react';
 
@@ -47,7 +48,10 @@ const AdminDashboard = () => {
           </Card>
         </div>
 
-        <AdminCleanup />
+        <div className="space-y-6">
+          <AdminPropertyTranslator />
+          <AdminCleanup />
+        </div>
       </div>
     </div>
   );
