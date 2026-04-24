@@ -26,6 +26,10 @@ interface Property {
   slug_da?: string | null;
   slug_fa?: string | null;
   slug_ur?: string | null;
+  slug_es?: string | null;
+  slug_de?: string | null;
+  slug_fr?: string | null;
+  slug_id?: string | null;
   property_image: string | null;
   property_type: string | null;
   bedrooms: string | null;
