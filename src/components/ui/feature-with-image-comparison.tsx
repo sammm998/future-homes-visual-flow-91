@@ -77,7 +77,7 @@ function Feature() {
               <img
                 className="absolute left-0 top-0 w-full h-full object-cover select-none pointer-events-none"
                 src={floorplanImage}
-                alt="Before - floor plan"
+                alt="Before renovation - empty space"
               />
             </div>
           </div>
