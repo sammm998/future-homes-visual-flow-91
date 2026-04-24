@@ -545,21 +545,98 @@ const PropertyDetail = () => {
             </div>
 
             {/* Property Description */}
-            {property.description && <div className="space-y-4">
-                <h2 className="text-2xl font-semibold">{t('pd.about_property', language)}</h2>
-                <div className="p-6 border rounded-lg bg-gradient-to-br from-blue-50/50 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/5 border-blue-200/50 dark:border-blue-700/30 space-y-4">
-                  {property.description.split(/\n\n+/).map((paragraph: string, index: number) => (
-                    <p key={index} className="text-muted-foreground leading-relaxed">
-                      {paragraph.split(/\n/).map((line: string, lineIndex: number, arr: string[]) => (
-                        <React.Fragment key={lineIndex}>
-                          {line}
-                          {lineIndex < arr.length - 1 && <br />}
+            {property.description && (() => {
+              const text: string = property.description;
+              const paragraphs = text.split(/\n\n+/).map(p => p.trim()).filter(Boolean);
+
+              // Heuristic: a heading is a short line (<= 80 chars), no trailing period,
+              // OR ends with a colon (e.g., "Project Features & Amenities").
+              const isHeading = (p: string) => {
+                if (p.length > 90) return false;
+                if (p.includes('\n')) return false;
+                const trimmed = p.trim();
+                if (trimmed.endsWith(':')) return true;
+                if (/[.!?]$/.test(trimmed)) return false;
+                const words = trimmed.split(/\s+/);
+                return words.length <= 10;
+              };
+
+              type Section = { heading?: string; body: string[] };
+              const sections: Section[] = [];
+              let current: Section = { body: [] };
+
+              for (const p of paragraphs) {
+                if (isHeading(p)) {
+                  if (current.heading || current.body.length > 0) {
+                    sections.push(current);
+                  }
+                  current = { heading: p.replace(/:$/, ''), body: [] };
+                } else {
+                  current.body.push(p);
+                }
+              }
+              if (current.heading || current.body.length > 0) sections.push(current);
+
+              // Render each body paragraph: detect "Label: text" → bold label, also bullet lines
+              const renderParagraph = (para: string, key: number) => {
+                const lines = para.split(/\n/).filter(Boolean);
+                // If multiple short "Label: value" lines, render as bullet list
+                const allLabeled = lines.length > 1 && lines.every(l => /^[A-ZÄÖÅ][^:]{1,60}:\s/.test(l.trim()));
+                if (allLabeled) {
+                  return (
+                    <ul key={key} className="space-y-2">
+                      {lines.map((line, i) => {
+                        const idx = line.indexOf(':');
+                        const label = line.slice(0, idx).trim();
+                        const value = line.slice(idx + 1).trim();
+                        return (
+                          <li key={i} className="flex gap-2 text-muted-foreground leading-relaxed">
+                            <span className="text-primary mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
+                            <span><strong className="text-foreground font-semibold">{label}:</strong> {value}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  );
+                }
+                return (
+                  <p key={key} className="text-muted-foreground leading-relaxed">
+                    {lines.map((line, i) => {
+                      const m = line.match(/^([A-ZÄÖÅ][^:]{1,60}):\s+(.*)$/);
+                      return (
+                        <React.Fragment key={i}>
+                          {m ? (
+                            <><strong className="text-foreground font-semibold">{m[1]}:</strong> {m[2]}</>
+                          ) : (
+                            line
+                          )}
+                          {i < lines.length - 1 && <br />}
                         </React.Fragment>
-                      ))}
-                    </p>
-                  ))}
+                      );
+                    })}
+                  </p>
+                );
+              };
+
+              return (
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-semibold">{t('pd.about_property', language)}</h2>
+                  <div className="grid grid-cols-1 gap-4">
+                    {sections.map((section, sIdx) => (
+                      <div
+                        key={sIdx}
+                        className="p-6 border rounded-lg bg-gradient-to-br from-blue-50/50 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/5 border-blue-200/50 dark:border-blue-700/30 space-y-3"
+                      >
+                        {section.heading && (
+                          <h3 className="text-lg font-bold text-foreground">{section.heading}</h3>
+                        )}
+                        {section.body.map((para, pIdx) => renderParagraph(para, pIdx))}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>}
+              );
+            })()}
 
             {/* Location Details */}
             <div className="space-y-4">
