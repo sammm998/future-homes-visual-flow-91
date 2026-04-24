@@ -423,11 +423,11 @@ const AIPropertySearch = () => {
                     transition={{ duration: 0.2 }}
                     className="flex gap-4"
                   >
-                    <Avatar className="h-9 w-9 flex-shrink-0">
+                    <Avatar className="h-12 w-12 flex-shrink-0 ring-2 ring-white shadow-md">
                       {msg.sender === 'ai' ? (
                         <>
-                          <AvatarImage src={emmaAvatar} alt="Emma" />
-                          <AvatarFallback className="bg-blue-600 text-white text-xs">E</AvatarFallback>
+                          <AvatarImage src={emmaAvatar} alt="Emma" className="object-cover" />
+                          <AvatarFallback className="bg-blue-600 text-white text-sm">E</AvatarFallback>
                         </>
                       ) : (
                         <AvatarFallback className="bg-gray-200 text-gray-700 text-xs">You</AvatarFallback>
