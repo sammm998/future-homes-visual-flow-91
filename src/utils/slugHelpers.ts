@@ -3,12 +3,16 @@ export const PATH_TRANSLATIONS: Record<string, string> = {
   en: 'property',
   sv: 'fastighet',
   tr: 'mulk',
-  ar: 'aqar',      // عقار
-  ru: 'nedvizhimost', // недвижимость
+  ar: 'aqar',          // عقار
+  ru: 'nedvizhimost',  // недвижимость
   no: 'eiendom',
   da: 'ejendom',
-  fa: 'melk',      // ملک
-  ur: 'jaidad',    // جائیداد
+  fa: 'melk',          // ملک
+  ur: 'jaidad',        // جائیداد
+  es: 'propiedad',
+  de: 'immobilie',
+  fr: 'propriete',
+  id: 'properti',
 };
 
 // Reverse mapping for path lookup
