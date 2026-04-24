@@ -492,7 +492,7 @@ const AIPropertySearch = () => {
                             Related guides
                           </p>
                           {msg.articleLinks.map((a) => (
-                            <Link key={a.id} to={`/article/${a.slug}`}>
+                            <Link key={a.id} to={`/article/${a.slug}${langParam}`}>
                               <Card className="bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
                                 <CardContent className="p-3 flex gap-3 items-center">
                                   {a.image && (
