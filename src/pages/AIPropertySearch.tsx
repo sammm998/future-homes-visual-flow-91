@@ -197,7 +197,7 @@ const AIPropertySearch = () => {
     <div className="flex flex-col h-full bg-white text-gray-900 border-r border-gray-200">
       {/* Logo + collapse */}
       <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to={`/${langParam}`} className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-md bg-[#0a2540] flex items-center justify-center">
             <Building2 className="h-4 w-4 text-white" />
           </div>
