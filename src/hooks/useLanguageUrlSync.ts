@@ -66,7 +66,7 @@ export const useLanguageUrlSync = () => {
 
       const { data } = await supabase
         .from('properties')
-        .select('slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, slug_es, slug_de, slug_fr, slug_id')
+        .select('*')
         .or(slugFilter)
         .eq('is_active', true)
         .maybeSingle();
