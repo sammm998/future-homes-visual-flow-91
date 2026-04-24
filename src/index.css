@@ -335,3 +335,19 @@ All colors MUST be HSL.
     box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
   }
 }
+
+/* RTL fixes — keep visual/structural layouts LTR while text inside still flows RTL where needed.
+   Embla carousels, image comparison sliders, and similar transform-based widgets break under
+   `direction: rtl`, so we force their containers to LTR. */
+[dir="rtl"] .embla,
+[dir="rtl"] .embla__container,
+[dir="rtl"] [data-embla-container],
+[dir="rtl"] .force-ltr {
+  direction: ltr;
+}
+
+/* Ensure hero slider, image comparison, carousels render correctly in RTL */
+[dir="rtl"] .hero-slider-wrapper,
+[dir="rtl"] .image-comparison-wrapper {
+  direction: ltr;
+}
