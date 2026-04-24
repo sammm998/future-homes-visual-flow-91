@@ -57,7 +57,7 @@ const SUGGESTED_PROMPTS = [
 const NAV_ITEMS = [
   { icon: Building2, label: 'Properties', to: '/property-for-sale-in-turkey' },
   { icon: Users, label: 'Management', to: '/about-us' },
-  { icon: UserCog, label: 'Agents', to: '/about-us#team' },
+  { icon: UserCog, label: 'Agents', to: '/about-us', hash: '#team' },
   { icon: PhoneCall, label: 'Get in Touch', to: '/contact-us' },
 ];
 
