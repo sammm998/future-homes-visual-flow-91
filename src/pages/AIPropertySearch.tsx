@@ -306,7 +306,7 @@ const AIPropertySearch = () => {
               </SheetTrigger>
             </Sheet>
           </div>
-          <Link to="/" className="text-xs text-gray-500 hover:text-gray-700">
+          <Link to={`/${langParam}`} className="text-xs text-gray-500 hover:text-gray-700">
             futurehomesinternational.com
           </Link>
         </header>
