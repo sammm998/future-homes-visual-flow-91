@@ -16,7 +16,7 @@ import {
   Globe, PanelLeftClose,
 } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
-import emmaAvatar from '@/assets/avatars/emma-avatar.jpg';
+import emmaAvatar from '@/assets/emma-ai-assistant.png';
 import { buildLangParam, getCurrentLanguage, getTranslatedPropertyPath } from '@/utils/slugHelpers';
 
 interface PropertyLink {
