@@ -3,13 +3,17 @@ import { enhancedSupabase, resilientQuery, fallbackPropertyData } from '@/lib/su
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 import { useEffect } from 'react';
 import { preloadPropertyImages } from '@/utils/imageCache';
+import { getCurrentLanguage } from '@/utils/seoUtils';
+import { useLocation } from 'react-router-dom';
 
 export const useProperties = () => {
   const queryClient = useQueryClient();
   const { isOnline } = useConnectionStatus();
+  const location = useLocation();
+  const lang = getCurrentLanguage();
 
   const { data: properties = [], isLoading: loading, error } = useQuery({
-    queryKey: ['properties'],
+    queryKey: ['properties', lang],
     queryFn: async () => {
       try {
         const data = await resilientQuery(async () => {
@@ -22,7 +26,33 @@ export const useProperties = () => {
           
           if (error) throw error;
           
-          return data || [];
+          let rows = data || [];
+
+          // Apply translations for current language (skip English)
+          if (lang && lang !== 'en' && rows.length > 0) {
+            const ids = rows.map((r: any) => r.id);
+            const { data: translations } = await enhancedSupabase
+              .from('property_translations')
+              .select('property_id, title, description, location')
+              .in('property_id', ids)
+              .eq('language_code', lang);
+
+            if (translations && translations.length > 0) {
+              const map = new Map(translations.map((t: any) => [t.property_id, t]));
+              rows = rows.map((r: any) => {
+                const t: any = map.get(r.id);
+                if (!t) return r;
+                return {
+                  ...r,
+                  title: t.title || r.title,
+                  description: t.description || r.description,
+                  location: t.location || r.location,
+                };
+              });
+            }
+          }
+
+          return rows;
         }, 3, 1500);
         
         return data;
