@@ -49,7 +49,9 @@ const Newsletter = lazy(() => import("./components/Newsletter"));
 const ContactThankYou = lazy(() => import("./pages/ContactThankYou"));
 const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const MapSearch = lazy(() => import("./pages/MapSearch"));
+import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
 // Enhanced query client for global accessibility
@@ -164,7 +166,8 @@ function AppContent() {
       <Route path="/articles/:slug" element={<ArticlePage />} />
       <Route path="/articles/expenses-buying-property-turkey" element={<ExpensesBuyingPropertyTurkey />} />
       <Route path="/sitemap.xml" element={<SitemapXML />} />
-      <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      <Route path="/admin-login" element={<AdminLogin />} />
+      <Route path="/admin-dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
       <Route path="*" element={<NotFound />} />
       </Routes>
     </>
