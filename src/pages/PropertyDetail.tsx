@@ -220,23 +220,19 @@ const PropertyDetail = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
 
-  // Redirect to fully translated URL whenever property data is available.
-  // This handles: initial load with ?lang=sv, language changes, and mismatched paths.
+  // If user changes language while on a property page, update the URL to the translated path + slug.
   useEffect(() => {
-    if (!property) return;
-    
+    if (!property || !lang) return;
     const expectedUrl = buildPropertyUrl(property, lang);
     const expectedPathname = expectedUrl.split('?')[0];
-    const currentUrl = `${location.pathname}${location.search}`;
 
-    // Redirect if pathname doesn't match (wrong path segment or slug)
-    if (location.pathname !== expectedPathname || currentUrl !== expectedUrl) {
+    if (location.pathname !== expectedPathname) {
       navigate(expectedUrl, {
         replace: true,
         state: location.state
       });
     }
-  }, [property, lang, location.pathname, location.search, location.state, navigate]);
+  }, [property, lang, location.pathname, location.state, navigate]);
 
   // Preload critical images for faster display
   useEffect(() => {
@@ -537,7 +533,7 @@ const PropertyDetail = () => {
                 <div className="flex items-center space-x-3 p-4 border rounded-lg">
                   <Square className="h-5 w-5 text-primary" />
                   <div>
-                    <p className="text-sm text-muted-foreground notranslate" translate="no">{t('area', language)}</p>
+                    <p className="text-sm text-muted-foreground">{t('area', language)}</p>
                     <p className="font-semibold">{property.area || 'N/A'}</p>
                   </div>
                 </div>
@@ -659,8 +655,8 @@ const PropertyDetail = () => {
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-semibold text-foreground notranslate" translate="no">{agent.name}</h4>
-                      <p className="text-sm text-primary font-medium notranslate" translate="no">{agent.title}</p>
+                      <h4 className="font-semibold text-foreground">{agent.name}</h4>
+                      <p className="text-sm text-primary font-medium">{agent.title}</p>
                     </div>
                   </div>
 
@@ -690,8 +686,8 @@ const PropertyDetail = () => {
                       <AvatarFallback className="bg-primary/20 text-primary font-bold">EK</AvatarFallback>
                     </Avatar>
                     <div>
-                      <h4 className="font-semibold text-foreground notranslate" translate="no">{property.agent}</h4>
-                      <p className="text-sm text-primary font-medium notranslate" translate="no">Sales Representative</p>
+                      <h4 className="font-semibold text-foreground">{property.agent}</h4>
+                      <p className="text-sm text-primary font-medium">Sales Representative</p>
                     </div>
                   </div>
 

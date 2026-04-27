@@ -13,9 +13,7 @@ import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import { generateLocationSchema, generatePropertyListSchema, generateBreadcrumbSchema } from "@/utils/seoUtils";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
-import { useTranslation } from "@/hooks/useTranslation";
 const AntalyaPropertySearch = () => {
-  const { t } = useTranslation();
   const {
     canonicalUrl,
     hreflangUrls
@@ -108,7 +106,7 @@ const AntalyaPropertySearch = () => {
 
   // Filter properties by location (Antalya) and active status from database and map to expected format
   const antalyaProperties = useMemo(() => {
-    const filteredProperties = allProperties.filter(property => property.location?.toLowerCase().includes('antalya'));
+    const filteredProperties = allProperties.filter(property => property.location?.toLowerCase().includes('antalya') && (property as any).is_active === true && !property.status?.toLowerCase().includes('sold'));
 
     // Deduplicate by ref_no, keeping the most recent one (last in array)
     const uniqueProperties = filteredProperties.reduce((acc, property) => {
@@ -249,16 +247,16 @@ const AntalyaPropertySearch = () => {
         {/* SEO Intro Content */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">
-            {t('city.properties_in')} Antalya
+            Properties In Antalya
           </h1>
           <div className="prose max-w-none text-muted-foreground">
             <p className="mb-4">
-              {t('antalya.intro')}
+              Discover exceptional real estate opportunities in Antalya, Turkey's premier Mediterranean coastal city. Our carefully curated collection features luxury apartments, stunning villas, and investment properties perfect for those seeking Turkish citizenship through real estate investment.
             </p>
-            <p className="mb-4">{t('antalya.intro2')}</p>
+            <p className="mb-4">Antalya offers year-round sunshine, pristine beaches, rich cultural heritage, and modern amenities that make it an ideal destination for international property buyers. Whether you're looking for a holiday home, investment property, or permanent residence we have the property for you.</p>
           </div>
           <p className="text-sm text-muted-foreground mt-4">
-            {loading ? t('city.loading') : `${antalyaProperties.length} ${t('city.found')}`}
+            {loading ? 'Loading...' : `${antalyaProperties.length} properties found`}
           </p>
         </div>
 
@@ -352,8 +350,8 @@ const AntalyaPropertySearch = () => {
               {/* Toolbar */}
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
-                  <span className="text-sm text-muted-foreground notranslate" translate="no">
-                    {t('city.showing')} {filteredProperties.length} {t('city.of')} {antalyaProperties.length} {t('city.properties')}
+                  <span className="text-sm text-muted-foreground">
+                    Showing {filteredProperties.length} of {antalyaProperties.length} properties
                   </span>
                 </div>
               </div>

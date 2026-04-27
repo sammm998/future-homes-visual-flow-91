@@ -1,41 +1,40 @@
+
 import { GridMotion } from "@/components/ui/grid-motion";
-import { useTranslation } from "@/hooks/useTranslation";
 
 const PopularCities = () => {
-  const { t } = useTranslation();
   const cityItems = [
-    '/lovable-uploads/739b5c8c-7e7d-42ee-a412-963fad0a408d.png',
+    '/lovable-uploads/739b5c8c-7e7d-42ee-a412-963fad0a408d.png', // Coastal city with harbor
     'DUBAI',
-    '/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.png',
+    '/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.png', // Modern city aerial view
     'CYPRUS',
-    '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png',
+    '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Mersin
     'MERSIN',
-    '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png',
+    '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png', // Antalya
     'ANTALYA',
-    t('common.properties'),
-    t('info.investment'),
-    '/lovable-uploads/739b5c8c-7e7d-42ee-a412-963fad0a408d.png',
+    'Properties',
+    'Investment',
+    '/lovable-uploads/739b5c8c-7e7d-42ee-a412-963fad0a408d.png', // Dubai
     'DUBAI',
-    '/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.png',
+    '/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.png', // Cyprus
     'CYPRUS',
-    t('home.premium_properties'),
-    t('home.explore_destinations'),
-    '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png',
+    'Luxury',
+    'Modern',
+    '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Mersin
     'MERSIN',
-    '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png',
+    '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png', // Antalya
     'ANTALYA',
     'Premium',
-    t('search.location')
+    'Locations'
   ];
 
   return (
     <section className="py-0">
       <div className="text-center mb-8">
         <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
-          {t('home.explore_destinations')}
+          Most Popular Cities
         </h2>
         <p className="text-xl text-white/80 max-w-2xl mx-auto">
-          {t('home.explore_subtitle')}
+          Discover properties in our most sought-after destinations
         </p>
       </div>
       <GridMotion 

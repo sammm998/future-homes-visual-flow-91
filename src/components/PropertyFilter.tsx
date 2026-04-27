@@ -19,8 +19,6 @@ interface PropertyFilterProps {
   horizontal?: boolean;
 }
 
-const LOCATION_OPTIONS = ['all', 'Antalya', 'Istanbul', 'Mersin', 'Dubai', 'Cyprus', 'Bali'] as const;
-
 const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange, onSearch, horizontal = false }) => {
   const navigate = useNavigate();
   const { selectedCurrency } = useCurrency();
@@ -203,15 +201,17 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
             <div>
               <Label htmlFor="location" className="text-xs mb-1 block">Location</Label>
               <Select value={filters.location} onValueChange={(value) => handleFilterUpdate('location', value)}>
-                <SelectTrigger className="h-9 notranslate">
+                <SelectTrigger className="h-9">
                   <SelectValue placeholder="Select Location" />
                 </SelectTrigger>
-                 <SelectContent className="notranslate">
-                   {LOCATION_OPTIONS.map((option) => (
-                     <SelectItem key={option} value={option} className="notranslate">
-                       <span className="notranslate" translate="no">{option === 'all' ? 'All' : option}</span>
-                     </SelectItem>
-                   ))}
+                 <SelectContent>
+                   <SelectItem value="all">All</SelectItem>
+                   <SelectItem value="Antalya">Antalya</SelectItem>
+                   <SelectItem value="Istanbul">Istanbul</SelectItem>
+                   <SelectItem value="Mersin">Mersin</SelectItem>
+                   <SelectItem value="Dubai">Dubai</SelectItem>
+                   <SelectItem value="Cyprus">Cyprus</SelectItem>
+                   <SelectItem value="Bali">Bali</SelectItem>
                  </SelectContent>
               </Select>
             </div>
@@ -400,15 +400,17 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
           <div>
             <Label htmlFor="location" className="text-xs">Location</Label>
             <Select value={filters.location} onValueChange={(value) => handleFilterUpdate('location', value)}>
-              <SelectTrigger className="h-9 text-xs notranslate">
+              <SelectTrigger className="h-9 text-xs">
                 <SelectValue placeholder="Select Location" />
               </SelectTrigger>
-               <SelectContent className="notranslate">
-                 {LOCATION_OPTIONS.map((option) => (
-                   <SelectItem key={option} value={option} className="notranslate">
-                     <span className="notranslate" translate="no">{option === 'all' ? 'All' : option}</span>
-                   </SelectItem>
-                 ))}
+               <SelectContent>
+                 <SelectItem value="all">All</SelectItem>
+                 <SelectItem value="Antalya">Antalya</SelectItem>
+                 <SelectItem value="Istanbul">Istanbul</SelectItem>
+                 <SelectItem value="Mersin">Mersin</SelectItem>
+                 <SelectItem value="Dubai">Dubai</SelectItem>
+                 <SelectItem value="Cyprus">Cyprus</SelectItem>
+                 <SelectItem value="Bali">Bali</SelectItem>
                </SelectContent>
             </Select>
           </div>

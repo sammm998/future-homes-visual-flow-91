@@ -391,6 +391,15 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
           </div>
         </div>
       </div>
+      
+      {/* Hide ElevenLabs widget when AI Help is open */}
+      {isOpen && (
+        <style>{`
+          elevenlabs-convai {
+            display: none !important;
+          }
+        `}</style>
+      )}
     </>
   );
 }

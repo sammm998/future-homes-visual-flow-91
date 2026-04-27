@@ -21,10 +21,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
-import { useTranslation } from "@/hooks/useTranslation";
 
 const CyprusPropertySearch = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -111,7 +109,8 @@ const CyprusPropertySearch = () => {
   const cyprusProperties = useMemo(() => {
     const filtered = allProperties.filter(property => {
       const hasLocation = property.location?.toLowerCase().includes('cyprus');
-      return hasLocation;
+      const isNotSold = !property.status?.toLowerCase().includes('sold');
+      return hasLocation && isNotSold;
     }).map(property => ({
       id: property.id, // Keep original UUID for key
       refNo: property.ref_no,
@@ -256,18 +255,18 @@ const CyprusPropertySearch = () => {
         {/* SEO Intro Content */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">
-            {t('city.properties_in')} Cyprus
+            Properties In Cyprus
           </h1>
           <div className="prose max-w-none text-muted-foreground">
             <p className="mb-4">
-              {t('cyprus.intro')}
+              Discover exceptional Cyprus real estate opportunities offering EU citizenship and residence benefits. Our premium collection features luxury villas, modern apartments, and investment properties in Cyprus's most desirable locations, providing direct access to European Union citizenship through property investment.
             </p>
             <p className="mb-4">
-              {t('cyprus.intro2')}
+              Cyprus offers the fastest EU citizenship program through real estate investment, with properties starting from €300,000. Whether you're seeking beautiful coastal properties in Limassol, luxury developments in Paphos, or investment opportunities in Nicosia, Cyprus combines Mediterranean lifestyle with European Union privileges.
             </p>
           </div>
           <p className="text-sm text-muted-foreground mt-4">
-            {properties.length} {t('city.found')}
+            {properties.length} properties found
           </p>
         </div>
 
@@ -306,7 +305,7 @@ const CyprusPropertySearch = () => {
               </div>
             ) : filteredProperties.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground text-lg">{t('city.no_match')}</p>
+                <p className="text-muted-foreground text-lg">No properties found matching your criteria.</p>
                 <Button 
                   onClick={() => {
                     setFilters({
@@ -405,7 +404,7 @@ const CyprusPropertySearch = () => {
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {filteredProperties.length === 0 ? (
                   <div className="text-center py-12 col-span-full">
-                    <p className="text-muted-foreground text-lg">{t('city.no_match')}</p>
+                    <p className="text-muted-foreground text-lg">No properties found matching your criteria.</p>
                     <Button 
                       onClick={() => {
                         setFilters({

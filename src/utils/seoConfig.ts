@@ -35,16 +35,7 @@ export const getLanguageFromUrl = (): string => {
   // Check URL params as fallback
   const urlParams = new URLSearchParams(window.location.search);
   const langParam = urlParams.get('lang');
-  if (langParam && supportedLanguages.some(l => l.code === langParam)) {
-    localStorage.setItem('preferred_language', langParam);
-    return langParam;
-  }
-  
-  // Fall back to localStorage
-  const savedLang = localStorage.getItem('preferred_language');
-  if (savedLang && supportedLanguages.some(l => l.code === savedLang)) return savedLang;
-  
-  return 'en';
+  return langParam && supportedLanguages.some(l => l.code === langParam) ? langParam : 'en';
 };
 
 export const seoPages: Record<string, Record<string, SEOConfig>> = {

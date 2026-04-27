@@ -12,7 +12,6 @@ import { Spotlight } from "@/components/ui/spotlight";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { findPropertyLocationByRefNo } from "@/utils/propertyRouting";
 import HeroSlider from "@/components/HeroSlider";
-import { useTranslation } from "@/hooks/useTranslation";
 
 
 
@@ -29,7 +28,6 @@ const Hero: React.FC<HeroProps> = ({
   
   const navigate = useNavigate();
   const { selectedCurrency, formatPrice } = useCurrency();
-  const { t } = useTranslation();
   const [searchType, setSearchType] = useState("Buy");
   const [propertyType, setPropertyType] = useState("");
   const [bedrooms, setBedrooms] = useState("");
@@ -177,10 +175,10 @@ const Hero: React.FC<HeroProps> = ({
         <div className="flex-1 p-4 sm:p-8 lg:p-16 relative z-10 flex flex-col justify-center items-center">
           <div className="max-w-6xl w-full text-center">
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 mb-4 sm:mb-6">
-              {title || t('hero.title')}
+              {title || "Future Homes"}
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-neutral-300 mb-8 sm:mb-12">
-              {subtitle || t('hero.subtitle')}
+              {subtitle || "Your Future Real Estate Partner"}
             </p>
 
             {/* Search Card - Responsive Layout */}
@@ -196,7 +194,7 @@ const Hero: React.FC<HeroProps> = ({
                     }`}
                     onClick={() => setSearchType("Buy")}
                   >
-                  {t('search.buy')}
+                  Buy
                   </button>
                   <button
                     className={`px-4 sm:px-6 py-2 rounded-md text-sm font-medium transition-all ${
@@ -206,7 +204,7 @@ const Hero: React.FC<HeroProps> = ({
                     }`}
                     onClick={() => setSearchType("Rent")}
                   >
-                  {t('search.rent')}
+                  Rent
                   </button>
                 </div>
               </div>
@@ -217,31 +215,31 @@ const Hero: React.FC<HeroProps> = ({
                 <div className="lg:col-span-1">
                   <Select value={propertyType} onValueChange={setPropertyType}>
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
-                      <SelectValue placeholder={t('search.property_type')} />
+                      <SelectValue placeholder="Property Type" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="apartments">
                         <div className="flex items-center gap-2">
                           <Building size={16} />
-                          {t('search.apartments')}
+                          Apartments
                         </div>
                       </SelectItem>
                       <SelectItem value="houses">
                         <div className="flex items-center gap-2">
                           <Home size={16} />
-                          {t('search.houses')}
+                          Houses
                         </div>
                       </SelectItem>
                       <SelectItem value="villas">
                         <div className="flex items-center gap-2">
                           <Home size={16} />
-                          {t('search.villas')}
+                          Villas
                         </div>
                       </SelectItem>
                       <SelectItem value="commercial">
                         <div className="flex items-center gap-2">
                           <Store size={16} />
-                          {t('search.commercial')}
+                          Commercial
                         </div>
                       </SelectItem>
                     </SelectContent>
@@ -252,7 +250,7 @@ const Hero: React.FC<HeroProps> = ({
                 <div className="lg:col-span-1">
                   <Select value={bedrooms} onValueChange={setBedrooms}>
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
-                      <SelectValue placeholder={t('search.bedrooms')} />
+                      <SelectValue placeholder="Bedrooms" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="studio">Studio</SelectItem>
@@ -269,15 +267,45 @@ const Hero: React.FC<HeroProps> = ({
                 <div className="lg:col-span-1">
                   <Select value={location} onValueChange={setLocation}>
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
-                      <SelectValue placeholder={t('search.location')} />
+                      <SelectValue placeholder="Property Location" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Antalya"><div className="flex items-center gap-2"><MapPin size={16} />Antalya</div></SelectItem>
-                      <SelectItem value="Istanbul"><div className="flex items-center gap-2"><MapPin size={16} />Istanbul</div></SelectItem>
-                      <SelectItem value="Mersin"><div className="flex items-center gap-2"><MapPin size={16} />Mersin</div></SelectItem>
-                      <SelectItem value="Cyprus"><div className="flex items-center gap-2"><MapPin size={16} />Cyprus</div></SelectItem>
-                      <SelectItem value="Bali"><div className="flex items-center gap-2"><MapPin size={16} />Bali</div></SelectItem>
-                      <SelectItem value="Dubai"><div className="flex items-center gap-2"><MapPin size={16} />Dubai</div></SelectItem>
+                      <SelectItem value="Antalya">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Antalya
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Istanbul">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Istanbul
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Mersin">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Mersin
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Cyprus">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Cyprus
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Bali">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Bali
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="Dubai">
+                        <div className="flex items-center gap-2">
+                          <MapPin size={16} />
+                          Dubai
+                        </div>
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -285,7 +313,7 @@ const Hero: React.FC<HeroProps> = ({
                 {/* Ref No */}
                 <div className="lg:col-span-1">
                   <Input
-                  placeholder={t('search.ref_no')}
+                  placeholder="Reference No"
                   value={refNo}
                   onChange={(e) => setRefNo(e.target.value)}
                     className="h-10 sm:h-12 bg-white border-0 text-black placeholder:text-gray-500 text-sm"
@@ -296,17 +324,17 @@ const Hero: React.FC<HeroProps> = ({
                 <div className="lg:col-span-1">
                   <Select value={sortBy} onValueChange={setSortBy}>
                     <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
-                      <SelectValue placeholder={t('search.sort_by')} />
+                      <SelectValue placeholder="Sort By" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="price-low">{t('search.price_low')}</SelectItem>
-                      <SelectItem value="price-high">{t('search.price_high')}</SelectItem>
-                      <SelectItem value="newest">{t('search.newest')}</SelectItem>
-                      <SelectItem value="oldest">{t('search.oldest')}</SelectItem>
-                      <SelectItem value="area-large">{t('search.area_largest')}</SelectItem>
-                      <SelectItem value="area-small">{t('search.area_smallest')}</SelectItem>
-                      <SelectItem value="bedrooms-most">{t('search.most_bedrooms')}</SelectItem>
-                      <SelectItem value="bedrooms-least">{t('search.least_bedrooms')}</SelectItem>
+                      <SelectItem value="price-low">Price Low to High</SelectItem>
+                      <SelectItem value="price-high">Price High to Low</SelectItem>
+                      <SelectItem value="newest">Newest</SelectItem>
+                      <SelectItem value="oldest">Oldest</SelectItem>
+                      <SelectItem value="area-large">Area: Largest First</SelectItem>
+                      <SelectItem value="area-small">Area: Smallest First</SelectItem>
+                      <SelectItem value="bedrooms-most">Most Bedrooms</SelectItem>
+                      <SelectItem value="bedrooms-least">Least Bedrooms</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -318,21 +346,21 @@ const Hero: React.FC<HeroProps> = ({
                   <DialogTrigger asChild>
                     <Button variant="outline" size="sm" className="w-full sm:w-auto bg-white/20 border-white/30 text-white hover:bg-white/30 h-8 px-3 text-xs">
                       <Filter size={14} className="mr-1" />
-                      {t('search.advanced')}
+                  Advanced
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-2xl mx-4">
                     <DialogHeader>
-                      <DialogTitle>{t('search.advanced')}</DialogTitle>
+                      <DialogTitle>Advanced Search</DialogTitle>
                     </DialogHeader>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {/* Price Range */}
                       <div>
-                        <Label className="text-sm font-medium mb-3 block">{t('search.price_range')}</Label>
+                        <Label className="text-sm font-medium mb-3 block">Price Range</Label>
                         <div className="flex gap-2">
                           <Select value={minPrice} onValueChange={setMinPrice}>
                             <SelectTrigger>
-                              <SelectValue placeholder={t('search.min_price')} />
+                              <SelectValue placeholder="Min. Price" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="0">{selectedCurrency.symbol}0</SelectItem>
@@ -345,7 +373,7 @@ const Hero: React.FC<HeroProps> = ({
                           </Select>
                           <Select value={maxPrice} onValueChange={setMaxPrice}>
                             <SelectTrigger>
-                              <SelectValue placeholder={t('search.max_price')} />
+                              <SelectValue placeholder="Max. Price" />
                             </SelectTrigger>
                             <SelectContent>
                               {priceOptions.map(option => (
@@ -361,7 +389,7 @@ const Hero: React.FC<HeroProps> = ({
 
                       {/* Square Feet */}
                       <div>
-                        <Label className="text-sm font-medium mb-3 block">{t('search.square_feet')}</Label>
+                        <Label className="text-sm font-medium mb-3 block">Square Feet</Label>
                         <div className="flex gap-2">
                           <Input
                             placeholder="Min."
@@ -378,7 +406,7 @@ const Hero: React.FC<HeroProps> = ({
 
                       {/* Facilities */}
                       <div className="md:col-span-2">
-                        <Label className="text-sm font-medium mb-3 block">{t('search.facilities')}</Label>
+                        <Label className="text-sm font-medium mb-3 block">Facilities</Label>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="flex items-center space-x-2">
                             <Checkbox
@@ -386,7 +414,7 @@ const Hero: React.FC<HeroProps> = ({
                               checked={pool}
                               onCheckedChange={(checked) => setPool(checked === true)}
                             />
-                            <Label htmlFor="pool">{t('search.pool')}</Label>
+                            <Label htmlFor="pool">Pool</Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <Checkbox
@@ -394,7 +422,7 @@ const Hero: React.FC<HeroProps> = ({
                               checked={gym}
                               onCheckedChange={(checked) => setGym(checked === true)}
                             />
-                            <Label htmlFor="gym">{t('search.gym')}</Label>
+                            <Label htmlFor="gym">Gym</Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <Checkbox
@@ -402,7 +430,7 @@ const Hero: React.FC<HeroProps> = ({
                               checked={garden}
                               onCheckedChange={(checked) => setGarden(checked === true)}
                             />
-                            <Label htmlFor="garden">{t('search.garden')}</Label>
+                            <Label htmlFor="garden">Garden</Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <Checkbox
@@ -410,7 +438,7 @@ const Hero: React.FC<HeroProps> = ({
                               checked={parking}
                               onCheckedChange={(checked) => setParking(checked === true)}
                             />
-                            <Label htmlFor="parking">{t('search.parking')}</Label>
+                            <Label htmlFor="parking">Parking</Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <Checkbox
@@ -418,23 +446,39 @@ const Hero: React.FC<HeroProps> = ({
                               checked={seaView}
                               onCheckedChange={(checked) => setSeaView(checked === true)}
                             />
-                            <Label htmlFor="seaView">{t('search.sea_view')}</Label>
+                            <Label htmlFor="seaView">Sea view</Label>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <Checkbox id="security" checked={security} onCheckedChange={(checked) => setSecurity(checked === true)} />
-                            <Label htmlFor="security">{t('search.security')}</Label>
+                            <Checkbox
+                              id="security"
+                              checked={security}
+                              onCheckedChange={(checked) => setSecurity(checked === true)}
+                            />
+                            <Label htmlFor="security">Security</Label>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <Checkbox id="forResidencePermit" checked={forResidencePermit} onCheckedChange={(checked) => setForResidencePermit(checked === true)} />
-                            <Label htmlFor="forResidencePermit">{t('search.residence_permit')}</Label>
+                            <Checkbox
+                              id="forResidencePermit"
+                              checked={forResidencePermit}
+                              onCheckedChange={(checked) => setForResidencePermit(checked === true)}
+                            />
+                            <Label htmlFor="forResidencePermit">For Residence Permit</Label>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <Checkbox id="readyToMove" checked={readyToMove} onCheckedChange={(checked) => setReadyToMove(checked === true)} />
-                            <Label htmlFor="readyToMove">{t('search.ready_to_move')}</Label>
+                            <Checkbox
+                              id="readyToMove"
+                              checked={readyToMove}
+                              onCheckedChange={(checked) => setReadyToMove(checked === true)}
+                            />
+                            <Label htmlFor="readyToMove">Ready to Move</Label>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <Checkbox id="underConstruction" checked={underConstruction} onCheckedChange={(checked) => setUnderConstruction(checked === true)} />
-                            <Label htmlFor="underConstruction">{t('search.under_construction')}</Label>
+                            <Checkbox
+                              id="underConstruction"
+                              checked={underConstruction}
+                              onCheckedChange={(checked) => setUnderConstruction(checked === true)}
+                            />
+                            <Label htmlFor="underConstruction">Under Construction</Label>
                           </div>
                         </div>
                       </div>
@@ -442,7 +486,7 @@ const Hero: React.FC<HeroProps> = ({
                     <div className="flex justify-end mt-6">
                       <Button onClick={handleSearch} className="w-full sm:w-auto">
                         <Search size={16} className="mr-2" />
-                        {t('search.search')}
+                        Search
                       </Button>
                     </div>
                   </DialogContent>
@@ -450,7 +494,7 @@ const Hero: React.FC<HeroProps> = ({
 
                 <Button onClick={handleSearch} size="sm" className="w-full sm:w-auto bg-primary hover:bg-primary-glow px-4 h-8 text-xs">
                   <Search size={14} className="mr-1" />
-                  {t('search.search')}
+                  Search
                 </Button>
               </div>
             </Card>

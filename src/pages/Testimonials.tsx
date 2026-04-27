@@ -86,33 +86,12 @@ const Testimonials = () => {
       }
 
       if (data) {
-        // Fetch translations for current language
-        let translationsMap = new Map<string, { review_text: string; designation: string | null }>();
-        if (language && language !== 'en') {
-          const { data: translations } = await supabase
-            .from('testimonial_translations')
-            .select('testimonial_id, review_text, designation')
-            .eq('language_code', language)
-            .in('testimonial_id', data.map((d: any) => d.id));
-          if (translations) {
-            translations.forEach((t: any) => {
-              translationsMap.set(t.testimonial_id, {
-                review_text: t.review_text,
-                designation: t.designation,
-              });
-            });
-          }
-        }
-
-        const transformedData: CardTestimonial[] = data.map((testimonial: DbTestimonial) => {
-          const tr = translationsMap.get(testimonial.id);
-          return {
-            ...testimonial,
-            review_text: tr?.review_text || testimonial.review_text,
-            title: testimonial.customer_name,
-            src: localImageMap[testimonial.customer_name] || testimonial.image_url || '/placeholder.svg'
-          };
-        });
+        // Transform data to match FocusCards expected format
+        const transformedData: CardTestimonial[] = data.map((testimonial: DbTestimonial) => ({
+          ...testimonial,
+          title: testimonial.customer_name,
+          src: localImageMap[testimonial.customer_name] || testimonial.image_url || '/placeholder.svg'
+        }));
         setTestimonials(transformedData);
       }
     } catch (error) {
@@ -124,8 +103,7 @@ const Testimonials = () => {
 
   useEffect(() => {
     fetchTestimonials();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [language]);
+  }, []);
 
   // Refresh data when component becomes visible again
   useEffect(() => {
@@ -157,7 +135,7 @@ const Testimonials = () => {
           <div className="container mx-auto px-4">
             <div className="text-center">
               <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
-              <p className="mt-4 text-muted-foreground">{t('testimonials.loading', language)}</p>
+              <p className="mt-4 text-muted-foreground">Loading testimonials...</p>
             </div>
           </div>
         </main>
@@ -192,7 +170,7 @@ const Testimonials = () => {
 
           {testimonials.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-muted-foreground text-lg">{t('testimonials.none', language)}</p>
+              <p className="text-muted-foreground text-lg">No testimonials available yet.</p>
             </div>
           ) : (
             <FocusCards cards={testimonials} onCardClick={handleCardClick} />
@@ -222,36 +200,36 @@ const Testimonials = () => {
             
             {selectedTestimonial?.customer_country && (
               <div>
-                <h3 className="text-lg font-semibold mb-2">{t('testimonials.country', language)}</h3>
+                <h3 className="text-lg font-semibold mb-2">Country</h3>
                 <p className="text-muted-foreground">{selectedTestimonial.customer_country}</p>
               </div>
             )}
             
             <div className="space-y-4">
               <div>
-                <h3 className="text-lg font-semibold mb-2">{t('testimonials.testimonial', language)}</h3>
+                <h3 className="text-lg font-semibold mb-2">Testimonial</h3>
                 <p className="text-muted-foreground whitespace-pre-line">
-                  {selectedTestimonial?.review_text || t('testimonials.no_text', language)}
+                  {selectedTestimonial?.review_text || "No testimonial text available"}
                 </p>
               </div>
               
               {selectedTestimonial?.location && (
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">{t('testimonials.location', language)}</h3>
+                  <h3 className="text-lg font-semibold mb-2">Location</h3>
                   <p className="text-muted-foreground">{selectedTestimonial.location}</p>
                 </div>
               )}
               
               {selectedTestimonial?.property_type && (
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">{t('testimonials.property_type', language)}</h3>
+                  <h3 className="text-lg font-semibold mb-2">Property Type</h3>
                   <p className="text-muted-foreground capitalize">{selectedTestimonial.property_type}</p>
                 </div>
               )}
 
               {selectedTestimonial?.rating && (
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">{t('testimonials.rating', language)}</h3>
+                  <h3 className="text-lg font-semibold mb-2">Rating</h3>
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
                       <span

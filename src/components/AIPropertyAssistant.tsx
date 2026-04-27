@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTranslation } from "@/hooks/useTranslation";
 import { 
   MessageCircle, 
   Send, 
@@ -40,7 +39,6 @@ interface PropertyLink {
 }
 
 const AIPropertyAssistant = () => {
-  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -59,6 +57,14 @@ const AIPropertyAssistant = () => {
   const { toast } = useToast();
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Notify ElevenLabs widget about popup state
+  useEffect(() => {
+    const event = new CustomEvent('aiPropertyAssistantToggle', {
+      detail: { isOpen }
+    });
+    window.dispatchEvent(event);
+  }, [isOpen]);
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -255,25 +261,26 @@ const AIPropertyAssistant = () => {
 
           <div className="inline-flex items-center gap-3 bg-primary/10 rounded-full px-6 py-3 mb-6">
             <Bot className="w-5 h-5 text-primary" />
-            <span className="text-primary font-medium">{t('home.ai_assistant')}</span>
+            <span className="text-primary font-medium">AI Property Assistant</span>
           </div>
           
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="bg-gradient-to-r from-foreground via-primary to-primary-glow bg-clip-text text-transparent">
-              {t('home.ai_title')}
+              Find Your Dream Property
             </span>
           </h2>
           
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            {t('home.ai_subtitle')}
+            Our AI assistant knows all our 180+ properties in detail. Get personalized guidance 
+            to find the perfect investment based on your preferences and budget.
           </p>
 
           {/* 3D Floating Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
             {[
-              { icon: Home, title: t('home.ai_properties'), desc: t('home.ai_properties_desc') },
-              { icon: MapPin, title: t('home.ai_destinations'), desc: t('home.ai_destinations_desc') },
-              { icon: Users, title: t('home.ai_support'), desc: t('home.ai_support_desc') }
+              { icon: Home, title: "180+ Properties", desc: "Access to entire database" },
+              { icon: MapPin, title: "All Destinations", desc: "Turkey, Dubai, Cyprus, Bali, Mersin" },
+              { icon: Users, title: "24/7 Support", desc: "Instant AI assistance" }
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -316,7 +323,7 @@ const AIPropertyAssistant = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative flex items-center gap-3">
                 <Sparkles className="w-5 h-5" />
-                <span>{t('home.start_conversation')}</span>
+                <span>Start Conversation with AI</span>
                 <MessageCircle className="w-5 h-5" />
               </div>
             </a>
@@ -332,7 +339,7 @@ const AIPropertyAssistant = () => {
           className="max-w-4xl mx-auto"
         >
           <h3 className="text-center text-lg font-medium mb-6 text-muted-foreground">
-            {t('home.popular_questions')}
+            Popular questions to ask:
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {quickSuggestions.map((suggestion, index) => (

@@ -40,9 +40,14 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
       }).observe({ entryTypes: ['largest-contentful-paint'] });
     };
 
-    // Preload critical resources (no-op: removed non-existent font preload)
+    // Preload critical resources
     const preloadCriticalResources = () => {
-      // No custom fonts to preload - system fonts are used
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'font';
+      link.href = '/fonts/inter.woff2';
+      link.crossOrigin = 'anonymous';
+      document.head.appendChild(link);
     };
 
     // Optimize images loading

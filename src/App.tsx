@@ -13,7 +13,6 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import "./utils/cleanConsole";
-import { useLanguageUrlSync } from "@/hooks/useLanguageUrlSync";
 
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -116,9 +115,6 @@ function App() {
 }
 
 function AppContent() {
-  // Sync language URL when ?lang= changes (e.g. from Elfsight widget)
-  useLanguageUrlSync();
-
   return (
     <>
       <ConnectionStatus />
