@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "@/hooks/useTranslation";
 import { 
   MessageCircle, 
   Send, 
@@ -39,6 +41,7 @@ interface PropertyLink {
 }
 
 const AIPropertyAssistant = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -57,14 +60,6 @@ const AIPropertyAssistant = () => {
   const { toast } = useToast();
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // Notify ElevenLabs widget about popup state
-  useEffect(() => {
-    const event = new CustomEvent('aiPropertyAssistantToggle', {
-      detail: { isOpen }
-    });
-    window.dispatchEvent(event);
-  }, [isOpen]);
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
@@ -261,26 +256,25 @@ const AIPropertyAssistant = () => {
 
           <div className="inline-flex items-center gap-3 bg-primary/10 rounded-full px-6 py-3 mb-6">
             <Bot className="w-5 h-5 text-primary" />
-            <span className="text-primary font-medium">AI Property Assistant</span>
+            <span className="text-primary font-medium">{t('home.ai_assistant')}</span>
           </div>
           
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="bg-gradient-to-r from-foreground via-primary to-primary-glow bg-clip-text text-transparent">
-              Find Your Dream Property
+              {t('home.ai_title')}
             </span>
           </h2>
           
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Our AI assistant knows all our 180+ properties in detail. Get personalized guidance 
-            to find the perfect investment based on your preferences and budget.
+            {t('home.ai_subtitle')}
           </p>
 
           {/* 3D Floating Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
             {[
-              { icon: Home, title: "180+ Properties", desc: "Access to entire database" },
-              { icon: MapPin, title: "All Destinations", desc: "Turkey, Dubai, Cyprus, Bali, Mersin" },
-              { icon: Users, title: "24/7 Support", desc: "Instant AI assistance" }
+              { icon: Home, title: t('home.ai_properties'), desc: t('home.ai_properties_desc') },
+              { icon: MapPin, title: t('home.ai_destinations'), desc: t('home.ai_destinations_desc') },
+              { icon: Users, title: t('home.ai_support'), desc: t('home.ai_support_desc') }
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -314,19 +308,17 @@ const AIPropertyAssistant = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <a
-              href="https://futurehomesai.one/"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/ai-property-search"
               className="inline-flex bg-gradient-to-r from-primary via-primary-glow to-primary text-white px-8 py-4 text-lg font-semibold rounded-2xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-primary-glow to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative flex items-center gap-3">
                 <Sparkles className="w-5 h-5" />
-                <span>Start Conversation with AI</span>
+                <span>{t('home.start_conversation')}</span>
                 <MessageCircle className="w-5 h-5" />
               </div>
-            </a>
+            </Link>
           </motion.div>
         </motion.div>
 
@@ -339,26 +331,27 @@ const AIPropertyAssistant = () => {
           className="max-w-4xl mx-auto"
         >
           <h3 className="text-center text-lg font-medium mb-6 text-muted-foreground">
-            Popular questions to ask:
+            {t('home.popular_questions')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {quickSuggestions.map((suggestion, index) => (
-              <motion.a
+              <motion.div
                 key={index}
-                href="https://futurehomesai.one/"
-                target="_blank"
-                rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="bg-card/60 backdrop-blur-sm border border-border/30 rounded-xl p-4 text-left hover:bg-card/80 hover:border-primary/30 transition-all duration-300 group"
               >
-                <div className="flex items-start gap-3">
-                  <MessageCircle className="w-4 h-4 text-primary mt-1 group-hover:text-primary-glow transition-colors" />
-                  <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                    "{suggestion}"
-                  </span>
-                </div>
-              </motion.a>
+                <Link
+                  to={`/ai-property-search`}
+                  className="block bg-card/60 backdrop-blur-sm border border-border/30 rounded-xl p-4 text-left hover:bg-card/80 hover:border-primary/30 transition-all duration-300 group"
+                >
+                  <div className="flex items-start gap-3">
+                    <MessageCircle className="w-4 h-4 text-primary mt-1 group-hover:text-primary-glow transition-colors" />
+                    <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                      "{suggestion}"
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </motion.div>

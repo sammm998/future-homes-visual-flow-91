@@ -26,6 +26,10 @@ interface Property {
   slug_da?: string | null;
   slug_fa?: string | null;
   slug_ur?: string | null;
+  slug_es?: string | null;
+  slug_de?: string | null;
+  slug_fr?: string | null;
+  slug_id?: string | null;
   property_image: string | null;
   property_type: string | null;
   bedrooms: string | null;
@@ -199,12 +203,12 @@ const MapSearch = () => {
         // Fetch all active properties
         const { data: propertiesData, error } = await supabase
           .from('properties')
-          .select('id, ref_no, title, location, price, google_maps_embed, slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, property_image, property_type, bedrooms, property_district, amenities')
+          .select('id, ref_no, title, location, price, google_maps_embed, slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, slug_es, slug_de, slug_fr, slug_id, property_image, property_type, bedrooms, property_district, amenities')
           .eq('is_active', true);
 
         if (error) throw error;
 
-        setProperties(propertiesData || []);
+        setProperties((propertiesData as any) || []);
 
         // Initialize map
         mapboxgl.accessToken = mapboxToken;

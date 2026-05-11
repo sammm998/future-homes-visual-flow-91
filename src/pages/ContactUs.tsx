@@ -12,96 +12,76 @@ import { toast } from "sonner";
 import SEOHead from "@/components/SEOHead";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const ContactUs = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { pageTitle, metaDescription, contentSections, isLoading: contentLoading } = useWebsiteContent("contact-us");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    property: "",
-    message: "",
+    firstName: "", lastName: "", email: "", phone: "", property: "", message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
       const { data, error } = await supabase.functions.invoke("send-contact-notification", {
-        body: {
-          ...formData,
-          source: "contact-form",
-        },
+        body: { ...formData, source: "contact-form" },
       });
-
-      // Edge function now always returns 200; failures are expressed as { success: false }
       if (error || data?.success === false) {
         const messageFromApi = (data as any)?.error?.message as string | undefined;
-
         console.warn("Contact notification failed:", error ?? data);
-        toast.error(
-          messageFromApi?.includes("Too many requests")
-            ? "För många försök på kort tid. Vänta några sekunder och försök igen."
-            : "Ett fel uppstod när meddelandet skulle skickas. Försök igen."
-        );
+        toast.error(messageFromApi?.includes("Too many requests")
+          ? "Too many requests. Please wait and try again."
+          : "An error occurred. Please try again.");
         return;
       }
-
       navigate("/contact-thank-you");
     } catch (error) {
       console.warn("Error sending message:", error);
-      toast.error("Ett fel uppstod när meddelandet skulle skickas. Försök igen.");
+      toast.error("An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
+
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
         title={pageTitle || "Contact Future Homes International | Property Investment Inquiry"}
-        description={
-          metaDescription ||
-          "Contact Future Homes International for expert property guidance. Inquiries for real estate investment in Turkey, Dubai, Cyprus & Bali. Schedule consultation today."
-        }
-        keywords="contact future homes, property inquiry Turkey, real estate consultation, Dubai property contact, Cyprus investment inquiry, international property experts"
+        description={metaDescription || "Contact Future Homes International for expert property guidance."}
+        keywords="contact future homes, property inquiry Turkey, real estate consultation"
         canonicalUrl="https://futurehomesinternational.com/contact-us"
       />
       <Navigation />
 
-      {/* Dynamic Content Sections */}
       {!contentLoading && contentSections.length > 0}
 
-      {/* Fallback Hero Section */}
       {(contentLoading || contentSections.length === 0) && (
         <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-muted/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">Contact Us</h1>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">Get in touch with our property experts</p>
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('contact.title')}</h1>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('contact.subtitle')}</p>
             </div>
           </div>
         </section>
       )}
 
-      {/* Contact Section */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Information */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-3xl font-bold text-foreground mb-6">Get in Touch</h2>
-                <p className="text-lg text-muted-foreground mb-8">We're here to help you find your dream property</p>
+                <h2 className="text-3xl font-bold text-foreground mb-6">{t('contact.get_in_touch')}</h2>
+                <p className="text-lg text-muted-foreground mb-8">{t('contact.help_text')}</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -109,16 +89,11 @@ const ContactUs = () => {
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
                       <Phone className="h-6 w-6 text-primary" />
-                      <CardTitle className="text-lg">Phone</CardTitle>
+                      <CardTitle className="text-lg">{t('contact.phone')}</CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <a
-                      href="tel:+905523032750"
-                      className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
-                    >
-                      +90 552 303 27 50
-                    </a>
+                    <a href="tel:+905523032750" className="text-muted-foreground hover:text-primary transition-colors cursor-pointer">+90 552 303 27 50</a>
                   </CardContent>
                 </Card>
 
@@ -126,16 +101,11 @@ const ContactUs = () => {
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
                       <Mail className="h-6 w-6 text-primary" />
-                      <CardTitle className="text-lg">Email</CardTitle>
+                      <CardTitle className="text-lg">{t('contact.email')}</CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <a
-                      href="mailto:info@futurehomesinternational.com"
-                      className="text-muted-foreground hover:text-primary transition-colors cursor-pointer break-all"
-                    >
-                      info@futurehomesinternational.com
-                    </a>
+                    <a href="mailto:info@futurehomesinternational.com" className="text-muted-foreground hover:text-primary transition-colors cursor-pointer break-all">info@futurehomesinternational.com</a>
                   </CardContent>
                 </Card>
 
@@ -143,11 +113,11 @@ const ContactUs = () => {
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
                       <MapPin className="h-6 w-6 text-primary" />
-                      <CardTitle className="text-lg">Main Office</CardTitle>
+                      <CardTitle className="text-lg">{t('contact.main_office')}</CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">Antalya Office</p>
+                    <p className="text-muted-foreground">{t('contact.antalya_office')}</p>
                   </CardContent>
                 </Card>
 
@@ -155,114 +125,62 @@ const ContactUs = () => {
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
                       <Clock className="h-6 w-6 text-primary" />
-                      <CardTitle className="text-lg">Working Hours</CardTitle>
+                      <CardTitle className="text-lg">{t('contact.working_hours')}</CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                    <p className="text-muted-foreground">{t('contact.hours_text')}</p>
                   </CardContent>
                 </Card>
               </div>
 
-              {/* Office Locations */}
               <div>
-                <h3 className="text-xl font-bold text-foreground mb-4">Our Locations</h3>
+                <h3 className="text-xl font-bold text-foreground mb-4">{t('contact.our_locations')}</h3>
                 <div className="space-y-3">
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="h-4 w-4 text-primary" />
-                    <span className="text-muted-foreground">Antalya Office</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="h-4 w-4 text-primary" />
-                    <span className="text-muted-foreground">Mersin Office</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="h-4 w-4 text-primary" />
-                    <span className="text-muted-foreground">Dubai Office</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="h-4 w-4 text-primary" />
-                    <span className="text-muted-foreground">France Office</span>
-                  </div>
+                  <div className="flex items-center space-x-2"><MapPin className="h-4 w-4 text-primary" /><span className="text-muted-foreground">{t('contact.antalya_office')}</span></div>
+                  <div className="flex items-center space-x-2"><MapPin className="h-4 w-4 text-primary" /><span className="text-muted-foreground">{t('contact.mersin_office')}</span></div>
+                  <div className="flex items-center space-x-2"><MapPin className="h-4 w-4 text-primary" /><span className="text-muted-foreground">{t('contact.dubai_office')}</span></div>
+                  <div className="flex items-center space-x-2"><MapPin className="h-4 w-4 text-primary" /><span className="text-muted-foreground">{t('contact.france_office')}</span></div>
                 </div>
               </div>
             </div>
 
-            {/* Contact Form */}
             <Card className="border-none shadow-xl">
               <CardHeader>
-                <CardTitle className="text-2xl">Send Message</CardTitle>
-                <CardDescription>Fill out the form below and we'll get back to you shortly</CardDescription>
+                <CardTitle className="text-2xl">{t('contact.send_message')}</CardTitle>
+                <CardDescription>{t('contact.form_subtitle')}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name</Label>
-                      <Input
-                        id="firstName"
-                        placeholder="First Name"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        required
-                      />
+                      <Label htmlFor="firstName">{t('contact.first_name')}</Label>
+                      <Input id="firstName" placeholder={t('contact.first_name')} value={formData.firstName} onChange={handleInputChange} required />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input
-                        id="lastName"
-                        placeholder="Last Name"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        required
-                      />
+                      <Label htmlFor="lastName">{t('contact.last_name')}</Label>
+                      <Input id="lastName" placeholder={t('contact.last_name')} value={formData.lastName} onChange={handleInputChange} required />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="your.email@example.com"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Label htmlFor="email">{t('contact.email')}</Label>
+                    <Input id="email" type="email" placeholder="your.email@example.com" value={formData.email} onChange={handleInputChange} required />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <Input
-                      id="phone"
-                      placeholder="+90 XXX XXX XX XX"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Label htmlFor="phone">{t('contact.phone_number')}</Label>
+                    <Input id="phone" placeholder="+90 XXX XXX XX XX" value={formData.phone} onChange={handleInputChange} required />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="property">Property Interest</Label>
-                    <Input
-                      id="property"
-                      placeholder="What type of property are you looking for?"
-                      value={formData.property}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Label htmlFor="property">{t('contact.property_interest')}</Label>
+                    <Input id="property" placeholder={t('contact.property_interest_placeholder')} value={formData.property} onChange={handleInputChange} required />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Tell us about your requirements..."
-                      rows={4}
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Label htmlFor="message">{t('contact.message')}</Label>
+                    <Textarea id="message" placeholder={t('contact.message_placeholder')} rows={4} value={formData.message} onChange={handleInputChange} required />
                   </div>
 
                   <Button
@@ -271,7 +189,7 @@ const ContactUs = () => {
                     className="w-full bg-primary hover:bg-primary-glow text-primary-foreground font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     <Send className="w-4 h-4 mr-2" />
-                    {isSubmitting ? "Sending..." : "Send Message"}
+                    {isSubmitting ? t('contact.sending') : t('contact.send_message')}
                   </Button>
                 </form>
               </CardContent>
@@ -279,7 +197,6 @@ const ContactUs = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };

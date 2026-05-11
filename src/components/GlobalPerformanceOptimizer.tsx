@@ -40,15 +40,10 @@ export const GlobalPerformanceOptimizer: React.FC<GlobalPerformanceOptimizerProp
       {/* DNS Prefetch for external domains */}
       {enableResourceHints && (
         <>
-          <link rel="dns-prefetch" href="//cdn.futurehomesturkey.com" />
-          <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-          <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+          <link rel="dns-prefetch" href="//kiogiyemoqbnuvclneoe.supabase.co" />
           
-          {/* Preconnect to critical domains */}
-          <link rel="preconnect" href="https://cdn.futurehomesturkey.com" crossOrigin="anonymous" />
-          
-          {/* Preload critical images */}
-          {criticalImages.slice(0, 3).map((src, index) => (
+          {/* Preload critical images - max 2 to avoid network saturation */}
+          {criticalImages.slice(0, 2).map((src, index) => (
             <link
               key={index}
               rel="preload"
@@ -57,9 +52,6 @@ export const GlobalPerformanceOptimizer: React.FC<GlobalPerformanceOptimizerProp
               fetchPriority={index === 0 ? 'high' : 'auto'}
             />
           ))}
-          
-          {/* Critical CSS preload */}
-          <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         </>
       )}
       

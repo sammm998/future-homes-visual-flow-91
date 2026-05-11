@@ -92,6 +92,22 @@ export const useProperty = (id: string) => {
           return null;
         }
 
+        // Fetch translation for current language (if not English)
+        if (lang && lang !== 'en' && dbProperty.id) {
+          const { data: translation } = await enhancedSupabase
+            .from('property_translations')
+            .select('title, description, location')
+            .eq('property_id', dbProperty.id)
+            .eq('language_code', lang)
+            .maybeSingle();
+
+          if (translation) {
+            if (translation.title) dbProperty.title = translation.title;
+            if (translation.description) dbProperty.description = translation.description;
+            if (translation.location) dbProperty.location = translation.location;
+          }
+        }
+
         // Transform the database property to expected format
         let features: string[] = [];
         if (dbProperty.property_facilities && Array.isArray(dbProperty.property_facilities)) {

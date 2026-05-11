@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import DOMPurify from 'dompurify';
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
@@ -12,6 +12,7 @@ import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { articles as staticArticles } from '@/data/articlesData';
 
 import { Badge } from "@/components/ui/badge";
+import CategoryCardCover from "@/components/CategoryCardCover";
 import { NavBar } from "@/components/ui/tubelight-navbar";
 import { 
   ArrowRight, 
@@ -61,6 +62,7 @@ import {
   Coins 
 } from "lucide-react";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useTranslation } from "@/hooks/useTranslation";
 
 // Import new generated images
 import propertyInspectionChecklist from "@/assets/property-inspection-checklist.jpg";
@@ -84,54 +86,48 @@ import realEstateFundPerformanceAnalysis from "@/assets/real-estate-fund-perform
 import distressedRealEstateInvestment from "@/assets/distressed-real-estate-investment.jpg";
 import realEstateTechnologyTransformation from "@/assets/real-estate-technology-transformation.jpg";
 
+const STORAGE_KEY = 'fh:lastInfoFilter';
+
 const Information = () => {
   const navigate = useNavigate();
-  
-  const [activeFilter, setActiveFilter] = useState<string>("all");
+  const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Read initial filter from URL (?cat=dubai) so deep-links and back-navigation work
+  const initialFilter = searchParams.get('cat') || sessionStorage.getItem(STORAGE_KEY) || 'all';
+  const [activeFilter, setActiveFilter] = useState<string>(initialFilter);
+
+  // Keep URL + sessionStorage in sync when the user switches filter
+  useEffect(() => {
+    try { sessionStorage.setItem(STORAGE_KEY, activeFilter); } catch {}
+    const next = new URLSearchParams(searchParams);
+    if (activeFilter && activeFilter !== 'all') {
+      next.set('cat', activeFilter);
+    } else {
+      next.delete('cat');
+    }
+    // Avoid pushing duplicate history entries
+    if (next.toString() !== searchParams.toString()) {
+      setSearchParams(next, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeFilter]);
+
   const { blogPosts, loading } = useBlogPosts();
   const { heroTitle, heroSubtitle, contentSections, isLoading: contentLoading } = useWebsiteContent("information");
 
-  const filterItems = [{
-    name: "All",
-    value: "all",
-    icon: Filter
-  }, {
-    name: "Property",
-    value: "property",
-    icon: Home
-  }, {
-    name: "Legal",
-    value: "legal",
-    icon: Scale
-  }, {
-    name: "Finance",
-    value: "finance",
-    icon: DollarSign
-  }, {
-    name: "Living",
-    value: "living",
-    icon: Users
-  }, {
-    name: "Investment",
-    value: "investment",
-    icon: Briefcase
-  }, {
-    name: "Dubai",
-    value: "dubai",
-    icon: Building
-  }, {
-    name: "Bali",
-    value: "bali",
-    icon: TreePine
-  }, {
-    name: "Turkey",
-    value: "turkey",
-    icon: MapPin
-  }, {
-    name: "Cyprus",
-    value: "cyprus",
-    icon: Globe
-  }];
+  const filterItems = [
+    { name: t('info.all'), value: "all", icon: Filter },
+    { name: t('info.property'), value: "property", icon: Home },
+    { name: t('info.legal'), value: "legal", icon: Scale },
+    { name: t('info.finance'), value: "finance", icon: DollarSign },
+    { name: t('info.living'), value: "living", icon: Users },
+    { name: t('info.investment'), value: "investment", icon: Briefcase },
+    { name: t('info.dubai'), value: "dubai", icon: Building },
+    { name: t('info.bali'), value: "bali", icon: TreePine },
+    { name: t('info.turkey'), value: "turkey", icon: MapPin },
+    { name: t('info.cyprus'), value: "cyprus", icon: Globe },
+  ];
 
   // Helper function to determine category based on title/content
   const getArticleCategory = (title: string, content: string) => {
@@ -389,12 +385,15 @@ const Information = () => {
 
   const handleArticleClick = (slug: string) => {
     console.log(`Clicking article with slug: ${slug}`);
-    
+
+    // Persist current filter so the article's Back button can return to it
+    try { sessionStorage.setItem(STORAGE_KEY, activeFilter); } catch {}
+
     // Check if it's a database article (has proper slug from Supabase)
     const isDatabaseArticle = databaseArticles.some(article => article.slug === slug);
-    
+
     console.log(`Is database article: ${isDatabaseArticle}`);
-    
+
     if (isDatabaseArticle) {
       navigate(`/articles/${slug}`);
     } else {
@@ -411,7 +410,7 @@ const Information = () => {
         <div className="pt-20 pb-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">Loading Articles...</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">{t('info.loading_articles')}</h1>
             </div>
           </div>
         </div>
@@ -444,13 +443,13 @@ const Information = () => {
 
           {/* Hero Section - Database content with fallback */}
           <div className="text-center mb-8">
-            <Badge className="mb-4">Information Center</Badge>
+            <Badge className="mb-4">{t('info.badge')}</Badge>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              {heroTitle || "Information Center"}
+              {heroTitle || t('info.hero_title')}
             </h1>
             <div className="max-w-4xl mx-auto">
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                {heroSubtitle || "Comprehensive guides and insights for property investment, legal requirements and living abroad. Everything you need to know about international real estate."}
+                {heroSubtitle || t('info.hero_subtitle')}
               </p>
             </div>
           </div>
@@ -481,28 +480,12 @@ const Information = () => {
                 className="group hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden"
                 onClick={() => handleArticleClick(article.slug)}
               >
-                {/* Article Image */}
+                {/* Article Cover (branded category design) */}
                 <div className="relative h-48 w-full overflow-hidden">
-                   <img 
-                    src={article.image} 
-                    alt={article.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      // Use a more reliable fallback image
-                      e.currentTarget.src = `https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop&crop=center`;
-                    }}
-                    loading="lazy"
+                  <CategoryCardCover
+                    category={article.category as any}
+                    title={article.title}
                   />
-                  <div className="absolute top-4 right-4">
-                    <Badge variant="secondary" className="text-xs capitalize bg-white/90 backdrop-blur-sm">
-                      {article.category}
-                    </Badge>
-                  </div>
-                  <div className="absolute bottom-4 left-4">
-                    <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                      <article.icon className="w-6 h-6 text-primary" />
-                    </div>
-                  </div>
                 </div>
 
                 <CardHeader className="pb-4">
@@ -522,7 +505,7 @@ const Information = () => {
                       handleArticleClick(article.slug);
                     }}
                   >
-                    Read More 
+                    {t('info.read_more')} 
                     <ArrowRight size={16} className="ml-2 transition-transform group-hover/button:translate-x-1" />
                   </Button>
                 </CardContent>
@@ -534,9 +517,9 @@ const Information = () => {
           {filteredArticles.length === 0 && (
             <div className="text-center py-16">
               <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold text-foreground mb-2">No Articles Found</h3>
+              <h3 className="text-2xl font-semibold text-foreground mb-2">{t('info.no_articles')}</h3>
               <p className="text-muted-foreground">
-                No articles match the selected filter. Try selecting a different category.
+                {t('info.no_articles_desc')}
               </p>
             </div>
           )}
@@ -549,7 +532,7 @@ const Information = () => {
               className="flex items-center gap-2"
             >
               <ArrowLeft size={16} />
-              Back to Home
+              {t('info.back_home')}
             </Button>
           </div>
         </div>

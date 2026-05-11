@@ -3,12 +3,16 @@ export const PATH_TRANSLATIONS: Record<string, string> = {
   en: 'property',
   sv: 'fastighet',
   tr: 'mulk',
-  ar: 'aqar',      // عقار
-  ru: 'nedvizhimost', // недвижимость
+  ar: 'aqar',          // عقار
+  ru: 'nedvizhimost',  // недвижимость
   no: 'eiendom',
   da: 'ejendom',
-  fa: 'melk',      // ملک
-  ur: 'jaidad',    // جائیداد
+  fa: 'melk',          // ملک
+  ur: 'jaidad',        // جائیداد
+  es: 'propiedad',
+  de: 'immobilie',
+  fr: 'propriete',
+  id: 'properti',
 };
 
 // Reverse mapping for path lookup
@@ -38,16 +42,39 @@ export const getLanguageSlug = (property: any, lang: string | null): string => {
     da: property.slug_da,
     fa: property.slug_fa,
     ur: property.slug_ur,
+    es: property.slug_es,
+    de: property.slug_de,
+    fr: property.slug_fr,
+    id: property.slug_id,
   };
   
   // Return language-specific slug or fall back to English slug
   return slugMap[lang] || property.slug || property.refNo || property.ref_no || property.id;
 };
 
-// Get current language from URL search params
+// Get current language from URL search params, falling back to localStorage
 export const getCurrentLanguage = (search: string): string | null => {
   const searchParams = new URLSearchParams(search);
-  return searchParams.get('lang');
+  const langFromUrl = searchParams.get('lang');
+  
+  if (langFromUrl) {
+    if (typeof window !== 'undefined') {
+      if (langFromUrl === 'en') {
+        localStorage.removeItem('preferred_language');
+      } else {
+        localStorage.setItem('preferred_language', langFromUrl);
+      }
+    }
+    return langFromUrl;
+  }
+  
+  // Fall back to localStorage
+  if (typeof window !== 'undefined') {
+    const savedLang = localStorage.getItem('preferred_language');
+    if (savedLang && savedLang !== 'en') return savedLang;
+  }
+  
+  return null;
 };
 
 // Build language parameter string

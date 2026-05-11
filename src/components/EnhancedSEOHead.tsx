@@ -153,10 +153,8 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
       <link rel="manifest" href="/site.webmanifest?v=3" />
       <meta name="theme-color" content="#1a202c" />
 
-      {/* Performance and Security */}
-      <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      {/* Performance */}
+      <link rel="dns-prefetch" href="//kiogiyemoqbnuvclneoe.supabase.co" />
       
       {/* Structured Data */}
       <script type="application/ld+json">

@@ -26,8 +26,10 @@ import {
 } from "@/components/ui/pagination";
 import { preloadImages, forceImageLoading } from '@/utils/imagePreloader';
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const MersinPropertySearch = () => {
+  const { t } = useTranslation();
   const { canonicalUrl, hreflangUrls } = useSEOLanguage();
   const navigate = useNavigate();
   const location = useLocation();
@@ -116,8 +118,7 @@ const MersinPropertySearch = () => {
   const mersinProperties = useMemo(() => {
     const filtered = allProperties.filter(property => {
       const hasLocation = property.location?.toLowerCase().includes('mersin');
-      const isNotSold = !property.status?.toLowerCase().includes('sold');
-      return hasLocation && isNotSold;
+      return hasLocation;
     }).map(property => ({
       id: property.id, // Keep original UUID for key
       refNo: property.ref_no,
@@ -336,10 +337,10 @@ const MersinPropertySearch = () => {
         {/* Header */}
         <div className="mb-6">
           <h2 className="text-3xl font-bold text-foreground mb-2">
-            Properties in Mersin
+            {t('city.properties_in')} Mersin
           </h2>
           <p className="text-muted-foreground">
-            {filteredProperties.length} properties found
+            {filteredProperties.length} {t('city.found')}
           </p>
         </div>
 
@@ -371,9 +372,9 @@ const MersinPropertySearch = () => {
             {filteredProperties.length === 0 && (
               <div className="flex items-center justify-center min-h-[400px]">
                 <div className="text-center">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">No properties found</h3>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{t('city.no_found')}</h3>
                   <p className="text-muted-foreground mb-4">
-                    Try adjusting your filters or browse all properties.
+                    {t('city.try_adjust')}
                   </p>
                   <Button onClick={() => {
                     setFilters({

@@ -506,9 +506,7 @@ NEVER show non-existent properties. Use ONLY the real data above.`;
 
     const data = await response.json();
     let aiResponse = data.choices[0].message.content;
-    
-    // Remove markdown characters like * and # from the response
-    aiResponse = aiResponse.replace(/[*#]/g, '');
+    // Keep markdown formatting — frontend renders with react-markdown
 
     console.log('AI Response:', aiResponse);
 
@@ -547,9 +545,40 @@ NEVER show non-existent properties. Use ONLY the real data above.`;
       console.log('Found property links:', propertyLinks.length);
     }
 
+    // Search blog posts/articles for relevant content
+    let articleLinks: any[] = [];
+    try {
+      const articleKeywords = ['article', 'guide', 'blog', 'tips', 'how', 'why', 'what', 'citizenship', 'residence', 'tax', 'investment', 'visa', 'expense', 'cost', 'process', 'law', 'legal', 'artikel', 'guide', 'blogg', 'tips', 'hur', 'varför', 'vad', 'medborgarskap', 'uppehåll', 'skatt', 'investering', 'kostnad', 'process', 'lag'];
+      const isArticleQuery = articleKeywords.some(k => message.toLowerCase().includes(k.toLowerCase()));
+
+      if (isArticleQuery || isPropertyQuery) {
+        const searchTerm = message.toLowerCase().substring(0, 100);
+        const { data: articles } = await supabase
+          .from('blog_posts')
+          .select('id, slug, title, excerpt, featured_image')
+          .eq('published', true)
+          .or(`title.ilike.%${searchTerm.split(' ').slice(0, 3).join(' ')}%,excerpt.ilike.%${searchTerm.split(' ').slice(0, 3).join(' ')}%`)
+          .limit(3);
+
+        if (articles && articles.length > 0) {
+          articleLinks = articles.map(a => ({
+            id: a.id,
+            slug: a.slug,
+            title: a.title,
+            excerpt: a.excerpt,
+            image: a.featured_image,
+          }));
+          console.log('Found article links:', articleLinks.length);
+        }
+      }
+    } catch (articleError) {
+      console.error('Error searching articles:', articleError);
+    }
+
     return new Response(JSON.stringify({
       response: aiResponse,
       propertyLinks: propertyLinks,
+      articleLinks: articleLinks,
       detectedLanguage: detectedLanguage,
       conversationId: finalConversationId
     }), {

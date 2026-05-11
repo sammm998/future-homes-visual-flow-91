@@ -9,25 +9,45 @@ interface LanguageConfig {
 
 export const supportedLanguages: LanguageConfig[] = [
   { code: 'en', name: 'English', baseUrl: 'https://futurehomesinternational.com', hreflang: 'en' },
+  { code: 'es', name: 'Español', baseUrl: 'https://futurehomesinternational.com', hreflang: 'es' },
   { code: 'sv', name: 'Svenska', baseUrl: 'https://futurehomesinternational.com', hreflang: 'sv' },
   { code: 'no', name: 'Norsk', baseUrl: 'https://futurehomesinternational.com', hreflang: 'no' },
   { code: 'da', name: 'Dansk', baseUrl: 'https://futurehomesinternational.com', hreflang: 'da' },
+  { code: 'de', name: 'Deutsch', baseUrl: 'https://futurehomesinternational.com', hreflang: 'de' },
+  { code: 'fr', name: 'Français', baseUrl: 'https://futurehomesinternational.com', hreflang: 'fr' },
   { code: 'tr', name: 'Türkçe', baseUrl: 'https://futurehomesinternational.com', hreflang: 'tr' },
-  { code: 'ar', name: 'العربية', baseUrl: 'https://futurehomesinternational.com', hreflang: 'ar' },
   { code: 'ru', name: 'Русский', baseUrl: 'https://futurehomesinternational.com', hreflang: 'ru' },
+  { code: 'ar', name: 'العربية', baseUrl: 'https://futurehomesinternational.com', hreflang: 'ar' },
   { code: 'fa', name: 'فارسی', baseUrl: 'https://futurehomesinternational.com', hreflang: 'fa' },
   { code: 'ur', name: 'اردو', baseUrl: 'https://futurehomesinternational.com', hreflang: 'ur' },
+  { code: 'id', name: 'Bahasa Indonesia', baseUrl: 'https://futurehomesinternational.com', hreflang: 'id' },
 ];
 
 /**
- * Get the current language from URL parameters
+ * Get the current language from URL parameters, falling back to localStorage
  */
 export const getCurrentLanguage = (): string => {
   if (typeof window === 'undefined') return 'en';
   
   const urlParams = new URLSearchParams(window.location.search);
-  const lang = urlParams.get('lang');
-  return lang && supportedLanguages.some(l => l.code === lang) ? lang : 'en';
+  const langFromUrl = urlParams.get('lang');
+  
+  if (langFromUrl && supportedLanguages.some(l => l.code === langFromUrl)) {
+    if (langFromUrl === 'en') {
+      localStorage.removeItem('preferred_language');
+    } else {
+      localStorage.setItem('preferred_language', langFromUrl);
+    }
+    return langFromUrl;
+  }
+  
+  // Fall back to localStorage
+  const savedLang = localStorage.getItem('preferred_language');
+  if (savedLang && supportedLanguages.some(l => l.code === savedLang)) {
+    return savedLang;
+  }
+  
+  return 'en';
 };
 
 /**
