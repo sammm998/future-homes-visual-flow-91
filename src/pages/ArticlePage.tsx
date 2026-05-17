@@ -174,20 +174,25 @@ const ArticlePage = () => {
 
   const tags = extractTags(blogPost.content, blogPost.title);
 
+  const ORIGIN = 'https://futurehomesinternational.com';
+  const rawImage = blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content);
+  const absImage = rawImage?.startsWith('http') ? rawImage : `${ORIGIN}${rawImage}`;
+  const canonical = `${ORIGIN}/articles/${blogPost.slug}`;
+
   return (
     <>
       <Helmet>
         <title>{blogPost.title} - Future Homes</title>
         <meta name="description" content={blogPost.excerpt || `${blogPost.title} - Read more on Future Homes blog`} />
         <meta name="keywords" content={tags.join(', ')} />
-        <link rel="canonical" href={`${window.location.origin}/articles/${blogPost.slug}`} />
+        <link rel="canonical" href={canonical} />
         
         {/* Open Graph tags */}
         <meta property="og:title" content={blogPost.title} />
         <meta property="og:description" content={blogPost.excerpt || blogPost.title} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`${window.location.origin}/articles/${blogPost.slug}`} />
-        <meta property="og:image" content={blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content)} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:image" content={absImage} />
         <meta property="article:published_time" content={blogPost.created_at} />
         {blogPost.updated_at && (
           <meta property="article:modified_time" content={blogPost.updated_at} />
@@ -197,7 +202,7 @@ const ArticlePage = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={blogPost.title} />
         <meta name="twitter:description" content={blogPost.excerpt || blogPost.title} />
-        <meta name="twitter:image" content={blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content)} />
+        <meta name="twitter:image" content={absImage} />
         
         {/* Structured Data */}
         <script type="application/ld+json">
@@ -206,7 +211,7 @@ const ArticlePage = () => {
             "@type": "Article",
             "headline": blogPost.title,
             "description": blogPost.excerpt || blogPost.title,
-            "image": blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content),
+            "image": absImage,
             "datePublished": blogPost.created_at,
             "dateModified": blogPost.updated_at || blogPost.created_at,
             "author": {
@@ -218,13 +223,13 @@ const ArticlePage = () => {
               "name": "Future Homes",
               "logo": {
                 "@type": "ImageObject",
-                "url": "/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png"
+                "url": `${ORIGIN}/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png`
               }
             },
-            "url": `${window.location.origin}/articles/${blogPost.slug}`,
+            "url": canonical,
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `${window.location.origin}/articles/${blogPost.slug}`
+              "@id": canonical
             }
           })}
         </script>
