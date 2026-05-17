@@ -27,7 +27,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   description,
   keywords = "real estate Turkey, property investment Dubai, Cyprus properties, Turkish citizenship, luxury homes, overseas investment, international real estate, property for sale, investment opportunities",
   canonicalUrl,
-  ogImage = '/og-image.jpg',
+  ogImage = 'https://futurehomesinternational.com/og-image.jpg',
   ogType = 'website',
   structuredData,
   hreflangUrls = {},

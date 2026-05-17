@@ -1,0 +1,30 @@
+# Future Homes International
+
+> International real estate agency offering premium properties, investment guidance, and citizenship-by-investment programs across Turkey, Dubai, Cyprus, and Bali.
+
+Future Homes International helps overseas buyers find apartments, villas, and off-plan developments in Turkey (Antalya, Istanbul, Mersin), the UAE (Dubai), Cyprus, and Indonesia (Bali). The site lists active properties, regional guides, legal/tax information, and the Turkish Citizenship by Investment program.
+
+## Pages
+
+- [Home](/): Overview of Future Homes International and featured destinations.
+- [About Us](/about-us): Company background, founders, and offices.
+- [Contact Us](/contact-us): Sales contacts and office addresses.
+- [Information Center](/information): Articles on buying, legal, tax, lifestyle, and investment.
+- [Testimonials](/testimonials): Client reviews and case studies.
+- [Property Wizard](/property-wizard): Guided matchmaking to suitable properties.
+- [AI Property Search](/ai-property-search): Natural-language property search.
+- [Map Search](/map-search): Browse properties on an interactive map.
+
+## Destinations
+
+- [Antalya, Turkey](/antalya): Properties on the Turkish Riviera.
+- [Istanbul, Turkey](/istanbul): Apartments and investment opportunities in Istanbul.
+- [Mersin, Turkey](/mersin): Coastal Mediterranean properties.
+- [Dubai, UAE](/dubai): Luxury apartments, villas, and off-plan projects.
+- [Cyprus](/cyprus): EU residency and Mediterranean homes.
+- [Bali, Indonesia](/bali): Villas and rental-yield investments.
+
+## Optional
+
+- [Sitemap](/sitemap.xml): Full list of indexable URLs.
+- [Robots](/robots.txt): Crawler directives.
