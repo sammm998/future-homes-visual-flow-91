@@ -125,6 +125,7 @@ function AppContent() {
   return (
     <>
       <ConnectionStatus />
+      <main>
       <Routes>
       <Route path="/" element={
         <>
