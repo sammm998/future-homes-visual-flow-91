@@ -37,10 +37,9 @@ async function translateOne(opts: {
 }): Promise<{ title: string; excerpt: string; content: string }> {
   const sys =
     `You are a professional translator for a luxury international real-estate company. ` +
-    `Translate the user's article into ${opts.targetLangName}. ` +
-    `Preserve all HTML tags, structure, brand names, place names (e.g. Antalya, Dubai, Mersin, Cyprus, Bali), ` +
-    `and numbers. Translate naturally and idiomatically — do not transliterate place names. ` +
-    `Return ONLY a JSON object via the provided tool. No commentary.`;
+    `Translate the article into ${opts.targetLangName}. ` +
+    `Preserve all HTML tags, structure, brand names, place names (Antalya, Dubai, Mersin, Cyprus, Bali), and numbers. ` +
+    `Translate naturally and idiomatically. Return ONLY valid JSON matching the schema, no markdown fences, no commentary.`;
 
   const user = JSON.stringify({
     title: opts.title,
@@ -48,50 +47,39 @@ async function translateOne(opts: {
     content: opts.content,
   });
 
-  const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
-      messages: [
-        { role: "system", content: sys },
-        { role: "user", content: user },
-      ],
-      tools: [
-        {
-          type: "function",
-          function: {
-            name: "return_translation",
-            description: "Return the translated article fields.",
-            parameters: {
-              type: "object",
-              properties: {
-                title: { type: "string" },
-                excerpt: { type: "string" },
-                content: { type: "string" },
-              },
-              required: ["title", "excerpt", "content"],
-              additionalProperties: false,
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: sys }] },
+        contents: [{ role: "user", parts: [{ text: user }] }],
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              title: { type: "STRING" },
+              excerpt: { type: "STRING" },
+              content: { type: "STRING" },
             },
+            required: ["title", "excerpt", "content"],
           },
+          temperature: 0.3,
         },
-      ],
-      tool_choice: { type: "function", function: { name: "return_translation" } },
-    }),
-  });
+      }),
+    }
+  );
 
   if (!resp.ok) {
     const txt = await resp.text();
-    throw new Error(`AI gateway ${resp.status}: ${txt}`);
+    throw new Error(`Gemini ${resp.status}: ${txt}`);
   }
   const data = await resp.json();
-  const args =
-    data?.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments;
-  if (!args) throw new Error("No tool call returned by AI");
-  const parsed = JSON.parse(args);
+  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) throw new Error("Empty Gemini response");
+  const parsed = JSON.parse(text);
   return {
     title: String(parsed.title || opts.title),
     excerpt: String(parsed.excerpt || opts.excerpt || ""),
