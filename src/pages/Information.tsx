@@ -480,12 +480,22 @@ const Information = () => {
                 className="group hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden"
                 onClick={() => handleArticleClick(article.slug)}
               >
-                {/* Article Cover (branded category design) */}
+                {/* Article Cover — AI-generated image if available, otherwise branded category design */}
                 <div className="relative h-48 w-full overflow-hidden">
-                  <CategoryCardCover
-                    category={article.category as any}
-                    title={article.title}
-                  />
+                  {article.image && /^https?:\/\//.test(article.image) ? (
+                    <img
+                      src={article.image}
+                      alt={article.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  ) : (
+                    <CategoryCardCover
+                      category={article.category as any}
+                      title={article.title}
+                    />
+                  )}
                 </div>
 
                 <CardHeader className="pb-4">
