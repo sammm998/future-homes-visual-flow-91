@@ -126,14 +126,23 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
 
           {/* Article Container */}
           <div className="max-w-4xl mx-auto">
-            {/* Category-branded hero — consistent design per topic */}
-            <CategoryHero
-              category={resolvedCategory}
-              title={title}
-              excerpt={excerpt}
-            />
-
-            {/* Featured image intentionally hidden — CategoryHero serves as the single visual */}
+            {/* Hero — AI-generated featured image when available, otherwise branded category hero */}
+            {featuredImage && /^https?:\/\//.test(featuredImage) ? (
+              <div className="relative w-full aspect-[16/9] mb-8 overflow-hidden rounded-2xl shadow-elegant">
+                <img
+                  src={featuredImage}
+                  alt={title}
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                />
+              </div>
+            ) : (
+              <CategoryHero
+                category={resolvedCategory}
+                title={title}
+                excerpt={excerpt}
+              />
+            )}
 
             {/* Article Meta */}
             <motion.div 
