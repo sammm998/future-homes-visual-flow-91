@@ -171,6 +171,7 @@ function AppContent() {
       <Route path="/admin-dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
       <Route path="*" element={<NotFound />} />
       </Routes>
+      </main>
     </>
   );
 }
