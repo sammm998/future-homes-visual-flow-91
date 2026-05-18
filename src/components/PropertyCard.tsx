@@ -179,7 +179,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
               <div className="bg-primary/10 rounded-full p-1.5 mr-3">
                 <MapPin className="w-3.5 h-3.5 text-primary" />
               </div>
-              <span className="font-medium text-sm">{property.location}</span>
+              <span className="font-medium text-sm">{(property as any).location_translated || property.location}</span>
             </div>
           </div>
 
