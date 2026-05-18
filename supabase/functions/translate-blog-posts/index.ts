@@ -117,7 +117,7 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY missing");
+    if (!GEMINI_API_KEY) throw new Error("GEMINI_API_KEY missing");
     const supabase = createClient(SUPABASE_URL, SERVICE_ROLE);
 
     const url = new URL(req.url);
