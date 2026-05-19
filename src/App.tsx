@@ -19,6 +19,7 @@ import { useLanguageUrlSync } from "@/hooks/useLanguageUrlSync";
 const Index = lazy(() => import("./pages/Index"));
 const PropertyWizard = lazy(() => import("./pages/PropertyWizard"));
 const AIPropertySearch = lazy(() => import("./pages/AIPropertySearch"));
+const DesignYourHome = lazy(() => import("./pages/DesignYourHome"));
 
 const AntalyaPropertySearch = lazy(() => import("./pages/AntalyaPropertySearch"));
 const IstanbulPropertySearch = lazy(() => import("./pages/IstanbulPropertySearch"));
