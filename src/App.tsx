@@ -150,6 +150,7 @@ function App() {
 function AppContent() {
   // Sync language URL when ?lang= changes (e.g. from Elfsight widget)
   useLanguageUrlSync();
+  useAnalyticsTracker();
 
   return (
     <>
