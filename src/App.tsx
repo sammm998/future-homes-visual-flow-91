@@ -171,6 +171,9 @@ function AppContent() {
       <Route path="/article/:id" element={<Article />} />
       <Route path="/articles/:slug" element={<ArticlePage />} />
       <Route path="/articles/expenses-buying-property-turkey" element={<ExpensesBuyingPropertyTurkey />} />
+      <Route path="/courses" element={<CoursesIndex />} />
+      <Route path="/courses/:country" element={<CourseOverview />} />
+      <Route path="/courses/:country/:moduleSlug" element={<CourseLesson />} />
       <Route path="/sitemap.xml" element={<SitemapXML />} />
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/admin-dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
