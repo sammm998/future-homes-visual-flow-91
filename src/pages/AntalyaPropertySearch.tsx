@@ -224,7 +224,7 @@ const AntalyaPropertySearch = () => {
     });
   };
   return <div className="min-h-screen bg-background">
-      <SEOHead title="Buy Property in Antalya | Real Estate & Apartments for Sale | Future Homes" description="Discover premium properties in Antalya. Luxury beachfront apartments, villas & investment opportunities. Citizenship programs available. Expert guidance from Future Homes International." keywords="Antalya real estate, buy property Antalya, property for sale, Antalya apartments, citizenship by investment, beachfront properties Antalya, property investment Antalya, Antalya homes" canonicalUrl={canonicalUrl} hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))} structuredData={[
+      <SEOHead title="Property for Sale in Antalya | Apartments & Villas in Turkey — Future Homes" description="Property for sale in Antalya: beachfront apartments, sea-view villas & off-plan homes in Konyaaltı, Lara, Alanya & Belek. From €70,000 with Turkish citizenship eligibility." keywords="property for sale in antalya turkey, apartments for sale in antalya, buy an apartment in antalya, villas for sale in antalya, alanya property sale, antalya real estate, antalya apartments, home in antalya, belek property" canonicalUrl={canonicalUrl} hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))} structuredData={[
         generateLocationSchema('Antalya', 'Premium beachfront real estate in Antalya, Turkey. Luxury apartments, villas & investment properties with citizenship programs.'),
         generateBreadcrumbSchema([
           { name: 'Home', url: 'https://futurehomesinternational.com' },
