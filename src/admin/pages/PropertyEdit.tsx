@@ -190,7 +190,7 @@ export default function PropertyEdit() {
               </div>
               <div className="flex items-center justify-between">
                 <Label>Citizenship eligible</Label>
-                <Switch checked={form.citizenship_eligible} onCheckedChange={(v) => set("citizenship_eligible", v)} />
+                <Switch isSelected={!!form.citizenship_eligible} onChange={(v) => set("citizenship_eligible", v)} />
               </div>
             </CardContent>
           </Card>
