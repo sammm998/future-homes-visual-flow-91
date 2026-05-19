@@ -378,9 +378,27 @@ const PropertyDetail = () => {
   };
   const agent = getAgentData(property.agent);
 
-  // Generate SEO metadata
-  const propertyTitle = `${property.title} - ${property.location || 'Property'} | Future Homes`;
-  const propertyDescription = `${property.title} in ${property.location || 'prime location'}. ${property.bedrooms || 'N/A'} bedrooms, ${property.bathrooms || 'N/A'} bathrooms, ${property.area || 'N/A'} area. Price: ${property.price}. ${property.description?.substring(0, 100) || ''}...`;
+  // Generate SEO metadata (Title ≤60 chars, Description ≤160 chars)
+  const truncate = (s: string, n: number) => {
+    const t = (s || '').trim();
+    if (t.length <= n) return t;
+    const cut = t.slice(0, n - 1);
+    const lastSpace = cut.lastIndexOf(' ');
+    return (lastSpace > 40 ? cut.slice(0, lastSpace) : cut).replace(/[\s,.;:-]+$/, '') + '…';
+  };
+  const brandSuffix = ' | Future Homes';
+  const baseTitle = property.location
+    ? `${property.title} – ${property.location}`
+    : property.title;
+  const propertyTitle = truncate(baseTitle, 60 - brandSuffix.length) + brandSuffix;
+
+  const descParts = [
+    property.bedrooms ? `${property.bedrooms} bed` : null,
+    property.bathrooms ? `${property.bathrooms} bath` : null,
+    property.area ? `${property.area} m²` : null,
+  ].filter(Boolean).join(', ');
+  const rawDesc = `${property.title}${property.location ? ` in ${property.location}` : ''}${descParts ? `. ${descParts}` : ''}${property.price ? `. From ${property.price}.` : '.'}`;
+  const propertyDescription = truncate(rawDesc, 160);
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
 
   const canonicalUrl = `https://futurehomesinternational.com${buildPropertyUrl(property, lang)}`;

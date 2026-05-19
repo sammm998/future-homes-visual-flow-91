@@ -62,8 +62,16 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
       { value: 'al-satwa', label: 'Al Satwa' }
     ],
     'Mersin': [
-      { value: 'fethiye', label: 'Fethiye' },
-      { value: 'milas', label: 'Milas' }
+      { value: 'tece', label: 'Tece' },
+      { value: 'mezitli', label: 'Mezitli' },
+      { value: 'erdemli', label: 'Erdemli' },
+      { value: 'yenisehir', label: 'Yenişehir' },
+      { value: 'toroslar', label: 'Toroslar' },
+      { value: 'akdeniz', label: 'Akdeniz' },
+      { value: 'tarsus', label: 'Tarsus' },
+      { value: 'silifke', label: 'Silifke' },
+      { value: 'anamur', label: 'Anamur' },
+      { value: 'bozyazi', label: 'Bozyazı' }
     ],
     'Istanbul': [
       { value: 'besiktas', label: 'Beşiktaş' },
