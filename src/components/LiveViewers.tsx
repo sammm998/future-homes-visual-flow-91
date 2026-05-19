@@ -46,16 +46,18 @@ export default function LiveViewers({ propertyId, compact = false }: LiveViewers
   return (
     <div className={
       compact
-        ? "inline-flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 px-2.5 py-1 text-xs font-semibold text-white shadow-lg"
+        ? "inline-flex items-center gap-2 px-2.5 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-sm"
         : "inline-flex items-center gap-2 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 px-3 py-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-300"
     }>
       <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+        <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${compact ? "bg-red-400" : "bg-emerald-400"}`} />
+        <span className={`relative inline-flex h-2 w-2 rounded-full ${compact ? "bg-red-500" : "bg-emerald-500"}`} />
       </span>
       {!compact && <Eye className="h-3.5 w-3.5" />}
       {compact ? (
-        <span><strong className="tabular-nums">{count}</strong> viewing now</span>
+        <span className="text-[11px] font-medium text-[#0f1b3d]" style={{ fontFamily: 'Epilogue, sans-serif' }}>
+          <strong className="tabular-nums font-semibold">{count}</strong> viewing now
+        </span>
       ) : (
         <span>
           <strong className="tabular-nums">{count}</strong> {count === 1 ? "person is" : "people are"} viewing this right now

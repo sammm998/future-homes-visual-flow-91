@@ -113,83 +113,125 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
 
   return (
     <Link to={propertyUrl} className="block h-full">
-      <Card className="group relative cursor-pointer overflow-hidden h-full bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-foreground/5 hover:border-border transition-all duration-500 hover:-translate-y-1">
-        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+      <article className="group relative w-full h-full bg-white overflow-hidden shadow-2xl transition-all duration-500 hover:-translate-y-1">
+        {/* Image Section */}
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#1e3a5f]">
           <OptimizedPropertyImage
             src={getImageUrl()}
             alt={property.title}
-            className="w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-[1200ms] ease-out"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             priority={priority}
           />
 
-          {/* Soft top gradient for badge legibility */}
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
-
-          {/* Status pill — minimal, single chip */}
-          <div className="absolute top-3 left-3 z-10">
-            <div className={`${statusConfig.className} backdrop-blur-md rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] shadow-sm`}>
+          {/* Status — sharp pill top-left */}
+          <div className="absolute top-4 left-4">
+            <span
+              className="px-3 py-1 bg-[#0f1b3d] text-white text-[10px] font-bold tracking-widest uppercase"
+              style={{ fontFamily: 'Urbanist, sans-serif' }}
+            >
               {statusConfig.text}
-            </div>
+            </span>
           </div>
 
-          {/* Live viewers — bottom right, fades on hover */}
-          <div className="absolute bottom-3 right-3 z-10 transition-opacity duration-300 group-hover:opacity-0">
+          {/* Live viewing badge — top-right */}
+          <div className="absolute top-4 right-4 transition-opacity duration-300 group-hover:opacity-90">
             <LiveViewers propertyId={String(property.id)} compact />
           </div>
 
-          {/* REF chip — bottom left */}
+          {/* REF Chip — bottom-left */}
           {property.refNo && (
-            <div className="absolute bottom-3 left-3 z-10 transition-opacity duration-300 group-hover:opacity-0">
-              <span className="inline-flex items-center rounded-full bg-black/55 backdrop-blur-md text-white text-[10px] font-mono tracking-wider px-2.5 py-1">
-                #{property.refNo}
+            <div className="absolute bottom-4 left-4">
+              <span
+                className="px-2 py-0.5 bg-black/40 backdrop-blur-sm text-white text-[10px] rounded"
+                style={{ fontFamily: 'Epilogue, sans-serif' }}
+              >
+                REF #{property.refNo}
               </span>
             </div>
           )}
         </div>
 
-        <CardContent className="p-5 space-y-3">
-          {/* Location eyebrow */}
-          <div className="flex items-center gap-1.5 text-muted-foreground">
-            <MapPin className="w-3.5 h-3.5 text-primary" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.12em]">
-              {(property as any).location_translated || property.location}
-            </span>
-          </div>
-
-          {/* Title */}
-          <h3 className="font-semibold text-foreground text-[17px] leading-snug line-clamp-2 group-hover:text-primary transition-colors duration-300 min-h-[2.6em]">
-            {property.title}
-          </h3>
-
-          {/* Price — hero element */}
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">From</span>
-            <span className="text-2xl font-bold tracking-tight text-foreground">
-              {formatPriceFromString(property.price || '0', formatPrice)}
-            </span>
-          </div>
-
-          {/* Specs row */}
-          <div className="flex items-center gap-4 pt-3 border-t border-border/60 text-muted-foreground">
-            {property.bedrooms && (
-              <div className="flex items-center gap-1.5">
-                <Bed className="w-4 h-4" />
-                <span className="text-sm font-medium text-foreground">{property.bedrooms}</span>
-              </div>
-            )}
+        {/* Content Section */}
+        <div className="p-6 space-y-4">
+          <div className="space-y-1">
             <div className="flex items-center gap-1.5">
-              <Bath className="w-4 h-4" />
-              <span className="text-sm font-medium text-foreground">{property.bathrooms || '–'}</span>
+              <MapPin className="w-3 h-3 text-[#3b6fa0]" strokeWidth={2.5} />
+              <span
+                className="text-[11px] font-bold tracking-[0.2em] text-[#3b6fa0] uppercase"
+                style={{ fontFamily: 'Epilogue, sans-serif' }}
+              >
+                {(property as any).location_translated || property.location}
+              </span>
             </div>
-            {property.area && (
-              <div className="flex items-center gap-1.5 ml-auto">
-                <Maximize2 className="w-4 h-4" />
-                <span className="text-sm font-medium text-foreground">{property.area} m²</span>
-              </div>
-            )}
+            <h3
+              className="text-2xl font-bold leading-tight text-[#0f1b3d] line-clamp-2 group-hover:text-[#1e3a5f] transition-colors"
+              style={{ fontFamily: 'Urbanist, sans-serif' }}
+            >
+              {property.title}
+            </h3>
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Specs Row */}
+          <div className="flex items-center justify-between border-y border-[#e8edf3] py-4">
+            <div className="flex flex-col">
+              <span
+                className="text-[10px] text-gray-400 uppercase tracking-tighter"
+                style={{ fontFamily: 'Epilogue, sans-serif' }}
+              >
+                Price
+              </span>
+              <span
+                className="text-lg font-bold text-[#0f1b3d]"
+                style={{ fontFamily: 'Urbanist, sans-serif' }}
+              >
+                <span className="text-xs font-medium mr-1 uppercase text-[#3b6fa0]">from</span>
+                {formatPriceFromString(property.price || '0', formatPrice)}
+              </span>
+            </div>
+            <div className="flex gap-4">
+              {property.bedrooms && (
+                <div className="flex flex-col items-center">
+                  <span className="text-sm font-bold text-[#1e3a5f]" style={{ fontFamily: 'Urbanist, sans-serif' }}>
+                    {property.bedrooms}
+                  </span>
+                  <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
+                    Beds
+                  </span>
+                </div>
+              )}
+              <div className="flex flex-col items-center border-l border-[#e8edf3] pl-4">
+                <span className="text-sm font-bold text-[#1e3a5f]" style={{ fontFamily: 'Urbanist, sans-serif' }}>
+                  {property.bathrooms || '–'}
+                </span>
+                <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
+                  Bath
+                </span>
+              </div>
+              {property.area && (
+                <div className="flex flex-col items-center border-l border-[#e8edf3] pl-4">
+                  <span className="text-sm font-bold text-[#1e3a5f]" style={{ fontFamily: 'Urbanist, sans-serif' }}>
+                    {property.area} <span className="text-[10px]">m²</span>
+                  </span>
+                  <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
+                    Area
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div
+            className="w-full group/btn flex items-center justify-center gap-2 bg-[#0f1b3d] text-white py-3.5 font-bold text-xs uppercase tracking-widest transition-colors group-hover:bg-[#1e3a5f]"
+            style={{ fontFamily: 'Urbanist, sans-serif' }}
+          >
+            View Property
+            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </div>
+        </div>
+      </article>
     </Link>
   );
 });
