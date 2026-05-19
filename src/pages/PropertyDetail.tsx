@@ -18,6 +18,7 @@ const batuhanImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object
 import { supabase } from '@/integrations/supabase/client';
 import { OptimizedPropertyImage } from '@/components/OptimizedPropertyImage';
 import { t } from '@/utils/translations';
+import LiveViewers from '@/components/LiveViewers';
 
 // Function to map property location to route
 const getLocationRoute = (location: string | undefined | null): string => {
@@ -495,6 +496,8 @@ const PropertyDetail = () => {
               <div className="text-3xl font-bold text-primary">
                 {formatPriceFromString(property.price, formatPrice)}
               </div>
+
+              <LiveViewers propertyId={property.refNo || property.id || ''} />
             </div>
 
             {/* Property Images */}
