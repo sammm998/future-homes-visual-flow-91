@@ -210,6 +210,7 @@ function AppContent() {
         <Route path="properties" element={<AdminPropertiesList />} />
         <Route path="properties/new" element={<AdminPropertyEdit />} />
         <Route path="properties/:id" element={<AdminPropertyEdit />} />
+        <Route path="properties/:id/edit" element={<AdminPropertyEdit />} />
         <Route path="blog" element={<AdminBlogList />} />
         <Route path="blog/ai" element={<AdminBlogAI />} />
         <Route path="blog/new" element={<AdminBlogEdit />} />
