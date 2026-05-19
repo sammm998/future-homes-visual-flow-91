@@ -192,6 +192,7 @@ function AppContent() {
       <Route path="/testimonials" element={<Testimonials />} />
       <Route path="/information" element={<Information />} />
       <Route path="/about-us" element={<AboutUs />} />
+      <Route path="/our-story" element={<OurStory />} />
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/contact-thank-you" element={<ContactThankYou />} />
       <Route path="/wizard-thank-you" element={<WizardThankYou />} />
