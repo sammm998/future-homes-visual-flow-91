@@ -28,17 +28,11 @@ export default function DesignYourHome() {
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
   
   const [interiorImages, setInteriorImages] = useState<string[]>([]);
-  const [loadingInteriors, setLoadingInteriors] = useState(false);
   const [baseImage, setBaseImage] = useState<string | null>(null);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
-
-  // Per-property interior cache: id -> string[] (interior URLs). null while loading, [] = no interiors
-  const [propertyInteriors, setPropertyInteriors] = useState<Record<string, string[] | null>>({});
-  const [scanningProperties, setScanningProperties] = useState(false);
-  const scanTokenRef = useRef(0);
 
   const locations = useMemo(() => {
     const map = new Map<string, { name: string; count: number }>();
