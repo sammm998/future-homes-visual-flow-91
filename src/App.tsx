@@ -55,6 +55,11 @@ const MapSearch = lazy(() => import("./pages/MapSearch"));
 const CoursesIndex = lazy(() => import("./pages/CoursesIndex"));
 const CourseOverview = lazy(() => import("./pages/CourseOverview"));
 const CourseLesson = lazy(() => import("./pages/CourseLesson"));
+const AdminLayout = lazy(() => import("./admin/AdminLayout"));
+const AdminOverview = lazy(() => import("./admin/pages/AdminOverview"));
+const AdminPropertiesList = lazy(() => import("./admin/pages/PropertiesList"));
+const AdminPropertyEdit = lazy(() => import("./admin/pages/PropertyEdit"));
+const AdminPlaceholder = lazy(() => import("./admin/pages/AdminPlaceholder"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
@@ -177,6 +182,21 @@ function AppContent() {
       <Route path="/sitemap.xml" element={<SitemapXML />} />
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/admin-dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
+      <Route path="/admin" element={<ProtectedAdminRoute><AdminLayout /></ProtectedAdminRoute>}>
+        <Route index element={<AdminOverview />} />
+        <Route path="properties" element={<AdminPropertiesList />} />
+        <Route path="properties/new" element={<AdminPropertyEdit />} />
+        <Route path="properties/:id" element={<AdminPropertyEdit />} />
+        <Route path="blog" element={<AdminPlaceholder title="Blog" />} />
+        <Route path="crm" element={<AdminPlaceholder title="CRM · Leads" />} />
+        <Route path="crm/leads" element={<AdminPlaceholder title="Leads" />} />
+        <Route path="crm/tasks" element={<AdminPlaceholder title="Tasks" />} />
+        <Route path="email" element={<AdminPlaceholder title="Email campaigns" />} />
+        <Route path="email/templates" element={<AdminPlaceholder title="Email templates" />} />
+        <Route path="email/subscribers" element={<AdminPlaceholder title="Subscribers" />} />
+        <Route path="analytics" element={<AdminPlaceholder title="Analytics" />} />
+        <Route path="settings" element={<AdminPlaceholder title="Settings" />} />
+      </Route>
       <Route path="*" element={<NotFound />} />
       </Routes>
       </main>
