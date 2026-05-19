@@ -59,6 +59,24 @@ export function useCourseProgress(countryCode: string | undefined) {
     [countryCode]
   );
 
+  const recordFinalExam = useCallback(
+    (score: number, passed: boolean) => {
+      if (!countryCode) return;
+      const map = load();
+      const current = map[countryCode] || { completedModules: [], quizScores: {} };
+      const bestScore = Math.max(current.finalExamScore ?? 0, score);
+      const next: CountryProgress = {
+        ...current,
+        finalExamScore: bestScore,
+        finalExamPassed: (current.finalExamPassed ?? false) || passed,
+      };
+      map[countryCode] = next;
+      save(map);
+      setProgress(next);
+    },
+    [countryCode]
+  );
+
   const resetCountry = useCallback(() => {
     if (!countryCode) return;
     const map = load();
@@ -76,7 +94,7 @@ export function useCourseProgress(countryCode: string | undefined) {
     [progress]
   );
 
-  return { progress, completeModule, resetCountry, isModuleUnlocked };
+  return { progress, completeModule, recordFinalExam, resetCountry, isModuleUnlocked };
 }
 
 export function useAllCourseProgress() {
