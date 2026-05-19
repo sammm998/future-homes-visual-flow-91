@@ -127,7 +127,7 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
           {/* Article Container */}
           <div className="max-w-4xl mx-auto">
             {/* Hero — AI-generated featured image when available, otherwise branded category hero */}
-            {featuredImage && /^https?:\/\//.test(featuredImage) ? (
+            {featuredImage && /^(https?:\/\/|\/)/.test(featuredImage) ? (
               <div className="relative w-full aspect-[16/9] mb-8 overflow-hidden rounded-2xl shadow-elegant">
                 <img
                   src={featuredImage}
