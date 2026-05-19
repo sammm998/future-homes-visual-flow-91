@@ -110,7 +110,7 @@ export default function AnalyticsTraffic() {
       setDaily(Object.entries(byDay).reverse().map(([day, count]) => ({ day, count })));
       setCountries(toArr(byCountry));
       setDevices(toArr(byDevice));
-      setChannels(toArr(byChannel));
+      setChannels(toArr(byChannel, 15));
       setBrowsers(toArr(byBrowser));
       setOses(toArr(byOs));
       setTopPages(toArr(byPage, 15));
