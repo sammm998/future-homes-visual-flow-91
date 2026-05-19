@@ -178,25 +178,29 @@ export default function DesignYourHome() {
             </Button>
             <h2 className="text-2xl font-semibold mb-6 text-center">2. Choose an apartment in {selectedLocation}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredProperties.map((p: any) => {
-                const img = p.property_images?.[0] || p.property_image;
-                return (
-                  <Card
-                    key={p.id}
-                    className="cursor-pointer overflow-hidden hover:shadow-lg transition-all group"
-                    onClick={() => handleSelectProperty(p)}
-                  >
-                    <div className="aspect-[4/3] relative overflow-hidden bg-muted">
-                      {img && <img src={img} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />}
+              {filteredProperties.map((p: any) => (
+                <Card
+                  key={p.id}
+                  className="cursor-pointer hover:shadow-lg transition-all p-5 hover:border-primary"
+                  onClick={() => handleSelectProperty(p)}
+                >
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-6 h-6 text-primary" />
                     </div>
-                    <div className="p-4">
-                      <h3 className="font-semibold line-clamp-1">{p.title}</h3>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold line-clamp-2">{p.title}</h3>
                       <p className="text-sm text-muted-foreground line-clamp-1">{p.location_translated || p.location}</p>
-                      <p className="text-sm font-medium text-primary mt-1">{p.starting_price_eur || p.price}</p>
                     </div>
-                  </Card>
-                );
-              })}
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-xs text-muted-foreground mb-3">
+                    {p.bedrooms && <span className="px-2 py-1 bg-muted rounded">{p.bedrooms} bed</span>}
+                    {p.bathrooms && <span className="px-2 py-1 bg-muted rounded">{p.bathrooms} bath</span>}
+                    {p.sizes_m2 && <span className="px-2 py-1 bg-muted rounded">{p.sizes_m2} m²</span>}
+                  </div>
+                  <p className="text-sm font-medium text-primary">{p.starting_price_eur || p.price}</p>
+                </Card>
+              ))}
             </div>
           </div>
         )}
