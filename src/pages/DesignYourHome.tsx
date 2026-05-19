@@ -50,18 +50,18 @@ export default function DesignYourHome() {
     return properties.filter((p: any) => (p.location || "").toLowerCase().startsWith(selectedLocation.toLowerCase()));
   }, [properties, selectedLocation]);
 
-  // Use pre-classified interior_images from DB. Fallback to all property_images
-  // (so the feature still works for properties that haven't been scanned yet).
+  // Strict: only use pre-classified interior_images. No fallback to property_images
+  // (which contain facades). Properties without interior_images are hidden entirely.
   const getInteriors = (p: any): string[] => {
     if (Array.isArray(p?.interior_images) && p.interior_images.length > 0) return p.interior_images;
-    if (Array.isArray(p?.property_images)) return p.property_images;
     return [];
   };
 
-  // Only show properties that have at least one interior image (pre-classified).
-  // Properties without interior_images yet are also shown so users aren't blocked.
+  // Show up to 5 properties per location that have classified interior images.
   const filteredProperties = useMemo(() => {
-    return locationProperties.filter((p: any) => getInteriors(p).length > 0);
+    return locationProperties
+      .filter((p: any) => getInteriors(p).length > 0)
+      .slice(0, 5);
   }, [locationProperties]);
 
   const handleSelectProperty = (p: any) => {
