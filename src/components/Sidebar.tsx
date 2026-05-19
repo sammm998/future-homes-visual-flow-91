@@ -81,13 +81,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
               >
                 {t('sidebar.ai_help')}
               </Link>
-              <Link
-                to="/design-your-home"
-                onClick={onClose}
-                className="block text-primary hover:opacity-80 text-sm font-semibold transition-colors py-1 text-left"
-              >
-                ✨ Design Your Home
-              </Link>
               
             </div>
           </div>
