@@ -14,6 +14,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import "./utils/cleanConsole";
 import { useLanguageUrlSync } from "@/hooks/useLanguageUrlSync";
+import { useAnalyticsTracker } from "@/hooks/useAnalyticsTracker";
 
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
