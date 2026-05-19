@@ -204,9 +204,11 @@ const OurStory = () => {
               src={slide.image}
               alt={slide.title}
               className="w-full h-full object-cover"
+              style={{ objectPosition: slide.imagePosition ?? "center" }}
               draggable={false}
             />
           </motion.div>
+
 
           {/* Gradient overlays */}
           <div className={`absolute inset-0 bg-gradient-to-br ${slide.accent} mix-blend-overlay`} />
