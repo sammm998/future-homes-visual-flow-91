@@ -158,17 +158,11 @@ export default function DesignYourHome() {
                 {locations.map((loc) => (
                   <Card
                     key={loc.name}
-                    className="cursor-pointer overflow-hidden hover:shadow-lg transition-all group"
+                    className="cursor-pointer overflow-hidden hover:shadow-lg transition-all p-6 flex flex-col items-center justify-center text-center min-h-[140px] bg-gradient-to-br from-primary/5 to-primary/20 hover:from-primary/10 hover:to-primary/30"
                     onClick={() => { setSelectedLocation(loc.name); setStep("property"); }}
                   >
-                    <div className="aspect-[4/3] relative overflow-hidden bg-muted">
-                      {loc.image && <img src={loc.image} alt={loc.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                        <h3 className="text-lg font-semibold">{loc.name}</h3>
-                        <p className="text-xs opacity-90">{loc.count} properties</p>
-                      </div>
-                    </div>
+                    <h3 className="text-xl font-semibold mb-1">{loc.name}</h3>
+                    <p className="text-sm text-muted-foreground">{loc.count} properties</p>
                   </Card>
                 ))}
               </div>
