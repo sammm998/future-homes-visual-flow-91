@@ -216,8 +216,8 @@ export default function BlogEdit() {
                 <Label htmlFor="pub">Published</Label>
                 <Switch
                   id="pub"
-                  checked={form.published}
-                  onCheckedChange={(v) => update("published", v)}
+                  isSelected={form.published}
+                  onChange={(v) => update("published", v)}
                 />
               </div>
               <div>
