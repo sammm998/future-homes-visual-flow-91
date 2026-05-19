@@ -10,6 +10,7 @@ import { GlowCard } from "@/components/ui/spotlight-card";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Eye } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { useDistrictsByLocation } from "@/hooks/useDistrictsByLocation";
 
 
 interface PropertyFilterProps {
@@ -25,82 +26,14 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
   const navigate = useNavigate();
   const { selectedCurrency } = useCurrency();
   
-  // District options grouped by location
-  const districtsByLocation: Record<string, Array<{value: string, label: string}>> = {
-    'Antalya': [
-      { value: 'dosemealti', label: 'Döşemealtı' },
-      { value: 'altintas', label: 'Altintas' },
-      { value: 'konyaalti', label: 'Konyaalti' },
-      { value: 'muratpasa', label: 'Muratpasa' },
-      { value: 'lara', label: 'Lara' },
-      { value: 'belek', label: 'Belek' },
-      { value: 'kemer', label: 'Kemer' },
-      { value: 'kepez', label: 'Kepez' },
-      { value: 'aksu', label: 'Aksu' }
-    ],
-    'Dubai': [
-      { value: 'sports-city', label: 'Sports City' },
-      { value: 'dubailand', label: 'Dubailand' },
-      { value: 'jumeirah-lake-towers', label: 'Jumeirah Lake Towers' },
-      { value: 'al-furjan', label: 'Al Furjan' },
-      { value: 'bukadra', label: 'Bukadra' },
-      { value: 'marina', label: 'Marina' },
-      { value: 'motor-city', label: 'Motor City' },
-      { value: 'meydan', label: 'Meydan' },
-      { value: 'islands', label: 'Islands' },
-      { value: 'downtown', label: 'Downtown' },
-      { value: 'dubai-hills', label: 'Dubai Hills' },
-      { value: 'al-safa-one', label: 'Al Safa One' },
-      { value: 'al-warsan', label: 'Al Warsan' },
-      { value: 'land-residence-complex', label: 'Land Residence Complex' },
-      { value: 'investment-park', label: 'Investment Park' },
-      { value: 'studio-city', label: 'Studio City' },
-      { value: 'al-jaddaf', label: 'Al Jaddaf' },
-      { value: 'dubai-south', label: 'Dubai South' },
-      { value: 'jumeirah-village-circle', label: 'Jumeirah Village Circle' },
-      { value: 'jumeirah-village-triangle', label: 'Jumeirah Village Triangle' },
-      { value: 'al-satwa', label: 'Al Satwa' }
-    ],
-    'Mersin': [
-      { value: 'tece', label: 'Tece' },
-      { value: 'mezitli', label: 'Mezitli' },
-      { value: 'erdemli', label: 'Erdemli' },
-      { value: 'yenisehir', label: 'Yenişehir' },
-      { value: 'toroslar', label: 'Toroslar' },
-      { value: 'akdeniz', label: 'Akdeniz' },
-      { value: 'tarsus', label: 'Tarsus' },
-      { value: 'silifke', label: 'Silifke' },
-      { value: 'anamur', label: 'Anamur' },
-      { value: 'bozyazi', label: 'Bozyazı' }
-    ],
-    'Istanbul': [
-      { value: 'besiktas', label: 'Beşiktaş' },
-      { value: 'kadikoy', label: 'Kadıköy' },
-      { value: 'sisli', label: 'Şişli' },
-      { value: 'beyoglu', label: 'Beyoğlu' },
-      { value: 'uskudar', label: 'Üsküdar' },
-      { value: 'sariyer', label: 'Sarıyer' },
-      { value: 'bakirkoy', label: 'Bakırköy' },
-      { value: 'atasehir', label: 'Ataşehir' },
-      { value: 'maltepe', label: 'Maltepe' },
-      { value: 'pendik', label: 'Pendik' }
-    ],
-    'Bali': [
-      { value: 'seminyak', label: 'Seminyak' },
-      { value: 'canggu', label: 'Canggu' },
-      { value: 'ubud', label: 'Ubud' },
-      { value: 'sanur', label: 'Sanur' },
-      { value: 'kuta', label: 'Kuta' },
-      { value: 'jimbaran', label: 'Jimbaran' },
-      { value: 'nusa-dua', label: 'Nusa Dua' },
-      { value: 'uluwatu', label: 'Uluwatu' }
-    ]
-  };
-  
+  // District options grouped by location — derived from actual property data
+  const { districtsByLocation } = useDistrictsByLocation();
+
   // Get available districts based on selected location
-  const availableDistricts = filters.location && districtsByLocation[filters.location] 
-    ? districtsByLocation[filters.location]
-    : [];
+  const availableDistricts =
+    filters.location && districtsByLocation[filters.location]
+      ? districtsByLocation[filters.location]
+      : [];
   
   const handleFilterUpdate = (key: string, value: string | string[]) => {
     const newFilters = { ...filters, [key]: value };
