@@ -241,9 +241,9 @@ const BaliPropertySearch = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Bali Properties & Investment Opportunities | Future Homes Indonesia"
-        description="Premium Bali real estate investments in Seminyak, Canggu, Ubud & more. Luxury villas, apartments with strong rental yields. Expert guidance for foreign investors."
-        keywords="Bali properties, Bali real estate, property investment Bali, Seminyak villas, Canggu apartments, Indonesia property, Bali investment"
+        title="Property for Sale in Bali | Villas & Investment Homes in Seminyak, Canggu, Ubud"
+        description="Property for sale in Bali from leading agents. Luxury villas, apartments and investment homes in Seminyak, Canggu, Ubud & Uluwatu — high rental yields for foreign investors."
+        keywords="property for sale in bali, bali property for sale, bali villas for sale, villa for sale bali, seminyak villas, canggu villas, ubud villas, bali real estate, indonesia property investment"
         canonicalUrl={canonicalUrl}
         hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))}
         structuredData={[
