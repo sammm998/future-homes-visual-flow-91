@@ -61,6 +61,9 @@ const AdminOverview = lazy(() => import("./admin/pages/AdminOverview"));
 const AdminPropertiesList = lazy(() => import("./admin/pages/PropertiesList"));
 const AdminPropertyEdit = lazy(() => import("./admin/pages/PropertyEdit"));
 const AdminPlaceholder = lazy(() => import("./admin/pages/AdminPlaceholder"));
+const AdminBlogList = lazy(() => import("./admin/pages/BlogList"));
+const AdminBlogEdit = lazy(() => import("./admin/pages/BlogEdit"));
+const AdminBlogAI = lazy(() => import("./admin/pages/BlogAI"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
@@ -189,7 +192,10 @@ function AppContent() {
         <Route path="properties" element={<AdminPropertiesList />} />
         <Route path="properties/new" element={<AdminPropertyEdit />} />
         <Route path="properties/:id" element={<AdminPropertyEdit />} />
-        <Route path="blog" element={<AdminPlaceholder title="Blog" />} />
+        <Route path="blog" element={<AdminBlogList />} />
+        <Route path="blog/ai" element={<AdminBlogAI />} />
+        <Route path="blog/new" element={<AdminBlogEdit />} />
+        <Route path="blog/:id" element={<AdminBlogEdit />} />
         <Route path="crm" element={<AdminPlaceholder title="CRM · Leads" />} />
         <Route path="crm/leads" element={<AdminPlaceholder title="Leads" />} />
         <Route path="crm/tasks" element={<AdminPlaceholder title="Tasks" />} />
