@@ -12,13 +12,22 @@ import Navigation from "@/components/Navigation";
 
 type Step = "location" | "property" | "design";
 
+const ROOM_TYPES = [
+  { id: "living", label: "Living Room", icon: "🛋️" },
+  { id: "bedroom", label: "Bedroom", icon: "🛏️" },
+  { id: "kitchen", label: "Kitchen", icon: "🍳" },
+  { id: "bathroom", label: "Bathroom", icon: "🛁" },
+  { id: "dining", label: "Dining Room", icon: "🍽️" },
+  { id: "office", label: "Home Office", icon: "💻" },
+];
+
 const PROMPT_SUGGESTIONS = [
-  "Add a red velvet sofa in the corner with gold accents",
-  "Make the walls warm beige and add wooden flooring",
-  "Add a modern Scandinavian dining table with 4 chairs",
-  "Place a large abstract painting above the sofa",
-  "Add indoor plants and a cozy reading nook by the window",
-  "Modern minimalist style with black and white furniture",
+  "Modern Scandinavian style, light wood, white walls, cozy",
+  "Luxury Mediterranean villa style with marble and gold accents",
+  "Minimalist Japanese style with low furniture and warm wood tones",
+  "Industrial loft style with exposed brick and black metal",
+  "Bohemian style with colorful textiles, plants and rattan",
+  "Modern coastal style with blue accents, linen and natural light",
 ];
 
 export default function DesignYourHome() {
@@ -26,21 +35,19 @@ export default function DesignYourHome() {
   const [step, setStep] = useState<Step>("location");
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
+  const [roomType, setRoomType] = useState<string>("living");
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
 
   const locations = useMemo(() => {
-    const map = new Map<string, { name: string; count: number; image: string }>();
+    const map = new Map<string, { name: string; count: number }>();
     properties.forEach((p: any) => {
       const city = (p.location || "").split(",")[0].trim();
       if (!city) return;
-      if (!map.has(city)) {
-        map.set(city, { name: city, count: 1, image: p.property_image || p.property_images?.[0] || "" });
-      } else {
-        map.get(city)!.count++;
-      }
+      if (!map.has(city)) map.set(city, { name: city, count: 1 });
+      else map.get(city)!.count++;
     });
     return Array.from(map.values()).sort((a, b) => b.count - a.count);
   }, [properties]);
@@ -52,22 +59,30 @@ export default function DesignYourHome() {
 
   const handleSelectProperty = (p: any) => {
     setSelectedProperty(p);
-    const images: string[] = (p.property_images && p.property_images.length > 0)
-      ? p.property_images
-      : (p.property_image ? [p.property_image] : []);
-    // Skip first image (usually facade/exterior). Pick second if available.
-    const img = images[1] || images[0] || "";
-    setCurrentImage(img);
-    setHistory(img ? [img] : []);
+    setCurrentImage(null);
+    setHistory([]);
+    setPrompt("");
     setStep("design");
   };
 
+  const propertyContext = selectedProperty
+    ? `${selectedProperty.property_type || "apartment"} in ${selectedProperty.location_translated || selectedProperty.location}, ${selectedProperty.bedrooms || ""} bedrooms, ${selectedProperty.sizes_m2 || ""} m²`
+    : "";
+
   const handleGenerate = async () => {
-    if (!prompt.trim() || !currentImage) return;
+    if (!prompt.trim()) return;
     setGenerating(true);
     try {
+      const roomLabel = ROOM_TYPES.find((r) => r.id === roomType)?.label || "Living Room";
+      const fullPrompt = currentImage
+        ? prompt.trim()
+        : `${roomLabel} interior. ${prompt.trim()}`;
       const { data, error } = await supabase.functions.invoke("design-interior", {
-        body: { imageUrl: currentImage, prompt: prompt.trim() },
+        body: {
+          imageUrl: currentImage,
+          prompt: fullPrompt,
+          propertyContext,
+        },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
@@ -75,7 +90,7 @@ export default function DesignYourHome() {
         setCurrentImage(data.imageUrl);
         setHistory((h) => [...h, data.imageUrl]);
         setPrompt("");
-        toast.success("Design updated!");
+        toast.success("Design generated!");
       }
     } catch (e: any) {
       toast.error(e?.message || "Failed to generate design");
@@ -85,11 +100,11 @@ export default function DesignYourHome() {
   };
 
   const handleReset = () => {
-    if (history.length > 0) {
-      setCurrentImage(history[0]);
-      setHistory([history[0]]);
-    }
+    setCurrentImage(null);
+    setHistory([]);
   };
+
+
 
   const handleUndo = () => {
     if (history.length > 1) {
