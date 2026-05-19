@@ -112,118 +112,82 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
   const statusConfig = getStatusConfig(property.status);
 
   return (
-    <Link to={propertyUrl}>
-      <Card className="group cursor-pointer overflow-hidden h-full bg-gradient-to-br from-card via-card/95 to-card/90 backdrop-blur-md border border-border/20 hover:border-primary/40 transition-all duration-700 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1">
-        <div className="relative aspect-[4/3] overflow-hidden">
+    <Link to={propertyUrl} className="block h-full">
+      <Card className="group relative cursor-pointer overflow-hidden h-full bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-foreground/5 hover:border-border transition-all duration-500 hover:-translate-y-1">
+        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           <OptimizedPropertyImage
             src={getImageUrl()}
             alt={property.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+            className="w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-[1200ms] ease-out"
             priority={priority}
           />
-          
-          {/* Modern gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-          
-          {/* Glass morphism status badge */}
-          <div className="absolute top-4 left-4 z-10 max-w-[calc(50%-1rem)]">
-            <div className={`${statusConfig.className} backdrop-blur-md border border-white/20 rounded-xl px-2 py-1.5 text-xs font-bold uppercase tracking-wide`}>
+
+          {/* Soft top gradient for badge legibility */}
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/40 to-transparent pointer-events-none" />
+
+          {/* Status pill — minimal, single chip */}
+          <div className="absolute top-3 left-3 z-10">
+            <div className={`${statusConfig.className} backdrop-blur-md rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] shadow-sm`}>
               {statusConfig.text}
             </div>
           </div>
 
-          {/* Modern price badge */}
-          <div className="absolute top-4 right-4 z-10 max-w-[calc(50%-1rem)]">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-2.5 py-1.5">
-              <span className="text-white font-bold text-lg drop-shadow-lg">
-                {formatPriceFromString(property.price || '0', formatPrice)}
-              </span>
-            </div>
-          </div>
-
-          {/* Live viewers badge */}
-          <div className="absolute bottom-3 left-3 z-10 group-hover:opacity-0 transition-opacity duration-300">
+          {/* Live viewers — bottom right, fades on hover */}
+          <div className="absolute bottom-3 right-3 z-10 transition-opacity duration-300 group-hover:opacity-0">
             <LiveViewers propertyId={String(property.id)} compact />
           </div>
 
-          {/* Modern info overlay on hover */}
-          <div className="absolute bottom-0 left-0 right-0 z-10 p-4 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-            <div className="flex items-center justify-center gap-6">
-              {property.bedrooms && (
-                <div className="flex flex-col items-center text-white">
-                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-2 mb-1">
-                    <Bed className="w-4 h-4" />
-                  </div>
-                  <span className="text-xs font-medium">{property.bedrooms}</span>
-                </div>
-              )}
-              <div className="flex flex-col items-center text-white">
-                <div className="bg-white/20 backdrop-blur-sm rounded-full p-2 mb-1">
-                  <Bath className="w-4 h-4" />
-                </div>
-                <span className="text-xs font-medium">{property.bathrooms || 'N/A'}</span>
-              </div>
-              {property.area && (
-                <div className="flex flex-col items-center text-white">
-                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-2 mb-1">
-                    <Maximize2 className="w-4 h-4" />
-                  </div>
-                  <span className="text-xs font-medium">{property.area}m²</span>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <CardContent className="p-6 space-y-4">
-          <div>
-            <h3 className="font-bold text-foreground text-xl leading-tight mb-2 group-hover:text-primary transition-colors duration-300 line-clamp-2">
-              {property.title}
-            </h3>
-            
-            <div className="flex items-center text-muted-foreground">
-              <div className="bg-primary/10 rounded-full p-1.5 mr-3">
-                <MapPin className="w-3.5 h-3.5 text-primary" />
-              </div>
-              <span className="font-medium text-sm">{(property as any).location_translated || property.location}</span>
-            </div>
-          </div>
-
-          {/* Modern property specs */}
-          <div className="flex items-center gap-6 pt-4 border-t border-border/30">
-            {property.bedrooms && (
-              <div className="flex items-center gap-2">
-                <div className="bg-primary/10 rounded-lg p-1.5">
-                  <Bed className="w-3.5 h-3.5 text-primary" />
-                </div>
-                <span className="text-sm font-semibold text-foreground">{property.bedrooms}</span>
-              </div>
-            )}
-            <div className="flex items-center gap-2">
-              <div className="bg-primary/10 rounded-lg p-1.5">
-                <Bath className="w-3.5 h-3.5 text-primary" />
-              </div>
-              <span className="text-sm font-semibold text-foreground">{property.bathrooms || 'N/A'}</span>
-            </div>
-            {property.area && (
-              <div className="flex items-center gap-2">
-                <div className="bg-primary/10 rounded-lg p-1.5">
-                  <Maximize2 className="w-3.5 h-3.5 text-primary" />
-                </div>
-                <span className="text-sm font-semibold text-foreground">{property.area}m²</span>
-              </div>
-            )}
-          </div>
-
+          {/* REF chip — bottom left */}
           {property.refNo && (
-            <div className="pt-3 border-t border-border/20">
-              <div className="inline-flex items-center bg-muted/50 rounded-lg px-3 py-1.5">
-                <span className="text-xs font-mono text-muted-foreground">
-                  REF: <span className="font-bold text-foreground">{property.refNo}</span>
-                </span>
-              </div>
+            <div className="absolute bottom-3 left-3 z-10 transition-opacity duration-300 group-hover:opacity-0">
+              <span className="inline-flex items-center rounded-full bg-black/55 backdrop-blur-md text-white text-[10px] font-mono tracking-wider px-2.5 py-1">
+                #{property.refNo}
+              </span>
             </div>
           )}
+        </div>
+
+        <CardContent className="p-5 space-y-3">
+          {/* Location eyebrow */}
+          <div className="flex items-center gap-1.5 text-muted-foreground">
+            <MapPin className="w-3.5 h-3.5 text-primary" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.12em]">
+              {(property as any).location_translated || property.location}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h3 className="font-semibold text-foreground text-[17px] leading-snug line-clamp-2 group-hover:text-primary transition-colors duration-300 min-h-[2.6em]">
+            {property.title}
+          </h3>
+
+          {/* Price — hero element */}
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">From</span>
+            <span className="text-2xl font-bold tracking-tight text-foreground">
+              {formatPriceFromString(property.price || '0', formatPrice)}
+            </span>
+          </div>
+
+          {/* Specs row */}
+          <div className="flex items-center gap-4 pt-3 border-t border-border/60 text-muted-foreground">
+            {property.bedrooms && (
+              <div className="flex items-center gap-1.5">
+                <Bed className="w-4 h-4" />
+                <span className="text-sm font-medium text-foreground">{property.bedrooms}</span>
+              </div>
+            )}
+            <div className="flex items-center gap-1.5">
+              <Bath className="w-4 h-4" />
+              <span className="text-sm font-medium text-foreground">{property.bathrooms || '–'}</span>
+            </div>
+            {property.area && (
+              <div className="flex items-center gap-1.5 ml-auto">
+                <Maximize2 className="w-4 h-4" />
+                <span className="text-sm font-medium text-foreground">{property.area} m²</span>
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
     </Link>
