@@ -68,45 +68,138 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_events: {
+        Row: {
+          browser: string | null
+          channel: string | null
+          city: string | null
+          country: string | null
+          device: string | null
+          event_type: string
+          id: number
+          os: string | null
+          page: string | null
+          payload: Json | null
+          property_id: string | null
+          referrer: string | null
+          session_id: string | null
+          ts: string
+          visitor_id: string | null
+        }
+        Insert: {
+          browser?: string | null
+          channel?: string | null
+          city?: string | null
+          country?: string | null
+          device?: string | null
+          event_type: string
+          id?: number
+          os?: string | null
+          page?: string | null
+          payload?: Json | null
+          property_id?: string | null
+          referrer?: string | null
+          session_id?: string | null
+          ts?: string
+          visitor_id?: string | null
+        }
+        Update: {
+          browser?: string | null
+          channel?: string | null
+          city?: string | null
+          country?: string | null
+          device?: string | null
+          event_type?: string
+          id?: number
+          os?: string | null
+          page?: string | null
+          payload?: Json | null
+          property_id?: string | null
+          referrer?: string | null
+          session_id?: string | null
+          ts?: string
+          visitor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_events_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "analytics_events_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_posts: {
         Row: {
+          author_id: string | null
+          category: string | null
           content: string
           created_at: string
           excerpt: string | null
           featured_image: string | null
           id: string
           language_code: string | null
+          meta_description: string | null
+          meta_title: string | null
           parent_post_id: string | null
           published: boolean
+          published_at: string | null
+          scheduled_at: string | null
           slug: string
+          tags: string[] | null
           title: string
           updated_at: string
+          views_count: number
         }
         Insert: {
+          author_id?: string | null
+          category?: string | null
           content: string
           created_at?: string
           excerpt?: string | null
           featured_image?: string | null
           id?: string
           language_code?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
           parent_post_id?: string | null
           published?: boolean
+          published_at?: string | null
+          scheduled_at?: string | null
           slug: string
+          tags?: string[] | null
           title: string
           updated_at?: string
+          views_count?: number
         }
         Update: {
+          author_id?: string | null
+          category?: string | null
           content?: string
           created_at?: string
           excerpt?: string | null
           featured_image?: string | null
           id?: string
           language_code?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
           parent_post_id?: string | null
           published?: boolean
+          published_at?: string | null
+          scheduled_at?: string | null
           slug?: string
+          tags?: string[] | null
           title?: string
           updated_at?: string
+          views_count?: number
         }
         Relationships: [
           {
@@ -114,6 +207,60 @@ export type Database = {
             columns: ["parent_post_id"]
             isOneToOne: false
             referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaign_recipients: {
+        Row: {
+          bounced_at: string | null
+          campaign_id: string
+          clicked_at: string | null
+          email: string
+          error: string | null
+          id: string
+          opened_at: string | null
+          sent_at: string | null
+          subscriber_id: string | null
+          unsubscribed_at: string | null
+        }
+        Insert: {
+          bounced_at?: string | null
+          campaign_id: string
+          clicked_at?: string | null
+          email: string
+          error?: string | null
+          id?: string
+          opened_at?: string | null
+          sent_at?: string | null
+          subscriber_id?: string | null
+          unsubscribed_at?: string | null
+        }
+        Update: {
+          bounced_at?: string | null
+          campaign_id?: string
+          clicked_at?: string | null
+          email?: string
+          error?: string | null
+          id?: string
+          opened_at?: string | null
+          sent_at?: string | null
+          subscriber_id?: string | null
+          unsubscribed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_recipients_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "email_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campaign_recipients_subscriber_id_fkey"
+            columns: ["subscriber_id"]
+            isOneToOne: false
+            referencedRelation: "newsletter_subscriptions"
             referencedColumns: ["id"]
           },
         ]
@@ -405,6 +552,90 @@ export type Database = {
         }
         Relationships: []
       }
+      email_campaigns: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          from_name: string | null
+          html: string
+          id: string
+          recipient_count: number
+          reply_to: string | null
+          scheduled_at: string | null
+          segment: Json
+          sent_at: string | null
+          stats: Json
+          status: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          from_name?: string | null
+          html: string
+          id?: string
+          recipient_count?: number
+          reply_to?: string | null
+          scheduled_at?: string | null
+          segment?: Json
+          sent_at?: string | null
+          stats?: Json
+          status?: string
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          from_name?: string | null
+          html?: string
+          id?: string
+          recipient_count?: number
+          reply_to?: string | null
+          scheduled_at?: string | null
+          segment?: Json
+          sent_at?: string | null
+          stats?: Json
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      email_templates: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          html: string
+          id: string
+          name: string
+          subject: string
+          updated_at: string
+          variables: Json
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          html: string
+          id?: string
+          name: string
+          subject: string
+          updated_at?: string
+          variables?: Json
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          html?: string
+          id?: string
+          name?: string
+          subject?: string
+          updated_at?: string
+          variables?: Json
+        }
+        Relationships: []
+      }
       homepage_testimonials: {
         Row: {
           company_name: string | null
@@ -486,6 +717,154 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_activities: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          id: string
+          lead_id: string
+          payload: Json
+          type: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          lead_id: string
+          payload?: Json
+          type: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          lead_id?: string
+          payload?: Json
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_activities_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_notes: {
+        Row: {
+          author_id: string | null
+          body: string
+          created_at: string
+          id: string
+          lead_id: string
+        }
+        Insert: {
+          author_id?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          lead_id: string
+        }
+        Update: {
+          author_id?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          lead_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_notes_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          assigned_to: string | null
+          budget_currency: string | null
+          budget_max: number | null
+          budget_min: number | null
+          created_at: string
+          email: string | null
+          id: string
+          message: string | null
+          name: string
+          nationality: string | null
+          phone: string | null
+          preferred_countries: string[] | null
+          preferred_types: string[] | null
+          property_id: string | null
+          score: number
+          source: string | null
+          status: string
+          tags: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          budget_currency?: string | null
+          budget_max?: number | null
+          budget_min?: number | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          name: string
+          nationality?: string | null
+          phone?: string | null
+          preferred_countries?: string[] | null
+          preferred_types?: string[] | null
+          property_id?: string | null
+          score?: number
+          source?: string | null
+          status?: string
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          budget_currency?: string | null
+          budget_max?: number | null
+          budget_min?: number | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          name?: string
+          nationality?: string | null
+          phone?: string | null
+          preferred_countries?: string[] | null
+          preferred_types?: string[] | null
+          property_id?: string | null
+          score?: number
+          source?: string | null
+          status?: string
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       newsletter_subscriptions: {
         Row: {
           created_at: string
@@ -526,11 +905,15 @@ export type Database = {
           bathrooms: string | null
           bedrooms: string | null
           building_complete_date: string | null
+          citizenship_eligible: boolean | null
+          country: string | null
           created_at: string
           description: string | null
           distance_to_airport_km: string | null
           distance_to_beach_km: string | null
           facilities: string | null
+          floor_plan_url: string | null
+          floors: number | null
           google_maps_embed: string | null
           id: string
           interior_images: string[] | null
@@ -538,8 +921,12 @@ export type Database = {
           is_active: boolean
           language_code: string | null
           location: string
+          meta_description: string | null
+          meta_title: string | null
+          og_image: string | null
           parent_property_id: string | null
           price: string
+          price_currency: string | null
           property_district: string | null
           property_facilities: string[] | null
           property_image: string | null
@@ -549,6 +936,8 @@ export type Database = {
           property_type: string | null
           property_url: string | null
           ref_no: string | null
+          related_property_ids: string[] | null
+          roi_percent: number | null
           sizes_m2: string | null
           slug: string | null
           slug_ar: string | null
@@ -566,7 +955,11 @@ export type Database = {
           starting_price_eur: string | null
           status: string | null
           title: string
+          tour_url: string | null
           updated_at: string
+          video_url: string | null
+          views_count: number
+          year_built: number | null
         }
         Insert: {
           agent_id?: string | null
@@ -577,11 +970,15 @@ export type Database = {
           bathrooms?: string | null
           bedrooms?: string | null
           building_complete_date?: string | null
+          citizenship_eligible?: boolean | null
+          country?: string | null
           created_at?: string
           description?: string | null
           distance_to_airport_km?: string | null
           distance_to_beach_km?: string | null
           facilities?: string | null
+          floor_plan_url?: string | null
+          floors?: number | null
           google_maps_embed?: string | null
           id?: string
           interior_images?: string[] | null
@@ -589,8 +986,12 @@ export type Database = {
           is_active?: boolean
           language_code?: string | null
           location: string
+          meta_description?: string | null
+          meta_title?: string | null
+          og_image?: string | null
           parent_property_id?: string | null
           price: string
+          price_currency?: string | null
           property_district?: string | null
           property_facilities?: string[] | null
           property_image?: string | null
@@ -600,6 +1001,8 @@ export type Database = {
           property_type?: string | null
           property_url?: string | null
           ref_no?: string | null
+          related_property_ids?: string[] | null
+          roi_percent?: number | null
           sizes_m2?: string | null
           slug?: string | null
           slug_ar?: string | null
@@ -617,7 +1020,11 @@ export type Database = {
           starting_price_eur?: string | null
           status?: string | null
           title: string
+          tour_url?: string | null
           updated_at?: string
+          video_url?: string | null
+          views_count?: number
+          year_built?: number | null
         }
         Update: {
           agent_id?: string | null
@@ -628,11 +1035,15 @@ export type Database = {
           bathrooms?: string | null
           bedrooms?: string | null
           building_complete_date?: string | null
+          citizenship_eligible?: boolean | null
+          country?: string | null
           created_at?: string
           description?: string | null
           distance_to_airport_km?: string | null
           distance_to_beach_km?: string | null
           facilities?: string | null
+          floor_plan_url?: string | null
+          floors?: number | null
           google_maps_embed?: string | null
           id?: string
           interior_images?: string[] | null
@@ -640,8 +1051,12 @@ export type Database = {
           is_active?: boolean
           language_code?: string | null
           location?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          og_image?: string | null
           parent_property_id?: string | null
           price?: string
+          price_currency?: string | null
           property_district?: string | null
           property_facilities?: string[] | null
           property_image?: string | null
@@ -651,6 +1066,8 @@ export type Database = {
           property_type?: string | null
           property_url?: string | null
           ref_no?: string | null
+          related_property_ids?: string[] | null
+          roi_percent?: number | null
           sizes_m2?: string | null
           slug?: string | null
           slug_ar?: string | null
@@ -668,7 +1085,11 @@ export type Database = {
           starting_price_eur?: string | null
           status?: string | null
           title?: string
+          tour_url?: string | null
           updated_at?: string
+          video_url?: string | null
+          views_count?: number
+          year_built?: number | null
         }
         Relationships: [
           {
@@ -1005,6 +1426,53 @@ export type Database = {
           sync_data?: Json
         }
         Relationships: []
+      }
+      tasks: {
+        Row: {
+          assigned_to: string | null
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          lead_id: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          lead_id?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          lead_id?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       team_members: {
         Row: {
@@ -1440,6 +1908,8 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { user_id?: string }; Returns: boolean }
+      is_agent_or_staff: { Args: { _user_id?: string }; Returns: boolean }
+      is_staff: { Args: { _user_id?: string }; Returns: boolean }
       normalize_price_to_eur: {
         Args: { price_string: string }
         Returns: string
@@ -1450,7 +1920,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user" | "editor" | "agent" | "viewer"
       cms_role: "admin" | "editor" | "author" | "viewer"
     }
     CompositeTypes: {
@@ -1579,7 +2049,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "moderator", "user", "editor", "agent", "viewer"],
       cms_role: ["admin", "editor", "author", "viewer"],
     },
   },

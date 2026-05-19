@@ -162,6 +162,15 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Admin dashboard tokens (#1a365d navy, #c9a84c gold, #f8fafc bg) */
+    --admin-sidebar: 213 56% 23%;
+    --admin-sidebar-foreground: 0 0% 100%;
+    --admin-sidebar-border: 213 56% 18%;
+    --admin-accent: 44 51% 54%;
+    --admin-accent-foreground: 213 56% 18%;
+    --admin-bg: 210 40% 98%;
+    --admin-surface: 0 0% 100%;
 }
 
 /* Line clamp utilities for text truncation */
