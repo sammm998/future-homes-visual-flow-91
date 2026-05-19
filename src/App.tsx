@@ -232,6 +232,7 @@ function AppContent() {
         <Route path="analytics/leads" element={<AdminAnalyticsLeads />} />
         <Route path="analytics/email" element={<AdminAnalyticsEmail />} />
         <Route path="analytics/realtime" element={<AdminAnalyticsRealtime />} />
+        <Route path="analytics/heatmap" element={<AdminAnalyticsHeatmap />} />
         <Route path="settings" element={<AdminSettings />} />
 
       </Route>
