@@ -141,6 +141,11 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
             </div>
           </div>
 
+          {/* Live viewers badge */}
+          <div className="absolute bottom-3 left-3 z-10 group-hover:opacity-0 transition-opacity duration-300">
+            <LiveViewers propertyId={String(property.id)} compact />
+          </div>
+
           {/* Modern info overlay on hover */}
           <div className="absolute bottom-0 left-0 right-0 z-10 p-4 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
             <div className="flex items-center justify-center gap-6">
