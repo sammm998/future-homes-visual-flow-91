@@ -64,6 +64,21 @@ const AdminPlaceholder = lazy(() => import("./admin/pages/AdminPlaceholder"));
 const AdminBlogList = lazy(() => import("./admin/pages/BlogList"));
 const AdminBlogEdit = lazy(() => import("./admin/pages/BlogEdit"));
 const AdminBlogAI = lazy(() => import("./admin/pages/BlogAI"));
+const AdminLeadsList = lazy(() => import("./admin/pages/LeadsList"));
+const AdminLeadDetail = lazy(() => import("./admin/pages/LeadDetail"));
+const AdminContactsList = lazy(() => import("./admin/pages/ContactsList"));
+const AdminTasksList = lazy(() => import("./admin/pages/TasksList"));
+const AdminEmailInbox = lazy(() => import("./admin/pages/EmailInbox"));
+const AdminCampaignsList = lazy(() => import("./admin/pages/CampaignsList"));
+const AdminCampaignEdit = lazy(() => import("./admin/pages/CampaignEdit"));
+const AdminSubscribersList = lazy(() => import("./admin/pages/SubscribersList"));
+const AdminTemplatesList = lazy(() => import("./admin/pages/TemplatesList"));
+const AdminAnalyticsTraffic = lazy(() => import("./admin/pages/AnalyticsTraffic"));
+const AdminAnalyticsProperties = lazy(() => import("./admin/pages/AnalyticsProperties"));
+const AdminAnalyticsLeads = lazy(() => import("./admin/pages/AnalyticsLeads"));
+const AdminAnalyticsEmail = lazy(() => import("./admin/pages/AnalyticsEmail"));
+const AdminAnalyticsRealtime = lazy(() => import("./admin/pages/AnalyticsRealtime"));
+const AdminSettings = lazy(() => import("./admin/pages/AdminSettings"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
