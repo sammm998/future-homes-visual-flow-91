@@ -5,6 +5,8 @@ const STORAGE_KEY = 'fh_course_progress_v1';
 export type CountryProgress = {
   completedModules: string[]; // module slugs
   quizScores: Record<string, number>; // moduleSlug -> percent
+  finalExamScore?: number; // best score on final exam (percent)
+  finalExamPassed?: boolean;
 };
 
 type ProgressMap = Record<string, CountryProgress>;
@@ -57,6 +59,24 @@ export function useCourseProgress(countryCode: string | undefined) {
     [countryCode]
   );
 
+  const recordFinalExam = useCallback(
+    (score: number, passed: boolean) => {
+      if (!countryCode) return;
+      const map = load();
+      const current = map[countryCode] || { completedModules: [], quizScores: {} };
+      const bestScore = Math.max(current.finalExamScore ?? 0, score);
+      const next: CountryProgress = {
+        ...current,
+        finalExamScore: bestScore,
+        finalExamPassed: (current.finalExamPassed ?? false) || passed,
+      };
+      map[countryCode] = next;
+      save(map);
+      setProgress(next);
+    },
+    [countryCode]
+  );
+
   const resetCountry = useCallback(() => {
     if (!countryCode) return;
     const map = load();
@@ -74,7 +94,7 @@ export function useCourseProgress(countryCode: string | undefined) {
     [progress]
   );
 
-  return { progress, completeModule, resetCountry, isModuleUnlocked };
+  return { progress, completeModule, recordFinalExam, resetCountry, isModuleUnlocked };
 }
 
 export function useAllCourseProgress() {

@@ -511,6 +511,8 @@ export type Database = {
           description: string
           difficulty: string
           estimated_minutes: number
+          final_pass_threshold: number
+          final_quiz: Json
           hero_image: string | null
           id: string
           is_published: boolean
@@ -526,6 +528,8 @@ export type Database = {
           description: string
           difficulty?: string
           estimated_minutes?: number
+          final_pass_threshold?: number
+          final_quiz?: Json
           hero_image?: string | null
           id?: string
           is_published?: boolean
@@ -541,6 +545,8 @@ export type Database = {
           description?: string
           difficulty?: string
           estimated_minutes?: number
+          final_pass_threshold?: number
+          final_quiz?: Json
           hero_image?: string | null
           id?: string
           is_published?: boolean
