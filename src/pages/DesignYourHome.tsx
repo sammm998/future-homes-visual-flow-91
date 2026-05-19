@@ -326,17 +326,18 @@ export default function DesignYourHome() {
 
 
                 <Card className="p-4 space-y-3">
-                  <label className="text-sm font-semibold">{currentImage ? "Refine your design" : "Describe your dream interior"}</label>
+                  <label className="text-sm font-semibold">Refine your design</label>
                   <textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    placeholder={currentImage ? "e.g. Add red velvet sofas in the corner..." : "e.g. Cozy modern living room with beige sofa, warm wood floor, large windows..."}
+                    placeholder="e.g. Add red velvet sofas in the corner, warm wood floor, large windows..."
                     className="w-full min-h-[100px] p-3 rounded-md border bg-background text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary"
-                    disabled={generating}
+                    disabled={generating || !currentImage}
                   />
-                  <Button onClick={handleGenerate} disabled={generating || !prompt.trim()} className="w-full">
+                  <Button onClick={handleGenerate} disabled={generating || !prompt.trim() || !currentImage} className="w-full">
                     {generating ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating...</> : <><Sparkles className="w-4 h-4 mr-2" /> Apply design</>}
                   </Button>
+
 
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm" onClick={handleUndo} disabled={history.length < 2 || generating} className="flex-1">
