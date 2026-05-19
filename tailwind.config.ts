@@ -69,7 +69,18 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				'admin-sidebar': {
+					DEFAULT: 'hsl(var(--admin-sidebar))',
+					foreground: 'hsl(var(--admin-sidebar-foreground))',
+					border: 'hsl(var(--admin-sidebar-border))'
+				},
+				'admin-accent': {
+					DEFAULT: 'hsl(var(--admin-accent))',
+					foreground: 'hsl(var(--admin-accent-foreground))'
+				},
+				'admin-bg': 'hsl(var(--admin-bg))',
+				'admin-surface': 'hsl(var(--admin-surface))'
 			},
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
