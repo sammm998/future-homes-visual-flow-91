@@ -57,151 +57,41 @@ export default function DesignYourHome() {
     return properties.filter((p: any) => (p.location || "").toLowerCase().startsWith(selectedLocation.toLowerCase()));
   }, [properties, selectedLocation]);
 
-  // Only show properties that have at least one interior image (after classification)
+  // Use pre-classified interior_images from DB. Fallback to all property_images
+  // (so the feature still works for properties that haven't been scanned yet).
+  const getInteriors = (p: any): string[] => {
+    if (Array.isArray(p?.interior_images) && p.interior_images.length > 0) return p.interior_images;
+    if (Array.isArray(p?.property_images)) return p.property_images;
+    return [];
+  };
+
+  // Only show properties that have at least one interior image (pre-classified).
+  // Properties without interior_images yet are also shown so users aren't blocked.
   const filteredProperties = useMemo(() => {
-    return locationProperties.filter((p: any) => {
-      const cached = propertyInteriors[p.id];
-      return Array.isArray(cached) && cached.length > 0;
-    });
-  }, [locationProperties, propertyInteriors]);
+    return locationProperties.filter((p: any) => getInteriors(p).length > 0);
+  }, [locationProperties]);
 
-  // Scan properties in the selected location for interior photos
-  useEffect(() => {
-    if (step !== "property" || locationProperties.length === 0) return;
-    const token = ++scanTokenRef.current;
-    setScanningProperties(true);
-
-    const toScan = locationProperties.filter(
-      (p: any) => propertyInteriors[p.id] === undefined && Array.isArray(p.property_images) && p.property_images.length > 0
-    );
-
-    // Mark properties with no images as no-interior immediately
-    const noImgUpdates: Record<string, string[]> = {};
-    locationProperties.forEach((p: any) => {
-      if (propertyInteriors[p.id] === undefined && (!Array.isArray(p.property_images) || p.property_images.length === 0)) {
-        noImgUpdates[p.id] = [];
-      }
-    });
-    if (Object.keys(noImgUpdates).length > 0) {
-      setPropertyInteriors((prev) => ({ ...prev, ...noImgUpdates }));
-    }
-
-    if (toScan.length === 0) {
-      setScanningProperties(false);
-      return;
-    }
-
-    (async () => {
-      const CONCURRENCY = 4;
-      let i = 0;
-      let creditsExhausted = false;
-      const runNext = async (): Promise<void> => {
-        if (token !== scanTokenRef.current || creditsExhausted) return;
-        const idx = i++;
-        if (idx >= toScan.length) return;
-        const p = toScan[idx];
-        const allImgs: string[] = p.property_images as string[];
-        try {
-          const { data, error } = await supabase.functions.invoke("classify-interiors", {
-            body: { imageUrls: allImgs.slice(0, 8) },
-          });
-          if (error) throw error;
-          if (data?.error) {
-            const msg = String(data.error).toLowerCase();
-            if (msg.includes("credit") || msg.includes("402") || msg.includes("rate")) {
-              creditsExhausted = true;
-              throw new Error(data.error);
-            }
-            throw new Error(data.error);
-          }
-          const interiors: string[] = Array.isArray(data?.interiors) ? data.interiors : [];
-          if (token === scanTokenRef.current) {
-            setPropertyInteriors((prev) => ({ ...prev, [p.id]: interiors }));
-          }
-        } catch (err: any) {
-          const msg = String(err?.message || err).toLowerCase();
-          if (msg.includes("credit") || msg.includes("402") || msg.includes("rate")) {
-            creditsExhausted = true;
-          }
-          // Fallback: keep ALL images so property is still shown
-          if (token === scanTokenRef.current) {
-            setPropertyInteriors((prev) => ({ ...prev, [p.id]: allImgs }));
-          }
-        }
-        await runNext();
-      };
-      await Promise.all(Array.from({ length: Math.min(CONCURRENCY, toScan.length) }, () => runNext()));
-      if (token === scanTokenRef.current) {
-        setScanningProperties(false);
-        if (creditsExhausted) {
-          // Fill remaining unscanned properties with their full image set as fallback
-          setPropertyInteriors((prev) => {
-            const next = { ...prev };
-            locationProperties.forEach((p: any) => {
-              if (next[p.id] === undefined && Array.isArray(p.property_images) && p.property_images.length > 0) {
-                next[p.id] = p.property_images;
-              }
-            });
-            return next;
-          });
-          toast.error("AI credits exhausted — showing all photos without facade filtering.");
-        }
-      }
-    })();
-  }, [step, locationProperties]);
-
-
-
-  const handleSelectProperty = async (p: any) => {
+  const handleSelectProperty = (p: any) => {
     setSelectedProperty(p);
     setBaseImage(null);
     setCurrentImage(null);
     setHistory([]);
     setPrompt("");
-    setInteriorImages([]);
+
+    const interiors = getInteriors(p);
+    if (interiors.length === 0) {
+      toast.error("No interior photos for this property");
+      setInteriorImages([]);
+      setStep("design");
+      return;
+    }
+    setInteriorImages(interiors);
+    setBaseImage(interiors[0]);
+    setCurrentImage(interiors[0]);
+    setHistory([interiors[0]]);
     setStep("design");
-
-    const cached = propertyInteriors[p.id];
-    if (Array.isArray(cached)) {
-      if (cached.length === 0) {
-        toast.error("No interior photos for this property");
-        return;
-      }
-      setInteriorImages(cached);
-      setBaseImage(cached[0]);
-      setCurrentImage(cached[0]);
-      setHistory([cached[0]]);
-      return;
-    }
-
-    // Fallback: classify on demand (shouldn't normally hit since list pre-scans)
-    const allImages: string[] = Array.isArray(p.property_images) ? p.property_images : [];
-    if (allImages.length === 0) {
-      toast.error("No images available for this property");
-      return;
-    }
-    setLoadingInteriors(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("classify-interiors", {
-        body: { imageUrls: allImages },
-      });
-      if (error) throw error;
-      const interiors: string[] = data?.interiors || [];
-      setPropertyInteriors((prev) => ({ ...prev, [p.id]: interiors }));
-      if (interiors.length === 0) {
-        toast.error("No interior photos found for this property");
-      } else {
-        setInteriorImages(interiors);
-        setBaseImage(interiors[0]);
-        setCurrentImage(interiors[0]);
-        setHistory([interiors[0]]);
-      }
-    } catch (e: any) {
-      toast.error(e?.message || "Failed to load interior photos");
-    } finally {
-      setLoadingInteriors(false);
-    }
   };
+
 
   const handleSelectInterior = (img: string) => {
     setBaseImage(img);
