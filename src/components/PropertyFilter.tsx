@@ -10,6 +10,7 @@ import { GlowCard } from "@/components/ui/spotlight-card";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Eye } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
+import { useDistrictsByLocation } from "@/hooks/useDistrictsByLocation";
 
 
 interface PropertyFilterProps {
