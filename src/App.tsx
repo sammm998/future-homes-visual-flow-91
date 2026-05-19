@@ -61,6 +61,9 @@ const AdminOverview = lazy(() => import("./admin/pages/AdminOverview"));
 const AdminPropertiesList = lazy(() => import("./admin/pages/PropertiesList"));
 const AdminPropertyEdit = lazy(() => import("./admin/pages/PropertyEdit"));
 const AdminPlaceholder = lazy(() => import("./admin/pages/AdminPlaceholder"));
+const AdminBlogList = lazy(() => import("./admin/pages/BlogList"));
+const AdminBlogEdit = lazy(() => import("./admin/pages/BlogEdit"));
+const AdminBlogAI = lazy(() => import("./admin/pages/BlogAI"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
