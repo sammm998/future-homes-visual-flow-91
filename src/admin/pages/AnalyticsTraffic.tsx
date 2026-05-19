@@ -208,10 +208,10 @@ export default function AnalyticsTraffic() {
 
       <Card className="bg-admin-surface">
         <CardHeader><CardTitle className="text-base">Channels</CardTitle></CardHeader>
-        <CardContent className="h-64">
-          <ResponsiveContainer><BarChart data={channels}>
-            <CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip />
-            <Bar dataKey="value" fill="#1a365d" />
+        <CardContent style={{ height: Math.max(260, channels.length * 32 + 40) }}>
+          <ResponsiveContainer><BarChart data={channels} layout="vertical" margin={{ left: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" /><XAxis type="number" /><YAxis dataKey="name" type="category" width={170} tick={{ fontSize: 12 }} /><Tooltip />
+            <Bar dataKey="value" fill="#1a365d" radius={[0, 4, 4, 0]} />
           </BarChart></ResponsiveContainer>
         </CardContent>
       </Card>
