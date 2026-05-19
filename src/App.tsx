@@ -211,14 +211,26 @@ function AppContent() {
         <Route path="blog/ai" element={<AdminBlogAI />} />
         <Route path="blog/new" element={<AdminBlogEdit />} />
         <Route path="blog/:id" element={<AdminBlogEdit />} />
-        <Route path="crm" element={<AdminPlaceholder title="CRM · Leads" />} />
-        <Route path="crm/leads" element={<AdminPlaceholder title="Leads" />} />
-        <Route path="crm/tasks" element={<AdminPlaceholder title="Tasks" />} />
-        <Route path="email" element={<AdminPlaceholder title="Email campaigns" />} />
-        <Route path="email/templates" element={<AdminPlaceholder title="Email templates" />} />
-        <Route path="email/subscribers" element={<AdminPlaceholder title="Subscribers" />} />
-        <Route path="analytics" element={<AdminPlaceholder title="Analytics" />} />
-        <Route path="settings" element={<AdminPlaceholder title="Settings" />} />
+        <Route path="crm" element={<AdminLeadsList />} />
+        <Route path="crm/leads" element={<AdminLeadsList />} />
+        <Route path="crm/leads/:id" element={<AdminLeadDetail />} />
+        <Route path="crm/contacts" element={<AdminContactsList />} />
+        <Route path="crm/tasks" element={<AdminTasksList />} />
+        <Route path="email" element={<AdminEmailInbox />} />
+        <Route path="email/inbox" element={<AdminEmailInbox />} />
+        <Route path="email/campaigns" element={<AdminCampaignsList />} />
+        <Route path="email/campaigns/new" element={<AdminCampaignEdit />} />
+        <Route path="email/campaigns/:id" element={<AdminCampaignEdit />} />
+        <Route path="email/subscribers" element={<AdminSubscribersList />} />
+        <Route path="email/templates" element={<AdminTemplatesList />} />
+        <Route path="analytics" element={<AdminAnalyticsTraffic />} />
+        <Route path="analytics/traffic" element={<AdminAnalyticsTraffic />} />
+        <Route path="analytics/properties" element={<AdminAnalyticsProperties />} />
+        <Route path="analytics/leads" element={<AdminAnalyticsLeads />} />
+        <Route path="analytics/email" element={<AdminAnalyticsEmail />} />
+        <Route path="analytics/realtime" element={<AdminAnalyticsRealtime />} />
+        <Route path="settings" element={<AdminSettings />} />
+
       </Route>
       <Route path="*" element={<NotFound />} />
       </Routes>
