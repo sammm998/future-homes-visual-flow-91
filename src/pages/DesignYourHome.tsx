@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Loader2, Sparkles, ArrowLeft, Download, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+
 
 type Step = "location" | "property" | "design";
 
