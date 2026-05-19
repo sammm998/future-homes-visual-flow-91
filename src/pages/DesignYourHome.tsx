@@ -258,11 +258,6 @@ export default function DesignYourHome() {
                   <div className="relative aspect-[4/3] bg-muted flex items-center justify-center">
                     {currentImage ? (
                       <img src={currentImage} alt="Your design" className="w-full h-full object-cover" />
-                    ) : loadingInteriors ? (
-                      <div className="text-center p-8 text-muted-foreground">
-                        <Loader2 className="w-10 h-10 mx-auto mb-3 animate-spin" />
-                        <p className="text-sm">Finding interior photos…</p>
-                      </div>
                     ) : (
                       <div className="text-center p-8 text-muted-foreground">
                         <Sparkles className="w-12 h-12 mx-auto mb-3 opacity-40" />
