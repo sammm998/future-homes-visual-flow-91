@@ -94,31 +94,62 @@ export default function DesignYourHome() {
     (async () => {
       const CONCURRENCY = 4;
       let i = 0;
+      let creditsExhausted = false;
       const runNext = async (): Promise<void> => {
-        if (token !== scanTokenRef.current) return;
+        if (token !== scanTokenRef.current || creditsExhausted) return;
         const idx = i++;
         if (idx >= toScan.length) return;
         const p = toScan[idx];
+        const allImgs: string[] = p.property_images as string[];
         try {
-          const imgs: string[] = (p.property_images as string[]).slice(0, 8);
-          const { data } = await supabase.functions.invoke("classify-interiors", {
-            body: { imageUrls: imgs },
+          const { data, error } = await supabase.functions.invoke("classify-interiors", {
+            body: { imageUrls: allImgs.slice(0, 8) },
           });
+          if (error) throw error;
+          if (data?.error) {
+            const msg = String(data.error).toLowerCase();
+            if (msg.includes("credit") || msg.includes("402") || msg.includes("rate")) {
+              creditsExhausted = true;
+              throw new Error(data.error);
+            }
+            throw new Error(data.error);
+          }
           const interiors: string[] = Array.isArray(data?.interiors) ? data.interiors : [];
           if (token === scanTokenRef.current) {
             setPropertyInteriors((prev) => ({ ...prev, [p.id]: interiors }));
           }
-        } catch {
+        } catch (err: any) {
+          const msg = String(err?.message || err).toLowerCase();
+          if (msg.includes("credit") || msg.includes("402") || msg.includes("rate")) {
+            creditsExhausted = true;
+          }
+          // Fallback: keep ALL images so property is still shown
           if (token === scanTokenRef.current) {
-            setPropertyInteriors((prev) => ({ ...prev, [p.id]: [] }));
+            setPropertyInteriors((prev) => ({ ...prev, [p.id]: allImgs }));
           }
         }
         await runNext();
       };
       await Promise.all(Array.from({ length: Math.min(CONCURRENCY, toScan.length) }, () => runNext()));
-      if (token === scanTokenRef.current) setScanningProperties(false);
+      if (token === scanTokenRef.current) {
+        setScanningProperties(false);
+        if (creditsExhausted) {
+          // Fill remaining unscanned properties with their full image set as fallback
+          setPropertyInteriors((prev) => {
+            const next = { ...prev };
+            locationProperties.forEach((p: any) => {
+              if (next[p.id] === undefined && Array.isArray(p.property_images) && p.property_images.length > 0) {
+                next[p.id] = p.property_images;
+              }
+            });
+            return next;
+          });
+          toast.error("AI credits exhausted — showing all photos without facade filtering.");
+        }
+      }
     })();
   }, [step, locationProperties]);
+
 
 
   const handleSelectProperty = async (p: any) => {
