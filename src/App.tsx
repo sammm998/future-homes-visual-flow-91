@@ -179,6 +179,7 @@ function AppContent() {
       <Route path="/articles/expenses-buying-property-turkey" element={<ExpensesBuyingPropertyTurkey />} />
       <Route path="/courses" element={<CoursesIndex />} />
       <Route path="/courses/:country" element={<CourseOverview />} />
+      <Route path="/courses/:country/final-exam" element={<CourseFinalExam />} />
       <Route path="/courses/:country/:moduleSlug" element={<CourseLesson />} />
       <Route path="/sitemap.xml" element={<SitemapXML />} />
       <Route path="/admin-login" element={<AdminLogin />} />
