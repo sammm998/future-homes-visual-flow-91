@@ -52,6 +52,9 @@ const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const MapSearch = lazy(() => import("./pages/MapSearch"));
+const CoursesIndex = lazy(() => import("./pages/CoursesIndex"));
+const CourseOverview = lazy(() => import("./pages/CourseOverview"));
+const CourseLesson = lazy(() => import("./pages/CourseLesson"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
@@ -168,6 +171,9 @@ function AppContent() {
       <Route path="/article/:id" element={<Article />} />
       <Route path="/articles/:slug" element={<ArticlePage />} />
       <Route path="/articles/expenses-buying-property-turkey" element={<ExpensesBuyingPropertyTurkey />} />
+      <Route path="/courses" element={<CoursesIndex />} />
+      <Route path="/courses/:country" element={<CourseOverview />} />
+      <Route path="/courses/:country/:moduleSlug" element={<CourseLesson />} />
       <Route path="/sitemap.xml" element={<SitemapXML />} />
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/admin-dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
