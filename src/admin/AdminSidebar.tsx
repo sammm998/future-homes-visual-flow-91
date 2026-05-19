@@ -16,6 +16,7 @@ import {
   Plus,
   Megaphone,
   Activity,
+  Flame,
 } from "lucide-react";
 import {
   Sidebar,
@@ -71,6 +72,7 @@ const groups: { label: string; items: Item[] }[] = [
       { to: "/admin/analytics/leads", label: "Leads", icon: Users },
       { to: "/admin/analytics/email", label: "Email", icon: Mail },
       { to: "/admin/analytics/realtime", label: "Realtime", icon: Activity },
+      { to: "/admin/analytics/heatmap", label: "Heatmaps", icon: Flame },
     ],
   },
   {

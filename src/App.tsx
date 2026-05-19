@@ -79,6 +79,7 @@ const AdminAnalyticsProperties = lazy(() => import("./admin/pages/AnalyticsPrope
 const AdminAnalyticsLeads = lazy(() => import("./admin/pages/AnalyticsLeads"));
 const AdminAnalyticsEmail = lazy(() => import("./admin/pages/AnalyticsEmail"));
 const AdminAnalyticsRealtime = lazy(() => import("./admin/pages/AnalyticsRealtime"));
+const AdminAnalyticsHeatmap = lazy(() => import("./admin/pages/AnalyticsHeatmap"));
 const AdminSettings = lazy(() => import("./admin/pages/AdminSettings"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
@@ -231,6 +232,7 @@ function AppContent() {
         <Route path="analytics/leads" element={<AdminAnalyticsLeads />} />
         <Route path="analytics/email" element={<AdminAnalyticsEmail />} />
         <Route path="analytics/realtime" element={<AdminAnalyticsRealtime />} />
+        <Route path="analytics/heatmap" element={<AdminAnalyticsHeatmap />} />
         <Route path="settings" element={<AdminSettings />} />
 
       </Route>
