@@ -1,9 +1,8 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useProperties } from "@/hooks/useProperties";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Loader2, Sparkles, ArrowLeft, Download, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
