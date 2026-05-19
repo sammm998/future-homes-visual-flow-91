@@ -137,7 +137,7 @@ function AppContent() {
       
       <Route path="/property-wizard" element={<PropertyWizard />} />
       <Route path="/ai-property-search" element={<AIPropertySearch />} />
-      <Route path="/design-your-home" element={<DesignYourHome />} />
+      
       <Route path="/map-search" element={<MapSearch />} />
       
       <Route path="/antalya" element={<AntalyaPropertySearch />} />
