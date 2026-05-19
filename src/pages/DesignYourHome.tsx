@@ -276,11 +276,11 @@ export default function DesignYourHome() {
                 </Card>
 
                 <Card className="p-4 space-y-3">
-                  <label className="text-sm font-semibold">Describe your design</label>
+                  <label className="text-sm font-semibold">{currentImage ? "Refine your design" : "Describe your dream interior"}</label>
                   <textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="e.g. Add red sofas in the corner with a black coffee table..."
+                    placeholder={currentImage ? "e.g. Add red velvet sofas in the corner..." : "e.g. Cozy modern living room with beige sofa, warm wood floor, large windows..."}
                     className="w-full min-h-[100px] p-3 rounded-md border bg-background text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary"
                     disabled={generating}
                   />
