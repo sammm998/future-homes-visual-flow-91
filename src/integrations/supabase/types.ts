@@ -642,6 +642,48 @@ export type Database = {
         }
         Relationships: []
       }
+      heatmap_clicks: {
+        Row: {
+          device: string | null
+          id: number
+          page: string
+          session_id: string | null
+          tag: string | null
+          ts: string
+          viewport_h: number | null
+          viewport_w: number | null
+          visitor_id: string | null
+          x_pct: number
+          y_pct: number
+        }
+        Insert: {
+          device?: string | null
+          id?: number
+          page: string
+          session_id?: string | null
+          tag?: string | null
+          ts?: string
+          viewport_h?: number | null
+          viewport_w?: number | null
+          visitor_id?: string | null
+          x_pct: number
+          y_pct: number
+        }
+        Update: {
+          device?: string | null
+          id?: number
+          page?: string
+          session_id?: string | null
+          tag?: string | null
+          ts?: string
+          viewport_h?: number | null
+          viewport_w?: number | null
+          visitor_id?: string | null
+          x_pct?: number
+          y_pct?: number
+        }
+        Relationships: []
+      }
       homepage_testimonials: {
         Row: {
           company_name: string | null
