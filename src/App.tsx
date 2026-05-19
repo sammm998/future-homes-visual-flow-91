@@ -40,6 +40,7 @@ const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const Testimonials = lazy(() => import("./pages/Testimonials"));
 const Information = lazy(() => import("./pages/Information"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
+const OurStory = lazy(() => import("./pages/OurStory"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const AliKaran = lazy(() => import("./pages/AliKaran"));
 const Article = lazy(() => import("./pages/Article"));
