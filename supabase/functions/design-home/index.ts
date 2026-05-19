@@ -42,7 +42,7 @@ Deno.serve(async (req) => {
 
     const systemPrompt = `You are an expert interior and exterior designer for luxury international real estate. Re-design the provided property image according to the user's request. Keep the architectural structure (walls, windows, ceiling, room layout) recognizable so it is clearly the same space, but transform finishes, furniture, lighting, materials, colors and styling. Output a single photorealistic, high-quality redesigned image.`;
 
-    const model = 'gemini-2.5-flash-image-preview';
+    const model = 'gemini-2.5-flash-image';
     const aiResp = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
       {
