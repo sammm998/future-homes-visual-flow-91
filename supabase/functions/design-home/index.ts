@@ -4,8 +4,8 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
-    if (!LOVABLE_API_KEY) throw new Error('LOVABLE_API_KEY not configured');
+    const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
+    if (!GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not configured');
 
     const { imageUrl, imageBase64, prompt } = await req.json();
     if (!prompt || (!imageUrl && !imageBase64)) {
@@ -15,67 +15,76 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Build data URL for the source image
-    let dataUrl: string;
+    // Resolve source image to raw base64 + mime type
+    let mimeType = 'image/jpeg';
+    let base64Data = '';
     if (imageBase64) {
-      dataUrl = imageBase64.startsWith('data:') ? imageBase64 : `data:image/jpeg;base64,${imageBase64}`;
+      if (imageBase64.startsWith('data:')) {
+        const match = imageBase64.match(/^data:([^;]+);base64,(.*)$/);
+        if (!match) throw new Error('Invalid imageBase64 data URL');
+        mimeType = match[1];
+        base64Data = match[2];
+      } else {
+        base64Data = imageBase64;
+      }
     } else {
-      // Fetch the image and convert to base64
       const imgResp = await fetch(imageUrl);
       if (!imgResp.ok) throw new Error(`Failed to fetch source image: ${imgResp.status}`);
       const buf = new Uint8Array(await imgResp.arrayBuffer());
-      const contentType = imgResp.headers.get('content-type') || 'image/jpeg';
+      mimeType = imgResp.headers.get('content-type') || 'image/jpeg';
       let b64 = '';
       const chunk = 0x8000;
       for (let i = 0; i < buf.length; i += chunk) {
         b64 += String.fromCharCode.apply(null, Array.from(buf.subarray(i, i + chunk)) as any);
       }
-      dataUrl = `data:${contentType};base64,${btoa(b64)}`;
+      base64Data = btoa(b64);
     }
 
     const systemPrompt = `You are an expert interior and exterior designer for luxury international real estate. Re-design the provided property image according to the user's request. Keep the architectural structure (walls, windows, ceiling, room layout) recognizable so it is clearly the same space, but transform finishes, furniture, lighting, materials, colors and styling. Output a single photorealistic, high-quality redesigned image.`;
 
-    const aiResp = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'google/gemini-2.5-flash-image-preview',
-        messages: [
-          {
-            role: 'user',
-            content: [
-              { type: 'text', text: `${systemPrompt}\n\nUser request: ${prompt}` },
-              { type: 'image_url', image_url: { url: dataUrl } },
-            ],
-          },
-        ],
-        modalities: ['image', 'text'],
-      }),
-    });
+    const model = 'gemini-2.5-flash-image-preview';
+    const aiResp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: 'user',
+              parts: [
+                { text: `${systemPrompt}\n\nUser request: ${prompt}` },
+                { inline_data: { mime_type: mimeType, data: base64Data } },
+              ],
+            },
+          ],
+          generationConfig: { responseModalities: ['IMAGE', 'TEXT'] },
+        }),
+      }
+    );
 
     if (!aiResp.ok) {
       const errText = await aiResp.text();
-      console.error('AI gateway error', aiResp.status, errText);
+      console.error('Gemini API error', aiResp.status, errText);
       if (aiResp.status === 429) {
         return new Response(JSON.stringify({ error: 'Rate limit exceeded, please try again shortly.' }), {
           status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
-      if (aiResp.status === 402) {
-        return new Response(JSON.stringify({ error: 'AI credits exhausted. Please add credits in workspace settings.' }), {
-          status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
-      }
-      throw new Error(`AI gateway ${aiResp.status}: ${errText}`);
+      throw new Error(`Gemini API ${aiResp.status}: ${errText}`);
     }
 
     const data = await aiResp.json();
-    const msg = data?.choices?.[0]?.message;
-    const generatedUrl: string | undefined =
-      msg?.images?.[0]?.image_url?.url ?? msg?.images?.[0]?.url;
+    const parts = data?.candidates?.[0]?.content?.parts ?? [];
+    let generatedUrl: string | undefined;
+    for (const p of parts) {
+      const inline = p.inline_data || p.inlineData;
+      if (inline?.data) {
+        const mt = inline.mime_type || inline.mimeType || 'image/png';
+        generatedUrl = `data:${mt};base64,${inline.data}`;
+        break;
+      }
+    }
 
     if (!generatedUrl) {
       console.error('No image in response', JSON.stringify(data).slice(0, 800));
