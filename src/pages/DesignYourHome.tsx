@@ -1,9 +1,8 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useProperties } from "@/hooks/useProperties";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Loader2, Sparkles, ArrowLeft, Download, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
@@ -29,17 +28,11 @@ export default function DesignYourHome() {
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
   
   const [interiorImages, setInteriorImages] = useState<string[]>([]);
-  const [loadingInteriors, setLoadingInteriors] = useState(false);
   const [baseImage, setBaseImage] = useState<string | null>(null);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
-
-  // Per-property interior cache: id -> string[] (interior URLs). null while loading, [] = no interiors
-  const [propertyInteriors, setPropertyInteriors] = useState<Record<string, string[] | null>>({});
-  const [scanningProperties, setScanningProperties] = useState(false);
-  const scanTokenRef = useRef(0);
 
   const locations = useMemo(() => {
     const map = new Map<string, { name: string; count: number }>();
@@ -57,151 +50,41 @@ export default function DesignYourHome() {
     return properties.filter((p: any) => (p.location || "").toLowerCase().startsWith(selectedLocation.toLowerCase()));
   }, [properties, selectedLocation]);
 
-  // Only show properties that have at least one interior image (after classification)
+  // Use pre-classified interior_images from DB. Fallback to all property_images
+  // (so the feature still works for properties that haven't been scanned yet).
+  const getInteriors = (p: any): string[] => {
+    if (Array.isArray(p?.interior_images) && p.interior_images.length > 0) return p.interior_images;
+    if (Array.isArray(p?.property_images)) return p.property_images;
+    return [];
+  };
+
+  // Only show properties that have at least one interior image (pre-classified).
+  // Properties without interior_images yet are also shown so users aren't blocked.
   const filteredProperties = useMemo(() => {
-    return locationProperties.filter((p: any) => {
-      const cached = propertyInteriors[p.id];
-      return Array.isArray(cached) && cached.length > 0;
-    });
-  }, [locationProperties, propertyInteriors]);
+    return locationProperties.filter((p: any) => getInteriors(p).length > 0);
+  }, [locationProperties]);
 
-  // Scan properties in the selected location for interior photos
-  useEffect(() => {
-    if (step !== "property" || locationProperties.length === 0) return;
-    const token = ++scanTokenRef.current;
-    setScanningProperties(true);
-
-    const toScan = locationProperties.filter(
-      (p: any) => propertyInteriors[p.id] === undefined && Array.isArray(p.property_images) && p.property_images.length > 0
-    );
-
-    // Mark properties with no images as no-interior immediately
-    const noImgUpdates: Record<string, string[]> = {};
-    locationProperties.forEach((p: any) => {
-      if (propertyInteriors[p.id] === undefined && (!Array.isArray(p.property_images) || p.property_images.length === 0)) {
-        noImgUpdates[p.id] = [];
-      }
-    });
-    if (Object.keys(noImgUpdates).length > 0) {
-      setPropertyInteriors((prev) => ({ ...prev, ...noImgUpdates }));
-    }
-
-    if (toScan.length === 0) {
-      setScanningProperties(false);
-      return;
-    }
-
-    (async () => {
-      const CONCURRENCY = 4;
-      let i = 0;
-      let creditsExhausted = false;
-      const runNext = async (): Promise<void> => {
-        if (token !== scanTokenRef.current || creditsExhausted) return;
-        const idx = i++;
-        if (idx >= toScan.length) return;
-        const p = toScan[idx];
-        const allImgs: string[] = p.property_images as string[];
-        try {
-          const { data, error } = await supabase.functions.invoke("classify-interiors", {
-            body: { imageUrls: allImgs.slice(0, 8) },
-          });
-          if (error) throw error;
-          if (data?.error) {
-            const msg = String(data.error).toLowerCase();
-            if (msg.includes("credit") || msg.includes("402") || msg.includes("rate")) {
-              creditsExhausted = true;
-              throw new Error(data.error);
-            }
-            throw new Error(data.error);
-          }
-          const interiors: string[] = Array.isArray(data?.interiors) ? data.interiors : [];
-          if (token === scanTokenRef.current) {
-            setPropertyInteriors((prev) => ({ ...prev, [p.id]: interiors }));
-          }
-        } catch (err: any) {
-          const msg = String(err?.message || err).toLowerCase();
-          if (msg.includes("credit") || msg.includes("402") || msg.includes("rate")) {
-            creditsExhausted = true;
-          }
-          // Fallback: keep ALL images so property is still shown
-          if (token === scanTokenRef.current) {
-            setPropertyInteriors((prev) => ({ ...prev, [p.id]: allImgs }));
-          }
-        }
-        await runNext();
-      };
-      await Promise.all(Array.from({ length: Math.min(CONCURRENCY, toScan.length) }, () => runNext()));
-      if (token === scanTokenRef.current) {
-        setScanningProperties(false);
-        if (creditsExhausted) {
-          // Fill remaining unscanned properties with their full image set as fallback
-          setPropertyInteriors((prev) => {
-            const next = { ...prev };
-            locationProperties.forEach((p: any) => {
-              if (next[p.id] === undefined && Array.isArray(p.property_images) && p.property_images.length > 0) {
-                next[p.id] = p.property_images;
-              }
-            });
-            return next;
-          });
-          toast.error("AI credits exhausted — showing all photos without facade filtering.");
-        }
-      }
-    })();
-  }, [step, locationProperties]);
-
-
-
-  const handleSelectProperty = async (p: any) => {
+  const handleSelectProperty = (p: any) => {
     setSelectedProperty(p);
     setBaseImage(null);
     setCurrentImage(null);
     setHistory([]);
     setPrompt("");
-    setInteriorImages([]);
+
+    const interiors = getInteriors(p);
+    if (interiors.length === 0) {
+      toast.error("No interior photos for this property");
+      setInteriorImages([]);
+      setStep("design");
+      return;
+    }
+    setInteriorImages(interiors);
+    setBaseImage(interiors[0]);
+    setCurrentImage(interiors[0]);
+    setHistory([interiors[0]]);
     setStep("design");
-
-    const cached = propertyInteriors[p.id];
-    if (Array.isArray(cached)) {
-      if (cached.length === 0) {
-        toast.error("No interior photos for this property");
-        return;
-      }
-      setInteriorImages(cached);
-      setBaseImage(cached[0]);
-      setCurrentImage(cached[0]);
-      setHistory([cached[0]]);
-      return;
-    }
-
-    // Fallback: classify on demand (shouldn't normally hit since list pre-scans)
-    const allImages: string[] = Array.isArray(p.property_images) ? p.property_images : [];
-    if (allImages.length === 0) {
-      toast.error("No images available for this property");
-      return;
-    }
-    setLoadingInteriors(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("classify-interiors", {
-        body: { imageUrls: allImages },
-      });
-      if (error) throw error;
-      const interiors: string[] = data?.interiors || [];
-      setPropertyInteriors((prev) => ({ ...prev, [p.id]: interiors }));
-      if (interiors.length === 0) {
-        toast.error("No interior photos found for this property");
-      } else {
-        setInteriorImages(interiors);
-        setBaseImage(interiors[0]);
-        setCurrentImage(interiors[0]);
-        setHistory([interiors[0]]);
-      }
-    } catch (e: any) {
-      toast.error(e?.message || "Failed to load interior photos");
-    } finally {
-      setLoadingInteriors(false);
-    }
   };
+
 
   const handleSelectInterior = (img: string) => {
     setBaseImage(img);
@@ -321,18 +204,15 @@ export default function DesignYourHome() {
             <h2 className="text-2xl font-semibold mb-2 text-center">2. Choose an apartment in {selectedLocation}</h2>
             <p className="text-sm text-muted-foreground text-center mb-6">
               Only properties with interior photos are shown.
-              {scanningProperties && (
-                <span className="inline-flex items-center gap-1 ml-2"><Loader2 className="w-3 h-3 animate-spin" /> Scanning…</span>
-              )}
             </p>
-            {filteredProperties.length === 0 && !scanningProperties ? (
+            {filteredProperties.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
                 No properties with interior photos available in {selectedLocation}.
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredProperties.map((p: any) => {
-                  const interiors = propertyInteriors[p.id] || [];
+                  const interiors = getInteriors(p);
                   const thumb = interiors[0];
                   return (
                     <Card
@@ -361,6 +241,7 @@ export default function DesignYourHome() {
               </div>
             )}
 
+
           </div>
         )}
 
@@ -377,11 +258,6 @@ export default function DesignYourHome() {
                   <div className="relative aspect-[4/3] bg-muted flex items-center justify-center">
                     {currentImage ? (
                       <img src={currentImage} alt="Your design" className="w-full h-full object-cover" />
-                    ) : loadingInteriors ? (
-                      <div className="text-center p-8 text-muted-foreground">
-                        <Loader2 className="w-10 h-10 mx-auto mb-3 animate-spin" />
-                        <p className="text-sm">Finding interior photos…</p>
-                      </div>
                     ) : (
                       <div className="text-center p-8 text-muted-foreground">
                         <Sparkles className="w-12 h-12 mx-auto mb-3 opacity-40" />
@@ -424,11 +300,7 @@ export default function DesignYourHome() {
 
                 <Card className="p-4 space-y-3">
                   <label className="text-sm font-semibold">Choose an interior photo</label>
-                  {loadingInteriors ? (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Loader2 className="w-4 h-4 animate-spin" /> Filtering out facades…
-                    </div>
-                  ) : interiorImages.length === 0 ? (
+                  {interiorImages.length === 0 ? (
                     <p className="text-xs text-muted-foreground">No interior photos available for this property.</p>
                   ) : (
                     <div className="grid grid-cols-3 gap-2">

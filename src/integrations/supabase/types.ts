@@ -429,6 +429,8 @@ export type Database = {
           facilities: string | null
           google_maps_embed: string | null
           id: string
+          interior_images: string[] | null
+          interior_scanned_at: string | null
           is_active: boolean
           language_code: string | null
           location: string
@@ -478,6 +480,8 @@ export type Database = {
           facilities?: string | null
           google_maps_embed?: string | null
           id?: string
+          interior_images?: string[] | null
+          interior_scanned_at?: string | null
           is_active?: boolean
           language_code?: string | null
           location: string
@@ -527,6 +531,8 @@ export type Database = {
           facilities?: string | null
           google_maps_embed?: string | null
           id?: string
+          interior_images?: string[] | null
+          interior_scanned_at?: string | null
           is_active?: boolean
           language_code?: string | null
           location?: string
