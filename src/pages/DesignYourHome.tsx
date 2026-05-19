@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useProperties } from "@/hooks/useProperties";
 import { supabase } from "@/integrations/supabase/client";
@@ -36,6 +36,11 @@ export default function DesignYourHome() {
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
 
+  // Per-property interior cache: id -> string[] (interior URLs). null while loading, [] = no interiors
+  const [propertyInteriors, setPropertyInteriors] = useState<Record<string, string[] | null>>({});
+  const [scanningProperties, setScanningProperties] = useState(false);
+  const scanTokenRef = useRef(0);
+
   const locations = useMemo(() => {
     const map = new Map<string, { name: string; count: number }>();
     properties.forEach((p: any) => {
@@ -47,10 +52,74 @@ export default function DesignYourHome() {
     return Array.from(map.values()).sort((a, b) => b.count - a.count);
   }, [properties]);
 
-  const filteredProperties = useMemo(() => {
+  const locationProperties = useMemo(() => {
     if (!selectedLocation) return [];
     return properties.filter((p: any) => (p.location || "").toLowerCase().startsWith(selectedLocation.toLowerCase()));
   }, [properties, selectedLocation]);
+
+  // Only show properties that have at least one interior image (after classification)
+  const filteredProperties = useMemo(() => {
+    return locationProperties.filter((p: any) => {
+      const cached = propertyInteriors[p.id];
+      return Array.isArray(cached) && cached.length > 0;
+    });
+  }, [locationProperties, propertyInteriors]);
+
+  // Scan properties in the selected location for interior photos
+  useEffect(() => {
+    if (step !== "property" || locationProperties.length === 0) return;
+    const token = ++scanTokenRef.current;
+    setScanningProperties(true);
+
+    const toScan = locationProperties.filter(
+      (p: any) => propertyInteriors[p.id] === undefined && Array.isArray(p.property_images) && p.property_images.length > 0
+    );
+
+    // Mark properties with no images as no-interior immediately
+    const noImgUpdates: Record<string, string[]> = {};
+    locationProperties.forEach((p: any) => {
+      if (propertyInteriors[p.id] === undefined && (!Array.isArray(p.property_images) || p.property_images.length === 0)) {
+        noImgUpdates[p.id] = [];
+      }
+    });
+    if (Object.keys(noImgUpdates).length > 0) {
+      setPropertyInteriors((prev) => ({ ...prev, ...noImgUpdates }));
+    }
+
+    if (toScan.length === 0) {
+      setScanningProperties(false);
+      return;
+    }
+
+    (async () => {
+      const CONCURRENCY = 4;
+      let i = 0;
+      const runNext = async (): Promise<void> => {
+        if (token !== scanTokenRef.current) return;
+        const idx = i++;
+        if (idx >= toScan.length) return;
+        const p = toScan[idx];
+        try {
+          const imgs: string[] = (p.property_images as string[]).slice(0, 8);
+          const { data } = await supabase.functions.invoke("classify-interiors", {
+            body: { imageUrls: imgs },
+          });
+          const interiors: string[] = Array.isArray(data?.interiors) ? data.interiors : [];
+          if (token === scanTokenRef.current) {
+            setPropertyInteriors((prev) => ({ ...prev, [p.id]: interiors }));
+          }
+        } catch {
+          if (token === scanTokenRef.current) {
+            setPropertyInteriors((prev) => ({ ...prev, [p.id]: [] }));
+          }
+        }
+        await runNext();
+      };
+      await Promise.all(Array.from({ length: Math.min(CONCURRENCY, toScan.length) }, () => runNext()));
+      if (token === scanTokenRef.current) setScanningProperties(false);
+    })();
+  }, [step, locationProperties]);
+
 
   const handleSelectProperty = async (p: any) => {
     setSelectedProperty(p);
@@ -61,12 +130,25 @@ export default function DesignYourHome() {
     setInteriorImages([]);
     setStep("design");
 
+    const cached = propertyInteriors[p.id];
+    if (Array.isArray(cached)) {
+      if (cached.length === 0) {
+        toast.error("No interior photos for this property");
+        return;
+      }
+      setInteriorImages(cached);
+      setBaseImage(cached[0]);
+      setCurrentImage(cached[0]);
+      setHistory([cached[0]]);
+      return;
+    }
+
+    // Fallback: classify on demand (shouldn't normally hit since list pre-scans)
     const allImages: string[] = Array.isArray(p.property_images) ? p.property_images : [];
     if (allImages.length === 0) {
       toast.error("No images available for this property");
       return;
     }
-
     setLoadingInteriors(true);
     try {
       const { data, error } = await supabase.functions.invoke("classify-interiors", {
@@ -74,9 +156,9 @@ export default function DesignYourHome() {
       });
       if (error) throw error;
       const interiors: string[] = data?.interiors || [];
+      setPropertyInteriors((prev) => ({ ...prev, [p.id]: interiors }));
       if (interiors.length === 0) {
         toast.error("No interior photos found for this property");
-        setInteriorImages([]);
       } else {
         setInteriorImages(interiors);
         setBaseImage(interiors[0]);
@@ -205,32 +287,49 @@ export default function DesignYourHome() {
             <Button variant="ghost" onClick={() => setStep("location")} className="mb-4">
               <ArrowLeft className="w-4 h-4 mr-2" /> Back to locations
             </Button>
-            <h2 className="text-2xl font-semibold mb-6 text-center">2. Choose an apartment in {selectedLocation}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredProperties.map((p: any) => (
-                <Card
-                  key={p.id}
-                  className="cursor-pointer hover:shadow-lg transition-all p-5 hover:border-primary"
-                  onClick={() => handleSelectProperty(p)}
-                >
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <Sparkles className="w-6 h-6 text-primary" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold line-clamp-2">{p.title}</h3>
-                      <p className="text-sm text-muted-foreground line-clamp-1">{p.location_translated || p.location}</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2 text-xs text-muted-foreground mb-3">
-                    {p.bedrooms && <span className="px-2 py-1 bg-muted rounded">{p.bedrooms} bed</span>}
-                    {p.bathrooms && <span className="px-2 py-1 bg-muted rounded">{p.bathrooms} bath</span>}
-                    {p.sizes_m2 && <span className="px-2 py-1 bg-muted rounded">{p.sizes_m2} m²</span>}
-                  </div>
-                  <p className="text-sm font-medium text-primary">{p.starting_price_eur || p.price}</p>
-                </Card>
-              ))}
-            </div>
+            <h2 className="text-2xl font-semibold mb-2 text-center">2. Choose an apartment in {selectedLocation}</h2>
+            <p className="text-sm text-muted-foreground text-center mb-6">
+              Only properties with interior photos are shown.
+              {scanningProperties && (
+                <span className="inline-flex items-center gap-1 ml-2"><Loader2 className="w-3 h-3 animate-spin" /> Scanning…</span>
+              )}
+            </p>
+            {filteredProperties.length === 0 && !scanningProperties ? (
+              <div className="text-center py-12 text-muted-foreground">
+                No properties with interior photos available in {selectedLocation}.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredProperties.map((p: any) => {
+                  const interiors = propertyInteriors[p.id] || [];
+                  const thumb = interiors[0];
+                  return (
+                    <Card
+                      key={p.id}
+                      className="cursor-pointer hover:shadow-lg transition-all overflow-hidden hover:border-primary"
+                      onClick={() => handleSelectProperty(p)}
+                    >
+                      {thumb && (
+                        <div className="aspect-video bg-muted overflow-hidden">
+                          <img src={thumb} alt={p.title} className="w-full h-full object-cover" loading="lazy" />
+                        </div>
+                      )}
+                      <div className="p-5">
+                        <h3 className="font-semibold line-clamp-2 mb-1">{p.title}</h3>
+                        <p className="text-sm text-muted-foreground line-clamp-1 mb-3">{p.location_translated || p.location}</p>
+                        <div className="flex flex-wrap gap-2 text-xs text-muted-foreground mb-3">
+                          {p.bedrooms && <span className="px-2 py-1 bg-muted rounded">{p.bedrooms} bed</span>}
+                          {p.bathrooms && <span className="px-2 py-1 bg-muted rounded">{p.bathrooms} bath</span>}
+                          {p.sizes_m2 && <span className="px-2 py-1 bg-muted rounded">{p.sizes_m2} m²</span>}
+                        </div>
+                        <p className="text-sm font-medium text-primary">{p.starting_price_eur || p.price}</p>
+                      </div>
+                    </Card>
+                  );
+                })}
+              </div>
+            )}
+
           </div>
         )}
 
