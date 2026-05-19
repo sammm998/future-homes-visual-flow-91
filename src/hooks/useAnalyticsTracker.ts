@@ -101,4 +101,31 @@ export function useAnalyticsTracker() {
       if (error) console.warn("analytics", error.message);
     });
   }, [location.pathname, location.search]);
+
+  // Global click tracking for heatmaps (debounced via rAF, ignored on admin)
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (location.pathname.startsWith("/admin")) return;
+      const docW = Math.max(document.documentElement.scrollWidth, window.innerWidth);
+      const docH = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+      const x = e.pageX, y = e.pageY;
+      if (docW <= 0 || docH <= 0) return;
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName?.toLowerCase() || null;
+      const { device } = parseUA();
+      supabase.from("heatmap_clicks").insert({
+        page: location.pathname,
+        x_pct: Number(((x / docW) * 100).toFixed(2)),
+        y_pct: Number(((y / docH) * 100).toFixed(2)),
+        viewport_w: window.innerWidth,
+        viewport_h: window.innerHeight,
+        tag,
+        visitor_id: getVisitorId(),
+        session_id: getSessionId(),
+        device,
+      }).then(() => { /* fire & forget */ });
+    };
+    window.addEventListener("click", onClick, { passive: true });
+    return () => window.removeEventListener("click", onClick);
+  }, [location.pathname]);
 }
