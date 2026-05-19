@@ -283,7 +283,7 @@ export default function DesignYourHome() {
         )}
       </div>
 
-      <Footer />
+      
     </div>
   );
 }
