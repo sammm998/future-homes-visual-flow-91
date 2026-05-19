@@ -482,7 +482,7 @@ const Information = () => {
               >
                 {/* Article Cover — AI-generated image if available, otherwise branded category design */}
                 <div className="relative h-48 w-full overflow-hidden">
-                  {article.image && /^https?:\/\//.test(article.image) ? (
+                  {article.image && /^(https?:\/\/|\/)/.test(article.image) ? (
                     <img
                       src={article.image}
                       alt={article.title}
