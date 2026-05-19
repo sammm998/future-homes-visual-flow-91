@@ -27,7 +27,7 @@ export default function DesignYourHome() {
   const [step, setStep] = useState<Step>("location");
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
-  const [, setRoomType] = useState<string>("living");
+  
   const [interiorImages, setInteriorImages] = useState<string[]>([]);
   const [loadingInteriors, setLoadingInteriors] = useState(false);
   const [baseImage, setBaseImage] = useState<string | null>(null);
