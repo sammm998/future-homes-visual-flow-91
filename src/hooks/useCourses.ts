@@ -51,7 +51,11 @@ export function useCourses() {
       .order('order_index')
       .then(({ data }) => {
         if (mounted) {
-          setCourses((data as Course[]) || []);
+          setCourses(((data as any[]) || []).map((c) => ({
+            ...c,
+            final_quiz: Array.isArray(c.final_quiz) ? c.final_quiz : [],
+            final_pass_threshold: c.final_pass_threshold ?? 70,
+          })) as Course[]);
           setLoading(false);
         }
       });
