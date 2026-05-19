@@ -5,6 +5,8 @@ const STORAGE_KEY = 'fh_course_progress_v1';
 export type CountryProgress = {
   completedModules: string[]; // module slugs
   quizScores: Record<string, number>; // moduleSlug -> percent
+  finalExamScore?: number; // best score on final exam (percent)
+  finalExamPassed?: boolean;
 };
 
 type ProgressMap = Record<string, CountryProgress>;
