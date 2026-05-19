@@ -52,9 +52,13 @@ export default function DesignYourHome() {
 
   const handleSelectProperty = (p: any) => {
     setSelectedProperty(p);
-    const img = p.property_images?.[0] || p.property_image;
+    const images: string[] = (p.property_images && p.property_images.length > 0)
+      ? p.property_images
+      : (p.property_image ? [p.property_image] : []);
+    // Skip first image (usually facade/exterior). Pick second if available.
+    const img = images[1] || images[0] || "";
     setCurrentImage(img);
-    setHistory([img]);
+    setHistory(img ? [img] : []);
     setStep("design");
   };
 
