@@ -14,6 +14,7 @@ type Slide = {
   title: string;
   body: string;
   image: string;
+  imagePosition?: string;
   align: "left" | "right" | "center";
   accent: string;
   stat?: { value: string; label: string }[];
@@ -35,6 +36,7 @@ const slides: Slide[] = [
     title: "A vision born in Antalya",
     body: "Founder Ali Karan started with a single belief: international property should feel as personal as buying a home in your own city. From a small office in Antalya, an international family was formed.",
     image: aliKaranImage,
+    imagePosition: "center 15%",
     align: "right",
     accent: "from-orange-500/40 to-amber-300/20",
   },
@@ -202,9 +204,11 @@ const OurStory = () => {
               src={slide.image}
               alt={slide.title}
               className="w-full h-full object-cover"
+              style={{ objectPosition: slide.imagePosition ?? "center" }}
               draggable={false}
             />
           </motion.div>
+
 
           {/* Gradient overlays */}
           <div className={`absolute inset-0 bg-gradient-to-br ${slide.accent} mix-blend-overlay`} />
