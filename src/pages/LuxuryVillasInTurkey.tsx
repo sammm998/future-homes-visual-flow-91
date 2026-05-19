@@ -127,10 +127,10 @@ const LuxuryVillasInTurkey = () => {
   return (
     <div className="min-h-screen bg-background">
       <EnhancedSEOHead
-        title="Luxury Villas | Premium Villa Collection"
-        description="Exclusive luxury villas for sale. Private pools, sea views, modern designs. Prime coastal locations with investment opportunities."
-        keywords={['Luxury villas', 'Villas for sale', 'Villa with sea view', 'Private pool villas', 'Beachfront villas']}
-        canonical="https://futurehomesturkey.com/luxury-villas"
+        title="Villas for Sale in Turkey | Luxury Sea-View & Private Pool Villas"
+        description="Luxury villas for sale in Turkey with private pools and sea views. Beachfront villas in Antalya, Kalkan, Bodrum & Alanya from €250,000. Turkish citizenship eligible."
+        keywords={['villas for sale in turkey', 'villa in turkey', 'luxury villas turkey', 'turkish villas for sale', 'villa with sea view turkey', 'private pool villas turkey', 'kalkan villas', 'bodrum villas']}
+        canonical="https://futurehomesinternational.com/luxury-villas-in-turkey"
         structuredData={structuredData}
       />
       
