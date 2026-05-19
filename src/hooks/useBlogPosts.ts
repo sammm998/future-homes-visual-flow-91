@@ -16,6 +16,9 @@ export interface BlogPost {
   updated_at: string;
   language_code?: string | null;
   parent_post_id?: string | null;
+  source_title?: string;
+  source_excerpt?: string | null;
+  source_content?: string;
 }
 
 /**
@@ -44,30 +47,44 @@ export const useBlogPosts = (includeUnpublished = false) => {
         const { data: parents, error: pErr } = await parentQuery.order('created_at', { ascending: false });
         if (pErr) throw pErr;
 
-        if (lang === 'en' || !parents) return parents || [];
+        const parentsWithSource = (parents || []).map((p: any) => ({
+          ...p,
+          source_title: p.title,
+          source_excerpt: p.excerpt,
+          source_content: p.content,
+        }));
+
+        if (lang === 'en' || !parents) return parentsWithSource;
 
         // Fetch translations in target language
         const parentIds = parents.map((p: any) => p.id);
         if (parentIds.length === 0) return [];
-        const { data: translations, error: tErr } = await enhancedSupabase
+        let translationQuery = enhancedSupabase
           .from('blog_posts')
           .select('*')
           .eq('language_code', lang)
           .in('parent_post_id', parentIds);
+        if (!includeUnpublished) translationQuery = translationQuery.eq('published', true);
+        const { data: translations, error: tErr } = await translationQuery;
         if (tErr) throw tErr;
 
         const transByParent = new Map<string, any>();
         (translations || []).forEach((t: any) => transByParent.set(t.parent_post_id, t));
 
         // Merge: keep parent slug & id (so URLs stay stable), use translated title/excerpt/content if present
-        return parents.map((p: any) => {
+        const usableText = (value: unknown, fallback: string | null = '') => {
+          const text = typeof value === 'string' ? value.trim() : '';
+          return text.length > 0 ? text : fallback;
+        };
+
+        return parentsWithSource.map((p: any) => {
           const tr = transByParent.get(p.id);
           if (!tr) return p;
           return {
             ...p,
-            title: tr.title,
-            excerpt: tr.excerpt,
-            content: tr.content,
+            title: usableText(tr.title, p.title),
+            excerpt: usableText(tr.excerpt, p.excerpt),
+            content: usableText(tr.content, p.content),
           };
         });
       }, 3, 2000);
@@ -106,7 +123,14 @@ export const useBlogPost = (slug: string) => {
         if (pErr) throw pErr;
         if (!parent) return null;
 
-        if (lang === 'en') return parent;
+        const parentWithSource = {
+          ...parent,
+          source_title: parent.title,
+          source_excerpt: parent.excerpt,
+          source_content: parent.content,
+        };
+
+        if (lang === 'en') return parentWithSource;
 
         // Try to find translation in current language
         const { data: tr } = await enhancedSupabase
@@ -116,12 +140,16 @@ export const useBlogPost = (slug: string) => {
           .eq('language_code', lang)
           .maybeSingle();
 
-        if (!tr) return parent;
+        if (!tr) return parentWithSource;
+        const usableText = (value: unknown, fallback: string | null = '') => {
+          const text = typeof value === 'string' ? value.trim() : '';
+          return text.length > 0 ? text : fallback;
+        };
         return {
-          ...parent,
-          title: tr.title,
-          excerpt: tr.excerpt,
-          content: tr.content,
+          ...parentWithSource,
+          title: usableText(tr.title, parent.title),
+          excerpt: usableText(tr.excerpt, parent.excerpt),
+          content: usableText(tr.content, parent.content),
         };
       }, 3, 2000);
     },
