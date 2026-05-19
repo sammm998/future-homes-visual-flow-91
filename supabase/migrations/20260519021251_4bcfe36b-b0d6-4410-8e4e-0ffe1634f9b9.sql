@@ -1,0 +1,3 @@
+UPDATE blog_posts SET featured_image = '/blog-images/is-turkey-in-europe-or-asia.jpg' WHERE id = '0da00518-98d7-47ab-8529-76c3e05a13ba' OR parent_post_id = '0da00518-98d7-47ab-8529-76c3e05a13ba';
+UPDATE blog_posts SET featured_image = '/blog-images/how-to-buy-property-in-turkey.jpg' WHERE id = '3a60db25-d799-4d04-a618-577117eb94f4' OR parent_post_id = '3a60db25-d799-4d04-a618-577117eb94f4';
+UPDATE blog_posts SET featured_image = '/blog-images/cost-of-living-in-turkey-for-expats.jpg' WHERE id = '6e1938ce-605b-4dd1-ad63-be71d6d1ff6d' OR parent_post_id = '6e1938ce-605b-4dd1-ad63-be71d6d1ff6d';
