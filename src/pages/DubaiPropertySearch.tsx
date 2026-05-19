@@ -264,10 +264,30 @@ const DubaiPropertySearch = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Property for Sale in Dubai | Apartments & Villas in UAE — Future Homes"
-        description="Property for sale in Dubai with leading agents. Luxury apartments, penthouses & villas for sale in Dubai Marina, Downtown & Palm Jumeirah from AED 800K with high ROI."
-        keywords="property for sale dubai, apartments for sale in dubai, dubai apartments for sale, dubai villas for sale, dubai houses for sale, dubai property, apartments in dubai, property dubai marina, downtown dubai homes"
+        title="Property for Sale in Dubai | Dubai Homes for Sale, Apartments & Villas — Future Homes"
+        description="Dubai homes for sale: luxury apartments, penthouses & villas in Dubai Marina, Downtown, Palm Jumeirah & Business Bay. Buy property in Dubai from AED 800K with high ROI & golden visa eligibility."
+        keywords="property for sale in dubai, dubai homes for sale, homes to buy dubai, houses for sale in dubai, dubai apartments for sale, apartments for sale in dubai, dubai villas for sale, buy property in dubai, dubai real estate, dubai property for sale, real estate in dubai, dubai houses, dubai marina apartments, downtown dubai apartments, palm jumeirah villas"
         canonicalUrl="https://futurehomesinternational.com/dubai"
+        structuredData={[
+          generateLocationSchema('Dubai', 'Premium real estate in Dubai, UAE. Luxury apartments, penthouses & villas in Dubai Marina, Downtown, Palm Jumeirah & Business Bay with golden visa eligibility and high rental yields.'),
+          generateBreadcrumbSchema([
+            { name: 'Home', url: 'https://futurehomesinternational.com' },
+            { name: 'Dubai Properties', url: 'https://futurehomesinternational.com/dubai' }
+          ]),
+          generatePropertyListSchema(
+            dubaiProperties.slice(0, 10).map((p: any) => ({
+              title: p.title,
+              price: p.price,
+              url: `https://futurehomesinternational.com/property/${p.slug || p.refNo || p.uuid}`,
+              image: p.image
+            })),
+            'Properties for Sale in Dubai'
+          )
+        ]}
+        breadcrumbs={[
+          { name: 'Home', url: 'https://futurehomesinternational.com' },
+          { name: 'Dubai Properties', url: 'https://futurehomesinternational.com/dubai' }
+        ]}
       />
       <Navigation />
       

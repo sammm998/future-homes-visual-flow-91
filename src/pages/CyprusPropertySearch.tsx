@@ -245,10 +245,30 @@ const CyprusPropertySearch = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Property for Sale in Cyprus | Villas & Apartments + EU Permanent Residency"
-        description="Property for sale in Cyprus from leading agents. Villas, apartments & beachfront homes in Limassol, Paphos & Larnaca with permanent residency for €300,000+ investors."
-        keywords="property for sale in cyprus, cyprus property for sale, apartments for sale in cyprus, villas for sale in cyprus, buy property in cyprus, cyprus real estate, cyprus permanent residency, cyprus golden visa"
+        title="Property for Sale in Cyprus | Cyprus Real Estate, Villas & Apartments + EU Residency"
+        description="Cyprus real estate for sale: villas, apartments & beachfront homes in Limassol, Paphos, Larnaca & North Cyprus. Buy property in Cyprus with EU permanent residency from €300,000."
+        keywords="property for sale in cyprus, cyprus real estate, cyprus property for sale, homes for sale in cyprus, houses for sale in cyprus, cyprus homes for sale, buy property in cyprus, cyprus real estate for sale, real estate in cyprus, cyprus villas for sale, cyprus property, north cyprus property to buy, limassol property, paphos property, larnaca apartments, cyprus permanent residency"
         canonicalUrl="https://futurehomesinternational.com/cyprus"
+        structuredData={[
+          generateLocationSchema('Cyprus', 'Premium real estate in Cyprus. Villas, apartments & beachfront homes in Limassol, Paphos & Larnaca with EU permanent residency from €300,000.'),
+          generateBreadcrumbSchema([
+            { name: 'Home', url: 'https://futurehomesinternational.com' },
+            { name: 'Cyprus Properties', url: 'https://futurehomesinternational.com/cyprus' }
+          ]),
+          generatePropertyListSchema(
+            cyprusProperties.slice(0, 10).map((p: any) => ({
+              title: p.title,
+              price: p.price,
+              url: `https://futurehomesinternational.com/property/${p.slug || p.refNo || p.uuid}`,
+              image: p.image
+            })),
+            'Properties for Sale in Cyprus'
+          )
+        ]}
+        breadcrumbs={[
+          { name: 'Home', url: 'https://futurehomesinternational.com' },
+          { name: 'Cyprus Properties', url: 'https://futurehomesinternational.com/cyprus' }
+        ]}
       />
       <Navigation />
       
