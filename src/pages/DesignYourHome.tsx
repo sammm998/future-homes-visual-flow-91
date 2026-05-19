@@ -275,12 +275,6 @@ export default function DesignYourHome() {
                   </div>
                 </Card>
 
-              <div className="space-y-4">
-                <Card className="p-4">
-                  <h3 className="font-semibold mb-1">{selectedProperty.title}</h3>
-                  <p className="text-sm text-muted-foreground">{selectedProperty.location_translated || selectedProperty.location}</p>
-                </Card>
-
                 <Card className="p-4 space-y-3">
                   <label className="text-sm font-semibold">Describe your design</label>
                   <textarea
