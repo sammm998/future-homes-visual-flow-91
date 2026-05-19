@@ -85,7 +85,14 @@ export function useCourseByCountry(countryCode: string | undefined) {
         .eq('is_published', true)
         .limit(1);
 
-      const courseRow = (courseRows?.[0] as Course | undefined) || null;
+      const rawCourse = courseRows?.[0] as any | undefined;
+      const courseRow: Course | null = rawCourse
+        ? {
+            ...rawCourse,
+            final_quiz: Array.isArray(rawCourse.final_quiz) ? rawCourse.final_quiz : [],
+            final_pass_threshold: rawCourse.final_pass_threshold ?? 70,
+          }
+        : null;
       if (!mounted) return;
       setCourse(courseRow);
 
