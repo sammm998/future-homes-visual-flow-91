@@ -13,6 +13,8 @@ export type Course = {
   language_code: string;
   order_index: number;
   is_published: boolean;
+  final_quiz: QuizQuestion[];
+  final_pass_threshold: number;
 };
 
 export type QuizQuestion = {
