@@ -36,6 +36,7 @@ const slides: Slide[] = [
     title: "A vision born in Antalya",
     body: "Founder Ali Karan started with a single belief: international property should feel as personal as buying a home in your own city. From a small office in Antalya, an international family was formed.",
     image: aliKaranImage,
+    imagePosition: "center 15%",
     align: "right",
     accent: "from-orange-500/40 to-amber-300/20",
   },
