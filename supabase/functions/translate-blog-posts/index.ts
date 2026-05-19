@@ -107,10 +107,11 @@ function buildChildSlug(opts: {
   langCode: string;
 }): string {
   const base =
-    slugify(opts.translatedTitle) ||
     slugify(opts.sourceSlug || "") ||
+    slugify(opts.translatedTitle) ||
     opts.postId.slice(0, 8);
-  return `${base}-${opts.langCode}`.slice(0, 100);
+  const suffix = opts.postId.slice(0, 6);
+  return `${base}-${opts.langCode}-${suffix}`.slice(0, 110);
 }
 
 serve(async (req) => {
