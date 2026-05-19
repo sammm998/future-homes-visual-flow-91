@@ -186,7 +186,7 @@ serve(async (req) => {
           postId: item.post.id,
           langCode: item.lang.code,
         });
-        const { error: insErr } = await supabase.from("blog_posts").insert({
+        const { error: insErr } = await supabase.from("blog_posts").upsert({
           title: t.title,
           slug: childSlug,
           excerpt: t.excerpt,
@@ -195,6 +195,8 @@ serve(async (req) => {
           published: true,
           language_code: item.lang.code,
           parent_post_id: item.post.id,
+        }, {
+          onConflict: "slug",
         });
         if (insErr) throw insErr;
         results.push({ postId: item.post.id, lang: item.lang.code, ok: true });
