@@ -70,34 +70,63 @@ export default function AnalyticsHeatmap() {
 
       <Card className="bg-admin-surface">
         <CardHeader>
-          <CardTitle className="text-base">Click heatmap · {page || "—"} · {filtered.length} clicks</CardTitle>
+          <CardTitle className="text-base flex items-center justify-between gap-2">
+            <span>Click heatmap · {page || "—"} · {filtered.length} clicks</span>
+            {page && (
+              <a
+                href={page}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs font-normal text-muted-foreground hover:text-foreground underline"
+              >
+                Open page ↗
+              </a>
+            )}
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="relative w-full aspect-[16/10] rounded-md border bg-muted/30 overflow-hidden">
-            {filtered.length === 0 ? (
+          <div className="relative w-full rounded-md border bg-muted/30 overflow-hidden" style={{ height: "78vh" }}>
+            {!page ? (
               <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
-                No clicks recorded yet for this page.
+                Select a page to see how visitors navigate it.
               </div>
             ) : (
-              filtered.map((c, i) => (
-                <span
-                  key={i}
-                  className="absolute rounded-full pointer-events-none"
-                  style={{
-                    left: `${c.x_pct}%`,
-                    top: `${c.y_pct}%`,
-                    width: 32,
-                    height: 32,
-                    transform: "translate(-50%, -50%)",
-                    background: "radial-gradient(circle, rgba(239,68,68,0.55) 0%, rgba(239,68,68,0) 70%)",
-                    mixBlendMode: "multiply",
-                  }}
+              <>
+                <iframe
+                  key={page}
+                  src={page}
+                  title={`Live preview of ${page}`}
+                  className="absolute inset-0 w-full h-full bg-white"
+                  loading="lazy"
                 />
-              ))
+                <div className="absolute inset-0 pointer-events-none">
+                  {filtered.map((c, i) => (
+                    <span
+                      key={i}
+                      className="absolute rounded-full"
+                      style={{
+                        left: `${c.x_pct}%`,
+                        top: `${c.y_pct}%`,
+                        width: 36,
+                        height: 36,
+                        transform: "translate(-50%, -50%)",
+                        background:
+                          "radial-gradient(circle, rgba(239,68,68,0.7) 0%, rgba(239,68,68,0.25) 50%, rgba(239,68,68,0) 75%)",
+                        mixBlendMode: "multiply",
+                      }}
+                    />
+                  ))}
+                </div>
+                {filtered.length === 0 && (
+                  <div className="absolute top-3 left-3 text-xs bg-background/90 border rounded px-2 py-1 text-muted-foreground">
+                    No clicks recorded yet for this page.
+                  </div>
+                )}
+              </>
             )}
           </div>
           <p className="text-xs text-muted-foreground mt-3">
-            Each dot represents a real click position (X/Y as % of page). Density highlights interaction hotspots.
+            Live preview of the actual page with click hotspots overlaid. Pick another page from the list below to navigate the full visitor journey.
           </p>
         </CardContent>
       </Card>
