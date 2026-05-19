@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useProperties } from "@/hooks/useProperties";
 import { supabase } from "@/integrations/supabase/client";
