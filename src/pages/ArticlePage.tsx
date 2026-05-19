@@ -177,22 +177,54 @@ const ArticlePage = () => {
   const ORIGIN = 'https://futurehomesinternational.com';
   const rawImage = blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content);
   const absImage = rawImage?.startsWith('http') ? rawImage : `${ORIGIN}${rawImage}`;
-  const canonical = `${ORIGIN}/articles/${blogPost.slug}`;
+  const articlePath = `/articles/${blogPost.slug}`;
+  const canonical = `${ORIGIN}${articlePath}`;
+
+  const supportedLanguages = [
+    { code: 'en', hreflang: 'en', ogLocale: 'en_US' },
+    { code: 'sv', hreflang: 'sv', ogLocale: 'sv_SE' },
+    { code: 'tr', hreflang: 'tr', ogLocale: 'tr_TR' },
+    { code: 'ar', hreflang: 'ar', ogLocale: 'ar_SA' },
+    { code: 'ru', hreflang: 'ru', ogLocale: 'ru_RU' },
+    { code: 'fa', hreflang: 'fa', ogLocale: 'fa_IR' },
+    { code: 'ur', hreflang: 'ur', ogLocale: 'ur_PK' },
+    { code: 'no', hreflang: 'no', ogLocale: 'nb_NO' },
+    { code: 'da', hreflang: 'da', ogLocale: 'da_DK' },
+    { code: 'de', hreflang: 'de', ogLocale: 'de_DE' },
+    { code: 'fr', hreflang: 'fr', ogLocale: 'fr_FR' },
+    { code: 'es', hreflang: 'es', ogLocale: 'es_ES' },
+    { code: 'id', hreflang: 'id', ogLocale: 'id_ID' },
+  ];
+  const currentLang = (blogPost as any).language_code || 'en';
+  const currentLocale = supportedLanguages.find(l => l.code === currentLang)?.ogLocale || 'en_US';
 
   return (
     <>
       <Helmet>
+        <html lang={currentLang} />
         <title>{blogPost.title} - Future Homes</title>
         <meta name="description" content={blogPost.excerpt || `${blogPost.title} - Read more on Future Homes blog`} />
         <meta name="keywords" content={tags.join(', ')} />
         <link rel="canonical" href={canonical} />
-        
+
+        {supportedLanguages.map(lang => {
+          const url = lang.code === 'en'
+            ? `${ORIGIN}${articlePath}`
+            : `${ORIGIN}${articlePath}?lang=${lang.code}`;
+          return <link key={lang.code} rel="alternate" hrefLang={lang.hreflang} href={url} />;
+        })}
+        <link rel="alternate" hrefLang="x-default" href={`${ORIGIN}${articlePath}`} />
+
         {/* Open Graph tags */}
         <meta property="og:title" content={blogPost.title} />
         <meta property="og:description" content={blogPost.excerpt || blogPost.title} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={canonical} />
         <meta property="og:image" content={absImage} />
+        <meta property="og:locale" content={currentLocale} />
+        {supportedLanguages.filter(l => l.ogLocale !== currentLocale).map(l => (
+          <meta key={l.code} property="og:locale:alternate" content={l.ogLocale} />
+        ))}
         <meta property="article:published_time" content={blogPost.created_at} />
         {blogPost.updated_at && (
           <meta property="article:modified_time" content={blogPost.updated_at} />
