@@ -107,10 +107,11 @@ function buildChildSlug(opts: {
   langCode: string;
 }): string {
   const base =
-    slugify(opts.translatedTitle) ||
     slugify(opts.sourceSlug || "") ||
+    slugify(opts.translatedTitle) ||
     opts.postId.slice(0, 8);
-  return `${base}-${opts.langCode}`.slice(0, 100);
+  const suffix = opts.postId.slice(0, 6);
+  return `${base}-${opts.langCode}-${suffix}`.slice(0, 110);
 }
 
 serve(async (req) => {
@@ -133,14 +134,25 @@ serve(async (req) => {
     if (srcErr) throw srcErr;
     if (!sourcePosts) throw new Error("No source posts");
 
-    // Fetch existing translations
-    const { data: existing } = await supabase
-      .from("blog_posts")
-      .select("parent_post_id, language_code")
-      .not("parent_post_id", "is", null);
-    const existingSet = new Set(
-      (existing || []).map((r: any) => `${r.parent_post_id}::${r.language_code}`)
-    );
+    // Fetch existing translations (paginated to avoid 1000-row limit)
+    const existingSet = new Set<string>();
+    let from = 0;
+    const pageSize = 1000;
+    while (true) {
+      const { data: page, error: exErr } = await supabase
+        .from("blog_posts")
+        .select("parent_post_id, language_code")
+        .not("parent_post_id", "is", null)
+        .range(from, from + pageSize - 1);
+      if (exErr) throw exErr;
+      if (!page || page.length === 0) break;
+      for (const r of page as any[]) {
+        existingSet.add(`${r.parent_post_id}::${r.language_code}`);
+      }
+      if (page.length < pageSize) break;
+      from += pageSize;
+    }
+
 
     const targets = langFilter
       ? TARGET_LANGS.filter((l) => l.code === langFilter)
