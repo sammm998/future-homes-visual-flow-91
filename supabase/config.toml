@@ -18,11 +18,3 @@ verify_jwt = false
 [functions.setup-admin-account]
 verify_jwt = false
 
-[functions.design-interior]
-verify_jwt = false
-
-[functions.classify-interiors]
-verify_jwt = false
-
-[functions.precompute-interiors]
-verify_jwt = false
