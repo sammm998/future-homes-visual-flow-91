@@ -301,6 +301,110 @@ export type Database = {
           },
         ]
       }
+      course_modules: {
+        Row: {
+          body_html: string
+          course_id: string
+          created_at: string
+          id: string
+          image_url: string | null
+          is_published: boolean
+          key_takeaways: Json
+          order_index: number
+          quiz: Json
+          slug: string
+          summary: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body_html: string
+          course_id: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          key_takeaways?: Json
+          order_index?: number
+          quiz?: Json
+          slug: string
+          summary?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body_html?: string
+          course_id?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          key_takeaways?: Json
+          order_index?: number
+          quiz?: Json
+          slug?: string
+          summary?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_modules_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      courses: {
+        Row: {
+          country_code: string
+          created_at: string
+          description: string
+          difficulty: string
+          estimated_minutes: number
+          hero_image: string | null
+          id: string
+          is_published: boolean
+          language_code: string
+          order_index: number
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          country_code: string
+          created_at?: string
+          description: string
+          difficulty?: string
+          estimated_minutes?: number
+          hero_image?: string | null
+          id?: string
+          is_published?: boolean
+          language_code?: string
+          order_index?: number
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          country_code?: string
+          created_at?: string
+          description?: string
+          difficulty?: string
+          estimated_minutes?: number
+          hero_image?: string | null
+          id?: string
+          is_published?: boolean
+          language_code?: string
+          order_index?: number
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       homepage_testimonials: {
         Row: {
           company_name: string | null

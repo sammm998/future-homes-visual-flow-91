@@ -1,84 +1,74 @@
+# Courses-sektion: Fastighetsinvestering per land
 
+En ny pedagogisk del av sajten där besökare kan gå kurser om att investera i fastigheter i varje land vi täcker (Turkiet, Dubai, Cypern, Bali, Indonesien, Sverige-perspektiv). Varje kurs är uppdelad i moduler (lektioner) med text + bild, följt av quiz som måste klaras innan nästa modul låses upp. Framsteg sparas lokalt (localStorage) så ingen inloggning krävs i v1.
 
-# Plan: Remove Elfsight Widget and Hardcode All Translations
+## Sidor & navigation
 
-## Overview
-Remove the Elfsight third-party translation widget completely and replace it with a fully hardcoded, in-app translation system for 13 languages. This will eliminate the translation bugs (Mersin -> Myrtle, name mangling), improve performance (no external script load), and give full control over every translated string.
+- Ny länk **"Courses"** i huvudmenyn (Header) bredvid Information.
+- `/courses` — översikt: en kort intro + 6 landskort (flagga, titel, antal moduler, svårighetsgrad, "Starta kurs").
+- `/courses/:country` — kursöversikt för ett land: beskrivning, modul-lista med låsta/upplåsta steg, total progress-bar, ev. slutcertifikat.
+- `/courses/:country/:moduleSlug` — själva lektionen: innehåll, bild, "Markera som läst" → quiz → resultat → "Nästa modul".
 
-## Current State
-- Elfsight widget loaded in `index.html` (script + div element)
-- `src/utils/translations.ts` already has a `t()` function and translations for 9 languages (en, sv, no, da, tr, ar, ru, fa, ur) — but ar, ru, fa, ur are incomplete (only ~15 keys vs ~200+ for en/sv)
-- `SimpleLanguageSelector` component exists but was removed from the navigation bar
-- Only 2 pages (`Testimonials.tsx`, `PropertyDetail.tsx`) currently use the `t()` function
-- Most pages render hardcoded English strings with no translation calls
+## Innehållsstruktur (per land)
 
-## Languages (13 total)
-**Existing (9):** English, Svenska, Norsk, Dansk, Türkçe, Русский, اردو, العربية, فارسی
-**New (4):** Español, Deutsch, Français, Bahasa Indonesia
+Varje kurs har ~6 moduler i en pedagogisk ordning:
+1. Marknadsöversikt & varför just det här landet
+2. Juridik & ägande för utlänningar
+3. Skatter, avgifter & löpande kostnader
+4. Finansiering & valuta
+5. Köpprocess steg-för-steg
+6. Hyresavkastning, exit & vanliga misstag
 
-## Plan
+Varje modul innehåller:
+- 400–800 ord pedagogisk text (HTML)
+- 1 illustrationsbild (genereras med imagegen)
+- "Viktigt att komma ihåg"-box (3–5 punkter)
+- Quiz med 3–5 flervalsfrågor, godkänd vid ≥70%
 
-### Step 1: Remove Elfsight completely
-- Remove Elfsight `<script>` tag and `<div>` widget from `index.html`
-- Remove DNS prefetch for `static.elfsight.com` from `PerformanceOptimizer.tsx`
-- Clean up Elfsight-related comments in `useLanguageUrlSync.ts` and `App.tsx`
-- Remove all `notranslate` / `translate="no"` attributes that were added specifically to fight Elfsight bugs (no longer needed)
+## Datalagring
 
-### Step 2: Add SimpleLanguageSelector back to Navigation
-- Re-add the `SimpleLanguageSelector` component to `Navigation.tsx` header bar
-- Update the language list to include all 13 languages (add es, de, fr, id)
-- Update `seoUtils.ts` supported languages array to match
+Kursinnehållet sparas i en ny tabell `courses_content` i Supabase så det blir översättningsbart i framtiden och kan editeras utan deploy. Schema:
 
-### Step 3: Complete all translation keys for all 13 languages
-- Expand `translations.ts` to have complete translations for all ~200+ keys across all 13 languages
-- Add the 4 new language sections (es, de, fr, id)
-- Fill in missing keys for ar, ru, fa, ur (currently only have ~15 keys each, need ~200+)
-- This is the largest step — will produce a file of roughly 3000+ lines
-
-### Step 4: Wire up `t()` function across all components
-- Create a `useTranslation` hook that provides `t()` with the current language automatically
-- Update major components to use `t()` instead of hardcoded English:
-  - `Hero.tsx` — search labels, CTAs
-  - `Sidebar.tsx` — menu items
-  - `Navigation.tsx` — contact bar text
-  - `ContactUs.tsx` — form labels, headings
-  - `AboutUs.tsx` — page content
-  - `PropertyFilter.tsx` — filter labels
-  - `PropertyCard.tsx` — status badges, labels
-  - `PropertyWizardComponent.tsx` — wizard steps
-  - `Newsletter.tsx` — subscribe section
-  - `TeamSection.tsx` — titles (not names)
-  - `FounderSection.tsx` — titles
-  - `PopularCities.tsx` / `DynamicCitiesGrid.tsx` — section headings
-  - `Information.tsx` — filter categories
-  - `Footer` / other shared components
-
-### Step 5: Handle RTL languages
-- For Arabic (ar), Farsi (fa), and Urdu (ur), add `dir="rtl"` to the `<html>` element when those languages are selected
-- Ensure the language selector updates `document.documentElement.dir` alongside `document.documentElement.lang`
-
-## Technical Details
-
-**New `useTranslation` hook:**
-```typescript
-export const useTranslation = () => {
-  const lang = getCurrentLanguage();
-  return {
-    t: (key: string) => t(key, lang),
-    lang,
-    isRTL: ['ar', 'fa', 'ur'].includes(lang)
-  };
-};
+```
+courses (id, country_code, slug, title, description, order_index, language_code)
+course_modules (id, course_id, slug, title, body_html, image_url, order_index, key_takeaways jsonb)
+course_quizzes (id, module_id, questions jsonb)  -- questions: [{q, options[], correctIndex, explanation}]
 ```
 
-**Translation file structure** — each language will have the same ~200 keys covering: navigation, hero, property wizard (5 steps), contact page, about page, services, cities, filters, common UI strings, property detail labels, footer, newsletter, testimonials section.
+Publik läsåtkomst (RLS: SELECT true), endast admin skriver.
 
-**Performance benefit**: Removing the Elfsight external script eliminates ~200KB+ of JavaScript and multiple network requests on every page load.
+User-progress sparas i `localStorage` under nyckeln `fh_course_progress` som `{ [country]: { completedModules: string[], quizScores: {moduleSlug: number} } }`. Ingen DB-skrivning i v1 — håller det enkelt och snabbt.
 
-## What Will NOT Change
-- Property names/descriptions from Supabase stay as-is (database content)
-- Personnel names remain untranslated (intentional)
-- City names (Mersin, Antalya, etc.) stay the same in all languages
-- URL slug translation system (`slugHelpers.ts`) continues working as before
-- Currency selector remains independent
+## UI/komponenter
 
+Återanvänder befintligt designsystem (semantic tokens, shadcn). Nya komponenter:
+- `CountryCourseCard` (översikt)
+- `ModuleListItem` (med lås-ikon + checkmark)
+- `LessonReader` (prose-stilad text + bild + key takeaways)
+- `Quiz` (en fråga i taget, direkt feedback, slutresultat)
+- `ProgressBar` (återanvänd shadcn Progress)
+- `CourseCompleteBadge` (visas när alla moduler klarade)
+
+## Översättning
+
+V1 levereras på engelska för kursinnehåll (samma fallback-strategi som artiklarna: visa EN om översättning saknas). UI-strängar ("Start course", "Next module", "Pass quiz" osv.) läggs i `translations.ts` för alla 13 språk. Översättning av kursinnehållet kan göras senare via samma Gemini-pipeline som blog_posts.
+
+## Teknisk plan (steg)
+
+1. **Migration**: skapa tabellerna ovan + RLS-policies + seed-data för Turkiet som första komplett exempel (6 moduler × ~5 quizfrågor).
+2. **Imagegen**: generera 6 illustrationer för Turkiet-kursen (modul-hero), spara under `public/courses/turkey/`.
+3. **Routing**: lägg till de 3 nya routes i `App.tsx`.
+4. **Hooks**: `useCourses()`, `useCourse(country)`, `useCourseProgress(country)`.
+5. **Sidor**: `CoursesIndex.tsx`, `CourseOverview.tsx`, `CourseLesson.tsx`.
+6. **Komponenter**: enligt listan ovan i `src/components/courses/`.
+7. **Header**: lägg till "Courses"-länk i `Header.tsx` (desktop + mobil) + översättningsnyckel.
+8. **Innehåll för övriga länder**: seedas i samma migration som platshållare (intro + 2 moduler), med "Coming soon" på låsta moduler — så funktionen ser komplett ut direkt utan att vi skriver 36 moduler i en omgång.
+
+## Vad jag levererar i denna runda
+
+För att hålla scope hanterbart föreslår jag att första leveransen innehåller:
+- Komplett funktionalitet (DB, routing, sidor, komponenter, progress, quiz, certifikat-badge, meny)
+- **Turkiet-kursen helt klar** (6 moduler + quiz + bilder) som referensimplementation
+- Övriga 5 länder synliga i översikten med "Coming soon"-status
+
+Sedan kan jag i nästa runda fylla på Dubai, Cypern, Bali osv. ett land i taget. Säger du till så kör jag igång.
