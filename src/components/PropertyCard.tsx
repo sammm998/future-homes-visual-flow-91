@@ -6,6 +6,7 @@ import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import { Link, useLocation } from 'react-router-dom';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
+import LiveViewers from './LiveViewers';
 
 interface Property {
   id: string | number;
