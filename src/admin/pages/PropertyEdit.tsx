@@ -179,7 +179,7 @@ export default function PropertyEdit() {
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label>Active (visible on site)</Label>
-                <Switch checked={form.is_active} onCheckedChange={(v) => set("is_active", v)} />
+                <Switch isSelected={!!form.is_active} onChange={(v) => set("is_active", v)} />
               </div>
               <div>
                 <Label>Status</Label>
@@ -190,7 +190,7 @@ export default function PropertyEdit() {
               </div>
               <div className="flex items-center justify-between">
                 <Label>Citizenship eligible</Label>
-                <Switch checked={form.citizenship_eligible} onCheckedChange={(v) => set("citizenship_eligible", v)} />
+                <Switch isSelected={!!form.citizenship_eligible} onChange={(v) => set("citizenship_eligible", v)} />
               </div>
             </CardContent>
           </Card>
