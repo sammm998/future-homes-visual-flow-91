@@ -52,10 +52,74 @@ export default function DesignYourHome() {
     return Array.from(map.values()).sort((a, b) => b.count - a.count);
   }, [properties]);
 
-  const filteredProperties = useMemo(() => {
+  const locationProperties = useMemo(() => {
     if (!selectedLocation) return [];
     return properties.filter((p: any) => (p.location || "").toLowerCase().startsWith(selectedLocation.toLowerCase()));
   }, [properties, selectedLocation]);
+
+  // Only show properties that have at least one interior image (after classification)
+  const filteredProperties = useMemo(() => {
+    return locationProperties.filter((p: any) => {
+      const cached = propertyInteriors[p.id];
+      return Array.isArray(cached) && cached.length > 0;
+    });
+  }, [locationProperties, propertyInteriors]);
+
+  // Scan properties in the selected location for interior photos
+  useEffect(() => {
+    if (step !== "property" || locationProperties.length === 0) return;
+    const token = ++scanTokenRef.current;
+    setScanningProperties(true);
+
+    const toScan = locationProperties.filter(
+      (p: any) => propertyInteriors[p.id] === undefined && Array.isArray(p.property_images) && p.property_images.length > 0
+    );
+
+    // Mark properties with no images as no-interior immediately
+    const noImgUpdates: Record<string, string[]> = {};
+    locationProperties.forEach((p: any) => {
+      if (propertyInteriors[p.id] === undefined && (!Array.isArray(p.property_images) || p.property_images.length === 0)) {
+        noImgUpdates[p.id] = [];
+      }
+    });
+    if (Object.keys(noImgUpdates).length > 0) {
+      setPropertyInteriors((prev) => ({ ...prev, ...noImgUpdates }));
+    }
+
+    if (toScan.length === 0) {
+      setScanningProperties(false);
+      return;
+    }
+
+    (async () => {
+      const CONCURRENCY = 4;
+      let i = 0;
+      const runNext = async (): Promise<void> => {
+        if (token !== scanTokenRef.current) return;
+        const idx = i++;
+        if (idx >= toScan.length) return;
+        const p = toScan[idx];
+        try {
+          const imgs: string[] = (p.property_images as string[]).slice(0, 8);
+          const { data } = await supabase.functions.invoke("classify-interiors", {
+            body: { imageUrls: imgs },
+          });
+          const interiors: string[] = Array.isArray(data?.interiors) ? data.interiors : [];
+          if (token === scanTokenRef.current) {
+            setPropertyInteriors((prev) => ({ ...prev, [p.id]: interiors }));
+          }
+        } catch {
+          if (token === scanTokenRef.current) {
+            setPropertyInteriors((prev) => ({ ...prev, [p.id]: [] }));
+          }
+        }
+        await runNext();
+      };
+      await Promise.all(Array.from({ length: Math.min(CONCURRENCY, toScan.length) }, () => runNext()));
+      if (token === scanTokenRef.current) setScanningProperties(false);
+    })();
+  }, [step, locationProperties]);
+
 
   const handleSelectProperty = async (p: any) => {
     setSelectedProperty(p);
