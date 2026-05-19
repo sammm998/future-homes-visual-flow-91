@@ -12,14 +12,6 @@ import Navigation from "@/components/Navigation";
 
 type Step = "location" | "property" | "design";
 
-const ROOM_TYPES = [
-  { id: "living", label: "Living Room", icon: "🛋️" },
-  { id: "bedroom", label: "Bedroom", icon: "🛏️" },
-  { id: "kitchen", label: "Kitchen", icon: "🍳" },
-  { id: "bathroom", label: "Bathroom", icon: "🛁" },
-  { id: "dining", label: "Dining Room", icon: "🍽️" },
-  { id: "office", label: "Home Office", icon: "💻" },
-];
 
 const PROMPT_SUGGESTIONS = [
   "Modern Scandinavian style, light wood, white walls, cozy",
