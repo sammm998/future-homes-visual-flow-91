@@ -145,7 +145,18 @@ export default function CourseLesson() {
           <div className="grid lg:grid-cols-[1fr_280px] gap-10 max-w-6xl mx-auto">
             <article>
               <div
-                className="prose prose-slate dark:prose-invert max-w-none prose-headings:font-semibold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-3 prose-h3:text-xl prose-p:leading-relaxed prose-strong:text-foreground prose-a:text-primary mb-10"
+                className="prose prose-lg prose-slate dark:prose-invert max-w-none mb-10
+                  prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-foreground
+                  prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-border
+                  prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-h3:text-primary
+                  prose-p:leading-relaxed prose-p:text-foreground/85
+                  prose-strong:text-foreground prose-strong:font-semibold
+                  prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+                  prose-ul:my-4 prose-ul:pl-6 prose-li:my-1.5 prose-li:marker:text-primary
+                  prose-ol:my-4 prose-ol:pl-6
+                  prose-blockquote:border-l-primary prose-blockquote:bg-muted/40 prose-blockquote:rounded-r-md prose-blockquote:py-1 prose-blockquote:not-italic
+                  prose-img:rounded-xl prose-img:shadow-md
+                  prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none"
                 dangerouslySetInnerHTML={{ __html: sanitizedBody }}
               />
 
