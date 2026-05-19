@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.design-interior]
 verify_jwt = false
+
+[functions.classify-interiors]
+verify_jwt = false
