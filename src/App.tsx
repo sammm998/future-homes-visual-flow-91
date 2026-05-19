@@ -52,6 +52,9 @@ const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const MapSearch = lazy(() => import("./pages/MapSearch"));
+const CoursesIndex = lazy(() => import("./pages/CoursesIndex"));
+const CourseOverview = lazy(() => import("./pages/CourseOverview"));
+const CourseLesson = lazy(() => import("./pages/CourseLesson"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
