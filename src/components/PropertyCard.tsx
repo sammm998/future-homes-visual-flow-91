@@ -6,6 +6,7 @@ import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import { Link, useLocation } from 'react-router-dom';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
+import LiveViewers from './LiveViewers';
 
 interface Property {
   id: string | number;
@@ -138,6 +139,11 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
                 {formatPriceFromString(property.price || '0', formatPrice)}
               </span>
             </div>
+          </div>
+
+          {/* Live viewers badge */}
+          <div className="absolute bottom-3 left-3 z-10 group-hover:opacity-0 transition-opacity duration-300">
+            <LiveViewers propertyId={String(property.id)} compact />
           </div>
 
           {/* Modern info overlay on hover */}
