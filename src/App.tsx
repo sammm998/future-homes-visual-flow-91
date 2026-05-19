@@ -192,7 +192,10 @@ function AppContent() {
         <Route path="properties" element={<AdminPropertiesList />} />
         <Route path="properties/new" element={<AdminPropertyEdit />} />
         <Route path="properties/:id" element={<AdminPropertyEdit />} />
-        <Route path="blog" element={<AdminPlaceholder title="Blog" />} />
+        <Route path="blog" element={<AdminBlogList />} />
+        <Route path="blog/ai" element={<AdminBlogAI />} />
+        <Route path="blog/new" element={<AdminBlogEdit />} />
+        <Route path="blog/:id" element={<AdminBlogEdit />} />
         <Route path="crm" element={<AdminPlaceholder title="CRM · Leads" />} />
         <Route path="crm/leads" element={<AdminPlaceholder title="Leads" />} />
         <Route path="crm/tasks" element={<AdminPlaceholder title="Tasks" />} />
