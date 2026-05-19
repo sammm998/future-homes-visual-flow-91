@@ -59,14 +59,22 @@ export const useBlogPosts = (includeUnpublished = false) => {
         // Fetch translations in target language
         const parentIds = parents.map((p: any) => p.id);
         if (parentIds.length === 0) return [];
-        let translationQuery = enhancedSupabase
-          .from('blog_posts')
-          .select('*')
-          .eq('language_code', lang)
-          .in('parent_post_id', parentIds);
-        if (!includeUnpublished) translationQuery = translationQuery.eq('published', true);
-        const { data: translations, error: tErr } = await translationQuery;
-        if (tErr) throw tErr;
+        const translations: any[] = [];
+        for (let i = 0; i < parentIds.length; i += 40) {
+          const chunk = parentIds.slice(i, i + 40);
+          let translationQuery = enhancedSupabase
+            .from('blog_posts')
+            .select('*')
+            .eq('language_code', lang)
+            .in('parent_post_id', chunk);
+          if (!includeUnpublished) translationQuery = translationQuery.eq('published', true);
+          const { data: chunkTranslations, error: tErr } = await translationQuery;
+          if (tErr) {
+            console.warn(`Blog translations unavailable for ${lang}; falling back to English`, tErr);
+            return parentsWithSource;
+          }
+          translations.push(...(chunkTranslations || []));
+        }
 
         const transByParent = new Map<string, any>();
         (translations || []).forEach((t: any) => transByParent.set(t.parent_post_id, t));
@@ -85,6 +93,7 @@ export const useBlogPosts = (includeUnpublished = false) => {
             title: usableText(tr.title, p.title),
             excerpt: usableText(tr.excerpt, p.excerpt),
             content: usableText(tr.content, p.content),
+            language_code: lang,
           };
         });
       }, 3, 2000);
