@@ -41,6 +41,7 @@ const Testimonials = lazy(() => import("./pages/Testimonials"));
 const Information = lazy(() => import("./pages/Information"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const OurStory = lazy(() => import("./pages/OurStory"));
+const DesignYourHome = lazy(() => import("./pages/DesignYourHome"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const AliKaran = lazy(() => import("./pages/AliKaran"));
 const Article = lazy(() => import("./pages/Article"));
