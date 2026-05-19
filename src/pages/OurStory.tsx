@@ -14,6 +14,7 @@ type Slide = {
   title: string;
   body: string;
   image: string;
+  imagePosition?: string;
   align: "left" | "right" | "center";
   accent: string;
   stat?: { value: string; label: string }[];
