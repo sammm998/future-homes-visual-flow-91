@@ -55,6 +55,11 @@ const MapSearch = lazy(() => import("./pages/MapSearch"));
 const CoursesIndex = lazy(() => import("./pages/CoursesIndex"));
 const CourseOverview = lazy(() => import("./pages/CourseOverview"));
 const CourseLesson = lazy(() => import("./pages/CourseLesson"));
+const AdminLayout = lazy(() => import("./admin/AdminLayout"));
+const AdminOverview = lazy(() => import("./admin/pages/AdminOverview"));
+const AdminPropertiesList = lazy(() => import("./admin/pages/PropertiesList"));
+const AdminPropertyEdit = lazy(() => import("./admin/pages/PropertyEdit"));
+const AdminPlaceholder = lazy(() => import("./admin/pages/AdminPlaceholder"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
