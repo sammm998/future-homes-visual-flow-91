@@ -300,11 +300,7 @@ export default function DesignYourHome() {
 
                 <Card className="p-4 space-y-3">
                   <label className="text-sm font-semibold">Choose an interior photo</label>
-                  {loadingInteriors ? (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Loader2 className="w-4 h-4 animate-spin" /> Filtering out facades…
-                    </div>
-                  ) : interiorImages.length === 0 ? (
+                  {interiorImages.length === 0 ? (
                     <p className="text-xs text-muted-foreground">No interior photos available for this property.</p>
                   ) : (
                     <div className="grid grid-cols-3 gap-2">
