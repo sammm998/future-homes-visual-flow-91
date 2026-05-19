@@ -12,13 +12,22 @@ import Navigation from "@/components/Navigation";
 
 type Step = "location" | "property" | "design";
 
+const ROOM_TYPES = [
+  { id: "living", label: "Living Room", icon: "🛋️" },
+  { id: "bedroom", label: "Bedroom", icon: "🛏️" },
+  { id: "kitchen", label: "Kitchen", icon: "🍳" },
+  { id: "bathroom", label: "Bathroom", icon: "🛁" },
+  { id: "dining", label: "Dining Room", icon: "🍽️" },
+  { id: "office", label: "Home Office", icon: "💻" },
+];
+
 const PROMPT_SUGGESTIONS = [
-  "Add a red velvet sofa in the corner with gold accents",
-  "Make the walls warm beige and add wooden flooring",
-  "Add a modern Scandinavian dining table with 4 chairs",
-  "Place a large abstract painting above the sofa",
-  "Add indoor plants and a cozy reading nook by the window",
-  "Modern minimalist style with black and white furniture",
+  "Modern Scandinavian style, light wood, white walls, cozy",
+  "Luxury Mediterranean villa style with marble and gold accents",
+  "Minimalist Japanese style with low furniture and warm wood tones",
+  "Industrial loft style with exposed brick and black metal",
+  "Bohemian style with colorful textiles, plants and rattan",
+  "Modern coastal style with blue accents, linen and natural light",
 ];
 
 export default function DesignYourHome() {
@@ -26,21 +35,19 @@ export default function DesignYourHome() {
   const [step, setStep] = useState<Step>("location");
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
+  const [roomType, setRoomType] = useState<string>("living");
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
 
   const locations = useMemo(() => {
-    const map = new Map<string, { name: string; count: number; image: string }>();
+    const map = new Map<string, { name: string; count: number }>();
     properties.forEach((p: any) => {
       const city = (p.location || "").split(",")[0].trim();
       if (!city) return;
-      if (!map.has(city)) {
-        map.set(city, { name: city, count: 1, image: p.property_image || p.property_images?.[0] || "" });
-      } else {
-        map.get(city)!.count++;
-      }
+      if (!map.has(city)) map.set(city, { name: city, count: 1 });
+      else map.get(city)!.count++;
     });
     return Array.from(map.values()).sort((a, b) => b.count - a.count);
   }, [properties]);
@@ -52,22 +59,30 @@ export default function DesignYourHome() {
 
   const handleSelectProperty = (p: any) => {
     setSelectedProperty(p);
-    const images: string[] = (p.property_images && p.property_images.length > 0)
-      ? p.property_images
-      : (p.property_image ? [p.property_image] : []);
-    // Skip first image (usually facade/exterior). Pick second if available.
-    const img = images[1] || images[0] || "";
-    setCurrentImage(img);
-    setHistory(img ? [img] : []);
+    setCurrentImage(null);
+    setHistory([]);
+    setPrompt("");
     setStep("design");
   };
 
+  const propertyContext = selectedProperty
+    ? `${selectedProperty.property_type || "apartment"} in ${selectedProperty.location_translated || selectedProperty.location}, ${selectedProperty.bedrooms || ""} bedrooms, ${selectedProperty.sizes_m2 || ""} m²`
+    : "";
+
   const handleGenerate = async () => {
-    if (!prompt.trim() || !currentImage) return;
+    if (!prompt.trim()) return;
     setGenerating(true);
     try {
+      const roomLabel = ROOM_TYPES.find((r) => r.id === roomType)?.label || "Living Room";
+      const fullPrompt = currentImage
+        ? prompt.trim()
+        : `${roomLabel} interior. ${prompt.trim()}`;
       const { data, error } = await supabase.functions.invoke("design-interior", {
-        body: { imageUrl: currentImage, prompt: prompt.trim() },
+        body: {
+          imageUrl: currentImage,
+          prompt: fullPrompt,
+          propertyContext,
+        },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
@@ -75,7 +90,7 @@ export default function DesignYourHome() {
         setCurrentImage(data.imageUrl);
         setHistory((h) => [...h, data.imageUrl]);
         setPrompt("");
-        toast.success("Design updated!");
+        toast.success("Design generated!");
       }
     } catch (e: any) {
       toast.error(e?.message || "Failed to generate design");
@@ -85,11 +100,11 @@ export default function DesignYourHome() {
   };
 
   const handleReset = () => {
-    if (history.length > 0) {
-      setCurrentImage(history[0]);
-      setHistory([history[0]]);
-    }
+    setCurrentImage(null);
+    setHistory([]);
   };
+
+
 
   const handleUndo = () => {
     if (history.length > 1) {
@@ -143,17 +158,11 @@ export default function DesignYourHome() {
                 {locations.map((loc) => (
                   <Card
                     key={loc.name}
-                    className="cursor-pointer overflow-hidden hover:shadow-lg transition-all group"
+                    className="cursor-pointer overflow-hidden hover:shadow-lg transition-all p-6 flex flex-col items-center justify-center text-center min-h-[140px] bg-gradient-to-br from-primary/5 to-primary/20 hover:from-primary/10 hover:to-primary/30"
                     onClick={() => { setSelectedLocation(loc.name); setStep("property"); }}
                   >
-                    <div className="aspect-[4/3] relative overflow-hidden bg-muted">
-                      {loc.image && <img src={loc.image} alt={loc.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                        <h3 className="text-lg font-semibold">{loc.name}</h3>
-                        <p className="text-xs opacity-90">{loc.count} properties</p>
-                      </div>
-                    </div>
+                    <h3 className="text-xl font-semibold mb-1">{loc.name}</h3>
+                    <p className="text-sm text-muted-foreground">{loc.count} properties</p>
                   </Card>
                 ))}
               </div>
@@ -169,25 +178,29 @@ export default function DesignYourHome() {
             </Button>
             <h2 className="text-2xl font-semibold mb-6 text-center">2. Choose an apartment in {selectedLocation}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredProperties.map((p: any) => {
-                const img = p.property_images?.[0] || p.property_image;
-                return (
-                  <Card
-                    key={p.id}
-                    className="cursor-pointer overflow-hidden hover:shadow-lg transition-all group"
-                    onClick={() => handleSelectProperty(p)}
-                  >
-                    <div className="aspect-[4/3] relative overflow-hidden bg-muted">
-                      {img && <img src={img} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />}
+              {filteredProperties.map((p: any) => (
+                <Card
+                  key={p.id}
+                  className="cursor-pointer hover:shadow-lg transition-all p-5 hover:border-primary"
+                  onClick={() => handleSelectProperty(p)}
+                >
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-6 h-6 text-primary" />
                     </div>
-                    <div className="p-4">
-                      <h3 className="font-semibold line-clamp-1">{p.title}</h3>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold line-clamp-2">{p.title}</h3>
                       <p className="text-sm text-muted-foreground line-clamp-1">{p.location_translated || p.location}</p>
-                      <p className="text-sm font-medium text-primary mt-1">{p.starting_price_eur || p.price}</p>
                     </div>
-                  </Card>
-                );
-              })}
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-xs text-muted-foreground mb-3">
+                    {p.bedrooms && <span className="px-2 py-1 bg-muted rounded">{p.bedrooms} bed</span>}
+                    {p.bathrooms && <span className="px-2 py-1 bg-muted rounded">{p.bathrooms} bath</span>}
+                    {p.sizes_m2 && <span className="px-2 py-1 bg-muted rounded">{p.sizes_m2} m²</span>}
+                  </div>
+                  <p className="text-sm font-medium text-primary">{p.starting_price_eur || p.price}</p>
+                </Card>
+              ))}
             </div>
           </div>
         )}
@@ -202,9 +215,15 @@ export default function DesignYourHome() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2">
                 <Card className="overflow-hidden">
-                  <div className="relative aspect-[4/3] bg-muted">
-                    {currentImage && (
+                  <div className="relative aspect-[4/3] bg-muted flex items-center justify-center">
+                    {currentImage ? (
                       <img src={currentImage} alt="Your design" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="text-center p-8 text-muted-foreground">
+                        <Sparkles className="w-12 h-12 mx-auto mb-3 opacity-40" />
+                        <p className="font-medium">Choose a room and describe your dream interior</p>
+                        <p className="text-sm mt-1">AI will generate it from scratch — no facades, only interiors.</p>
+                      </div>
                     )}
                     {generating && (
                       <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white gap-3">
@@ -214,24 +233,6 @@ export default function DesignYourHome() {
                     )}
                   </div>
                 </Card>
-
-                {/* Interior image picker - skip first (facade) */}
-                {selectedProperty.property_images && selectedProperty.property_images.length > 1 && (
-                  <div className="mt-4">
-                    <p className="text-xs font-semibold mb-2 text-muted-foreground">CHOOSE AN INTERIOR PHOTO TO REDESIGN</p>
-                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                      {selectedProperty.property_images.slice(1).map((img: string, i: number) => (
-                        <button
-                          key={i}
-                          onClick={() => { setCurrentImage(img); setHistory([img]); }}
-                          className={`aspect-square rounded overflow-hidden border-2 ${currentImage === img ? "border-primary" : "border-transparent hover:border-muted-foreground/30"}`}
-                        >
-                          <img src={img} alt={`interior ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
                 {history.length > 1 && (
                   <div className="mt-4">
@@ -258,11 +259,28 @@ export default function DesignYourHome() {
                 </Card>
 
                 <Card className="p-4 space-y-3">
-                  <label className="text-sm font-semibold">Describe your design</label>
+                  <label className="text-sm font-semibold">Room type</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {ROOM_TYPES.map((r) => (
+                      <button
+                        key={r.id}
+                        onClick={() => { setRoomType(r.id); setCurrentImage(null); setHistory([]); }}
+                        disabled={generating}
+                        className={`p-2 rounded-md border text-xs flex flex-col items-center gap-1 transition-colors ${roomType === r.id ? "border-primary bg-primary/10" : "border-border hover:bg-muted"}`}
+                      >
+                        <span className="text-lg">{r.icon}</span>
+                        <span>{r.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </Card>
+
+                <Card className="p-4 space-y-3">
+                  <label className="text-sm font-semibold">{currentImage ? "Refine your design" : "Describe your dream interior"}</label>
                   <textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="e.g. Add red sofas in the corner with a black coffee table..."
+                    placeholder={currentImage ? "e.g. Add red velvet sofas in the corner..." : "e.g. Cozy modern living room with beige sofa, warm wood floor, large windows..."}
                     className="w-full min-h-[100px] p-3 rounded-md border bg-background text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary"
                     disabled={generating}
                   />
