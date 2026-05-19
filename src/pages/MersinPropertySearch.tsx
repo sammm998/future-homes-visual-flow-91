@@ -300,11 +300,31 @@ const MersinPropertySearch = () => {
         enableResourceHints={true}
       />
       <SEOHead
-        title="Mersin Properties & Turkish Citizenship | Future Homes"
-        description="Turkish citizenship via Mersin properties. Mediterranean coastline real estate with investment opportunities. Expert guidance included."
-        keywords="Mersin properties, Turkish citizenship, property investment Mersin, Mediterranean real estate, Mersin apartments"
+        title="Property for Sale in Mersin | Apartments & Villas in Turkey — Future Homes"
+        description="Property for sale in Mersin: beachfront apartments, sea-view villas & off-plan homes in Mezitli, Erdemli & Tece. Buy property in Mersin Turkey from €55,000 with Turkish citizenship eligibility."
+        keywords="property for sale in mersin, mersin property for sale, apartments for sale in mersin, mersin satılık daire, mersin mezitli satılık daire, buy property in mersin, mersin real estate, mersin apartments, mersin villas for sale, mediterranean property turkey, turkish citizenship by investment mersin"
         canonicalUrl={canonicalUrl}
         hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))}
+        structuredData={[
+          generateLocationSchema('Mersin', 'Premium real estate in Mersin, Turkey. Beachfront apartments, sea-view villas & off-plan homes along the Mediterranean coast with Turkish citizenship by investment eligibility.'),
+          generateBreadcrumbSchema([
+            { name: 'Home', url: 'https://futurehomesinternational.com' },
+            { name: 'Mersin Properties', url: 'https://futurehomesinternational.com/mersin' }
+          ]),
+          generatePropertyListSchema(
+            mersinProperties.slice(0, 10).map((p: any) => ({
+              title: p.title,
+              price: p.price,
+              url: `https://futurehomesinternational.com/property/${p.slug || p.refNo || p.uuid}`,
+              image: p.image
+            })),
+            'Properties for Sale in Mersin'
+          )
+        ]}
+        breadcrumbs={[
+          { name: 'Home', url: 'https://futurehomesinternational.com' },
+          { name: 'Mersin Properties', url: 'https://futurehomesinternational.com/mersin' }
+        ]}
       />
       <Navigation />
       
