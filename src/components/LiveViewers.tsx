@@ -24,7 +24,7 @@ function baseFor(propertyId: string): number {
   return 3 + (seed % 25);
 }
 
-export default function LiveViewers({ propertyId }: LiveViewersProps) {
+export default function LiveViewers({ propertyId, compact = false }: LiveViewersProps) {
   const [count, setCount] = useState(() => baseFor(propertyId));
 
   useEffect(() => {
