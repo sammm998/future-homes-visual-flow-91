@@ -51,7 +51,7 @@ const slides: Slide[] = [
     stat: [
       { value: "4", label: "Countries" },
       { value: "50+", label: "Nationalities served" },
-      { value: "17", label: "Years of trust" },
+      { value: "6", label: "Years of trust" },
     ],
   },
   {
