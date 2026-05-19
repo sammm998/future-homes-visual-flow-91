@@ -215,9 +215,15 @@ export default function DesignYourHome() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2">
                 <Card className="overflow-hidden">
-                  <div className="relative aspect-[4/3] bg-muted">
-                    {currentImage && (
+                  <div className="relative aspect-[4/3] bg-muted flex items-center justify-center">
+                    {currentImage ? (
                       <img src={currentImage} alt="Your design" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="text-center p-8 text-muted-foreground">
+                        <Sparkles className="w-12 h-12 mx-auto mb-3 opacity-40" />
+                        <p className="font-medium">Choose a room and describe your dream interior</p>
+                        <p className="text-sm mt-1">AI will generate it from scratch — no facades, only interiors.</p>
+                      </div>
                     )}
                     {generating && (
                       <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white gap-3">
@@ -227,24 +233,6 @@ export default function DesignYourHome() {
                     )}
                   </div>
                 </Card>
-
-                {/* Interior image picker - skip first (facade) */}
-                {selectedProperty.property_images && selectedProperty.property_images.length > 1 && (
-                  <div className="mt-4">
-                    <p className="text-xs font-semibold mb-2 text-muted-foreground">CHOOSE AN INTERIOR PHOTO TO REDESIGN</p>
-                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                      {selectedProperty.property_images.slice(1).map((img: string, i: number) => (
-                        <button
-                          key={i}
-                          onClick={() => { setCurrentImage(img); setHistory([img]); }}
-                          className={`aspect-square rounded overflow-hidden border-2 ${currentImage === img ? "border-primary" : "border-transparent hover:border-muted-foreground/30"}`}
-                        >
-                          <img src={img} alt={`interior ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
                 {history.length > 1 && (
                   <div className="mt-4">
@@ -263,6 +251,29 @@ export default function DesignYourHome() {
                   </div>
                 )}
               </div>
+
+              <div className="space-y-4">
+                <Card className="p-4">
+                  <h3 className="font-semibold mb-1">{selectedProperty.title}</h3>
+                  <p className="text-sm text-muted-foreground">{selectedProperty.location_translated || selectedProperty.location}</p>
+                </Card>
+
+                <Card className="p-4 space-y-3">
+                  <label className="text-sm font-semibold">Room type</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {ROOM_TYPES.map((r) => (
+                      <button
+                        key={r.id}
+                        onClick={() => { setRoomType(r.id); setCurrentImage(null); setHistory([]); }}
+                        disabled={generating}
+                        className={`p-2 rounded-md border text-xs flex flex-col items-center gap-1 transition-colors ${roomType === r.id ? "border-primary bg-primary/10" : "border-border hover:bg-muted"}`}
+                      >
+                        <span className="text-lg">{r.icon}</span>
+                        <span>{r.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </Card>
 
               <div className="space-y-4">
                 <Card className="p-4">
