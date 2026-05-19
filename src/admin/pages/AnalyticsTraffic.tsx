@@ -42,6 +42,51 @@ export default function AnalyticsTraffic() {
       const byPage: Record<string, number> = {};
       const byRef: Record<string, number> = {};
 
+      const classify = (referrer: string | null, channel: string | null): string => {
+        const host = (() => {
+          if (!referrer) return "";
+          try { return new URL(referrer).hostname.replace(/^www\./, "").toLowerCase(); } catch { return ""; }
+        })();
+        if (host) {
+          if (/(^|\.)google\./.test(host)) return "Organic Google";
+          if (/(^|\.)bing\./.test(host)) return "Organic Bing";
+          if (/(^|\.)duckduckgo\./.test(host)) return "Organic DuckDuckGo";
+          if (/(^|\.)yahoo\./.test(host)) return "Organic Yahoo";
+          if (/(^|\.)yandex\./.test(host)) return "Organic Yandex";
+          if (/(^|\.)baidu\./.test(host)) return "Organic Baidu";
+          if (/(^|\.)ecosia\./.test(host)) return "Organic Ecosia";
+          if (/instagram\.com/.test(host)) return "Instagram";
+          if (/tiktok\.com/.test(host)) return "TikTok";
+          if (/facebook\.com|fb\.com|m\.facebook/.test(host)) return "Facebook";
+          if (/(^|\.)t\.co$|twitter\.com|x\.com/.test(host)) return "X / Twitter";
+          if (/linkedin\.com|lnkd\.in/.test(host)) return "LinkedIn";
+          if (/youtube\.com|youtu\.be/.test(host)) return "YouTube";
+          if (/pinterest\.com|pin\.it/.test(host)) return "Pinterest";
+          if (/reddit\.com/.test(host)) return "Reddit";
+          if (/whatsapp\.com|wa\.me/.test(host)) return "WhatsApp";
+          if (/t\.me|telegram\./.test(host)) return "Telegram";
+          if (/snapchat\.com/.test(host)) return "Snapchat";
+          if (/threads\.net/.test(host)) return "Threads";
+          if (/discord\.com|discord\.gg/.test(host)) return "Discord";
+          if (/mail\.google|outlook\.live|mail\.yahoo|gmail/.test(host)) return "Email";
+          try {
+            const self = location.hostname.replace(/^www\./, "");
+            if (host.includes(self) || host.includes("lovable")) return "Internal";
+          } catch {}
+          return `Referral · ${host}`;
+        }
+        if (channel) {
+          const c = channel.toLowerCase();
+          if (c === "direct") return "Direct";
+          if (c === "internal") return "Internal";
+          if (c === "organic") return "Organic search";
+          if (c === "social") return "Social";
+          if (c === "referral") return "Referral";
+          return c.charAt(0).toUpperCase() + c.slice(1);
+        }
+        return "Direct";
+      };
+
       for (const r of rows) {
         const d = format(new Date(r.ts), "MMM d");
         byDay[d] = (byDay[d] ?? 0) + 1;
@@ -50,7 +95,7 @@ export default function AnalyticsTraffic() {
         if (r.event_type === "pageview") pageviews++;
         bucket(byCountry, r.country);
         bucket(byDevice, r.device);
-        bucket(byChannel, r.channel);
+        bucket(byChannel, classify(r.referrer, r.channel));
         bucket(byBrowser, r.browser);
         bucket(byOs, r.os);
         bucket(byPage, r.page);
@@ -65,7 +110,7 @@ export default function AnalyticsTraffic() {
       setDaily(Object.entries(byDay).reverse().map(([day, count]) => ({ day, count })));
       setCountries(toArr(byCountry));
       setDevices(toArr(byDevice));
-      setChannels(toArr(byChannel));
+      setChannels(toArr(byChannel, 15));
       setBrowsers(toArr(byBrowser));
       setOses(toArr(byOs));
       setTopPages(toArr(byPage, 15));
@@ -163,10 +208,10 @@ export default function AnalyticsTraffic() {
 
       <Card className="bg-admin-surface">
         <CardHeader><CardTitle className="text-base">Channels</CardTitle></CardHeader>
-        <CardContent className="h-64">
-          <ResponsiveContainer><BarChart data={channels}>
-            <CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip />
-            <Bar dataKey="value" fill="#1a365d" />
+        <CardContent style={{ height: Math.max(260, channels.length * 32 + 40) }}>
+          <ResponsiveContainer><BarChart data={channels} layout="vertical" margin={{ left: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" /><XAxis type="number" /><YAxis dataKey="name" type="category" width={170} tick={{ fontSize: 12 }} /><Tooltip />
+            <Bar dataKey="value" fill="#1a365d" radius={[0, 4, 4, 0]} />
           </BarChart></ResponsiveContainer>
         </CardContent>
       </Card>
