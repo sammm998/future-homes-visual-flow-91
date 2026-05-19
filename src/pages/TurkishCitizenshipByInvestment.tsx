@@ -172,10 +172,10 @@ const TurkishCitizenshipByInvestment = () => {
   return (
     <div className="min-h-screen bg-background">
       <EnhancedSEOHead
-        title="Turkish Citizenship by Investment | $400K Real Estate Program"
-        description="Obtain Turkish citizenship through real estate investment. $400K minimum investment, 3-6 month process, visa-free travel to 110+ countries. Expert guidance included."
-        keywords={['Turkish citizenship by investment', 'Turkey citizenship program', 'Real estate citizenship Turkey', 'Turkish passport investment', 'Citizenship by property investment']}
-        canonical="https://futurehomesturkey.com/turkish-citizenship-by-investment"
+        title="Turkish Citizenship by Investment 2026 | $400K Property Route — Future Homes"
+        description="Get Turkish citizenship by investment with $400K real estate. Full guide to the Turkey CBI program: process, eligibility, passport benefits and 110+ visa-free countries."
+        keywords={['turkish citizenship by investment', 'turkey citizenship by investment', 'citizenship by investment', 'turkish passport', 'how to get turkish citizenship', 'investment for turkish citizenship', 'turkey golden visa']}
+        canonical="https://futurehomesinternational.com/turkish-citizenship-by-investment"
         structuredData={structuredData}
       />
       

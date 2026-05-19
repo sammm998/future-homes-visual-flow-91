@@ -194,7 +194,7 @@ const Index = () => {
         ]}
         prefetchRoutes={['/antalya', '/dubai', '/cyprus']}
       />
-      <SEOHead title={pageTitle || "Future Homes International | Premium Properties Worldwide"} description={metaDescription || "Expert guidance for international real estate investment. Premium properties worldwide. Citizenship programs, luxury apartments & villas. Your trusted global property partner."} keywords="real estate investment, properties for sale, citizenship investment, international property, overseas real estate, Future Homes" canonicalUrl={currentCanonicalUrl} structuredData={[homePageStructuredData, faqStructuredData]} />
+      <SEOHead title={pageTitle || "Property for Sale in Turkey, Dubai, Cyprus & Bali | Future Homes International"} description={metaDescription || "Property for sale in Turkey, Dubai, Cyprus & Bali. Apartments, villas & off-plan homes from leading international agents. Turkish citizenship by investment from $400K."} keywords="property for sale in turkey, apartments for sale in turkey, villas for sale in turkey, property for sale dubai, property for sale in cyprus, property for sale in bali, turkish citizenship by investment, real estate turkey" canonicalUrl={currentCanonicalUrl} structuredData={[homePageStructuredData, faqStructuredData]} />
       <OrganizationSchema />
       <Navigation />
 

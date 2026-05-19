@@ -127,10 +127,10 @@ const ApartmentsForSaleInTurkey = () => {
   return (
     <div className="min-h-screen bg-background">
       <EnhancedSEOHead
-        title="Apartments for Sale | Modern Living Spaces"
-        description="Find luxury apartments for sale. Modern 1-4 bedroom apartments in prime locations. Beachfront, city center & investment options available."
-        keywords={['Apartments for sale', 'Luxury apartments', 'Beachfront apartments', 'Modern apartments', 'apartment investment']}
-        canonical="https://futurehomesturkey.com/apartments-for-sale"
+        title="Apartments for Sale in Turkey | Antalya, Istanbul & Alanya — Future Homes"
+        description="Apartments for sale in Turkey: 1–4 bedroom beachfront, city-centre and off-plan apartments in Antalya, Istanbul, Alanya & Mersin. From €70,000 with payment plans."
+        keywords={['apartments for sale in turkey', 'apartments for sale in antalya', 'apartments to buy in istanbul turkey', 'flats for sale in turkey', 'turkey apartments for sale', 'cheap apartments in turkey']}
+        canonical="https://futurehomesinternational.com/apartments-for-sale-in-turkey"
         structuredData={structuredData}
       />
       

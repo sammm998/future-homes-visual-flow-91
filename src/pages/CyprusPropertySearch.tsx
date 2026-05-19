@@ -245,9 +245,9 @@ const CyprusPropertySearch = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Cyprus Property for Sale | EU Citizenship by Investment | Future Homes"
-        description="Buy property in Cyprus and gain EU citizenship. Luxury homes, apartments & villas with citizenship program benefits. Expert guidance for European property investment & Cyprus Golden Visa."
-        keywords="Cyprus property for sale, EU citizenship by investment, buy property Cyprus, Cyprus citizenship program, European property investment, Cyprus Golden Visa, luxury homes Cyprus, Cyprus real estate EU passport"
+        title="Property for Sale in Cyprus | Villas & Apartments + EU Permanent Residency"
+        description="Property for sale in Cyprus from leading agents. Villas, apartments & beachfront homes in Limassol, Paphos & Larnaca with permanent residency for €300,000+ investors."
+        keywords="property for sale in cyprus, cyprus property for sale, apartments for sale in cyprus, villas for sale in cyprus, buy property in cyprus, cyprus real estate, cyprus permanent residency, cyprus golden visa"
         canonicalUrl="https://futurehomesinternational.com/cyprus"
       />
       <Navigation />

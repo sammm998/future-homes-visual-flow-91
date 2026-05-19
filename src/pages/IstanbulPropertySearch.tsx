@@ -202,9 +202,9 @@ const IstanbulPropertySearch = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="Buy Property in Istanbul | Real Estate & Apartments for Sale | Future Homes" 
-        description="Discover premium properties in Istanbul. Luxury apartments, villas & investment opportunities in Turkey's largest city. Citizenship programs available. Expert guidance from Future Homes International." 
-        keywords="Istanbul real estate, buy property Istanbul, property for sale, Istanbul apartments, citizenship by investment, property investment Istanbul, Istanbul homes" 
+        title="Property for Sale in Istanbul | Apartments & Houses in Turkey — Future Homes" 
+        description="Property for sale in Istanbul: luxury apartments, houses & villas in Maslak, Beylikdüzü & Bosphorus districts. Citizenship by investment from $400K. Trusted Turkey agents." 
+        keywords="property for sale istanbul, apartments to buy in istanbul turkey, house for sale in istanbul, istanbul property, buy property istanbul, istanbul apartments, istanbul houses, istanbul real estate, homes for sale in istanbul turkey" 
         canonicalUrl={canonicalUrl} 
         hreflangUrls={Object.fromEntries(hreflangUrls.map(h => [h.code, h.url]))}
         structuredData={[

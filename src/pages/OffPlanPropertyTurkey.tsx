@@ -139,10 +139,10 @@ const OffPlanPropertyTurkey = () => {
   return (
     <div className="min-h-screen bg-background">
       <EnhancedSEOHead
-        title="Off-Plan Property | Pre-Construction Investment"
-        description="Discover off-plan properties with 10-20% discounts, flexible payment plans, and modern specifications. Investment opportunities worldwide."
-        keywords={['Off-plan property', 'Pre-construction', 'property investment', 'New developments', 'Construction phase property']}
-        canonical="https://futurehomesturkey.com/off-plan-property"
+        title="Off-Plan Property in Turkey | New Build Apartments & Villas with Payment Plans"
+        description="Off-plan property in Turkey from leading developers. 10–20% below market, 0% interest payment plans and new-build apartments & villas in Antalya, Istanbul, Alanya."
+        keywords={['off plan property turkey', 'new build property turkey', 'off plan apartments turkey', 'off plan villas turkey', 'pre construction property turkey', 'payment plan property turkey']}
+        canonical="https://futurehomesinternational.com/off-plan-property-turkey"
         structuredData={structuredData}
       />
       
