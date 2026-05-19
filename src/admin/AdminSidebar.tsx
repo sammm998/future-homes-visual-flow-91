@@ -16,6 +16,7 @@ import {
   Plus,
   Megaphone,
   Activity,
+  Flame,
 } from "lucide-react";
 import {
   Sidebar,
