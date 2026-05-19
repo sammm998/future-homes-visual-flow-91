@@ -130,12 +130,25 @@ export default function DesignYourHome() {
     setInteriorImages([]);
     setStep("design");
 
+    const cached = propertyInteriors[p.id];
+    if (Array.isArray(cached)) {
+      if (cached.length === 0) {
+        toast.error("No interior photos for this property");
+        return;
+      }
+      setInteriorImages(cached);
+      setBaseImage(cached[0]);
+      setCurrentImage(cached[0]);
+      setHistory([cached[0]]);
+      return;
+    }
+
+    // Fallback: classify on demand (shouldn't normally hit since list pre-scans)
     const allImages: string[] = Array.isArray(p.property_images) ? p.property_images : [];
     if (allImages.length === 0) {
       toast.error("No images available for this property");
       return;
     }
-
     setLoadingInteriors(true);
     try {
       const { data, error } = await supabase.functions.invoke("classify-interiors", {
@@ -143,9 +156,9 @@ export default function DesignYourHome() {
       });
       if (error) throw error;
       const interiors: string[] = data?.interiors || [];
+      setPropertyInteriors((prev) => ({ ...prev, [p.id]: interiors }));
       if (interiors.length === 0) {
         toast.error("No interior photos found for this property");
-        setInteriorImages([]);
       } else {
         setInteriorImages(interiors);
         setBaseImage(interiors[0]);
