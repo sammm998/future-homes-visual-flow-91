@@ -355,10 +355,10 @@ const Information = () => {
     id: index + 1000, // Offset to avoid conflicts with static article IDs
     title: post.title,
     description: post.excerpt || `${post.title} - Read more about this topic`,
-    icon: getArticleIconComponent(post.title),
+    icon: getArticleIconComponent(post.source_title || post.title),
     // Use featured_image first, fallback to category-based images if null
-    image: post.featured_image || getArticleImage(post.title, post.content, index),
-    category: getArticleCategory(post.title, post.content),
+    image: post.featured_image || getArticleImage(post.source_title || post.title, post.source_content || post.content, index),
+    category: getArticleCategory(post.source_title || post.title, post.source_content || post.content),
     content: post.content,
     slug: post.slug, // Use the actual slug from database
     isDatabaseArticle: true, // Mark as database article

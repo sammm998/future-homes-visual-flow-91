@@ -172,10 +172,12 @@ const ArticlePage = () => {
     return defaultTags.length > 0 ? defaultTags : ['Real Estate'];
   };
 
-  const tags = extractTags(blogPost.content, blogPost.title);
+  const sourceTitle = blogPost.source_title || blogPost.title;
+  const sourceContent = blogPost.source_content || blogPost.content;
+  const tags = extractTags(sourceContent, sourceTitle);
 
   const ORIGIN = 'https://futurehomesinternational.com';
-  const rawImage = blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content);
+  const rawImage = blogPost.featured_image || getArticleImage(sourceTitle, sourceContent);
   const absImage = rawImage?.startsWith('http') ? rawImage : `${ORIGIN}${rawImage}`;
   const articlePath = `/articles/${blogPost.slug}`;
   const canonical = `${ORIGIN}${articlePath}`;
@@ -271,7 +273,7 @@ const ArticlePage = () => {
         title={blogPost.title}
         excerpt={blogPost.excerpt}
         content={blogPost.content}
-        featuredImage={blogPost.featured_image || getArticleImage(blogPost.title, blogPost.content)}
+        featuredImage={blogPost.featured_image || getArticleImage(sourceTitle, sourceContent)}
         publishedDate={blogPost.created_at}
         readingTime={getReadingTime(blogPost.content)}
         tags={tags}
