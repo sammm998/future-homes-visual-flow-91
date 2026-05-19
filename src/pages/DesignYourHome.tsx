@@ -36,6 +36,9 @@ export default function DesignYourHome() {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const [roomType, setRoomType] = useState<string>("living");
+  const [interiorImages, setInteriorImages] = useState<string[]>([]);
+  const [loadingInteriors, setLoadingInteriors] = useState(false);
+  const [baseImage, setBaseImage] = useState<string | null>(null);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [prompt, setPrompt] = useState("");
@@ -57,12 +60,49 @@ export default function DesignYourHome() {
     return properties.filter((p: any) => (p.location || "").toLowerCase().startsWith(selectedLocation.toLowerCase()));
   }, [properties, selectedLocation]);
 
-  const handleSelectProperty = (p: any) => {
+  const handleSelectProperty = async (p: any) => {
     setSelectedProperty(p);
+    setBaseImage(null);
     setCurrentImage(null);
     setHistory([]);
     setPrompt("");
+    setInteriorImages([]);
     setStep("design");
+
+    const allImages: string[] = Array.isArray(p.property_images) ? p.property_images : [];
+    if (allImages.length === 0) {
+      toast.error("No images available for this property");
+      return;
+    }
+
+    setLoadingInteriors(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("classify-interiors", {
+        body: { imageUrls: allImages },
+      });
+      if (error) throw error;
+      const interiors: string[] = data?.interiors || [];
+      if (interiors.length === 0) {
+        toast.error("No interior photos found for this property");
+        setInteriorImages([]);
+      } else {
+        setInteriorImages(interiors);
+        setBaseImage(interiors[0]);
+        setCurrentImage(interiors[0]);
+        setHistory([interiors[0]]);
+      }
+    } catch (e: any) {
+      toast.error(e?.message || "Failed to load interior photos");
+    } finally {
+      setLoadingInteriors(false);
+    }
+  };
+
+  const handleSelectInterior = (img: string) => {
+    setBaseImage(img);
+    setCurrentImage(img);
+    setHistory([img]);
+    setPrompt("");
   };
 
   const propertyContext = selectedProperty
@@ -70,17 +110,13 @@ export default function DesignYourHome() {
     : "";
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim() || !currentImage) return;
     setGenerating(true);
     try {
-      const roomLabel = ROOM_TYPES.find((r) => r.id === roomType)?.label || "Living Room";
-      const fullPrompt = currentImage
-        ? prompt.trim()
-        : `${roomLabel} interior. ${prompt.trim()}`;
       const { data, error } = await supabase.functions.invoke("design-interior", {
         body: {
           imageUrl: currentImage,
-          prompt: fullPrompt,
+          prompt: prompt.trim(),
           propertyContext,
         },
       });
@@ -100,11 +136,11 @@ export default function DesignYourHome() {
   };
 
   const handleReset = () => {
-    setCurrentImage(null);
-    setHistory([]);
+    if (baseImage) {
+      setCurrentImage(baseImage);
+      setHistory([baseImage]);
+    }
   };
-
-
 
   const handleUndo = () => {
     if (history.length > 1) {
@@ -113,6 +149,7 @@ export default function DesignYourHome() {
       setCurrentImage(newHistory[newHistory.length - 1]);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-background">
