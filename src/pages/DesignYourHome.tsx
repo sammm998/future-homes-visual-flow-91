@@ -255,11 +255,16 @@ export default function DesignYourHome() {
                   <div className="relative aspect-[4/3] bg-muted flex items-center justify-center">
                     {currentImage ? (
                       <img src={currentImage} alt="Your design" className="w-full h-full object-cover" />
+                    ) : loadingInteriors ? (
+                      <div className="text-center p-8 text-muted-foreground">
+                        <Loader2 className="w-10 h-10 mx-auto mb-3 animate-spin" />
+                        <p className="text-sm">Finding interior photos…</p>
+                      </div>
                     ) : (
                       <div className="text-center p-8 text-muted-foreground">
                         <Sparkles className="w-12 h-12 mx-auto mb-3 opacity-40" />
-                        <p className="font-medium">Choose a room and describe your dream interior</p>
-                        <p className="text-sm mt-1">AI will generate it from scratch — no facades, only interiors.</p>
+                        <p className="font-medium">No interior photo selected</p>
+                        <p className="text-sm mt-1">Pick an interior shot on the right to start designing.</p>
                       </div>
                     )}
                     {generating && (
@@ -296,21 +301,29 @@ export default function DesignYourHome() {
                 </Card>
 
                 <Card className="p-4 space-y-3">
-                  <label className="text-sm font-semibold">Room type</label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {ROOM_TYPES.map((r) => (
-                      <button
-                        key={r.id}
-                        onClick={() => { setRoomType(r.id); setCurrentImage(null); setHistory([]); }}
-                        disabled={generating}
-                        className={`p-2 rounded-md border text-xs flex flex-col items-center gap-1 transition-colors ${roomType === r.id ? "border-primary bg-primary/10" : "border-border hover:bg-muted"}`}
-                      >
-                        <span className="text-lg">{r.icon}</span>
-                        <span>{r.label}</span>
-                      </button>
-                    ))}
-                  </div>
+                  <label className="text-sm font-semibold">Choose an interior photo</label>
+                  {loadingInteriors ? (
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Loader2 className="w-4 h-4 animate-spin" /> Filtering out facades…
+                    </div>
+                  ) : interiorImages.length === 0 ? (
+                    <p className="text-xs text-muted-foreground">No interior photos available for this property.</p>
+                  ) : (
+                    <div className="grid grid-cols-3 gap-2">
+                      {interiorImages.map((img) => (
+                        <button
+                          key={img}
+                          onClick={() => handleSelectInterior(img)}
+                          disabled={generating}
+                          className={`relative aspect-square rounded overflow-hidden border-2 transition-all ${baseImage === img ? "border-primary ring-2 ring-primary/30" : "border-transparent hover:border-primary/50"}`}
+                        >
+                          <img src={img} alt="interior" className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </Card>
+
 
                 <Card className="p-4 space-y-3">
                   <label className="text-sm font-semibold">{currentImage ? "Refine your design" : "Describe your dream interior"}</label>
