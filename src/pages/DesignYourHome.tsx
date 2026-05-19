@@ -36,6 +36,11 @@ export default function DesignYourHome() {
   const [prompt, setPrompt] = useState("");
   const [generating, setGenerating] = useState(false);
 
+  // Per-property interior cache: id -> string[] (interior URLs). null while loading, [] = no interiors
+  const [propertyInteriors, setPropertyInteriors] = useState<Record<string, string[] | null>>({});
+  const [scanningProperties, setScanningProperties] = useState(false);
+  const scanTokenRef = useRef(0);
+
   const locations = useMemo(() => {
     const map = new Map<string, { name: string; count: number }>();
     properties.forEach((p: any) => {
