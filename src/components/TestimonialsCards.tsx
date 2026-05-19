@@ -161,6 +161,8 @@ const TestimonialsCards = () => {
                       src={localImageMap[testimonial.customer_name] || testimonial.image_url} 
                       alt={testimonial.customer_name}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <span className="text-primary font-semibold text-lg">

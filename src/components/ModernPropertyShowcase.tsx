@@ -368,6 +368,8 @@ const ModernPropertyShowcase = () => {
                     src={featuredProperty.property_image} 
                     alt={featuredProperty.title} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    decoding="async"
                     onError={(e) => {
                       e.currentTarget.src = 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop';
                     }}
@@ -430,6 +432,8 @@ const ModernPropertyShowcase = () => {
                         src={property.property_image} 
                         alt={property.title} 
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                        decoding="async"
                         onError={(e) => {
                           e.currentTarget.src = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop';
                         }}
@@ -480,6 +484,8 @@ const ModernPropertyShowcase = () => {
                       src={property.property_image} 
                       alt={property.title} 
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         e.currentTarget.src = 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&h=600&fit=crop';
                       }}
