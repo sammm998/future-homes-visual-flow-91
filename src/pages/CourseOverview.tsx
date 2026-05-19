@@ -94,10 +94,33 @@ export default function CourseOverview() {
           {allComplete && (
             <div className="mb-8 p-6 rounded-xl border-2 border-primary bg-primary/5 text-center">
               <Award className="w-12 h-12 text-primary mx-auto mb-2" />
-              <h3 className="text-xl font-bold mb-1">Course complete!</h3>
+              <h3 className="text-xl font-bold mb-1">All modules complete!</h3>
               <p className="text-sm text-muted-foreground">
                 You've finished every module of {course.title}.
               </p>
+            </div>
+          )}
+
+          {modules.length > 0 && (
+            <div className="mb-8 p-6 rounded-xl border bg-gradient-to-br from-primary/10 to-primary/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2 mb-1 text-xs font-semibold uppercase tracking-wider text-primary">
+                  <Award className="w-4 h-4" /> Final exam
+                </div>
+                <h3 className="font-semibold text-lg">Test all your competencies</h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {allComplete
+                    ? progress.finalExamPassed
+                      ? `Passed with ${progress.finalExamScore}% — retake any time.`
+                      : 'Unlocked. Score 70% to earn certification.'
+                    : 'Unlocks after you complete every module.'}
+                </p>
+              </div>
+              <Button asChild disabled={!allComplete} variant={allComplete ? 'default' : 'outline'}>
+                <Link to={`/courses/${course.country_code}/final-exam`}>
+                  {progress.finalExamPassed ? 'Retake exam' : allComplete ? 'Start final exam' : 'Locked'}
+                </Link>
+              </Button>
             </div>
           )}
 
