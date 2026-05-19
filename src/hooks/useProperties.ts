@@ -46,7 +46,10 @@ export const useProperties = () => {
                   ...r,
                   title: t.title || r.title,
                   description: t.description || r.description,
-                  location: t.location || r.location,
+                  // Keep original English location for filter/prefix matching;
+                  // expose translated copy separately for display purposes.
+                  location: r.location,
+                  location_translated: t.location || null,
                 };
               });
             }
