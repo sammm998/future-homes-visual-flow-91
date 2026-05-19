@@ -215,17 +215,38 @@ export default function DesignYourHome() {
                   </div>
                 </Card>
 
+                {/* Interior image picker - skip first (facade) */}
+                {selectedProperty.property_images && selectedProperty.property_images.length > 1 && (
+                  <div className="mt-4">
+                    <p className="text-xs font-semibold mb-2 text-muted-foreground">CHOOSE AN INTERIOR PHOTO TO REDESIGN</p>
+                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                      {selectedProperty.property_images.slice(1).map((img: string, i: number) => (
+                        <button
+                          key={i}
+                          onClick={() => { setCurrentImage(img); setHistory([img]); }}
+                          className={`aspect-square rounded overflow-hidden border-2 ${currentImage === img ? "border-primary" : "border-transparent hover:border-muted-foreground/30"}`}
+                        >
+                          <img src={img} alt={`interior ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {history.length > 1 && (
-                  <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
-                    {history.map((img, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setCurrentImage(img)}
-                        className={`flex-shrink-0 w-20 h-20 rounded overflow-hidden border-2 ${currentImage === img ? "border-primary" : "border-transparent"}`}
-                      >
-                        <img src={img} alt={`v${i}`} className="w-full h-full object-cover" />
-                      </button>
-                    ))}
+                  <div className="mt-4">
+                    <p className="text-xs font-semibold mb-2 text-muted-foreground">YOUR DESIGNS</p>
+                    <div className="flex gap-2 overflow-x-auto pb-2">
+                      {history.map((img, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setCurrentImage(img)}
+                          className={`flex-shrink-0 w-20 h-20 rounded overflow-hidden border-2 ${currentImage === img ? "border-primary" : "border-transparent"}`}
+                        >
+                          <img src={img} alt={`v${i}`} className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
