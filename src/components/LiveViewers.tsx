@@ -3,6 +3,7 @@ import { Eye } from "lucide-react";
 
 interface LiveViewersProps {
   propertyId: string;
+  compact?: boolean;
 }
 
 // Deterministic pseudo-random based on id + current hour bucket,
