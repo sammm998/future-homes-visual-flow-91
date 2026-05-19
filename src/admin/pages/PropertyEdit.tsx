@@ -179,7 +179,7 @@ export default function PropertyEdit() {
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label>Active (visible on site)</Label>
-                <Switch checked={form.is_active} onCheckedChange={(v) => set("is_active", v)} />
+                <Switch isSelected={!!form.is_active} onChange={(v) => set("is_active", v)} />
               </div>
               <div>
                 <Label>Status</Label>
