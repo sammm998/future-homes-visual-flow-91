@@ -12,14 +12,6 @@ import Navigation from "@/components/Navigation";
 
 type Step = "location" | "property" | "design";
 
-const ROOM_TYPES = [
-  { id: "living", label: "Living Room", icon: "🛋️" },
-  { id: "bedroom", label: "Bedroom", icon: "🛏️" },
-  { id: "kitchen", label: "Kitchen", icon: "🍳" },
-  { id: "bathroom", label: "Bathroom", icon: "🛁" },
-  { id: "dining", label: "Dining Room", icon: "🍽️" },
-  { id: "office", label: "Home Office", icon: "💻" },
-];
 
 const PROMPT_SUGGESTIONS = [
   "Modern Scandinavian style, light wood, white walls, cozy",
@@ -35,7 +27,10 @@ export default function DesignYourHome() {
   const [step, setStep] = useState<Step>("location");
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
-  const [roomType, setRoomType] = useState<string>("living");
+  
+  const [interiorImages, setInteriorImages] = useState<string[]>([]);
+  const [loadingInteriors, setLoadingInteriors] = useState(false);
+  const [baseImage, setBaseImage] = useState<string | null>(null);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [prompt, setPrompt] = useState("");
@@ -57,12 +52,49 @@ export default function DesignYourHome() {
     return properties.filter((p: any) => (p.location || "").toLowerCase().startsWith(selectedLocation.toLowerCase()));
   }, [properties, selectedLocation]);
 
-  const handleSelectProperty = (p: any) => {
+  const handleSelectProperty = async (p: any) => {
     setSelectedProperty(p);
+    setBaseImage(null);
     setCurrentImage(null);
     setHistory([]);
     setPrompt("");
+    setInteriorImages([]);
     setStep("design");
+
+    const allImages: string[] = Array.isArray(p.property_images) ? p.property_images : [];
+    if (allImages.length === 0) {
+      toast.error("No images available for this property");
+      return;
+    }
+
+    setLoadingInteriors(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("classify-interiors", {
+        body: { imageUrls: allImages },
+      });
+      if (error) throw error;
+      const interiors: string[] = data?.interiors || [];
+      if (interiors.length === 0) {
+        toast.error("No interior photos found for this property");
+        setInteriorImages([]);
+      } else {
+        setInteriorImages(interiors);
+        setBaseImage(interiors[0]);
+        setCurrentImage(interiors[0]);
+        setHistory([interiors[0]]);
+      }
+    } catch (e: any) {
+      toast.error(e?.message || "Failed to load interior photos");
+    } finally {
+      setLoadingInteriors(false);
+    }
+  };
+
+  const handleSelectInterior = (img: string) => {
+    setBaseImage(img);
+    setCurrentImage(img);
+    setHistory([img]);
+    setPrompt("");
   };
 
   const propertyContext = selectedProperty
@@ -70,17 +102,13 @@ export default function DesignYourHome() {
     : "";
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim() || !currentImage) return;
     setGenerating(true);
     try {
-      const roomLabel = ROOM_TYPES.find((r) => r.id === roomType)?.label || "Living Room";
-      const fullPrompt = currentImage
-        ? prompt.trim()
-        : `${roomLabel} interior. ${prompt.trim()}`;
       const { data, error } = await supabase.functions.invoke("design-interior", {
         body: {
           imageUrl: currentImage,
-          prompt: fullPrompt,
+          prompt: prompt.trim(),
           propertyContext,
         },
       });
@@ -100,11 +128,11 @@ export default function DesignYourHome() {
   };
 
   const handleReset = () => {
-    setCurrentImage(null);
-    setHistory([]);
+    if (baseImage) {
+      setCurrentImage(baseImage);
+      setHistory([baseImage]);
+    }
   };
-
-
 
   const handleUndo = () => {
     if (history.length > 1) {
@@ -113,6 +141,7 @@ export default function DesignYourHome() {
       setCurrentImage(newHistory[newHistory.length - 1]);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -218,11 +247,16 @@ export default function DesignYourHome() {
                   <div className="relative aspect-[4/3] bg-muted flex items-center justify-center">
                     {currentImage ? (
                       <img src={currentImage} alt="Your design" className="w-full h-full object-cover" />
+                    ) : loadingInteriors ? (
+                      <div className="text-center p-8 text-muted-foreground">
+                        <Loader2 className="w-10 h-10 mx-auto mb-3 animate-spin" />
+                        <p className="text-sm">Finding interior photos…</p>
+                      </div>
                     ) : (
                       <div className="text-center p-8 text-muted-foreground">
                         <Sparkles className="w-12 h-12 mx-auto mb-3 opacity-40" />
-                        <p className="font-medium">Choose a room and describe your dream interior</p>
-                        <p className="text-sm mt-1">AI will generate it from scratch — no facades, only interiors.</p>
+                        <p className="font-medium">No interior photo selected</p>
+                        <p className="text-sm mt-1">Pick an interior shot on the right to start designing.</p>
                       </div>
                     )}
                     {generating && (
@@ -259,34 +293,43 @@ export default function DesignYourHome() {
                 </Card>
 
                 <Card className="p-4 space-y-3">
-                  <label className="text-sm font-semibold">Room type</label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {ROOM_TYPES.map((r) => (
-                      <button
-                        key={r.id}
-                        onClick={() => { setRoomType(r.id); setCurrentImage(null); setHistory([]); }}
-                        disabled={generating}
-                        className={`p-2 rounded-md border text-xs flex flex-col items-center gap-1 transition-colors ${roomType === r.id ? "border-primary bg-primary/10" : "border-border hover:bg-muted"}`}
-                      >
-                        <span className="text-lg">{r.icon}</span>
-                        <span>{r.label}</span>
-                      </button>
-                    ))}
-                  </div>
+                  <label className="text-sm font-semibold">Choose an interior photo</label>
+                  {loadingInteriors ? (
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Loader2 className="w-4 h-4 animate-spin" /> Filtering out facades…
+                    </div>
+                  ) : interiorImages.length === 0 ? (
+                    <p className="text-xs text-muted-foreground">No interior photos available for this property.</p>
+                  ) : (
+                    <div className="grid grid-cols-3 gap-2">
+                      {interiorImages.map((img) => (
+                        <button
+                          key={img}
+                          onClick={() => handleSelectInterior(img)}
+                          disabled={generating}
+                          className={`relative aspect-square rounded overflow-hidden border-2 transition-all ${baseImage === img ? "border-primary ring-2 ring-primary/30" : "border-transparent hover:border-primary/50"}`}
+                        >
+                          <img src={img} alt="interior" className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </Card>
 
+
                 <Card className="p-4 space-y-3">
-                  <label className="text-sm font-semibold">{currentImage ? "Refine your design" : "Describe your dream interior"}</label>
+                  <label className="text-sm font-semibold">Refine your design</label>
                   <textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    placeholder={currentImage ? "e.g. Add red velvet sofas in the corner..." : "e.g. Cozy modern living room with beige sofa, warm wood floor, large windows..."}
+                    placeholder="e.g. Add red velvet sofas in the corner, warm wood floor, large windows..."
                     className="w-full min-h-[100px] p-3 rounded-md border bg-background text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary"
-                    disabled={generating}
+                    disabled={generating || !currentImage}
                   />
-                  <Button onClick={handleGenerate} disabled={generating || !prompt.trim()} className="w-full">
+                  <Button onClick={handleGenerate} disabled={generating || !prompt.trim() || !currentImage} className="w-full">
                     {generating ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating...</> : <><Sparkles className="w-4 h-4 mr-2" /> Apply design</>}
                   </Button>
+
 
                   <div className="flex gap-2">
                     <Button variant="outline" size="sm" onClick={handleUndo} disabled={history.length < 2 || generating} className="flex-1">
