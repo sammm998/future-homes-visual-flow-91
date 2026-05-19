@@ -74,6 +74,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
               <Link to="/courses" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 Courses
               </Link>
+              <Link to="/our-story" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+                Our Story
+              </Link>
+              <Link to="/design-your-home" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+                Design Your Home
+              </Link>
               <Link to="/contact-us" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.contact')}
               </Link>
