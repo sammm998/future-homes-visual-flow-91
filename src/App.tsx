@@ -189,6 +189,10 @@ function AppContent() {
       <Route path="/ejendom/:id" element={<PropertyDetail />} />
       <Route path="/melk/:id" element={<PropertyDetail />} />
       <Route path="/jaidad/:id" element={<PropertyDetail />} />
+      <Route path="/propiedad/:id" element={<PropertyDetail />} />
+      <Route path="/immobilie/:id" element={<PropertyDetail />} />
+      <Route path="/propriete/:id" element={<PropertyDetail />} />
+      <Route path="/properti/:id" element={<PropertyDetail />} />
       
       <Route path="/testimonials" element={<Testimonials />} />
       <Route path="/information" element={<Information />} />
