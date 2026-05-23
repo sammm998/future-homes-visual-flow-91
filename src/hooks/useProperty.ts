@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 // Get the appropriate slug column based on language
 const getSlugColumn = (lang: string | null): string => {
   if (!lang || lang === 'en') return 'slug';
-  const supportedLangs = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur'];
+  const supportedLangs = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id'];
   return supportedLangs.includes(lang) ? `slug_${lang}` : 'slug';
 };
 
