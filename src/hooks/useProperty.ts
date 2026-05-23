@@ -3,11 +3,21 @@ import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 import { useLocation } from 'react-router-dom';
 
+const SUPPORTED_LANGUAGES = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id'];
+const SLUG_COLUMNS = ['slug', ...SUPPORTED_LANGUAGES.map(lang => `slug_${lang}`)];
+
+const getSlugLookupFilter = (slug: string): string =>
+  SLUG_COLUMNS.map(column => `${column}.eq.${slug}`).join(',');
+
+const normalizeLanguage = (lang: string | null): string | null => {
+  if (!lang || lang === 'en') return null;
+  return SUPPORTED_LANGUAGES.includes(lang) ? lang : null;
+};
+
 // Get the appropriate slug column based on language
 const getSlugColumn = (lang: string | null): string => {
   if (!lang || lang === 'en') return 'slug';
-  const supportedLangs = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id'];
-  return supportedLangs.includes(lang) ? `slug_${lang}` : 'slug';
+  return SUPPORTED_LANGUAGES.includes(lang) ? `slug_${lang}` : 'slug';
 };
 
 export const useProperty = (id: string) => {
@@ -46,17 +56,19 @@ export const useProperty = (id: string) => {
           }
         }
 
-        // Fall back to English slug
+        // Fall back to any known slug column. This prevents 404s when a user
+        // switches language while the URL still contains another language's slug.
         if (!dbProperty) {
-          const { data: slugProperty } = await enhancedSupabase
+          const { data: slugProperties } = await enhancedSupabase
             .from('properties')
             .select('*')
-            .eq('slug', id)
+            .or(getSlugLookupFilter(id))
             .eq('is_active', true)
-            .maybeSingle();
+            .order('ref_no', { ascending: false })
+            .limit(1);
 
-          if (slugProperty) {
-            dbProperty = slugProperty;
+          if (slugProperties && slugProperties.length > 0) {
+            dbProperty = slugProperties[0];
           }
         }
 
@@ -94,12 +106,13 @@ export const useProperty = (id: string) => {
         }
 
         // Fetch translation for current language (if not English)
-        if (lang && lang !== 'en' && dbProperty.id) {
+        const translationLang = normalizeLanguage(lang);
+        if (translationLang && dbProperty.id) {
           const { data: translation } = await enhancedSupabase
             .from('property_translations')
             .select('title, description, location')
             .eq('property_id', dbProperty.id)
-            .eq('language_code', lang)
+            .eq('language_code', translationLang)
             .maybeSingle();
 
           if (translation) {
