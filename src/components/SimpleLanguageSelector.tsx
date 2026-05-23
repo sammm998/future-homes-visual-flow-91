@@ -57,12 +57,14 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
 
     if (propertySlug) {
       const slugFilter = `slug.eq.${propertySlug},slug_sv.eq.${propertySlug},slug_tr.eq.${propertySlug},slug_ar.eq.${propertySlug},slug_ru.eq.${propertySlug},slug_no.eq.${propertySlug},slug_da.eq.${propertySlug},slug_fa.eq.${propertySlug},slug_ur.eq.${propertySlug},slug_es.eq.${propertySlug},slug_de.eq.${propertySlug},slug_fr.eq.${propertySlug},slug_id.eq.${propertySlug}`;
-      const { data } = await supabase
+      const { data: matches } = await supabase
         .from('properties')
         .select('*')
         .or(slugFilter)
         .eq('is_active', true)
-        .maybeSingle();
+        .order('ref_no', { ascending: false })
+        .limit(1);
+      const data = matches && matches.length > 0 ? matches[0] : null;
 
       if (data) {
         const newPath = getTranslatedPropertyPath(langCode);

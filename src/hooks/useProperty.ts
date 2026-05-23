@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 // Get the appropriate slug column based on language
 const getSlugColumn = (lang: string | null): string => {
   if (!lang || lang === 'en') return 'slug';
-  const supportedLangs = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur'];
+  const supportedLangs = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id'];
   return supportedLangs.includes(lang) ? `slug_${lang}` : 'slug';
 };
 
@@ -32,16 +32,17 @@ export const useProperty = (id: string) => {
         const slugColumn = getSlugColumn(lang);
         
         if (slugColumn !== 'slug' && lang) {
-          // Try language-specific slug - use raw query to avoid type issues
-          const { data: langProperty } = await enhancedSupabase
+          // Use limit(1) instead of maybeSingle() to handle duplicate translated slugs gracefully
+          const { data: langProperties } = await enhancedSupabase
             .from('properties')
             .select('*')
             .filter(slugColumn, 'eq', id)
             .eq('is_active', true)
-            .maybeSingle();
+            .order('ref_no', { ascending: false })
+            .limit(1);
           
-          if (langProperty) {
-            dbProperty = langProperty;
+          if (langProperties && langProperties.length > 0) {
+            dbProperty = langProperties[0];
           }
         }
 

@@ -64,13 +64,15 @@ export const useLanguageUrlSync = () => {
     const syncPropertyUrl = async () => {
       const slugFilter = `slug.eq.${currentSlug},slug_sv.eq.${currentSlug},slug_tr.eq.${currentSlug},slug_ar.eq.${currentSlug},slug_ru.eq.${currentSlug},slug_no.eq.${currentSlug},slug_da.eq.${currentSlug},slug_fa.eq.${currentSlug},slug_ur.eq.${currentSlug},slug_es.eq.${currentSlug},slug_de.eq.${currentSlug},slug_fr.eq.${currentSlug},slug_id.eq.${currentSlug}`;
 
-      const { data } = await supabase
+      const { data: matches } = await supabase
         .from('properties')
         .select('*')
         .or(slugFilter)
         .eq('is_active', true)
-        .maybeSingle();
+        .order('ref_no', { ascending: false })
+        .limit(1);
 
+      const data = matches && matches.length > 0 ? matches[0] : null;
       if (!data) return;
 
       const newSlug = getLanguageSlug(data, effectiveLang);
