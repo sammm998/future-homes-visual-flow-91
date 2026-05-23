@@ -149,10 +149,14 @@ Deno.serve(async (req) => {
 
   try {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-    if (!LOVABLE_API_KEY || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    const translationApiKey = GEMINI_API_KEY || LOVABLE_API_KEY;
+    const translationProvider = GEMINI_API_KEY ? "gemini" : "lovable";
+
+    if (!translationApiKey || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
       return new Response(
         JSON.stringify({ error: "Missing required environment variables" }),
         {
@@ -249,7 +253,8 @@ Deno.serve(async (req) => {
           property.location || "",
           lang.code,
           lang.name,
-          LOVABLE_API_KEY,
+          translationApiKey,
+          translationProvider,
         );
 
         if (translation) {
