@@ -18,7 +18,7 @@ const TARGET_LANGUAGES = [
   { code: "de", name: "German" },
   { code: "fr", name: "French" },
   { code: "es", name: "Spanish" },
-  { code: "nl", name: "Dutch" },
+  { code: "id", name: "Indonesian" },
 ];
 
 interface TranslationResult {
