@@ -21,6 +21,8 @@ const TARGET_LANGUAGES = [
   { code: "id", name: "Indonesian" },
 ];
 
+const TARGET_LANGUAGE_CODES = TARGET_LANGUAGES.map((lang) => lang.code);
+
 interface TranslationResult {
   title: string;
   description: string;
@@ -130,14 +132,20 @@ Deno.serve(async (req) => {
 
     const body = await req.json().catch(() => ({}));
     const propertyIds: string[] | undefined = body.property_ids;
-    const limit: number = body.limit || 5; // batch size to avoid rate limits
+    const targetLanguageCodes: string[] = Array.isArray(body.languages)
+      ? body.languages.filter((code: string) => TARGET_LANGUAGE_CODES.includes(code))
+      : TARGET_LANGUAGE_CODES;
+    const targetLanguages = TARGET_LANGUAGES.filter((lang) => targetLanguageCodes.includes(lang.code));
+    const limit: number = Math.min(body.limit || 250, 500);
+    const maxTranslations: number = Math.min(body.max_translations || 20, 80);
     const force: boolean = body.force || false;
 
     // Fetch properties to translate
     let query = supabase
       .from("properties")
       .select("id, title, description, location")
-      .eq("is_active", true);
+      .eq("is_active", true)
+      .not("status", "ilike", "%sold%");
 
     if (propertyIds && propertyIds.length > 0) {
       query = query.in("id", propertyIds);
@@ -168,6 +176,21 @@ Deno.serve(async (req) => {
       );
     }
 
+    const propertyIdsToCheck = properties.map((property: any) => property.id);
+    const { data: existingTranslations } = await supabase
+      .from("property_translations")
+      .select("property_id, language_code")
+      .in("property_id", propertyIdsToCheck)
+      .in("language_code", targetLanguageCodes);
+
+    const existingLangsByProperty = new Map<string, Set<string>>();
+    for (const item of existingTranslations || []) {
+      if (!existingLangsByProperty.has(item.property_id)) {
+        existingLangsByProperty.set(item.property_id, new Set());
+      }
+      existingLangsByProperty.get(item.property_id)!.add(item.language_code);
+    }
+
     let totalTranslations = 0;
     let totalErrors = 0;
     const results: any[] = [];
@@ -177,17 +200,10 @@ Deno.serve(async (req) => {
         continue;
       }
 
-      // Get existing translations for this property
-      const { data: existing } = await supabase
-        .from("property_translations")
-        .select("language_code")
-        .eq("property_id", property.id);
+      const existingLangs = existingLangsByProperty.get(property.id) || new Set<string>();
 
-      const existingLangs = new Set(
-        (existing || []).map((e: any) => e.language_code),
-      );
-
-      for (const lang of TARGET_LANGUAGES) {
+      for (const lang of targetLanguages) {
+        if (totalTranslations >= maxTranslations) break;
         // Skip if already translated and not forcing
         if (!force && existingLangs.has(lang.code)) {
           continue;
@@ -224,6 +240,7 @@ Deno.serve(async (req) => {
             totalErrors++;
           } else {
             totalTranslations++;
+            existingLangs.add(lang.code);
           }
         } else {
           totalErrors++;
@@ -237,7 +254,14 @@ Deno.serve(async (req) => {
         property_id: property.id,
         title: property.title,
       });
+
+      if (totalTranslations >= maxTranslations) break;
     }
+
+    const remainingMissing = properties.reduce((count: number, property: any) => {
+      const existingLangs = existingLangsByProperty.get(property.id) || new Set<string>();
+      return count + targetLanguages.filter((lang) => force || !existingLangs.has(lang.code)).length;
+    }, 0);
 
     return new Response(
       JSON.stringify({
