@@ -268,6 +268,7 @@ Deno.serve(async (req) => {
         success: true,
         properties_processed: properties.length,
         translations_saved: totalTranslations,
+        remaining_missing_in_batch: remainingMissing,
         errors: totalErrors,
         results,
       }),
