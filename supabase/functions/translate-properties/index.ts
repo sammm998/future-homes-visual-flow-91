@@ -36,12 +36,46 @@ async function translateProperty(
   targetLang: string,
   targetLangName: string,
   apiKey: string,
+  provider: "gemini" | "lovable",
 ): Promise<TranslationResult | null> {
   const systemPrompt = `You are a professional real estate translator. Translate the following property information from English to ${targetLangName}. Preserve real estate terminology, location names should remain recognizable but be transliterated/translated naturally for the target language. Keep the tone professional and appealing to property buyers. Return ONLY the JSON object, no other text.`;
 
-  const userPrompt = `Translate to ${targetLangName}:\n\nTitle: ${title}\n\nLocation: ${location}\n\nDescription: ${description}`;
+  const userPrompt = `Translate to ${targetLangName} (${targetLang}):\n\nTitle: ${title}\n\nLocation: ${location}\n\nDescription: ${description}`;
 
   try {
+    if (provider === "gemini") {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
+            generationConfig: {
+              temperature: 0.2,
+              responseMimeType: "application/json",
+            },
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error(`Gemini API error ${response.status}:`, text);
+        return null;
+      }
+
+      const data = await response.json();
+      const raw = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return {
+        title: parsed.title || title,
+        description: parsed.description || description,
+        location: parsed.location || location,
+      };
+    }
+
     const response = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
       {
