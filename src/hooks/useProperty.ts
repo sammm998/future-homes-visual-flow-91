@@ -27,9 +27,10 @@ export const useProperty = (id: string) => {
   // Get current language from URL
   const searchParams = new URLSearchParams(location.search);
   const lang = searchParams.get('lang');
+  const refFromUrl = searchParams.get('ref');
   
   const { data: rawProperty, isLoading: loading, error } = useQuery({
-    queryKey: ['property', id, lang],
+    queryKey: ['property', id, lang, refFromUrl],
     queryFn: async () => {
       if (!id) {
         throw new Error('Property ID is required');
@@ -37,6 +38,21 @@ export const useProperty = (id: string) => {
       
       return await resilientQuery(async () => {
         let dbProperty: any = null;
+
+        // Prefer the stable reference number from translated URLs. This avoids
+        // duplicate translated slugs or non-Latin URL encoding from causing 404s.
+        if (refFromUrl) {
+          const { data: refMatches } = await enhancedSupabase
+            .from('properties')
+            .select('*')
+            .eq('ref_no', refFromUrl)
+            .eq('is_active', true)
+            .limit(1);
+
+          if (refMatches && refMatches.length > 0) {
+            dbProperty = refMatches[0];
+          }
+        }
 
         // Try to find by language-specific slug first
         const slugColumn = getSlugColumn(lang);

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getCurrentLanguage } from '@/utils/seoUtils';
-import { PATH_TRANSLATIONS, getTranslatedPropertyPath, getLanguageSlug } from '@/utils/slugHelpers';
+import { PATH_TRANSLATIONS, buildPropertyUrl } from '@/utils/slugHelpers';
 import { supabase } from '@/integrations/supabase/client';
 
 const languages = [
@@ -56,21 +56,22 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
     }
 
     if (propertySlug) {
-      const slugFilter = `slug.eq.${propertySlug},slug_sv.eq.${propertySlug},slug_tr.eq.${propertySlug},slug_ar.eq.${propertySlug},slug_ru.eq.${propertySlug},slug_no.eq.${propertySlug},slug_da.eq.${propertySlug},slug_fa.eq.${propertySlug},slug_ur.eq.${propertySlug},slug_es.eq.${propertySlug},slug_de.eq.${propertySlug},slug_fr.eq.${propertySlug},slug_id.eq.${propertySlug}`;
-      const { data: matches } = await supabase
-        .from('properties')
-        .select('*')
-        .or(slugFilter)
-        .eq('is_active', true)
-        .order('ref_no', { ascending: false })
-        .limit(1);
+      const currentSearch = new URLSearchParams(location.search);
+      const refFromUrl = currentSearch.get('ref');
+      let query = supabase.from('properties').select('*').eq('is_active', true);
+
+      if (refFromUrl) {
+        query = query.eq('ref_no', refFromUrl);
+      } else {
+        const slugFilter = `slug.eq.${propertySlug},slug_sv.eq.${propertySlug},slug_tr.eq.${propertySlug},slug_ar.eq.${propertySlug},slug_ru.eq.${propertySlug},slug_no.eq.${propertySlug},slug_da.eq.${propertySlug},slug_fa.eq.${propertySlug},slug_ur.eq.${propertySlug},slug_es.eq.${propertySlug},slug_de.eq.${propertySlug},slug_fr.eq.${propertySlug},slug_id.eq.${propertySlug}`;
+        query = query.or(slugFilter).order('ref_no', { ascending: false });
+      }
+
+      const { data: matches } = await query.limit(1);
       const data = matches && matches.length > 0 ? matches[0] : null;
 
       if (data) {
-        const newPath = getTranslatedPropertyPath(langCode);
-        const newSlug = getLanguageSlug(data, langCode);
-        const langParam = langCode ? `?lang=${langCode}` : '';
-        navigate(`/${newPath}/${newSlug}${langParam}`, { replace: true });
+        navigate(buildPropertyUrl(data, langCode), { replace: true });
         return;
       }
     }
