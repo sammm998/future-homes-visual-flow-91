@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { PATH_TRANSLATIONS, buildPropertyUrl, getTranslatedPropertyPath } from '@/utils/slugHelpers';
+import { PATH_TRANSLATIONS, buildPropertyUrl } from '@/utils/slugHelpers';
 import { supabase } from '@/integrations/supabase/client';
 
 const PROPERTY_PATH_SEGMENTS = new Set(Object.values(PATH_TRANSLATIONS));
@@ -58,8 +58,6 @@ export const useLanguageUrlSync = () => {
     if (!PROPERTY_PATH_SEGMENTS.has(pathSegment)) return;
 
     const currentSlug = parts[1];
-    const expectedPathSegment = getTranslatedPropertyPath(effectiveLang);
-
     // Quick check: if path segment already matches, slug might still need updating
     const syncPropertyUrl = async () => {
       const refFromUrl = searchParams.get('ref');
