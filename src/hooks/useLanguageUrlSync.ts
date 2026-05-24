@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { PATH_TRANSLATIONS, buildPropertyUrl, getTranslatedPropertyPath, getLanguageSlug } from '@/utils/slugHelpers';
+import { PATH_TRANSLATIONS, buildPropertyUrl, getTranslatedPropertyPath } from '@/utils/slugHelpers';
 import { supabase } from '@/integrations/supabase/client';
 
 const PROPERTY_PATH_SEGMENTS = new Set(Object.values(PATH_TRANSLATIONS));
