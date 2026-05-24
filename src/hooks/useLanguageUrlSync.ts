@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { PATH_TRANSLATIONS, getTranslatedPropertyPath, getLanguageSlug } from '@/utils/slugHelpers';
+import { PATH_TRANSLATIONS, buildPropertyUrl, getTranslatedPropertyPath, getLanguageSlug } from '@/utils/slugHelpers';
 import { supabase } from '@/integrations/supabase/client';
 
 const PROPERTY_PATH_SEGMENTS = new Set(Object.values(PATH_TRANSLATIONS));
@@ -62,22 +62,22 @@ export const useLanguageUrlSync = () => {
 
     // Quick check: if path segment already matches, slug might still need updating
     const syncPropertyUrl = async () => {
-      const slugFilter = `slug.eq.${currentSlug},slug_sv.eq.${currentSlug},slug_tr.eq.${currentSlug},slug_ar.eq.${currentSlug},slug_ru.eq.${currentSlug},slug_no.eq.${currentSlug},slug_da.eq.${currentSlug},slug_fa.eq.${currentSlug},slug_ur.eq.${currentSlug},slug_es.eq.${currentSlug},slug_de.eq.${currentSlug},slug_fr.eq.${currentSlug},slug_id.eq.${currentSlug}`;
+      const refFromUrl = searchParams.get('ref');
+      let query = supabase.from('properties').select('*').eq('is_active', true);
 
-      const { data: matches } = await supabase
-        .from('properties')
-        .select('*')
-        .or(slugFilter)
-        .eq('is_active', true)
-        .order('ref_no', { ascending: false })
-        .limit(1);
+      if (refFromUrl) {
+        query = query.eq('ref_no', refFromUrl);
+      } else {
+        const slugFilter = `slug.eq.${currentSlug},slug_sv.eq.${currentSlug},slug_tr.eq.${currentSlug},slug_ar.eq.${currentSlug},slug_ru.eq.${currentSlug},slug_no.eq.${currentSlug},slug_da.eq.${currentSlug},slug_fa.eq.${currentSlug},slug_ur.eq.${currentSlug},slug_es.eq.${currentSlug},slug_de.eq.${currentSlug},slug_fr.eq.${currentSlug},slug_id.eq.${currentSlug}`;
+        query = query.or(slugFilter).order('ref_no', { ascending: false });
+      }
+
+      const { data: matches } = await query.limit(1);
 
       const data = matches && matches.length > 0 ? matches[0] : null;
       if (!data) return;
 
-      const newSlug = getLanguageSlug(data, effectiveLang);
-      const langParam = `?lang=${effectiveLang}`;
-      const newUrl = `/${expectedPathSegment}/${newSlug}${langParam}`;
+      const newUrl = buildPropertyUrl(data, effectiveLang);
 
       if (newUrl !== `${location.pathname}${location.search}`) {
         processingRef.current = true;
