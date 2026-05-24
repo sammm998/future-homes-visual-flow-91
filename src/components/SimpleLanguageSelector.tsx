@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getCurrentLanguage } from '@/utils/seoUtils';
-import { PATH_TRANSLATIONS, buildPropertyUrl, getTranslatedPropertyPath, getLanguageSlug } from '@/utils/slugHelpers';
+import { PATH_TRANSLATIONS, buildPropertyUrl } from '@/utils/slugHelpers';
 import { supabase } from '@/integrations/supabase/client';
 
 const languages = [
