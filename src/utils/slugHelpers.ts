@@ -52,6 +52,11 @@ export const getLanguageSlug = (property: any, lang: string | null): string => {
   return slugMap[lang] || property.slug || property.refNo || property.ref_no || property.id;
 };
 
+const getPropertyReference = (property: any): string | null => {
+  const ref = property?.ref_no || property?.refNo;
+  return ref ? String(ref) : null;
+};
+
 // Get current language from URL search params, falling back to localStorage
 export const getCurrentLanguage = (search: string): string | null => {
   const searchParams = new URLSearchParams(search);
@@ -78,16 +83,21 @@ export const getCurrentLanguage = (search: string): string | null => {
 };
 
 // Build language parameter string
-export const buildLangParam = (lang: string | null): string => {
-  return lang ? `?lang=${lang}` : '';
+export const buildLangParam = (lang: string | null, ref?: string | null): string => {
+  const params = new URLSearchParams();
+  if (lang) params.set('lang', lang);
+  if (ref) params.set('ref', ref);
+  const search = params.toString();
+  return search ? `?${search}` : '';
 };
 
 // Build full translated property URL
 export const buildPropertyUrl = (property: any, lang: string | null): string => {
   const path = getTranslatedPropertyPath(lang);
   const slug = getLanguageSlug(property, lang);
-  const langParam = buildLangParam(lang);
-  return `/${path}/${slug}${langParam}`;
+  const safeSlug = encodeURIComponent(String(slug));
+  const langParam = buildLangParam(lang, lang && lang !== 'en' ? getPropertyReference(property) : null);
+  return `/${path}/${safeSlug}${langParam}`;
 };
 
 // Extract language from URL path (for translated paths like /fastighet/)
