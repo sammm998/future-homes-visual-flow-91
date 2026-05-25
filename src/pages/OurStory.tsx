@@ -25,7 +25,7 @@ const slides: Slide[] = [
     id: "intro",
     kicker: "Our Story",
     title: "Future Homes International",
-    body: "A journey across continents — building homes, lives and legacies since 2007.",
+    body: "A journey across continents — building homes, lives and legacies since 2020.",
     image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png",
     align: "center",
     accent: "from-amber-400/40 to-rose-500/30",
@@ -101,12 +101,15 @@ const OurStory = () => {
   const [progress, setProgress] = useState(0);
   const lastChangeRef = useRef(Date.now());
 
-  const go = useCallback((next: number) => {
-    setDirection(next > index ? 1 : -1);
-    setIndex(((next % slides.length) + slides.length) % slides.length);
-    setProgress(0);
-    lastChangeRef.current = Date.now();
-  }, [index]);
+  const go = useCallback(
+    (next: number) => {
+      setDirection(next > index ? 1 : -1);
+      setIndex(((next % slides.length) + slides.length) % slides.length);
+      setProgress(0);
+      lastChangeRef.current = Date.now();
+    },
+    [index],
+  );
 
   const next = useCallback(() => go(index + 1), [go, index]);
   const prev = useCallback(() => go(index - 1), [go, index]);
@@ -132,7 +135,9 @@ const OurStory = () => {
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, []);
 
   // Wheel + keyboard nav
@@ -143,12 +148,20 @@ const OurStory = () => {
       if (wheelLock) return;
       if (Math.abs(e.deltaY) < 20) return;
       wheelLock = true;
-      if (e.deltaY > 0) next(); else prev();
-      setTimeout(() => { wheelLock = false; }, 800);
+      if (e.deltaY > 0) next();
+      else prev();
+      setTimeout(() => {
+        wheelLock = false;
+      }, 800);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (["ArrowDown", "ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); next(); }
-      else if (["ArrowUp", "ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); prev(); }
+      if (["ArrowDown", "ArrowRight", "PageDown", " "].includes(e.key)) {
+        e.preventDefault();
+        next();
+      } else if (["ArrowUp", "ArrowLeft", "PageUp"].includes(e.key)) {
+        e.preventDefault();
+        prev();
+      }
     };
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKey);
@@ -161,10 +174,15 @@ const OurStory = () => {
   // Touch
   useEffect(() => {
     let startY = 0;
-    const onStart = (e: TouchEvent) => { startY = e.touches[0].clientY; };
+    const onStart = (e: TouchEvent) => {
+      startY = e.touches[0].clientY;
+    };
     const onEnd = (e: TouchEvent) => {
       const dy = startY - e.changedTouches[0].clientY;
-      if (Math.abs(dy) > 50) { if (dy > 0) next(); else prev(); }
+      if (Math.abs(dy) > 50) {
+        if (dy > 0) next();
+        else prev();
+      }
     };
     window.addEventListener("touchstart", onStart, { passive: true });
     window.addEventListener("touchend", onEnd, { passive: true });
@@ -209,21 +227,24 @@ const OurStory = () => {
             />
           </motion.div>
 
-
           {/* Gradient overlays */}
           <div className={`absolute inset-0 bg-gradient-to-br ${slide.accent} mix-blend-overlay`} />
-          <div className={`absolute inset-0 ${
-            slide.align === "left"
-              ? "bg-gradient-to-r from-black/80 via-black/40 to-transparent"
-              : slide.align === "right"
-              ? "bg-gradient-to-l from-black/80 via-black/40 to-transparent"
-              : "bg-gradient-to-t from-black/85 via-black/40 to-black/30"
-          }`} />
+          <div
+            className={`absolute inset-0 ${
+              slide.align === "left"
+                ? "bg-gradient-to-r from-black/80 via-black/40 to-transparent"
+                : slide.align === "right"
+                  ? "bg-gradient-to-l from-black/80 via-black/40 to-transparent"
+                  : "bg-gradient-to-t from-black/85 via-black/40 to-black/30"
+            }`}
+          />
 
           {/* Content */}
-          <div className={`relative z-10 w-full h-full flex items-center px-6 md:px-20 ${
-            slide.align === "right" ? "justify-end" : slide.align === "center" ? "justify-center" : "justify-start"
-          }`}>
+          <div
+            className={`relative z-10 w-full h-full flex items-center px-6 md:px-20 ${
+              slide.align === "right" ? "justify-end" : slide.align === "center" ? "justify-center" : "justify-start"
+            }`}
+          >
             <div className={`max-w-2xl ${slide.align === "center" ? "text-center" : ""}`}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
