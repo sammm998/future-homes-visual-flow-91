@@ -125,6 +125,7 @@ const AIPropertySearch = () => {
           message: trimmed,
           conversationHistory: historySnapshot,
           conversationId,
+          lang: lang || 'en',
         },
       });
 
