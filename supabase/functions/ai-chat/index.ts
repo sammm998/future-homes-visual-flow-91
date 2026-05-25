@@ -258,14 +258,17 @@ serve(async (req) => {
   }
 
   try {
-    const { message, conversationHistory = [], conversationId, contactInfo } = await req.json();
+    const { message, conversationHistory = [], conversationId, contactInfo, lang } = await req.json();
     
     console.log('Received message:', message);
     console.log('Conversation ID:', conversationId);
     console.log('History length:', conversationHistory.length);
+    console.log('Requested lang:', lang);
 
-    const detectedLanguage = detectLanguage(message);
-    console.log('Detected language:', detectedLanguage);
+    // Prefer the language explicitly chosen on the website. Fall back to detection.
+    const SUPPORTED = ['en','sv','tr','ar','ru','no','da','fa','ur','es','de','fr','id'];
+    const detectedLanguage = (lang && SUPPORTED.includes(lang)) ? lang : detectLanguage(message);
+    console.log('Effective language:', detectedLanguage);
 
     // Initialize Supabase client
     const supabase = createClient(supabaseUrl!, supabaseKey!);
