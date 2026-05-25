@@ -466,10 +466,18 @@ FIRST MESSAGE: "Hello! I know all our 180+ properties in detail. What are you lo
 
 NEVER show non-existent properties. Use ONLY the real data above.`;
 
+    const LANG_NAMES: Record<string, string> = {
+      en: 'English', sv: 'Swedish', tr: 'Turkish', ar: 'Arabic', ru: 'Russian',
+      no: 'Norwegian', da: 'Danish', fa: 'Persian (Farsi)', ur: 'Urdu',
+      es: 'Spanish', de: 'German', fr: 'French', id: 'Indonesian',
+    };
+    const targetLangName = LANG_NAMES[detectedLanguage] || 'English';
+    const languageDirective = `CRITICAL LANGUAGE RULE: You MUST respond ONLY in ${targetLangName} (${detectedLanguage}). Every single word of your reply, including greetings, property descriptions, prices labels and follow-up questions, must be written in ${targetLangName}. Do not switch to English or any other language under any circumstance, even if the property data is in English — translate it. If the user writes in another language, still answer in ${targetLangName}.\n\n`;
+
     const messages = [
       {
         role: 'system',
-        content: systemPrompt
+        content: languageDirective + systemPrompt
       }
     ];
 
