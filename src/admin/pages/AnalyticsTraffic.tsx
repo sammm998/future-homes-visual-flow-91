@@ -24,10 +24,21 @@ export default function AnalyticsTraffic() {
     (async () => {
       setLoading(true);
       const since = subDays(new Date(), days).toISOString();
-      const { data } = await supabase
-        .from("analytics_events").select("event_type,ts,country,device,browser,os,channel,page,referrer,visitor_id,session_id")
-        .gte("ts", since).order("ts", { ascending: false }).limit(20000);
-      const rows = data ?? [];
+      // Paginate: Supabase caps each request at 1000 rows.
+      const PAGE = 1000;
+      const MAX_ROWS = 200000;
+      const rows: any[] = [];
+      for (let from = 0; from < MAX_ROWS; from += PAGE) {
+        const { data, error } = await supabase
+          .from("analytics_events")
+          .select("event_type,ts,country,device,browser,os,channel,page,referrer,visitor_id,session_id")
+          .gte("ts", since)
+          .order("ts", { ascending: false })
+          .range(from, from + PAGE - 1);
+        if (error || !data || data.length === 0) break;
+        rows.push(...data);
+        if (data.length < PAGE) break;
+      }
 
       const byDay: Record<string, number> = {};
       const visitorSet = new Set<string>();
