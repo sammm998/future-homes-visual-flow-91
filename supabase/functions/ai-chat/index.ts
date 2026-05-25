@@ -472,7 +472,7 @@ NEVER show non-existent properties. Use ONLY the real data above.`;
       es: 'Spanish', de: 'German', fr: 'French', id: 'Indonesian',
     };
     const targetLangName = LANG_NAMES[detectedLanguage] || 'English';
-    const languageDirective = `CRITICAL LANGUAGE RULE: You MUST respond ONLY in ${targetLangName} (${detectedLanguage}). Every single word of your reply, including greetings, property descriptions, prices labels and follow-up questions, must be written in ${targetLangName}. Do not switch to English or any other language under any circumstance, even if the property data is in English — translate it. If the user writes in another language, still answer in ${targetLangName}.\n\n`;
+    const languageDirective = `CRITICAL LANGUAGE RULE:\n- The website is currently set to ${targetLangName} (${detectedLanguage}). Use this as the default reply language.\n- HOWEVER, always detect the language of the user's latest message. If the user writes in a different language than ${targetLangName} (for example writes in Swedish while the site is in Turkish), you MUST switch and reply ENTIRELY in the language the user just wrote in.\n- Match the user's written language on every turn. Re-detect on each new message.\n- Every word of your reply (greetings, descriptions, prices labels, follow-up questions) must be in the chosen language. Translate property data if needed. Never mix languages.\n\n`;
 
     const messages = [
       {
