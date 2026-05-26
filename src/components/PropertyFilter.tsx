@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Eye } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { useDistrictsByLocation } from "@/hooks/useDistrictsByLocation";
+import { useTranslation } from "@/hooks/useTranslation";
 
 
 interface PropertyFilterProps {
@@ -24,7 +25,9 @@ const LOCATION_OPTIONS = ['all', 'Antalya', 'Istanbul', 'Mersin', 'Dubai', 'Cypr
 
 const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange, onSearch, horizontal = false }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { selectedCurrency } = useCurrency();
+  const { t, lang } = useTranslation();
   
   // District options grouped by location — derived from actual property data
   const { districtsByLocation } = useDistrictsByLocation();
@@ -68,6 +71,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
             }
           });
           
+          if (lang && lang !== 'en') params.set('lang', lang);
           const queryString = params.toString();
           const targetUrl = `${locationRoutes[value]}${queryString ? '?' + queryString : ''}`;
           
@@ -108,23 +112,23 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-11 gap-3 items-end">
             {/* Property Type */}
             <div>
-              <Label htmlFor="propertyType" className="text-xs mb-1 block">Property Type</Label>
+              <Label htmlFor="propertyType" className="text-xs mb-1 block">{t('search.property_type')}</Label>
               <Select value={filters.propertyType} onValueChange={(value) => handleFilterUpdate('propertyType', value)}>
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder="Any Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="apartments">Apartments</SelectItem>
-                  <SelectItem value="villas">Villas</SelectItem>
-                  <SelectItem value="houses">Houses</SelectItem>
-                  <SelectItem value="commercial">Commercial</SelectItem>
+                  <SelectItem value="apartments">{t('search.apartments')}</SelectItem>
+                  <SelectItem value="villas">{t('search.villas')}</SelectItem>
+                  <SelectItem value="houses">{t('search.houses')}</SelectItem>
+                  <SelectItem value="commercial">{t('search.commercial')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             {/* Bedrooms */}
             <div>
-              <Label htmlFor="bedrooms" className="text-xs mb-1 block">Bedrooms</Label>
+              <Label htmlFor="bedrooms" className="text-xs mb-1 block">{t('search.bedrooms')}</Label>
               <Select value={filters.bedrooms} onValueChange={(value) => handleFilterUpdate('bedrooms', value)}>
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder="Any" />
@@ -142,7 +146,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
             {/* Location */}
             <div>
-              <Label htmlFor="location" className="text-xs mb-1 block">Location</Label>
+              <Label htmlFor="location" className="text-xs mb-1 block">{t('search.location')}</Label>
               <Select value={filters.location} onValueChange={(value) => handleFilterUpdate('location', value)}>
                 <SelectTrigger className="h-9 notranslate">
                   <SelectValue placeholder="Select Location" />
@@ -150,7 +154,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                  <SelectContent className="notranslate">
                    {LOCATION_OPTIONS.map((option) => (
                      <SelectItem key={option} value={option} className="notranslate">
-                       <span className="notranslate" translate="no">{option === 'all' ? 'All' : option}</span>
+                        <span className="notranslate" translate="no">{option === 'all' ? t('info.all') : option}</span>
                      </SelectItem>
                    ))}
                  </SelectContent>
@@ -180,7 +184,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
             {/* Min Price */}
             <div>
-              <Label htmlFor="minPrice" className="text-xs mb-1 block">Min Price</Label>
+              <Label htmlFor="minPrice" className="text-xs mb-1 block">{t('search.min_price')}</Label>
               <Input 
                 className="h-9"
                 placeholder={`${selectedCurrency.symbol}0`}
@@ -191,7 +195,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
             {/* Max Price */}
             <div>
-              <Label htmlFor="maxPrice" className="text-xs mb-1 block">Max Price</Label>
+              <Label htmlFor="maxPrice" className="text-xs mb-1 block">{t('search.max_price')}</Label>
               <Input 
                 className="h-9"
                 placeholder={`${selectedCurrency.symbol}100,000`}
@@ -202,7 +206,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
             {/* Facilities */}
             <div>
-              <Label htmlFor="facilities" className="text-xs mb-1 block">Facilities</Label>
+              <Label htmlFor="facilities" className="text-xs mb-1 block">{t('search.facilities')}</Label>
               <Select value={Array.isArray(filters.facilities) && filters.facilities.length > 0 ? "selected" : ""} onValueChange={() => {}}>
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder={
@@ -245,7 +249,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
             {/* Reference Number */}
             <div>
-              <Label htmlFor="referenceNo" className="text-xs mb-1 block">Reference No.</Label>
+              <Label htmlFor="referenceNo" className="text-xs mb-1 block">{t('search.ref_no')}</Label>
               <Input 
                 placeholder="Reference"
                 value={filters.referenceNo || ''}
@@ -256,7 +260,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
             {/* Sort By */}
             <div>
-              <Label htmlFor="sortBy" className="text-xs mb-1 block">Sort By</Label>
+              <Label htmlFor="sortBy" className="text-xs mb-1 block">{t('search.sort_by')}</Label>
               <Select value={filters.sortBy} onValueChange={(value) => handleFilterUpdate('sortBy', value)}>
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder="Sort By" />
