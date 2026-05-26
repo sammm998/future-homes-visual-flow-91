@@ -335,10 +335,10 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
           {/* Bedrooms */}
           <div>
-            <Label htmlFor="bedrooms" className="text-xs">Bedrooms</Label>
+            <Label htmlFor="bedrooms" className="text-xs">{t('search.bedrooms')}</Label>
             <Select value={filters.bedrooms} onValueChange={(value) => handleFilterUpdate('bedrooms', value)}>
               <SelectTrigger className="h-9 text-xs">
-                <SelectValue placeholder="Select Bedrooms" />
+                <SelectValue placeholder={t('search.bedrooms')} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="studio">Studio</SelectItem>
@@ -353,15 +353,15 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
           {/* Property Location */}
           <div>
-            <Label htmlFor="location" className="text-xs">Location</Label>
+            <Label htmlFor="location" className="text-xs">{t('search.location')}</Label>
             <Select value={filters.location} onValueChange={(value) => handleFilterUpdate('location', value)}>
               <SelectTrigger className="h-9 text-xs notranslate">
-                <SelectValue placeholder="Select Location" />
+                <SelectValue placeholder={t('filter.select_location')} />
               </SelectTrigger>
                <SelectContent className="notranslate">
                  {LOCATION_OPTIONS.map((option) => (
                    <SelectItem key={option} value={option} className="notranslate">
-                     <span className="notranslate" translate="no">{option === 'all' ? 'All' : option}</span>
+                     <span className="notranslate" translate="no">{option === 'all' ? t('info.all') : option}</span>
                    </SelectItem>
                  ))}
                </SelectContent>
@@ -370,14 +370,14 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
           {/* Property District */}
           <div>
-            <Label htmlFor="district" className="text-xs">District</Label>
+            <Label htmlFor="district" className="text-xs">{t('filter.district')}</Label>
             <Select 
               value={filters.district} 
               onValueChange={(value) => handleFilterUpdate('district', value)}
               disabled={availableDistricts.length === 0}
             >
               <SelectTrigger className="h-9 text-xs">
-                <SelectValue placeholder={availableDistricts.length === 0 ? "Select location first" : "Select District"} />
+                <SelectValue placeholder={availableDistricts.length === 0 ? t('filter.select_location_first') : t('filter.select_district')} />
               </SelectTrigger>
               <SelectContent>
                 {availableDistricts.map(district => (
@@ -391,12 +391,12 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
           {/* Property Price */}
           <div>
-            <Label className="text-xs">Price</Label>
+            <Label className="text-xs">{t('property.price')}</Label>
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <Input 
                   id="minPrice"
-                  placeholder={`Min ${selectedCurrency.symbol}`}
+                  placeholder={`${t('search.min_price')} ${selectedCurrency.symbol}`}
                   value={filters.minPrice}
                   onChange={(e) => handleFilterUpdate('minPrice', e.target.value)}
                   className="h-9 text-xs"
@@ -405,7 +405,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <div>
                 <Input 
                   id="maxPrice"
-                  placeholder={`Max ${selectedCurrency.symbol}`}
+                  placeholder={`${t('search.max_price')} ${selectedCurrency.symbol}`}
                   value={filters.maxPrice}
                   onChange={(e) => handleFilterUpdate('maxPrice', e.target.value)}
                   className="h-9 text-xs"
