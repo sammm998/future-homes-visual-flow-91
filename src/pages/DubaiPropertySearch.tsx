@@ -129,7 +129,7 @@ const DubaiPropertySearch = () => {
       return acc;
     }, {} as Record<string, any>);
 
-    const uniqueList = Object.values(uniqueProperties);
+    const uniqueList = Object.values(uniqueProperties) as any[];
 
     return uniqueList.map((property, index) => {
       let status = property.status || 'available';
