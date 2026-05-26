@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -11,15 +11,23 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
+  const location = useLocation();
+  const withLang = (href: string) => {
+    const params = new URLSearchParams(location.search);
+    if (lang && lang !== 'en') params.set('lang', lang);
+    else params.delete('lang');
+    const search = params.toString();
+    return search ? `${href}?${search}` : href;
+  };
 
   const propertyLocations = [
-    { name: t('sidebar.antalya'), href: "/antalya" },
-    { name: t('sidebar.istanbul'), href: "/istanbul" },
-    { name: t('sidebar.mersin'), href: "/mersin" },
-    { name: t('sidebar.cyprus'), href: "/cyprus" },
-    { name: t('sidebar.dubai'), href: "/dubai" },
-    { name: t('sidebar.bali'), href: "/bali" }
+    { name: t('sidebar.antalya'), href: withLang("/antalya") },
+    { name: t('sidebar.istanbul'), href: withLang("/istanbul") },
+    { name: t('sidebar.mersin'), href: withLang("/mersin") },
+    { name: t('sidebar.cyprus'), href: withLang("/cyprus") },
+    { name: t('sidebar.dubai'), href: withLang("/dubai") },
+    { name: t('sidebar.bali'), href: withLang("/bali") }
   ];
 
   return (
@@ -56,35 +64,35 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
                 </div>
               </div>
               
-              <Link to="/property-wizard" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+              <Link to={withLang("/property-wizard")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.easy_find')}
               </Link>
-              <Link to="/map-search" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+              <Link to={withLang("/map-search")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.map_search')}
               </Link>
-              <Link to="/about-us" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+              <Link to={withLang("/about-us")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.about')}
               </Link>
-              <Link to="/testimonials" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+              <Link to={withLang("/testimonials")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.testimonials')}
               </Link>
-              <Link to="/information" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+              <Link to={withLang("/information")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.information')}
               </Link>
-              <Link to="/courses" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+              <Link to={withLang("/courses")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.courses')}
               </Link>
-              <Link to="/our-story" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+              <Link to={withLang("/our-story")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.our_story')}
               </Link>
-              <Link to="/design-your-home" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+              <Link to={withLang("/design-your-home")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.design_home')}
               </Link>
-              <Link to="/contact-us" onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+              <Link to={withLang("/contact-us")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.contact')}
               </Link>
               <Link
-                to="/ai-property-search"
+                to={withLang("/ai-property-search")}
                 onClick={onClose}
                 className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1 text-left"
               >
