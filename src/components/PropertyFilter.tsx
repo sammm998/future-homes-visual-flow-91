@@ -314,21 +314,21 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
     <GlowCard customSize={true} className="w-full h-auto p-0 border-0">
       <Card className="w-full h-full bg-transparent border-none shadow-none">
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">Search Properties</CardTitle>
+          <CardTitle className="text-base">{t('nav.search')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {/* Property Type */}
           <div>
-            <Label htmlFor="propertyType" className="text-xs">Property Type</Label>
+            <Label htmlFor="propertyType" className="text-xs">{t('search.property_type')}</Label>
             <Select value={filters.propertyType} onValueChange={(value) => handleFilterUpdate('propertyType', value)}>
               <SelectTrigger className="h-9 text-xs">
-                <SelectValue placeholder="Select Type" />
+                <SelectValue placeholder={t('filter.any_type')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="apartments">Apartments</SelectItem>
-                <SelectItem value="villas">Villas</SelectItem>
-                <SelectItem value="houses">Houses</SelectItem>
-                <SelectItem value="commercial">Commercial</SelectItem>
+                <SelectItem value="apartments">{t('search.apartments')}</SelectItem>
+                <SelectItem value="villas">{t('search.villas')}</SelectItem>
+                <SelectItem value="houses">{t('search.houses')}</SelectItem>
+                <SelectItem value="commercial">{t('search.commercial')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
