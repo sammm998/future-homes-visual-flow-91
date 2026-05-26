@@ -112,8 +112,21 @@ const IstanbulPropertySearch = () => {
       refNo: property.ref_no,
       ref_no: property.ref_no,
       slug: property.slug, // Add slug for SEO-friendly URLs
+      slug_sv: property.slug_sv,
+      slug_tr: property.slug_tr,
+      slug_ar: property.slug_ar,
+      slug_ru: property.slug_ru,
+      slug_no: property.slug_no,
+      slug_da: property.slug_da,
+      slug_fa: property.slug_fa,
+      slug_ur: property.slug_ur,
+      slug_es: property.slug_es,
+      slug_de: property.slug_de,
+      slug_fr: property.slug_fr,
+      slug_id: property.slug_id,
       title: property.title,
       location: property.location,
+      location_translated: property.location_translated,
       price: property.price,
       bedrooms: property.bedrooms || '',
       bathrooms: property.bathrooms || '',
@@ -262,7 +275,7 @@ const IstanbulPropertySearch = () => {
             <div className="block md:hidden">
               <div className="space-y-6">
                 {paginatedProperties.map((property, propertyIndex) => (
-                  <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+                  <div key={property.id} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
                     <div className="w-full max-w-sm mx-auto">
                       <PropertyCard property={property} priority={propertyIndex < 3} />
                     </div>
@@ -335,7 +348,7 @@ const IstanbulPropertySearch = () => {
 
               <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {paginatedProperties.map((property, propertyIndex) => (
-                  <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                  <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                     <PropertyCard property={property} priority={propertyIndex < 6} />
                   </div>
                 ))}
