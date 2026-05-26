@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -25,9 +25,19 @@ const LOCATION_OPTIONS = ['all', 'Antalya', 'Istanbul', 'Mersin', 'Dubai', 'Cypr
 
 const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange, onSearch, horizontal = false }) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { selectedCurrency } = useCurrency();
   const { t, lang } = useTranslation();
+  const facilityOptions = [
+    { value: 'swimming-pool', label: t('search.pool') },
+    { value: 'gym', label: t('search.gym') },
+    { value: 'parking', label: t('search.parking') },
+    { value: 'garden', label: t('search.garden') },
+    { value: 'balcony', label: t('wizard.balcony') },
+    { value: 'terrace', label: t('filter.terrace') },
+    { value: 'elevator', label: t('filter.elevator') },
+    { value: 'security', label: t('search.security') },
+    { value: 'air-conditioning', label: t('filter.air_conditioning') },
+  ];
   
   // District options grouped by location — derived from actual property data
   const { districtsByLocation } = useDistrictsByLocation();
@@ -115,7 +125,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <Label htmlFor="propertyType" className="text-xs mb-1 block">{t('search.property_type')}</Label>
               <Select value={filters.propertyType} onValueChange={(value) => handleFilterUpdate('propertyType', value)}>
                 <SelectTrigger className="h-9">
-                  <SelectValue placeholder="Any Type" />
+                  <SelectValue placeholder={t('filter.any_type')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="apartments">{t('search.apartments')}</SelectItem>
@@ -131,7 +141,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <Label htmlFor="bedrooms" className="text-xs mb-1 block">{t('search.bedrooms')}</Label>
               <Select value={filters.bedrooms} onValueChange={(value) => handleFilterUpdate('bedrooms', value)}>
                 <SelectTrigger className="h-9">
-                  <SelectValue placeholder="Any" />
+                  <SelectValue placeholder={t('filter.any')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="studio">Studio</SelectItem>
@@ -149,7 +159,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <Label htmlFor="location" className="text-xs mb-1 block">{t('search.location')}</Label>
               <Select value={filters.location} onValueChange={(value) => handleFilterUpdate('location', value)}>
                 <SelectTrigger className="h-9 notranslate">
-                  <SelectValue placeholder="Select Location" />
+                  <SelectValue placeholder={t('filter.select_location')} />
                 </SelectTrigger>
                  <SelectContent className="notranslate">
                    {LOCATION_OPTIONS.map((option) => (
@@ -163,14 +173,14 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
             {/* District */}
             <div>
-              <Label htmlFor="district" className="text-xs mb-1 block">District</Label>
+              <Label htmlFor="district" className="text-xs mb-1 block">{t('filter.district')}</Label>
               <Select 
                 value={filters.district} 
                 onValueChange={(value) => handleFilterUpdate('district', value)}
                 disabled={availableDistricts.length === 0}
               >
                 <SelectTrigger className="h-9">
-                  <SelectValue placeholder={availableDistricts.length === 0 ? "Select location first" : "Select District"} />
+                  <SelectValue placeholder={availableDistricts.length === 0 ? t('filter.select_location_first') : t('filter.select_district')} />
                 </SelectTrigger>
                 <SelectContent>
                   {availableDistricts.map(district => (
@@ -211,16 +221,16 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder={
                     Array.isArray(filters.facilities) && filters.facilities.length > 0 
-                      ? `${filters.facilities.length} selected`
-                      : 'Select Facilities'
+                      ? `${filters.facilities.length} ${t('filter.selected')}`
+                      : t('filter.select_facilities')
                   } />
                 </SelectTrigger>
                 <SelectContent>
-                  {["Swimming Pool", "Gym", "Parking", "Garden", "Balcony", "Terrace", "Elevator", "Security", "Air Conditioning"].map((facility) => (
-                    <div key={facility} className="flex items-center space-x-2 px-2 py-1.5 hover:bg-accent cursor-pointer" 
+                  {facilityOptions.map((facility) => (
+                    <div key={facility.value} className="flex items-center space-x-2 px-2 py-1.5 hover:bg-accent cursor-pointer" 
                          onClick={(e) => {
                            e.preventDefault();
-                           const facilityKey = facility.toLowerCase().replace(" ", "-");
+                           const facilityKey = facility.value;
                            const currentFacilities = Array.isArray(filters.facilities) ? [...filters.facilities] : [];
                            
                            if (currentFacilities.includes(facilityKey)) {
@@ -237,10 +247,10 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                            handleFilterUpdate('facilities', currentFacilities);
                          }}>
                       <Checkbox
-                        checked={Array.isArray(filters.facilities) ? filters.facilities.includes(facility.toLowerCase().replace(" ", "-")) : false}
+                        checked={Array.isArray(filters.facilities) ? filters.facilities.includes(facility.value) : false}
                         onCheckedChange={() => {}} // Handled by parent div click
                       />
-                      <span className="text-sm">{facility}</span>
+                      <span className="text-sm">{facility.label}</span>
                     </div>
                   ))}
                 </SelectContent>
@@ -251,7 +261,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
             <div>
               <Label htmlFor="referenceNo" className="text-xs mb-1 block">{t('search.ref_no')}</Label>
               <Input 
-                placeholder="Reference"
+                placeholder={t('filter.reference')}
                 value={filters.referenceNo || ''}
                 onChange={(e) => handleFilterUpdate('referenceNo', e.target.value)}
                 className="h-9"
@@ -263,17 +273,17 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
               <Label htmlFor="sortBy" className="text-xs mb-1 block">{t('search.sort_by')}</Label>
               <Select value={filters.sortBy} onValueChange={(value) => handleFilterUpdate('sortBy', value)}>
                 <SelectTrigger className="h-9">
-                  <SelectValue placeholder="Sort By" />
+                  <SelectValue placeholder={t('search.sort_by')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="price-low">Low to High</SelectItem>
-                  <SelectItem value="price-high">High to Low</SelectItem>
-                  <SelectItem value="newest">Newest</SelectItem>
-                  <SelectItem value="oldest">Oldest</SelectItem>
-                  <SelectItem value="area-large">Area: Largest First</SelectItem>
-                  <SelectItem value="area-small">Area: Smallest First</SelectItem>
-                  <SelectItem value="bedrooms-most">Most Bedrooms</SelectItem>
-                  <SelectItem value="bedrooms-least">Least Bedrooms</SelectItem>
+                  <SelectItem value="price-low">{t('search.price_low')}</SelectItem>
+                  <SelectItem value="price-high">{t('search.price_high')}</SelectItem>
+                  <SelectItem value="newest">{t('search.newest')}</SelectItem>
+                  <SelectItem value="oldest">{t('search.oldest')}</SelectItem>
+                  <SelectItem value="area-large">{t('search.area_largest')}</SelectItem>
+                  <SelectItem value="area-small">{t('search.area_smallest')}</SelectItem>
+                  <SelectItem value="bedrooms-most">{t('search.most_bedrooms')}</SelectItem>
+                  <SelectItem value="bedrooms-least">{t('search.least_bedrooms')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -284,13 +294,13 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
                 className="h-9 w-full px-3 text-xs font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md flex items-center justify-center"
                 onClick={onSearch}
               >
-                Search
+                {t('search.search')}
               </button>
               <button 
                 className="h-9 w-full px-3 text-xs font-medium border border-input bg-muted hover:bg-muted/80 text-muted-foreground rounded-md flex items-center justify-center"
                 onClick={handleReset}
               >
-                Reset
+                {t('filter.reset')}
               </button>
             </div>
           </div>
