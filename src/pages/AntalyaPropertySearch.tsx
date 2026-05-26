@@ -115,7 +115,7 @@ const AntalyaPropertySearch = () => {
       acc[property.ref_no || property.id] = property;
       return acc;
     }, {} as Record<string, any>);
-    return Object.values(uniqueProperties).map((property, index) => ({
+    return (Object.values(uniqueProperties) as any[]).map((property, index) => ({
       id: property.id, // Keep original UUID for key
       refNo: property.ref_no,
       ref_no: property.ref_no,
