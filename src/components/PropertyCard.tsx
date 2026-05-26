@@ -7,6 +7,7 @@ import { formatPriceFromString } from '@/utils/priceFormatting';
 import { Link, useLocation } from 'react-router-dom';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 import LiveViewers from './LiveViewers';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface Property {
   id: string | number;
@@ -44,6 +45,7 @@ interface PropertyCardProps {
 
 const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = false }) => {
   const { formatPrice } = useCurrency();
+  const { t } = useTranslation();
   const routeLocation = useLocation();
   
   // Get current language parameter to preserve it in links
@@ -76,18 +78,18 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
   };
 
   const getStatusConfig = (status: string) => {
-    if (!status) return { variant: 'default' as const, text: 'Available', className: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25' };
+    if (!status) return { variant: 'default' as const, text: t('card.status_available'), className: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25' };
     
     const normalizedStatus = status.toLowerCase().trim();
     
     if (normalizedStatus.includes('sold')) {
-      return { variant: 'default' as const, text: 'SOLD', className: 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/25' };
+      return { variant: 'default' as const, text: t('card.status_sold'), className: 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/25' };
     }
     if (normalizedStatus.includes('under construction')) {
-      return { variant: 'default' as const, text: 'Under Construction', className: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25' };
+      return { variant: 'default' as const, text: t('card.status_under_construction'), className: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25' };
     }
     if (normalizedStatus.includes('ready to move')) {
-      return { variant: 'default' as const, text: 'Ready To Move', className: 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25' };
+      return { variant: 'default' as const, text: t('card.status_ready'), className: 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25' };
     }
     if (normalizedStatus.includes('for residence permit')) {
       return { variant: 'default' as const, text: 'For Residence Permit', className: 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-lg shadow-purple-500/25' };
@@ -102,7 +104,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       return { variant: 'default' as const, text: 'Private Pool', className: 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-lg shadow-teal-500/25' };
     }
     if (normalizedStatus.includes('available')) {
-      return { variant: 'default' as const, text: 'Available', className: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25' };
+      return { variant: 'default' as const, text: t('card.status_available'), className: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25' };
     }
     
     const capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
@@ -178,13 +180,13 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
                 className="text-[10px] text-gray-400 uppercase tracking-tighter"
                 style={{ fontFamily: 'Epilogue, sans-serif' }}
               >
-                Price
+                {t('card.price')}
               </span>
               <span
                 className="text-lg font-bold text-[#0f1b3d]"
                 style={{ fontFamily: 'Urbanist, sans-serif' }}
               >
-                <span className="text-xs font-medium mr-1 uppercase text-[#3b6fa0]">from</span>
+                <span className="text-xs font-medium mr-1 uppercase text-[#3b6fa0]">{t('card.from')}</span>
                 {formatPriceFromString(property.price || '0', formatPrice)}
               </span>
             </div>
@@ -195,7 +197,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
                     {property.bedrooms}
                   </span>
                   <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
-                    Beds
+                    {t('card.beds')}
                   </span>
                 </div>
               )}
@@ -204,7 +206,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
                   {property.bathrooms || '–'}
                 </span>
                 <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
-                  Bath
+                  {t('card.bath')}
                 </span>
               </div>
               {property.area && (
@@ -213,7 +215,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
                     {property.area} <span className="text-[10px]">m²</span>
                   </span>
                   <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
-                    Area
+                    {t('card.area')}
                   </span>
                 </div>
               )}
@@ -225,7 +227,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
             className="w-full group/btn flex items-center justify-center gap-2 bg-[#0f1b3d] text-white py-3.5 font-bold text-xs uppercase tracking-widest transition-colors group-hover:bg-[#1e3a5f]"
             style={{ fontFamily: 'Urbanist, sans-serif' }}
           >
-            View Property
+            {t('card.view_property')}
             <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

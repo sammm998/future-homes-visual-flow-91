@@ -12,9 +12,9 @@ export const useProperties = () => {
   const location = useLocation();
   const lang = getCurrentLanguage();
 
-  const { data: properties = [], isLoading: loading, error } = useQuery({
+  const { data: properties = [], isLoading: loading, error } = useQuery<any[], Error>({
     queryKey: ['properties', lang],
-    queryFn: async () => {
+    queryFn: async (): Promise<any[]> => {
       try {
         const data = await resilientQuery(async () => {
           const { data, error } = await enhancedSupabase

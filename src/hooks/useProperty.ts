@@ -54,10 +54,12 @@ export const useProperty = (id: string) => {
           }
         }
 
-        // Try to find by language-specific slug first
+        // Try to find by language-specific slug only if stable ref lookup did not
+        // already identify the property. Translated slugs can be duplicated, so
+        // ref must always win to avoid mixing one listing's photos with another's text.
         const slugColumn = getSlugColumn(lang);
         
-        if (slugColumn !== 'slug' && lang) {
+        if (!dbProperty && slugColumn !== 'slug' && lang) {
           // Use limit(1) instead of maybeSingle() to handle duplicate translated slugs gracefully
           const { data: langProperties } = await enhancedSupabase
             .from('properties')
