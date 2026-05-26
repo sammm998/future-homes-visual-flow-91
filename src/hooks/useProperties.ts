@@ -12,7 +12,7 @@ export const useProperties = () => {
   const location = useLocation();
   const lang = getCurrentLanguage();
 
-  const { data: properties = [], isLoading: loading, error } = useQuery({
+  const { data: properties = [], isLoading: loading, error } = useQuery<any[]>({
     queryKey: ['properties', lang],
     queryFn: async () => {
       try {
