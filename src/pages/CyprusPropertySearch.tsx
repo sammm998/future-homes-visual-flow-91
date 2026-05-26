@@ -117,8 +117,21 @@ const CyprusPropertySearch = () => {
       refNo: property.ref_no,
       ref_no: property.ref_no,
       slug: property.slug, // Add slug for SEO-friendly URLs
+      slug_sv: (property as any).slug_sv,
+      slug_tr: (property as any).slug_tr,
+      slug_ar: (property as any).slug_ar,
+      slug_ru: (property as any).slug_ru,
+      slug_no: (property as any).slug_no,
+      slug_da: (property as any).slug_da,
+      slug_fa: (property as any).slug_fa,
+      slug_ur: (property as any).slug_ur,
+      slug_es: (property as any).slug_es,
+      slug_de: (property as any).slug_de,
+      slug_fr: (property as any).slug_fr,
+      slug_id: (property as any).slug_id,
       title: property.title,
       location: property.location,
+      location_translated: (property as any).location_translated,
       price: property.price,
       bedrooms: property.bedrooms,
       bathrooms: property.bathrooms,
@@ -352,7 +365,7 @@ const CyprusPropertySearch = () => {
               </div>
             ) : (
               paginatedProperties.map((property, propertyIndex) => (
-                <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
+                <div key={property.id} className="cursor-pointer min-h-[60vh] flex items-center justify-center" onClick={() => handlePropertyClick(property)}>
                   <div className="w-full max-w-sm mx-auto">
                     <PropertyCard property={property} priority={propertyIndex < 3} />
                   </div>
@@ -451,7 +464,7 @@ const CyprusPropertySearch = () => {
                   </div>
                 ) : (
                   paginatedProperties.map((property, propertyIndex) => (
-                    <div key={`${property.id}-${propertyIndex}`} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
+                    <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                       <PropertyCard property={property} priority={propertyIndex < 6} />
                     </div>
                   ))
