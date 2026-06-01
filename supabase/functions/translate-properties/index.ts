@@ -29,7 +29,7 @@ interface TranslationResult {
   location: string;
 }
 
-async function translateProperty(
+async function translateOnce(
   title: string,
   description: string,
   location: string,
@@ -38,9 +38,18 @@ async function translateProperty(
   apiKey: string,
   provider: "gemini" | "lovable",
 ): Promise<TranslationResult | null> {
-  const systemPrompt = `You are a professional real estate translator. Translate the following property information from English to ${targetLangName}. Preserve real estate terminology, location names should remain recognizable but be transliterated/translated naturally for the target language. Keep the tone professional and appealing to property buyers. Return ONLY the JSON object, no other text.`;
+  const systemPrompt = `You are a professional real estate translator. Translate the property information below from English to ${targetLangName}.
 
-  const userPrompt = `Translate to ${targetLangName} (${targetLang}):\n\nTitle: ${title}\n\nLocation: ${location}\n\nDescription: ${description}`;
+CRITICAL RULES:
+- Translate the COMPLETE description. Translate every single paragraph, section heading, and bullet point.
+- NEVER summarize, shorten, paraphrase, or omit any sentence. The translated description must contain the same number of paragraphs and the same amount of information as the source.
+- Preserve all line breaks and paragraph structure exactly as in the source.
+- Keep real estate terminology accurate; location/place names should stay recognizable but read naturally in the target language.
+- Output the translation in ${targetLangName} ONLY. Do not leave any English text untranslated.
+- Return ONLY the JSON object, no other text.`;
+
+  const userPrompt = `Translate the following to ${targetLangName} (${targetLang}). The Description has multiple paragraphs — translate ALL of them completely:\n\nTitle: ${title}\n\nLocation: ${location}\n\nDescription:\n${description}`;
+
 
   try {
     if (provider === "gemini") {
