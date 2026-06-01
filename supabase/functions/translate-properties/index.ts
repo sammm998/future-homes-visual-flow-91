@@ -29,7 +29,7 @@ interface TranslationResult {
   location: string;
 }
 
-async function translateProperty(
+async function translateOnce(
   title: string,
   description: string,
   location: string,
@@ -38,9 +38,18 @@ async function translateProperty(
   apiKey: string,
   provider: "gemini" | "lovable",
 ): Promise<TranslationResult | null> {
-  const systemPrompt = `You are a professional real estate translator. Translate the following property information from English to ${targetLangName}. Preserve real estate terminology, location names should remain recognizable but be transliterated/translated naturally for the target language. Keep the tone professional and appealing to property buyers. Return ONLY the JSON object, no other text.`;
+  const systemPrompt = `You are a professional real estate translator. Translate the property information below from English to ${targetLangName}.
 
-  const userPrompt = `Translate to ${targetLangName} (${targetLang}):\n\nTitle: ${title}\n\nLocation: ${location}\n\nDescription: ${description}`;
+CRITICAL RULES:
+- Translate the COMPLETE description. Translate every single paragraph, section heading, and bullet point.
+- NEVER summarize, shorten, paraphrase, or omit any sentence. The translated description must contain the same number of paragraphs and the same amount of information as the source.
+- Preserve all line breaks and paragraph structure exactly as in the source.
+- Keep real estate terminology accurate; location/place names should stay recognizable but read naturally in the target language.
+- Output the translation in ${targetLangName} ONLY. Do not leave any English text untranslated.
+- Return ONLY the JSON object, no other text.`;
+
+  const userPrompt = `Translate the following to ${targetLangName} (${targetLang}). The Description has multiple paragraphs — translate ALL of them completely:\n\nTitle: ${title}\n\nLocation: ${location}\n\nDescription:\n${description}`;
+
 
   try {
     if (provider === "gemini") {
@@ -53,8 +62,10 @@ async function translateProperty(
             contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
             generationConfig: {
               temperature: 0.2,
+              maxOutputTokens: 8192,
               responseMimeType: "application/json",
             },
+
           }),
         },
       );
@@ -71,9 +82,10 @@ async function translateProperty(
       const parsed = JSON.parse(raw);
       return {
         title: parsed.title || title,
-        description: parsed.description || description,
+        description: parsed.description || "",
         location: parsed.location || location,
       };
+
     }
 
     const response = await fetch(
@@ -133,7 +145,7 @@ async function translateProperty(
     const parsed = JSON.parse(toolCall.function.arguments);
     return {
       title: parsed.title || title,
-      description: parsed.description || description,
+      description: parsed.description || "",
       location: parsed.location || location,
     };
   } catch (e) {
@@ -141,6 +153,61 @@ async function translateProperty(
     return null;
   }
 }
+
+// Wrapper that validates the translation is complete and retries when the
+// model truncates, summarizes, or returns untranslated English text.
+async function translateProperty(
+  title: string,
+  description: string,
+  location: string,
+  targetLang: string,
+  targetLangName: string,
+  apiKey: string,
+  provider: "gemini" | "lovable",
+): Promise<TranslationResult | null> {
+  const sourceLen = (description || "").trim().length;
+  const minLen = Math.floor(sourceLen * 0.7);
+  let best: TranslationResult | null = null;
+  let bestLen = -1;
+
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const result = await translateOnce(
+      title,
+      description,
+      location,
+      targetLang,
+      targetLangName,
+      apiKey,
+      provider,
+    );
+
+    if (result) {
+      const desc = (result.description || "").trim();
+      const descLen = desc.length;
+      // Reject empty output and output that is identical to the English source
+      // (model returned untranslated text).
+      const isUntranslated =
+        sourceLen > 0 && desc === description.trim();
+
+      if (descLen > 0 && !isUntranslated) {
+        if (descLen > bestLen) {
+          best = { ...result, description: desc };
+          bestLen = descLen;
+        }
+        // Accept once the translation covers the full source length.
+        if (sourceLen === 0 || descLen >= minLen) {
+          return best;
+        }
+      }
+    }
+
+    // brief backoff before retrying
+    await new Promise((r) => setTimeout(r, 400));
+  }
+
+  return best;
+}
+
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
