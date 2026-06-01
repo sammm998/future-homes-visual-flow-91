@@ -82,9 +82,10 @@ CRITICAL RULES:
       const parsed = JSON.parse(raw);
       return {
         title: parsed.title || title,
-        description: parsed.description || description,
+        description: parsed.description || "",
         location: parsed.location || location,
       };
+
     }
 
     const response = await fetch(
