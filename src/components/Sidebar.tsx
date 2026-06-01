@@ -63,7 +63,25 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
                   ))}
                 </div>
               </div>
-              
+
+              <div className="border-t border-border/40 my-2" />
+              <Link to={withLang("/property-for-sale-in-turkey")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+                Property for Sale in Turkey
+              </Link>
+              <Link to={withLang("/apartments-for-sale-in-turkey")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+                Apartments for Sale in Turkey
+              </Link>
+              <Link to={withLang("/luxury-villas-in-turkey")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+                Luxury Villas in Turkey
+              </Link>
+              <Link to={withLang("/off-plan-property-turkey")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+                Off-Plan Property in Turkey
+              </Link>
+              <Link to={withLang("/turkish-citizenship-by-investment")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
+                Turkish Citizenship by Investment
+              </Link>
+              <div className="border-t border-border/40 my-2" />
+
               <Link to={withLang("/property-wizard")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.easy_find')}
               </Link>

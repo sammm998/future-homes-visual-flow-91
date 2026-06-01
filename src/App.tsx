@@ -49,6 +49,11 @@ const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const SitemapXML = lazy(() => import("./pages/SitemapXML"));
 const ExpensesBuyingPropertyTurkey = lazy(() => import("./pages/ExpensesBuyingPropertyTurkey"));
+const PropertyForSaleInTurkey = lazy(() => import("./pages/PropertyForSaleInTurkey"));
+const ApartmentsForSaleInTurkey = lazy(() => import("./pages/ApartmentsForSaleInTurkey"));
+const LuxuryVillasInTurkey = lazy(() => import("./pages/LuxuryVillasInTurkey"));
+const OffPlanPropertyTurkey = lazy(() => import("./pages/OffPlanPropertyTurkey"));
+const TurkishCitizenshipByInvestment = lazy(() => import("./pages/TurkishCitizenshipByInvestment"));
 const Newsletter = lazy(() => import("./components/Newsletter"));
 const ContactThankYou = lazy(() => import("./pages/ContactThankYou"));
 const WizardThankYou = lazy(() => import("./pages/WizardThankYou"));
@@ -178,6 +183,13 @@ function AppContent() {
       <Route path="/cyprus" element={<CyprusPropertySearch />} />
       <Route path="/mersin" element={<MersinPropertySearch />} />
       <Route path="/bali" element={<BaliPropertySearch />} />
+
+      {/* SEO landing pages */}
+      <Route path="/property-for-sale-in-turkey" element={<PropertyForSaleInTurkey />} />
+      <Route path="/apartments-for-sale-in-turkey" element={<ApartmentsForSaleInTurkey />} />
+      <Route path="/luxury-villas-in-turkey" element={<LuxuryVillasInTurkey />} />
+      <Route path="/off-plan-property-turkey" element={<OffPlanPropertyTurkey />} />
+      <Route path="/turkish-citizenship-by-investment" element={<TurkishCitizenshipByInvestment />} />
       
       {/* Property detail routes - all languages */}
       <Route path="/property/:id" element={<PropertyDetail />} />
