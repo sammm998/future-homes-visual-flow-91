@@ -145,7 +145,7 @@ CRITICAL RULES:
     const parsed = JSON.parse(toolCall.function.arguments);
     return {
       title: parsed.title || title,
-      description: parsed.description || description,
+      description: parsed.description || "",
       location: parsed.location || location,
     };
   } catch (e) {
@@ -153,6 +153,61 @@ CRITICAL RULES:
     return null;
   }
 }
+
+// Wrapper that validates the translation is complete and retries when the
+// model truncates, summarizes, or returns untranslated English text.
+async function translateProperty(
+  title: string,
+  description: string,
+  location: string,
+  targetLang: string,
+  targetLangName: string,
+  apiKey: string,
+  provider: "gemini" | "lovable",
+): Promise<TranslationResult | null> {
+  const sourceLen = (description || "").trim().length;
+  const minLen = Math.floor(sourceLen * 0.7);
+  let best: TranslationResult | null = null;
+  let bestLen = -1;
+
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const result = await translateOnce(
+      title,
+      description,
+      location,
+      targetLang,
+      targetLangName,
+      apiKey,
+      provider,
+    );
+
+    if (result) {
+      const desc = (result.description || "").trim();
+      const descLen = desc.length;
+      // Reject empty output and output that is identical to the English source
+      // (model returned untranslated text).
+      const isUntranslated =
+        sourceLen > 0 && desc === description.trim();
+
+      if (descLen > 0 && !isUntranslated) {
+        if (descLen > bestLen) {
+          best = { ...result, description: desc };
+          bestLen = descLen;
+        }
+        // Accept once the translation covers the full source length.
+        if (sourceLen === 0 || descLen >= minLen) {
+          return best;
+        }
+      }
+    }
+
+    // brief backoff before retrying
+    await new Promise((r) => setTimeout(r, 400));
+  }
+
+  return best;
+}
+
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
