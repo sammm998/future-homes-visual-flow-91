@@ -257,7 +257,7 @@ const ArticlePage = () => {
               "name": "Future Homes",
               "logo": {
                 "@type": "ImageObject",
-                "url": `${ORIGIN}/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png`
+                "url": `${ORIGIN}/future-homes-logo-new.jpg`
               }
             },
             "url": canonical,

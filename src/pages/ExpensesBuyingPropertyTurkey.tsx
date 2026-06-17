@@ -130,7 +130,7 @@ const ExpensesBuyingPropertyTurkey = () => {
       "name": "Future Homes International",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://futurehomesturkey.com/images/future-homes-logo.png"
+        "url": "https://futurehomesinternational.com/future-homes-logo-new.jpg"
       }
     },
     "datePublished": "2024-06-28",
