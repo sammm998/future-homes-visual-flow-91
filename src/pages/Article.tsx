@@ -314,7 +314,7 @@ const Article = () => {
               "name": "Future Homes",
               "logo": {
                 "@type": "ImageObject",
-                "url": "/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png"
+                "url": "/future-homes-logo-new.jpg"
               }
             },
             "url": `/article/${article.slug}`,
