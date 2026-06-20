@@ -141,6 +141,7 @@ const ContactUs = () => {
                   <div className="flex items-center space-x-2"><MapPin className="h-4 w-4 text-primary" /><span className="text-muted-foreground">{t('contact.mersin_office')}</span></div>
                   <div className="flex items-center space-x-2"><MapPin className="h-4 w-4 text-primary" /><span className="text-muted-foreground">{t('contact.dubai_office')}</span></div>
                   <div className="flex items-center space-x-2"><MapPin className="h-4 w-4 text-primary" /><span className="text-muted-foreground">{t('contact.france_office')}</span></div>
+                  <div className="flex items-center space-x-2"><MapPin className="h-4 w-4 text-primary" /><span className="text-muted-foreground">{t('contact.bali_office')}</span></div>
                 </div>
               </div>
             </div>

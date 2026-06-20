@@ -152,6 +152,7 @@ const AboutUs = () => {
               { color: 'red', title: t('about.mersin_office'), city: 'Mersin, Turkey', sub: t('about.mersin_regional'), phone: '+90 552 303 27 50', desc: t('about.mersin_desc') },
               { color: 'green', title: t('about.france_office'), city: 'Strasbourg, France', sub: t('about.france_european'), phone: '+33 6 51 01 01 56', desc: t('about.france_desc') },
               { color: 'amber', title: t('about.dubai_office'), city: 'Dubai, UAE', sub: t('about.dubai_middle_east'), phone: '+971 54 554 2068', desc: t('about.dubai_desc') },
+              { color: 'green', title: t('about.bali_office'), city: 'Bali, Indonesia', sub: t('about.bali_southeast'), phone: '+62 813-6404-2656', desc: t('about.bali_desc') },
             ].map((office, i) => (
               <Card key={i} className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                 <CardContent className="p-8">
