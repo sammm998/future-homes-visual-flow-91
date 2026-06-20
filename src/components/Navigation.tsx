@@ -51,11 +51,11 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
             <div className="flex items-center">
               <Link to="/" className="flex items-center gap-2">
                 <img
-                  src="/future-homes-logo-new.jpg"
+                  src="/future-homes-logo-new.jpg?v=5"
                   alt="Future Homes International"
-                  width={152}
-                  height={42}
-                  className="h-6 sm:h-8 w-auto"
+                  width={220}
+                  height={130}
+                  className="h-10 sm:h-14 w-auto"
                 />
               </Link>
             </div>
