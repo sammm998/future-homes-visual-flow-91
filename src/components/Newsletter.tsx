@@ -97,11 +97,12 @@ const Newsletter = memo(() => {
         <div className="border-t border-white/20 mt-12 pt-8">
           <div className="text-center">
             <h3 className="text-xl font-semibold mb-4">{t('newsletter.our_locations')}</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm opacity-90">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-sm opacity-90">
               <div>{t('contact.antalya_office')}</div>
               <div>{t('contact.mersin_office')}</div>
               <div>{t('contact.dubai_office')}</div>
               <div>{t('contact.france_office')}</div>
+              <div>{t('contact.bali_office')}</div>
             </div>
           </div>
         </div>
