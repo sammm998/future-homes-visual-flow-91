@@ -146,7 +146,7 @@ const AboutUs = () => {
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('about.locations_subtitle')}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {[
               { color: 'blue', title: t('about.antalya_office'), city: 'Antalya, Turkey', sub: t('about.antalya_main'), phone: '+90 552 303 27 50', desc: t('about.antalya_desc') },
               { color: 'red', title: t('about.mersin_office'), city: 'Mersin, Turkey', sub: t('about.mersin_regional'), phone: '+90 552 303 27 50', desc: t('about.mersin_desc') },
