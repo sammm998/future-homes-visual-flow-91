@@ -184,6 +184,9 @@ const Index = () => {
       }
     }]
   };
+  return <div className="min-h-screen w-full bg-white" />;
+
+  // eslint-disable-next-line no-unreachable
   return <div className="min-h-screen overflow-x-hidden">
       {/* Preload critical hero images for faster LCP */}
       <link rel="preload" as="image" href="/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png" />
