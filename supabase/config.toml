@@ -21,3 +21,6 @@ verify_jwt = false
 
 [functions.design-home]
 verify_jwt = false
+
+[functions.social-listening]
+verify_jwt = false
