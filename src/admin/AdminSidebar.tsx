@@ -81,6 +81,21 @@ const groups: { label: string; items: Item[] }[] = [
     ],
   },
   {
+    label: "Studio",
+    items: [
+      { to: "/admin/presentations", label: "Presentations", icon: Presentation },
+      { to: "/admin/office/documents", label: "Documents", icon: FileText },
+      { to: "/admin/office/spreadsheet", label: "Spreadsheets", icon: Table2 },
+    ],
+  },
+  {
+    label: "Insights",
+    items: [
+      { to: "/admin/logs", label: "Activity logs", icon: ScrollText },
+      { to: "/admin/social-listening", label: "Social listening", icon: Radar },
+    ],
+  },
+  {
     label: "System",
     items: [
       { to: "/admin/settings", label: "Settings", icon: SettingsIcon },
