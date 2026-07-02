@@ -261,6 +261,12 @@ function AppContent() {
         <Route path="analytics/realtime" element={<AdminAnalyticsRealtime />} />
         <Route path="analytics/heatmap" element={<AdminAnalyticsHeatmap />} />
         <Route path="settings" element={<AdminSettings />} />
+        <Route path="presentations" element={<AdminPresentationsList />} />
+        <Route path="presentations/:id" element={<AdminPresentationEdit />} />
+        <Route path="office/documents" element={<AdminOfficeDocuments />} />
+        <Route path="office/spreadsheet" element={<AdminOfficeSpreadsheet />} />
+        <Route path="logs" element={<AdminActivityLogs />} />
+        <Route path="social-listening" element={<AdminSocialListening />} />
 
       </Route>
       <Route path="*" element={<NotFound />} />
