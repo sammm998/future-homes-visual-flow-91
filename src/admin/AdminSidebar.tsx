@@ -17,6 +17,11 @@ import {
   Megaphone,
   Activity,
   Flame,
+  Presentation,
+  FileText,
+  Table2,
+  Radar,
+  ScrollText,
 } from "lucide-react";
 import {
   Sidebar,
@@ -73,6 +78,21 @@ const groups: { label: string; items: Item[] }[] = [
       { to: "/admin/analytics/email", label: "Email", icon: Mail },
       { to: "/admin/analytics/realtime", label: "Realtime", icon: Activity },
       { to: "/admin/analytics/heatmap", label: "Heatmaps", icon: Flame },
+    ],
+  },
+  {
+    label: "Studio",
+    items: [
+      { to: "/admin/presentations", label: "Presentations", icon: Presentation },
+      { to: "/admin/office/documents", label: "Documents", icon: FileText },
+      { to: "/admin/office/spreadsheet", label: "Spreadsheets", icon: Table2 },
+    ],
+  },
+  {
+    label: "Insights",
+    items: [
+      { to: "/admin/logs", label: "Activity logs", icon: ScrollText },
+      { to: "/admin/social-listening", label: "Social listening", icon: Radar },
     ],
   },
   {
