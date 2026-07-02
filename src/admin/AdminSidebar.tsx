@@ -17,6 +17,11 @@ import {
   Megaphone,
   Activity,
   Flame,
+  Presentation,
+  FileText,
+  Table2,
+  Radar,
+  ScrollText,
 } from "lucide-react";
 import {
   Sidebar,
