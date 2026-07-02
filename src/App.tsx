@@ -88,6 +88,12 @@ const AdminAnalyticsEmail = lazy(() => import("./admin/pages/AnalyticsEmail"));
 const AdminAnalyticsRealtime = lazy(() => import("./admin/pages/AnalyticsRealtime"));
 const AdminAnalyticsHeatmap = lazy(() => import("./admin/pages/AnalyticsHeatmap"));
 const AdminSettings = lazy(() => import("./admin/pages/AdminSettings"));
+const AdminPresentationsList = lazy(() => import("./admin/pages/PresentationsList"));
+const AdminPresentationEdit = lazy(() => import("./admin/pages/PresentationEdit"));
+const AdminOfficeDocuments = lazy(() => import("./admin/pages/OfficeDocuments"));
+const AdminOfficeSpreadsheet = lazy(() => import("./admin/pages/OfficeSpreadsheet"));
+const AdminActivityLogs = lazy(() => import("./admin/pages/ActivityLogs"));
+const AdminSocialListening = lazy(() => import("./admin/pages/SocialListening"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
