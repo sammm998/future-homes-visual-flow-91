@@ -23,35 +23,18 @@ export default function AnalyticsTraffic() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const since = subDays(new Date(), days).toISOString();
-      // Paginate: Supabase caps each request at 1000 rows.
-      const PAGE = 1000;
-      const MAX_ROWS = 200000;
-      const rows: any[] = [];
-      for (let from = 0; from < MAX_ROWS; from += PAGE) {
-        const { data, error } = await supabase
-          .from("analytics_events")
-          .select("event_type,ts,country,device,browser,os,channel,page,referrer,visitor_id,session_id")
-          .gte("ts", since)
-          .order("ts", { ascending: false })
-          .range(from, from + PAGE - 1);
-        if (error || !data || data.length === 0) break;
-        rows.push(...data);
-        if (data.length < PAGE) break;
+      const { data, error } = await supabase.rpc("get_traffic_summary", { days_back: days });
+
+      if (error || !data) {
+        console.error("get_traffic_summary failed", error);
+        setDaily([]); setCountries([]); setDevices([]); setChannels([]);
+        setBrowsers([]); setOses([]); setTopPages([]); setReferrers([]);
+        setTotals({ events: 0, visitors: 0, pageviews: 0, sessions: 0 });
+        setLoading(false);
+        return;
       }
 
-      const byDay: Record<string, number> = {};
-      const visitorSet = new Set<string>();
-      const sessionSet = new Set<string>();
-      let pageviews = 0;
-      const bucket = (obj: Record<string, number>, k?: string | null) => { if (k) obj[k] = (obj[k] ?? 0) + 1; };
-      const byCountry: Record<string, number> = {};
-      const byDevice: Record<string, number> = {};
-      const byChannel: Record<string, number> = {};
-      const byBrowser: Record<string, number> = {};
-      const byOs: Record<string, number> = {};
-      const byPage: Record<string, number> = {};
-      const byRef: Record<string, number> = {};
+      const summary = data as any;
 
       const classify = (referrer: string | null, channel: string | null): string => {
         const host = (() => {
