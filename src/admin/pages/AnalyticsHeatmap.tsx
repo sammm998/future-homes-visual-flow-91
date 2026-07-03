@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -37,6 +37,32 @@ export default function AnalyticsHeatmap() {
   }, [days]);
 
   const filtered = useMemo(() => clicks.filter((c) => c.page === page), [clicks, page]);
+
+  // Full page height so the iframe renders the whole page (no internal scroll),
+  // letting the overlaid click dots scroll together with the content.
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [docHeight, setDocHeight] = useState(1600);
+
+  const measure = useCallback(() => {
+    try {
+      const doc = iframeRef.current?.contentDocument;
+      if (!doc) return;
+      const h = Math.max(
+        doc.body?.scrollHeight || 0,
+        doc.documentElement?.scrollHeight || 0
+      );
+      if (h > 0) setDocHeight(h);
+    } catch {
+      /* cross-origin – keep fallback height */
+    }
+  }, []);
+
+  // Re-measure when switching pages (content height changes as images load).
+  useEffect(() => {
+    setDocHeight(1600);
+    const timers = [300, 800, 1500, 3000].map((t) => window.setTimeout(measure, t));
+    return () => timers.forEach(clearTimeout);
+  }, [page, measure]);
 
   return (
     <div className="space-y-5">
@@ -85,19 +111,23 @@ export default function AnalyticsHeatmap() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="relative w-full rounded-md border bg-muted/30 overflow-hidden" style={{ height: "78vh" }}>
+          <div className="relative w-full rounded-md border bg-muted/30 overflow-auto" style={{ height: "78vh" }}>
             {!page ? (
               <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
                 Select a page to see how visitors navigate it.
               </div>
             ) : (
-              <>
+              <div className="relative w-full" style={{ height: docHeight }}>
                 <iframe
                   key={page}
+                  ref={iframeRef}
                   src={page}
                   title={`Live preview of ${page}`}
-                  className="absolute inset-0 w-full h-full bg-white"
+                  onLoad={measure}
+                  className="block w-full bg-white border-0"
+                  style={{ height: docHeight }}
                   loading="lazy"
+                  scrolling="no"
                 />
                 <div className="absolute inset-0 pointer-events-none">
                   {filtered.map((c, i) => (
@@ -122,7 +152,7 @@ export default function AnalyticsHeatmap() {
                     No clicks recorded yet for this page.
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
           <p className="text-xs text-muted-foreground mt-3">
