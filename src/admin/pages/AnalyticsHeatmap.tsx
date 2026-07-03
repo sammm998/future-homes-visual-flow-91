@@ -38,6 +38,32 @@ export default function AnalyticsHeatmap() {
 
   const filtered = useMemo(() => clicks.filter((c) => c.page === page), [clicks, page]);
 
+  // Full page height so the iframe renders the whole page (no internal scroll),
+  // letting the overlaid click dots scroll together with the content.
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [docHeight, setDocHeight] = useState(1600);
+
+  const measure = useCallback(() => {
+    try {
+      const doc = iframeRef.current?.contentDocument;
+      if (!doc) return;
+      const h = Math.max(
+        doc.body?.scrollHeight || 0,
+        doc.documentElement?.scrollHeight || 0
+      );
+      if (h > 0) setDocHeight(h);
+    } catch {
+      /* cross-origin – keep fallback height */
+    }
+  }, []);
+
+  // Re-measure when switching pages (content height changes as images load).
+  useEffect(() => {
+    setDocHeight(1600);
+    const timers = [300, 800, 1500, 3000].map((t) => window.setTimeout(measure, t));
+    return () => timers.forEach(clearTimeout);
+  }, [page, measure]);
+
   return (
     <div className="space-y-5">
       <div className="flex items-end justify-between gap-4 flex-wrap">
