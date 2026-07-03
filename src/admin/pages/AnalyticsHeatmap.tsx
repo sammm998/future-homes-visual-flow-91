@@ -128,44 +128,60 @@ export default function AnalyticsHeatmap() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="relative w-full rounded-md border bg-muted/30 overflow-auto" style={{ height: "78vh" }}>
+          <div
+            ref={containerRef}
+            className="relative w-full rounded-md border bg-muted/30 overflow-auto"
+            style={{ height: "78vh" }}
+          >
             {!page ? (
               <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
                 Select a page to see how visitors navigate it.
               </div>
             ) : (
-              <div className="relative w-full" style={{ height: docHeight }}>
-                <iframe
-                  key={page}
-                  ref={iframeRef}
-                  src={page}
-                  title={`Live preview of ${page}`}
-                  onLoad={measure}
-                  className="block w-full bg-white border-0"
-                  style={{ height: docHeight }}
-                  loading="lazy"
-                  scrolling="no"
-                />
-                <div className="absolute inset-0 pointer-events-none">
-                  {filtered.map((c, i) => (
-                    <span
-                      key={i}
-                      className="absolute rounded-full"
-                      style={{
-                        left: `${c.x_pct}%`,
-                        top: `${c.y_pct}%`,
-                        width: 36,
-                        height: 36,
-                        transform: "translate(-50%, -50%)",
-                        background:
-                          "radial-gradient(circle, rgba(239,68,68,0.7) 0%, rgba(239,68,68,0.25) 50%, rgba(239,68,68,0) 75%)",
-                        mixBlendMode: "multiply",
-                      }}
-                    />
-                  ))}
+              // Reserve the scaled height so the outer container scrolls correctly.
+              <div className="relative w-full" style={{ height: docHeight * scale }}>
+                {/* Rendered at full desktop width, then scaled down to fit. */}
+                <div
+                  className="absolute top-0 left-0"
+                  style={{
+                    width: BASE_WIDTH,
+                    height: docHeight,
+                    transform: `scale(${scale})`,
+                    transformOrigin: "top left",
+                  }}
+                >
+                  <iframe
+                    key={page}
+                    ref={iframeRef}
+                    src={page}
+                    title={`Live preview of ${page}`}
+                    onLoad={measure}
+                    className="block bg-white border-0"
+                    style={{ width: BASE_WIDTH, height: docHeight }}
+                    loading="lazy"
+                    scrolling="no"
+                  />
+                  <div className="absolute inset-0 pointer-events-none">
+                    {filtered.map((c, i) => (
+                      <span
+                        key={i}
+                        className="absolute rounded-full"
+                        style={{
+                          left: `${c.x_pct}%`,
+                          top: `${c.y_pct}%`,
+                          width: 36,
+                          height: 36,
+                          transform: "translate(-50%, -50%)",
+                          background:
+                            "radial-gradient(circle, rgba(239,68,68,0.7) 0%, rgba(239,68,68,0.25) 50%, rgba(239,68,68,0) 75%)",
+                          mixBlendMode: "multiply",
+                        }}
+                      />
+                    ))}
+                  </div>
                 </div>
                 {filtered.length === 0 && (
-                  <div className="absolute top-3 left-3 text-xs bg-background/90 border rounded px-2 py-1 text-muted-foreground">
+                  <div className="absolute top-3 left-3 text-xs bg-background/90 border rounded px-2 py-1 text-muted-foreground z-10">
                     No clicks recorded yet for this page.
                   </div>
                 )}
