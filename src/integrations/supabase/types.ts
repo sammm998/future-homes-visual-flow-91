@@ -1992,6 +1992,16 @@ export type Database = {
         Args: { apartment_types_json: Json }
         Returns: string
       }
+      get_top_properties: {
+        Args: { days_back?: number; top_n?: number }
+        Returns: {
+          id: string
+          location: string
+          price: string
+          title: string
+          views: number
+        }[]
+      }
       get_traffic_summary: { Args: { days_back?: number }; Returns: Json }
       has_cms_role: {
         Args: { role: Database["public"]["Enums"]["cms_role"] }
