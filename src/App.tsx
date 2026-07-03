@@ -267,6 +267,7 @@ function AppContent() {
         <Route path="office/spreadsheet" element={<AdminOfficeSpreadsheet />} />
         <Route path="logs" element={<AdminActivityLogs />} />
         <Route path="social-listening" element={<AdminSocialListening />} />
+        <Route path="ai-insights" element={<AdminAIInsights />} />
 
       </Route>
       <Route path="*" element={<NotFound />} />
