@@ -38,10 +38,16 @@ export default function AnalyticsHeatmap() {
 
   const filtered = useMemo(() => clicks.filter((c) => c.page === page), [clicks, page]);
 
-  // Full page height so the iframe renders the whole page (no internal scroll),
-  // letting the overlaid click dots scroll together with the content.
+  // Render the iframe at a real desktop width (so the site looks exactly like it
+  // does on a normal browser), then scale the whole thing down to fit the admin
+  // container width. The overlaid dots use % positioning, so they scale in tandem.
+  const BASE_WIDTH = 1440;
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [docHeight, setDocHeight] = useState(1600);
+  const [containerWidth, setContainerWidth] = useState(BASE_WIDTH);
+
+  const scale = containerWidth / BASE_WIDTH;
 
   const measure = useCallback(() => {
     try {
@@ -55,6 +61,17 @@ export default function AnalyticsHeatmap() {
     } catch {
       /* cross-origin – keep fallback height */
     }
+  }, []);
+
+  // Track the available container width so we can compute the down-scale factor.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const update = () => setContainerWidth(el.clientWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
   // Re-measure when switching pages (content height changes as images load).
