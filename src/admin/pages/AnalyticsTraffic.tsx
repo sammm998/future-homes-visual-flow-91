@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts";
-import { format, subDays } from "date-fns";
+import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const COLORS = ["#1a365d", "#c9a84c", "#2dd4bf", "#a78bfa", "#f97316", "#ef4444", "#10b981", "#3b82f6"];
@@ -23,35 +23,18 @@ export default function AnalyticsTraffic() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const since = subDays(new Date(), days).toISOString();
-      // Paginate: Supabase caps each request at 1000 rows.
-      const PAGE = 1000;
-      const MAX_ROWS = 200000;
-      const rows: any[] = [];
-      for (let from = 0; from < MAX_ROWS; from += PAGE) {
-        const { data, error } = await supabase
-          .from("analytics_events")
-          .select("event_type,ts,country,device,browser,os,channel,page,referrer,visitor_id,session_id")
-          .gte("ts", since)
-          .order("ts", { ascending: false })
-          .range(from, from + PAGE - 1);
-        if (error || !data || data.length === 0) break;
-        rows.push(...data);
-        if (data.length < PAGE) break;
+      const { data, error } = await supabase.rpc("get_traffic_summary", { days_back: days });
+
+      if (error || !data) {
+        console.error("get_traffic_summary failed", error);
+        setDaily([]); setCountries([]); setDevices([]); setChannels([]);
+        setBrowsers([]); setOses([]); setTopPages([]); setReferrers([]);
+        setTotals({ events: 0, visitors: 0, pageviews: 0, sessions: 0 });
+        setLoading(false);
+        return;
       }
 
-      const byDay: Record<string, number> = {};
-      const visitorSet = new Set<string>();
-      const sessionSet = new Set<string>();
-      let pageviews = 0;
-      const bucket = (obj: Record<string, number>, k?: string | null) => { if (k) obj[k] = (obj[k] ?? 0) + 1; };
-      const byCountry: Record<string, number> = {};
-      const byDevice: Record<string, number> = {};
-      const byChannel: Record<string, number> = {};
-      const byBrowser: Record<string, number> = {};
-      const byOs: Record<string, number> = {};
-      const byPage: Record<string, number> = {};
-      const byRef: Record<string, number> = {};
+      const summary = data as any;
 
       const classify = (referrer: string | null, channel: string | null): string => {
         const host = (() => {
@@ -98,36 +81,37 @@ export default function AnalyticsTraffic() {
         return "Direct";
       };
 
-      for (const r of rows) {
-        const d = format(new Date(r.ts), "MMM d");
-        byDay[d] = (byDay[d] ?? 0) + 1;
-        if (r.visitor_id) visitorSet.add(r.visitor_id);
-        if (r.session_id) sessionSet.add(r.session_id);
-        if (r.event_type === "pageview") pageviews++;
-        bucket(byCountry, r.country);
-        bucket(byDevice, r.device);
-        bucket(byChannel, classify(r.referrer, r.channel));
-        bucket(byBrowser, r.browser);
-        bucket(byOs, r.os);
-        bucket(byPage, r.page);
-        if (r.referrer) {
-          try { bucket(byRef, new URL(r.referrer).hostname.replace(/^www\./, "")); } catch { bucket(byRef, r.referrer); }
-        }
+      // Merge server-side channel_raw rows through the referrer classifier.
+      const byChannel: Record<string, number> = {};
+      const byRef: Record<string, number> = {};
+      for (const cr of (summary.channel_raw || []) as any[]) {
+        const key = classify(cr.referrer, cr.channel);
+        byChannel[key] = (byChannel[key] ?? 0) + Number(cr.value);
+      }
+      for (const rf of (summary.referrers || []) as any[]) {
+        let host = rf.name as string;
+        try { host = new URL(rf.name).hostname.replace(/^www\./, ""); } catch {}
+        byRef[host] = (byRef[host] ?? 0) + Number(rf.value);
       }
 
       const toArr = (o: Record<string, number>, n = 10) =>
         Object.entries(o).sort((a, b) => b[1] - a[1]).slice(0, n).map(([name, value]) => ({ name, value }));
 
-      setDaily(Object.entries(byDay).reverse().map(([day, count]) => ({ day, count })));
-      setCountries(toArr(byCountry));
-      setDevices(toArr(byDevice));
+      setDaily(((summary.daily || []) as any[]).map((row) => ({
+        day: format(new Date(row.day), "MMM d"),
+        count: Number(row.count),
+      })));
+      setCountries(((summary.countries || []) as any[]).map((r) => ({ name: r.name, value: Number(r.value) })));
+      setDevices(((summary.devices || []) as any[]).map((r) => ({ name: r.name, value: Number(r.value) })));
       setChannels(toArr(byChannel, 15));
-      setBrowsers(toArr(byBrowser));
-      setOses(toArr(byOs));
-      setTopPages(toArr(byPage, 15));
+      setBrowsers(((summary.browsers || []) as any[]).map((r) => ({ name: r.name, value: Number(r.value) })));
+      setOses(((summary.oses || []) as any[]).map((r) => ({ name: r.name, value: Number(r.value) })));
+      setTopPages(((summary.pages || []) as any[]).map((r) => ({ name: r.name, value: Number(r.value) })));
       setReferrers(toArr(byRef, 10));
-      setTotals({ events: rows.length, visitors: visitorSet.size, pageviews, sessions: sessionSet.size });
+      const t = summary.totals || {};
+      setTotals({ events: Number(t.events || 0), visitors: Number(t.visitors || 0), pageviews: Number(t.pageviews || 0), sessions: Number(t.sessions || 0) });
       setLoading(false);
+
     })();
   }, [days]);
 
