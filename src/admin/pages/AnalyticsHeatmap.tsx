@@ -111,19 +111,23 @@ export default function AnalyticsHeatmap() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="relative w-full rounded-md border bg-muted/30 overflow-hidden" style={{ height: "78vh" }}>
+          <div className="relative w-full rounded-md border bg-muted/30 overflow-auto" style={{ height: "78vh" }}>
             {!page ? (
               <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">
                 Select a page to see how visitors navigate it.
               </div>
             ) : (
-              <>
+              <div className="relative w-full" style={{ height: docHeight }}>
                 <iframe
                   key={page}
+                  ref={iframeRef}
                   src={page}
                   title={`Live preview of ${page}`}
-                  className="absolute inset-0 w-full h-full bg-white"
+                  onLoad={measure}
+                  className="block w-full bg-white border-0"
+                  style={{ height: docHeight }}
                   loading="lazy"
+                  scrolling="no"
                 />
                 <div className="absolute inset-0 pointer-events-none">
                   {filtered.map((c, i) => (
@@ -148,7 +152,7 @@ export default function AnalyticsHeatmap() {
                     No clicks recorded yet for this page.
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
           <p className="text-xs text-muted-foreground mt-3">
