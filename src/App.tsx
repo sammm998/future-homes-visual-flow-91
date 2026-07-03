@@ -94,6 +94,7 @@ const AdminOfficeDocuments = lazy(() => import("./admin/pages/OfficeDocuments"))
 const AdminOfficeSpreadsheet = lazy(() => import("./admin/pages/OfficeSpreadsheet"));
 const AdminActivityLogs = lazy(() => import("./admin/pages/ActivityLogs"));
 const AdminSocialListening = lazy(() => import("./admin/pages/SocialListening"));
+const AdminAIInsights = lazy(() => import("./admin/pages/AIInsights"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
@@ -267,6 +268,7 @@ function AppContent() {
         <Route path="office/spreadsheet" element={<AdminOfficeSpreadsheet />} />
         <Route path="logs" element={<AdminActivityLogs />} />
         <Route path="social-listening" element={<AdminSocialListening />} />
+        <Route path="ai-insights" element={<AdminAIInsights />} />
 
       </Route>
       <Route path="*" element={<NotFound />} />

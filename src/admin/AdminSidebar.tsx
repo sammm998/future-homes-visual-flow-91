@@ -91,6 +91,7 @@ const groups: { label: string; items: Item[] }[] = [
   {
     label: "Insights",
     items: [
+      { to: "/admin/ai-insights", label: "AI insights", icon: Sparkles },
       { to: "/admin/logs", label: "Activity logs", icon: ScrollText },
       { to: "/admin/social-listening", label: "Social listening", icon: Radar },
     ],
