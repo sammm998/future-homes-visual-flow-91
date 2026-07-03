@@ -2,30 +2,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { subDays } from "date-fns";
-import { PATH_TO_LANG } from "@/utils/slugHelpers";
-
-const SLUG_COLUMNS = [
-  "slug", "slug_sv", "slug_tr", "slug_ar", "slug_ru", "slug_no", "slug_da",
-  "slug_fa", "slug_ur", "slug_es", "slug_de", "slug_fr", "slug_id",
-];
-
-// Extract a property slug from a tracked URL path. Supports all translated
-// path segments (/property, /fastighet, /mulk, /propiedad, /immobilie, ...).
-function extractSlug(rawPath: string | null): string | null {
-  if (!rawPath) return null;
-  try {
-    const path = rawPath.split("?")[0].split("#")[0];
-    const parts = path.split("/").filter(Boolean);
-    if (parts.length < 2) return null;
-    const segment = parts[0].toLowerCase();
-    // Accept any localized property path segment.
-    if (!(segment in PATH_TO_LANG)) return null;
-    return decodeURIComponent(parts[1]);
-  } catch {
-    return null;
-  }
-}
 
 export default function AnalyticsProperties() {
   const [top, setTop] = useState<any[]>([]);
@@ -35,64 +11,24 @@ export default function AnalyticsProperties() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const since = subDays(new Date(), days).toISOString();
-
-      // 1. Pull all property pageview events (paginated).
-      const PAGE = 1000;
-      const events: { page: string }[] = [];
-      for (let from = 0; from < 200000; from += PAGE) {
-        const { data, error } = await supabase
-          .from("analytics_events")
-          .select("page")
-          .eq("event_type", "pageview")
-          .gte("ts", since)
-          .order("ts", { ascending: false })
-          .range(from, from + PAGE - 1);
-        if (error || !data || data.length === 0) break;
-        events.push(...(data as any));
-        if (data.length < PAGE) break;
-      }
-
-      // 2. Count views per slug.
-      const slugCounts = new Map<string, number>();
-      for (const e of events) {
-        const slug = extractSlug(e.page);
-        if (slug) slugCounts.set(slug, (slugCounts.get(slug) ?? 0) + 1);
-      }
-
-      const allSlugs = Array.from(slugCounts.keys());
-      if (allSlugs.length === 0) {
+      const { data, error } = await supabase.rpc("get_top_properties", { days_back: days, top_n: 20 });
+      if (error || !data) {
+        console.error("get_top_properties failed", error);
         setTop([]);
         setLoading(false);
         return;
       }
-
-      // 3. Match slugs against properties (any language column).
-      const orFilter = SLUG_COLUMNS.flatMap((c) =>
-        allSlugs.map((s) => `${c}.eq.${s.replace(/,/g, "")}`),
-      ).join(",");
-
-      const { data: props } = await supabase
-        .from("properties")
-        .select(`id,title,location,price,${SLUG_COLUMNS.join(",")}`)
-        .or(orFilter)
-        .limit(2000);
-
-      // 4. Sum views per property across all its language slugs.
-      const ranked = (props ?? []).map((p: any) => {
-        let views = 0;
-        for (const c of SLUG_COLUMNS) {
-          const s = p[c];
-          if (s && slugCounts.has(s)) views += slugCounts.get(s)!;
-        }
-        return { id: p.id, title: p.title, location: p.location, price: p.price, views };
-      });
-
-      ranked.sort((a, b) => b.views - a.views);
-      setTop(ranked.slice(0, 20));
+      setTop((data as any[]).map((p) => ({
+        id: p.id,
+        title: p.title,
+        location: p.location,
+        price: p.price,
+        views: Number(p.views),
+      })));
       setLoading(false);
     })();
   }, [days]);
+
 
   return (
     <div className="space-y-5">
