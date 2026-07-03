@@ -94,6 +94,7 @@ const AdminOfficeDocuments = lazy(() => import("./admin/pages/OfficeDocuments"))
 const AdminOfficeSpreadsheet = lazy(() => import("./admin/pages/OfficeSpreadsheet"));
 const AdminActivityLogs = lazy(() => import("./admin/pages/ActivityLogs"));
 const AdminSocialListening = lazy(() => import("./admin/pages/SocialListening"));
+const AdminAIInsights = lazy(() => import("./admin/pages/AIInsights"));
 import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 
 
