@@ -81,36 +81,37 @@ export default function AnalyticsTraffic() {
         return "Direct";
       };
 
-      for (const r of rows) {
-        const d = format(new Date(r.ts), "MMM d");
-        byDay[d] = (byDay[d] ?? 0) + 1;
-        if (r.visitor_id) visitorSet.add(r.visitor_id);
-        if (r.session_id) sessionSet.add(r.session_id);
-        if (r.event_type === "pageview") pageviews++;
-        bucket(byCountry, r.country);
-        bucket(byDevice, r.device);
-        bucket(byChannel, classify(r.referrer, r.channel));
-        bucket(byBrowser, r.browser);
-        bucket(byOs, r.os);
-        bucket(byPage, r.page);
-        if (r.referrer) {
-          try { bucket(byRef, new URL(r.referrer).hostname.replace(/^www\./, "")); } catch { bucket(byRef, r.referrer); }
-        }
+      // Merge server-side channel_raw rows through the referrer classifier.
+      const byChannel: Record<string, number> = {};
+      const byRef: Record<string, number> = {};
+      for (const cr of (summary.channel_raw || []) as any[]) {
+        const key = classify(cr.referrer, cr.channel);
+        byChannel[key] = (byChannel[key] ?? 0) + Number(cr.value);
+      }
+      for (const rf of (summary.referrers || []) as any[]) {
+        let host = rf.name as string;
+        try { host = new URL(rf.name).hostname.replace(/^www\./, ""); } catch {}
+        byRef[host] = (byRef[host] ?? 0) + Number(rf.value);
       }
 
       const toArr = (o: Record<string, number>, n = 10) =>
         Object.entries(o).sort((a, b) => b[1] - a[1]).slice(0, n).map(([name, value]) => ({ name, value }));
 
-      setDaily(Object.entries(byDay).reverse().map(([day, count]) => ({ day, count })));
-      setCountries(toArr(byCountry));
-      setDevices(toArr(byDevice));
+      setDaily(((summary.daily || []) as any[]).map((row) => ({
+        day: format(new Date(row.day), "MMM d"),
+        count: Number(row.count),
+      })));
+      setCountries(((summary.countries || []) as any[]).map((r) => ({ name: r.name, value: Number(r.value) })));
+      setDevices(((summary.devices || []) as any[]).map((r) => ({ name: r.name, value: Number(r.value) })));
       setChannels(toArr(byChannel, 15));
-      setBrowsers(toArr(byBrowser));
-      setOses(toArr(byOs));
-      setTopPages(toArr(byPage, 15));
+      setBrowsers(((summary.browsers || []) as any[]).map((r) => ({ name: r.name, value: Number(r.value) })));
+      setOses(((summary.oses || []) as any[]).map((r) => ({ name: r.name, value: Number(r.value) })));
+      setTopPages(((summary.pages || []) as any[]).map((r) => ({ name: r.name, value: Number(r.value) })));
       setReferrers(toArr(byRef, 10));
-      setTotals({ events: rows.length, visitors: visitorSet.size, pageviews, sessions: sessionSet.size });
+      const t = summary.totals || {};
+      setTotals({ events: Number(t.events || 0), visitors: Number(t.visitors || 0), pageviews: Number(t.pageviews || 0), sessions: Number(t.sessions || 0) });
       setLoading(false);
+
     })();
   }, [days]);
 
