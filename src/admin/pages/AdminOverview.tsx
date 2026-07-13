@@ -71,7 +71,7 @@ export default function AdminOverview() {
               <div className="flex items-center justify-between mt-1">
                 <span className="text-xs text-muted-foreground">{s.sub}</span>
                 <Link to={s.href} className="text-xs text-admin-accent inline-flex items-center hover:underline">
-                  Open <ArrowUpRight className="h-3 w-3 ml-0.5" />
+                  {t("Open")} <ArrowUpRight className="h-3 w-3 ml-0.5" />
                 </Link>
               </div>
             </CardContent>
