@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Home, Users, Mail, Newspaper, Plus, ArrowUpRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 interface Counts {
   properties: number;
