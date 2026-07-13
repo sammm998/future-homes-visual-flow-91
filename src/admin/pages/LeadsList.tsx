@@ -75,15 +75,15 @@ export default function LeadsList() {
     <div className="space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Leads</h1>
-          <p className="text-muted-foreground text-sm mt-1">Pipeline, scoring and assignments.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("Leads")}</h1>
+          <p className="text-muted-foreground text-sm mt-1">{t("Pipeline, scoring and assignments.")}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setView(view === "kanban" ? "list" : "kanban")}>
-            {view === "kanban" ? "List view" : "Kanban view"}
+            {view === "kanban" ? t("List view") : t("Kanban view")}
           </Button>
           <Button asChild>
-            <Link to="/admin/crm/leads/new"><Plus className="h-4 w-4 mr-2" /> New lead</Link>
+            <Link to="/admin/crm/leads/new"><Plus className="h-4 w-4 mr-2" /> {t("New lead")}</Link>
           </Button>
         </div>
       </div>
