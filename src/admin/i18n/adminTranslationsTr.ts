@@ -112,4 +112,12 @@ export const adminTr: Record<string, string> = {
   "Failed to load": "Yüklenemedi",
   "Failed to save": "Kaydedilemedi",
   "Are you sure?": "Emin misiniz?",
+
+  // Properties list
+  "total": "toplam",
+  "Property": "İlan",
+  "Inactive": "Pasif",
+  "Sold": "Satıldı",
+  "No properties match.": "Eşleşen ilan yok.",
+  "Search by title, location or type": "Başlık, konum veya türe göre ara",
 };
