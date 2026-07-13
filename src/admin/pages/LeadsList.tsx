@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 const STATUSES = ["new", "contacted", "qualified", "proposal", "won", "lost"] as const;
 type Status = typeof STATUSES[number];
