@@ -162,7 +162,7 @@ export default function AnalyticsTraffic() {
 
       <div className="grid lg:grid-cols-2 gap-5">
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Top countries</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Top countries")}</CardTitle></CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer><BarChart data={countries} layout="vertical">
               <XAxis type="number" /><YAxis dataKey="name" type="category" width={80} /><Tooltip />
