@@ -49,11 +49,11 @@ export default function AdminOverview() {
     <div className="space-y-6">
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Future Homes International — central operations.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("Dashboard")}</h1>
+          <p className="text-muted-foreground mt-1">{t("Future Homes International — central operations.")}</p>
         </div>
         <Button asChild className="bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90">
-          <Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-1.5" /> Add property</Link>
+          <Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-1.5" /> {t("Add property")}</Link>
         </Button>
       </div>
 
