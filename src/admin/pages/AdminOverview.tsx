@@ -39,10 +39,10 @@ export default function AdminOverview() {
   }, []);
 
   const stats = [
-    { label: "Properties", value: counts?.properties, sub: `${counts?.activeProperties ?? 0} active`, icon: Home, href: "/admin/properties" },
-    { label: "Blog posts", value: counts?.blog, sub: "All languages", icon: Newspaper, href: "/admin/blog" },
-    { label: "Leads", value: counts?.leads, sub: "Total captured", icon: Users, href: "/admin/crm/leads" },
-    { label: "Subscribers", value: counts?.subscribers, sub: "Active", icon: Mail, href: "/admin/email/subscribers" },
+    { label: t("Properties"), value: counts?.properties, sub: `${counts?.activeProperties ?? 0} ${t("active")}`, icon: Home, href: "/admin/properties" },
+    { label: t("Blog posts"), value: counts?.blog, sub: t("All languages"), icon: Newspaper, href: "/admin/blog" },
+    { label: t("Leads"), value: counts?.leads, sub: t("Total captured"), icon: Users, href: "/admin/crm/leads" },
+    { label: t("Subscribers"), value: counts?.subscribers, sub: t("Active"), icon: Mail, href: "/admin/email/subscribers" },
   ];
 
   return (
