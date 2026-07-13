@@ -59,13 +59,13 @@ export default function PropertiesList() {
     <div className="space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Properties</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("Properties")}</h1>
           <p className="text-muted-foreground mt-1 text-sm">
-            {rows ? `${rows.length} total` : "Loading…"}
+            {rows ? `${rows.length} ${t("total")}` : `${t("Loading")}…`}
           </p>
         </div>
         <Button asChild className="bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90">
-          <Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-1.5" /> Add property</Link>
+          <Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-1.5" /> {t("Add property")}</Link>
         </Button>
       </div>
 
