@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Search, ExternalLink, Pencil } from "lucide-react";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 interface Row {
   id: string;
