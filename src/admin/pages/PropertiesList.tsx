@@ -74,7 +74,7 @@ export default function PropertiesList() {
           <div className="relative flex-1">
             <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search by title, location or type"
+              placeholder={t("Search by title, location or type")}
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="pl-9"
