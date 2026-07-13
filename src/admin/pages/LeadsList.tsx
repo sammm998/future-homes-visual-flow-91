@@ -92,7 +92,7 @@ export default function LeadsList() {
         <CardContent className="p-4">
           <div className="relative">
             <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Search leads…" value={q} onChange={(e) => setQ(e.target.value)} className="pl-9" />
+            <Input placeholder={t("Search leads…")} value={q} onChange={(e) => setQ(e.target.value)} className="pl-9" />
           </div>
         </CardContent>
       </Card>
