@@ -23,14 +23,14 @@ export default function AdminSettings() {
   useEffect(() => { load(); }, []);
 
   const add = async () => {
-    if (!newMember.name || !newMember.position) return toast.error("Name and position required");
+    if (!newMember.name || !newMember.position) return toast.error(tr("Name and position required"));
     const { error } = await supabase.from("team_members").insert(newMember);
     if (error) return toast.error(error.message);
     setNewMember({ name: "", position: "", email: "" });
     load();
   };
   const remove = async (id: string) => {
-    if (!confirm("Remove?")) return;
+    if (!confirm(tr("Remove?"))) return;
     await supabase.from("team_members").delete().eq("id", id);
     load();
   };
