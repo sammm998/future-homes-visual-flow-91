@@ -82,25 +82,25 @@ export default function AdminOverview() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="bg-admin-surface lg:col-span-2">
           <CardHeader>
-            <CardTitle>Quick actions</CardTitle>
-            <CardDescription>Jump to common tasks</CardDescription>
+            <CardTitle>{t("Quick actions")}</CardTitle>
+            <CardDescription>{t("Jump to common tasks")}</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-2" />New property</Link></Button>
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/blog/ai"><Newspaper className="h-4 w-4 mr-2" />AI blog post</Link></Button>
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/crm/leads"><Users className="h-4 w-4 mr-2" />Open leads</Link></Button>
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/email/inbox"><Mail className="h-4 w-4 mr-2" />Inbox</Link></Button>
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/email/campaigns"><Mail className="h-4 w-4 mr-2" />New campaign</Link></Button>
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/analytics/traffic">View analytics</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-2" />{t("New property")}</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/blog/ai"><Newspaper className="h-4 w-4 mr-2" />{t("AI blog post")}</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/crm/leads"><Users className="h-4 w-4 mr-2" />{t("Open leads")}</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/email/inbox"><Mail className="h-4 w-4 mr-2" />{t("Inbox")}</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/email/campaigns"><Mail className="h-4 w-4 mr-2" />{t("New campaign")}</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/analytics/traffic">{t("View analytics")}</Link></Button>
           </CardContent>
         </Card>
         <Card className="bg-admin-surface">
           <CardHeader>
-            <CardTitle>Build status</CardTitle>
-            <CardDescription>Admin dashboard rollout</CardDescription>
+            <CardTitle>{t("Build status")}</CardTitle>
+            <CardDescription>{t("Admin dashboard rollout")}</CardDescription>
           </CardHeader>
           <CardContent className="text-sm space-y-2">
-            <div className="flex justify-between"><span>Shell + Properties CMS</span><span className="text-emerald-600">Live</span></div>
+            <div className="flex justify-between"><span>Shell + Properties CMS</span><span className="text-emerald-600">{t("Live")}</span></div>
             <div className="flex justify-between"><span>Blog + AI Creator</span><span className="text-muted-foreground">Phase 2</span></div>
             <div className="flex justify-between"><span>CRM + Inbox</span><span className="text-muted-foreground">Phase 3</span></div>
             <div className="flex justify-between"><span>Email marketing</span><span className="text-muted-foreground">Phase 4</span></div>
