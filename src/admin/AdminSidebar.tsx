@@ -109,6 +109,7 @@ const groups: { label: string; items: Item[] }[] = [
 export default function AdminSidebar() {
   const { pathname } = useLocation();
   const { state } = useSidebar();
+  const { t } = useAdminT();
   const collapsed = state === "collapsed";
 
   return (
