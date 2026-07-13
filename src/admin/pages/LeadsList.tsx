@@ -106,7 +106,7 @@ export default function LeadsList() {
             return (
               <div key={s} className="bg-admin-surface rounded-lg p-3 min-h-[300px]">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold uppercase tracking-wider">{s}</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider">{t(s)}</span>
                   <Badge variant="secondary">{items.length}</Badge>
                 </div>
                 <div className="space-y-2">
