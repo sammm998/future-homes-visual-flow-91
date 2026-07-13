@@ -4,10 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts";
 import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 const COLORS = ["#1a365d", "#c9a84c", "#2dd4bf", "#a78bfa", "#f97316", "#ef4444", "#10b981", "#3b82f6"];
 
 export default function AnalyticsTraffic() {
+  const { t } = useAdminT();
   const [days, setDays] = useState(30);
   const [daily, setDaily] = useState<any[]>([]);
   const [countries, setCountries] = useState<any[]>([]);
