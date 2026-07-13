@@ -119,7 +119,7 @@ export default function PropertiesList() {
                   </tr>
                 ))}
               {filtered?.length === 0 && (
-                <tr><td colSpan={6} className="px-4 py-10 text-center text-muted-foreground">No properties match.</td></tr>
+                <tr><td colSpan={6} className="px-4 py-10 text-center text-muted-foreground">{t("No properties match.")}</td></tr>
               )}
               {filtered?.map((r) => (
                 <tr key={r.id} className="border-t hover:bg-muted/30">
