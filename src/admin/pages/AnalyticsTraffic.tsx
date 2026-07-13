@@ -171,7 +171,7 @@ export default function AnalyticsTraffic() {
           </CardContent>
         </Card>
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Devices</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Devices")}</CardTitle></CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer><PieChart>
               <Pie data={devices} dataKey="value" nameKey="name" outerRadius={90} label>
