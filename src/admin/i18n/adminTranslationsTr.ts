@@ -172,4 +172,8 @@ export const adminTr: Record<string, string> = {
   "Top referrers": "En çok yönlendirenler",
   "No data.": "Veri yok.",
   "No referrers yet.": "Henüz yönlendiren yok.",
+  "Top 20 properties": "En çok 20 ilan",
+  "Last 50 events": "Son 50 olay",
+  "Select page": "Sayfa seç",
+  "Top tracked pages": "En çok izlenen sayfalar",
 };
