@@ -120,4 +120,18 @@ export const adminTr: Record<string, string> = {
   "Sold": "Satıldı",
   "No properties match.": "Eşleşen ilan yok.",
   "Search by title, location or type": "Başlık, konum veya türe göre ara",
+
+  // Leads
+  "Pipeline, scoring and assignments.": "Satış hattı, puanlama ve atamalar.",
+  "List view": "Liste görünümü",
+  "Kanban view": "Kanban görünümü",
+  "New lead": "Yeni müşteri adayı",
+  "Search leads…": "Müşteri adaylarında ara…",
+  "No leads yet.": "Henüz müşteri adayı yok.",
+  "new": "yeni",
+  "contacted": "iletişime geçildi",
+  "qualified": "nitelikli",
+  "proposal": "teklif",
+  "won": "kazanıldı",
+  "lost": "kaybedildi",
 };
