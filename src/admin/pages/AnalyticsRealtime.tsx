@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 
 export default function AnalyticsRealtime() {
+  const { t } = useAdminT();
   const [events, setEvents] = useState<any[]>([]);
 
   useEffect(() => {
@@ -26,11 +28,11 @@ export default function AnalyticsRealtime() {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Realtime</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{t("Realtime")}</h1>
         <p className="text-muted-foreground text-sm mt-1">Live event stream.</p>
       </div>
       <Card className="bg-admin-surface">
-        <CardHeader><CardTitle className="text-base">Last 50 events</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t("Last 50 events")}</CardTitle></CardHeader>
         <CardContent className="p-0 divide-y max-h-[600px] overflow-auto">
           {events.length === 0 ? <div className="p-8 text-center text-muted-foreground">No events yet.</div> :
             events.map((e) => (
