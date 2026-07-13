@@ -6,8 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 export default function AdminSettings() {
+  const { t: tr } = useAdminT();
   const [team, setTeam] = useState<any[]>([]);
   const [me, setMe] = useState<any>(null);
   const [newMember, setNewMember] = useState({ name: "", position: "", email: "" });
