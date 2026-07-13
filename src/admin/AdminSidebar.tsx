@@ -35,6 +35,7 @@ import {
   SidebarHeader,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 type Item = { to: string; label: string; icon: typeof Home; end?: boolean };
 
