@@ -121,31 +121,31 @@ export default function AnalyticsTraffic() {
     <div className="space-y-5">
       <div className="flex items-end justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Traffic analytics</h1>
-          <p className="text-muted-foreground text-sm mt-1">{loading ? "Loading…" : `Last ${days} days`}</p>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("Traffic analytics")}</h1>
+          <p className="text-muted-foreground text-sm mt-1">{loading ? `${t("Loading")}…` : `${t("Last")} ${days} ${t("days")}`}</p>
         </div>
         <Select value={String(days)} onValueChange={(v) => setDays(Number(v))}>
           <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="1">Last 24 hours</SelectItem>
-            <SelectItem value="7">Last 7 days</SelectItem>
-            <SelectItem value="30">Last 30 days</SelectItem>
-            <SelectItem value="90">Last 90 days</SelectItem>
+            <SelectItem value="1">{t("Last 24 hours")}</SelectItem>
+            <SelectItem value="7">{t("Last 7 days")}</SelectItem>
+            <SelectItem value="30">{t("Last 30 days")}</SelectItem>
+            <SelectItem value="90">{t("Last 90 days")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="grid sm:grid-cols-4 gap-4">
-        <StatCard label="Pageviews" value={totals.pageviews} />
-        <StatCard label="Unique visitors" value={totals.visitors} />
-        <StatCard label="Sessions" value={totals.sessions} />
-        <StatCard label="Total events" value={totals.events} />
+        <StatCard label={t("Pageviews")} value={totals.pageviews} />
+        <StatCard label={t("Unique visitors")} value={totals.visitors} />
+        <StatCard label={t("Sessions")} value={totals.sessions} />
+        <StatCard label={t("Total events")} value={totals.events} />
       </div>
 
       {totals.events === 0 && !loading && (
         <Card className="bg-admin-surface border-dashed">
           <CardContent className="p-6 text-sm text-muted-foreground">
-            No events tracked yet. The tracker is now active — visit any public page to start collecting data.
+            {t("No events tracked yet. The tracker is now active — visit any public page to start collecting data.")}
           </CardContent>
         </Card>
       )}
