@@ -89,7 +89,7 @@ export default function PropertiesList() {
                 onClick={() => setStatusFilter(s)}
                 className={statusFilter === s ? "bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90" : ""}
               >
-                {s[0].toUpperCase() + s.slice(1)}
+                {t(s[0].toUpperCase() + s.slice(1))}
               </Button>
             ))}
           </div>
