@@ -134,4 +134,19 @@ export const adminTr: Record<string, string> = {
   "proposal": "teklif",
   "won": "kazanıldı",
   "lost": "kaybedildi",
+
+  // Settings
+  "Team, account, branding.": "Ekip, hesap, marka.",
+  "Account": "Hesap",
+  "User ID": "Kullanıcı kimliği",
+  "Email": "E-posta",
+  "Team members": "Ekip üyeleri",
+  "Name": "Ad",
+  "Position": "Pozisyon",
+  "Add member": "Üye ekle",
+  "Hidden": "Gizli",
+  "No team members.": "Ekip üyesi yok.",
+  "Branding": "Marka",
+  "Name and position required": "Ad ve pozisyon gerekli",
+  "Remove?": "Kaldırılsın mı?",
 };
