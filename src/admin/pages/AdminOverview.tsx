@@ -15,6 +15,7 @@ interface Counts {
 }
 
 export default function AdminOverview() {
+  const { t } = useAdminT();
   const [counts, setCounts] = useState<Counts | null>(null);
 
   useEffect(() => {
