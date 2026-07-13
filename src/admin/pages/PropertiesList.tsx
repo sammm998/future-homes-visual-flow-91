@@ -101,12 +101,12 @@ export default function PropertiesList() {
           <table className="w-full text-sm">
             <thead className="bg-muted/50 text-xs uppercase tracking-wide text-muted-foreground">
               <tr>
-                <th className="text-left font-medium px-4 py-3">Property</th>
-                <th className="text-left font-medium px-4 py-3 hidden md:table-cell">Location</th>
-                <th className="text-left font-medium px-4 py-3 hidden lg:table-cell">Type</th>
-                <th className="text-left font-medium px-4 py-3">Price</th>
-                <th className="text-left font-medium px-4 py-3">Status</th>
-                <th className="text-right font-medium px-4 py-3">Actions</th>
+                <th className="text-left font-medium px-4 py-3">{t("Property")}</th>
+                <th className="text-left font-medium px-4 py-3 hidden md:table-cell">{t("Location")}</th>
+                <th className="text-left font-medium px-4 py-3 hidden lg:table-cell">{t("Type")}</th>
+                <th className="text-left font-medium px-4 py-3">{t("Price")}</th>
+                <th className="text-left font-medium px-4 py-3">{t("Status")}</th>
+                <th className="text-right font-medium px-4 py-3">{t("Actions")}</th>
               </tr>
             </thead>
             <tbody>
