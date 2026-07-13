@@ -151,7 +151,7 @@ export default function AnalyticsTraffic() {
       )}
 
       <Card className="bg-admin-surface">
-        <CardHeader><CardTitle className="text-base">Events over time</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t("Events over time")}</CardTitle></CardHeader>
         <CardContent className="h-72">
           <ResponsiveContainer><LineChart data={daily}>
             <CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="day" /><YAxis /><Tooltip />
