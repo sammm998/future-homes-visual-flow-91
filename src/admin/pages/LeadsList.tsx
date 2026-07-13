@@ -98,7 +98,7 @@ export default function LeadsList() {
       </Card>
 
       {!filtered ? (
-        <div className="p-8 text-center text-muted-foreground">Loading…</div>
+        <div className="p-8 text-center text-muted-foreground">{t("Loading")}…</div>
       ) : view === "kanban" ? (
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
           {STATUSES.map((s) => {
