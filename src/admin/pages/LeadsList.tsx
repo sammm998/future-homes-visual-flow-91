@@ -145,7 +145,7 @@ export default function LeadsList() {
                   value={l.status}
                   onChange={(e) => updateStatus(l.id, e.target.value as Status)}
                 >
-                  {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                  {STATUSES.map((s) => <option key={s} value={s}>{t(s)}</option>)}
                 </select>
                 <span className="text-xs text-muted-foreground w-24 text-right">
                   {formatDistanceToNow(new Date(l.created_at), { addSuffix: true })}
