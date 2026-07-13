@@ -153,7 +153,7 @@ export default function LeadsList() {
               </div>
             ))}
             {filtered.length === 0 && (
-              <div className="p-8 text-center text-muted-foreground">No leads yet.</div>
+              <div className="p-8 text-center text-muted-foreground">{t("No leads yet.")}</div>
             )}
           </CardContent>
         </Card>
