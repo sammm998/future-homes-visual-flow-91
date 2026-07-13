@@ -4,10 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts";
 import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 const COLORS = ["#1a365d", "#c9a84c", "#2dd4bf", "#a78bfa", "#f97316", "#ef4444", "#10b981", "#3b82f6"];
 
 export default function AnalyticsTraffic() {
+  const { t } = useAdminT();
   const [days, setDays] = useState(30);
   const [daily, setDaily] = useState<any[]>([]);
   const [countries, setCountries] = useState<any[]>([]);
@@ -119,37 +121,37 @@ export default function AnalyticsTraffic() {
     <div className="space-y-5">
       <div className="flex items-end justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Traffic analytics</h1>
-          <p className="text-muted-foreground text-sm mt-1">{loading ? "Loading…" : `Last ${days} days`}</p>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("Traffic analytics")}</h1>
+          <p className="text-muted-foreground text-sm mt-1">{loading ? `${t("Loading")}…` : `${t("Last")} ${days} ${t("days")}`}</p>
         </div>
         <Select value={String(days)} onValueChange={(v) => setDays(Number(v))}>
           <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="1">Last 24 hours</SelectItem>
-            <SelectItem value="7">Last 7 days</SelectItem>
-            <SelectItem value="30">Last 30 days</SelectItem>
-            <SelectItem value="90">Last 90 days</SelectItem>
+            <SelectItem value="1">{t("Last 24 hours")}</SelectItem>
+            <SelectItem value="7">{t("Last 7 days")}</SelectItem>
+            <SelectItem value="30">{t("Last 30 days")}</SelectItem>
+            <SelectItem value="90">{t("Last 90 days")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="grid sm:grid-cols-4 gap-4">
-        <StatCard label="Pageviews" value={totals.pageviews} />
-        <StatCard label="Unique visitors" value={totals.visitors} />
-        <StatCard label="Sessions" value={totals.sessions} />
-        <StatCard label="Total events" value={totals.events} />
+        <StatCard label={t("Pageviews")} value={totals.pageviews} />
+        <StatCard label={t("Unique visitors")} value={totals.visitors} />
+        <StatCard label={t("Sessions")} value={totals.sessions} />
+        <StatCard label={t("Total events")} value={totals.events} />
       </div>
 
       {totals.events === 0 && !loading && (
         <Card className="bg-admin-surface border-dashed">
           <CardContent className="p-6 text-sm text-muted-foreground">
-            No events tracked yet. The tracker is now active — visit any public page to start collecting data.
+            {t("No events tracked yet. The tracker is now active — visit any public page to start collecting data.")}
           </CardContent>
         </Card>
       )}
 
       <Card className="bg-admin-surface">
-        <CardHeader><CardTitle className="text-base">Events over time</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t("Events over time")}</CardTitle></CardHeader>
         <CardContent className="h-72">
           <ResponsiveContainer><LineChart data={daily}>
             <CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="day" /><YAxis /><Tooltip />
@@ -160,7 +162,7 @@ export default function AnalyticsTraffic() {
 
       <div className="grid lg:grid-cols-2 gap-5">
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Top countries</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Top countries")}</CardTitle></CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer><BarChart data={countries} layout="vertical">
               <XAxis type="number" /><YAxis dataKey="name" type="category" width={80} /><Tooltip />
@@ -169,7 +171,7 @@ export default function AnalyticsTraffic() {
           </CardContent>
         </Card>
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Devices</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Devices")}</CardTitle></CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer><PieChart>
               <Pie data={devices} dataKey="value" nameKey="name" outerRadius={90} label>
@@ -182,7 +184,7 @@ export default function AnalyticsTraffic() {
 
       <div className="grid lg:grid-cols-2 gap-5">
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Browsers</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Browsers")}</CardTitle></CardHeader>
           <CardContent className="h-64">
             <ResponsiveContainer><BarChart data={browsers}>
               <CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip />
@@ -191,7 +193,7 @@ export default function AnalyticsTraffic() {
           </CardContent>
         </Card>
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Operating systems</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Operating systems")}</CardTitle></CardHeader>
           <CardContent className="h-64">
             <ResponsiveContainer><BarChart data={oses}>
               <CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip />
@@ -202,7 +204,7 @@ export default function AnalyticsTraffic() {
       </div>
 
       <Card className="bg-admin-surface">
-        <CardHeader><CardTitle className="text-base">Channels</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t("Channels")}</CardTitle></CardHeader>
         <CardContent style={{ height: Math.max(260, channels.length * 32 + 40) }}>
           <ResponsiveContainer><BarChart data={channels} layout="vertical" margin={{ left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" /><XAxis type="number" /><YAxis dataKey="name" type="category" width={170} tick={{ fontSize: 12 }} /><Tooltip />
@@ -213,9 +215,9 @@ export default function AnalyticsTraffic() {
 
       <div className="grid lg:grid-cols-2 gap-5">
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Top pages</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Top pages")}</CardTitle></CardHeader>
           <CardContent className="p-0 divide-y max-h-96 overflow-auto">
-            {topPages.length === 0 ? <div className="p-6 text-center text-muted-foreground text-sm">No data.</div> :
+            {topPages.length === 0 ? <div className="p-6 text-center text-muted-foreground text-sm">{t("No data.")}</div> :
               topPages.map((p, i) => (
                 <div key={p.name} className="p-3 flex items-center gap-3 text-sm">
                   <div className="w-6 text-muted-foreground">{i + 1}</div>
@@ -226,9 +228,9 @@ export default function AnalyticsTraffic() {
           </CardContent>
         </Card>
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Top referrers</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Top referrers")}</CardTitle></CardHeader>
           <CardContent className="p-0 divide-y max-h-96 overflow-auto">
-            {referrers.length === 0 ? <div className="p-6 text-center text-muted-foreground text-sm">No referrers yet.</div> :
+            {referrers.length === 0 ? <div className="p-6 text-center text-muted-foreground text-sm">{t("No referrers yet.")}</div> :
               referrers.map((p, i) => (
                 <div key={p.name} className="p-3 flex items-center gap-3 text-sm">
                   <div className="w-6 text-muted-foreground">{i + 1}</div>

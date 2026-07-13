@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function AnalyticsProperties() {
+  const { t } = useAdminT();
   const [top, setTop] = useState<any[]>([]);
   const [days, setDays] = useState(30);
   const [loading, setLoading] = useState(true);
@@ -34,7 +36,7 @@ export default function AnalyticsProperties() {
     <div className="space-y-5">
       <div className="flex items-end justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Property analytics</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("Property analytics")}</h1>
           <p className="text-muted-foreground text-sm mt-1">
             {loading ? "Loading…" : `Top viewed listings · last ${days} days`}
           </p>
@@ -50,7 +52,7 @@ export default function AnalyticsProperties() {
         </Select>
       </div>
       <Card className="bg-admin-surface">
-        <CardHeader><CardTitle className="text-base">Top 20 properties</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t("Top 20 properties")}</CardTitle></CardHeader>
         <CardContent className="p-0 divide-y">
           {top.map((p, i) => (
             <div key={p.id} className="p-4 flex items-center gap-3">

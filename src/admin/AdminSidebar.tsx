@@ -35,6 +35,7 @@ import {
   SidebarHeader,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 type Item = { to: string; label: string; icon: typeof Home; end?: boolean };
 
@@ -108,6 +109,7 @@ const groups: { label: string; items: Item[] }[] = [
 export default function AdminSidebar() {
   const { pathname } = useLocation();
   const { state } = useSidebar();
+  const { t } = useAdminT();
   const collapsed = state === "collapsed";
 
   return (
@@ -118,7 +120,7 @@ export default function AdminSidebar() {
           {!collapsed && (
             <div className="leading-tight">
               <div className="text-sm font-semibold">Future Homes</div>
-              <div className="text-[11px] uppercase tracking-wider opacity-70">Admin</div>
+              <div className="text-[11px] uppercase tracking-wider opacity-70">{t("Admin")}</div>
             </div>
           )}
         </div>
@@ -129,7 +131,7 @@ export default function AdminSidebar() {
           <SidebarGroup key={g.label}>
             {!collapsed && (
               <SidebarGroupLabel className="text-admin-sidebar-foreground/60 text-[11px] uppercase tracking-wider">
-                {g.label}
+                {t(g.label)}
               </SidebarGroupLabel>
             )}
             <SidebarGroupContent>
@@ -145,7 +147,7 @@ export default function AdminSidebar() {
                       >
                         <NavLink to={item.to} end={item.end}>
                           <item.icon className="h-4 w-4 shrink-0" />
-                          {!collapsed && <span>{item.label}</span>}
+                          {!collapsed && <span>{t(item.label)}</span>}
                         </NavLink>
                       </SidebarMenuButton>
                     </SidebarMenuItem>

@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { subDays } from "date-fns";
 
 type Click = { page: string; x_pct: number; y_pct: number; tag: string | null };
 
 export default function AnalyticsHeatmap() {
+  const { t } = useAdminT();
   const [days, setDays] = useState(30);
   const [pages, setPages] = useState<{ page: string; count: number }[]>([]);
   const [page, setPage] = useState<string>("");
@@ -85,14 +87,14 @@ export default function AnalyticsHeatmap() {
     <div className="space-y-5">
       <div className="flex items-end justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Heatmaps</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("Heatmaps")}</h1>
           <p className="text-muted-foreground text-sm mt-1">
             {loading ? "Loading…" : `${clicks.length.toLocaleString()} clicks in last ${days} days across ${pages.length} pages`}
           </p>
         </div>
         <div className="flex gap-2">
           <Select value={page} onValueChange={setPage}>
-            <SelectTrigger className="w-[280px]"><SelectValue placeholder="Select page" /></SelectTrigger>
+            <SelectTrigger className="w-[280px]"><SelectValue placeholder={t("Select page")} /></SelectTrigger>
             <SelectContent className="max-h-80">
               {pages.map((p) => (
                 <SelectItem key={p.page} value={p.page}>{p.page} · {p.count}</SelectItem>
@@ -195,7 +197,7 @@ export default function AnalyticsHeatmap() {
       </Card>
 
       <Card className="bg-admin-surface">
-        <CardHeader><CardTitle className="text-base">Top tracked pages</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t("Top tracked pages")}</CardTitle></CardHeader>
         <CardContent className="p-0 divide-y max-h-96 overflow-auto">
           {pages.length === 0 ? (
             <div className="p-6 text-center text-muted-foreground text-sm">No data yet.</div>

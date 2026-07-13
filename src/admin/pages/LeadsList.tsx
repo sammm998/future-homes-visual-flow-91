@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 const STATUSES = ["new", "contacted", "qualified", "proposal", "won", "lost"] as const;
 type Status = typeof STATUSES[number];
@@ -37,6 +38,7 @@ const statusColors: Record<Status, string> = {
 };
 
 export default function LeadsList() {
+  const { t } = useAdminT();
   const [rows, setRows] = useState<Lead[] | null>(null);
   const [view, setView] = useState<"kanban" | "list">("kanban");
   const [q, setQ] = useState("");
@@ -73,15 +75,15 @@ export default function LeadsList() {
     <div className="space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Leads</h1>
-          <p className="text-muted-foreground text-sm mt-1">Pipeline, scoring and assignments.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("Leads")}</h1>
+          <p className="text-muted-foreground text-sm mt-1">{t("Pipeline, scoring and assignments.")}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setView(view === "kanban" ? "list" : "kanban")}>
-            {view === "kanban" ? "List view" : "Kanban view"}
+            {view === "kanban" ? t("List view") : t("Kanban view")}
           </Button>
           <Button asChild>
-            <Link to="/admin/crm/leads/new"><Plus className="h-4 w-4 mr-2" /> New lead</Link>
+            <Link to="/admin/crm/leads/new"><Plus className="h-4 w-4 mr-2" /> {t("New lead")}</Link>
           </Button>
         </div>
       </div>
@@ -90,13 +92,13 @@ export default function LeadsList() {
         <CardContent className="p-4">
           <div className="relative">
             <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Search leads…" value={q} onChange={(e) => setQ(e.target.value)} className="pl-9" />
+            <Input placeholder={t("Search leads…")} value={q} onChange={(e) => setQ(e.target.value)} className="pl-9" />
           </div>
         </CardContent>
       </Card>
 
       {!filtered ? (
-        <div className="p-8 text-center text-muted-foreground">Loading…</div>
+        <div className="p-8 text-center text-muted-foreground">{t("Loading")}…</div>
       ) : view === "kanban" ? (
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
           {STATUSES.map((s) => {
@@ -104,7 +106,7 @@ export default function LeadsList() {
             return (
               <div key={s} className="bg-admin-surface rounded-lg p-3 min-h-[300px]">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold uppercase tracking-wider">{s}</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider">{t(s)}</span>
                   <Badge variant="secondary">{items.length}</Badge>
                 </div>
                 <div className="space-y-2">
@@ -143,7 +145,7 @@ export default function LeadsList() {
                   value={l.status}
                   onChange={(e) => updateStatus(l.id, e.target.value as Status)}
                 >
-                  {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                  {STATUSES.map((s) => <option key={s} value={s}>{t(s)}</option>)}
                 </select>
                 <span className="text-xs text-muted-foreground w-24 text-right">
                   {formatDistanceToNow(new Date(l.created_at), { addSuffix: true })}
@@ -151,7 +153,7 @@ export default function LeadsList() {
               </div>
             ))}
             {filtered.length === 0 && (
-              <div className="p-8 text-center text-muted-foreground">No leads yet.</div>
+              <div className="p-8 text-center text-muted-foreground">{t("No leads yet.")}</div>
             )}
           </CardContent>
         </Card>

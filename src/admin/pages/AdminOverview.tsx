@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Home, Users, Mail, Newspaper, Plus, ArrowUpRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 interface Counts {
   properties: number;
@@ -14,6 +15,7 @@ interface Counts {
 }
 
 export default function AdminOverview() {
+  const { t } = useAdminT();
   const [counts, setCounts] = useState<Counts | null>(null);
 
   useEffect(() => {
@@ -37,21 +39,21 @@ export default function AdminOverview() {
   }, []);
 
   const stats = [
-    { label: "Properties", value: counts?.properties, sub: `${counts?.activeProperties ?? 0} active`, icon: Home, href: "/admin/properties" },
-    { label: "Blog posts", value: counts?.blog, sub: "All languages", icon: Newspaper, href: "/admin/blog" },
-    { label: "Leads", value: counts?.leads, sub: "Total captured", icon: Users, href: "/admin/crm/leads" },
-    { label: "Subscribers", value: counts?.subscribers, sub: "Active", icon: Mail, href: "/admin/email/subscribers" },
+    { label: t("Properties"), value: counts?.properties, sub: `${counts?.activeProperties ?? 0} ${t("active")}`, icon: Home, href: "/admin/properties" },
+    { label: t("Blog posts"), value: counts?.blog, sub: t("All languages"), icon: Newspaper, href: "/admin/blog" },
+    { label: t("Leads"), value: counts?.leads, sub: t("Total captured"), icon: Users, href: "/admin/crm/leads" },
+    { label: t("Subscribers"), value: counts?.subscribers, sub: t("Active"), icon: Mail, href: "/admin/email/subscribers" },
   ];
 
   return (
     <div className="space-y-6">
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground mt-1">Future Homes International — central operations.</p>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("Dashboard")}</h1>
+          <p className="text-muted-foreground mt-1">{t("Future Homes International — central operations.")}</p>
         </div>
         <Button asChild className="bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90">
-          <Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-1.5" /> Add property</Link>
+          <Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-1.5" /> {t("Add property")}</Link>
         </Button>
       </div>
 
@@ -69,7 +71,7 @@ export default function AdminOverview() {
               <div className="flex items-center justify-between mt-1">
                 <span className="text-xs text-muted-foreground">{s.sub}</span>
                 <Link to={s.href} className="text-xs text-admin-accent inline-flex items-center hover:underline">
-                  Open <ArrowUpRight className="h-3 w-3 ml-0.5" />
+                  {t("Open")} <ArrowUpRight className="h-3 w-3 ml-0.5" />
                 </Link>
               </div>
             </CardContent>
@@ -80,25 +82,25 @@ export default function AdminOverview() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <Card className="bg-admin-surface lg:col-span-2">
           <CardHeader>
-            <CardTitle>Quick actions</CardTitle>
-            <CardDescription>Jump to common tasks</CardDescription>
+            <CardTitle>{t("Quick actions")}</CardTitle>
+            <CardDescription>{t("Jump to common tasks")}</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-2" />New property</Link></Button>
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/blog/ai"><Newspaper className="h-4 w-4 mr-2" />AI blog post</Link></Button>
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/crm/leads"><Users className="h-4 w-4 mr-2" />Open leads</Link></Button>
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/email/inbox"><Mail className="h-4 w-4 mr-2" />Inbox</Link></Button>
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/email/campaigns"><Mail className="h-4 w-4 mr-2" />New campaign</Link></Button>
-            <Button asChild variant="outline" className="justify-start"><Link to="/admin/analytics/traffic">View analytics</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-2" />{t("New property")}</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/blog/ai"><Newspaper className="h-4 w-4 mr-2" />{t("AI blog post")}</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/crm/leads"><Users className="h-4 w-4 mr-2" />{t("Open leads")}</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/email/inbox"><Mail className="h-4 w-4 mr-2" />{t("Inbox")}</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/email/campaigns"><Mail className="h-4 w-4 mr-2" />{t("New campaign")}</Link></Button>
+            <Button asChild variant="outline" className="justify-start"><Link to="/admin/analytics/traffic">{t("View analytics")}</Link></Button>
           </CardContent>
         </Card>
         <Card className="bg-admin-surface">
           <CardHeader>
-            <CardTitle>Build status</CardTitle>
-            <CardDescription>Admin dashboard rollout</CardDescription>
+            <CardTitle>{t("Build status")}</CardTitle>
+            <CardDescription>{t("Admin dashboard rollout")}</CardDescription>
           </CardHeader>
           <CardContent className="text-sm space-y-2">
-            <div className="flex justify-between"><span>Shell + Properties CMS</span><span className="text-emerald-600">Live</span></div>
+            <div className="flex justify-between"><span>Shell + Properties CMS</span><span className="text-emerald-600">{t("Live")}</span></div>
             <div className="flex justify-between"><span>Blog + AI Creator</span><span className="text-muted-foreground">Phase 2</span></div>
             <div className="flex justify-between"><span>CRM + Inbox</span><span className="text-muted-foreground">Phase 3</span></div>
             <div className="flex justify-between"><span>Email marketing</span><span className="text-muted-foreground">Phase 4</span></div>

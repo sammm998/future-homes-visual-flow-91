@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Search, ExternalLink, Pencil } from "lucide-react";
+import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 interface Row {
   id: string;
@@ -21,6 +22,7 @@ interface Row {
 }
 
 export default function PropertiesList() {
+  const { t } = useAdminT();
   const [rows, setRows] = useState<Row[] | null>(null);
   const [q, setQ] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -57,13 +59,13 @@ export default function PropertiesList() {
     <div className="space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Properties</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{t("Properties")}</h1>
           <p className="text-muted-foreground mt-1 text-sm">
-            {rows ? `${rows.length} total` : "Loading…"}
+            {rows ? `${rows.length} ${t("total")}` : `${t("Loading")}…`}
           </p>
         </div>
         <Button asChild className="bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90">
-          <Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-1.5" /> Add property</Link>
+          <Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-1.5" /> {t("Add property")}</Link>
         </Button>
       </div>
 
@@ -72,7 +74,7 @@ export default function PropertiesList() {
           <div className="relative flex-1">
             <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search by title, location or type"
+              placeholder={t("Search by title, location or type")}
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="pl-9"
@@ -87,7 +89,7 @@ export default function PropertiesList() {
                 onClick={() => setStatusFilter(s)}
                 className={statusFilter === s ? "bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90" : ""}
               >
-                {s[0].toUpperCase() + s.slice(1)}
+                {t(s[0].toUpperCase() + s.slice(1))}
               </Button>
             ))}
           </div>
@@ -99,12 +101,12 @@ export default function PropertiesList() {
           <table className="w-full text-sm">
             <thead className="bg-muted/50 text-xs uppercase tracking-wide text-muted-foreground">
               <tr>
-                <th className="text-left font-medium px-4 py-3">Property</th>
-                <th className="text-left font-medium px-4 py-3 hidden md:table-cell">Location</th>
-                <th className="text-left font-medium px-4 py-3 hidden lg:table-cell">Type</th>
-                <th className="text-left font-medium px-4 py-3">Price</th>
-                <th className="text-left font-medium px-4 py-3">Status</th>
-                <th className="text-right font-medium px-4 py-3">Actions</th>
+                <th className="text-left font-medium px-4 py-3">{t("Property")}</th>
+                <th className="text-left font-medium px-4 py-3 hidden md:table-cell">{t("Location")}</th>
+                <th className="text-left font-medium px-4 py-3 hidden lg:table-cell">{t("Type")}</th>
+                <th className="text-left font-medium px-4 py-3">{t("Price")}</th>
+                <th className="text-left font-medium px-4 py-3">{t("Status")}</th>
+                <th className="text-right font-medium px-4 py-3">{t("Actions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -117,7 +119,7 @@ export default function PropertiesList() {
                   </tr>
                 ))}
               {filtered?.length === 0 && (
-                <tr><td colSpan={6} className="px-4 py-10 text-center text-muted-foreground">No properties match.</td></tr>
+                <tr><td colSpan={6} className="px-4 py-10 text-center text-muted-foreground">{t("No properties match.")}</td></tr>
               )}
               {filtered?.map((r) => (
                 <tr key={r.id} className="border-t hover:bg-muted/30">
@@ -140,11 +142,11 @@ export default function PropertiesList() {
                   <td className="px-4 py-3 tabular-nums">{r.price ?? "—"}</td>
                   <td className="px-4 py-3">
                     {r.is_active ? (
-                      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">Active</Badge>
+                      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">{t("Active")}</Badge>
                     ) : r.status === "sold" ? (
-                      <Badge className="bg-zinc-200 text-zinc-700 hover:bg-zinc-200">Sold</Badge>
+                      <Badge className="bg-zinc-200 text-zinc-700 hover:bg-zinc-200">{t("Sold")}</Badge>
                     ) : (
-                      <Badge variant="outline">Draft</Badge>
+                      <Badge variant="outline">{t("Draft")}</Badge>
                     )}
                   </td>
                   <td className="px-4 py-3">
