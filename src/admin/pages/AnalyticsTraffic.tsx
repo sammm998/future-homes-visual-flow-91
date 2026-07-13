@@ -193,7 +193,7 @@ export default function AnalyticsTraffic() {
           </CardContent>
         </Card>
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Operating systems</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Operating systems")}</CardTitle></CardHeader>
           <CardContent className="h-64">
             <ResponsiveContainer><BarChart data={oses}>
               <CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip />
@@ -204,7 +204,7 @@ export default function AnalyticsTraffic() {
       </div>
 
       <Card className="bg-admin-surface">
-        <CardHeader><CardTitle className="text-base">Channels</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t("Channels")}</CardTitle></CardHeader>
         <CardContent style={{ height: Math.max(260, channels.length * 32 + 40) }}>
           <ResponsiveContainer><BarChart data={channels} layout="vertical" margin={{ left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" /><XAxis type="number" /><YAxis dataKey="name" type="category" width={170} tick={{ fontSize: 12 }} /><Tooltip />
@@ -215,9 +215,9 @@ export default function AnalyticsTraffic() {
 
       <div className="grid lg:grid-cols-2 gap-5">
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Top pages</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Top pages")}</CardTitle></CardHeader>
           <CardContent className="p-0 divide-y max-h-96 overflow-auto">
-            {topPages.length === 0 ? <div className="p-6 text-center text-muted-foreground text-sm">No data.</div> :
+            {topPages.length === 0 ? <div className="p-6 text-center text-muted-foreground text-sm">{t("No data.")}</div> :
               topPages.map((p, i) => (
                 <div key={p.name} className="p-3 flex items-center gap-3 text-sm">
                   <div className="w-6 text-muted-foreground">{i + 1}</div>
@@ -228,9 +228,9 @@ export default function AnalyticsTraffic() {
           </CardContent>
         </Card>
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Top referrers</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Top referrers")}</CardTitle></CardHeader>
           <CardContent className="p-0 divide-y max-h-96 overflow-auto">
-            {referrers.length === 0 ? <div className="p-6 text-center text-muted-foreground text-sm">No referrers yet.</div> :
+            {referrers.length === 0 ? <div className="p-6 text-center text-muted-foreground text-sm">{t("No referrers yet.")}</div> :
               referrers.map((p, i) => (
                 <div key={p.name} className="p-3 flex items-center gap-3 text-sm">
                   <div className="w-6 text-muted-foreground">{i + 1}</div>
