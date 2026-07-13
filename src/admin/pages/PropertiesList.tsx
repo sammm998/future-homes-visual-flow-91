@@ -142,11 +142,11 @@ export default function PropertiesList() {
                   <td className="px-4 py-3 tabular-nums">{r.price ?? "—"}</td>
                   <td className="px-4 py-3">
                     {r.is_active ? (
-                      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">Active</Badge>
+                      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">{t("Active")}</Badge>
                     ) : r.status === "sold" ? (
-                      <Badge className="bg-zinc-200 text-zinc-700 hover:bg-zinc-200">Sold</Badge>
+                      <Badge className="bg-zinc-200 text-zinc-700 hover:bg-zinc-200">{t("Sold")}</Badge>
                     ) : (
-                      <Badge variant="outline">Draft</Badge>
+                      <Badge variant="outline">{t("Draft")}</Badge>
                     )}
                   </td>
                   <td className="px-4 py-3">
