@@ -22,6 +22,7 @@ interface Row {
 }
 
 export default function PropertiesList() {
+  const { t } = useAdminT();
   const [rows, setRows] = useState<Row[] | null>(null);
   const [q, setQ] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
