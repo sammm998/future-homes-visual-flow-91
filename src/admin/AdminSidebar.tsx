@@ -120,7 +120,7 @@ export default function AdminSidebar() {
           {!collapsed && (
             <div className="leading-tight">
               <div className="text-sm font-semibold">Future Homes</div>
-              <div className="text-[11px] uppercase tracking-wider opacity-70">Admin</div>
+              <div className="text-[11px] uppercase tracking-wider opacity-70">{t("Admin")}</div>
             </div>
           )}
         </div>
