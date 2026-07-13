@@ -38,6 +38,7 @@ const statusColors: Record<Status, string> = {
 };
 
 export default function LeadsList() {
+  const { t } = useAdminT();
   const [rows, setRows] = useState<Lead[] | null>(null);
   const [view, setView] = useState<"kanban" | "list">("kanban");
   const [q, setQ] = useState("");
