@@ -2,13 +2,16 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AdminSidebar from "./AdminSidebar";
+import AdminLanguageSwitcher from "./AdminLanguageSwitcher";
+import { AdminI18nProvider, useAdminT } from "@/admin/i18n/AdminI18nContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { LogOut, Bell } from "lucide-react";
 import { toast } from "sonner";
 
-export default function AdminLayout() {
+function AdminLayoutInner() {
   const navigate = useNavigate();
+  const { t } = useAdminT();
   const [email, setEmail] = useState<string | null>(null);
 
   useEffect(() => {
@@ -17,7 +20,7 @@ export default function AdminLayout() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    toast.success("Signed out");
+    toast.success(t("Signed out"));
     navigate("/admin-login", { replace: true });
   };
 
@@ -30,16 +33,17 @@ export default function AdminLayout() {
             <div className="flex items-center gap-2">
               <SidebarTrigger />
               <div className="text-sm text-muted-foreground hidden sm:block">
-                Future Homes International · Admin
+                {t("Future Homes International · Admin")}
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" aria-label="Notifications">
+              <AdminLanguageSwitcher />
+              <Button variant="ghost" size="icon" aria-label={t("Notifications")}>
                 <Bell className="h-4 w-4" />
               </Button>
               <span className="text-xs text-muted-foreground hidden md:inline">{email}</span>
               <Button variant="outline" size="sm" onClick={handleLogout}>
-                <LogOut className="h-4 w-4 mr-1.5" /> Sign out
+                <LogOut className="h-4 w-4 mr-1.5" /> {t("Sign out")}
               </Button>
             </div>
           </header>
@@ -49,5 +53,13 @@ export default function AdminLayout() {
         </div>
       </div>
     </SidebarProvider>
+  );
+}
+
+export default function AdminLayout() {
+  return (
+    <AdminI18nProvider>
+      <AdminLayoutInner />
+    </AdminI18nProvider>
   );
 }
