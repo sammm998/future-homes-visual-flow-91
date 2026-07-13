@@ -184,7 +184,7 @@ export default function AnalyticsTraffic() {
 
       <div className="grid lg:grid-cols-2 gap-5">
         <Card className="bg-admin-surface">
-          <CardHeader><CardTitle className="text-base">Browsers</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">{t("Browsers")}</CardTitle></CardHeader>
           <CardContent className="h-64">
             <ResponsiveContainer><BarChart data={browsers}>
               <CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="name" /><YAxis /><Tooltip />
