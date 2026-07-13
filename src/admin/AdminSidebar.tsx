@@ -131,7 +131,7 @@ export default function AdminSidebar() {
           <SidebarGroup key={g.label}>
             {!collapsed && (
               <SidebarGroupLabel className="text-admin-sidebar-foreground/60 text-[11px] uppercase tracking-wider">
-                {g.label}
+                {t(g.label)}
               </SidebarGroupLabel>
             )}
             <SidebarGroupContent>
