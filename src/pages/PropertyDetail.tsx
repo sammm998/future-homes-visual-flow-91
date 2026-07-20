@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Timeline } from "@/components/ui/timeline";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, Square, Calendar, Car, Home, Plane, Waves, CheckCircle, Star, Award, Images, X } from "lucide-react";
+import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, Square, Calendar, Car, Home, Plane, Waves, CheckCircle, Star, Award, Images, X, Share2, Check } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
 import { useCurrency } from '@/contexts/CurrencyContext';
@@ -498,6 +498,8 @@ const PropertyDetail = () => {
               </div>
 
               <LiveViewers propertyId={property.refNo || property.id || ''} />
+
+              <ShareLinkButton refNo={property.refNo || property.ref_no} lang={lang} />
             </div>
 
             {/* Property Images */}
