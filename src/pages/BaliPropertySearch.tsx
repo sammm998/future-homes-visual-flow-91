@@ -269,7 +269,7 @@ const BaliPropertySearch = () => {
             baliProperties.slice(0, 10).map(p => ({
               title: p.title,
               price: p.price,
-              url: `https://futurehomesinternational.com/property/${p.slug || p.refNo || p.uuid}`,
+              url: `https://futurehomesinternational.com/property/${p.refNo || p.uuid}`,
               image: p.image
             })),
             'Properties for Sale in Bali'
