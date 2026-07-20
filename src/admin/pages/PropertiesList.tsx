@@ -155,7 +155,7 @@ export default function PropertiesList() {
                         <Link to={`/admin/properties/${r.id}/edit`}><Pencil className="h-4 w-4" /></Link>
                       </Button>
                       <Button asChild size="sm" variant="ghost">
-                        <a href={`/property/${r.id}`} target="_blank" rel="noreferrer"><ExternalLink className="h-4 w-4" /></a>
+                        <a href={`/property/${r.ref_no || r.id}`} target="_blank" rel="noreferrer"><ExternalLink className="h-4 w-4" /></a>
                       </Button>
                     </div>
                   </td>
