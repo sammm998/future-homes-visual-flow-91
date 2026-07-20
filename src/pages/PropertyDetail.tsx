@@ -18,6 +18,7 @@ const batuhanImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object
 import { supabase } from '@/integrations/supabase/client';
 import { OptimizedPropertyImage } from '@/components/OptimizedPropertyImage';
 import { t } from '@/utils/translations';
+import { ShareLinkButton } from '@/components/ShareLinkButton';
 import LiveViewers from '@/components/LiveViewers';
 
 // Function to map property location to route
