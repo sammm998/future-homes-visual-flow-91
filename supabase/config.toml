@@ -24,3 +24,6 @@ verify_jwt = false
 
 [functions.social-listening]
 verify_jwt = false
+
+[functions.property-share]
+verify_jwt = false
