@@ -10,6 +10,7 @@ import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 interface Row {
   id: string;
+  ref_no: string | null;
   title: string;
   location: string | null;
   property_type: string | null;
@@ -31,7 +32,7 @@ export default function PropertiesList() {
     const load = async () => {
       const { data } = await supabase
         .from("properties")
-        .select("id,title,location,property_type,price,status,is_active,property_image,views_count,created_at")
+        .select("id,ref_no,title,location,property_type,price,status,is_active,property_image,views_count,created_at")
         .order("created_at", { ascending: false })
         .limit(200);
       setRows((data as Row[]) ?? []);
@@ -155,7 +156,7 @@ export default function PropertiesList() {
                         <Link to={`/admin/properties/${r.id}/edit`}><Pencil className="h-4 w-4" /></Link>
                       </Button>
                       <Button asChild size="sm" variant="ghost">
-                        <a href={`/property/${r.id}`} target="_blank" rel="noreferrer"><ExternalLink className="h-4 w-4" /></a>
+                        <a href={`/property/${r.ref_no || r.id}`} target="_blank" rel="noreferrer"><ExternalLink className="h-4 w-4" /></a>
                       </Button>
                     </div>
                   </td>

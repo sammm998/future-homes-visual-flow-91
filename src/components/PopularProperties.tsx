@@ -61,7 +61,7 @@ const PopularProperties = () => {
           {popularProperties.map((property) => {
             const badgeInfo = getBadgeInfo(property);
             return (
-              <Link to={`/property/${property.id}`} key={property.id}>
+              <Link to={`/property/${property.ref_no || property.id}`} key={property.id}>
                 <Card className="group overflow-hidden hover:shadow-elegant transition-all duration-300 hover:-translate-y-1">
                   <div className="relative">
                     <img 

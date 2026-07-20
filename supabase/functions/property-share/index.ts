@@ -73,12 +73,9 @@ serve(async (req) => {
     const description =
       (property as any)[langMeta.desc] || property.description ||
       `${property.title || ""}${property.location ? " – " + property.location : ""}`;
-    const slug =
-      (property as any)[langMeta.slug] || property.slug || property.ref_no;
-
     const pathSeg = PATH_FOR_LANG[lang] || "property";
-    const langQuery = lang && lang !== "en" ? `?lang=${lang}&ref=${property.ref_no}` : "";
-    const destination = `${SITE}/${pathSeg}/${encodeURIComponent(slug)}${langQuery}`;
+    const langQuery = lang && lang !== "en" ? `?lang=${lang}` : "";
+    const destination = `${SITE}/${pathSeg}/${encodeURIComponent(property.ref_no)}${langQuery}`;
 
     const image =
       (Array.isArray(property.property_image) && property.property_image[0]) ||

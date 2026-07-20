@@ -28,6 +28,7 @@ interface Message {
 
 interface PropertyLink {
   id: number;
+  ref_no: string;
   title: string;
   price: string;
   location: string;
@@ -277,7 +278,7 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
                   {message.propertyLinks && message.propertyLinks.length > 0 && (
                     <div className="mt-3 space-y-2">
                       {message.propertyLinks.map((property) => (
-                        <Link key={property.id} to={`/property/${property.id}`}>
+                        <Link key={property.id} to={`/property/${property.ref_no || property.id}`}>
                           <Card className="hover:shadow-md transition-shadow cursor-pointer">
                             <CardContent className="p-3">
                               <div className="flex justify-between items-start">

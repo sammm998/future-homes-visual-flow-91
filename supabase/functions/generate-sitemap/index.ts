@@ -174,7 +174,7 @@ serve(async (req) => {
   </url>`;
     });
 
-    // Add ALL property pages - prioritize ID for unique URLs
+    // Add ALL property pages - use stable reference number for unique URLs
     console.log(`Adding ${properties?.length || 0} properties to sitemap`);
     if (properties && properties.length > 0) {
       properties.forEach(property => {
@@ -182,13 +182,13 @@ serve(async (req) => {
           ? new Date(property.updated_at).toISOString().split('T')[0]
           : currentDate;
         
-        // Always use ID for consistent, unique URLs
-        const propertyId = property.id;
+        // Use ref_no for consistent, stable URLs
+        const propertyRef = property.ref_no;
         
-        if (propertyId) {
+        if (propertyRef) {
           sitemapXml += `
   <url>
-    <loc>${baseUrl}/property/${propertyId}</loc>
+    <loc>${baseUrl}/property/${propertyRef}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>`;
@@ -196,13 +196,13 @@ serve(async (req) => {
           // Add hreflang alternates
           languages.forEach(lang => {
             const langUrl = lang === 'en' 
-              ? `${baseUrl}/property/${propertyId}` 
-              : `${baseUrl}/property/${propertyId}?lang=${lang}`;
+              ? `${baseUrl}/property/${propertyRef}` 
+              : `${baseUrl}/property/${propertyRef}?lang=${lang}`;
             sitemapXml += `
     <xhtml:link rel="alternate" hreflang="${lang}" href="${langUrl}" />`;
           });
           sitemapXml += `
-    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/property/${propertyId}" />`;
+    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/property/${propertyRef}" />`;
           
           sitemapXml += `
   </url>`;

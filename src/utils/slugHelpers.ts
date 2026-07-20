@@ -91,13 +91,13 @@ export const buildLangParam = (lang: string | null, ref?: string | null): string
   return search ? `?${search}` : '';
 };
 
-// Build full translated property URL
+// Build full translated property URL (ends with the stable reference number)
 export const buildPropertyUrl = (property: any, lang: string | null): string => {
   const path = getTranslatedPropertyPath(lang);
-  const slug = getLanguageSlug(property, lang);
-  const safeSlug = encodeURIComponent(String(slug));
-  const langParam = buildLangParam(lang, lang && lang !== 'en' ? getPropertyReference(property) : null);
-  return `/${path}/${safeSlug}${langParam}`;
+  const ref = getPropertyReference(property) || property?.id;
+  const safeRef = encodeURIComponent(String(ref));
+  const langParam = buildLangParam(lang, null);
+  return `/${path}/${safeRef}${langParam}`;
 };
 
 // Extract language from URL path (for translated paths like /fastighet/)
