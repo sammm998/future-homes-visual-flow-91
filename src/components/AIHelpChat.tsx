@@ -28,6 +28,7 @@ interface Message {
 
 interface PropertyLink {
   id: number;
+  ref_no: string;
   title: string;
   price: string;
   location: string;
