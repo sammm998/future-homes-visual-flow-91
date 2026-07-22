@@ -18,6 +18,7 @@ const TARGET_LANGUAGES: Record<string, string> = {
   fr: "French",
   es: "Spanish",
   nl: "Dutch",
+  id: "Indonesian",
 };
 
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
