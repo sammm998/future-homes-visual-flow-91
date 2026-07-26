@@ -77,6 +77,48 @@ export default function PropertyEdit() {
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [taxonomy, setTaxonomy] = useState<{ locations: string[]; countries: string[]; districtsByLocation: Record<string, string[]> }>({ locations: [], countries: [], districtsByLocation: {} });
+
+  useEffect(() => {
+    supabase.from("properties").select("location,country,property_district").then(({ data }) => {
+      if (!data) return;
+      const locs = new Set<string>();
+      const countries = new Set<string>();
+      const districts: Record<string, Set<string>> = {};
+      for (const r of data as any[]) {
+        if (r.location) locs.add(r.location.trim());
+        if (r.country) countries.add(r.country.trim());
+        if (r.location && r.property_district) {
+          const k = r.location.trim();
+          (districts[k] ||= new Set()).add(r.property_district.trim());
+        }
+      }
+      setTaxonomy({
+        locations: [...locs].sort(),
+        countries: [...countries].sort(),
+        districtsByLocation: Object.fromEntries(Object.entries(districts).map(([k, v]) => [k, [...v].sort()])),
+      });
+    });
+  }, []);
+
+  const addOption = (kind: "location" | "country" | "district") => {
+    const label = kind === "location" ? "Add new location" : kind === "country" ? "Add new country" : "Add new district";
+    const val = window.prompt(label);
+    if (!val) return;
+    const trimmed = val.trim();
+    if (!trimmed) return;
+    setTaxonomy((prev) => {
+      if (kind === "location") return { ...prev, locations: [...new Set([...prev.locations, trimmed])].sort() };
+      if (kind === "country") return { ...prev, countries: [...new Set([...prev.countries, trimmed])].sort() };
+      const loc = form.location;
+      if (!loc) return prev;
+      const cur = prev.districtsByLocation[loc] || [];
+      return { ...prev, districtsByLocation: { ...prev.districtsByLocation, [loc]: [...new Set([...cur, trimmed])].sort() } };
+    });
+    if (kind === "location") set("location", trimmed);
+    else if (kind === "country") set("country", trimmed);
+    else set("property_district", trimmed);
+  };
 
   useEffect(() => {
     if (isNew) return;
