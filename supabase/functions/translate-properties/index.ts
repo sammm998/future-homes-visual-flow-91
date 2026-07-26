@@ -29,6 +29,14 @@ interface TranslationResult {
   location: string;
 }
 
+const stringifyField = (value: unknown, fallback = ""): string => {
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return value.map((item) => stringifyField(item)).filter(Boolean).join("\n");
+  if (value && typeof value === "object") return Object.values(value as Record<string, unknown>).map((item) => stringifyField(item)).filter(Boolean).join("\n");
+  if (value === null || value === undefined) return fallback;
+  return String(value);
+};
+
 async function translateOnce(
   title: string,
   description: string,
@@ -81,9 +89,9 @@ CRITICAL RULES:
       if (!raw) return null;
       const parsed = JSON.parse(raw);
       return {
-        title: parsed.title || title,
-        description: parsed.description || "",
-        location: parsed.location || location,
+        title: stringifyField(parsed.title, title) || title,
+        description: stringifyField(parsed.description),
+        location: stringifyField(parsed.location, location) || location,
       };
     }
 
@@ -116,9 +124,9 @@ CRITICAL RULES:
       if (!raw) return null;
       const parsed = JSON.parse(raw);
       return {
-        title: parsed.title || title,
-        description: parsed.description || "",
-        location: parsed.location || location,
+        title: stringifyField(parsed.title, title) || title,
+        description: stringifyField(parsed.description),
+        location: stringifyField(parsed.location, location) || location,
       };
 
     }
@@ -179,9 +187,9 @@ CRITICAL RULES:
 
     const parsed = JSON.parse(toolCall.function.arguments);
     return {
-      title: parsed.title || title,
-      description: parsed.description || "",
-      location: parsed.location || location,
+      title: stringifyField(parsed.title, title) || title,
+      description: stringifyField(parsed.description),
+      location: stringifyField(parsed.location, location) || location,
     };
   } catch (e) {
     console.error("Translation error:", e);
