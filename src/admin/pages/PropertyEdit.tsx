@@ -77,6 +77,48 @@ export default function PropertyEdit() {
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [taxonomy, setTaxonomy] = useState<{ locations: string[]; countries: string[]; districtsByLocation: Record<string, string[]> }>({ locations: [], countries: [], districtsByLocation: {} });
+
+  useEffect(() => {
+    supabase.from("properties").select("location,country,property_district").then(({ data }) => {
+      if (!data) return;
+      const locs = new Set<string>();
+      const countries = new Set<string>();
+      const districts: Record<string, Set<string>> = {};
+      for (const r of data as any[]) {
+        if (r.location) locs.add(r.location.trim());
+        if (r.country) countries.add(r.country.trim());
+        if (r.location && r.property_district) {
+          const k = r.location.trim();
+          (districts[k] ||= new Set()).add(r.property_district.trim());
+        }
+      }
+      setTaxonomy({
+        locations: [...locs].sort(),
+        countries: [...countries].sort(),
+        districtsByLocation: Object.fromEntries(Object.entries(districts).map(([k, v]) => [k, [...v].sort()])),
+      });
+    });
+  }, []);
+
+  const addOption = (kind: "location" | "country" | "district") => {
+    const label = kind === "location" ? "Add new location" : kind === "country" ? "Add new country" : "Add new district";
+    const val = window.prompt(label);
+    if (!val) return;
+    const trimmed = val.trim();
+    if (!trimmed) return;
+    setTaxonomy((prev) => {
+      if (kind === "location") return { ...prev, locations: [...new Set([...prev.locations, trimmed])].sort() };
+      if (kind === "country") return { ...prev, countries: [...new Set([...prev.countries, trimmed])].sort() };
+      const loc = form.location;
+      if (!loc) return prev;
+      const cur = prev.districtsByLocation[loc] || [];
+      return { ...prev, districtsByLocation: { ...prev.districtsByLocation, [loc]: [...new Set([...cur, trimmed])].sort() } };
+    });
+    if (kind === "location") set("location", trimmed);
+    else if (kind === "country") set("country", trimmed);
+    else set("property_district", trimmed);
+  };
 
   useEffect(() => {
     if (isNew) return;
@@ -274,9 +316,46 @@ export default function PropertyEdit() {
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-3">
-                <div><Label>Location *</Label><Input value={form.location} onChange={(e) => set("location", e.target.value)} placeholder="Antalya" /></div>
-                <div><Label>District</Label><Input value={form.property_district} onChange={(e) => set("property_district", e.target.value)} /></div>
-                <div><Label>Country</Label><Input value={form.country} onChange={(e) => set("country", e.target.value)} placeholder="Turkey" /></div>
+                <div>
+                  <Label>Location *</Label>
+                  <Select
+                    value={form.location || undefined}
+                    onValueChange={(v) => { if (v === "__add__") return addOption("location"); set("location", v); set("property_district", ""); }}
+                  >
+                    <SelectTrigger><SelectValue placeholder="Select location" /></SelectTrigger>
+                    <SelectContent>
+                      {taxonomy.locations.map(l => <SelectItem key={l} value={l}>{l}</SelectItem>)}
+                      <SelectItem value="__add__">+ Add new…</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>District</Label>
+                  <Select
+                    value={form.property_district || undefined}
+                    onValueChange={(v) => { if (v === "__add__") return addOption("district"); set("property_district", v); }}
+                    disabled={!form.location}
+                  >
+                    <SelectTrigger><SelectValue placeholder={form.location ? "Select district" : "Select location first"} /></SelectTrigger>
+                    <SelectContent>
+                      {(taxonomy.districtsByLocation[form.location] || []).map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}
+                      <SelectItem value="__add__">+ Add new…</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Country</Label>
+                  <Select
+                    value={form.country || undefined}
+                    onValueChange={(v) => { if (v === "__add__") return addOption("country"); set("country", v); }}
+                  >
+                    <SelectTrigger><SelectValue placeholder="Select country" /></SelectTrigger>
+                    <SelectContent>
+                      {taxonomy.countries.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                      <SelectItem value="__add__">+ Add new…</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div className="grid grid-cols-3 gap-3">
                 <div><Label>Price</Label><Input value={form.price} onChange={(e) => set("price", e.target.value)} /></div>
