@@ -38,16 +38,16 @@ export default function AnalyticsProperties() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">{t("Property analytics")}</h1>
           <p className="text-muted-foreground text-sm mt-1">
-            {loading ? "Loading…" : `Top viewed listings · last ${days} days`}
+            {loading ? t("Loading...") : `${t("Top viewed listings")} · ${t("last")} ${days} ${t("days")}`}
           </p>
         </div>
         <Select value={String(days)} onValueChange={(v) => setDays(Number(v))}>
           <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="1">Last 24 hours</SelectItem>
-            <SelectItem value="7">Last 7 days</SelectItem>
-            <SelectItem value="30">Last 30 days</SelectItem>
-            <SelectItem value="90">Last 90 days</SelectItem>
+            <SelectItem value="1">{t("Last 24 hours")}</SelectItem>
+            <SelectItem value="7">{t("Last 7 days")}</SelectItem>
+            <SelectItem value="30">{t("Last 30 days")}</SelectItem>
+            <SelectItem value="90">{t("Last 90 days")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -61,11 +61,11 @@ export default function AnalyticsProperties() {
                 <div className="font-medium truncate">{p.title}</div>
                 <div className="text-xs text-muted-foreground">{p.location} · {p.price}</div>
               </div>
-              <div className="text-sm font-semibold">{p.views.toLocaleString()} views</div>
+              <div className="text-sm font-semibold">{p.views.toLocaleString()} {t("views")}</div>
             </div>
           ))}
           {top.length === 0 && !loading && (
-            <div className="p-8 text-center text-muted-foreground">No property views tracked in this period.</div>
+            <div className="p-8 text-center text-muted-foreground">{t("No property views tracked in this period.")}</div>
           )}
         </CardContent>
       </Card>

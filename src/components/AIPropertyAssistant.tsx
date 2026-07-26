@@ -41,12 +41,12 @@ interface PropertyLink {
 }
 
 const AIPropertyAssistant = () => {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! I'm your AI property assistant. I can help you find the perfect apartment based on your preferences. What are you looking for?",
+      text: t('ai.greeting'),
       sender: "ai",
       timestamp: new Date(),
     },
@@ -111,7 +111,7 @@ const AIPropertyAssistant = () => {
           message: currentMessage,
           conversationHistory: conversationHistory,
           conversationId: conversationId,
-          language: 'en' // Default to English for property assistant
+          language: lang
         }
       });
 
@@ -126,7 +126,7 @@ const AIPropertyAssistant = () => {
       }
 
       // Remove markdown characters from the response
-      const cleanResponse = (data.response || "I couldn't process your request. Please try again.").replace(/[*#]/g, '');
+      const cleanResponse = (data.response || t('ai.fallback_error')).replace(/[*#]/g, '');
       
       const aiMessage: Message = {
         id: messages.length + 2,
@@ -142,7 +142,7 @@ const AIPropertyAssistant = () => {
       
       const errorMessage: Message = {
         id: messages.length + 2,
-        text: "I'm having connection issues right now. Please try again in a moment.",
+        text: t('ai.connection_issue'),
         sender: "ai",
         timestamp: new Date(),
       };
@@ -150,8 +150,8 @@ const AIPropertyAssistant = () => {
       setMessages(prev => [...prev, errorMessage]);
       
       toast({
-        title: "Connection Error",
-        description: "Unable to connect to AI assistant. Please try again.",
+        title: t('ai.connection_error'),
+        description: t('ai.connection_error_desc'),
         variant: "destructive",
       });
     } finally {
@@ -169,8 +169,8 @@ const AIPropertyAssistant = () => {
   const handleContactSubmit = async () => {
     if (!contactInfo.name && !contactInfo.email && !contactInfo.phone) {
       toast({
-        title: "Contact Information Required",
-        description: "Please provide at least your name, email, or phone number.",
+        title: t('ai.contact_required'),
+        description: t('ai.contact_required_desc'),
         variant: "destructive",
       });
       return;
@@ -184,7 +184,7 @@ const AIPropertyAssistant = () => {
           email: contactInfo.email,
           phone: contactInfo.phone,
           conversation_id: conversationId,
-          language: 'en'
+          language: lang
         }
       });
 
@@ -196,26 +196,26 @@ const AIPropertyAssistant = () => {
       console.log('Contact saved successfully:', data);
 
       toast({
-        title: "Thank you!",
-        description: "Your contact information has been saved. We'll be in touch soon!",
+        title: t('ai.thank_you'),
+        description: t('ai.contact_saved'),
       });
 
       setShowContactForm(false);
     } catch (error) {
       console.error('Error saving contact:', error);
       toast({
-        title: "Error",
-        description: "Failed to save contact information. Please try again.",
+        title: t('ai.error'),
+        description: t('ai.contact_save_error'),
         variant: "destructive",
       });
     }
   };
 
   const quickSuggestions = [
-    "Show me apartments in Dubai under €200,000",
-    "I'm looking for a 2-bedroom apartment near the sea",
-    "Which areas do you recommend for investment?",
-    "Show properties that offer Turkish citizenship"
+    t('ai.suggestion_1'),
+    t('ai.suggestion_2'),
+    t('ai.suggestion_3'),
+    t('ai.suggestion_4')
   ];
 
   return (
@@ -386,8 +386,8 @@ const AIPropertyAssistant = () => {
                     <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-background rounded-full" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-base">AI Property Assistant</h3>
-                    <p className="text-xs text-muted-foreground">Online • Specialized in properties</p>
+                    <h3 className="font-semibold text-base">{t('ai.header')}</h3>
+                    <p className="text-xs text-muted-foreground">{t('ai.online')}</p>
                   </div>
                 </div>
                 <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} className="h-8 w-8">
@@ -476,23 +476,23 @@ const AIPropertyAssistant = () => {
                 <div className="border-t border-border p-4 bg-gradient-to-r from-secondary/10 to-background">
                   <div className="space-y-3">
                     <div className="text-sm font-medium text-center">
-                      We'd like to help you better! Please share your contact information:
+                      {t('ai.contact_prompt')}
                     </div>
                     <Input
-                      placeholder="Your name"
+                      placeholder={t('ai.name_placeholder')}
                       value={contactInfo.name}
                       onChange={(e) => setContactInfo(prev => ({ ...prev, name: e.target.value }))}
                       className="rounded-xl border-border/50 focus:border-primary text-sm"
                     />
                     <Input
-                      placeholder="Email address"
+                      placeholder={t('ai.email_placeholder')}
                       type="email"
                       value={contactInfo.email}
                       onChange={(e) => setContactInfo(prev => ({ ...prev, email: e.target.value }))}
                       className="rounded-xl border-border/50 focus:border-primary text-sm"
                     />
                     <Input
-                      placeholder="Phone number"
+                      placeholder={t('ai.phone_placeholder')}
                       type="tel"
                       value={contactInfo.phone}
                       onChange={(e) => setContactInfo(prev => ({ ...prev, phone: e.target.value }))}
@@ -504,7 +504,7 @@ const AIPropertyAssistant = () => {
                         className="flex-1 bg-gradient-to-r from-primary to-primary-glow hover:shadow-lg transition-all"
                         size="sm"
                       >
-                        Save Contact Info
+                        {t('ai.save_contact')}
                       </Button>
                       <Button 
                         onClick={() => setShowContactForm(false)}
@@ -512,7 +512,7 @@ const AIPropertyAssistant = () => {
                         size="sm"
                         className="rounded-xl"
                       >
-                        Skip
+                        {t('ai.skip')}
                       </Button>
                     </div>
                   </div>
@@ -527,7 +527,7 @@ const AIPropertyAssistant = () => {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Type your message here..."
+                    placeholder={t('ai.message_placeholder')}
                     className="flex-1 rounded-xl border-border/50 focus:border-primary text-sm"
                     disabled={isLoading}
                   />

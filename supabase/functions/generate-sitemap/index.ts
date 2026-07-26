@@ -21,7 +21,7 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
     
-    // Fetch ALL active properties (exclude sold ones for sitemap)
+    // Fetch ALL active properties, including sold ones so their public Sold badge pages remain discoverable
     // Use pagination to get ALL properties (Supabase has 1000 row limit)
     let allProperties: any[] = [];
     let offset = 0;
@@ -32,7 +32,6 @@ serve(async (req) => {
         .from('properties')
         .select('id, ref_no, slug, updated_at, status, location, title, property_type, price, property_district')
         .eq('is_active', true)
-        .or('status.is.null,status.not.ilike.%sold%')
         .range(offset, offset + limit - 1);
       
       if (propertiesError) {
@@ -79,8 +78,7 @@ serve(async (req) => {
     const { data: locationData, error: locationError } = await supabase
       .from('properties')
       .select('location, property_district')
-      .eq('is_active', true)
-      .not('status', 'ilike', '%sold%');
+      .eq('is_active', true);
 
     if (locationError) {
       console.error('Error fetching locations:', locationError);

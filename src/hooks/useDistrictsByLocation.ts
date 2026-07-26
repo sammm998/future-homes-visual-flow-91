@@ -37,7 +37,6 @@ async function fetchDistrictsByLocation(): Promise<Record<string, DistrictOption
       .from('properties')
       .select('location, property_district')
       .eq('language_code', 'en')
-      .neq('status', 'sold')
       .not('property_district', 'is', null);
 
     if (error || !data) {
