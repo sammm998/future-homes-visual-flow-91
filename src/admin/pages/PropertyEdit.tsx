@@ -316,9 +316,46 @@ export default function PropertyEdit() {
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-3">
-                <div><Label>Location *</Label><Input value={form.location} onChange={(e) => set("location", e.target.value)} placeholder="Antalya" /></div>
-                <div><Label>District</Label><Input value={form.property_district} onChange={(e) => set("property_district", e.target.value)} /></div>
-                <div><Label>Country</Label><Input value={form.country} onChange={(e) => set("country", e.target.value)} placeholder="Turkey" /></div>
+                <div>
+                  <Label>Location *</Label>
+                  <Select
+                    value={form.location || undefined}
+                    onValueChange={(v) => { if (v === "__add__") return addOption("location"); set("location", v); set("property_district", ""); }}
+                  >
+                    <SelectTrigger><SelectValue placeholder="Select location" /></SelectTrigger>
+                    <SelectContent>
+                      {taxonomy.locations.map(l => <SelectItem key={l} value={l}>{l}</SelectItem>)}
+                      <SelectItem value="__add__">+ Add new…</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>District</Label>
+                  <Select
+                    value={form.property_district || undefined}
+                    onValueChange={(v) => { if (v === "__add__") return addOption("district"); set("property_district", v); }}
+                    disabled={!form.location}
+                  >
+                    <SelectTrigger><SelectValue placeholder={form.location ? "Select district" : "Select location first"} /></SelectTrigger>
+                    <SelectContent>
+                      {(taxonomy.districtsByLocation[form.location] || []).map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}
+                      <SelectItem value="__add__">+ Add new…</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Country</Label>
+                  <Select
+                    value={form.country || undefined}
+                    onValueChange={(v) => { if (v === "__add__") return addOption("country"); set("country", v); }}
+                  >
+                    <SelectTrigger><SelectValue placeholder="Select country" /></SelectTrigger>
+                    <SelectContent>
+                      {taxonomy.countries.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                      <SelectItem value="__add__">+ Add new…</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div className="grid grid-cols-3 gap-3">
                 <div><Label>Price</Label><Input value={form.price} onChange={(e) => set("price", e.target.value)} /></div>
