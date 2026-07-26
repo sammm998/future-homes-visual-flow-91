@@ -134,6 +134,14 @@ export default function PropertyEdit() {
 
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm((p) => ({ ...p, [k]: v }));
 
+  const setStatus = (status: string) => {
+    setForm((p) => ({
+      ...p,
+      status,
+      is_active: status === "sold" ? true : p.is_active,
+    }));
+  };
+
   const handleSave = async (publish?: boolean) => {
     if (!form.title.trim() || !form.location.trim()) {
       toast.error("Title and location are required");
@@ -160,7 +168,7 @@ export default function PropertyEdit() {
       property_facilities: form.property_facilities,
       apartment_types: form.apartment_types,
       status: form.status,
-      is_active: publish ?? form.is_active,
+      is_active: form.status === "sold" ? true : (publish ?? form.is_active),
       meta_title: form.meta_title || null,
       meta_description: form.meta_description || null,
       roi_percent: form.roi_percent ? Number(form.roi_percent) : null,
@@ -430,8 +438,17 @@ export default function PropertyEdit() {
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label>Active (visible on site)</Label>
-                <Switch isSelected={!!form.is_active} onChange={(v) => set("is_active", v)} />
+                <Switch
+                  isSelected={form.status === "sold" ? true : !!form.is_active}
+                  isDisabled={form.status === "sold"}
+                  onChange={(v) => set("is_active", v)}
+                />
               </div>
+              {form.status === "sold" && (
+                <p className="text-xs text-muted-foreground">
+                  Sold listings stay active so the public site can show the Sold badge.
+                </p>
+              )}
               <div className="flex items-center justify-between rounded-md border border-red-200 bg-red-50 px-3 py-2">
                 <div>
                   <Label className="text-red-700">Mark as Sold</Label>
@@ -439,12 +456,12 @@ export default function PropertyEdit() {
                 </div>
                 <Switch
                   isSelected={form.status === "sold"}
-                  onChange={(v) => set("status", v ? "sold" : "available")}
+                  onChange={(v) => setStatus(v ? "sold" : "available")}
                 />
               </div>
               <div>
                 <Label>Status</Label>
-                <Select value={form.status || "available"} onValueChange={(v) => set("status", v)}>
+                <Select value={form.status || "available"} onValueChange={setStatus}>
                   <SelectTrigger><SelectValue placeholder="Select status" /></SelectTrigger>
                   <SelectContent>{["available","reserved","sold"].map(s => <SelectItem key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</SelectItem>)}</SelectContent>
                 </Select>
