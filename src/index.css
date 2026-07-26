@@ -345,6 +345,33 @@ All colors MUST be HSL.
   }
 }
 
+/* Ken Burns — subtle "living photo" motion for first property image.
+   Slow zoom + gentle pan so the still looks exactly like the source photo
+   but breathes like a video clip. */
+@keyframes kenburns {
+  0% {
+    transform: scale(1.05) translate3d(0, 0, 0);
+    transform-origin: 50% 50%;
+  }
+  50% {
+    transform: scale(1.15) translate3d(-1.5%, -1%, 0);
+    transform-origin: 45% 45%;
+  }
+  100% {
+    transform: scale(1.05) translate3d(0, 0, 0);
+    transform-origin: 50% 50%;
+  }
+}
+
+.animate-kenburns {
+  animation: kenburns 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-kenburns { animation: none; }
+}
+
 /* RTL fixes — keep visual/structural layouts LTR while text inside still flows RTL where needed.
    Embla carousels, image comparison sliders, and similar transform-based widgets break under
    `direction: rtl`, so we force their containers to LTR. */
