@@ -5,7 +5,7 @@
 - 13 languages. Hybrid translation: `translations.ts` for UI, DB for dynamic content. RTL for ar, fa, ur.
 - ElevenLabs and Elfsight widgets permanently removed. Visual Gallery removed from homepage.
 - Emma AI banner links to internal `/ai-property-search` (NOT external futurehomesai.one).
-- Properties: default sort `refNo` DESC. Inactive/sold properties hidden. Strict prefix location filtering.
+- Properties: default sort `refNo` DESC. Inactive hidden; sold properties SHOWN with red "Sold" badge. Strict prefix location filtering.
 - Admin dashboard protected by login at `/admin-login`. Admin email: samincroseo@gmail.com (auto-assigned admin role on signup).
 
 ## Memories
