@@ -36,7 +36,7 @@ async function translateOnce(
   targetLang: string,
   targetLangName: string,
   apiKey: string,
-  provider: "gemini" | "lovable",
+  provider: "openai" | "gemini" | "lovable",
 ): Promise<TranslationResult | null> {
   const systemPrompt = `You are a professional real estate translator. Translate the property information below from English to ${targetLangName}.
 
@@ -52,6 +52,41 @@ CRITICAL RULES:
 
 
   try {
+    if (provider === "openai") {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          temperature: 0.2,
+          response_format: { type: "json_object" },
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
+          ],
+        }),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error(`OpenAI API error ${response.status}:`, text);
+        return null;
+      }
+
+      const data = await response.json();
+      const raw = data.choices?.[0]?.message?.content;
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return {
+        title: parsed.title || title,
+        description: parsed.description || "",
+        location: parsed.location || location,
+      };
+    }
+
     if (provider === "gemini") {
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
@@ -163,7 +198,7 @@ async function translateProperty(
   targetLang: string,
   targetLangName: string,
   apiKey: string,
-  provider: "gemini" | "lovable",
+  provider: "openai" | "gemini" | "lovable",
 ): Promise<TranslationResult | null> {
   const sourceLen = (description || "").trim().length;
   const minLen = Math.floor(sourceLen * 0.7);
@@ -215,13 +250,14 @@ Deno.serve(async (req) => {
   }
 
   try {
+    const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-    const translationApiKey = GEMINI_API_KEY || LOVABLE_API_KEY;
-    const translationProvider = GEMINI_API_KEY ? "gemini" : "lovable";
+    const translationApiKey = OPENAI_API_KEY || GEMINI_API_KEY || LOVABLE_API_KEY;
+    const translationProvider = OPENAI_API_KEY ? "openai" : GEMINI_API_KEY ? "gemini" : "lovable";
 
     if (!translationApiKey || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
       return new Response(
@@ -249,8 +285,7 @@ Deno.serve(async (req) => {
     let query = supabase
       .from("properties")
       .select("id, title, description, location")
-      .eq("is_active", true)
-      .not("status", "ilike", "%sold%");
+      .eq("is_active", true);
 
     if (propertyIds && propertyIds.length > 0) {
       query = query.in("id", propertyIds);
@@ -284,12 +319,15 @@ Deno.serve(async (req) => {
     const propertyIdsToCheck = properties.map((property: any) => property.id);
     const { data: existingTranslations } = await supabase
       .from("property_translations")
-      .select("property_id, language_code")
+      .select("property_id, language_code, title, description")
       .in("property_id", propertyIdsToCheck)
       .in("language_code", targetLanguageCodes);
 
     const existingLangsByProperty = new Map<string, Set<string>>();
     for (const item of existingTranslations || []) {
+      if (!item.title?.trim() || !item.description?.trim()) {
+        continue;
+      }
       if (!existingLangsByProperty.has(item.property_id)) {
         existingLangsByProperty.set(item.property_id, new Set());
       }

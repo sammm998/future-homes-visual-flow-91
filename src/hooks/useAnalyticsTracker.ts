@@ -69,6 +69,95 @@ function detectCountry() {
   } catch { return null; }
 }
 
+const PROPERTY_ROUTE_SEGMENTS = new Set([
+  "property",
+  "properties",
+  "fastighet",
+  "fastigheter",
+  "mulk",
+  "aqar",
+  "عقار",
+  "nedvizhimost",
+  "eiendom",
+  "ejendom",
+  "melk",
+  "jaidad",
+  "propiedad",
+  "immobilie",
+  "propriete",
+  "properti",
+  "emlak",
+  "gayrimenkul",
+]);
+
+const SLUG_COLUMNS = [
+  "slug",
+  "slug_sv",
+  "slug_tr",
+  "slug_ar",
+  "slug_ru",
+  "slug_no",
+  "slug_da",
+  "slug_fa",
+  "slug_ur",
+  "slug_es",
+  "slug_de",
+  "slug_fr",
+  "slug_id",
+];
+
+const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{12}$/i;
+
+function getPropertyIdentifier(pathname: string) {
+  const segments = pathname.split("/").filter(Boolean);
+  const route = decodeURIComponent(segments[0] || "").toLowerCase();
+  const identifier = segments[1] ? decodeURIComponent(segments[1]).trim() : "";
+  if (!PROPERTY_ROUTE_SEGMENTS.has(route) || !identifier) return null;
+  return identifier;
+}
+
+async function resolvePropertyId(pathname: string): Promise<string | null> {
+  const identifier = getPropertyIdentifier(pathname);
+  if (!identifier) return null;
+
+  const refResult = await supabase
+    .from("properties")
+    .select("id")
+    .eq("ref_no", identifier)
+    .eq("is_active", true)
+    .limit(1)
+    .maybeSingle();
+
+  if (refResult.data?.id) return refResult.data.id;
+
+  if (uuidRegex.test(identifier)) {
+    const uuidResult = await supabase
+      .from("properties")
+      .select("id")
+      .eq("id", identifier)
+      .eq("is_active", true)
+      .limit(1)
+      .maybeSingle();
+
+    if (uuidResult.data?.id) return uuidResult.data.id;
+  }
+
+  const safeIdentifier = identifier.replace(/[,()]/g, "");
+  if (!safeIdentifier) return null;
+
+  const slugFilter = SLUG_COLUMNS.map((column) => `${column}.eq.${safeIdentifier}`).join(",");
+  const slugResult = await supabase
+    .from("properties")
+    .select("id")
+    .or(slugFilter)
+    .eq("is_active", true)
+    .order("ref_no", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  return slugResult.data?.id || null;
+}
+
 export function useAnalyticsTracker() {
   const location = useLocation();
   const lastPath = useRef<string>("");
@@ -84,9 +173,16 @@ export function useAnalyticsTracker() {
     const channel = detectChannel(document.referrer, location.search);
     const country = detectCountry();
 
-    supabase.from("analytics_events").insert({
+    let cancelled = false;
+
+    (async () => {
+      const propertyId = await resolvePropertyId(location.pathname);
+      if (cancelled) return;
+
+      supabase.from("analytics_events").insert({
       event_type: "pageview",
       page: location.pathname + location.search,
+      property_id: propertyId,
       referrer: document.referrer || null,
       visitor_id: getVisitorId(),
       session_id: getSessionId(),
@@ -97,9 +193,14 @@ export function useAnalyticsTracker() {
         screen: `${window.screen.width}x${window.screen.height}`,
         viewport: `${window.innerWidth}x${window.innerHeight}`,
       },
-    }).then(({ error }) => {
-      if (error) console.warn("analytics", error.message);
-    });
+      }).then(({ error }) => {
+        if (error) console.warn("analytics", error.message);
+      });
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [location.pathname, location.search]);
 
   // Global click tracking for heatmaps (debounced via rAF, ignored on admin)
