@@ -509,7 +509,7 @@ const PropertyDetail = () => {
               <div className="space-y-4">
                 {/* Main Image */}
                 <div className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer group" onClick={() => setShowImageModal(true)}>
-                  <OptimizedPropertyImage src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"} alt={property.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" priority={true} />
+                  <OptimizedPropertyImage src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"} alt={property.title} className={`w-full h-full object-cover ${currentImageIndex === 0 ? 'animate-kenburns' : 'transition-transform duration-300 group-hover:scale-105'}`} priority={true} />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                     <Images className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
