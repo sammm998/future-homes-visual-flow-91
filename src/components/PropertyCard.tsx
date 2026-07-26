@@ -92,16 +92,16 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       return { variant: 'default' as const, text: t('card.status_ready'), className: 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25' };
     }
     if (normalizedStatus.includes('for residence permit')) {
-      return { variant: 'default' as const, text: 'For Residence Permit', className: 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-lg shadow-purple-500/25' };
+      return { variant: 'default' as const, text: t('card.status_residence_permit'), className: 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-lg shadow-purple-500/25' };
     }
     if (normalizedStatus.includes('exclusive')) {
-      return { variant: 'default' as const, text: 'Exclusive', className: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-amber-500/25' };
+      return { variant: 'default' as const, text: t('card.status_exclusive'), className: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-amber-500/25' };
     }
     if (normalizedStatus.includes('sea view')) {
-      return { variant: 'default' as const, text: 'Sea View', className: 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/25' };
+      return { variant: 'default' as const, text: t('card.status_sea_view'), className: 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/25' };
     }
     if (normalizedStatus.includes('private pool')) {
-      return { variant: 'default' as const, text: 'Private Pool', className: 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-lg shadow-teal-500/25' };
+      return { variant: 'default' as const, text: t('card.status_private_pool'), className: 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-lg shadow-teal-500/25' };
     }
     if (normalizedStatus.includes('available')) {
       return { variant: 'default' as const, text: t('card.status_available'), className: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25' };

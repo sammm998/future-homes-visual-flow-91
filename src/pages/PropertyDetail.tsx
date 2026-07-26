@@ -43,31 +43,31 @@ const getAgentData = (agentName: string) => {
     "Ervina Köksel": {
       name: "Ervina Köksel",
       image: ervinaImage,
-      title: "Sales Office Supervisor",
-      experience: "Experienced sales representative",
-      specialties: ["Property Sales", "Customer Service", "Office Management"]
+      titleKey: "pd.agent_sales_office_supervisor",
+      experienceKey: "pd.agent_experienced_sales",
+      specialtyKeys: ["pd.agent_property_sales", "pd.agent_customer_service", "pd.agent_office_management"]
     },
     "Batuhan Kunt": {
       name: "Batuhan Kunt",
       image: batuhanImage,
-      title: "Sales Representative",
-      experience: "Expert in real estate investment and property management",
-      specialties: ["Property Investment", "Customer Relations", "International Sales"]
+      titleKey: "pd.sales_representative",
+      experienceKey: "pd.agent_investment_expert",
+      specialtyKeys: ["pd.agent_property_investment", "pd.agent_customer_relations", "pd.agent_international_sales"]
     },
     "Dubai Properties Team": {
       name: "Dubai Properties Team",
       image: batuhanImage,
-      title: "Sales Representative",
-      experience: "Expert team specializing in international property sales",
-      specialties: ["International Sales", "Property Investment", "Customer Relations"]
+      titleKey: "pd.sales_representative",
+      experienceKey: "pd.agent_international_team",
+      specialtyKeys: ["pd.agent_international_sales", "pd.agent_property_investment", "pd.agent_customer_relations"]
     }
   };
   return agents[agentName] || {
     name: "Batuhan Kunt",
     image: batuhanImage,
-    title: "Sales Representative",
-    experience: "Expert in real estate investment and property management",
-    specialties: ["Property Investment", "Customer Relations", "International Sales"]
+    titleKey: "pd.sales_representative",
+    experienceKey: "pd.agent_investment_expert",
+    specialtyKeys: ["pd.agent_property_investment", "pd.agent_customer_relations", "pd.agent_international_sales"]
   };
 };
 
@@ -291,27 +291,27 @@ const PropertyDetail = () => {
                 <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
                   <Home className="h-12 w-12 text-muted-foreground" />
                 </div>
-                <h1 className="text-3xl font-bold text-foreground mb-4">Property Not Found</h1>
+                <h1 className="text-3xl font-bold text-foreground mb-4">{t('pd.not_found', language)}</h1>
                 <p className="text-muted-foreground text-lg mb-8">
-                  {error || `Sorry, we couldn't find the property you're looking for.`}
+                  {error || t('pd.not_found_desc', language)}
                 </p>
               </div>
               
               <div className="space-y-4">
                 <Button onClick={() => navigate(-1)} variant="outline" className="w-full" size="lg">
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Go Back
+                  {t('pd.go_back', language)}
                 </Button>
                 
                 <Button onClick={() => navigate('/')} className="w-full" size="lg">
                   <Home className="h-4 w-4 mr-2" />
-                  Go Home
+                  {t('pd.go_home', language)}
                 </Button>
               </div>
               
               <div className="mt-8 p-6 bg-muted/50 rounded-2xl">
                 <p className="text-sm text-muted-foreground">
-                  <strong>Tip:</strong> Try browsing our available properties from the homepage or contact us for assistance.
+                  <strong>{t('pd.tip', language)}:</strong> {t('pd.not_found_tip', language)}
                 </p>
               </div>
             </div>
@@ -329,13 +329,13 @@ const PropertyDetail = () => {
             <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mx-auto mb-6">
               <Home className="h-12 w-12 text-muted-foreground" />
             </div>
-            <h1 className="text-3xl font-bold text-foreground mb-4">Property Not Found</h1>
+            <h1 className="text-3xl font-bold text-foreground mb-4">{t('pd.not_found', language)}</h1>
             <p className="text-muted-foreground text-lg mb-8">
-              The property you're looking for doesn't exist or has been removed.
+              {t('pd.not_found_removed', language)}
             </p>
             <Button onClick={() => navigate('/')} className="inline-flex items-center" size="lg">
               <Home className="h-4 w-4 mr-2" />
-              Back to Properties
+              {t('pd.back_to_properties', language)}
             </Button>
           </div>
         </div>
@@ -354,17 +354,17 @@ const PropertyDetail = () => {
   const getTimelineData = () => {
     const timeline = [];
     timeline.push({
-      title: "Property Listed",
-      content: "Property added to our portfolio with detailed specifications and pricing",
-      date: "Available Now"
+      title: t('pd.timeline_listed', language),
+      content: t('pd.timeline_listed_desc', language),
+      date: t('pd.available_now', language)
     });
     if (property.buildingComplete) {
       const completionDate = new Date(property.buildingComplete);
       const isCompleted = completionDate <= new Date();
       timeline.push({
-        title: isCompleted ? "Construction Completed" : "Expected Completion",
-        content: isCompleted ? "Building construction has been completed and is ready for occupancy" : "Estimated completion date based on current construction progress",
-        date: completionDate.toLocaleDateString('en-US', {
+        title: isCompleted ? t('pd.timeline_completed', language) : t('pd.timeline_expected', language),
+        content: isCompleted ? t('pd.timeline_completed_desc', language) : t('pd.timeline_expected_desc', language),
+        date: completionDate.toLocaleDateString(language === 'en' ? 'en-US' : language, {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
@@ -372,9 +372,9 @@ const PropertyDetail = () => {
       });
     }
     timeline.push({
-      title: "Ready for Purchase",
-      content: "Property is available for immediate purchase with all documentation ready",
-      date: "Contact Us"
+      title: t('pd.timeline_ready', language),
+      content: t('pd.timeline_ready_desc', language),
+      date: t('pd.contact_us', language)
     });
     return timeline;
   };
@@ -761,7 +761,7 @@ const PropertyDetail = () => {
                     </Avatar>
                     <div>
                       <h4 className="font-semibold text-foreground notranslate" translate="no">{agent.name}</h4>
-                      <p className="text-sm text-primary font-medium notranslate" translate="no">{agent.title}</p>
+                       <p className="text-sm text-primary font-medium">{t(agent.titleKey, language)}</p>
                     </div>
                   </div>
 
@@ -833,8 +833,8 @@ const PropertyDetail = () => {
                     <Star className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">Prime Location</p>
-                    <p className="text-xs text-muted-foreground">High growth potential area</p>
+                    <p className="text-sm font-medium text-foreground">{t('pd.prime_location', language)}</p>
+                    <p className="text-xs text-muted-foreground">{t('pd.high_growth_area', language)}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
@@ -842,8 +842,8 @@ const PropertyDetail = () => {
                     <Award className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">Quality Construction</p>
-                    <p className="text-xs text-muted-foreground">Built to international standards</p>
+                    <p className="text-sm font-medium text-foreground">{t('pd.quality_construction', language)}</p>
+                    <p className="text-xs text-muted-foreground">{t('pd.international_standards', language)}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
@@ -851,8 +851,8 @@ const PropertyDetail = () => {
                     <Home className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">Modern Amenities</p>
-                    <p className="text-xs text-muted-foreground">Full range of facilities</p>
+                    <p className="text-sm font-medium text-foreground">{t('pd.modern_amenities', language)}</p>
+                    <p className="text-xs text-muted-foreground">{t('pd.full_facilities', language)}</p>
                   </div>
                 </div>
               </div>
@@ -860,13 +860,13 @@ const PropertyDetail = () => {
 
             {/* Similar Properties */}
             <div className="p-6 border rounded-lg text-center bg-gradient-to-br from-purple-50 to-indigo-50/50 dark:from-purple-900/10 dark:to-indigo-900/5 border-purple-200/50 dark:border-purple-700/30">
-              <h3 className="text-lg font-semibold mb-2">Similar Properties</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('pd.similar_properties', language)}</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Discover more properties in {property.location}
+                {t('pd.discover_more_in', language)} {property.location}
               </p>
               <Link to={getLocationRoute(property.location)}>
                 <Button size="sm" className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white shadow-lg hover:shadow-xl transition-all duration-300">
-                  View Similar Properties
+                  {t('pd.view_similar_properties', language)}
                 </Button>
               </Link>
             </div>

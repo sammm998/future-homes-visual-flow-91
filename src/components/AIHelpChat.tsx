@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import userAvatar from "@/assets/avatars/user-avatar.jpg";
 import aiAvatar from "@/assets/avatars/ai-avatar.jpg";
+import { useTranslation } from "@/hooks/useTranslation";
 
 
 
@@ -40,12 +41,12 @@ interface AIHelpChatProps {
 }
 
 export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
-  
+  const { t, lang } = useTranslation();
   
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! I'm your Future AI assistant. How can I help you find the perfect property today?",
+      text: t('ai.greeting'),
       sender: "ai",
       timestamp: new Date(),
     },
@@ -102,25 +103,6 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
     try {
       console.log('Sending message to AI:', currentMessage);
       
-      // Detect language of user message
-      const detectLanguage = (text: string): string => {
-        const swedishWords = ['jag', 'är', 'vill', 'har', 'kan', 'ska', 'och', 'för', 'med', 'på', 'till', 'från', 'om', 'så', 'att', 'det', 'en', 'ett', 'vi', 'du', 'han', 'hon', 'de', 'dem', 'här', 'där', 'när', 'vad', 'hur', 'varför', 'vilken', 'vilket', 'vilka'];
-        const englishWords = ['i', 'am', 'want', 'have', 'can', 'will', 'and', 'for', 'with', 'on', 'to', 'from', 'about', 'so', 'that', 'the', 'a', 'an', 'we', 'you', 'he', 'she', 'they', 'them', 'here', 'there', 'when', 'what', 'how', 'why', 'which'];
-        
-        const words = text.toLowerCase().split(/\s+/);
-        let swedishCount = 0;
-        let englishCount = 0;
-        
-        words.forEach(word => {
-          if (swedishWords.includes(word)) swedishCount++;
-          if (englishWords.includes(word)) englishCount++;
-        });
-        
-        return swedishCount > englishCount ? 'sv' : 'en';
-      };
-
-      const detectedLanguage = detectLanguage(currentMessage);
-
       // Send conversation history for context
       const conversationHistory = messages.map(msg => ({
         sender: msg.sender,
@@ -132,7 +114,7 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
           message: currentMessage,
           conversationHistory: conversationHistory,
           conversationId: conversationId,
-          language: detectedLanguage
+          language: lang
         }
       });
 
@@ -149,7 +131,7 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
       }
 
       // Remove markdown characters like * and # from the response
-      const cleanResponse = (data.response || "I apologize, but I couldn't process your request. Please try again.").replace(/[*#]/g, '');
+      const cleanResponse = (data.response || t('ai.fallback_error')).replace(/[*#]/g, '');
       
       const aiMessage: Message = {
         id: messages.length + 2,
@@ -165,7 +147,7 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
       
       const errorMessage: Message = {
         id: messages.length + 2,
-        text: "I'm sorry, I'm having trouble connecting right now. Please try again in a moment.",
+        text: t('ai.connection_issue'),
         sender: "ai",
         timestamp: new Date(),
       };
@@ -173,8 +155,8 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
       setMessages(prev => [...prev, errorMessage]);
       
       toast({
-        title: "Connection Error",
-        description: "Unable to connect to AI assistant. Please try again.",
+        title: t('ai.connection_error'),
+        description: t('ai.connection_error_desc'),
         variant: "destructive",
       });
     } finally {
@@ -185,8 +167,8 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
   const handleContactSubmit = async () => {
     if (!contactInfo.name && !contactInfo.email && !contactInfo.phone) {
       toast({
-        title: "Contact Information Required",
-        description: "Please provide at least your name, email, or phone number.",
+        title: t('ai.contact_required'),
+        description: t('ai.contact_required_desc'),
         variant: "destructive",
       });
       return;
@@ -200,7 +182,7 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
           email: contactInfo.email,
           phone: contactInfo.phone,
           conversation_id: conversationId,
-          language: 'en'
+          language: lang
         }
       });
 
@@ -212,16 +194,16 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
       console.log('Contact saved successfully:', data);
 
       toast({
-        title: "Thank you!",
-        description: "Your contact information has been saved. We'll be in touch soon!",
+        title: t('ai.thank_you'),
+        description: t('ai.contact_saved'),
       });
 
       setShowContactForm(false);
     } catch (error) {
       console.error('Error saving contact:', error);
       toast({
-        title: "Error",
-        description: "Failed to save contact information. Please try again.",
+        title: t('ai.error'),
+        description: t('ai.contact_save_error'),
         variant: "destructive",
       });
     }
@@ -249,7 +231,7 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
         <div className="flex items-center justify-between p-4 border-b">
           <div className="flex items-center gap-3">
             <MessageCircle className="h-5 w-5 text-primary" />
-            <h2 className="font-semibold">AI Assistant</h2>
+            <h2 className="font-semibold">{t('ai.header')}</h2>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
             <X className="h-4 w-4" />
@@ -329,21 +311,21 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
           <div className="border-t p-4 bg-muted/50">
             <div className="space-y-3">
               <div className="text-sm font-medium text-center">
-                We'd like to help you better! Please share your contact information:
+                {t('ai.contact_prompt')}
               </div>
               <Input
-                placeholder="Your name"
+                placeholder={t('ai.name_placeholder')}
                 value={contactInfo.name}
                 onChange={(e) => setContactInfo(prev => ({ ...prev, name: e.target.value }))}
               />
               <Input
-                placeholder="Email address"
+                placeholder={t('ai.email_placeholder')}
                 type="email"
                 value={contactInfo.email}
                 onChange={(e) => setContactInfo(prev => ({ ...prev, email: e.target.value }))}
               />
               <Input
-                placeholder="Phone number"
+                placeholder={t('ai.phone_placeholder')}
                 type="tel"
                 value={contactInfo.phone}
                 onChange={(e) => setContactInfo(prev => ({ ...prev, phone: e.target.value }))}
@@ -354,14 +336,14 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
                   className="flex-1"
                   size="sm"
                 >
-                  Save Contact Info
+                  {t('ai.save_contact')}
                 </Button>
                 <Button 
                   onClick={() => setShowContactForm(false)}
                   variant="outline"
                   size="sm"
                 >
-                  Skip
+                  {t('ai.skip')}
                 </Button>
               </div>
             </div>
@@ -376,7 +358,7 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Type your message here..."
+              placeholder={t('ai.message_placeholder')}
               className="flex-1"
               disabled={isLoading}
               autoFocus
