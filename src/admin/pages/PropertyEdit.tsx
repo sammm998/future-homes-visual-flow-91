@@ -432,11 +432,21 @@ export default function PropertyEdit() {
                 <Label>Active (visible on site)</Label>
                 <Switch isSelected={!!form.is_active} onChange={(v) => set("is_active", v)} />
               </div>
+              <div className="flex items-center justify-between rounded-md border border-red-200 bg-red-50 px-3 py-2">
+                <div>
+                  <Label className="text-red-700">Mark as Sold</Label>
+                  <p className="text-xs text-red-600/80">Shows a red "Sold" badge on the site.</p>
+                </div>
+                <Switch
+                  isSelected={form.status === "sold"}
+                  onChange={(v) => set("status", v ? "sold" : "available")}
+                />
+              </div>
               <div>
                 <Label>Status</Label>
-                <Select value={form.status} onValueChange={(v) => set("status", v)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>{["available","reserved","sold"].map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
+                <Select value={form.status || "available"} onValueChange={(v) => set("status", v)}>
+                  <SelectTrigger><SelectValue placeholder="Select status" /></SelectTrigger>
+                  <SelectContent>{["available","reserved","sold"].map(s => <SelectItem key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div className="flex items-center justify-between">
@@ -444,6 +454,7 @@ export default function PropertyEdit() {
                 <Switch isSelected={!!form.citizenship_eligible} onChange={(v) => set("citizenship_eligible", v)} />
               </div>
             </CardContent>
+
           </Card>
 
           <Card className="bg-admin-surface">
