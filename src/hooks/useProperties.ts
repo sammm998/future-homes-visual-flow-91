@@ -21,7 +21,6 @@ export const useProperties = () => {
             .from('properties')
             .select('*')
             .eq('is_active', true)
-            .not('status', 'ilike', '%sold%')
             .order('created_at', { ascending: false });
           
           if (error) throw error;
