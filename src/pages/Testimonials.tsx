@@ -109,6 +109,7 @@ const Testimonials = () => {
           return {
             ...testimonial,
             review_text: tr?.review_text || testimonial.review_text,
+            designation: tr?.designation || (testimonial as any).designation,
             title: testimonial.customer_name,
             src: localImageMap[testimonial.customer_name] || testimonial.image_url || '/placeholder.svg'
           };
