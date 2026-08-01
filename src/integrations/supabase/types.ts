@@ -1001,6 +1001,7 @@ export type Database = {
           bathrooms: string | null
           bedrooms: string | null
           building_complete_date: string | null
+          buyer_fee_percent: number | null
           citizenship_eligible: boolean | null
           country: string | null
           created_at: string
@@ -1066,6 +1067,7 @@ export type Database = {
           bathrooms?: string | null
           bedrooms?: string | null
           building_complete_date?: string | null
+          buyer_fee_percent?: number | null
           citizenship_eligible?: boolean | null
           country?: string | null
           created_at?: string
@@ -1131,6 +1133,7 @@ export type Database = {
           bathrooms?: string | null
           bedrooms?: string | null
           building_complete_date?: string | null
+          buyer_fee_percent?: number | null
           citizenship_eligible?: boolean | null
           country?: string | null
           created_at?: string
