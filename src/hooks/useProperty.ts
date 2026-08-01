@@ -147,6 +147,9 @@ export const useProperty = (id: string) => {
         } else if (typeof dbProperty.facilities === 'string') {
           features = dbProperty.facilities.split(',').map((f: string) => f.trim());
         }
+        if (Array.isArray(dbProperty.amenities)) {
+          features = [...features, ...dbProperty.amenities];
+        }
         
         features = [...new Set(features.filter((f: string) => f && f.trim()))];
 

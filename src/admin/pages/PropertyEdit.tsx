@@ -52,6 +52,7 @@ interface Form {
   video_url: string;
   tour_url: string;
   og_image: string;
+  buyer_fee_percent: string;
 }
 
 const EMPTY: Form = {
@@ -67,6 +68,7 @@ const EMPTY: Form = {
   building_complete_date: "",
   agent_name: "", agent_phone_number: "",
   google_maps_embed: "", floor_plan_url: "", video_url: "", tour_url: "", og_image: "",
+  buyer_fee_percent: "",
 };
 
 export default function PropertyEdit() {
@@ -168,6 +170,7 @@ export default function PropertyEdit() {
           video_url: d.video_url ?? "",
           tour_url: d.tour_url ?? "",
           og_image: d.og_image ?? "",
+          buyer_fee_percent: d.buyer_fee_percent?.toString() ?? "",
         });
       }
       setLoading(false);
@@ -228,6 +231,7 @@ export default function PropertyEdit() {
       video_url: form.video_url || null,
       tour_url: form.tour_url || null,
       og_image: form.og_image || null,
+      buyer_fee_percent: form.buyer_fee_percent ? Number(form.buyer_fee_percent) : null,
     };
     const res = isNew
       ? await supabase.from("properties").insert(payload).select("id").single()
@@ -242,7 +246,17 @@ export default function PropertyEdit() {
   };
 
   const uploadOne = async (file: File): Promise<string | null> => {
-    const path = `${id ?? "new"}/${Date.now()}-${Math.random().toString(36).slice(2)}-${file.name}`;
+    if (!file.type.startsWith("image/")) {
+      toast.error(`${file.name} is not an image`);
+      return null;
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      toast.error(`${file.name} is larger than 20 MB`);
+      return null;
+    }
+    const extension = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+    const safeName = file.name.replace(/\.[^.]+$/, "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80) || "property-image";
+    const path = `${id ?? "new"}/${Date.now()}-${Math.random().toString(36).slice(2)}-${safeName}.${extension}`;
     const { error } = await supabase.storage.from("property-images").upload(path, file, { upsert: true });
     if (error) { toast.error(error.message); return null; }
     return supabase.storage.from("property-images").getPublicUrl(path).data.publicUrl;
@@ -290,9 +304,9 @@ export default function PropertyEdit() {
           <h1 className="text-2xl font-semibold tracking-tight">{isNew ? "New property" : "Edit property"}</h1>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" disabled={saving} onClick={() => handleSave(false)}>Save draft</Button>
-          <Button disabled={saving} onClick={() => handleSave(true)} className="bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90">
-            <Save className="h-4 w-4 mr-1.5" /> {form.is_active ? "Save & publish" : "Publish"}
+          <Button variant="outline" disabled={saving} onClick={() => handleSave()}>Save changes</Button>
+          <Button disabled={saving} onClick={() => handleSave()} className="bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90">
+            <Save className="h-4 w-4 mr-1.5" /> Save changes
           </Button>
         </div>
       </div>
@@ -368,6 +382,10 @@ export default function PropertyEdit() {
                 </div>
                 <div><Label>Starting price (EUR)</Label><Input value={form.starting_price_eur} onChange={(e) => set("starting_price_eur", e.target.value)} /></div>
               </div>
+              <div className="flex items-center justify-between rounded-md border px-3 py-3">
+                <div><Label>Buyer service fee</Label><p className="text-xs text-muted-foreground">Display “+2% buyer fee” next to prices.</p></div>
+                <Switch isSelected={Number(form.buyer_fee_percent) === 2} onChange={(selected) => set("buyer_fee_percent", selected ? "2" : "")} />
+              </div>
               <div className="grid grid-cols-4 gap-3">
                 <div><Label>Bedrooms</Label><Input value={form.bedrooms} onChange={(e) => set("bedrooms", e.target.value)} /></div>
                 <div><Label>Bathrooms</Label><Input value={form.bathrooms} onChange={(e) => set("bathrooms", e.target.value)} /></div>
@@ -377,7 +395,7 @@ export default function PropertyEdit() {
               <div className="grid grid-cols-3 gap-3">
                 <div><Label>Year built</Label><Input type="number" value={form.year_built} onChange={(e) => set("year_built", e.target.value)} /></div>
                 <div><Label>Floors</Label><Input type="number" value={form.floors} onChange={(e) => set("floors", e.target.value)} /></div>
-                <div><Label>Building complete date</Label><Input value={form.building_complete_date} onChange={(e) => set("building_complete_date", e.target.value)} placeholder="Q3 2026" /></div>
+                <div><Label>Building complete date</Label><Input type="month" value={form.building_complete_date?.match(/^\d{4}-\d{2}/)?.[0] ?? ""} onChange={(e) => set("building_complete_date", e.target.value)} /></div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div><Label>Distance to beach (km)</Label><Input value={form.distance_to_beach_km} onChange={(e) => set("distance_to_beach_km", e.target.value)} /></div>
@@ -542,7 +560,7 @@ export default function PropertyEdit() {
                 <Label>Status</Label>
                 <Select value={form.status || "available"} onValueChange={setStatus}>
                   <SelectTrigger><SelectValue placeholder="Select status" /></SelectTrigger>
-                  <SelectContent>{["available","reserved","sold"].map(s => <SelectItem key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</SelectItem>)}</SelectContent>
+                  <SelectContent>{["available","reserved","sold","under construction","ready to move"].map(s => <SelectItem key={s} value={s}>{s.replace(/\b\w/g, c => c.toUpperCase())}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
               <div className="flex items-center justify-between">

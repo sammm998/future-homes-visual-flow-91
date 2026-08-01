@@ -1,0 +1,1 @@
+ALTER TABLE public.properties ADD COLUMN IF NOT EXISTS buyer_fee_percent numeric CHECK (buyer_fee_percent IS NULL OR (buyer_fee_percent >= 0 AND buyer_fee_percent <= 100));

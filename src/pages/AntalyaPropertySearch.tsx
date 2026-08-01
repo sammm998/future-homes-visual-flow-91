@@ -136,6 +136,7 @@ const AntalyaPropertySearch = () => {
       location: property.location,
       location_translated: property.location_translated,
       price: property.price,
+      buyer_fee_percent: property.buyer_fee_percent,
       bedrooms: property.bedrooms || '',
       bathrooms: property.bathrooms || '',
       area: property.sizes_m2 || '',
