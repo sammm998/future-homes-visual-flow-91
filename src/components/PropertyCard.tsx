@@ -36,6 +36,7 @@ interface Property {
   image?: string;
   property_images?: string[];
   apartment_types?: any;
+  buyer_fee_percent?: number | null;
 }
 
 interface PropertyCardProps {
@@ -187,7 +188,8 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
                 style={{ fontFamily: 'Urbanist, sans-serif' }}
               >
                 <span className="text-xs font-medium mr-1 uppercase text-[#3b6fa0]">{t('card.from')}</span>
-                {formatPriceFromString(property.price || '0', formatPrice)}
+                 {formatPriceFromString(property.price || '0', formatPrice)}
+                 {Number(property.buyer_fee_percent) > 0 && <span className="ml-1 text-xs">+{property.buyer_fee_percent}%</span>}
               </span>
             </div>
             <div className="flex gap-4">

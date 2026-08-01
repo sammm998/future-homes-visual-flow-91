@@ -46,12 +46,13 @@ export default function PropertiesList() {
     return rows.filter((r) => {
       if (statusFilter === "active" && !r.is_active) return false;
       if (statusFilter === "inactive" && r.is_active) return false;
-      if (statusFilter === "sold" && r.status !== "sold") return false;
+      if (!["all", "active", "inactive"].includes(statusFilter) && r.status?.toLowerCase() !== statusFilter) return false;
       if (!needle) return true;
       return (
         r.title?.toLowerCase().includes(needle) ||
         r.location?.toLowerCase().includes(needle) ||
-        r.property_type?.toLowerCase().includes(needle)
+        r.property_type?.toLowerCase().includes(needle) ||
+        r.ref_no?.toLowerCase().includes(needle)
       );
     });
   }, [rows, q, statusFilter]);
@@ -75,14 +76,14 @@ export default function PropertiesList() {
           <div className="relative flex-1">
             <Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder={t("Search by title, location or type")}
+              placeholder={t("Search by title, location, type or REF")}
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="pl-9"
             />
           </div>
           <div className="flex gap-1">
-            {(["all", "active", "inactive", "sold"] as const).map((s) => (
+            {(["all", "active", "inactive", "available", "reserved", "sold", "under construction", "ready to move"] as const).map((s) => (
               <Button
                 key={s}
                 size="sm"
@@ -134,6 +135,7 @@ export default function PropertiesList() {
                       </div>
                       <div className="min-w-0">
                         <div className="font-medium truncate max-w-[280px]">{r.title}</div>
+                         <div className="text-xs font-medium text-muted-foreground">REF #{r.ref_no ?? "—"}</div>
                         <div className="text-xs text-muted-foreground md:hidden">{r.location}</div>
                       </div>
                     </div>

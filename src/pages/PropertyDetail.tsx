@@ -21,6 +21,16 @@ import { t } from '@/utils/translations';
 import { ShareLinkButton } from '@/components/ShareLinkButton';
 import LiveViewers from '@/components/LiveViewers';
 
+const parseCompletionDate = (value: string | null | undefined): Date | null => {
+  if (!value) return null;
+  const monthYear = value.trim().match(/^(0?[1-9]|1[0-2])\/(\d{4})$/);
+  if (monthYear) return new Date(Number(monthYear[2]), Number(monthYear[1]) - 1, 1);
+  const yearMonth = value.trim().match(/^(\d{4})-(0[1-9]|1[0-2])(?:-\d{2})?$/);
+  if (yearMonth) return new Date(Number(yearMonth[1]), Number(yearMonth[2]) - 1, 1);
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
 // Function to map property location to route
 const getLocationRoute = (location: string | undefined | null): string => {
   if (!location || typeof location !== 'string') return '/antalya'; // Default fallback
@@ -359,7 +369,8 @@ const PropertyDetail = () => {
       date: t('pd.available_now', language)
     });
     if (property.buildingComplete) {
-      const completionDate = new Date(property.buildingComplete);
+      const completionDate = parseCompletionDate(property.buildingComplete);
+      if (!completionDate) return timeline;
       const isCompleted = completionDate <= new Date();
       timeline.push({
         title: isCompleted ? t('pd.timeline_completed', language) : t('pd.timeline_expected', language),
@@ -705,7 +716,7 @@ const PropertyDetail = () => {
                           <p className="text-sm text-muted-foreground">{unit.size}</p>
                         </div>
                         <div className="text-xl font-bold text-primary mt-2 md:mt-0">
-                          {formatPriceFromString(unit.price, formatPrice)}
+                           {formatPriceFromString(unit.price, formatPrice)}{Number(property.buyer_fee_percent) > 0 ? ` +${property.buyer_fee_percent}%` : ''}
                         </div>
                       </div>
                     </div>)}
@@ -735,9 +746,7 @@ const PropertyDetail = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-muted-foreground">{t('pd.completion', language)}:</span>
                   <span className="font-semibold">
-                    {property.buildingComplete 
-                      ? new Date(property.buildingComplete).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-                      : 'Jun 2023'}
+                    {parseCompletionDate(property.buildingComplete)?.toLocaleDateString(language === 'en' ? 'en-US' : language, { month: 'short', year: 'numeric' }) || '—'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
