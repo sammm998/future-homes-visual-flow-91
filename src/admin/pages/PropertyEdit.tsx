@@ -304,7 +304,7 @@ export default function PropertyEdit() {
           <h1 className="text-2xl font-semibold tracking-tight">{isNew ? "New property" : "Edit property"}</h1>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" disabled={saving} onClick={() => handleSave(false)}>Save draft</Button>
+          <Button variant="outline" disabled={saving} onClick={() => handleSave()}>Save changes</Button>
           <Button disabled={saving} onClick={() => handleSave()} className="bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90">
             <Save className="h-4 w-4 mr-1.5" /> Save changes
           </Button>
