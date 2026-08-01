@@ -34,7 +34,7 @@ export default function PropertiesList() {
         .from("properties")
         .select("id,ref_no,title,location,property_type,price,status,is_active,property_image,views_count,created_at")
         .order("created_at", { ascending: false })
-        .limit(200);
+        .limit(1000);
       setRows((data as Row[]) ?? []);
     };
     load();
@@ -82,7 +82,7 @@ export default function PropertiesList() {
               className="pl-9"
             />
           </div>
-          <div className="flex gap-1">
+          <div className="flex flex-wrap gap-1">
             {(["all", "active", "inactive", "available", "reserved", "sold", "under construction", "ready to move"] as const).map((s) => (
               <Button
                 key={s}
@@ -144,10 +144,10 @@ export default function PropertiesList() {
                   <td className="px-4 py-3 hidden lg:table-cell capitalize">{r.property_type ?? "—"}</td>
                   <td className="px-4 py-3 tabular-nums">{r.price ?? "—"}</td>
                   <td className="px-4 py-3">
-                    {r.is_active ? (
-                      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">{t("Active")}</Badge>
-                    ) : r.status === "sold" ? (
+                    {r.status?.toLowerCase() === "sold" ? (
                       <Badge className="bg-zinc-200 text-zinc-700 hover:bg-zinc-200">{t("Sold")}</Badge>
+                    ) : r.is_active ? (
+                      <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">{t(r.status?.replace(/\b\w/g, c => c.toUpperCase()) || "Active")}</Badge>
                     ) : (
                       <Badge variant="outline">{t("Draft")}</Badge>
                     )}

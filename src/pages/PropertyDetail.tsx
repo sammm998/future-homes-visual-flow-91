@@ -506,7 +506,7 @@ const PropertyDetail = () => {
               </div>
               
               <div className="text-3xl font-bold text-primary">
-                {formatPriceFromString(property.price, formatPrice)}
+                {formatPriceFromString(property.price, formatPrice)}{Number(property.buyer_fee_percent) > 0 ? ` +${property.buyer_fee_percent}%` : ''}
               </div>
 
               <LiveViewers propertyId={property.refNo || property.id || ''} />
