@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { supportedLanguages, getCurrentLanguage } from '@/utils/seoUtils';
+import { stripLocale, localizePath } from '@/utils/localeRouting';
 
 interface SEOHeadProps {
   title: string;
@@ -35,26 +36,31 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   noindex = false,
   breadcrumbs
 }) => {
-  const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : 'https://futurehomesinternational.com');
+  const currentLocaleFreePath = typeof window !== 'undefined' ? stripLocale(window.location.pathname) : '/';
   const siteName = 'Future Homes International';
   const defaultImage = 'https://futurehomesinternational.com/og-image.jpg';
   const currentLanguage = getCurrentLanguage();
   const baseUrl = 'https://futurehomesinternational.com';
 
+  // Self-referencing, locale-aware canonical
+  const canonicalPath = (() => {
+    if (!canonicalUrl) return currentLocaleFreePath;
+    try {
+      return stripLocale(new URL(canonicalUrl, baseUrl).pathname);
+    } catch {
+      return currentLocaleFreePath;
+    }
+  })();
+  const currentUrl = `${baseUrl}${localizePath(canonicalPath, currentLanguage)}`;
+
   // Generate hreflang URLs if not provided
   const generateHreflangUrls = () => {
     if (Object.keys(hreflangUrls).length > 0) return hreflangUrls;
     
-    const path = typeof window !== 'undefined' ? window.location.pathname : '/';
     const result: { [key: string]: string } = {};
-    
+
     supportedLanguages.forEach(lang => {
-      if (lang.code === 'en') {
-        result[lang.code] = `${baseUrl}${path}`;
-      } else {
-        const separator = path.includes('?') ? '&' : '?';
-        result[lang.code] = `${baseUrl}${path}${separator}lang=${lang.code}`;
-      }
+      result[lang.code] = `${baseUrl}${localizePath(canonicalPath, lang.code)}`;
     });
     
     return result;
