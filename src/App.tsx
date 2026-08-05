@@ -162,10 +162,58 @@ function App() {
   );
 }
 
+interface PublicRoute {
+  path: string;
+  element: React.ReactNode;
+}
+
+// Every public (indexable) route. Rendered at the root for English and under
+// /sv, /tr, /ar ... for the other 12 languages, so each language has its own URL.
+const publicRoutes: PublicRoute[] = [
+  { path: '/', element: <><Index /><Newsletter /></> },
+  { path: '/property-wizard', element: <PropertyWizard /> },
+  { path: '/ai-property-search', element: <AIPropertySearch /> },
+  { path: '/map-search', element: <MapSearch /> },
+  { path: '/antalya', element: <AntalyaPropertySearch /> },
+  { path: '/istanbul', element: <IstanbulPropertySearch /> },
+  { path: '/dubai', element: <DubaiPropertySearch /> },
+  { path: '/cyprus', element: <CyprusPropertySearch /> },
+  { path: '/mersin', element: <MersinPropertySearch /> },
+  { path: '/bali', element: <BaliPropertySearch /> },
+  // SEO landing pages
+  { path: '/property-for-sale-in-turkey', element: <PropertyForSaleInTurkey /> },
+  { path: '/apartments-for-sale-in-turkey', element: <ApartmentsForSaleInTurkey /> },
+  { path: '/luxury-villas-in-turkey', element: <LuxuryVillasInTurkey /> },
+  { path: '/off-plan-property-turkey', element: <OffPlanPropertyTurkey /> },
+  { path: '/turkish-citizenship-by-investment', element: <TurkishCitizenshipByInvestment /> },
+  // Property detail routes - localized path segments
+  ...Object.values(PATH_TRANSLATIONS).map((segment) => ({
+    path: `/${segment}/:id`,
+    element: <PropertyDetail />,
+  })),
+  { path: '/testimonials', element: <Testimonials /> },
+  { path: '/information', element: <Information /> },
+  { path: '/about-us', element: <AboutUs /> },
+  { path: '/our-story', element: <OurStory /> },
+  { path: '/design-your-home', element: <DesignYourHome /> },
+  { path: '/contact-us', element: <ContactUs /> },
+  { path: '/contact-thank-you', element: <ContactThankYou /> },
+  { path: '/wizard-thank-you', element: <WizardThankYou /> },
+  { path: '/ali-karan', element: <AliKaran /> },
+  { path: '/article/:id', element: <Article /> },
+  { path: '/articles/expenses-buying-property-turkey', element: <ExpensesBuyingPropertyTurkey /> },
+  { path: '/articles/:slug', element: <ArticlePage /> },
+  { path: '/courses', element: <CoursesIndex /> },
+  { path: '/courses/:country', element: <CourseOverview /> },
+  { path: '/courses/:country/final-exam', element: <CourseFinalExam /> },
+  { path: '/courses/:country/:moduleSlug', element: <CourseLesson /> },
+];
+
 function AppContent() {
-  // Sync language URL when ?lang= changes (e.g. from Elfsight widget)
+  // Keep locale prefix, legacy ?lang= links and property URLs in sync
   useLanguageUrlSync();
   useAnalyticsTracker();
+
 
   return (
     <>
