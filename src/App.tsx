@@ -15,6 +15,9 @@ import { ConnectionStatus } from "@/components/ConnectionStatus";
 import "./utils/cleanConsole";
 import { useLanguageUrlSync } from "@/hooks/useLanguageUrlSync";
 import { useAnalyticsTracker } from "@/hooks/useAnalyticsTracker";
+import { PATH_TRANSLATIONS } from "@/utils/slugHelpers";
+import { PREFIXED_LOCALES } from "@/utils/localeRouting";
+
 
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
