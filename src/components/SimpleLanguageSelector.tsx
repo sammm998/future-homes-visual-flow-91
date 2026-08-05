@@ -3,6 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getCurrentLanguage } from '@/utils/seoUtils';
 import { PATH_TRANSLATIONS, buildPropertyUrl } from '@/utils/slugHelpers';
+import { localizePath, stripLocale, stripLangParam } from '@/utils/localeRouting';
 import { supabase } from '@/integrations/supabase/client';
 
 const languages = [
@@ -38,7 +39,7 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
   }, [currentLanguageCode]);
 
   const propertySlug = useMemo(() => {
-    const parts = location.pathname.split('/').filter(Boolean);
+    const parts = stripLocale(location.pathname).split('/').filter(Boolean);
     if (parts.length >= 2 && PROPERTY_PATH_SEGMENTS.has(parts[0])) return parts[1];
     return null;
   }, [location.pathname]);
@@ -76,15 +77,8 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
       }
     }
 
-    const currentSearch = new URLSearchParams(location.search);
-    if (selectedLanguage.code === 'en') {
-      currentSearch.delete('lang');
-    } else {
-      currentSearch.set('lang', selectedLanguage.code);
-    }
-    const searchString = currentSearch.toString();
-    const newUrl = searchString ? `${location.pathname}?${searchString}` : location.pathname;
-    navigate(newUrl, { replace: true });
+    const target = `${localizePath(location.pathname, selectedLanguage.code)}${stripLangParam(location.search)}`;
+    navigate(target, { replace: true });
   };
 
   return (

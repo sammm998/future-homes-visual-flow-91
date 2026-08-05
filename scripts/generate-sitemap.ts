@@ -44,7 +44,7 @@ const xmlEscape = (s: string) =>
 function localized(path: string, changefreq: string, priority: string): Entry {
   const urls: Record<string, string> = {};
   for (const lang of LANGS) {
-    urls[lang] = lang === "en" ? `${BASE_URL}${path}` : `${BASE_URL}${path}?lang=${lang}`;
+    urls[lang] = lang === "en" ? `${BASE_URL}${path}` : `${BASE_URL}/${lang}${path === "/" ? "" : path}`;
   }
   return { urls, changefreq, priority };
 }
@@ -65,6 +65,11 @@ const staticEntries: Entry[] = [
   localized("/luxury-villas-in-turkey", "daily", "0.9"),
   localized("/off-plan-property-turkey", "weekly", "0.8"),
   localized("/turkish-citizenship-by-investment", "weekly", "0.9"),
+  localized("/alanya-property-for-sale", "daily", "0.9"),
+  localized("/belek-property-for-sale", "daily", "0.8"),
+  localized("/kalkan-property-for-sale", "daily", "0.8"),
+  localized("/dubai-off-plan-property", "daily", "0.9"),
+  localized("/bali-villas-for-sale", "daily", "0.8"),
   localized("/about-us", "monthly", "0.8"),
   localized("/our-story", "monthly", "0.6"),
   localized("/contact-us", "monthly", "0.8"),
@@ -91,7 +96,7 @@ async function fetchDynamic(): Promise<Entry[]> {
           urls[lang] =
             lang === "en"
               ? `${BASE_URL}/${seg}/${p.ref_no}`
-              : `${BASE_URL}/${seg}/${p.ref_no}?lang=${lang}`;
+              : `${BASE_URL}/${lang}/${seg}/${p.ref_no}`;
         }
         return { urls, changefreq: "weekly", priority: "0.6" };
       });

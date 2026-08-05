@@ -1,4 +1,5 @@
 // SEO utility functions for handling language-specific URLs and hreflang
+import { getLocaleFromPathname, stripLocale, localizePath, isSupportedLocale } from './localeRouting';
 
 interface LanguageConfig {
   code: string;
@@ -28,11 +29,18 @@ export const supportedLanguages: LanguageConfig[] = [
  */
 export const getCurrentLanguage = (): string => {
   if (typeof window === 'undefined') return 'en';
-  
+
+  // 1. Path prefix is the canonical source (/sv/..., /tr/...)
+  const langFromPath = getLocaleFromPathname(window.location.pathname);
+  if (langFromPath) {
+    localStorage.setItem('preferred_language', langFromPath);
+    return langFromPath;
+  }
+
+  // 2. Legacy ?lang= parameter (kept for old links)
   const urlParams = new URLSearchParams(window.location.search);
   const langFromUrl = urlParams.get('lang');
-  
-  if (langFromUrl && supportedLanguages.some(l => l.code === langFromUrl)) {
+  if (langFromUrl && isSupportedLocale(langFromUrl)) {
     if (langFromUrl === 'en') {
       localStorage.removeItem('preferred_language');
     } else {
@@ -40,13 +48,13 @@ export const getCurrentLanguage = (): string => {
     }
     return langFromUrl;
   }
-  
-  // Fall back to localStorage
+
+  // 3. Saved preference
   const savedLang = localStorage.getItem('preferred_language');
   if (savedLang && supportedLanguages.some(l => l.code === savedLang)) {
     return savedLang;
   }
-  
+
   return 'en';
 };
 
@@ -56,38 +64,21 @@ export const getCurrentLanguage = (): string => {
 export const getCanonicalUrl = (path: string = '', lang?: string): string => {
   const currentLang = lang || getCurrentLanguage();
   const baseUrl = 'https://futurehomesinternational.com';
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  
-  // For English, return clean URL without lang parameter
-  if (currentLang === 'en') {
-    return `${baseUrl}${cleanPath}`;
-  }
-  
-  // For other languages, always include the lang parameter for self-referencing canonical
-  const separator = cleanPath.includes('?') ? '&' : '?';
-  return `${baseUrl}${cleanPath}${separator}lang=${currentLang}`;
+  const cleanPath = stripLocale(path.startsWith('/') ? path : `/${path}`);
+  return `${baseUrl}${localizePath(cleanPath, currentLang)}`;
 };
 
 /**
  * Generate hreflang alternate URLs for all supported languages
  */
 export const getHreflangUrls = (path: string = ''): Array<{code: string, url: string, hreflang: string}> => {
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  
-  return supportedLanguages.map(lang => {
-    let url = `${lang.baseUrl}${cleanPath}`;
-    
-    if (lang.code !== 'en') {
-      const separator = cleanPath.includes('?') ? '&' : '?';
-      url = `${url}${separator}lang=${lang.code}`;
-    }
-    
-    return {
-      code: lang.code,
-      url: url,
-      hreflang: lang.hreflang
-    };
-  });
+  const cleanPath = stripLocale(path.startsWith('/') ? path : `/${path}`);
+
+  return supportedLanguages.map(lang => ({
+    code: lang.code,
+    url: `${lang.baseUrl}${localizePath(cleanPath, lang.code)}`,
+    hreflang: lang.hreflang,
+  }));
 };
 
 /**
@@ -96,7 +87,7 @@ export const getHreflangUrls = (path: string = ''): Array<{code: string, url: st
 export const getCurrentPath = (): string => {
   if (typeof window === 'undefined') return '/';
   
-  const path = window.location.pathname;
+  const path = stripLocale(window.location.pathname);
   const search = new URLSearchParams(window.location.search);
   search.delete('lang'); // Remove lang parameter
   

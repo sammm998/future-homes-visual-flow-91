@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { supportedLanguages, getLanguageFromUrl } from '@/utils/seoConfig';
+import { stripLocale, localizePath, getLocaleFromPathname } from '@/utils/localeRouting';
 
 interface EnhancedSEOHeadProps {
   title: string;
@@ -31,31 +32,34 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
   noindex = false,
   articleData
 }) => {
-  const currentLanguage = getLanguageFromUrl();
+  const pathLocale = typeof window !== 'undefined' ? getLocaleFromPathname(window.location.pathname) : null;
+  const currentLanguage = pathLocale || getLanguageFromUrl();
   const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
   const baseUrl = 'https://futurehomesinternational.com';
   const defaultImage = `${baseUrl}/images/future-homes-og-image.jpg`;
   
+  // Current locale-free path, used for canonical + hreflang
+  const cleanPath = typeof window !== 'undefined' ? stripLocale(window.location.pathname) : '/';
+
+  // Always self-reference the localized version of this page
+  const resolvedCanonical = (() => {
+    let path = cleanPath;
+    if (canonical) {
+      try {
+        path = stripLocale(new URL(canonical, baseUrl).pathname);
+      } catch {
+        path = cleanPath;
+      }
+    }
+    return `${baseUrl}${localizePath(path, currentLanguage)}`;
+  })();
+
   // Generate hreflang URLs
-  const generateHreflangUrls = () => {
-    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
-    const cleanPath = currentPath.replace(/^\/[a-z]{2}\//, '/').replace(/^\//, '');
-    
-    return supportedLanguages.map(lang => {
-      let url = `${baseUrl}`;
-      if (lang.code !== 'en') {
-        url += `/${lang.code}`;
-      }
-      if (cleanPath) {
-        url += `/${cleanPath}`;
-      }
-      
-      return {
-        code: lang.code,
-        url: url
-      };
-    });
-  };
+  const generateHreflangUrls = () =>
+    supportedLanguages.map(lang => ({
+      code: lang.code,
+      url: `${baseUrl}${localizePath(cleanPath, lang.code)}`,
+    }));
 
   const hreflangUrls = hreflangAlternates ? 
     Object.entries(hreflangAlternates).map(([code, url]) => ({ code, url })) :
@@ -104,7 +108,7 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
       
       {/* Language and Canonical */}
       <html lang={currentLanguage} />
-      {canonical && <link rel="canonical" href={canonical} />}
+      <link rel="canonical" href={resolvedCanonical} />
       
       {/* Robots */}
       {noindex && <meta name="robots" content="noindex,nofollow" />}
@@ -113,7 +117,7 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
       <meta property="og:type" content={articleData ? "article" : "website"} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:url" content={currentUrl} />
+      <meta property="og:url" content={resolvedCanonical} />
       <meta property="og:image" content={ogImage || defaultImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />

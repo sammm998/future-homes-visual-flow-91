@@ -15,6 +15,10 @@ import { ConnectionStatus } from "@/components/ConnectionStatus";
 import "./utils/cleanConsole";
 import { useLanguageUrlSync } from "@/hooks/useLanguageUrlSync";
 import { useAnalyticsTracker } from "@/hooks/useAnalyticsTracker";
+import { PATH_TRANSLATIONS } from "@/utils/slugHelpers";
+import { PREFIXED_LOCALES } from "@/utils/localeRouting";
+import { cityLandingPages } from "@/data/cityLandingPages";
+
 
 // Lazy load all page components for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -48,6 +52,7 @@ const Article = lazy(() => import("./pages/Article"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const SitemapXML = lazy(() => import("./pages/SitemapXML"));
+const CityLandingPage = lazy(() => import("./pages/CityLandingPage"));
 const ExpensesBuyingPropertyTurkey = lazy(() => import("./pages/ExpensesBuyingPropertyTurkey"));
 const PropertyForSaleInTurkey = lazy(() => import("./pages/PropertyForSaleInTurkey"));
 const ApartmentsForSaleInTurkey = lazy(() => import("./pages/ApartmentsForSaleInTurkey"));
@@ -162,74 +167,84 @@ function App() {
   );
 }
 
+interface PublicRoute {
+  path: string;
+  element: React.ReactNode;
+}
+
+// Every public (indexable) route. Rendered at the root for English and under
+// /sv, /tr, /ar ... for the other 12 languages, so each language has its own URL.
+const publicRoutes: PublicRoute[] = [
+  { path: '/', element: <><Index /><Newsletter /></> },
+  { path: '/property-wizard', element: <PropertyWizard /> },
+  { path: '/ai-property-search', element: <AIPropertySearch /> },
+  { path: '/map-search', element: <MapSearch /> },
+  { path: '/antalya', element: <AntalyaPropertySearch /> },
+  { path: '/istanbul', element: <IstanbulPropertySearch /> },
+  { path: '/dubai', element: <DubaiPropertySearch /> },
+  { path: '/cyprus', element: <CyprusPropertySearch /> },
+  { path: '/mersin', element: <MersinPropertySearch /> },
+  { path: '/bali', element: <BaliPropertySearch /> },
+  // SEO landing pages
+  { path: '/property-for-sale-in-turkey', element: <PropertyForSaleInTurkey /> },
+  { path: '/apartments-for-sale-in-turkey', element: <ApartmentsForSaleInTurkey /> },
+  { path: '/luxury-villas-in-turkey', element: <LuxuryVillasInTurkey /> },
+  { path: '/off-plan-property-turkey', element: <OffPlanPropertyTurkey /> },
+  { path: '/turkish-citizenship-by-investment', element: <TurkishCitizenshipByInvestment /> },
+  // City / intent landing pages (data-driven)
+  ...cityLandingPages.map((config) => ({
+    path: `/${config.slug}`,
+    element: <CityLandingPage config={config} />,
+  })),
+  // Property detail routes - localized path segments
+  ...Object.values(PATH_TRANSLATIONS).map((segment) => ({
+    path: `/${segment}/:id`,
+    element: <PropertyDetail />,
+  })),
+  { path: '/testimonials', element: <Testimonials /> },
+  { path: '/information', element: <Information /> },
+  { path: '/about-us', element: <AboutUs /> },
+  { path: '/our-story', element: <OurStory /> },
+  { path: '/design-your-home', element: <DesignYourHome /> },
+  { path: '/contact-us', element: <ContactUs /> },
+  { path: '/contact-thank-you', element: <ContactThankYou /> },
+  { path: '/wizard-thank-you', element: <WizardThankYou /> },
+  { path: '/ali-karan', element: <AliKaran /> },
+  { path: '/article/:id', element: <Article /> },
+  { path: '/articles/expenses-buying-property-turkey', element: <ExpensesBuyingPropertyTurkey /> },
+  { path: '/articles/:slug', element: <ArticlePage /> },
+  { path: '/courses', element: <CoursesIndex /> },
+  { path: '/courses/:country', element: <CourseOverview /> },
+  { path: '/courses/:country/final-exam', element: <CourseFinalExam /> },
+  { path: '/courses/:country/:moduleSlug', element: <CourseLesson /> },
+];
+
 function AppContent() {
-  // Sync language URL when ?lang= changes (e.g. from Elfsight widget)
+  // Keep locale prefix, legacy ?lang= links and property URLs in sync
   useLanguageUrlSync();
   useAnalyticsTracker();
+
 
   return (
     <>
       <ConnectionStatus />
       <main>
       <Routes>
-      <Route path="/" element={
-        <>
-          <Index />
-          <Newsletter />
-        </>
-      } />
-      
-      <Route path="/property-wizard" element={<PropertyWizard />} />
-      <Route path="/ai-property-search" element={<AIPropertySearch />} />
-      
-      <Route path="/map-search" element={<MapSearch />} />
-      
-      <Route path="/antalya" element={<AntalyaPropertySearch />} />
-      <Route path="/istanbul" element={<IstanbulPropertySearch />} />
-      <Route path="/dubai" element={<DubaiPropertySearch />} />
-      <Route path="/cyprus" element={<CyprusPropertySearch />} />
-      <Route path="/mersin" element={<MersinPropertySearch />} />
-      <Route path="/bali" element={<BaliPropertySearch />} />
-
-      {/* SEO landing pages */}
-      <Route path="/property-for-sale-in-turkey" element={<PropertyForSaleInTurkey />} />
-      <Route path="/apartments-for-sale-in-turkey" element={<ApartmentsForSaleInTurkey />} />
-      <Route path="/luxury-villas-in-turkey" element={<LuxuryVillasInTurkey />} />
-      <Route path="/off-plan-property-turkey" element={<OffPlanPropertyTurkey />} />
-      <Route path="/turkish-citizenship-by-investment" element={<TurkishCitizenshipByInvestment />} />
-      
-      {/* Property detail routes - all languages */}
-      <Route path="/property/:id" element={<PropertyDetail />} />
-      <Route path="/fastighet/:id" element={<PropertyDetail />} />
-      <Route path="/mulk/:id" element={<PropertyDetail />} />
-      <Route path="/aqar/:id" element={<PropertyDetail />} />
-      <Route path="/nedvizhimost/:id" element={<PropertyDetail />} />
-      <Route path="/eiendom/:id" element={<PropertyDetail />} />
-      <Route path="/ejendom/:id" element={<PropertyDetail />} />
-      <Route path="/melk/:id" element={<PropertyDetail />} />
-      <Route path="/jaidad/:id" element={<PropertyDetail />} />
-      <Route path="/propiedad/:id" element={<PropertyDetail />} />
-      <Route path="/immobilie/:id" element={<PropertyDetail />} />
-      <Route path="/propriete/:id" element={<PropertyDetail />} />
-      <Route path="/properti/:id" element={<PropertyDetail />} />
-      
-      <Route path="/testimonials" element={<Testimonials />} />
-      <Route path="/information" element={<Information />} />
-      <Route path="/about-us" element={<AboutUs />} />
-      <Route path="/our-story" element={<OurStory />} />
-      <Route path="/design-your-home" element={<DesignYourHome />} />
-      <Route path="/contact-us" element={<ContactUs />} />
-      <Route path="/contact-thank-you" element={<ContactThankYou />} />
-      <Route path="/wizard-thank-you" element={<WizardThankYou />} />
-      <Route path="/ali-karan" element={<AliKaran />} />
-      <Route path="/article/:id" element={<Article />} />
-      <Route path="/articles/:slug" element={<ArticlePage />} />
-      <Route path="/articles/expenses-buying-property-turkey" element={<ExpensesBuyingPropertyTurkey />} />
-      <Route path="/courses" element={<CoursesIndex />} />
-      <Route path="/courses/:country" element={<CourseOverview />} />
-      <Route path="/courses/:country/final-exam" element={<CourseFinalExam />} />
-      <Route path="/courses/:country/:moduleSlug" element={<CourseLesson />} />
+      {/* Public routes: rendered once at the root (English) and once per locale prefix */}
+      {publicRoutes.map(({ path, element }) => (
+        <Route key={path} path={path} element={element} />
+      ))}
+      {PREFIXED_LOCALES.flatMap((locale) =>
+        publicRoutes.map(({ path, element }) => (
+          <Route
+            key={`${locale}${path}`}
+            path={path === '/' ? `/${locale}` : `/${locale}${path}`}
+            element={element}
+          />
+        ))
+      )}
       <Route path="/sitemap.xml" element={<SitemapXML />} />
+
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/admin-dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
       <Route path="/admin" element={<ProtectedAdminRoute><AdminLayout /></ProtectedAdminRoute>}>
