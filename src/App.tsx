@@ -17,6 +17,7 @@ import { useLanguageUrlSync } from "@/hooks/useLanguageUrlSync";
 import { useAnalyticsTracker } from "@/hooks/useAnalyticsTracker";
 import { PATH_TRANSLATIONS } from "@/utils/slugHelpers";
 import { PREFIXED_LOCALES } from "@/utils/localeRouting";
+import { cityLandingPages } from "@/data/cityLandingPages";
 
 
 // Lazy load all page components for better performance
@@ -51,6 +52,7 @@ const Article = lazy(() => import("./pages/Article"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const SitemapXML = lazy(() => import("./pages/SitemapXML"));
+const CityLandingPage = lazy(() => import("./pages/CityLandingPage"));
 const ExpensesBuyingPropertyTurkey = lazy(() => import("./pages/ExpensesBuyingPropertyTurkey"));
 const PropertyForSaleInTurkey = lazy(() => import("./pages/PropertyForSaleInTurkey"));
 const ApartmentsForSaleInTurkey = lazy(() => import("./pages/ApartmentsForSaleInTurkey"));
@@ -189,6 +191,11 @@ const publicRoutes: PublicRoute[] = [
   { path: '/luxury-villas-in-turkey', element: <LuxuryVillasInTurkey /> },
   { path: '/off-plan-property-turkey', element: <OffPlanPropertyTurkey /> },
   { path: '/turkish-citizenship-by-investment', element: <TurkishCitizenshipByInvestment /> },
+  // City / intent landing pages (data-driven)
+  ...cityLandingPages.map((config) => ({
+    path: `/${config.slug}`,
+    element: <CityLandingPage config={config} />,
+  })),
   // Property detail routes - localized path segments
   ...Object.values(PATH_TRANSLATIONS).map((segment) => ({
     path: `/${segment}/:id`,
