@@ -44,7 +44,7 @@ const xmlEscape = (s: string) =>
 function localized(path: string, changefreq: string, priority: string): Entry {
   const urls: Record<string, string> = {};
   for (const lang of LANGS) {
-    urls[lang] = lang === "en" ? `${BASE_URL}${path}` : `${BASE_URL}${path}?lang=${lang}`;
+    urls[lang] = lang === "en" ? `${BASE_URL}${path}` : `${BASE_URL}/${lang}${path === "/" ? "" : path}`;
   }
   return { urls, changefreq, priority };
 }
@@ -91,7 +91,7 @@ async function fetchDynamic(): Promise<Entry[]> {
           urls[lang] =
             lang === "en"
               ? `${BASE_URL}/${seg}/${p.ref_no}`
-              : `${BASE_URL}/${seg}/${p.ref_no}?lang=${lang}`;
+              : `${BASE_URL}/${lang}/${seg}/${p.ref_no}`;
         }
         return { urls, changefreq: "weekly", priority: "0.6" };
       });
