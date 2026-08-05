@@ -24,6 +24,22 @@ Future Homes International helps overseas buyers find apartments, villas, and of
 - [Cyprus](/cyprus): EU residency and Mediterranean homes.
 - [Bali, Indonesia](/bali): Villas and rental-yield investments.
 
+## Key Guides
+
+- [Property for Sale in Turkey](/property-for-sale-in-turkey): Full Turkish portfolio and buying overview.
+- [Apartments for Sale in Turkey](/apartments-for-sale-in-turkey): Apartment listings by city and budget.
+- [Luxury Villas in Turkey](/luxury-villas-in-turkey): Sea-view and private-pool villas.
+- [Off-Plan Property Turkey](/off-plan-property-turkey): Pre-construction projects and payment plans.
+- [Turkish Citizenship by Investment](/turkish-citizenship-by-investment): $400K route, process and timelines.
+- [Academy Courses](/courses): Buyer education for Turkey, Dubai, Cyprus and Bali.
+
+## Languages
+
+Every page is available in 13 languages via the `?lang=` parameter
+(en, sv, no, da, de, fr, es, tr, ru, ar, fa, ur, id). Property detail
+pages also use localized path segments, e.g. `/property/1370` (en),
+`/fastighet/1370?lang=sv`, `/mulk/1370?lang=tr`, `/aqar/1370?lang=ar`.
+
 ## Optional
 
 - [Sitemap](/sitemap.xml): Full list of indexable URLs.
