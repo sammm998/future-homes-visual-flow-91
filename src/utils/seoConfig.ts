@@ -19,7 +19,9 @@ export const supportedLanguages = [
   { code: 'ar', name: 'العربية', flag: '🇸🇦', baseUrl: 'https://futurehomesturkey.com' },
   { code: 'fa', name: 'فارسی', flag: '🇮🇷', baseUrl: 'https://futurehomesturkey.com' },
   { code: 'tr', name: 'Türkçe', flag: '🇹🇷', baseUrl: 'https://futurehomesturkey.com' },
-  { code: 'es', name: 'Español', flag: '🇪🇸', baseUrl: 'https://futurehomesturkey.com' }
+  { code: 'es', name: 'Español', flag: '🇪🇸', baseUrl: 'https://futurehomesturkey.com' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷', baseUrl: 'https://futurehomesturkey.com' },
+  { code: 'id', name: 'Bahasa Indonesia', flag: '🇮🇩', baseUrl: 'https://futurehomesturkey.com' }
 ];
 
 export const getLanguageFromUrl = (): string => {
