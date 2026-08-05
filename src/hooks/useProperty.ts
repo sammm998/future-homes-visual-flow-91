@@ -24,9 +24,11 @@ export const useProperty = (id: string) => {
   const { isOnline } = useConnectionStatus();
   const location = useLocation();
   
-  // Get current language from URL
+  // Get current language from the URL path prefix (/sv/..., /tr/...), with
+  // the legacy ?lang= parameter as a fallback.
   const searchParams = new URLSearchParams(location.search);
-  const lang = searchParams.get('lang');
+  const lang = getLocaleFromPathname(location.pathname) || searchParams.get('lang');
+
   const refFromUrl = searchParams.get('ref');
   
   const { data: rawProperty, isLoading: loading, error } = useQuery({
