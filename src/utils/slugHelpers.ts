@@ -1,3 +1,4 @@
+import { localizePath, getLocaleFromPathname, stripLocale } from './localeRouting';
 // Translated path segments for /property/
 export const PATH_TRANSLATIONS: Record<string, string> = {
   en: 'property',
@@ -59,6 +60,13 @@ const getPropertyReference = (property: any): string | null => {
 
 // Get current language from URL search params, falling back to localStorage
 export const getCurrentLanguage = (search: string): string | null => {
+  if (typeof window !== 'undefined') {
+    const fromPath = getLocaleFromPathname(window.location.pathname);
+    if (fromPath) {
+      localStorage.setItem('preferred_language', fromPath);
+      return fromPath;
+    }
+  }
   const searchParams = new URLSearchParams(search);
   const langFromUrl = searchParams.get('lang');
   
@@ -91,18 +99,19 @@ export const buildLangParam = (lang: string | null, ref?: string | null): string
   return search ? `?${search}` : '';
 };
 
-// Build full translated property URL (ends with the stable reference number)
+// Build full translated property URL: /sv/fastighet/1370 (English: /property/1370)
 export const buildPropertyUrl = (property: any, lang: string | null): string => {
   const path = getTranslatedPropertyPath(lang);
   const ref = getPropertyReference(property) || property?.id;
   const safeRef = encodeURIComponent(String(ref));
-  const langParam = buildLangParam(lang, null);
-  return `/${path}/${safeRef}${langParam}`;
+  return localizePath(`/${path}/${safeRef}`, lang);
 };
 
 // Extract language from URL path (for translated paths like /fastighet/)
 export const getLanguageFromPath = (pathname: string): string | null => {
-  const pathParts = pathname.split('/').filter(Boolean);
+  const localePrefix = getLocaleFromPathname(pathname);
+  if (localePrefix) return localePrefix;
+  const pathParts = stripLocale(pathname).split('/').filter(Boolean);
   if (pathParts.length > 0) {
     const pathSegment = pathParts[0].toLowerCase();
     return PATH_TO_LANG[pathSegment] || null;
