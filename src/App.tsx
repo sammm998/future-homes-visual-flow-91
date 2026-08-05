@@ -172,64 +172,21 @@ function AppContent() {
       <ConnectionStatus />
       <main>
       <Routes>
-      <Route path="/" element={
-        <>
-          <Index />
-          <Newsletter />
-        </>
-      } />
-      
-      <Route path="/property-wizard" element={<PropertyWizard />} />
-      <Route path="/ai-property-search" element={<AIPropertySearch />} />
-      
-      <Route path="/map-search" element={<MapSearch />} />
-      
-      <Route path="/antalya" element={<AntalyaPropertySearch />} />
-      <Route path="/istanbul" element={<IstanbulPropertySearch />} />
-      <Route path="/dubai" element={<DubaiPropertySearch />} />
-      <Route path="/cyprus" element={<CyprusPropertySearch />} />
-      <Route path="/mersin" element={<MersinPropertySearch />} />
-      <Route path="/bali" element={<BaliPropertySearch />} />
-
-      {/* SEO landing pages */}
-      <Route path="/property-for-sale-in-turkey" element={<PropertyForSaleInTurkey />} />
-      <Route path="/apartments-for-sale-in-turkey" element={<ApartmentsForSaleInTurkey />} />
-      <Route path="/luxury-villas-in-turkey" element={<LuxuryVillasInTurkey />} />
-      <Route path="/off-plan-property-turkey" element={<OffPlanPropertyTurkey />} />
-      <Route path="/turkish-citizenship-by-investment" element={<TurkishCitizenshipByInvestment />} />
-      
-      {/* Property detail routes - all languages */}
-      <Route path="/property/:id" element={<PropertyDetail />} />
-      <Route path="/fastighet/:id" element={<PropertyDetail />} />
-      <Route path="/mulk/:id" element={<PropertyDetail />} />
-      <Route path="/aqar/:id" element={<PropertyDetail />} />
-      <Route path="/nedvizhimost/:id" element={<PropertyDetail />} />
-      <Route path="/eiendom/:id" element={<PropertyDetail />} />
-      <Route path="/ejendom/:id" element={<PropertyDetail />} />
-      <Route path="/melk/:id" element={<PropertyDetail />} />
-      <Route path="/jaidad/:id" element={<PropertyDetail />} />
-      <Route path="/propiedad/:id" element={<PropertyDetail />} />
-      <Route path="/immobilie/:id" element={<PropertyDetail />} />
-      <Route path="/propriete/:id" element={<PropertyDetail />} />
-      <Route path="/properti/:id" element={<PropertyDetail />} />
-      
-      <Route path="/testimonials" element={<Testimonials />} />
-      <Route path="/information" element={<Information />} />
-      <Route path="/about-us" element={<AboutUs />} />
-      <Route path="/our-story" element={<OurStory />} />
-      <Route path="/design-your-home" element={<DesignYourHome />} />
-      <Route path="/contact-us" element={<ContactUs />} />
-      <Route path="/contact-thank-you" element={<ContactThankYou />} />
-      <Route path="/wizard-thank-you" element={<WizardThankYou />} />
-      <Route path="/ali-karan" element={<AliKaran />} />
-      <Route path="/article/:id" element={<Article />} />
-      <Route path="/articles/:slug" element={<ArticlePage />} />
-      <Route path="/articles/expenses-buying-property-turkey" element={<ExpensesBuyingPropertyTurkey />} />
-      <Route path="/courses" element={<CoursesIndex />} />
-      <Route path="/courses/:country" element={<CourseOverview />} />
-      <Route path="/courses/:country/final-exam" element={<CourseFinalExam />} />
-      <Route path="/courses/:country/:moduleSlug" element={<CourseLesson />} />
+      {/* Public routes: rendered once at the root (English) and once per locale prefix */}
+      {publicRoutes.map(({ path, element }) => (
+        <Route key={path} path={path} element={element} />
+      ))}
+      {PREFIXED_LOCALES.flatMap((locale) =>
+        publicRoutes.map(({ path, element }) => (
+          <Route
+            key={`${locale}${path}`}
+            path={path === '/' ? `/${locale}` : `/${locale}${path}`}
+            element={element}
+          />
+        ))
+      )}
       <Route path="/sitemap.xml" element={<SitemapXML />} />
+
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/admin-dashboard" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
       <Route path="/admin" element={<ProtectedAdminRoute><AdminLayout /></ProtectedAdminRoute>}>
