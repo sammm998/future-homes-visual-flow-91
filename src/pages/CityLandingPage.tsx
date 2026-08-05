@@ -70,7 +70,7 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
         hreflangAlternates={hreflangAlternates}
         structuredData={structuredData}
       />
-      <FAQSchema faqs={config.faq} />
+      <FAQSchema faqItems={config.faq} />
       <Navigation />
 
       <main className="container mx-auto px-4 py-10">
