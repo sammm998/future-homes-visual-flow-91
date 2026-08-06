@@ -77,6 +77,7 @@ const staticEntries: Entry[] = [
   localized("/information", "weekly", "0.7"),
   localized("/courses", "monthly", "0.6"),
   localized("/ali-karan", "monthly", "0.6"),
+  localized("/property-gallery", "weekly", "0.7"),
 ];
 
 async function fetchDynamic(): Promise<Entry[]> {
