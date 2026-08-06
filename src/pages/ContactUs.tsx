@@ -65,7 +65,7 @@ const ContactUs = () => {
 
       {!contentLoading && contentSections.length > 0}
 
-      {(contentLoading || contentSections.length === 0) && (
+      {(
         <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-muted/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">

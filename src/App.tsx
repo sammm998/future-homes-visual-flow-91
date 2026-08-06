@@ -48,6 +48,7 @@ const OurStory = lazy(() => import("./pages/OurStory"));
 const DesignYourHome = lazy(() => import("./pages/DesignYourHome"));
 const ContactUs = lazy(() => import("./pages/ContactUs"));
 const AliKaran = lazy(() => import("./pages/AliKaran"));
+const PropertyGallery = lazy(() => import("./pages/PropertyGallery"));
 const Article = lazy(() => import("./pages/Article"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -179,6 +180,7 @@ const publicRoutes: PublicRoute[] = [
   { path: '/property-wizard', element: <PropertyWizard /> },
   { path: '/ai-property-search', element: <AIPropertySearch /> },
   { path: '/map-search', element: <MapSearch /> },
+  { path: '/property-gallery', element: <PropertyGallery /> },
   { path: '/antalya', element: <AntalyaPropertySearch /> },
   { path: '/istanbul', element: <IstanbulPropertySearch /> },
   { path: '/dubai', element: <DubaiPropertySearch /> },
