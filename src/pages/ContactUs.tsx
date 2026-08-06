@@ -10,6 +10,7 @@ import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import SEOHead from "@/components/SEOHead";
+import SEOInternalLinks from "@/components/SEOInternalLinks";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -55,8 +56,8 @@ const ContactUs = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title={pageTitle || "Contact Future Homes International | Property Investment Inquiry"}
-        description={metaDescription || "Contact Future Homes International for expert property guidance."}
+        title={pageTitle && pageTitle.length > 25 ? pageTitle : "Contact Future Homes International | Property Advice"}
+        description={metaDescription && metaDescription.length > 60 ? metaDescription : "Talk to Future Homes International about property in Turkey, Dubai, North Cyprus and Bali. Offices in Antalya, Istanbul, Dubai, Cyprus and Bali."}
         keywords="contact future homes, property inquiry Turkey, real estate consultation"
         canonicalUrl="https://futurehomesinternational.com/contact-us"
       />
@@ -64,7 +65,7 @@ const ContactUs = () => {
 
       {!contentLoading && contentSections.length > 0}
 
-      {(contentLoading || contentSections.length === 0) && (
+      {(
         <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-muted/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
@@ -196,6 +197,8 @@ const ContactUs = () => {
               </CardContent>
             </Card>
           </div>
+
+          <SEOInternalLinks />
         </div>
       </section>
     </div>

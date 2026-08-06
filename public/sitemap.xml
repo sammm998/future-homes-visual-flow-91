@@ -514,6 +514,25 @@
       <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/ali-karan" />
   </url>
   <url>
+    <loc>https://futurehomesinternational.com/property-gallery</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+      <xhtml:link rel="alternate" hreflang="en" href="https://futurehomesinternational.com/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="sv" href="https://futurehomesinternational.com/sv/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="no" href="https://futurehomesinternational.com/no/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="da" href="https://futurehomesinternational.com/da/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="de" href="https://futurehomesinternational.com/de/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="fr" href="https://futurehomesinternational.com/fr/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="es" href="https://futurehomesinternational.com/es/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="tr" href="https://futurehomesinternational.com/tr/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="ru" href="https://futurehomesinternational.com/ru/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="ar" href="https://futurehomesinternational.com/ar/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="fa" href="https://futurehomesinternational.com/fa/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="ur" href="https://futurehomesinternational.com/ur/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="id" href="https://futurehomesinternational.com/id/property-gallery" />
+      <xhtml:link rel="alternate" hreflang="x-default" href="https://futurehomesinternational.com/property-gallery" />
+  </url>
+  <url>
     <loc>https://futurehomesinternational.com/property/1046</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

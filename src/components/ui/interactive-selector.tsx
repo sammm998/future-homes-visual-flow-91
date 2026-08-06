@@ -49,9 +49,9 @@ const InteractiveSelector = () => {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 lg:mb-16">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="space-y-6">
-            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-foreground tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-foreground tracking-tight">
               {t('home.explore_destinations')}
-            </h1>
+            </h2>
             <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               {t('home.explore_subtitle')}
             </p>
