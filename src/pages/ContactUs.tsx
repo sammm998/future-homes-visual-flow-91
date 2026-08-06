@@ -10,6 +10,7 @@ import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import SEOHead from "@/components/SEOHead";
+import SEOInternalLinks from "@/components/SEOInternalLinks";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -196,6 +197,8 @@ const ContactUs = () => {
               </CardContent>
             </Card>
           </div>
+
+          <SEOInternalLinks />
         </div>
       </section>
     </div>

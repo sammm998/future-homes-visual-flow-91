@@ -18,7 +18,7 @@ const LINKS: { to: string; label: string }[] = [
   { to: '/luxury-villas-in-turkey', label: 'Luxury villas in Turkey' },
   { to: '/off-plan-property-turkey', label: 'Off-plan property projects in Turkey' },
   { to: '/turkish-citizenship-by-investment', label: 'Turkish citizenship by property investment' },
-  { to: '/expenses-buying-property-turkey', label: 'Costs and taxes when buying in Turkey' },
+  { to: '/articles/expenses-buying-property-turkey', label: 'Costs and taxes when buying in Turkey' },
   { to: '/information', label: 'Buyer guides and market information' },
   { to: '/about-us', label: 'About Future Homes International' },
   { to: '/ali-karan', label: 'Ali Karan, founder and CEO' },

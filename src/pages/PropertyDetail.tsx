@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, Square, Calendar, Car, Home, Plane, Waves, CheckCircle, Star, Award, Images, X, Share2, Check } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
+import SEOInternalLinks from "@/components/SEOInternalLinks";
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
 import { formatPriceFromString } from '@/utils/priceFormatting';
@@ -400,9 +401,17 @@ const PropertyDetail = () => {
     return (lastSpace > 40 ? cut.slice(0, lastSpace) : cut).replace(/[\s,.;:-]+$/, '') + '…';
   };
   const brandSuffix = ' | Future Homes';
-  const baseTitle = property.location
-    ? `${property.title} – ${property.location}`
-    : property.title;
+  const refLabel = property.refNo || property.ref_no || property.id;
+  const specBits = [
+    property.bedrooms ? `${property.bedrooms}+1` : null,
+    property.propertyType || null,
+  ].filter(Boolean).join(' ');
+  const baseTitle = [
+    property.title,
+    specBits || null,
+    property.location || null,
+    refLabel ? `REF ${refLabel}` : null,
+  ].filter(Boolean).join(' – ');
   const propertyTitle = truncate(baseTitle, 60 - brandSuffix.length) + brandSuffix;
 
   const descParts = [
@@ -438,7 +447,7 @@ const PropertyDetail = () => {
               <X className="h-6 w-6" />
             </Button>
             
-            <OptimizedPropertyImage src={property.images[currentImageIndex] || property.image || "/placeholder.svg"} alt={`Property view ${currentImageIndex + 1}`} className="max-h-[95vh] max-w-full object-contain rounded-lg" priority={true} />
+            <OptimizedPropertyImage src={property.images[currentImageIndex] || property.image || "/placeholder.svg"} alt={`${property.title} in ${property.location || ''} — full screen photo ${currentImageIndex + 1}`} className="max-h-[95vh] max-w-full object-contain rounded-lg" priority={true} />
             
             {property.images.length > 1 && <>
                 <button onClick={prevImage} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-all">
@@ -520,7 +529,7 @@ const PropertyDetail = () => {
               <div className="space-y-4">
                 {/* Main Image */}
                 <div className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer group" onClick={() => setShowImageModal(true)}>
-                  <OptimizedPropertyImage src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"} alt={property.title} className={`w-full h-full object-cover ${currentImageIndex === 0 ? 'animate-kenburns' : 'transition-transform duration-300 group-hover:scale-105'}`} priority={true} />
+                  <OptimizedPropertyImage src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"} alt={`${property.title} — ${property.propertyType || 'property'} in ${property.location || ''} (REF ${refLabel})`} className={`w-full h-full object-cover ${currentImageIndex === 0 ? 'animate-kenburns' : 'transition-transform duration-300 group-hover:scale-105'}`} priority={true} />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                     <Images className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
@@ -545,7 +554,7 @@ const PropertyDetail = () => {
                 {/* Thumbnail Images */}
                 {property.images && property.images.length > 1 && <div className="grid grid-cols-4 gap-2">
                     {property.images.slice(0, 4).map((image: string, index: number) => <div key={index} className={`aspect-square overflow-hidden rounded cursor-pointer border-2 transition-all ${currentImageIndex === index ? 'border-primary' : 'border-transparent hover:border-muted-foreground/50'}`} onClick={() => setCurrentImageIndex(index)}>
-                        <OptimizedPropertyImage src={image} alt={`View ${index + 1}`} className="w-full h-full object-cover" priority={false} />
+                        <OptimizedPropertyImage src={image} alt={`${property.title} in ${property.location || ''} — photo ${index + 1}`} className="w-full h-full object-cover" priority={false} />
                       </div>)}
                   </div>}
               </div>
@@ -881,6 +890,8 @@ const PropertyDetail = () => {
             </div>
           </div>
         </div>
+
+        <SEOInternalLinks />
       </div>
     </div>;
 };

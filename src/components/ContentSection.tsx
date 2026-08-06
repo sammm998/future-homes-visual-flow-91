@@ -19,9 +19,9 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
 }) => {
   const renderHeroSection = () => <div className={`text-center mb-16 ${className}`}>
       {section.subtitle && <Badge className="mb-4">{section.subtitle}</Badge>}
-      {section.title && <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+      {section.title && <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
           {section.title}
-        </h1>}
+        </h2>}
       {section.content && <div className="max-w-4xl mx-auto">
           <p className="text-lg text-muted-foreground leading-relaxed mb-8">{section.content}</p>
         </div>}

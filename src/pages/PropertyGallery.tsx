@@ -1,5 +1,6 @@
 import SEOHead from "@/components/SEOHead";
 import Navigation from "@/components/Navigation";
+import SEOInternalLinks from "@/components/SEOInternalLinks";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Eye, Camera, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -238,7 +239,7 @@ const PropertyGallery = () => {
                           <div className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden shadow-2xl">
                             <img
                               src={property.property_images[cardImageIndices[property.id] || 0]}
-                              alt={property.title}
+                              alt={`${property.title} in ${property.location} — exterior view of this Future Homes property`}
                               className="w-full h-full object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -370,7 +371,7 @@ const PropertyGallery = () => {
                   <motion.img
                     key={currentImageIndex}
                     src={selectedPropertyData.property_images[currentImageIndex]}
-                    alt={selectedPropertyData.title}
+                    alt={`${selectedPropertyData.title} in ${selectedPropertyData.location} — photo ${currentImageIndex + 1} of the property`}
                     className="max-w-full max-h-full object-contain rounded-lg"
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -432,7 +433,7 @@ const PropertyGallery = () => {
                       >
                         <img
                           src={image}
-                          alt={`${selectedPropertyData.title} - Image ${index + 1}`}
+                          alt={`${selectedPropertyData.title} in ${selectedPropertyData.location} — thumbnail ${index + 1}`}
                           className="w-full h-full object-cover"
                         />
                       </button>
@@ -443,6 +444,10 @@ const PropertyGallery = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        <div className="container mx-auto px-4 pb-16">
+          <SEOInternalLinks />
+        </div>
       </div>
     </>
   );
