@@ -400,17 +400,16 @@ const PropertyDetail = () => {
     const lastSpace = cut.lastIndexOf(' ');
     return (lastSpace > 40 ? cut.slice(0, lastSpace) : cut).replace(/[\s,.;:-]+$/, '') + '…';
   };
-  const brandSuffix = ' | Future Homes';
   const refLabel = property.refNo || property.ref_no || property.id;
+  const brandSuffix = refLabel ? ` | REF ${refLabel}` : ' | Future Homes';
   const specBits = [
-    property.bedrooms ? `${property.bedrooms}+1` : null,
+    property.bedrooms ? `${property.bedrooms} bed` : null,
     property.propertyType || null,
   ].filter(Boolean).join(' ');
   const baseTitle = [
     property.title,
     specBits || null,
     property.location || null,
-    refLabel ? `REF ${refLabel}` : null,
   ].filter(Boolean).join(' – ');
   const propertyTitle = truncate(baseTitle, 60 - brandSuffix.length) + brandSuffix;
 
