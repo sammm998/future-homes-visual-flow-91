@@ -56,8 +56,8 @@ const ContactUs = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title={pageTitle || "Contact Future Homes International | Property Investment Inquiry"}
-        description={metaDescription || "Contact Future Homes International for expert property guidance."}
+        title={pageTitle && pageTitle.length > 25 ? pageTitle : "Contact Future Homes International | Property Advice"}
+        description={metaDescription && metaDescription.length > 60 ? metaDescription : "Talk to Future Homes International about property in Turkey, Dubai, North Cyprus and Bali. Offices in Antalya, Istanbul, Dubai, Cyprus and Bali."}
         keywords="contact future homes, property inquiry Turkey, real estate consultation"
         canonicalUrl="https://futurehomesinternational.com/contact-us"
       />
