@@ -6,6 +6,7 @@ import TeamSection from "@/components/TeamSection";
 import { LazyComponent, LazyShuffleGrid, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
 import ModernPropertyShowcase from "@/components/ModernPropertyShowcase";
 import Newsletter from "@/components/Newsletter";
+import SEOInternalLinks from "@/components/SEOInternalLinks";
 import { FeatureDemo } from "@/components/ui/feature-demo";
 import InteractiveSelector from "@/components/ui/interactive-selector";
 
@@ -269,6 +270,43 @@ const Index = () => {
         <LazyNewsInsights />
       </LazyComponent>
       
+      {/* SEO content */}
+      <section className="py-16 bg-secondary/20">
+        <div className="container mx-auto px-4 max-w-4xl space-y-5 text-muted-foreground leading-relaxed">
+          <h2 className="text-3xl font-bold text-foreground">Buying property abroad with Future Homes International</h2>
+          <p>
+            Future Homes International is an international real estate agency helping buyers from Europe, the Middle East and Asia purchase
+            homes and investment property in Turkey, Dubai, North Cyprus and Bali. Since our first office opened in Antalya we have guided
+            thousands of families through every stage of an overseas purchase: shortlisting projects, arranging viewing trips, negotiating
+            with developers, handling title deed (TAPU) transfer, tax numbers, utility subscriptions and, where relevant, residence permit
+            or citizenship applications. Our team works in 13 languages, so you are always advised in your own language.
+          </p>
+          <h3 className="text-xl font-semibold text-foreground">Where our clients buy</h3>
+          <p>
+            Antalya remains the most popular destination for holiday homes and rental investments, with modern residences in Konyaaltı,
+            Lara, Alanya and Belek offering sea views, shared pools and year-round rental demand. Istanbul suits investors who want capital
+            growth and large-scale branded projects, while Mersin offers some of the most affordable new-build apartments on the
+            Mediterranean coast. In Dubai we focus on off-plan apartments with developer payment plans and strong yields, in North Cyprus on
+            beachfront projects with flexible instalments, and in Bali on villas built for the short-term rental market.
+          </p>
+          <h3 className="text-xl font-semibold text-foreground">Investment, citizenship and residency</h3>
+          <p>
+            A property purchase of USD 400,000 or more can qualify the buyer and their immediate family for Turkish citizenship by
+            investment, and smaller purchases can support a short-term residence permit. We explain the real costs up front — purchase tax,
+            notary and translation fees, TAPU charges, mandatory earthquake insurance (DASK), and annual maintenance — so your budget is
+            realistic before you commit. Every listing on this site includes verified photos, floor sizes, distances to the sea and the
+            airport, payment terms and completion dates.
+          </p>
+          <h3 className="text-xl font-semibold text-foreground">After-sales support</h3>
+          <p>
+            Our work does not stop at the signature. We assist with furniture packages, interior design, rental management, resale and
+            everyday practicalities such as banking and insurance. If you are unsure where to start, tell us your budget and how you plan to
+            use the property and our advisors will send a personal shortlist within 24 hours.
+          </p>
+          <SEOInternalLinks heading="Popular destinations and buyer guides" className="border-t-0" />
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">

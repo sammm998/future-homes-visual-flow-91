@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Link, useLocation } from 'react-router-dom';
+import SEOInternalLinks from '@/components/SEOInternalLinks';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
@@ -235,9 +236,12 @@ const AIPropertySearch = () => {
                 </div>
                 <span className="absolute bottom-2 right-2 h-4 w-4 rounded-full bg-emerald-500 ring-2 ring-white" />
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
                 Find your dream home with Emma
               </h1>
+              <div className="w-full max-w-2xl mb-8">
+                <SEOInternalLinks heading="Browse property by destination" className="border-t-0 mt-0 pt-0" />
+              </div>
 
               {/* Mode pills */}
               <div className="flex items-center gap-2 mb-6 flex-wrap justify-center">
