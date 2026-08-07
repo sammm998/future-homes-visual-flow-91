@@ -26,7 +26,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
-import AIPropertyAssistant from "@/components/AIPropertyAssistant";
 import PropertyListingSection from "@/components/PropertyListingSection";
 import aliKaranImage from "@/assets/ali-karan-founder.png";
 
@@ -225,9 +224,6 @@ const Index = () => {
       <div className="w-full">
         <InteractiveSelector />
       </div>
-      
-      {/* AI Property Assistant */}
-      <AIPropertyAssistant />
       
       {/* Featured Properties - Shuffle Grid */}
       <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
