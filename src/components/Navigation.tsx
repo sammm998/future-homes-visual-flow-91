@@ -15,7 +15,6 @@ import { AIHelpChat } from "./AIHelpChat";
 import Sidebar from "./Sidebar";
 import CurrencySelector from "./CurrencySelector";
 import SimpleLanguageSelector from "./SimpleLanguageSelector";
-import UpdateBanner from "./UpdateBanner";
 
 interface NavigationProps {
   className?: string;
@@ -26,8 +25,6 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
   const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
   return (
     <>
-      <UpdateBanner />
-
       <div className="bg-brand-secondary text-white py-2 px-4">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-2 sm:mb-0 text-center sm:text-left">
