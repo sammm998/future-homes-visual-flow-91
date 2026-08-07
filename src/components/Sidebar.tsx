@@ -95,14 +95,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
               <Link to={withLang("/contact-us")} onClick={onClose} className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1">
                 {t('sidebar.contact')}
               </Link>
-              <Link
-                to={withLang("/ai-property-search")}
-                onClick={onClose}
-                className="block text-muted-foreground hover:text-primary text-sm transition-colors py-1 text-left"
-              >
-                {t('sidebar.ai_help')}
-              </Link>
-              
             </div>
           </div>
         </motion.div>
