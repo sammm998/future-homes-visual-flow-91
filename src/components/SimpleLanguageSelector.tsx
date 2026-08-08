@@ -85,7 +85,7 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
     <div className={`relative ${className}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 px-2 py-1 text-sm bg-background border border-border rounded hover:bg-muted transition-colors"
+        className="flex items-center gap-1 px-2 py-1 text-sm bg-background border border-border rounded-sm hover:bg-muted transition-colors"
       >
         <span className="text-lg">{currentLanguage.flag}</span>
         <span className="text-xs">{currentLanguage.code.toUpperCase()}</span>
@@ -93,7 +93,7 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-1 bg-background border border-border rounded shadow-lg z-50 min-w-[160px]">
+        <div className="absolute top-full right-0 mt-1 bg-background border border-border rounded-sm shadow-lg z-50 min-w-[160px]">
           <div className="py-1 max-h-60 overflow-y-auto">
             {languages.map((language) => (
               <button

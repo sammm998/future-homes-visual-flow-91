@@ -114,7 +114,7 @@ export default function LeadsList() {
                     <Link
                       key={l.id}
                       to={`/admin/crm/leads/${l.id}`}
-                      className="block bg-background rounded-md p-3 shadow-sm hover:shadow border"
+                      className="block bg-background rounded-md p-3 shadow-xs hover:shadow border"
                     >
                       <div className="font-medium text-sm truncate">{l.name}</div>
                       {l.email && <div className="text-xs text-muted-foreground truncate">{l.email}</div>}
@@ -141,7 +141,7 @@ export default function LeadsList() {
                   </div>
                 </Link>
                 <select
-                  className={`text-xs border rounded px-2 py-1 ${statusColors[l.status]}`}
+                  className={`text-xs border rounded-sm px-2 py-1 ${statusColors[l.status]}`}
                   value={l.status}
                   onChange={(e) => updateStatus(l.id, e.target.value as Status)}
                 >

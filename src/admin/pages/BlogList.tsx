@@ -124,7 +124,7 @@ export default function BlogList() {
             <div className="divide-y">
               {filtered.map((r) => (
                 <div key={r.id} className="flex items-center gap-4 p-4">
-                  <div className="w-16 h-12 rounded bg-muted overflow-hidden flex-shrink-0">
+                  <div className="w-16 h-12 rounded-sm bg-muted overflow-hidden flex-shrink-0">
                     {r.featured_image && (
                       <img src={r.featured_image} alt="" className="w-full h-full object-cover" />
                     )}

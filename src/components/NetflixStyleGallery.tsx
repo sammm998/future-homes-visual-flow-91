@@ -272,7 +272,7 @@ const NetflixStyleGallery: React.FC = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`flex-shrink-0 w-16 h-12 rounded overflow-hidden border-2 transition-colors ${
+                      className={`flex-shrink-0 w-16 h-12 rounded-sm overflow-hidden border-2 transition-colors ${
                         index === currentImageIndex ? 'border-white' : 'border-transparent hover:border-white/50'
                       }`}
                     >

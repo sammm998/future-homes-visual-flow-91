@@ -282,7 +282,7 @@ function Stat({ icon: Icon, label, value }: { icon: any; label: string; value: n
 
 function Info({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-muted/50 rounded p-2">
+    <div className="bg-muted/50 rounded-sm p-2">
       <div className="text-muted-foreground">{label}</div>
       <div className="font-medium truncate">{value}</div>
     </div>

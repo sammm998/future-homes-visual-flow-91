@@ -71,7 +71,7 @@ export default function CourseOverview() {
                 <Clock className="w-4 h-4" />
                 ~{course.estimated_minutes} minutes
               </span>
-              <span className="px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">
+              <span className="px-2 py-0.5 rounded-sm bg-primary/10 text-primary font-medium">
                 {course.difficulty}
               </span>
             </div>

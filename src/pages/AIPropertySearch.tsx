@@ -212,7 +212,7 @@ const AIPropertySearch = () => {
             <select
               value={lang}
               onChange={(e) => handleLanguageChange(e.target.value)}
-              className="text-xs text-gray-600 bg-transparent border border-gray-200 rounded-md px-2 py-1 focus:outline-none focus:border-gray-400"
+              className="text-xs text-gray-600 bg-transparent border border-gray-200 rounded-md px-2 py-1 focus:outline-hidden focus:border-gray-400"
               aria-label="Language"
             >
               {LANGUAGES.map(l => (
@@ -279,7 +279,7 @@ const AIPropertySearch = () => {
 
               {/* Input */}
               <form onSubmit={handleSubmit} className="w-full max-w-2xl mb-3">
-                <div className="relative flex items-center gap-2 bg-white border border-gray-200 rounded-full pl-3 pr-2 py-2 shadow-sm focus-within:border-gray-300 focus-within:shadow-md transition-all">
+                <div className="relative flex items-center gap-2 bg-white border border-gray-200 rounded-full pl-3 pr-2 py-2 shadow-xs focus-within:border-gray-300 focus-within:shadow-md transition-all">
                   <button type="button" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
                     <Plus className="h-5 w-5" />
                   </button>
@@ -290,7 +290,7 @@ const AIPropertySearch = () => {
                     onKeyDown={handleKeyDown}
                     placeholder="Ask a question..."
                     rows={1}
-                    className="flex-1 bg-transparent border-0 resize-none focus:outline-none text-gray-900 placeholder:text-gray-400 text-sm leading-6 py-1"
+                    className="flex-1 bg-transparent border-0 resize-none focus:outline-hidden text-gray-900 placeholder:text-gray-400 text-sm leading-6 py-1"
                     style={{ minHeight: '24px' }}
                     disabled={isLoading}
                   />
@@ -309,7 +309,7 @@ const AIPropertySearch = () => {
               </form>
 
               {/* Suggested actions */}
-              <div className="w-full max-w-2xl rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+              <div className="w-full max-w-2xl rounded-2xl border border-gray-200 bg-white shadow-xs overflow-hidden">
                 {SUGGESTED_PROMPTS.map((prompt, i) => (
                   <button
                     key={i}
@@ -419,7 +419,7 @@ const AIPropertySearch = () => {
                             </p>
                             {msg.articleLinks.map((a) => (
                               <Link key={a.id} to={`/article/${a.slug}${langParam}`}>
-                                <Card className="bg-white border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all">
+                                <Card className="bg-white border border-gray-200 hover:border-gray-300 hover:shadow-xs transition-all">
                                   <CardContent className="p-3 flex gap-3 items-center">
                                     {a.image && (
                                       <img src={a.image} alt={a.title} className="h-14 w-14 object-cover rounded-md flex-shrink-0" loading="lazy" />
@@ -496,7 +496,7 @@ const AIPropertySearch = () => {
                   <VolumeX className="h-3 w-3" /> Read out: {readMode === 'muted' ? 'Off' : 'On'}
                 </button>
               </div>
-              <div className="relative flex items-center gap-2 bg-white border border-gray-200 rounded-full pl-3 pr-2 py-2 shadow-sm focus-within:border-gray-300 focus-within:shadow-md transition-all">
+              <div className="relative flex items-center gap-2 bg-white border border-gray-200 rounded-full pl-3 pr-2 py-2 shadow-xs focus-within:border-gray-300 focus-within:shadow-md transition-all">
                 <button type="button" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
                   <Plus className="h-5 w-5" />
                 </button>
@@ -506,7 +506,7 @@ const AIPropertySearch = () => {
                   onKeyDown={handleKeyDown}
                   placeholder="Ask a question..."
                   rows={1}
-                  className="flex-1 bg-transparent border-0 resize-none focus:outline-none text-gray-900 placeholder:text-gray-400 max-h-40 text-sm leading-6 py-1"
+                  className="flex-1 bg-transparent border-0 resize-none focus:outline-hidden text-gray-900 placeholder:text-gray-400 max-h-40 text-sm leading-6 py-1"
                   style={{ minHeight: '24px' }}
                   onInput={(e) => {
                     const t = e.target as HTMLTextAreaElement;

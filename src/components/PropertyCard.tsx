@@ -145,7 +145,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           {property.refNo && (
             <div className="absolute bottom-4 left-4">
               <span
-                className="px-2 py-0.5 bg-black/40 backdrop-blur-sm text-white text-[10px] rounded"
+                className="px-2 py-0.5 bg-black/40 backdrop-blur-sm text-white text-[10px] rounded-sm"
                 style={{ fontFamily: 'Epilogue, sans-serif' }}
               >
                 REF #{property.refNo}

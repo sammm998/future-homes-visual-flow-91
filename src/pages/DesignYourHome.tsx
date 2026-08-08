@@ -212,7 +212,7 @@ const DesignYourHome = () => {
                   )}>{s.label}</span>
                 </div>
                 {i < STEPS.length - 1 && (
-                  <div className="flex-1 h-0.5 mx-2 -mt-6 rounded bg-muted overflow-hidden">
+                  <div className="flex-1 h-0.5 mx-2 -mt-6 rounded-sm bg-muted overflow-hidden">
                     <motion.div
                       animate={{ width: step > s.id ? "100%" : "0%" }}
                       transition={{ duration: 0.4 }}
@@ -315,7 +315,7 @@ const DesignYourHome = () => {
                             <div className="text-sm text-white font-semibold truncate">{p.title}</div>
                             <div className="text-xs text-white/70 truncate">{p.location}</div>
                             {p.images.length > 1 && (
-                              <div className="mt-1 inline-flex items-center gap-1 text-[10px] text-white/80 bg-white/10 backdrop-blur px-1.5 py-0.5 rounded">
+                              <div className="mt-1 inline-flex items-center gap-1 text-[10px] text-white/80 bg-white/10 backdrop-blur px-1.5 py-0.5 rounded-sm">
                                 <ImageIcon className="w-3 h-3" /> {p.images.length} photos
                               </div>
                             )}
@@ -361,7 +361,7 @@ const DesignYourHome = () => {
                               <Wand2 className="w-3 h-3" /> Redesign
                             </div>
                           </div>
-                          <span className="absolute top-2 left-2 text-[10px] bg-black/60 text-white px-1.5 py-0.5 rounded">
+                          <span className="absolute top-2 left-2 text-[10px] bg-black/60 text-white px-1.5 py-0.5 rounded-sm">
                             {i + 1}
                           </span>
                         </motion.button>
@@ -421,7 +421,7 @@ const DesignYourHome = () => {
                 </div>
               </div>
 
-              <div className="space-y-5 p-6 md:p-8 rounded-3xl border border-border bg-card shadow-sm">
+              <div className="space-y-5 p-6 md:p-8 rounded-3xl border border-border bg-card shadow-xs">
                 <div>
                   <h2 className="text-2xl font-bold mb-1">Set the mood</h2>
                   <p className="text-sm text-muted-foreground">Tap a style or describe your own vision.</p>
@@ -435,7 +435,7 @@ const DesignYourHome = () => {
                       className={cn(
                         "text-left text-sm px-3 py-2.5 rounded-xl border transition-all",
                         activePreset === s.label
-                          ? "border-primary bg-primary/10 text-foreground shadow-sm"
+                          ? "border-primary bg-primary/10 text-foreground shadow-xs"
                           : "border-border hover:border-primary/50 hover:bg-muted/50"
                       )}
                     >

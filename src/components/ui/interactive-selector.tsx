@@ -117,7 +117,7 @@ const InteractiveSelector = () => {
                       <h3 className="text-lg sm:text-xl font-bold mb-1">{option.title}</h3>
                       <p className="text-white/80 text-sm mb-1">{option.description}</p>
                       <p className="font-semibold text-xs sm:text-sm mb-2 text-slate-50">{option.propertyCount}</p>
-                      <button className="bg-primary hover:bg-primary-glow text-white px-3 py-1 rounded text-xs font-semibold transition-colors" onClick={(e) => { e.stopPropagation(); navigate(option.path); }}>
+                      <button className="bg-primary hover:bg-primary-glow text-white px-3 py-1 rounded-sm text-xs font-semibold transition-colors" onClick={(e) => { e.stopPropagation(); navigate(option.path); }}>
                         {t('home.view_properties')}
                       </button>
                     </div>

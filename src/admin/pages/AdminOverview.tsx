@@ -59,14 +59,14 @@ export default function AdminOverview() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s) => (
-          <Card key={s.label} className="bg-admin-surface shadow-sm hover:shadow-md transition-shadow">
+          <Card key={s.label} className="bg-admin-surface shadow-xs hover:shadow-md transition-shadow">
             <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
               <CardTitle className="text-sm font-medium text-muted-foreground">{s.label}</CardTitle>
               <s.icon className="h-4 w-4 text-admin-accent" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-semibold tracking-tight tabular-nums">
-                {s.value ?? <span className="inline-block h-8 w-12 bg-muted animate-pulse rounded" />}
+                {s.value ?? <span className="inline-block h-8 w-12 bg-muted animate-pulse rounded-sm" />}
               </div>
               <div className="flex items-center justify-between mt-1">
                 <span className="text-xs text-muted-foreground">{s.sub}</span>
