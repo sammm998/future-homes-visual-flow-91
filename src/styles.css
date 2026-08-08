@@ -1,0 +1,517 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition — ported from the pre-migration src/index.css +
+ * tailwind.config.ts. Tokens stay as raw HSL triplets (e.g. 213 100% 23%) so
+ * every existing `hsl(var(--x))` and `hsl(var(--x) / 0.3)` usage in components
+ * keeps working unchanged.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-glow: hsl(var(--primary-glow));
+  --color-brand: hsl(var(--brand));
+  --color-brand-foreground: hsl(var(--brand-foreground));
+  --color-brand-secondary: hsl(var(--brand-secondary));
+  --color-brand-accent: hsl(var(--brand-accent));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-ring-offset-background: hsl(var(--background));
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+  --color-admin-sidebar: hsl(var(--admin-sidebar));
+  --color-admin-sidebar-foreground: hsl(var(--admin-sidebar-foreground));
+  --color-admin-sidebar-border: hsl(var(--admin-sidebar-border));
+  --color-admin-accent: hsl(var(--admin-accent));
+  --color-admin-accent-foreground: hsl(var(--admin-accent-foreground));
+  --color-admin-bg: hsl(var(--admin-bg));
+  --color-admin-surface: hsl(var(--admin-surface));
+
+  /* backgroundImage extensions -> bg-gradient-primary / bg-gradient-hero / bg-gradient-dark / bg-noise */
+  --background-image-gradient-primary: var(--gradient-primary);
+  --background-image-gradient-hero: var(--gradient-hero);
+  --background-image-gradient-dark: var(--gradient-dark);
+  --background-image-noise: url("https://www.reactbits.dev/assets/noise.png");
+
+  /* boxShadow extensions -> shadow-elegant / shadow-glow */
+  --shadow-elegant: var(--shadow-elegant-value);
+  --shadow-glow: var(--shadow-glow-value);
+
+  /* custom animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-star-movement-bottom: star-movement-bottom linear infinite alternate;
+  --animate-star-movement-top: star-movement-top linear infinite alternate;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes star-movement-bottom {
+    0% {
+      transform: translate(0%, 0%);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-100%, 0%);
+      opacity: 0;
+    }
+  }
+  @keyframes star-movement-top {
+    0% {
+      transform: translate(0%, 0%);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(100%, 0%);
+      opacity: 0;
+    }
+  }
+}
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+
+  /* Future Homes Brand Colors */
+  --primary: 213 100% 23%;
+  --primary-foreground: 0 0% 100%;
+  --primary-glow: 213 100% 35%;
+
+  --brand: 213 100% 23%;
+  --brand-foreground: 0 0% 100%;
+  --brand-secondary: 213 45% 15%;
+  --brand-accent: 213 35% 85%;
+
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+
+  /* Design System Extensions */
+  --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+  --gradient-hero: linear-gradient(135deg, hsl(213 100% 15%), hsl(213 85% 25%));
+  --gradient-dark: linear-gradient(135deg, hsl(213 45% 15%), hsl(213 35% 8%));
+  --gradient-modern: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--primary-glow)), hsl(var(--accent)));
+  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  --shadow-elegant-value: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+  --shadow-glow-value: 0 0 40px hsl(var(--primary-glow) / 0.4);
+  --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+  --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
+  --shadow-modern: 0 25px 50px -12px hsl(var(--primary) / 0.25);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  --radius: 0.5rem;
+
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+
+  /* Admin dashboard tokens (#1a365d navy, #c9a84c gold, #f8fafc bg) */
+  --admin-sidebar: 213 56% 23%;
+  --admin-sidebar-foreground: 0 0% 100%;
+  --admin-sidebar-border: 213 56% 18%;
+  --admin-accent: 44 51% 54%;
+  --admin-accent-foreground: 213 56% 18%;
+  --admin-bg: 210 40% 98%;
+  --admin-surface: 0 0% 100%;
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+  --sidebar-background: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 224.3 76.3% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    top: 0 !important;
+  }
+}
+
+/* Container — ported from tailwind.config.ts (center, 2rem padding, 2xl capped at 1400px) */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  width: 100%;
+  @media (width >= 640px) {
+    max-width: 640px;
+  }
+  @media (width >= 768px) {
+    max-width: 768px;
+  }
+  @media (width >= 1024px) {
+    max-width: 1024px;
+  }
+  @media (width >= 1280px) {
+    max-width: 1280px;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+/* Hide Google Translate banner */
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+/* Currency display using CSS content to prevent translation */
+.currency-display-content {
+  display: inline-block;
+  width: 3ch;
+  max-width: 3ch;
+  overflow: hidden;
+  font-family: monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  font-weight: 600;
+  user-select: none;
+  pointer-events: none;
+  direction: ltr;
+}
+
+.currency-display-content::before {
+  content: attr(data-currency);
+}
+
+/* Override any translation attempts with specific CSS content */
+.currency-display-content[data-currency="SEK"]::before {
+  content: "SEK" !important;
+}
+
+.currency-display-content[data-currency="TRY"]::before {
+  content: "TRY" !important;
+}
+
+.currency-display-content[data-currency="RUB"]::before {
+  content: "RUB" !important;
+}
+
+.currency-display-content[data-currency="EUR"]::before {
+  content: "EUR" !important;
+}
+
+.currency-display-content[data-currency="USD"]::before {
+  content: "USD" !important;
+}
+
+.currency-display-content[data-currency="GBP"]::before {
+  content: "GBP" !important;
+}
+
+.currency-display-content[data-currency="NOK"]::before {
+  content: "NOK" !important;
+}
+
+.currency-display-content[data-currency="DKK"]::before {
+  content: "DKK" !important;
+}
+
+.currency-display-content[data-currency="AED"]::before {
+  content: "AED" !important;
+}
+
+.currency-display-content[data-currency="IRR"]::before {
+  content: "IRR" !important;
+}
+
+.currency-display-content[data-currency="CHF"]::before {
+  content: "CHF" !important;
+}
+
+.currency-display-content[data-currency="CAD"]::before {
+  content: "CAD" !important;
+}
+
+.currency-display-content[data-currency="AUD"]::before {
+  content: "AUD" !important;
+}
+
+.notranslate {
+  -webkit-transform: none !important;
+  transform: none !important;
+  -webkit-locale: "en" !important;
+  translate: no !important;
+}
+
+/* Line clamp utilities for text truncation */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Hide scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* Modern Gallery Animations & Effects */
+@layer utilities {
+  .bg-grid-pattern {
+    background-image: radial-gradient(circle at 1px 1px, hsl(var(--primary) / 0.1) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)), hsl(var(--accent)));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientShift 3s ease-in-out infinite;
+  }
+
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .modern-shadow {
+    box-shadow: var(--shadow-modern);
+  }
+
+  .glow-effect {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.3), 0 0 60px hsl(var(--primary) / 0.1);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  /* 3D Transform Utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .rotateY-12:hover {
+    transform: rotateY(12deg);
+  }
+
+  .translateZ-neg-20 {
+    transform: translateZ(-20px);
+  }
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradient {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
+  }
+}
+
+/* Ken Burns — subtle "living photo" motion for first property image.
+   Slow zoom + gentle pan so the still looks exactly like the source photo
+   but breathes like a video clip. */
+@keyframes kenburns {
+  0% {
+    transform: scale(1.05) translate3d(0, 0, 0);
+    transform-origin: 50% 50%;
+  }
+  50% {
+    transform: scale(1.15) translate3d(-1.5%, -1%, 0);
+    transform-origin: 45% 45%;
+  }
+  100% {
+    transform: scale(1.05) translate3d(0, 0, 0);
+    transform-origin: 50% 50%;
+  }
+}
+
+.animate-kenburns {
+  animation: kenburns 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-kenburns {
+    animation: none;
+  }
+}
+
+/* RTL fixes — keep visual/structural layouts LTR while text inside still flows RTL where needed.
+   Embla carousels, image comparison sliders, and similar transform-based widgets break under
+   `direction: rtl`, so we force their containers to LTR. */
+[dir="rtl"] .embla,
+[dir="rtl"] .embla__container,
+[dir="rtl"] [data-embla-container],
+[dir="rtl"] .force-ltr {
+  direction: ltr;
+}
+
+/* Ensure hero slider, image comparison, carousels render correctly in RTL */
+[dir="rtl"] .hero-slider-wrapper,
+[dir="rtl"] .image-comparison-wrapper {
+  direction: ltr;
+}
