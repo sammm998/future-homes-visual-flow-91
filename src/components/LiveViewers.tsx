@@ -46,7 +46,7 @@ export default function LiveViewers({ propertyId, compact = false }: LiveViewers
   return (
     <div className={
       compact
-        ? "inline-flex items-center gap-2 px-2.5 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-sm"
+        ? "inline-flex items-center gap-2 px-2.5 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-xs"
         : "inline-flex items-center gap-2 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 px-3 py-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-300"
     }>
       <span className="relative flex h-2 w-2">

@@ -116,7 +116,7 @@ export default function PropertiesList() {
                 Array.from({ length: 6 }).map((_, i) => (
                   <tr key={i} className="border-t">
                     <td colSpan={6} className="px-4 py-4">
-                      <div className="h-6 bg-muted animate-pulse rounded" />
+                      <div className="h-6 bg-muted animate-pulse rounded-sm" />
                     </td>
                   </tr>
                 ))}
@@ -127,7 +127,7 @@ export default function PropertiesList() {
                 <tr key={r.id} className="border-t hover:bg-muted/30">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="h-10 w-14 rounded bg-muted overflow-hidden shrink-0">
+                      <div className="h-10 w-14 rounded-sm bg-muted overflow-hidden shrink-0">
                         {r.property_image && (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={r.property_image} alt="" className="h-full w-full object-cover" loading="lazy" />

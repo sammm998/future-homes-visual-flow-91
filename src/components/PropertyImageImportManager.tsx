@@ -287,7 +287,7 @@ const PropertyImageImportManager: React.FC<PropertyImageImportManagerProps> = ({
                   {importLog.map((entry, index) => (
                     <div 
                       key={index} 
-                      className={`p-1 rounded ${
+                      className={`p-1 rounded-sm ${
                         entry.includes('✓') ? 'bg-green-50 text-green-800' :
                         entry.includes('✗') ? 'bg-red-50 text-red-800' :
                         'bg-gray-50 text-gray-800'

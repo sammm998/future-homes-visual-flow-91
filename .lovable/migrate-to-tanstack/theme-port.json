@@ -1,0 +1,23 @@
+{
+  "customizations": [
+    { "token": "--primary/--primary-foreground/--primary-glow (brand navy palette)", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--brand/--brand-foreground/--brand-secondary/--brand-accent", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "light+dark shadcn palette (background/foreground/card/popover/secondary/muted/accent/destructive/border/input/ring)", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--sidebar-* tokens (light+dark)", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--admin-sidebar/--admin-accent/--admin-bg/--admin-surface tokens", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--gradient-primary/hero/dark/modern/glass", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--shadow-elegant/glow/modern", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "--transition-smooth/bounce + --radius 0.5rem", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "bg-gradient-primary/bg-gradient-hero/bg-gradient-dark/bg-noise backgroundImage utilities", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "shadow-elegant/shadow-glow boxShadow utilities", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "container config (center, 2rem padding, 2xl 1400px)", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "accordion-down/up + star-movement-top/bottom keyframes and animations", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": "@tailwindcss/typography plugin", "source": "tailwind.config.ts", "reappliedIn": "src/styles.css" },
+    { "token": ".currency-display-content + per-currency ::before overrides", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".goog-te-banner-frame/.notranslate/body top fix", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": ".line-clamp-1/2/3 + .scrollbar-hide utilities", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "bg-grid-pattern/gradient-text/glass-morphism/modern-shadow/glow-effect/transition-smooth/3D transform utilities", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "gradientShift/gradient/float/pulse-glow/kenburns keyframes + .animate-kenburns", "source": "src/index.css", "reappliedIn": "src/styles.css" },
+    { "token": "RTL embla/hero-slider/image-comparison LTR fixes", "source": "src/index.css", "reappliedIn": "src/styles.css" }
+  ]
+}

@@ -262,7 +262,7 @@ export default function BlogEdit() {
                 <img
                   src={form.featured_image}
                   alt=""
-                  className="w-full aspect-video object-cover rounded"
+                  className="w-full aspect-video object-cover rounded-sm"
                 />
               )}
             </CardContent>

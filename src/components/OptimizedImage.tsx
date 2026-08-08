@@ -83,7 +83,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           <img 
             src={futureHomesLogo} 
             alt="Future Homes" 
-            className="w-10 h-auto drop-shadow-lg bg-white/80 backdrop-blur-sm rounded p-1"
+            className="w-10 h-auto drop-shadow-lg bg-white/80 backdrop-blur-sm rounded-sm p-1"
           />
         </div>
       )}

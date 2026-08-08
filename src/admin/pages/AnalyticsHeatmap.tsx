@@ -183,7 +183,7 @@ export default function AnalyticsHeatmap() {
                   </div>
                 </div>
                 {filtered.length === 0 && (
-                  <div className="absolute top-3 left-3 text-xs bg-background/90 border rounded px-2 py-1 text-muted-foreground z-10">
+                  <div className="absolute top-3 left-3 text-xs bg-background/90 border rounded-sm px-2 py-1 text-muted-foreground z-10">
                     No clicks recorded yet for this page.
                   </div>
                 )}

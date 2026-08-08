@@ -196,8 +196,8 @@ const ModernPropertyShowcase = () => {
       <section className="py-16 md:py-24 bg-gradient-to-b from-background via-secondary/10 to-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-muted rounded w-64 mx-auto mb-4"></div>
-            <div className="h-4 bg-muted rounded w-96 mx-auto mb-12"></div>
+            <div className="h-8 bg-muted rounded-sm w-64 mx-auto mb-4"></div>
+            <div className="h-4 bg-muted rounded-sm w-96 mx-auto mb-12"></div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 h-[400px] bg-muted rounded-3xl"></div>
               <div className="space-y-8">

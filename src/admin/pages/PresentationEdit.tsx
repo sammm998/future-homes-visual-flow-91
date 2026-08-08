@@ -287,7 +287,7 @@ export default function PresentationEdit() {
                                 e.stopPropagation();
                                 duplicate(i);
                               }}
-                              className="p-1 bg-white/90 rounded"
+                              className="p-1 bg-white/90 rounded-sm"
                             >
                               <Copy className="h-3 w-3" />
                             </button>
@@ -296,7 +296,7 @@ export default function PresentationEdit() {
                                 e.stopPropagation();
                                 removeSlide(i);
                               }}
-                              className="p-1 bg-white/90 rounded"
+                              className="p-1 bg-white/90 rounded-sm"
                             >
                               <Trash2 className="h-3 w-3 text-destructive" />
                             </button>
@@ -304,7 +304,7 @@ export default function PresentationEdit() {
                           <div className="overflow-hidden rounded-[4px] pointer-events-none">
                             <SlideView slide={s} theme={theme} scale={196 / SLIDE_W} />
                           </div>
-                          <div className="absolute bottom-1 left-1 text-[10px] bg-black/60 text-white px-1 rounded">
+                          <div className="absolute bottom-1 left-1 text-[10px] bg-black/60 text-white px-1 rounded-sm">
                             {i + 1}
                           </div>
                         </div>
@@ -386,7 +386,7 @@ export default function PresentationEdit() {
                 <div>
                   <Label className="text-xs">Image</Label>
                   {slide.image && (
-                    <img src={slide.image} className="mt-1 w-full h-24 object-cover rounded" />
+                    <img src={slide.image} className="mt-1 w-full h-24 object-cover rounded-sm" />
                   )}
                   <Button
                     variant="outline"
@@ -408,7 +408,7 @@ export default function PresentationEdit() {
                   <div className="grid grid-cols-3 gap-1 mt-1">
                     {(slide.images || []).map((src, i) => (
                       <div key={i} className="relative group">
-                        <img src={src} className="w-full h-14 object-cover rounded" />
+                        <img src={src} className="w-full h-14 object-cover rounded-sm" />
                         <button
                           onClick={() =>
                             update({ images: (slide.images || []).filter((_, idx) => idx !== i) })
@@ -497,7 +497,7 @@ export default function PresentationEdit() {
                     setTheme((t) => ({ ...t, accent: e.target.value }));
                     markDirty();
                   }}
-                  className="mt-1 h-8 w-full rounded border"
+                  className="mt-1 h-8 w-full rounded-sm border"
                 />
               </div>
             </>
@@ -710,7 +710,7 @@ function ImgGrid({
         <button
           key={i}
           onClick={() => onToggle(u)}
-          className={`relative rounded overflow-hidden border-2 ${
+          className={`relative rounded-sm overflow-hidden border-2 ${
             sel.includes(u) ? "border-admin-accent" : "border-transparent"
           }`}
         >

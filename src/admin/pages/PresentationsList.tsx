@@ -147,7 +147,7 @@ export default function PresentationsList() {
                   >
                     <img
                       src={p.property_image || p.property_images?.[0] || ""}
-                      className="h-12 w-16 object-cover rounded bg-muted"
+                      className="h-12 w-16 object-cover rounded-sm bg-muted"
                     />
                     <div className="min-w-0">
                       <div className="text-sm font-medium truncate">{p.title}</div>

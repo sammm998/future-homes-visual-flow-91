@@ -304,7 +304,7 @@ const AdminCleanup = () => {
                           </p>
                           <div className="space-y-2">
                             {result.matches.slice(0, 3).map((match: any, matchIndex: number) => (
-                              <div key={matchIndex} className="text-sm p-2 bg-muted rounded">
+                              <div key={matchIndex} className="text-sm p-2 bg-muted rounded-sm">
                                 <p><strong>Title:</strong> {match.title}</p>
                                 <p><strong>Location:</strong> {match.location}</p>
                                 {match.ref_no && <p><strong>Ref:</strong> {match.ref_no}</p>}

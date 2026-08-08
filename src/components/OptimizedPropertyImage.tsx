@@ -183,7 +183,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
         alt={alt}
         className={cn(
           "w-full h-full object-cover transition-all duration-500",
-          isLoading ? "opacity-0 scale-105 blur-sm" : "opacity-100 scale-100 blur-0",
+          isLoading ? "opacity-0 scale-105 blur-xs" : "opacity-100 scale-100 blur-0",
           error && "opacity-50",
           className
         )}

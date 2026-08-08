@@ -143,7 +143,7 @@ export default function LeadDetail() {
                 </div>
                 <div className="space-y-2">
                   {notes.map((n) => (
-                    <div key={n.id} className="p-3 bg-background rounded border text-sm">
+                    <div key={n.id} className="p-3 bg-background rounded-sm border text-sm">
                       <div className="text-xs text-muted-foreground mb-1">{format(new Date(n.created_at), "PPp")}</div>
                       {n.body}
                     </div>
@@ -179,7 +179,7 @@ export default function LeadDetail() {
             <CardContent className="space-y-3 pt-0">
               <div>
                 <Label>Status</Label>
-                <select className="w-full h-10 border rounded px-3 text-sm" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
+                <select className="w-full h-10 border rounded-sm px-3 text-sm" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
                   {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
