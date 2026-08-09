@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { ChevronRight, Home } from 'lucide-react';
 import BreadcrumbSchema from './BreadcrumbSchema';
 

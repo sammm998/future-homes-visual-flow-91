@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "@/lib/router-compat";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -84,7 +84,7 @@ export default function PresentationEdit() {
       const { data, error } = await supabase
         .from("presentations")
         .select("*")
-        .eq("id", id)
+        .eq("id", id!)
         .single();
       if (error || !data) {
         toast.error("Presentation not found");
@@ -93,7 +93,7 @@ export default function PresentationEdit() {
       }
       setTitle(data.title);
       setSlides(((data.slides as any) || []) as Slide[]);
-      setTheme(((data.theme as any) && Object.keys(data.theme).length ? data.theme : DEFAULT_THEME) as PresentationTheme);
+      setTheme(((data.theme as any) && Object.keys(data.theme as any).length ? data.theme : DEFAULT_THEME) as PresentationTheme);
       setPropertyId(data.property_id);
       setLoading(false);
     })();
@@ -106,7 +106,7 @@ export default function PresentationEdit() {
     const { error } = await supabase
       .from("presentations")
       .update({ title, slides: slides as any, theme: theme as any })
-      .eq("id", id);
+      .eq("id", id!);
     setSaving(false);
     if (error) {
       toast.error("Save failed");
@@ -512,7 +512,7 @@ export default function PresentationEdit() {
             key={s.id}
             slide={s}
             theme={theme}
-            ref={(el) => (exportRefs.current[i] = el)}
+            ref={(el) => { exportRefs.current[i] = el; }}
           />
         ))}
       </div>

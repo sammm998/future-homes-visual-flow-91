@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/router-compat';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { ArrowRight, MapPin, Bed, Bath, Square } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -147,7 +147,7 @@ const ModernPropertyShowcase = () => {
                 sizes_m2: prop.sizes_m2 || '60-100'
               };
             })
-            .filter(Boolean) // Remove null entries
+            .filter((prop): prop is NonNullable<typeof prop> => Boolean(prop)) // Remove null entries
             .filter(prop => 
               // Additional filter: prioritize properties with facade indicators in URL
               prop.property_image && (

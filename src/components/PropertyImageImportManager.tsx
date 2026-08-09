@@ -155,7 +155,7 @@ const PropertyImageImportManager: React.FC<PropertyImageImportManagerProps> = ({
               ...prev,
               failedImages: prev.failedImages + 1
             }));
-            addToLog(`✗ Failed to import image ${i + 1} for ${property.title}: ${error.message}`);
+            addToLog(`✗ Failed to import image ${i + 1} for ${property.title}: ${error instanceof Error ? error.message : String(error)}`);
           }
         }
       }
@@ -168,7 +168,7 @@ const PropertyImageImportManager: React.FC<PropertyImageImportManagerProps> = ({
 
     } catch (error) {
       console.error('Error during import process:', error);
-      addToLog(`Import process failed: ${error.message}`);
+      addToLog(`Import process failed: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       setIsImporting(false);
       setImportStats(prev => ({ ...prev, currentProperty: undefined }));

@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useParams } from '@/lib/router-compat';
 import { useMemo, useState } from 'react';
 import DOMPurify from 'dompurify';
 import Navigation from '@/components/Navigation';

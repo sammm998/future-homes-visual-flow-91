@@ -56,7 +56,7 @@ const NetflixStyleGallery: React.FC = () => {
       if (fetchError) throw fetchError;
 
       // Filter properties with images
-      const propertiesWithImages = (data || []).filter(property => 
+      const propertiesWithImages = ((data || []) as unknown as Property[]).filter(property => 
         property.property_images && 
         Array.isArray(property.property_images) && 
         property.property_images.length > 0

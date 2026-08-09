@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from '@/lib/router-compat';
 import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { useCourseByCountry } from '@/hooks/useCourses';

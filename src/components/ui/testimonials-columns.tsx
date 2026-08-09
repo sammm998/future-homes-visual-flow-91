@@ -2,7 +2,7 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { supabase } from "@/integrations/supabase/client";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "@/lib/router-compat";
 
 interface Testimonial {
   text: string;

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Award, Users, MapPin } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { useState } from "react";
 import aliKaranImage from "@/assets/ali-karan-founder.png";
 import { useTranslation } from "@/hooks/useTranslation";

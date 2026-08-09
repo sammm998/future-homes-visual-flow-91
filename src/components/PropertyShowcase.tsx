@@ -1,6 +1,6 @@
 
 import React, { memo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from '@/lib/router-compat';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperties } from '@/hooks/useProperties';
 import { formatPriceFromString } from '@/utils/priceFormatting';

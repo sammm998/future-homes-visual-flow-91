@@ -4,7 +4,7 @@ import { MapPin, Bed, Bath, Maximize2 } from 'lucide-react';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import { formatPriceFromString } from '@/utils/priceFormatting';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from '@/lib/router-compat';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 import LiveViewers from './LiveViewers';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -120,7 +120,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
         {/* Image Section */}
         <div className="relative aspect-[4/3] overflow-hidden bg-[#1e3a5f]">
           <OptimizedPropertyImage
-            src={getImageUrl()}
+            src={getImageUrl() ?? ''}
             alt={property.title}
             className="w-full h-full object-cover animate-kenburns"
             priority={priority}
