@@ -22,7 +22,7 @@ const PropertyWizardComponent = () => {
     location: '',
     propertyType: '',
     budget: '',
-    features: [],
+    features: [] as string[],
     contactInfo: {
       name: '',
       email: '',
