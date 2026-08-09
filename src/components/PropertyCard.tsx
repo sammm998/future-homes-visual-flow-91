@@ -120,7 +120,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
         {/* Image Section */}
         <div className="relative aspect-[4/3] overflow-hidden bg-[#1e3a5f]">
           <OptimizedPropertyImage
-            src={getImageUrl()}
+            src={getImageUrl() ?? ''}
             alt={property.title}
             className="w-full h-full object-cover animate-kenburns"
             priority={priority}

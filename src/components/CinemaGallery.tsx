@@ -52,7 +52,7 @@ const CinemaGallery: React.FC = () => {
 
       if (error) throw error;
 
-      const filteredProperties = (data || []).filter(property => 
+      const filteredProperties = ((data || []) as unknown as Property[]).filter(property => 
         property.property_images && 
         Array.isArray(property.property_images) && 
         property.property_images.length > 0
@@ -362,7 +362,7 @@ const CinemaGallery: React.FC = () => {
               <Button
                 key={type}
                 onClick={() => {
-                  setFilterType(type);
+                  setFilterType(type as string);
                   setCurrentIndex(0);
                 }}
                 variant={filterType === type ? "default" : "ghost"}

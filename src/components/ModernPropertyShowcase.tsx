@@ -147,7 +147,7 @@ const ModernPropertyShowcase = () => {
                 sizes_m2: prop.sizes_m2 || '60-100'
               };
             })
-            .filter(Boolean) // Remove null entries
+            .filter((prop): prop is NonNullable<typeof prop> => Boolean(prop)) // Remove null entries
             .filter(prop => 
               // Additional filter: prioritize properties with facade indicators in URL
               prop.property_image && (
