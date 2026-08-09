@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/router-compat';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { ArrowRight, MapPin, Bed, Bath, Square } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';

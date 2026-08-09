@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import React from "react";
 
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "@/lib/router-compat";
 import DOMPurify from 'dompurify';
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";

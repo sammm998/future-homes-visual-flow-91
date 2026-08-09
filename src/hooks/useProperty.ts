@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getLocaleFromPathname } from '@/utils/localeRouting';
 import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@/lib/router-compat';
 
 const SUPPORTED_LANGUAGES = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id'];
 const SLUG_COLUMNS = ['slug', ...SUPPORTED_LANGUAGES.map(lang => `slug_${lang}`)];

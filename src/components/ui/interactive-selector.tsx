@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/router-compat';
 import { FaMapMarkerAlt, FaBuilding, FaTree, FaUmbrellaBeach, FaMountain, FaMosque } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import baliImage from '@/assets/bali-destination.jpg';

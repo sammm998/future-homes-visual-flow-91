@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 import { CheckCircle2, Lock, PlayCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { CourseModule } from '@/hooks/useCourses';

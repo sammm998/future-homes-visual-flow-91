@@ -4,7 +4,7 @@ import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 import { useEffect } from 'react';
 import { preloadPropertyImages } from '@/utils/imageCache';
 import { getCurrentLanguage } from '@/utils/seoUtils';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@/lib/router-compat';
 
 export const useProperties = () => {
   const queryClient = useQueryClient();

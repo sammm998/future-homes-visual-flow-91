@@ -1,6 +1,6 @@
 import { getCurrentLanguage } from '@/utils/seoUtils';
 import { t } from '@/utils/translations';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@/lib/router-compat';
 import { useMemo } from 'react';
 
 const RTL_LANGUAGES = ['ar', 'fa', 'ur'];

@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, FileText, Home, Scale, DollarSign, Users, Briefcase, Building } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/router-compat";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { useTranslation } from "@/hooks/useTranslation";
 
