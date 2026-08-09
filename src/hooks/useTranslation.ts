@@ -12,8 +12,9 @@ export const useTranslation = () => {
   
   const isRTL = RTL_LANGUAGES.includes(lang);
 
-  // Update document direction
+  // Update document direction (browser only — this hook also runs during SSR)
   useMemo(() => {
+    if (typeof document === 'undefined') return;
     document.documentElement.lang = lang;
     document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
   }, [lang, isRTL]);
