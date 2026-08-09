@@ -66,7 +66,8 @@ export function useLocation() {
       pathname: loc.pathname,
       search: loc.searchStr ? `?${loc.searchStr}` : "",
       hash: loc.hash ?? "",
-      state: (loc.state ?? null) as unknown,
+      // react-router types state loosely; legacy call sites read arbitrary keys.
+      state: (loc.state ?? null) as any,
       key: loc.pathname + (loc.searchStr ?? ""),
     }),
     [loc.pathname, loc.searchStr, loc.hash, loc.state],
@@ -154,5 +155,14 @@ export function Navigate({ to, replace, state }: { to: string; replace?: boolean
 export const Outlet = TSOutlet;
 
 // ---------- NavLink (minimal) ----------
+// react-router's NavLink accepts `end` (exact matching) and function-form
+// className/style; this shim renders a plain Link and drops `end`.
 
-export const NavLink = Link;
+type NavLinkProps = LinkProps & { end?: boolean };
+
+export const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(function NavLink(
+  { end: _end, ...rest },
+  ref,
+) {
+  return <Link ref={ref} {...rest} />;
+});
