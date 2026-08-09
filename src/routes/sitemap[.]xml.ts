@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 // Serves the sitemap as real XML (previously rendered client-side by
 // src/pages/SitemapXML.tsx, which crawlers could not read).
-export const Route = createFileRoute("/sitemap/xml")({
+export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
