@@ -8,11 +8,11 @@ interface TeamMember {
   id: string;
   name: string;
   position: string;
-  bio?: string;
-  image_url?: string;
-  linkedin_url?: string;
-  email?: string;
-  phone?: string;
+  bio?: string | null;
+  image_url?: string | null;
+  linkedin_url?: string | null;
+  email?: string | null;
+  phone?: string | null;
 }
 
 const TeamSection = () => {

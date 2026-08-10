@@ -29,12 +29,12 @@ import maherImg from '@/assets/testimonials/maher.jpg';
 interface DbTestimonial {
   id: string;
   customer_name: string;
-  customer_country?: string;
+  customer_country?: string | null;
   review_text: string;
-  rating?: number;
-  property_type?: string;
-  location?: string;
-  image_url?: string;
+  rating?: number | null;
+  property_type?: string | null;
+  location?: string | null;
+  image_url?: string | null;
   created_at: string;
   updated_at: string;
 }
