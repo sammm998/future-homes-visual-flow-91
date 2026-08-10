@@ -14,7 +14,8 @@ interface Property {
   bedrooms?: string;
   bathrooms?: string;
   sizes_m2?: string;
-  ref_no?: string;
+  ref_no?: string | null;
+  property_images?: string[] | null;
 }
 
 const ModernPropertyShowcase = () => {
