@@ -210,7 +210,7 @@ const AIPropertySearch = () => {
           </Link>
           <div className="flex items-center gap-3">
             <select
-              value={lang}
+              value={lang ?? 'en'}
               onChange={(e) => handleLanguageChange(e.target.value)}
               className="text-xs text-gray-600 bg-transparent border border-gray-200 rounded-md px-2 py-1 focus:outline-hidden focus:border-gray-400"
               aria-label="Language"

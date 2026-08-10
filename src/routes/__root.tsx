@@ -11,7 +11,7 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-import { HelmetProvider } from "react-helmet-async";
+import { HelmetProvider } from '@/lib/helmet-compat';
 
 import appCss from "../styles.css?url";
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from "@/lib/router-compat";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from '@/lib/helmet-compat';
 import ArticleLayout from '@/components/ArticleLayout';
 import ArticleContent from '@/components/ArticleContent';
 import { useBlogPost } from "@/hooks/useBlogPosts";
@@ -172,8 +172,8 @@ const ArticlePage = () => {
     return defaultTags.length > 0 ? defaultTags : ['Real Estate'];
   };
 
-  const sourceTitle = blogPost.source_title || blogPost.title;
-  const sourceContent = blogPost.source_content || blogPost.content;
+  const sourceTitle = blogPost.source_title || (blogPost.title ?? '');
+  const sourceContent = blogPost.source_content || (blogPost.content ?? '');
   const tags = extractTags(sourceContent, sourceTitle);
 
   const ORIGIN = 'https://futurehomesinternational.com';
@@ -204,8 +204,8 @@ const ArticlePage = () => {
     <>
       <Helmet>
         <html lang={currentLang} />
-        <title>{blogPost.title} - Future Homes</title>
-        <meta name="description" content={blogPost.excerpt || `${blogPost.title} - Read more on Future Homes blog`} />
+        <title>{(blogPost.title ?? '')} - Future Homes</title>
+        <meta name="description" content={(blogPost.excerpt ?? '') || `${(blogPost.title ?? '')} - Read more on Future Homes blog`} />
         <meta name="keywords" content={tags.join(', ')} />
         <link rel="canonical" href={canonical} />
 
@@ -218,8 +218,8 @@ const ArticlePage = () => {
         <link rel="alternate" hrefLang="x-default" href={`${ORIGIN}${articlePath}`} />
 
         {/* Open Graph tags */}
-        <meta property="og:title" content={blogPost.title} />
-        <meta property="og:description" content={blogPost.excerpt || blogPost.title} />
+        <meta property="og:title" content={(blogPost.title ?? '')} />
+        <meta property="og:description" content={(blogPost.excerpt ?? '') || (blogPost.title ?? '')} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={canonical} />
         <meta property="og:image" content={absImage} />
@@ -234,8 +234,8 @@ const ArticlePage = () => {
         
         {/* Twitter Card tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={blogPost.title} />
-        <meta name="twitter:description" content={blogPost.excerpt || blogPost.title} />
+        <meta name="twitter:title" content={(blogPost.title ?? '')} />
+        <meta name="twitter:description" content={(blogPost.excerpt ?? '') || (blogPost.title ?? '')} />
         <meta name="twitter:image" content={absImage} />
         
         {/* Structured Data */}
@@ -243,8 +243,8 @@ const ArticlePage = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
-            "headline": blogPost.title,
-            "description": blogPost.excerpt || blogPost.title,
+            "headline": (blogPost.title ?? ''),
+            "description": (blogPost.excerpt ?? '') || (blogPost.title ?? ''),
             "image": absImage,
             "datePublished": blogPost.created_at,
             "dateModified": blogPost.updated_at || blogPost.created_at,
@@ -270,18 +270,18 @@ const ArticlePage = () => {
       </Helmet>
 
       <ArticleLayout
-        title={blogPost.title}
-        excerpt={blogPost.excerpt}
-        content={blogPost.content}
+        title={(blogPost.title ?? '')}
+        excerpt={(blogPost.excerpt ?? '')}
+        content={(blogPost.content ?? '')}
         featuredImage={blogPost.featured_image || getArticleImage(sourceTitle, sourceContent)}
         publishedDate={blogPost.created_at}
-        readingTime={getReadingTime(blogPost.content)}
+        readingTime={getReadingTime((blogPost.content ?? ''))}
         tags={tags}
         author="Future Homes Editorial Team"
         backLink="/information"
         backText="Back to Articles"
       >
-        <ArticleContent content={blogPost.content} />
+        <ArticleContent content={(blogPost.content ?? '')} />
       </ArticleLayout>
     </>
   );

@@ -255,7 +255,7 @@ const PropertyDetail = () => {
   useEffect(() => {
     if (property?.images && property.images.length > 0) {
       // Preload first 3 images for faster gallery experience
-      property.images.slice(0, 3).forEach((imageSrc, index) => {
+      property.images.slice(0, 3).forEach((imageSrc: string, index: number) => {
         const img = new Image();
         img.src = imageSrc;
         if (index === 0) {

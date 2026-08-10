@@ -12,14 +12,14 @@ interface Testimonial {
 interface DbTestimonial {
   id: string;
   customer_name: string;
-  customer_country?: string;
+  customer_country?: string | null;
   review_text: string;
-  rating?: number;
-  property_type?: string;
-  location?: string;
-  image_url?: string;
-  designation?: string;
-  company_name?: string;
+  rating?: number | null;
+  property_type?: string | null;
+  location?: string | null;
+  image_url?: string | null;
+  designation?: string | null;
+  company_name?: string | null;
 }
 
 export const useTestimonials = () => {

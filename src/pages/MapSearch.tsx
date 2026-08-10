@@ -214,7 +214,7 @@ const MapSearch = () => {
         mapboxgl.accessToken = mapboxToken;
         
         map.current = new mapboxgl.Map({
-          container: mapContainer.current,
+          container: mapContainer.current!,
           style: mapStyle,
           center: [35, 35], // Centered on Middle East
           zoom: 3,
