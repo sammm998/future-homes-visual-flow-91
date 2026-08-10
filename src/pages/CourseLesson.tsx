@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from '@/lib/helmet-compat';
 import { Link, NavLink, useNavigate, useParams } from '@/lib/router-compat';
 import { useMemo, useState } from 'react';
 import DOMPurify from 'dompurify';

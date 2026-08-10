@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from "@/lib/router-compat";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from '@/lib/helmet-compat';
 import ArticleLayout from '@/components/ArticleLayout';
 import ArticleContent from '@/components/ArticleContent';
 import { useBlogPost } from "@/hooks/useBlogPosts";
