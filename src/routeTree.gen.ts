@@ -41,6 +41,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as TurkishCitizenshipByInvestmentRouteImport } from './routes/turkish-citizenship-by-investment'
 import { Route as WizardThankYouRouteImport } from './routes/wizard-thank-you'
+import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as LocaleAboutUsRouteImport } from './routes/$locale/about-us'
 import { Route as LocaleAiPropertySearchRouteImport } from './routes/$locale/ai-property-search'
 import { Route as LocaleAliKaranRouteImport } from './routes/$locale/ali-karan'
@@ -279,6 +280,11 @@ const WizardThankYouRoute = WizardThankYouRouteImport.update({
   id: '/wizard-thank-you',
   path: '/wizard-thank-you',
   getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleIndexRoute = LocaleIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LocaleRouteRoute,
 } as any)
 const LocaleAboutUsRoute = LocaleAboutUsRouteImport.update({
   id: '/about-us',
@@ -739,6 +745,7 @@ export interface FileRoutesByFullPath {
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  '/$locale/': typeof LocaleIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/$locale/$segment/$id': typeof LocaleSegmentIdRoute
@@ -786,7 +793,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/$locale': typeof LocaleRouteRouteWithChildren
   '/$': typeof SplatRoute
   '/$slug': typeof SlugRoute
   '/about-us': typeof AboutUsRoute
@@ -848,6 +854,7 @@ export interface FileRoutesByTo {
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  '/$locale': typeof LocaleIndexRoute
   '/admin': typeof AdminIndexRoute
   '/courses': typeof CoursesIndexRoute
   '/$locale/$segment/$id': typeof LocaleSegmentIdRoute
@@ -959,6 +966,7 @@ export interface FileRoutesById {
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  '/$locale/': typeof LocaleIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/$locale/$segment/$id': typeof LocaleSegmentIdRoute
@@ -1071,6 +1079,7 @@ export interface FileRouteTypes {
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
+    | '/$locale/'
     | '/admin/'
     | '/courses/'
     | '/$locale/$segment/$id'
@@ -1118,7 +1127,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/$locale'
     | '/$'
     | '/$slug'
     | '/about-us'
@@ -1180,6 +1188,7 @@ export interface FileRouteTypes {
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
+    | '/$locale'
     | '/admin'
     | '/courses'
     | '/$locale/$segment/$id'
@@ -1290,6 +1299,7 @@ export interface FileRouteTypes {
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
+    | '/$locale/'
     | '/admin/'
     | '/courses/'
     | '/$locale/$segment/$id'
@@ -1604,6 +1614,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/wizard-thank-you'
       preLoaderRoute: typeof WizardThankYouRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/$locale/': {
+      id: '/$locale/'
+      path: '/'
+      fullPath: '/$locale/'
+      preLoaderRoute: typeof LocaleIndexRouteImport
+      parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/about-us': {
       id: '/$locale/about-us'
@@ -2165,6 +2182,7 @@ interface LocaleRouteRouteChildren {
   LocaleTestimonialsRoute: typeof LocaleTestimonialsRoute
   LocaleTurkishCitizenshipByInvestmentRoute: typeof LocaleTurkishCitizenshipByInvestmentRoute
   LocaleWizardThankYouRoute: typeof LocaleWizardThankYouRoute
+  LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleSegmentIdRoute: typeof LocaleSegmentIdRoute
   LocaleArticleIdRoute: typeof LocaleArticleIdRoute
   LocaleArticlesSlugRoute: typeof LocaleArticlesSlugRoute
@@ -2201,6 +2219,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleTurkishCitizenshipByInvestmentRoute:
     LocaleTurkishCitizenshipByInvestmentRoute,
   LocaleWizardThankYouRoute: LocaleWizardThankYouRoute,
+  LocaleIndexRoute: LocaleIndexRoute,
   LocaleSegmentIdRoute: LocaleSegmentIdRoute,
   LocaleArticleIdRoute: LocaleArticleIdRoute,
   LocaleArticlesSlugRoute: LocaleArticlesSlugRoute,
