@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from '@/hooks/useTranslation';
 import { Eye } from "lucide-react";
 
 interface LiveViewersProps {
@@ -25,6 +26,7 @@ function baseFor(propertyId: string): number {
 }
 
 export default function LiveViewers({ propertyId, compact = false }: LiveViewersProps) {
+  const { t } = useTranslation();
   const [count, setCount] = useState(() => baseFor(propertyId));
 
   useEffect(() => {
@@ -56,11 +58,11 @@ export default function LiveViewers({ propertyId, compact = false }: LiveViewers
       {!compact && <Eye className="h-3.5 w-3.5" />}
       {compact ? (
         <span className="text-[11px] font-medium text-[#0f1b3d]" style={{ fontFamily: 'Epilogue, sans-serif' }}>
-          <strong className="tabular-nums font-semibold">{count}</strong> viewing now
+          <strong className="tabular-nums font-semibold">{count}</strong> {t('live.viewing_now')}
         </span>
       ) : (
         <span>
-          <strong className="tabular-nums">{count}</strong> {count === 1 ? "person is" : "people are"} viewing this right now
+          <strong className="tabular-nums">{count}</strong> {count === 1 ? t('live.person_viewing') : t('live.people_viewing')}
         </span>
       )}
     </div>

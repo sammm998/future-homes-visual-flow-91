@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from '@/lib/router-compat';
+import { useLocation, useSearchParams } from '@/lib/router-compat';
 import { supabase } from '@/integrations/supabase/client';
 import { Star } from 'lucide-react';
 
@@ -17,6 +17,7 @@ import magomedImg from '@/assets/testimonials/magomed.jpg';
 import nikolausImg from '@/assets/testimonials/nikolaus.jpg';
 import vicdanImg from '@/assets/testimonials/vicdan.jpg';
 import maherImg from '@/assets/testimonials/maher.jpg';
+import { getLocaleFromPathname } from '@/utils/localeRouting';
 
 interface Testimonial {
   id: string;
@@ -50,8 +51,9 @@ const localImageMap: Record<string, string> = {
 };
 
 const TestimonialsCards = () => {
+  const location = useLocation();
   const [searchParams] = useSearchParams();
-  const language = searchParams.get('lang') || 'en';
+  const language = getLocaleFromPathname(location.pathname) || searchParams.get('lang') || 'en';
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
