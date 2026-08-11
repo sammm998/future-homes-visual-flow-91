@@ -26,6 +26,7 @@ function baseFor(propertyId: string): number {
 }
 
 export default function LiveViewers({ propertyId, compact = false }: LiveViewersProps) {
+  const { t } = useTranslation();
   const [count, setCount] = useState(() => baseFor(propertyId));
 
   useEffect(() => {
