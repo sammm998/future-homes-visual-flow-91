@@ -51,6 +51,7 @@ const localImageMap: Record<string, string> = {
 };
 
 const TestimonialsCards = () => {
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const language = getLocaleFromPathname(location.pathname) || searchParams.get('lang') || 'en';
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);

@@ -65,6 +65,7 @@ const TestimonialsColumns: React.FC<TestimonialsProps> = ({
   title = "What our clients say",
   subtitle = "Read testimonials from our satisfied customers worldwide"
 }) => {
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const language = getLocaleFromPathname(location.pathname) || searchParams.get('lang') || 'en';
   const [testimonials, setTestimonials] = React.useState<Testimonial[]>([]);
