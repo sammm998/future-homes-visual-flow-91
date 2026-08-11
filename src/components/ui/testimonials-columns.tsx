@@ -2,7 +2,8 @@
 import * as React from "react";
 import { motion } from "motion/react";
 import { supabase } from "@/integrations/supabase/client";
-import { useSearchParams } from "@/lib/router-compat";
+import { useLocation, useSearchParams } from "@/lib/router-compat";
+import { getLocaleFromPathname } from '@/utils/localeRouting';
 
 interface Testimonial {
   text: string;
@@ -65,7 +66,7 @@ const TestimonialsColumns: React.FC<TestimonialsProps> = ({
   subtitle = "Read testimonials from our satisfied customers worldwide"
 }) => {
   const [searchParams] = useSearchParams();
-  const language = searchParams.get('lang') || 'en';
+  const language = getLocaleFromPathname(location.pathname) || searchParams.get('lang') || 'en';
   const [testimonials, setTestimonials] = React.useState<Testimonial[]>([]);
   const [loading, setLoading] = React.useState(true);
 

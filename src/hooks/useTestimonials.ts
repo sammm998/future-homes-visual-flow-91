@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useSearchParams } from '@/lib/router-compat';
+import { useLocation, useSearchParams } from '@/lib/router-compat';
+import { getLocaleFromPathname } from '@/utils/localeRouting';
 
 interface Testimonial {
   text: string;
@@ -24,7 +25,7 @@ interface DbTestimonial {
 
 export const useTestimonials = () => {
   const [searchParams] = useSearchParams();
-  const language = searchParams.get('lang') || 'en';
+  const language = getLocaleFromPathname(location.pathname) || searchParams.get('lang') || 'en';
 
   const { data: testimonials = [], isLoading: loading, error } = useQuery({
     queryKey: ['testimonials', language],

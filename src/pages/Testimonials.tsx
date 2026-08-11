@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { t } from "@/utils/translations";
-import { useSearchParams } from "@/lib/router-compat";
+import { useLocation, useSearchParams } from "@/lib/router-compat";
 import { ContentSection } from "@/components/ContentSection";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 
@@ -24,6 +24,7 @@ import magomedImg from '@/assets/testimonials/magomed.jpg';
 import nikolausImg from '@/assets/testimonials/nikolaus.jpg';
 import vicdanImg from '@/assets/testimonials/vicdan.jpg';
 import maherImg from '@/assets/testimonials/maher.jpg';
+import { getLocaleFromPathname } from '@/utils/localeRouting';
 
 
 interface DbTestimonial {
@@ -64,7 +65,7 @@ const localImageMap: Record<string, string> = {
 
 const Testimonials = () => {
   const [searchParams] = useSearchParams();
-  const language = searchParams.get('lang') || 'en';
+  const language = getLocaleFromPathname(location.pathname) || searchParams.get('lang') || 'en';
   const [selectedTestimonial, setSelectedTestimonial] = useState<CardTestimonial | null>(null);
   const [testimonials, setTestimonials] = useState<CardTestimonial[]>([]);
   const [loading, setLoading] = useState(true);
