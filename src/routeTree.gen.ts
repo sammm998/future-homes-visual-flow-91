@@ -55,6 +55,15 @@ import { Route as LocaleDesignYourHomeRouteImport } from './routes/$locale/desig
 import { Route as LocaleDubaiRouteImport } from './routes/$locale/dubai'
 import { Route as LocaleInformationRouteImport } from './routes/$locale/information'
 import { Route as LocaleIstanbulRouteImport } from './routes/$locale/istanbul'
+import { Route as LocaleKjopeLeilighetTyrkiaRouteImport } from './routes/$locale/kjope-leilighet-tyrkia'
+import { Route as LocaleKobeLejlighedTyrkietRouteImport } from './routes/$locale/kobe-lejlighed-tyrkiet'
+import { Route as LocaleKopaLagenhetTurkietRouteImport } from './routes/$locale/kopa-lagenhet-turkiet'
+import { Route as LocaleLagenhetAlanyaRouteImport } from './routes/$locale/lagenhet-alanya'
+import { Route as LocaleLagenhetDubaiRouteImport } from './routes/$locale/lagenhet-dubai'
+import { Route as LocaleLeilighetAlanyaRouteImport } from './routes/$locale/leilighet-alanya'
+import { Route as LocaleLeilighetDubaiRouteImport } from './routes/$locale/leilighet-dubai'
+import { Route as LocaleLejlighedAlanyaRouteImport } from './routes/$locale/lejlighed-alanya'
+import { Route as LocaleLejlighedDubaiRouteImport } from './routes/$locale/lejlighed-dubai'
 import { Route as LocaleLuxuryVillasInTurkeyRouteImport } from './routes/$locale/luxury-villas-in-turkey'
 import { Route as LocaleMapSearchRouteImport } from './routes/$locale/map-search'
 import { Route as LocaleMersinRouteImport } from './routes/$locale/mersin'
@@ -65,6 +74,7 @@ import { Route as LocalePropertyGalleryRouteImport } from './routes/$locale/prop
 import { Route as LocalePropertyWizardRouteImport } from './routes/$locale/property-wizard'
 import { Route as LocaleTestimonialsRouteImport } from './routes/$locale/testimonials'
 import { Route as LocaleTurkishCitizenshipByInvestmentRouteImport } from './routes/$locale/turkish-citizenship-by-investment'
+import { Route as LocaleVillaBaliRouteImport } from './routes/$locale/villa-bali'
 import { Route as LocaleWizardThankYouRouteImport } from './routes/$locale/wizard-thank-you'
 import { Route as SegmentIdRouteImport } from './routes/$segment.$id'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
@@ -353,6 +363,54 @@ const LocaleIstanbulRoute = LocaleIstanbulRouteImport.update({
   path: '/istanbul',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocaleKjopeLeilighetTyrkiaRoute =
+  LocaleKjopeLeilighetTyrkiaRouteImport.update({
+    id: '/kjope-leilighet-tyrkia',
+    path: '/kjope-leilighet-tyrkia',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleKobeLejlighedTyrkietRoute =
+  LocaleKobeLejlighedTyrkietRouteImport.update({
+    id: '/kobe-lejlighed-tyrkiet',
+    path: '/kobe-lejlighed-tyrkiet',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleKopaLagenhetTurkietRoute =
+  LocaleKopaLagenhetTurkietRouteImport.update({
+    id: '/kopa-lagenhet-turkiet',
+    path: '/kopa-lagenhet-turkiet',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleLagenhetAlanyaRoute = LocaleLagenhetAlanyaRouteImport.update({
+  id: '/lagenhet-alanya',
+  path: '/lagenhet-alanya',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleLagenhetDubaiRoute = LocaleLagenhetDubaiRouteImport.update({
+  id: '/lagenhet-dubai',
+  path: '/lagenhet-dubai',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleLeilighetAlanyaRoute = LocaleLeilighetAlanyaRouteImport.update({
+  id: '/leilighet-alanya',
+  path: '/leilighet-alanya',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleLeilighetDubaiRoute = LocaleLeilighetDubaiRouteImport.update({
+  id: '/leilighet-dubai',
+  path: '/leilighet-dubai',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleLejlighedAlanyaRoute = LocaleLejlighedAlanyaRouteImport.update({
+  id: '/lejlighed-alanya',
+  path: '/lejlighed-alanya',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleLejlighedDubaiRoute = LocaleLejlighedDubaiRouteImport.update({
+  id: '/lejlighed-dubai',
+  path: '/lejlighed-dubai',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 const LocaleLuxuryVillasInTurkeyRoute =
   LocaleLuxuryVillasInTurkeyRouteImport.update({
     id: '/luxury-villas-in-turkey',
@@ -407,6 +465,11 @@ const LocaleTurkishCitizenshipByInvestmentRoute =
     path: '/turkish-citizenship-by-investment',
     getParentRoute: () => LocaleRouteRoute,
   } as any)
+const LocaleVillaBaliRoute = LocaleVillaBaliRouteImport.update({
+  id: '/villa-bali',
+  path: '/villa-bali',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 const LocaleWizardThankYouRoute = LocaleWizardThankYouRouteImport.update({
   id: '/wizard-thank-you',
   path: '/wizard-thank-you',
@@ -732,6 +795,15 @@ export interface FileRoutesByFullPath {
   '/$locale/dubai': typeof LocaleDubaiRoute
   '/$locale/information': typeof LocaleInformationRoute
   '/$locale/istanbul': typeof LocaleIstanbulRoute
+  '/$locale/kjope-leilighet-tyrkia': typeof LocaleKjopeLeilighetTyrkiaRoute
+  '/$locale/kobe-lejlighed-tyrkiet': typeof LocaleKobeLejlighedTyrkietRoute
+  '/$locale/kopa-lagenhet-turkiet': typeof LocaleKopaLagenhetTurkietRoute
+  '/$locale/lagenhet-alanya': typeof LocaleLagenhetAlanyaRoute
+  '/$locale/lagenhet-dubai': typeof LocaleLagenhetDubaiRoute
+  '/$locale/leilighet-alanya': typeof LocaleLeilighetAlanyaRoute
+  '/$locale/leilighet-dubai': typeof LocaleLeilighetDubaiRoute
+  '/$locale/lejlighed-alanya': typeof LocaleLejlighedAlanyaRoute
+  '/$locale/lejlighed-dubai': typeof LocaleLejlighedDubaiRoute
   '/$locale/luxury-villas-in-turkey': typeof LocaleLuxuryVillasInTurkeyRoute
   '/$locale/map-search': typeof LocaleMapSearchRoute
   '/$locale/mersin': typeof LocaleMersinRoute
@@ -742,6 +814,7 @@ export interface FileRoutesByFullPath {
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
   '/$locale/testimonials': typeof LocaleTestimonialsRoute
   '/$locale/turkish-citizenship-by-investment': typeof LocaleTurkishCitizenshipByInvestmentRoute
+  '/$locale/villa-bali': typeof LocaleVillaBaliRoute
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
@@ -842,6 +915,15 @@ export interface FileRoutesByTo {
   '/$locale/dubai': typeof LocaleDubaiRoute
   '/$locale/information': typeof LocaleInformationRoute
   '/$locale/istanbul': typeof LocaleIstanbulRoute
+  '/$locale/kjope-leilighet-tyrkia': typeof LocaleKjopeLeilighetTyrkiaRoute
+  '/$locale/kobe-lejlighed-tyrkiet': typeof LocaleKobeLejlighedTyrkietRoute
+  '/$locale/kopa-lagenhet-turkiet': typeof LocaleKopaLagenhetTurkietRoute
+  '/$locale/lagenhet-alanya': typeof LocaleLagenhetAlanyaRoute
+  '/$locale/lagenhet-dubai': typeof LocaleLagenhetDubaiRoute
+  '/$locale/leilighet-alanya': typeof LocaleLeilighetAlanyaRoute
+  '/$locale/leilighet-dubai': typeof LocaleLeilighetDubaiRoute
+  '/$locale/lejlighed-alanya': typeof LocaleLejlighedAlanyaRoute
+  '/$locale/lejlighed-dubai': typeof LocaleLejlighedDubaiRoute
   '/$locale/luxury-villas-in-turkey': typeof LocaleLuxuryVillasInTurkeyRoute
   '/$locale/map-search': typeof LocaleMapSearchRoute
   '/$locale/mersin': typeof LocaleMersinRoute
@@ -852,6 +934,7 @@ export interface FileRoutesByTo {
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
   '/$locale/testimonials': typeof LocaleTestimonialsRoute
   '/$locale/turkish-citizenship-by-investment': typeof LocaleTurkishCitizenshipByInvestmentRoute
+  '/$locale/villa-bali': typeof LocaleVillaBaliRoute
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
@@ -955,6 +1038,15 @@ export interface FileRoutesById {
   '/$locale/dubai': typeof LocaleDubaiRoute
   '/$locale/information': typeof LocaleInformationRoute
   '/$locale/istanbul': typeof LocaleIstanbulRoute
+  '/$locale/kjope-leilighet-tyrkia': typeof LocaleKjopeLeilighetTyrkiaRoute
+  '/$locale/kobe-lejlighed-tyrkiet': typeof LocaleKobeLejlighedTyrkietRoute
+  '/$locale/kopa-lagenhet-turkiet': typeof LocaleKopaLagenhetTurkietRoute
+  '/$locale/lagenhet-alanya': typeof LocaleLagenhetAlanyaRoute
+  '/$locale/lagenhet-dubai': typeof LocaleLagenhetDubaiRoute
+  '/$locale/leilighet-alanya': typeof LocaleLeilighetAlanyaRoute
+  '/$locale/leilighet-dubai': typeof LocaleLeilighetDubaiRoute
+  '/$locale/lejlighed-alanya': typeof LocaleLejlighedAlanyaRoute
+  '/$locale/lejlighed-dubai': typeof LocaleLejlighedDubaiRoute
   '/$locale/luxury-villas-in-turkey': typeof LocaleLuxuryVillasInTurkeyRoute
   '/$locale/map-search': typeof LocaleMapSearchRoute
   '/$locale/mersin': typeof LocaleMersinRoute
@@ -965,6 +1057,7 @@ export interface FileRoutesById {
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
   '/$locale/testimonials': typeof LocaleTestimonialsRoute
   '/$locale/turkish-citizenship-by-investment': typeof LocaleTurkishCitizenshipByInvestmentRoute
+  '/$locale/villa-bali': typeof LocaleVillaBaliRoute
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
@@ -1069,6 +1162,15 @@ export interface FileRouteTypes {
     | '/$locale/dubai'
     | '/$locale/information'
     | '/$locale/istanbul'
+    | '/$locale/kjope-leilighet-tyrkia'
+    | '/$locale/kobe-lejlighed-tyrkiet'
+    | '/$locale/kopa-lagenhet-turkiet'
+    | '/$locale/lagenhet-alanya'
+    | '/$locale/lagenhet-dubai'
+    | '/$locale/leilighet-alanya'
+    | '/$locale/leilighet-dubai'
+    | '/$locale/lejlighed-alanya'
+    | '/$locale/lejlighed-dubai'
     | '/$locale/luxury-villas-in-turkey'
     | '/$locale/map-search'
     | '/$locale/mersin'
@@ -1079,6 +1181,7 @@ export interface FileRouteTypes {
     | '/$locale/property-wizard'
     | '/$locale/testimonials'
     | '/$locale/turkish-citizenship-by-investment'
+    | '/$locale/villa-bali'
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
     | '/admin/ai-insights'
@@ -1179,6 +1282,15 @@ export interface FileRouteTypes {
     | '/$locale/dubai'
     | '/$locale/information'
     | '/$locale/istanbul'
+    | '/$locale/kjope-leilighet-tyrkia'
+    | '/$locale/kobe-lejlighed-tyrkiet'
+    | '/$locale/kopa-lagenhet-turkiet'
+    | '/$locale/lagenhet-alanya'
+    | '/$locale/lagenhet-dubai'
+    | '/$locale/leilighet-alanya'
+    | '/$locale/leilighet-dubai'
+    | '/$locale/lejlighed-alanya'
+    | '/$locale/lejlighed-dubai'
     | '/$locale/luxury-villas-in-turkey'
     | '/$locale/map-search'
     | '/$locale/mersin'
@@ -1189,6 +1301,7 @@ export interface FileRouteTypes {
     | '/$locale/property-wizard'
     | '/$locale/testimonials'
     | '/$locale/turkish-citizenship-by-investment'
+    | '/$locale/villa-bali'
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
     | '/admin/ai-insights'
@@ -1291,6 +1404,15 @@ export interface FileRouteTypes {
     | '/$locale/dubai'
     | '/$locale/information'
     | '/$locale/istanbul'
+    | '/$locale/kjope-leilighet-tyrkia'
+    | '/$locale/kobe-lejlighed-tyrkiet'
+    | '/$locale/kopa-lagenhet-turkiet'
+    | '/$locale/lagenhet-alanya'
+    | '/$locale/lagenhet-dubai'
+    | '/$locale/leilighet-alanya'
+    | '/$locale/leilighet-dubai'
+    | '/$locale/lejlighed-alanya'
+    | '/$locale/lejlighed-dubai'
     | '/$locale/luxury-villas-in-turkey'
     | '/$locale/map-search'
     | '/$locale/mersin'
@@ -1301,6 +1423,7 @@ export interface FileRouteTypes {
     | '/$locale/property-wizard'
     | '/$locale/testimonials'
     | '/$locale/turkish-citizenship-by-investment'
+    | '/$locale/villa-bali'
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
     | '/admin/ai-insights'
@@ -1726,6 +1849,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleIstanbulRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/kjope-leilighet-tyrkia': {
+      id: '/$locale/kjope-leilighet-tyrkia'
+      path: '/kjope-leilighet-tyrkia'
+      fullPath: '/$locale/kjope-leilighet-tyrkia'
+      preLoaderRoute: typeof LocaleKjopeLeilighetTyrkiaRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/kobe-lejlighed-tyrkiet': {
+      id: '/$locale/kobe-lejlighed-tyrkiet'
+      path: '/kobe-lejlighed-tyrkiet'
+      fullPath: '/$locale/kobe-lejlighed-tyrkiet'
+      preLoaderRoute: typeof LocaleKobeLejlighedTyrkietRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/kopa-lagenhet-turkiet': {
+      id: '/$locale/kopa-lagenhet-turkiet'
+      path: '/kopa-lagenhet-turkiet'
+      fullPath: '/$locale/kopa-lagenhet-turkiet'
+      preLoaderRoute: typeof LocaleKopaLagenhetTurkietRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/lagenhet-alanya': {
+      id: '/$locale/lagenhet-alanya'
+      path: '/lagenhet-alanya'
+      fullPath: '/$locale/lagenhet-alanya'
+      preLoaderRoute: typeof LocaleLagenhetAlanyaRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/lagenhet-dubai': {
+      id: '/$locale/lagenhet-dubai'
+      path: '/lagenhet-dubai'
+      fullPath: '/$locale/lagenhet-dubai'
+      preLoaderRoute: typeof LocaleLagenhetDubaiRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/leilighet-alanya': {
+      id: '/$locale/leilighet-alanya'
+      path: '/leilighet-alanya'
+      fullPath: '/$locale/leilighet-alanya'
+      preLoaderRoute: typeof LocaleLeilighetAlanyaRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/leilighet-dubai': {
+      id: '/$locale/leilighet-dubai'
+      path: '/leilighet-dubai'
+      fullPath: '/$locale/leilighet-dubai'
+      preLoaderRoute: typeof LocaleLeilighetDubaiRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/lejlighed-alanya': {
+      id: '/$locale/lejlighed-alanya'
+      path: '/lejlighed-alanya'
+      fullPath: '/$locale/lejlighed-alanya'
+      preLoaderRoute: typeof LocaleLejlighedAlanyaRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/lejlighed-dubai': {
+      id: '/$locale/lejlighed-dubai'
+      path: '/lejlighed-dubai'
+      fullPath: '/$locale/lejlighed-dubai'
+      preLoaderRoute: typeof LocaleLejlighedDubaiRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/luxury-villas-in-turkey': {
       id: '/$locale/luxury-villas-in-turkey'
       path: '/luxury-villas-in-turkey'
@@ -1794,6 +1980,13 @@ declare module '@tanstack/react-router' {
       path: '/turkish-citizenship-by-investment'
       fullPath: '/$locale/turkish-citizenship-by-investment'
       preLoaderRoute: typeof LocaleTurkishCitizenshipByInvestmentRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/villa-bali': {
+      id: '/$locale/villa-bali'
+      path: '/villa-bali'
+      fullPath: '/$locale/villa-bali'
+      preLoaderRoute: typeof LocaleVillaBaliRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/wizard-thank-you': {
@@ -2191,6 +2384,15 @@ interface LocaleRouteRouteChildren {
   LocaleDubaiRoute: typeof LocaleDubaiRoute
   LocaleInformationRoute: typeof LocaleInformationRoute
   LocaleIstanbulRoute: typeof LocaleIstanbulRoute
+  LocaleKjopeLeilighetTyrkiaRoute: typeof LocaleKjopeLeilighetTyrkiaRoute
+  LocaleKobeLejlighedTyrkietRoute: typeof LocaleKobeLejlighedTyrkietRoute
+  LocaleKopaLagenhetTurkietRoute: typeof LocaleKopaLagenhetTurkietRoute
+  LocaleLagenhetAlanyaRoute: typeof LocaleLagenhetAlanyaRoute
+  LocaleLagenhetDubaiRoute: typeof LocaleLagenhetDubaiRoute
+  LocaleLeilighetAlanyaRoute: typeof LocaleLeilighetAlanyaRoute
+  LocaleLeilighetDubaiRoute: typeof LocaleLeilighetDubaiRoute
+  LocaleLejlighedAlanyaRoute: typeof LocaleLejlighedAlanyaRoute
+  LocaleLejlighedDubaiRoute: typeof LocaleLejlighedDubaiRoute
   LocaleLuxuryVillasInTurkeyRoute: typeof LocaleLuxuryVillasInTurkeyRoute
   LocaleMapSearchRoute: typeof LocaleMapSearchRoute
   LocaleMersinRoute: typeof LocaleMersinRoute
@@ -2201,6 +2403,7 @@ interface LocaleRouteRouteChildren {
   LocalePropertyWizardRoute: typeof LocalePropertyWizardRoute
   LocaleTestimonialsRoute: typeof LocaleTestimonialsRoute
   LocaleTurkishCitizenshipByInvestmentRoute: typeof LocaleTurkishCitizenshipByInvestmentRoute
+  LocaleVillaBaliRoute: typeof LocaleVillaBaliRoute
   LocaleWizardThankYouRoute: typeof LocaleWizardThankYouRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleSegmentIdRoute: typeof LocaleSegmentIdRoute
@@ -2227,6 +2430,15 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleDubaiRoute: LocaleDubaiRoute,
   LocaleInformationRoute: LocaleInformationRoute,
   LocaleIstanbulRoute: LocaleIstanbulRoute,
+  LocaleKjopeLeilighetTyrkiaRoute: LocaleKjopeLeilighetTyrkiaRoute,
+  LocaleKobeLejlighedTyrkietRoute: LocaleKobeLejlighedTyrkietRoute,
+  LocaleKopaLagenhetTurkietRoute: LocaleKopaLagenhetTurkietRoute,
+  LocaleLagenhetAlanyaRoute: LocaleLagenhetAlanyaRoute,
+  LocaleLagenhetDubaiRoute: LocaleLagenhetDubaiRoute,
+  LocaleLeilighetAlanyaRoute: LocaleLeilighetAlanyaRoute,
+  LocaleLeilighetDubaiRoute: LocaleLeilighetDubaiRoute,
+  LocaleLejlighedAlanyaRoute: LocaleLejlighedAlanyaRoute,
+  LocaleLejlighedDubaiRoute: LocaleLejlighedDubaiRoute,
   LocaleLuxuryVillasInTurkeyRoute: LocaleLuxuryVillasInTurkeyRoute,
   LocaleMapSearchRoute: LocaleMapSearchRoute,
   LocaleMersinRoute: LocaleMersinRoute,
@@ -2238,6 +2450,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleTestimonialsRoute: LocaleTestimonialsRoute,
   LocaleTurkishCitizenshipByInvestmentRoute:
     LocaleTurkishCitizenshipByInvestmentRoute,
+  LocaleVillaBaliRoute: LocaleVillaBaliRoute,
   LocaleWizardThankYouRoute: LocaleWizardThankYouRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleSegmentIdRoute: LocaleSegmentIdRoute,
