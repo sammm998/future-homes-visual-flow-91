@@ -256,6 +256,7 @@ const DubaiPropertySearch = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
+        <SEOHead title="Property for Sale in Dubai | Apartments & Villas — Future Homes" description="Dubai homes for sale: luxury apartments, penthouses and villas in Dubai Marina, Downtown, Palm Jumeirah and Business Bay." />
         <Navigation />
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">Loading Dubai properties...</div>

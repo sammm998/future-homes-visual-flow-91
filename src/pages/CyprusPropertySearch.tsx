@@ -248,6 +248,7 @@ const CyprusPropertySearch = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
+        <SEOHead title="Property for Sale in North Cyprus | Apartments & Villas — Future Homes" description="Buy property in North Cyprus: sea-view apartments, villas and off-plan homes in Kyrenia, Famagusta and Iskele with flexible payment plans." />
         <Navigation />
         <div className="flex justify-center items-center min-h-[50vh]">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>

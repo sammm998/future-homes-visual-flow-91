@@ -25,10 +25,41 @@ export const supportedLanguages: LanguageConfig[] = [
 ];
 
 /**
- * Get the current language from URL parameters, falling back to localStorage
+ * Request-scoped location, so SSR renders the same language as the client.
+ * Set from the router on every render (see RootShell in routes/__root.tsx).
+ */
+let ssrPathname = '/';
+let ssrSearch = '';
+
+export const setCurrentLocation = (pathname: string, search: string = ''): void => {
+  ssrPathname = pathname || '/';
+  ssrSearch = search || '';
+};
+
+export const getCurrentPathname = (): string =>
+  typeof window !== 'undefined' ? window.location.pathname : ssrPathname;
+
+export const getCurrentSearch = (): string =>
+  typeof window !== 'undefined' ? window.location.search : ssrSearch;
+
+/**
+ * Get the current language from the URL path (SSR-safe), falling back to
+ * the legacy ?lang= param and then localStorage.
  */
 export const getCurrentLanguage = (): string => {
-  if (typeof window === 'undefined') return 'en';
+  const pathname = getCurrentPathname();
+  const search = getCurrentSearch();
+
+  // Server: path prefix only — no browser storage available
+  if (typeof window === 'undefined') {
+    const fromPath = getLocaleFromPathname(pathname);
+    if (fromPath) return fromPath;
+    const fromQuery = new URLSearchParams(search).get('lang');
+    if (fromQuery && isSupportedLocale(fromQuery)) return fromQuery;
+    return 'en';
+  }
+
+
 
   // 1. Path prefix is the canonical source (/sv/..., /tr/...)
   const langFromPath = getLocaleFromPathname(window.location.pathname);
@@ -85,15 +116,14 @@ export const getHreflangUrls = (path: string = ''): Array<{code: string, url: st
  * Get the current page path without language parameters
  */
 export const getCurrentPath = (): string => {
-  if (typeof window === 'undefined') return '/';
-  
-  const path = stripLocale(window.location.pathname);
-  const search = new URLSearchParams(window.location.search);
+  const path = stripLocale(getCurrentPathname());
+  const search = new URLSearchParams(getCurrentSearch());
   search.delete('lang'); // Remove lang parameter
-  
+
   const searchString = search.toString();
   return searchString ? `${path}?${searchString}` : path;
 };
+
 
 /**
  * Generate BreadcrumbList structured data

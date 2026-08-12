@@ -268,6 +268,7 @@ const PropertyDetail = () => {
   // Optimized loading state with skeleton
   if (loading) {
     return <div className="min-h-screen bg-background">
+        <SEOHead title="Property for Sale | Future Homes International" description="Explore this property for sale in Turkey, Dubai, Cyprus or Bali with Future Homes International." />
         <Navigation />
         <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
           {/* Skeleton loader for faster perceived performance */}
