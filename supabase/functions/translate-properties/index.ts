@@ -393,13 +393,16 @@ Deno.serve(async (req) => {
               upsertError,
             );
             totalErrors++;
+            errorDetails.push(`upsert ${lang.code}: ${upsertError.message}`);
           } else {
             totalTranslations++;
             existingLangs.add(lang.code);
           }
         } else {
           totalErrors++;
+          errorDetails.push(`translate ${lang.code}: ${translationProvider} returned null`);
         }
+
 
         // Small delay to avoid rate limits
         await new Promise((r) => setTimeout(r, 300));
