@@ -534,17 +534,10 @@ const PropertyDetail = () => {
       <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
         {/* Back Button */}
         <Button variant="ghost" asChild className="mb-8">
-          <Link
-            to={returnUrl}
-            state={{
-              returnedFromProperty: true,
-              savedPage: location.state?.savedPage,
-              savedScrollY: location.state?.savedScrollY,
-            }}
-          >
+          <a href={returnUrl}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             {t('pd.back_to_properties', language)}
-          </Link>
+          </a>
         </Button>
 
         <div className="grid lg:grid-cols-3 gap-8">
