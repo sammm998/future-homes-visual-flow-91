@@ -44,6 +44,7 @@ interface PropertyLink {
 const AIPropertyAssistant = () => {
   const { t, lang } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const hydrated = useHydrated();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,

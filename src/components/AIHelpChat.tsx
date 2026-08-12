@@ -44,6 +44,7 @@ interface AIHelpChatProps {
 export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
   const { t, lang } = useTranslation();
   
+  const hydrated = useHydrated();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
