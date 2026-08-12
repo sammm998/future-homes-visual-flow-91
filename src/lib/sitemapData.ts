@@ -25,7 +25,10 @@ export interface SitemapEntry {
   lastmod?: string;
   /** Property ref number — URL uses the translated segment per locale */
   propertyRef?: string;
+  /** Page exists in one locale only; `path` already contains the locale prefix */
+  onlyLocale?: string;
 }
+
 
 export const STATIC_PAGES: SitemapEntry[] = [
   { path: "/", priority: "1.0", changefreq: "daily" },
