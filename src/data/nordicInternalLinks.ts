@@ -167,6 +167,7 @@ const LINK_MAP: { match: (path: string) => boolean; context: number; targets: Re
     // Property detail pages, gallery, map search, AI search -> full set
     match: (p) =>
       p.startsWith("/property/") ||
+      /^\/[^/]+\/\d+$/.test(p) ||
       p === "/property-gallery" ||
       p === "/map-search" ||
       p === "/ai-property-search" ||
