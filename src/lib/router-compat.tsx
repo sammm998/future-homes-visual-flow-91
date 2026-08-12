@@ -117,7 +117,7 @@ export function useSearchParams(): [URLSearchParams, (init: URLSearchParams | Re
 
 // ---------- Link ----------
 
-type LinkProps = Omit<ComponentProps<typeof TSLink>, "to"> & {
+type LinkProps = Omit<ComponentProps<typeof TSLink>, "to" | "state"> & {
   to: string;
   replace?: boolean;
   state?: unknown;

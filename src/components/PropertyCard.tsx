@@ -54,6 +54,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
   
   // Build translated URL with proper path segment
   const propertyUrl = buildPropertyUrl(property, lang);
+  const returnUrl = `${routeLocation.pathname}${routeLocation.search}`;
   
   const getImageUrl = () => {
     const defaultImage = 'https://cdn.futurehomesturkey.com/uploads/thumbs/pages/default/general/default.webp';
@@ -115,7 +116,11 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
   const statusConfig = getStatusConfig(property.status);
 
   return (
-    <Link to={propertyUrl} className="block h-full">
+    <Link
+      to={propertyUrl}
+      state={{ returnUrl }}
+      className="block h-full"
+    >
       <article className="group relative w-full h-full bg-white overflow-hidden shadow-2xl transition-all duration-500 hover:-translate-y-1">
         {/* Image Section */}
         <div className="relative aspect-[4/3] overflow-hidden bg-[#1e3a5f]">

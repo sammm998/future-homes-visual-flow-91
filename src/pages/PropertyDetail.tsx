@@ -10,7 +10,7 @@ import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, S
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
 import { translateAmenity } from '@/utils/amenityTranslations';
-import { getLocaleFromPathname, localizePath } from "@/utils/localeRouting";
+import { getLocaleFromPathname, localizePath, stripLocale } from "@/utils/localeRouting";
 import {
   absoluteImage,
   buildPropertyStructuredData,
@@ -257,6 +257,14 @@ const PropertyDetail = () => {
   // This handles: initial load with ?lang=sv, language changes, and mismatched paths.
   useEffect(() => {
     if (!property) return;
+
+    // During client-side navigation this component can remain mounted for one
+    // render after the URL changes. Never redirect from a destination page
+    // (for example /id/antalya) back into the property detail route.
+    const pathParts = stripLocale(location.pathname).split('/').filter(Boolean);
+    const isPropertyPath =
+      pathParts.length === 2 && Boolean(PATH_TO_LANG[pathParts[0]]);
+    if (!isPropertyPath) return;
     
     const expectedUrl = buildPropertyUrl(property, lang);
     const expectedPathname = expectedUrl.split('?')[0];
@@ -455,6 +463,17 @@ const PropertyDetail = () => {
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
 
   const canonicalUrl = `https://futurehomesinternational.com${buildPropertyUrl(property, seoLanguage)}`;
+  const fallbackReturnUrl = localizePath(
+    getLocationRoute(property.location),
+    getLocaleFromPathname(location.pathname),
+  );
+  const stateReturnUrl = location.state?.returnUrl;
+  const returnUrl =
+    typeof stateReturnUrl === 'string' &&
+    stateReturnUrl.startsWith('/') &&
+    stateReturnUrl !== `${location.pathname}${location.search}`
+      ? stateReturnUrl
+      : fallbackReturnUrl;
   const seoProperty: PropertySeoInput = {
     title: property.title,
     description: property.description || propertyDescription,
@@ -514,34 +533,11 @@ const PropertyDetail = () => {
 
       <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
         {/* Back Button */}
-        <Button variant="ghost" onClick={() => {
-        // Use returnUrl from state if available, otherwise fallback to location route
-        const returnUrl = location.state?.returnUrl;
-        const savedPage = location.state?.savedPage;
-        const savedScrollY = location.state?.savedScrollY;
-        
-        if (returnUrl) {
-          navigate(returnUrl, {
-            state: {
-              returnedFromProperty: true,
-              savedPage,
-              savedScrollY
-            }
-          });
-        } else {
-          const locationRoute = localizePath(getLocationRoute(property?.location || ''), getLocaleFromPathname(location.pathname));
-          console.log('⬅️ PropertyDetail: Navigating to locationRoute:', locationRoute);
-          navigate(locationRoute, {
-            state: {
-              returnedFromProperty: true,
-              savedPage,
-              savedScrollY
-            }
-          });
-        }
-      }} className="mb-8">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          {t('pd.back_to_properties', language)}
+        <Button variant="ghost" asChild className="mb-8">
+          <a href={returnUrl}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            {t('pd.back_to_properties', language)}
+          </a>
         </Button>
 
         <div className="grid lg:grid-cols-3 gap-8">
