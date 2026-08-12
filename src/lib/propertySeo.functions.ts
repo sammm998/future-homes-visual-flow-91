@@ -24,9 +24,17 @@ export interface PropertySeo {
   title: string;
   description: string;
   image: string | null;
+  images: string[];
   refNo: string | null;
   location: string | null;
+  country: string | null;
+  district: string | null;
   price: string | null;
+  currency: string | null;
+  bedrooms: string | null;
+  bathrooms: string | null;
+  area: string | null;
+  propertyType: string | null;
 }
 
 const clean = (text: string, max: number): string => {
@@ -56,7 +64,8 @@ export const getPropertySeo = createServerFn({ method: "GET" })
     });
 
     const slugColumns = ["slug", ...SUPPORTED_LANGUAGES.map((l) => `slug_${l}`)];
-    const select = "id, title, description, location, price, ref_no, property_image, property_images";
+    const select =
+      "id, title, description, location, price, ref_no, property_image, property_images, og_image, price_currency, bedrooms, bathrooms, sizes_m2, property_type, property_district, country";
 
     const findOne = async (column: string, value: string) => {
       const { data: rows } = await supabase
@@ -111,14 +120,23 @@ export const getPropertySeo = createServerFn({ method: "GET" })
     const images: string[] = Array.isArray(property.property_images)
       ? property.property_images
       : [];
-    const image = property.property_image || images[0] || null;
+    const image = property.og_image || property.property_image || images[0] || null;
+    const str = (v: unknown) => (v === null || v === undefined || v === "" ? null : String(v));
 
     return {
       title: clean(String(property.title ?? "Property"), 90),
       description: clean(String(property.description ?? property.title ?? ""), 155),
       image,
-      refNo: property.ref_no ? String(property.ref_no) : null,
-      location: property.location ? String(property.location) : null,
-      price: property.price ? String(property.price) : null,
+      images: [image, ...images].filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).slice(0, 6) as string[],
+      refNo: str(property.ref_no),
+      location: str(property.location),
+      country: str(property.country),
+      district: str(property.property_district),
+      price: str(property.price),
+      currency: str(property.price_currency),
+      bedrooms: str(property.bedrooms),
+      bathrooms: str(property.bathrooms),
+      area: str(property.sizes_m2),
+      propertyType: str(property.property_type),
     };
   });
