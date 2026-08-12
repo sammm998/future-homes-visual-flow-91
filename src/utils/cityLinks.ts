@@ -9,9 +9,10 @@ const CITY_ROUTES: Record<string, string> = {
   dubai: '/dubai',
   bali: '/bali',
   cyprus: '/cyprus',
-  alanya: '/alanya-property-for-sale',
-  kalkan: '/kalkan-property-for-sale',
-  belek: '/belek-property-for-sale',
+  // Cities without a dedicated route fall back to the Turkey hub page.
+  alanya: '/property-for-sale-in-turkey',
+  kalkan: '/property-for-sale-in-turkey',
+  belek: '/property-for-sale-in-turkey',
 };
 
 /** Returns a valid internal route for a city, falling back to the Turkey hub. */
