@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, Square, Calendar, Car, Home, Plane, Waves, CheckCircle, Star, Award, Images, X, Share2, Check } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
+import { getLocaleFromPathname } from "@/utils/localeRouting";
 import {
   absoluteImage,
   buildPropertyStructuredData,
@@ -228,6 +229,9 @@ const PropertyDetail = () => {
   const location = useLocation();
   const lang = getCurrentLanguage(location.search);
   const language = lang || 'en';
+  // During SSR there is no ?lang= param, so derive the SEO language from the
+  // URL prefix (/tr/mulk/1046) to keep metadata and schema in the right language.
+  const seoLanguage = getLocaleFromPathname(location.pathname) || language;
   const {
     formatPrice
   } = useCurrency();
@@ -284,11 +288,11 @@ const PropertyDetail = () => {
           description={routeSeo?.description || "Explore this property for sale in Turkey, Dubai, Cyprus or Bali with Future Homes International."}
           ogImage={absoluteImage(routeSeo?.image)}
           ogType="product"
-          canonicalUrl={routeSeo ? propertyUrl(routeSeo, language) : undefined}
+          canonicalUrl={routeSeo ? propertyUrl(routeSeo, seoLanguage) : undefined}
           hreflangUrls={routeSeo?.refNo ? propertyHreflangUrls(routeSeo) : undefined}
-          structuredData={routeSeo ? buildPropertyStructuredData(routeSeo, language, {
-            home: t('nav.home', language),
-            properties: t('nav.properties', language),
+          structuredData={routeSeo ? buildPropertyStructuredData(routeSeo, seoLanguage, {
+            home: t('nav.home', seoLanguage),
+            properties: t('nav.properties', seoLanguage),
           }) : undefined}
         />
         <Navigation />
@@ -472,9 +476,9 @@ const PropertyDetail = () => {
         ogType="product"
         ogImage={absoluteImage(seoProperty.image)}
         hreflangUrls={propertyHreflangUrls(seoProperty)}
-        structuredData={buildPropertyStructuredData(seoProperty, language, {
-          home: t('nav.home', language),
-          properties: t('nav.properties', language),
+        structuredData={buildPropertyStructuredData(seoProperty, seoLanguage, {
+          home: t('nav.home', seoLanguage),
+          properties: t('nav.properties', seoLanguage),
         })}
       />
       <Navigation />
