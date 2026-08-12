@@ -69,6 +69,7 @@ export const useLanguageUrlSync = () => {
     if (!PROPERTY_PATH_SEGMENTS.has(parts[0])) return;
 
     const currentSlug = parts[1];
+    let cancelled = false;
 
     const syncPropertyUrl = async () => {
       const refFromUrl = searchParams.get('ref');
@@ -86,9 +87,14 @@ export const useLanguageUrlSync = () => {
       const { data: matches } = await query.limit(1);
       const data = matches && matches.length > 0 ? matches[0] : null;
       if (!data) return;
+      // The user may have navigated away (e.g. pressed Back) while the lookup
+      // was in flight — never yank them back to the old property URL.
+      if (cancelled) return;
+      const livePathname = typeof window !== 'undefined' ? window.location.pathname : location.pathname;
+      if (livePathname !== location.pathname) return;
 
       const newUrl = buildPropertyUrl(data, effectiveLang);
-      if (newUrl !== location.pathname) {
+      if (newUrl !== livePathname) {
         processingRef.current = true;
         navigate(newUrl, { replace: true });
         setTimeout(() => { processingRef.current = false; }, 100);
@@ -96,5 +102,7 @@ export const useLanguageUrlSync = () => {
     };
 
     syncPropertyUrl();
+
+    return () => { cancelled = true; };
   }, [location.pathname, location.search, navigate]);
 };
