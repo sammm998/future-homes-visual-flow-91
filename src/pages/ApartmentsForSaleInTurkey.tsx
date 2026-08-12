@@ -1,3 +1,4 @@
+import { getCityPath } from '@/utils/cityLinks';
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import { EnhancedSEOHead } from '@/components/EnhancedSEOHead';
@@ -158,7 +159,7 @@ const ApartmentsForSaleInTurkey = () => {
               <Link to="/properties?type=apartment">View All Apartments</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Get Property Advice</Link>
+              <Link to="/contact-us">Get Property Advice</Link>
             </Button>
           </div>
         </section>
@@ -222,7 +223,7 @@ const ApartmentsForSaleInTurkey = () => {
                     </div>
                   </div>
                   <Button asChild className="w-full mt-4">
-                    <Link to={`/${location.city.toLowerCase()}`}>View {location.city} Apartments</Link>
+                    <Link to={getCityPath(location.city)}>View {location.city} Apartments</Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -345,7 +346,7 @@ const ApartmentsForSaleInTurkey = () => {
               <Link to="/properties?type=apartment">Browse Apartments</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Get Expert Advice</Link>
+              <Link to="/contact-us">Get Expert Advice</Link>
             </Button>
           </div>
         </section>

@@ -68,7 +68,7 @@ const PropertyForSaleInTurkey = () => {
       name: "Alanya",
       description: "Popular expat destination with great weather",
       properties: "300+ properties",
-      link: "/alanya"
+      link: "/alanya-property-for-sale"
     },
     {
       name: "Mersin",
@@ -130,10 +130,10 @@ const PropertyForSaleInTurkey = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties">View All Properties</Link>
+              <Link to="/property-for-sale-in-turkey">View All Properties</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Get Expert Advice</Link>
+              <Link to="/contact-us">Get Expert Advice</Link>
             </Button>
           </div>
         </section>
@@ -299,10 +299,10 @@ const PropertyForSaleInTurkey = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties">Browse Properties</Link>
+              <Link to="/property-for-sale-in-turkey">Browse Properties</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Contact Expert</Link>
+              <Link to="/contact-us">Contact Expert</Link>
             </Button>
           </div>
         </section>

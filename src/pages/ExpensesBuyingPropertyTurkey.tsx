@@ -581,10 +581,10 @@ const ExpensesBuyingPropertyTurkey = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties">Browse Properties</Link>
+              <Link to="/property-for-sale-in-turkey">Browse Properties</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Get Cost Consultation</Link>
+              <Link to="/contact-us">Get Cost Consultation</Link>
             </Button>
           </div>
         </section>

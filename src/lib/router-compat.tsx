@@ -9,10 +9,12 @@ import {
   useParams as tsParams,
   useSearch as tsSearch,
   useRouter,
+  useRouterState,
   Link as TSLink,
   Navigate as TSNavigate,
   Outlet as TSOutlet,
 } from "@tanstack/react-router";
+import { getLocaleFromPathname, localizePath } from "@/utils/localeRouting";
 import { useMemo, useCallback, forwardRef, type ComponentProps, type ReactNode } from "react";
 
 // ---------- shared URL parsing ----------
@@ -122,15 +124,28 @@ type LinkProps = Omit<ComponentProps<typeof TSLink>, "to"> & {
   children?: ReactNode;
 };
 
+/** Paths that must never receive a language prefix. */
+const NON_LOCALIZED_PREFIXES = ["/admin", "/api", "/sitemap"];
+
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   { to, replace, state, children, ...rest },
   ref,
 ) {
   const { pathname, search, hash } = parseTo(to);
+  const currentPathname = useRouterState({ select: (s) => s.location.pathname });
+  const activeLocale = getLocaleFromPathname(currentPathname);
+  // Keep the active language when navigating between internal pages; without
+  // this, every link silently dropped the visitor back to the English URL.
+  const localizedPathname =
+    activeLocale &&
+    pathname.startsWith("/") &&
+    !NON_LOCALIZED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`))
+      ? localizePath(pathname, activeLocale)
+      : pathname;
   return (
     <TSLink
       ref={ref as never}
-      to={pathname as never}
+      to={localizedPathname as never}
       search={search as never}
       hash={hash}
       replace={replace}

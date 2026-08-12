@@ -202,7 +202,7 @@ const TurkishCitizenshipByInvestment = () => {
               <Link to="/properties?citizenship-eligible=true">View Eligible Properties</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Get Citizenship Consultation</Link>
+              <Link to="/contact-us">Get Citizenship Consultation</Link>
             </Button>
           </div>
         </section>
@@ -451,7 +451,7 @@ const TurkishCitizenshipByInvestment = () => {
               <Link to="/properties?citizenship-eligible=true">View Eligible Properties</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Book Consultation</Link>
+              <Link to="/contact-us">Book Consultation</Link>
             </Button>
           </div>
         </section>

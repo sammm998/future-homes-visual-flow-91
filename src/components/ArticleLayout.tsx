@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowLeft, Calendar, Clock, Share2, User } from 'lucide-react';
-import { useNavigate } from '@/lib/router-compat';
+import { useNavigate, useLocation } from '@/lib/router-compat';
+import ArticleInternalLinks from './ArticleInternalLinks';
 import Navigation from './Navigation';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -46,6 +47,8 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
   category,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentSlug = location.pathname.split('/').filter(Boolean).pop();
   const resolvedCategory: CategoryKey = category ?? detectCategory(title, content);
 
   // Build a smart back URL that returns the user to the correct
@@ -216,6 +219,13 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
                 </div>
               </Card>
             </motion.div>
+
+            {/* Contextual internal links (related articles + topic pages) */}
+            <ArticleInternalLinks
+              currentSlug={currentSlug}
+              title={title}
+              content={content}
+            />
 
             {/* Related Articles CTA */}
             <motion.div 
