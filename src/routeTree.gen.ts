@@ -37,7 +37,6 @@ import { Route as OurStoryRouteImport } from './routes/our-story'
 import { Route as PropertyForSaleInTurkeyRouteImport } from './routes/property-for-sale-in-turkey'
 import { Route as PropertyGalleryRouteImport } from './routes/property-gallery'
 import { Route as PropertyWizardRouteImport } from './routes/property-wizard'
-import { Route as SitemapLocaleDotxmlRouteImport } from './routes/sitemap-$locale[.]xml'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as TurkishCitizenshipByInvestmentRouteImport } from './routes/turkish-citizenship-by-investment'
@@ -77,6 +76,7 @@ import { Route as ArticleIdRouteImport } from './routes/article.$id'
 import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as ArticlesExpensesBuyingPropertyTurkeyRouteImport } from './routes/articles.expenses-buying-property-turkey'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
+import { Route as SitemapLocaleDotxmlRouteImport } from './routes/sitemap.$locale[.]xml'
 import { Route as LocaleSegmentIdRouteImport } from './routes/$locale.$segment.$id'
 import { Route as LocaleArticleIdRouteImport } from './routes/$locale/article.$id'
 import { Route as LocaleArticlesSlugRouteImport } from './routes/$locale/articles.$slug'
@@ -259,11 +259,6 @@ const PropertyGalleryRoute = PropertyGalleryRouteImport.update({
 const PropertyWizardRoute = PropertyWizardRouteImport.update({
   id: '/property-wizard',
   path: '/property-wizard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapLocaleDotxmlRoute = SitemapLocaleDotxmlRouteImport.update({
-  id: '/sitemap-$locale.xml',
-  path: '/sitemap-$locale.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -466,6 +461,11 @@ const ArticlesExpensesBuyingPropertyTurkeyRoute =
 const CoursesIndexRoute = CoursesIndexRouteImport.update({
   id: '/courses/',
   path: '/courses/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapLocaleDotxmlRoute = SitemapLocaleDotxmlRouteImport.update({
+  id: '/sitemap/$locale.xml',
+  path: '/sitemap/$locale.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocaleSegmentIdRoute = LocaleSegmentIdRouteImport.update({
@@ -715,7 +715,6 @@ export interface FileRoutesByFullPath {
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
   '/property-gallery': typeof PropertyGalleryRoute
   '/property-wizard': typeof PropertyWizardRoute
-  '/sitemap-$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/turkish-citizenship-by-investment': typeof TurkishCitizenshipByInvestmentRoute
@@ -752,6 +751,7 @@ export interface FileRoutesByFullPath {
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/$locale/': typeof LocaleIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
@@ -825,7 +825,6 @@ export interface FileRoutesByTo {
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
   '/property-gallery': typeof PropertyGalleryRoute
   '/property-wizard': typeof PropertyWizardRoute
-  '/sitemap-$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/turkish-citizenship-by-investment': typeof TurkishCitizenshipByInvestmentRoute
@@ -862,6 +861,7 @@ export interface FileRoutesByTo {
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/$locale': typeof LocaleIndexRoute
   '/admin': typeof AdminIndexRoute
   '/courses': typeof CoursesIndexRoute
@@ -938,7 +938,6 @@ export interface FileRoutesById {
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
   '/property-gallery': typeof PropertyGalleryRoute
   '/property-wizard': typeof PropertyWizardRoute
-  '/sitemap-$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/turkish-citizenship-by-investment': typeof TurkishCitizenshipByInvestmentRoute
@@ -975,6 +974,7 @@ export interface FileRoutesById {
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/$locale/': typeof LocaleIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
@@ -1052,7 +1052,6 @@ export interface FileRouteTypes {
     | '/property-for-sale-in-turkey'
     | '/property-gallery'
     | '/property-wizard'
-    | '/sitemap-$locale.xml'
     | '/sitemap.xml'
     | '/testimonials'
     | '/turkish-citizenship-by-investment'
@@ -1089,6 +1088,7 @@ export interface FileRouteTypes {
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
+    | '/sitemap/$locale.xml'
     | '/$locale/'
     | '/admin/'
     | '/courses/'
@@ -1162,7 +1162,6 @@ export interface FileRouteTypes {
     | '/property-for-sale-in-turkey'
     | '/property-gallery'
     | '/property-wizard'
-    | '/sitemap-$locale.xml'
     | '/sitemap.xml'
     | '/testimonials'
     | '/turkish-citizenship-by-investment'
@@ -1199,6 +1198,7 @@ export interface FileRouteTypes {
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
+    | '/sitemap/$locale.xml'
     | '/$locale'
     | '/admin'
     | '/courses'
@@ -1274,7 +1274,6 @@ export interface FileRouteTypes {
     | '/property-for-sale-in-turkey'
     | '/property-gallery'
     | '/property-wizard'
-    | '/sitemap-$locale.xml'
     | '/sitemap.xml'
     | '/testimonials'
     | '/turkish-citizenship-by-investment'
@@ -1311,6 +1310,7 @@ export interface FileRouteTypes {
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
+    | '/sitemap/$locale.xml'
     | '/$locale/'
     | '/admin/'
     | '/courses/'
@@ -1387,7 +1387,6 @@ export interface RootRouteChildren {
   PropertyForSaleInTurkeyRoute: typeof PropertyForSaleInTurkeyRoute
   PropertyGalleryRoute: typeof PropertyGalleryRoute
   PropertyWizardRoute: typeof PropertyWizardRoute
-  SitemapLocaleDotxmlRoute: typeof SitemapLocaleDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestimonialsRoute: typeof TestimonialsRoute
   TurkishCitizenshipByInvestmentRoute: typeof TurkishCitizenshipByInvestmentRoute
@@ -1396,6 +1395,7 @@ export interface RootRouteChildren {
   ArticleIdRoute: typeof ArticleIdRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   ArticlesExpensesBuyingPropertyTurkeyRoute: typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  SitemapLocaleDotxmlRoute: typeof SitemapLocaleDotxmlRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
   CoursesCountryModuleSlugRoute: typeof CoursesCountryModuleSlugRoute
   CoursesCountryFinalExamRoute: typeof CoursesCountryFinalExamRoute
@@ -1598,13 +1598,6 @@ declare module '@tanstack/react-router' {
       path: '/property-wizard'
       fullPath: '/property-wizard'
       preLoaderRoute: typeof PropertyWizardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap-$locale.xml': {
-      id: '/sitemap-$locale.xml'
-      path: '/sitemap-$locale.xml'
-      fullPath: '/sitemap-$locale.xml'
-      preLoaderRoute: typeof SitemapLocaleDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -1878,6 +1871,13 @@ declare module '@tanstack/react-router' {
       path: '/courses'
       fullPath: '/courses/'
       preLoaderRoute: typeof CoursesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap/$locale.xml': {
+      id: '/sitemap/$locale.xml'
+      path: '/sitemap/$locale.xml'
+      fullPath: '/sitemap/$locale.xml'
+      preLoaderRoute: typeof SitemapLocaleDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$locale/$segment/$id': {
@@ -2366,7 +2366,6 @@ const rootRouteChildren: RootRouteChildren = {
   PropertyForSaleInTurkeyRoute: PropertyForSaleInTurkeyRoute,
   PropertyGalleryRoute: PropertyGalleryRoute,
   PropertyWizardRoute: PropertyWizardRoute,
-  SitemapLocaleDotxmlRoute: SitemapLocaleDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestimonialsRoute: TestimonialsRoute,
   TurkishCitizenshipByInvestmentRoute: TurkishCitizenshipByInvestmentRoute,
@@ -2376,6 +2375,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesSlugRoute: ArticlesSlugRoute,
   ArticlesExpensesBuyingPropertyTurkeyRoute:
     ArticlesExpensesBuyingPropertyTurkeyRoute,
+  SitemapLocaleDotxmlRoute: SitemapLocaleDotxmlRoute,
   CoursesIndexRoute: CoursesIndexRoute,
   CoursesCountryModuleSlugRoute: CoursesCountryModuleSlugRoute,
   CoursesCountryFinalExamRoute: CoursesCountryFinalExamRoute,
