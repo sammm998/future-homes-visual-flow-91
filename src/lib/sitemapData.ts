@@ -3,6 +3,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { SUPPORTED_LOCALES, localizePath } from "@/utils/localeRouting";
 import { PATH_TRANSLATIONS } from "@/utils/slugHelpers";
+import { NORDIC_LANDING_PAGES } from "@/data/nordicLandingPages";
 
 export const SITEMAP_BASE_URL = "https://futurehomesinternational.com";
 
@@ -25,7 +26,10 @@ export interface SitemapEntry {
   lastmod?: string;
   /** Property ref number — URL uses the translated segment per locale */
   propertyRef?: string;
+  /** Page exists in one locale only; `path` already contains the locale prefix */
+  onlyLocale?: string;
 }
+
 
 export const STATIC_PAGES: SitemapEntry[] = [
   { path: "/", priority: "1.0", changefreq: "daily" },
@@ -98,6 +102,16 @@ export async function getSitemapEntries(): Promise<SitemapEntry[]> {
 
   const entries: SitemapEntry[] = [...STATIC_PAGES];
 
+  // Locale-specific Nordic keyword landing pages (sv/no/da only)
+  for (const page of NORDIC_LANDING_PAGES) {
+    entries.push({
+      path: `/${page.locale}/${page.slug}`,
+      onlyLocale: page.locale,
+      changefreq: "weekly",
+      priority: "0.8",
+    });
+  }
+
   for (const p of properties) {
     if (!p.ref_no) continue;
     entries.push({
@@ -128,6 +142,9 @@ export async function getSitemapEntries(): Promise<SitemapEntry[]> {
 
 /** Absolute URL for an entry in a given locale (translated property segment). */
 export function entryUrl(entry: SitemapEntry, locale: string): string {
+  if (entry.onlyLocale) {
+    return `${SITEMAP_BASE_URL}${entry.path}`;
+  }
   if (entry.propertyRef) {
     const segment = PATH_TRANSLATIONS[locale] || "property";
     const path = locale === "en" ? `/${segment}/${entry.propertyRef}` : `/${locale}/${segment}/${entry.propertyRef}`;
@@ -142,7 +159,17 @@ const xmlEscape = (value: string) =>
 /** Renders one locale's <urlset>, with hreflang alternates for every language. */
 export function renderLocaleSitemap(entries: SitemapEntry[], locale: string): string {
   const urls = entries
+    .filter((entry) => !entry.onlyLocale || entry.onlyLocale === locale)
     .map((entry) => {
+      if (entry.onlyLocale) {
+        return [
+          "  <url>",
+          `    <loc>${xmlEscape(entryUrl(entry, locale))}</loc>`,
+          `    <changefreq>${entry.changefreq}</changefreq>`,
+          `    <priority>${entry.priority}</priority>`,
+          "  </url>",
+        ].join("\n");
+      }
       const alternates = SITEMAP_LOCALES.map(
         (alt) =>
           `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlEscape(entryUrl(entry, alt))}" />`,
