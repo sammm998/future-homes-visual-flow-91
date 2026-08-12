@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from '@/lib/helmet-compat';
+import { Helmet } from 'react-helmet-async';
 import { supportedLanguages, getLanguageFromUrl } from '@/utils/seoConfig';
 import { stripLocale, localizePath, getLocaleFromPathname } from '@/utils/localeRouting';
 

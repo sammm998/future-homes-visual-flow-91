@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "@/lib/router-compat";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -437,18 +437,18 @@ export default function PropertyEdit() {
                                 <img src={url} alt="" className="w-full h-full object-cover" />
                                 <div
                                   {...p.dragHandleProps}
-                                  className="absolute top-1 left-1 bg-black/60 text-white rounded-sm p-1 cursor-grab active:cursor-grabbing"
+                                  className="absolute top-1 left-1 bg-black/60 text-white rounded p-1 cursor-grab active:cursor-grabbing"
                                 >
                                   <GripVertical className="h-3 w-3" />
                                 </div>
                                 <button
                                   type="button"
                                   onClick={() => removeImage(idx)}
-                                  className="absolute top-1 right-1 bg-red-600/90 text-white rounded-sm p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                  className="absolute top-1 right-1 bg-red-600/90 text-white rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                                 >
                                   <X className="h-3 w-3" />
                                 </button>
-                                <span className="absolute bottom-1 left-1 text-[10px] bg-black/60 text-white px-1.5 py-0.5 rounded-sm">
+                                <span className="absolute bottom-1 left-1 text-[10px] bg-black/60 text-white px-1.5 py-0.5 rounded">
                                   {idx + 1}
                                 </span>
                               </div>

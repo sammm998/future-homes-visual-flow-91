@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate, useLocation } from "@/lib/router-compat";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -255,7 +255,7 @@ const PropertyDetail = () => {
   useEffect(() => {
     if (property?.images && property.images.length > 0) {
       // Preload first 3 images for faster gallery experience
-      property.images.slice(0, 3).forEach((imageSrc: string, index: number) => {
+      property.images.slice(0, 3).forEach((imageSrc, index) => {
         const img = new Image();
         img.src = imageSrc;
         if (index === 0) {
@@ -272,13 +272,13 @@ const PropertyDetail = () => {
         <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
           {/* Skeleton loader for faster perceived performance */}
           <div className="animate-pulse">
-            <div className="h-6 bg-muted rounded-sm w-32 mb-8"></div>
+            <div className="h-6 bg-muted rounded w-32 mb-8"></div>
             <div className="grid lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-8">
                 <div className="space-y-4">
-                  <div className="h-8 bg-muted rounded-sm w-3/4"></div>
-                  <div className="h-6 bg-muted rounded-sm w-1/2"></div>
-                  <div className="h-8 bg-muted rounded-sm w-1/3"></div>
+                  <div className="h-8 bg-muted rounded w-3/4"></div>
+                  <div className="h-6 bg-muted rounded w-1/2"></div>
+                  <div className="h-8 bg-muted rounded w-1/3"></div>
                 </div>
                 <div className="aspect-[16/10] bg-muted rounded-lg"></div>
               </div>
@@ -552,7 +552,7 @@ const PropertyDetail = () => {
                 
                 {/* Thumbnail Images */}
                 {property.images && property.images.length > 1 && <div className="grid grid-cols-4 gap-2">
-                    {property.images.slice(0, 4).map((image: string, index: number) => <div key={index} className={`aspect-square overflow-hidden rounded-sm cursor-pointer border-2 transition-all ${currentImageIndex === index ? 'border-primary' : 'border-transparent hover:border-muted-foreground/50'}`} onClick={() => setCurrentImageIndex(index)}>
+                    {property.images.slice(0, 4).map((image: string, index: number) => <div key={index} className={`aspect-square overflow-hidden rounded cursor-pointer border-2 transition-all ${currentImageIndex === index ? 'border-primary' : 'border-transparent hover:border-muted-foreground/50'}`} onClick={() => setCurrentImageIndex(index)}>
                         <OptimizedPropertyImage src={image} alt={`${property.title} in ${property.location || ''} — photo ${index + 1}`} className="w-full h-full object-cover" priority={false} />
                       </div>)}
                   </div>}

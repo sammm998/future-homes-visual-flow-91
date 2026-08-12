@@ -1,8 +1,8 @@
 import React from 'react';
-import { useParams, Navigate } from '@/lib/router-compat';
+import { useParams, Navigate } from 'react-router-dom';
 import ArticleLayout from '@/components/ArticleLayout';
 import ArticleContent from '@/components/ArticleContent';
-import { Helmet } from '@/lib/helmet-compat';
+import { Helmet } from 'react-helmet-async';
 
 const Article = () => {
   const { id } = useParams(); // This is the slug

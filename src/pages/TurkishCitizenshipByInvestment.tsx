@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Users, Shield, Globe, Clock, Euro, FileText } from 'lucide-react';
-import { Link } from '@/lib/router-compat';
+import { Link } from 'react-router-dom';
 
 const TurkishCitizenshipByInvestment = () => {
   const faqItems = [

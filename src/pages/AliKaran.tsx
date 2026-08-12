@@ -5,7 +5,7 @@ import SEOHead from "@/components/SEOHead";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Award, Users, MapPin, Phone, Mail } from "lucide-react";
-import { Link } from "@/lib/router-compat";
+import { Link } from "react-router-dom";
 import aliKaranImage from "@/assets/ali-karan-founder.png";
 
 

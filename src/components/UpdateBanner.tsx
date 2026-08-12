@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
-import { Link } from '@/lib/router-compat';
+import { Link } from 'react-router-dom';
 
 const UpdateBanner = () => {
   const [isVisible, setIsVisible] = useState(true);

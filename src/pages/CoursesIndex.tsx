@@ -1,4 +1,4 @@
-import { Helmet } from '@/lib/helmet-compat';
+import { Helmet } from 'react-helmet-async';
 import Navigation from '@/components/Navigation';
 import { useCourses } from '@/hooks/useCourses';
 import { useAllCourseProgress } from '@/hooks/useCourseProgress';

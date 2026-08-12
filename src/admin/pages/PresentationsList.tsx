@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "@/lib/router-compat";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -147,7 +147,7 @@ export default function PresentationsList() {
                   >
                     <img
                       src={p.property_image || p.property_images?.[0] || ""}
-                      className="h-12 w-16 object-cover rounded-sm bg-muted"
+                      className="h-12 w-16 object-cover rounded bg-muted"
                     />
                     <div className="min-w-0">
                       <div className="text-sm font-medium truncate">{p.title}</div>

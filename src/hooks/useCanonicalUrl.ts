@@ -1,4 +1,4 @@
-import { useLocation } from '@/lib/router-compat';
+import { useLocation } from 'react-router-dom';
 
 export const useCanonicalUrl = () => {
   const location = useLocation();

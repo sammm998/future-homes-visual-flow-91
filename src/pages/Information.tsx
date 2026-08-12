@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import React from "react";
 
-import { useNavigate, useSearchParams } from "@/lib/router-compat";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import DOMPurify from 'dompurify';
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
@@ -94,10 +94,7 @@ const Information = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Read initial filter from URL (?cat=dubai) so deep-links and back-navigation work
-  const initialFilter =
-    searchParams.get('cat') ||
-    (typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(STORAGE_KEY) : null) ||
-    'all';
+  const initialFilter = searchParams.get('cat') || sessionStorage.getItem(STORAGE_KEY) || 'all';
   const [activeFilter, setActiveFilter] = useState<string>(initialFilter);
 
   // Keep URL + sessionStorage in sync when the user switches filter

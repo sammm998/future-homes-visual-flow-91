@@ -1,4 +1,4 @@
-import { useLocation } from '@/lib/router-compat';
+import { useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
 
 interface SEOData {

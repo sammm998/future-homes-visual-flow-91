@@ -16,7 +16,7 @@ let connectionState = {
 // Enhanced Supabase client with retry and timeout configurations
 export const enhancedSupabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
-    storage: typeof localStorage !== 'undefined' ? localStorage : undefined,
+    storage: localStorage,
     persistSession: true,
     autoRefreshToken: true,
     detectSessionInUrl: false,

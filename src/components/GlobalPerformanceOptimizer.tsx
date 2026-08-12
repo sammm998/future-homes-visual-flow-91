@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Helmet } from '@/lib/helmet-compat';
+import { Helmet } from 'react-helmet-async';
 
 interface GlobalPerformanceOptimizerProps {
   criticalImages?: string[];

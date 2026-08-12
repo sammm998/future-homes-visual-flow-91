@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link } from "@/lib/router-compat";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -262,7 +262,7 @@ export default function BlogEdit() {
                 <img
                   src={form.featured_image}
                   alt=""
-                  className="w-full aspect-video object-cover rounded-sm"
+                  className="w-full aspect-video object-cover rounded"
                 />
               )}
             </CardContent>

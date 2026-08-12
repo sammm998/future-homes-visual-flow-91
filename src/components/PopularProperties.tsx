@@ -7,7 +7,7 @@ import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import { MapPin, Bed, Bath, Square, ArrowRight } from "lucide-react";
 import { useProperties } from "@/hooks/useProperties";
-import { Link } from "@/lib/router-compat";
+import { Link } from "react-router-dom";
 
 const PopularProperties = () => {
   const { formatPrice } = useCurrency();

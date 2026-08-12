@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useLocation } from '@/lib/router-compat';
+import { useLocation } from 'react-router-dom';
 import { getCurrentLanguage, getCanonicalUrl, getHreflangUrls, getCurrentPath } from '@/utils/seoUtils';
 
 /**
