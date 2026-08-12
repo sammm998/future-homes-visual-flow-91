@@ -9,9 +9,12 @@ import {
   Scripts,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { HelmetProvider } from '@/lib/helmet-compat';
+import { setCurrentLocation, getCurrentLanguage } from "@/utils/seoUtils";
+
 
 import appCss from "../styles.css?url";
 
