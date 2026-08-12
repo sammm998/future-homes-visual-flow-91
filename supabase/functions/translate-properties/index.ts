@@ -264,8 +264,10 @@ Deno.serve(async (req) => {
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-    const translationApiKey = OPENAI_API_KEY || GEMINI_API_KEY || LOVABLE_API_KEY;
-    const translationProvider = OPENAI_API_KEY ? "openai" : GEMINI_API_KEY ? "gemini" : "lovable";
+    // Lovable AI first: the OpenAI key ran out of credits and every
+    // translation silently failed, leaving new listings English-only.
+    const translationApiKey = LOVABLE_API_KEY || GEMINI_API_KEY || OPENAI_API_KEY;
+    const translationProvider = LOVABLE_API_KEY ? "lovable" : GEMINI_API_KEY ? "gemini" : "openai";
 
     if (!translationApiKey || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
       return new Response(
