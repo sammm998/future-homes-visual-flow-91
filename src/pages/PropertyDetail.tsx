@@ -23,7 +23,7 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
 import { formatPriceFromString } from '@/utils/priceFormatting';
 import ervinaImage from '@/assets/ervina-koksel.png';
-import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
+import { buildPropertyUrl, getCurrentLanguage, PATH_TO_LANG } from "@/utils/slugHelpers";
 // Using Batuhan Kunt's image
 const batuhanImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ukys641vbp.jpeg';
 import { supabase } from '@/integrations/supabase/client';
@@ -232,7 +232,11 @@ const PropertyDetail = () => {
   const language = lang || 'en';
   // During SSR there is no ?lang= param, so derive the SEO language from the
   // URL prefix (/tr/mulk/1046) to keep metadata and schema in the right language.
-  const seoLanguage = getLocaleFromPathname(location.pathname) || language;
+  // Some URLs carry the localized segment without a locale prefix
+  // (e.g. /properti/1453). Infer the language from that segment so the
+  // canonical points at the prefixed, localized URL.
+  const segmentLang = PATH_TO_LANG[location.pathname.split('/').filter(Boolean)[0] || ''] || null;
+  const seoLanguage = getLocaleFromPathname(location.pathname) || segmentLang || language;
   const {
     formatPrice
   } = useCurrency();
@@ -450,7 +454,7 @@ const PropertyDetail = () => {
   const propertyDescription = truncate(rawDesc, 160);
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
 
-  const canonicalUrl = `https://futurehomesinternational.com${buildPropertyUrl(property, lang)}`;
+  const canonicalUrl = `https://futurehomesinternational.com${buildPropertyUrl(property, seoLanguage)}`;
   const seoProperty: PropertySeoInput = {
     title: property.title,
     description: property.description || propertyDescription,
