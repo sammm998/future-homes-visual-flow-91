@@ -1,9 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useLocation, useNavigate } from '@/lib/router-compat';
-import { getCurrentLanguage } from '@/utils/seoUtils';
 import { PATH_TRANSLATIONS, buildPropertyUrl } from '@/utils/slugHelpers';
-import { localizePath, stripLocale, stripLangParam } from '@/utils/localeRouting';
+import { localizePath, stripLocale, stripLangParam, getLocaleFromPathname } from '@/utils/localeRouting';
 import { supabase } from '@/integrations/supabase/client';
 
 const languages = [
