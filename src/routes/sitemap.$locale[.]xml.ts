@@ -11,9 +11,10 @@ export const Route = createFileRoute("/sitemap/$locale.xml")({
   server: {
     handlers: {
       GET: async ({ params }) => {
-        const locale = String((params as Record<string, string>).locale || "").toLowerCase();
+        const raw = (params as Record<string, string>)["locale.xml"] ?? (params as Record<string, string>).locale ?? "";
+        const locale = String(raw).replace(/\.xml$/i, "").toLowerCase();
         if (!(SITEMAP_LOCALES as readonly string[]).includes(locale)) {
-          return new Response("Unknown language " + JSON.stringify(params), { status: 404 });
+          return new Response("Unknown language", { status: 404 });
         }
         const entries = await getSitemapEntries();
         return xmlResponse(renderLocaleSitemap(entries, locale));
