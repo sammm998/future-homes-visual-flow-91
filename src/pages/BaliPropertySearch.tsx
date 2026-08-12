@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/pagination";
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
+import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const BaliPropertySearch = () => {
   const { t } = useTranslation();
@@ -554,7 +555,8 @@ const BaliPropertySearch = () => {
         </div>
       </div>
 
-    </div>
+    <NordicRelatedLinks className="container mx-auto px-4 pb-12" />
+      </div>
   );
 };
 

@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Users, Shield, Globe, Clock, Euro, FileText } from 'lucide-react';
 import { Link } from '@/lib/router-compat';
+import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const TurkishCitizenshipByInvestment = () => {
   const faqItems = [
@@ -457,7 +458,8 @@ const TurkishCitizenshipByInvestment = () => {
       </main>
 
       <FAQSchema faqItems={faqItems} />
-    </div>
+    <NordicRelatedLinks className="container mx-auto px-4 pb-12" />
+      </div>
   );
 };
 
