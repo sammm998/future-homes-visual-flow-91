@@ -1,7 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from "react";
 import { adminTr } from "./adminTranslationsTr";
+import { adminId } from "./adminTranslationsId";
 
-export type AdminLang = "en" | "tr";
+export type AdminLang = "en" | "tr" | "id";
+
+const DICTS: Record<Exclude<AdminLang, "en">, Record<string, string>> = {
+  tr: adminTr,
+  id: adminId,
+};
 
 const STORAGE_KEY = "admin_lang";
 
@@ -17,7 +23,7 @@ const AdminI18nContext = createContext<AdminI18nValue | null>(null);
 const getInitialLang = (): AdminLang => {
   if (typeof window === "undefined") return "en";
   const stored = window.localStorage.getItem(STORAGE_KEY);
-  return stored === "tr" ? "tr" : "en";
+  return stored === "tr" || stored === "id" ? stored : "en";
 };
 
 export function AdminI18nProvider({ children }: { children: ReactNode }) {
@@ -38,8 +44,8 @@ export function AdminI18nProvider({ children }: { children: ReactNode }) {
 
   const t = useCallback(
     (s: string) => {
-      if (lang === "tr") return adminTr[s] ?? s;
-      return s;
+      if (lang === "en") return s;
+      return DICTS[lang]?.[s] ?? s;
     },
     [lang]
   );

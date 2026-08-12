@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 const LANGS: { code: AdminLang; label: string; flag: string }[] = [
   { code: "en", label: "English", flag: "🇬🇧" },
   { code: "tr", label: "Türkçe", flag: "🇹🇷" },
+  { code: "id", label: "Bahasa Indonesia", flag: "🇮🇩" },
 ];
 
 export default function AdminLanguageSwitcher() {
