@@ -10,7 +10,7 @@ import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, S
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
 import { translateAmenity } from '@/utils/amenityTranslations';
-import { getLocaleFromPathname, localizePath } from "@/utils/localeRouting";
+import { getLocaleFromPathname, localizePath, stripLocale } from "@/utils/localeRouting";
 import {
   absoluteImage,
   buildPropertyStructuredData,
@@ -257,6 +257,14 @@ const PropertyDetail = () => {
   // This handles: initial load with ?lang=sv, language changes, and mismatched paths.
   useEffect(() => {
     if (!property) return;
+
+    // During client-side navigation this component can remain mounted for one
+    // render after the URL changes. Never redirect from a destination page
+    // (for example /id/antalya) back into the property detail route.
+    const pathParts = stripLocale(location.pathname).split('/').filter(Boolean);
+    const isPropertyPath =
+      pathParts.length === 2 && Boolean(PATH_TO_LANG[pathParts[0]]);
+    if (!isPropertyPath) return;
     
     const expectedUrl = buildPropertyUrl(property, lang);
     const expectedPathname = expectedUrl.split('?')[0];
