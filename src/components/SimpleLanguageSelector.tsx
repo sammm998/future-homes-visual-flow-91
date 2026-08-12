@@ -51,11 +51,9 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
     document.documentElement.lang = selectedLanguage.code;
     document.documentElement.dir = ['ar', 'fa', 'ur'].includes(selectedLanguage.code) ? 'rtl' : 'ltr';
 
-    if (langCode) {
-      localStorage.setItem('preferred_language', selectedLanguage.code);
-    } else {
-      localStorage.removeItem('preferred_language');
-    }
+    // Store an explicit 'en' (instead of removing the key) so the URL-sync
+    // hook never falls back to the previous language.
+    localStorage.setItem('preferred_language', selectedLanguage.code);
 
     if (propertySlug) {
       const currentSearch = new URLSearchParams(location.search);
@@ -73,13 +71,25 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
       const data = matches && matches.length > 0 ? matches[0] : null;
 
       if (data) {
-        navigate(buildPropertyUrl(data, langCode), { replace: true });
+        const url = buildPropertyUrl(data, langCode);
+        if (!langCode) {
+          window.location.assign(url);
+        } else {
+          navigate(url, { replace: true });
+        }
         return;
       }
     }
 
     const target = `${localizePath(location.pathname, selectedLanguage.code)}${stripLangParam(location.search)}`;
+    if (!langCode) {
+      // Switching back to English drops the URL prefix; do a real navigation so
+      // no in-flight component re-writes the saved language from the old path.
+      window.location.assign(target);
+      return;
+    }
     navigate(target, { replace: true });
+
   };
 
   return (
