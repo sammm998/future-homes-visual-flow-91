@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@/lib/router-compat';
 import { getCurrentLanguage } from '@/utils/seoUtils';
 
 interface ContentSection {
@@ -44,7 +44,7 @@ const getPageSlugFromPath = (pathname: string): string => {
 
 export const useWebsiteContent = (customSlug?: string): UseWebsiteContentResult => {
   const location = useLocation();
-  const slug = customSlug || getPageSlugFromPath(window.location.pathname);
+  const slug = customSlug || getPageSlugFromPath(location.pathname);
   const lang = getCurrentLanguage();
 
   const aboutCompanyInfo: Record<string, { title: string; description: string }> = {

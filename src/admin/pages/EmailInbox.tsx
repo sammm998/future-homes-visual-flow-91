@@ -67,7 +67,7 @@ export default function EmailInbox() {
               <div className="space-y-3 max-h-[700px] overflow-auto">
                 {Array.isArray(selected.conversation_data) && selected.conversation_data.length > 0 ? (
                   selected.conversation_data.map((m: any, i: number) => (
-                    <div key={i} className={`p-3 rounded ${m.role === "user" ? "bg-primary/5" : "bg-muted"}`}>
+                    <div key={i} className={`p-3 rounded-sm ${m.role === "user" ? "bg-primary/5" : "bg-muted"}`}>
                       <div className="text-xs font-semibold mb-1 uppercase">{m.role}</div>
                       <div className="text-sm whitespace-pre-wrap">{m.content || m.message}</div>
                     </div>

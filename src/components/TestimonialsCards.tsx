@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from '@/lib/router-compat';
 import { supabase } from '@/integrations/supabase/client';
 import { Star } from 'lucide-react';
 
@@ -17,6 +17,7 @@ import magomedImg from '@/assets/testimonials/magomed.jpg';
 import nikolausImg from '@/assets/testimonials/nikolaus.jpg';
 import vicdanImg from '@/assets/testimonials/vicdan.jpg';
 import maherImg from '@/assets/testimonials/maher.jpg';
+import { getLocaleFromPathname } from '@/utils/localeRouting';
 
 interface Testimonial {
   id: string;
@@ -50,8 +51,9 @@ const localImageMap: Record<string, string> = {
 };
 
 const TestimonialsCards = () => {
+  const location = useLocation();
   const [searchParams] = useSearchParams();
-  const language = searchParams.get('lang') || 'en';
+  const language = getLocaleFromPathname(location.pathname) || searchParams.get('lang') || 'en';
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -112,8 +114,8 @@ const TestimonialsCards = () => {
         <div className="container mx-auto px-4">
           <div className="text-center">
             <div className="animate-pulse">
-              <div className="h-8 bg-muted rounded w-1/3 mx-auto mb-4"></div>
-              <div className="h-4 bg-muted rounded w-1/2 mx-auto mb-12"></div>
+              <div className="h-8 bg-muted rounded-sm w-1/3 mx-auto mb-4"></div>
+              <div className="h-4 bg-muted rounded-sm w-1/2 mx-auto mb-12"></div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[...Array(6)].map((_, i) => (
                   <div key={i} className="h-64 bg-muted rounded-xl"></div>

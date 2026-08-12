@@ -141,7 +141,7 @@ const AdminPropertyTranslator = () => {
             <div className="font-medium mb-1">
               Framsteg: {progress.done} / {progress.total} fastigheter
             </div>
-            <div className="h-2 bg-muted rounded overflow-hidden">
+            <div className="h-2 bg-muted rounded-sm overflow-hidden">
               <div
                 className="h-full bg-primary transition-all"
                 style={{ width: `${(progress.done / progress.total) * 100}%` }}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -42,7 +42,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
         </div>
       </div>
 
-      <nav className={cn("bg-white shadow-sm border-b sticky top-0 z-50", className)}>
+      <nav className={cn("bg-white shadow-xs border-b sticky top-0 z-50", className)}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">

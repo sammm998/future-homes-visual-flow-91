@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "@/lib/router-compat";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -128,7 +128,7 @@ export default function BlogAI() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div
-              className="prose prose-sm max-w-none border rounded p-4 max-h-[500px] overflow-auto"
+              className="prose prose-sm max-w-none border rounded-sm p-4 max-h-[500px] overflow-auto"
               dangerouslySetInnerHTML={{ __html: result.content }}
             />
             <div className="flex gap-2">

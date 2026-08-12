@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
 import { getCurrentLanguage } from '@/utils/seoUtils';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@/lib/router-compat';
 import { useMemo } from 'react';
 
 export interface BlogPost {

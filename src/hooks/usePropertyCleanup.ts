@@ -9,7 +9,7 @@ interface CleanupStats {
 }
 
 interface InsertionLog {
-  created_at: string;
+  created_at: string | null;
   user_id: string | null;
   source_info: any;
   ip_address: unknown;

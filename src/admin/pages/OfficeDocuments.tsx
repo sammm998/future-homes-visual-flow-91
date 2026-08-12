@@ -193,7 +193,7 @@ export default function OfficeDocuments() {
                 />
                 <div className="flex items-center gap-0.5 ml-2">
                   <select
-                    className="h-8 rounded border bg-background text-xs px-1"
+                    className="h-8 rounded-sm border bg-background text-xs px-1"
                     onChange={(e) => cmd("formatBlock", e.target.value)}
                     defaultValue="p"
                   >
@@ -237,7 +237,7 @@ export default function OfficeDocuments() {
                     ref={editorRef}
                     contentEditable
                     suppressContentEditableWarning
-                    className="prose max-w-none outline-none min-h-[700px] fh-doc"
+                    className="prose max-w-none outline-hidden min-h-[700px] fh-doc"
                     onBlur={save}
                   />
                 </div>

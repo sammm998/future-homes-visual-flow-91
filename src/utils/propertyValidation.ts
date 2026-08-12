@@ -129,7 +129,7 @@ export const logPropertyValidation = async () => {
       return;
     }
     
-    const refNos = properties.map(p => parseInt(p.ref_no)).filter(n => !isNaN(n));
+    const refNos = properties.map(p => parseInt(p.ref_no ?? '')).filter(n => !isNaN(n));
     
     console.log('Property Validation Report:');
     console.log('Total properties:', properties.length);

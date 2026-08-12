@@ -270,7 +270,7 @@ export default function OfficeSpreadsheet() {
                                     if (e.key === "Enter") commit();
                                     if (e.key === "Escape") setEditing(null);
                                   }}
-                                  className="w-full h-7 px-1 outline-none border-2 border-admin-accent"
+                                  className="w-full h-7 px-1 outline-hidden border-2 border-admin-accent"
                                 />
                               ) : (
                                 <div

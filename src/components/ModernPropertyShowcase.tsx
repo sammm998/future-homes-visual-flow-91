@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@/lib/router-compat';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { ArrowRight, MapPin, Bed, Bath, Square } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -14,7 +14,8 @@ interface Property {
   bedrooms?: string;
   bathrooms?: string;
   sizes_m2?: string;
-  ref_no?: string;
+  ref_no?: string | null;
+  property_images?: string[] | null;
 }
 
 const ModernPropertyShowcase = () => {
@@ -147,7 +148,7 @@ const ModernPropertyShowcase = () => {
                 sizes_m2: prop.sizes_m2 || '60-100'
               };
             })
-            .filter(Boolean) // Remove null entries
+            .filter((prop): prop is NonNullable<typeof prop> => Boolean(prop)) // Remove null entries
             .filter(prop => 
               // Additional filter: prioritize properties with facade indicators in URL
               prop.property_image && (
@@ -196,8 +197,8 @@ const ModernPropertyShowcase = () => {
       <section className="py-16 md:py-24 bg-gradient-to-b from-background via-secondary/10 to-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-pulse">
-            <div className="h-8 bg-muted rounded w-64 mx-auto mb-4"></div>
-            <div className="h-4 bg-muted rounded w-96 mx-auto mb-12"></div>
+            <div className="h-8 bg-muted rounded-sm w-64 mx-auto mb-4"></div>
+            <div className="h-4 bg-muted rounded-sm w-96 mx-auto mb-12"></div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 h-[400px] bg-muted rounded-3xl"></div>
               <div className="space-y-8">

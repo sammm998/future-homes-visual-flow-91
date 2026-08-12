@@ -59,7 +59,7 @@ const Futuristic3DGallery: React.FC = () => {
 
       if (error) throw error;
 
-      const filteredProperties = (data || []).filter(property => 
+      const filteredProperties = ((data || []) as unknown as Property[]).filter(property => 
         property.property_images && 
         Array.isArray(property.property_images) && 
         property.property_images.length > 0

@@ -11,7 +11,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { useEffect, useRef } from "react";
 import userAvatar from "@/assets/avatars/user-avatar.jpg";
 import aiAvatar from "@/assets/avatars/ai-avatar.jpg";

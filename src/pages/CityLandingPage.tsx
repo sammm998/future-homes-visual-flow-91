@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from '@/lib/router-compat';
 import Navigation from '@/components/Navigation';
 import { EnhancedSEOHead } from '@/components/EnhancedSEOHead';
 import { BreadcrumbNavigation } from '@/components/BreadcrumbNavigation';

@@ -73,7 +73,7 @@ export function NavBar({ items, className, onFilterChange, activeFilter }: NavBa
                     <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-6 md:w-8 h-1 bg-primary rounded-t-full">
                       <div className="absolute w-8 md:w-12 h-4 md:h-6 bg-primary/20 rounded-full blur-md -top-1 md:-top-2 -left-1 md:-left-2" />
                       <div className="absolute w-6 md:w-8 h-4 md:h-6 bg-primary/20 rounded-full blur-md -top-0.5 md:-top-1" />
-                      <div className="absolute w-3 md:w-4 h-3 md:h-4 bg-primary/20 rounded-full blur-sm top-0 left-1.5 md:left-2" />
+                      <div className="absolute w-3 md:w-4 h-3 md:h-4 bg-primary/20 rounded-full blur-xs top-0 left-1.5 md:left-2" />
                     </div>
                   </motion.div>
                 )}

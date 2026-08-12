@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import SEOInternalLinks from "@/components/SEOInternalLinks";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Eye, Camera, MapPin, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";

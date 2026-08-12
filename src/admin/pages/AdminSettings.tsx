@@ -60,7 +60,7 @@ export default function AdminSettings() {
             <Input placeholder={tr("Email")} value={newMember.email} onChange={(e) => setNewMember({ ...newMember, email: e.target.value })} />
           </div>
           <Button onClick={add}><Plus className="h-4 w-4 mr-2" /> {tr("Add member")}</Button>
-          <div className="divide-y border rounded">
+          <div className="divide-y border rounded-sm">
             {team.map((t) => (
               <div key={t.id} className="p-3 flex items-center gap-3">
                 <div className="flex-1 min-w-0">

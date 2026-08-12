@@ -6,7 +6,7 @@ import FAQSchema from '@/components/FAQSchema';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin, Home, TrendingUp, Shield, Star, Users } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@/lib/router-compat';
 
 const PropertyForSaleInTurkey = () => {
   const faqItems = [

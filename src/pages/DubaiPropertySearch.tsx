@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from '@/lib/router-compat';
 import Navigation from "@/components/Navigation";
 import PropertyFilter from "@/components/PropertyFilter";
 import PropertyCard from "@/components/PropertyCard";

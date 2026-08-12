@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router-compat";
 import { ChevronUp, ChevronDown, Home, Pause, Play } from "lucide-react";
 import baliImage from "@/assets/bali-destination.jpg";
 import istanbulImage from "@/assets/istanbul-destination.jpg";

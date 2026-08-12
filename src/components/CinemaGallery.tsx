@@ -52,7 +52,7 @@ const CinemaGallery: React.FC = () => {
 
       if (error) throw error;
 
-      const filteredProperties = (data || []).filter(property => 
+      const filteredProperties = ((data || []) as unknown as Property[]).filter(property => 
         property.property_images && 
         Array.isArray(property.property_images) && 
         property.property_images.length > 0
@@ -266,7 +266,7 @@ const CinemaGallery: React.FC = () => {
                     key={property.id}
                     onClick={() => setCurrentIndex(actualIndex)}
                     className={`
-                      w-16 h-12 rounded border-2 transition-all duration-300 overflow-hidden
+                      w-16 h-12 rounded-sm border-2 transition-all duration-300 overflow-hidden
                       ${actualIndex === currentIndex 
                         ? 'border-primary scale-110' 
                         : 'border-gray-600 opacity-60 hover:border-gray-400'
@@ -362,7 +362,7 @@ const CinemaGallery: React.FC = () => {
               <Button
                 key={type}
                 onClick={() => {
-                  setFilterType(type);
+                  setFilterType(type as string);
                   setCurrentIndex(0);
                 }}
                 variant={filterType === type ? "default" : "ghost"}

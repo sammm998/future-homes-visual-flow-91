@@ -155,7 +155,7 @@ const PropertyImageImportManager: React.FC<PropertyImageImportManagerProps> = ({
               ...prev,
               failedImages: prev.failedImages + 1
             }));
-            addToLog(`✗ Failed to import image ${i + 1} for ${property.title}: ${error.message}`);
+            addToLog(`✗ Failed to import image ${i + 1} for ${property.title}: ${error instanceof Error ? error.message : String(error)}`);
           }
         }
       }
@@ -168,7 +168,7 @@ const PropertyImageImportManager: React.FC<PropertyImageImportManagerProps> = ({
 
     } catch (error) {
       console.error('Error during import process:', error);
-      addToLog(`Import process failed: ${error.message}`);
+      addToLog(`Import process failed: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       setIsImporting(false);
       setImportStats(prev => ({ ...prev, currentProperty: undefined }));
@@ -287,7 +287,7 @@ const PropertyImageImportManager: React.FC<PropertyImageImportManagerProps> = ({
                   {importLog.map((entry, index) => (
                     <div 
                       key={index} 
-                      className={`p-1 rounded ${
+                      className={`p-1 rounded-sm ${
                         entry.includes('✓') ? 'bg-green-50 text-green-800' :
                         entry.includes('✗') ? 'bg-red-50 text-red-800' :
                         'bg-gray-50 text-gray-800'

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "@/lib/router-compat";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -101,7 +101,7 @@ export default function CampaignEdit() {
       <Card className="bg-admin-surface">
         <CardHeader><CardTitle className="text-base">Preview</CardTitle></CardHeader>
         <CardContent className="pt-0">
-          <div className="border rounded p-4 max-h-[400px] overflow-auto bg-white" dangerouslySetInnerHTML={{ __html: form.html }} />
+          <div className="border rounded-sm p-4 max-h-[400px] overflow-auto bg-white" dangerouslySetInnerHTML={{ __html: form.html }} />
         </CardContent>
       </Card>
     </div>

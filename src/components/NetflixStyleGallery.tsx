@@ -56,7 +56,7 @@ const NetflixStyleGallery: React.FC = () => {
       if (fetchError) throw fetchError;
 
       // Filter properties with images
-      const propertiesWithImages = (data || []).filter(property => 
+      const propertiesWithImages = ((data || []) as unknown as Property[]).filter(property => 
         property.property_images && 
         Array.isArray(property.property_images) && 
         property.property_images.length > 0
@@ -272,7 +272,7 @@ const NetflixStyleGallery: React.FC = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`flex-shrink-0 w-16 h-12 rounded overflow-hidden border-2 transition-colors ${
+                      className={`flex-shrink-0 w-16 h-12 rounded-sm overflow-hidden border-2 transition-colors ${
                         index === currentImageIndex ? 'border-white' : 'border-transparent hover:border-white/50'
                       }`}
                     >

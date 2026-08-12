@@ -2009,6 +2009,8 @@ export const translations: Record<string, Record<string, string>> = {
 import { translationsExtra } from './translationsExtra';
 import { translationsWizard } from './translationsWizard';
 import { translationsCities } from './translationsCities';
+import { translationsUi } from './translationsUi';
+import { translationsSeo } from './translationsSeo';
 for (const [lang, keys] of Object.entries(translationsExtra)) {
   if (!translations[lang]) translations[lang] = {};
   Object.assign(translations[lang], keys);
@@ -2018,6 +2020,14 @@ for (const [lang, keys] of Object.entries(translationsWizard)) {
   Object.assign(translations[lang], keys);
 }
 for (const [lang, keys] of Object.entries(translationsCities)) {
+  if (!translations[lang]) translations[lang] = {};
+  Object.assign(translations[lang], keys);
+}
+for (const [lang, keys] of Object.entries(translationsUi)) {
+  if (!translations[lang]) translations[lang] = {};
+  Object.assign(translations[lang], keys);
+}
+for (const [lang, keys] of Object.entries(translationsSeo)) {
   if (!translations[lang]) translations[lang] = {};
   Object.assign(translations[lang], keys);
 }

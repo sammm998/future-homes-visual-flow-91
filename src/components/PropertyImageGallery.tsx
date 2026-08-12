@@ -73,7 +73,7 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
       }
 
       // Filter out properties without images
-      const propertiesWithImages = (data || []).filter(property => 
+      const propertiesWithImages = ((data || []) as unknown as Property[]).filter(property => 
         property.property_images && 
         Array.isArray(property.property_images) && 
         property.property_images.length > 0
@@ -358,7 +358,7 @@ const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({
                   <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-xs md:max-w-4xl px-2 md:px-4">
                     <div className="bg-black/80 backdrop-blur-sm p-2 md:p-4 rounded-lg md:rounded-2xl">
                       {(() => {
-                        const { currentThumbnails, totalPages, startIndex } = getThumbnailPagination();
+                        const { currentThumbnails, totalPages, startIndex = 0 } = getThumbnailPagination();
                         return (
                           <>
                             {/* Thumbnails Grid */}
