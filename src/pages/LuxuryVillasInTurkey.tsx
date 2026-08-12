@@ -158,7 +158,7 @@ const LuxuryVillasInTurkey = () => {
               <Link to="/properties?type=villa">View All Villas</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Schedule Villa Tour</Link>
+              <Link to="/contact-us">Schedule Villa Tour</Link>
             </Button>
           </div>
         </section>
@@ -345,7 +345,7 @@ const LuxuryVillasInTurkey = () => {
               <Link to="/properties?type=villa">Browse Luxury Villas</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Schedule Private Tour</Link>
+              <Link to="/contact-us">Schedule Private Tour</Link>
             </Button>
           </div>
         </section>

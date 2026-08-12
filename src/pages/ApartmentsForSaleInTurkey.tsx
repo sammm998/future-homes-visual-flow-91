@@ -158,7 +158,7 @@ const ApartmentsForSaleInTurkey = () => {
               <Link to="/properties?type=apartment">View All Apartments</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Get Property Advice</Link>
+              <Link to="/contact-us">Get Property Advice</Link>
             </Button>
           </div>
         </section>
@@ -345,7 +345,7 @@ const ApartmentsForSaleInTurkey = () => {
               <Link to="/properties?type=apartment">Browse Apartments</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Get Expert Advice</Link>
+              <Link to="/contact-us">Get Expert Advice</Link>
             </Button>
           </div>
         </section>

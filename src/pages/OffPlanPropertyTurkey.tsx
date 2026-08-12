@@ -170,7 +170,7 @@ const OffPlanPropertyTurkey = () => {
               <Link to="/properties?status=off-plan">View Off-Plan Projects</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Get Investment Guide</Link>
+              <Link to="/contact-us">Get Investment Guide</Link>
             </Button>
           </div>
         </section>
@@ -403,7 +403,7 @@ const OffPlanPropertyTurkey = () => {
               <Link to="/properties?status=off-plan">Browse Off-Plan Projects</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/contact">Get Investment Consultation</Link>
+              <Link to="/contact-us">Get Investment Consultation</Link>
             </Button>
           </div>
         </section>
