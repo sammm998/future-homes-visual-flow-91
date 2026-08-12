@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import {
   SITEMAP_LOCALES,
   getSitemapEntries,
@@ -6,8 +6,8 @@ import {
   xmlResponse,
 } from "@/lib/sitemapData";
 
-// Per-language sitemap, e.g. /sitemap-sv.xml, /sitemap-tr.xml, /sitemap-id.xml
-export const Route = createFileRoute("/sitemap-$locale.xml")({
+// Per-language sitemap, e.g. /sitemap/sv.xml, /sitemap/tr.xml, /sitemap/id.xml
+export const Route = createFileRoute("/sitemap/$locale.xml")({
   server: {
     handlers: {
       GET: async ({ params }) => {
