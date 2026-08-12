@@ -10,7 +10,7 @@ import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, S
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
 import { translateAmenity } from '@/utils/amenityTranslations';
-import { getLocaleFromPathname } from "@/utils/localeRouting";
+import { getLocaleFromPathname, localizePath } from "@/utils/localeRouting";
 import {
   absoluteImage,
   buildPropertyStructuredData,
@@ -529,7 +529,7 @@ const PropertyDetail = () => {
             }
           });
         } else {
-          const locationRoute = getLocationRoute(property?.location || '');
+          const locationRoute = localizePath(getLocationRoute(property?.location || ''), getLocaleFromPathname(location.pathname));
           console.log('⬅️ PropertyDetail: Navigating to locationRoute:', locationRoute);
           navigate(locationRoute, {
             state: {
@@ -930,7 +930,7 @@ const PropertyDetail = () => {
               <p className="text-sm text-muted-foreground mb-4">
                 {t('pd.discover_more_in', language)} {property.location}
               </p>
-              <Link to={getLocationRoute(property.location)}>
+              <Link to={localizePath(getLocationRoute(property.location), getLocaleFromPathname(location.pathname))}>
                 <Button size="sm" className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white shadow-lg hover:shadow-xl transition-all duration-300">
                   {t('pd.view_similar_properties', language)}
                 </Button>
