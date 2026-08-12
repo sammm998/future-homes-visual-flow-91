@@ -1,944 +1,9 @@
 // AUTO-GENERATED localized SEO titles/descriptions (13 languages).
+// Keyword-optimized from Semrush research per market (see scripts/seo-keyword-optimize.ts).
 // Source of truth for English: seoMetaSource.ts
 import type { PageMeta } from './seoMetaSource';
 
 export const SEO_META: Record<string, Record<string, PageMeta>> = {
-  "es": {
-    "/": {
-      "title": "Inmuebles en Venta en Turquía, Dubái, Chipre y Bali | Future Homes International",
-      "description": "Inmuebles en venta en Turquía, Dubái, Chipre y Bali. Apartamentos, villas y viviendas sobre plano de agentes internacionales líderes. Ciudadanía turca por inversión desde $400K."
-    },
-    "/antalya": {
-      "title": "Inmuebles en Venta en Antalya | Apartamentos y Villas — Future Homes",
-      "description": "Inmuebles en venta en Antalya: apartamentos frente al mar, villas con vistas al mar y viviendas sobre plano en Konyaaltı, Lara, Alanya y Belek. Desde €70,000 con elegibilidad para ciudadanía turca."
-    },
-    "/istanbul": {
-      "title": "Inmuebles en Venta en Estambul | Apartamentos y Casas — Future Homes",
-      "description": "Inmuebles en venta en Estambul: apartamentos de lujo, casas y villas en los distritos de Maslak, Beylikdüzü y Bósforo. Ciudadanía por inversión desde $400K. Agentes turcos de confianza."
-    },
-    "/mersin": {
-      "title": "Inmuebles en Venta en Mersin | Apartamentos y Villas — Future Homes",
-      "description": "Inmuebles en venta en Mersin: apartamentos frente al mar, villas con vistas al mar y viviendas sobre plano en Mezitli, Erdemli y Tece desde €55,000 con elegibilidad para ciudadanía turca."
-    },
-    "/dubai": {
-      "title": "Inmuebles en Venta en Dubái | Apartamentos y Villas — Future Homes",
-      "description": "Casas en Dubái en venta: apartamentos de lujo, áticos y villas en Dubai Marina, Downtown, Palm Jumeirah y Business Bay desde AED 800K con alto ROI y elegibilidad para visa dorada."
-    },
-    "/cyprus": {
-      "title": "Inmuebles en Venta en Chipre | Villas y Apartamentos + Residencia UE",
-      "description": "Propiedades en Chipre en venta: villas, apartamentos y casas frente al mar en Limassol, Paphos, Larnaca y Chipre del Norte. Compre propiedades en Chipre con residencia permanente de la UE desde €300,000."
-    },
-    "/bali": {
-      "title": "Inmuebles en Venta en Bali | Villas en Seminyak, Canggu y Ubud",
-      "description": "Inmuebles en venta en Bali: villas de lujo, apartamentos y viviendas de inversión en Seminyak, Canggu, Ubud y Uluwatu con altas rentabilidades para inversores extranjeros."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "Inmuebles en Venta en Turquía | Casas, Villas y Apartamentos — Future Homes",
-      "description": "Inmuebles en venta en Turquía de agentes líderes. Casas, villas y apartamentos en Antalya, Estambul, Alanya y Mersin con opciones de ciudadanía por inversión."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "Apartamentos en Venta en Turquía | Antalya, Estambul y Alanya",
-      "description": "Apartamentos en venta en Turquía: apartamentos de 1-4 dormitorios frente al mar, en el centro de la ciudad y sobre plano en Antalya, Estambul, Alanya y Mersin desde €70,000 con planes de pago."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "Villas de Lujo en Venta en Turquía | Vistas al Mar y Piscina Privada",
-      "description": "Villas de lujo en venta en Turquía con piscinas privadas y vistas al mar. Villas frente al mar en Antalya, Kalkan, Bodrum y Alanya desde €250,000. Elegibles para ciudadanía turca."
-    },
-    "/off-plan-property-turkey": {
-      "title": "Propiedades sobre Plano en Turquía | Obra Nueva con Planes de Pago",
-      "description": "Propiedades sobre plano en Turquía de desarrolladores líderes: 10-20% por debajo del mercado, planes de pago al 0% de interés y apartamentos y villas de nueva construcción en Antalya, Estambul y Alanya."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "Ciudadanía Turca por Inversión 2026 | Ruta de Propiedad de $400K",
-      "description": "Obtenga la ciudadanía turca por inversión con bienes raíces de $400K. Guía completa del programa CBI de Turquía: proceso, elegibilidad, beneficios del pasaporte y más de 110 países sin visa."
-    },
-    "/information": {
-      "title": "Guía de Inversión Inmobiliaria | Información y Análisis del Sector",
-      "description": "Guías expertas sobre inversión inmobiliaria, ciudadanía turca, proceso de compra, requisitos legales y análisis del mercado inmobiliario para Turquía, Dubái, Chipre y Bali."
-    },
-    "/property-gallery": {
-      "title": "Galería de Propiedades | Colección Inmobiliaria Premium — Future Homes",
-      "description": "Explore nuestra colección de propiedades premium con fotos de alta calidad de apartamentos de lujo, interiores modernos y comodidades excepcionales en ubicaciones privilegiadas."
-    },
-    "/testimonials": {
-      "title": "Testimonios de Clientes | Reseñas Reales y Historias de Éxito",
-      "description": "Lea reseñas auténticas de clientes que encontraron la propiedad de sus sueños con nosotros. Testimonios reales de clientes en Turquía, Dubái, Chipre y Bali."
-    },
-    "/about-us": {
-      "title": "Sobre Future Homes International | Expertos Inmobiliarios Internacionales",
-      "description": "Conozca Future Homes International: oficinas en Antalya, Estambul, Dubái, Chipre y Bali, ayudando a compradores internacionales a adquirir propiedades de forma segura desde 2019."
-    },
-    "/contact-us": {
-      "title": "Contacto Future Homes International | Oficinas en Turquía, Dubái, Chipre y Bali",
-      "description": "Contacte a nuestros asesores inmobiliarios en Antalya, Estambul, Dubái, Chipre y Bali. Consulta gratuita, viajes de visita y soporte completo durante el proceso de compra."
-    },
-    "/our-story": {
-      "title": "Nuestra Historia | Future Homes International",
-      "description": "La historia de Future Homes International: de una pequeña oficina en Antalya a una familia inmobiliaria global que atiende a compradores en Turquía, Dubái, Chipre y Bali."
-    },
-    "/ali-karan": {
-      "title": "Ali Karan — Fundador y CEO | Experto Inmobiliario Internacional",
-      "description": "Conozca a Ali Karan, fundador y CEO de Future Homes International, con años de experiencia en bienes raíces en Turquía, Dubái, Chipre y Bali."
-    }
-  },
-  "sv": {
-    "/": {
-      "title": "Bostäder till salu i Turkiet, Dubai, Cypern & Bali",
-      "description": "Bostäder till salu i Turkiet, Dubai, Cypern & Bali. Lägenheter, villor & nyproduktion från ledande internationella mäklare. Turkiskt medborgarskap från $400K."
-    },
-    "/antalya": {
-      "title": "Bostäder till salu i Antalya | Lägenheter & Villor",
-      "description": "Bostäder till salu i Antalya: strandnära lägenheter, villor & nyproduktion i Konyaaltı, Lara, Alanya & Belek. Från €70.000 med medborgarskap."
-    },
-    "/istanbul": {
-      "title": "Bostäder till salu i Istanbul | Lägenheter & Hus",
-      "description": "Bostäder till salu i Istanbul: lyxiga lägenheter, hus & villor i Maslak, Beylikdüzü & Bosporen. Medborgarskap från $400K. Pålitliga mäklare."
-    },
-    "/mersin": {
-      "title": "Bostäder till salu i Mersin | Lägenheter & Villor",
-      "description": "Bostäder till salu i Mersin: strandnära lägenheter, villor & nyproduktion i Mezitli, Erdemli & Tece. Från €55.000 med medborgarskap."
-    },
-    "/dubai": {
-      "title": "Bostäder till salu i Dubai | Lägenheter & Villor",
-      "description": "Bostäder till salu i Dubai: lyxiga lägenheter, takvåningar & villor i Dubai Marina, Downtown, Palm Jumeirah & Business Bay. Från AED 800K."
-    },
-    "/cyprus": {
-      "title": "Bostäder till salu på Cypern | Villor & Lägenheter + EU Uppehåll",
-      "description": "Fastigheter till salu på Cypern: villor, lägenheter & strandnära bostäder i Limassol, Paphos, Larnaca & Nordcypern. EU permanent uppehåll från €300.000."
-    },
-    "/bali": {
-      "title": "Bostäder till salu på Bali | Villor i Seminyak, Canggu & Ubud",
-      "description": "Bostäder till salu på Bali: lyxiga villor, lägenheter och investeringsbostäder i Seminyak, Canggu, Ubud & Uluwatu med hög hyresavkastning."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "Bostäder till salu i Turkiet | Hus, Villor & Lägenheter",
-      "description": "Bostäder till salu i Turkiet från ledande mäklare. Hus, villor och lägenheter i Antalya, Istanbul, Alanya & Mersin med medborgarskapsalternativ."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "Lägenheter till salu i Turkiet | Antalya, Istanbul & Alanya",
-      "description": "Lägenheter till salu i Turkiet: 1-4 sovrum, strandnära, centrum & nyproduktion i Antalya, Istanbul, Alanya & Mersin. Från €70.000."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "Villor till salu i Turkiet | Lyxiga med Havsutsikt & Pool",
-      "description": "Lyxiga villor till salu i Turkiet med privat pool och havsutsikt. Strandnära villor i Antalya, Kalkan, Bodrum & Alanya från €250.000. Medborgarskap."
-    },
-    "/off-plan-property-turkey": {
-      "title": "Nyproduktion i Turkiet | Nya Byggen med Avbetalningsplaner",
-      "description": "Nyproduktion i Turkiet från ledande utvecklare: 10-20% under marknadspris, 0% ränta & nya lägenheter/villor i Antalya, Istanbul & Alanya."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "Turkiskt Medborgarskap via Investering 2026 | $400K",
-      "description": "Få turkiskt medborgarskap genom fastighetsinvestering på $400K. Fullständig guide till Turkiets CBI-program: process, behörighet, passförmåner."
-    },
-    "/information": {
-      "title": "Investeringsguide Fastigheter | Information & Insikter",
-      "description": "Expertguider om fastighetsinvestering, turkiskt medborgarskap, köpprocess, juridiska krav och fastighetsinsikter för Turkiet, Dubai, Cypern & Bali."
-    },
-    "/property-gallery": {
-      "title": "Fastighetsgalleri | Premium Fastigheter — Future Homes",
-      "description": "Utforska vår kollektion av premiumfastigheter med högkvalitativa foton av lyxiga lägenheter, modern interiör och exceptionella bekvämligheter."
-    },
-    "/testimonials": {
-      "title": "Kundreferenser | Verkliga Kundomdömen & Framgångsberättelser",
-      "description": "Läs autentiska recensioner från kunder som hittade sin drömbostad med oss. Verkliga omdömen från kunder i Turkiet, Dubai, Cypern och Bali."
-    },
-    "/about-us": {
-      "title": "Om Future Homes International | Internationella Fastighetsexperter",
-      "description": "Möt Future Homes International: kontor i Antalya, Istanbul, Dubai, Cypern och Bali. Hjälper internationella köpare att köpa fastigheter säkert sedan 2019."
-    },
-    "/contact-us": {
-      "title": "Kontakta Future Homes International | Kontor i Turkiet, Dubai",
-      "description": "Kontakta våra fastighetsrådgivare i Antalya, Istanbul, Dubai, Cypern och Bali. Gratis konsultation, visningsresor och fullt stöd under köpprocessen."
-    },
-    "/our-story": {
-      "title": "Vår Berättelse | Future Homes International",
-      "description": "Berättelsen om Future Homes International – från ett litet kontor i Antalya till en global fastighetsfamilj som tjänar köpare i Turkiet, Dubai, Cypern och Bali."
-    },
-    "/ali-karan": {
-      "title": "Ali Karan — Grundare & VD | Internationell Fastighetsexpert",
-      "description": "Möt Ali Karan, grundare och VD för Future Homes International, med års erfarenhet inom fastigheter i Turkiet, Dubai, Cypern och Bali."
-    }
-  },
-  "no": {
-    "/": {
-      "title": "Bolig til Salgs i Tyrkia, Dubai, Kypros & Bali | Future Homes",
-      "description": "Bolig til salgs i Tyrkia, Dubai, Kypros & Bali. Leiligheter, villaer & prosjektboliger fra ledende internasjonale agenter. Tyrkisk statsborgerskap fra $400K."
-    },
-    "/antalya": {
-      "title": "Bolig til Salgs i Antalya | Leiligheter & Villaer i Tyrkia — Future Homes",
-      "description": "Bolig til salgs i Antalya: strandleiligheter, villaer med havutsikt og prosjektboliger i Konyaaltı, Lara, Alanya og Belek. Fra €70.000 med statsborgerskap."
-    },
-    "/istanbul": {
-      "title": "Bolig til Salgs i Istanbul | Leiligheter & Hus i Tyrkia — Future Homes",
-      "description": "Bolig til salgs i Istanbul: luksusleiligheter, hus og villaer i Maslak, Beylikdüzü & Bosphorus. Statsborgerskap fra $400K. Pålitelige agenter i Tyrkia."
-    },
-    "/mersin": {
-      "title": "Bolig til Salgs i Mersin | Leiligheter & Villaer i Tyrkia — Future Homes",
-      "description": "Bolig til salgs i Mersin: strandleiligheter, villaer med havutsikt og prosjektboliger i Mezitli, Erdemli og Tece fra €55.000. Statsborgerskap mulig."
-    },
-    "/dubai": {
-      "title": "Bolig til Salgs i Dubai | Leiligheter & Villaer — Future Homes",
-      "description": "Bolig til salgs i Dubai: luksusleiligheter, toppleiligheter og villaer i Dubai Marina, Downtown, Palm Jumeirah og Business Bay fra AED 800K. Høy ROI."
-    },
-    "/cyprus": {
-      "title": "Bolig til Salgs i Kypros | Villaer & Leiligheter + EU-opphold",
-      "description": "Eiendom til salgs på Kypros: villaer, leiligheter og strandboliger i Limassol, Paphos, Larnaca og Nord-Kypros. Kjøp eiendom med EU-opphold fra €300.000."
-    },
-    "/bali": {
-      "title": "Bolig til Salgs i Bali | Villaer i Seminyak, Canggu & Ubud",
-      "description": "Bolig til salgs i Bali: luksusvillaer, leiligheter og investeringsboliger i Seminyak, Canggu, Ubud og Uluwatu. Høy leieavkastning for utenlandske investorer."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "Bolig til Salgs i Tyrkia | Hus, Villaer & Leiligheter — Future Homes",
-      "description": "Bolig til salgs i Tyrkia fra ledende agenter. Hus, villaer og leiligheter i Antalya, Istanbul, Alanya & Mersin med statsborgerskapsalternativer."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "Leiligheter til Salgs i Tyrkia | Antalya, Istanbul & Alanya — Future Homes",
-      "description": "Leiligheter til salgs i Tyrkia: 1-4 soverom ved stranden, sentrum og prosjektleiligheter i Antalya, Istanbul, Alanya og Mersin fra €70.000. Med betalingsplaner."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "Luksusvillaer til Salgs i Tyrkia | Sjøutsikt & Privat Basseng",
-      "description": "Luksusvillaer til salgs i Tyrkia med privat basseng og sjøutsikt. Strandvillaer i Antalya, Kalkan, Bodrum & Alanya fra €250.000. Kvalifiserer for statsborgerskap."
-    },
-    "/off-plan-property-turkey": {
-      "title": "Prosjektbolig i Tyrkia | Nye Bygg med Betalingsplaner",
-      "description": "Prosjektbolig i Tyrkia fra ledende utbyggere: 10-20% under markedspris, 0% rente på betalingsplaner og nye leiligheter/villaer i Antalya, Istanbul & Alanya."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "Tyrkisk Statsborgerskap via Investering 2026 | $400K Eiendom",
-      "description": "Få tyrkisk statsborgerskap ved investering med eiendom til $400K. Full guide til Tyrkia CBI-programmet: prosess, kvalifisering, passfordeler og 110+ visumfrie land."
-    },
-    "/information": {
-      "title": "Eiendom Investeringsguide | Info & Innsikt",
-      "description": "Ekspertguider for eiendomsinvestering, tyrkisk statsborgerskap, kjøpsprosess, juridiske krav og eiendomsinnsikt for Tyrkia, Dubai, Kypros & Bali."
-    },
-    "/property-gallery": {
-      "title": "Eiendomsgalleri | Premium Eiendomssamling — Future Homes",
-      "description": "Utforsk vår samling av premium eiendommer med høykvalitetsbilder av luksusleiligheter, moderne interiør og eksepsjonelle fasiliteter på primære steder."
-    },
-    "/testimonials": {
-      "title": "Kundeuttalelser | Ekte Kundeanmeldelser & Suksesshistorier",
-      "description": "Les autentiske anmeldelser fra kunder som fant drømmeeiendommen sin hos oss. Ekte attester fra kunder i Tyrkia, Dubai, Kypros og Bali."
-    },
-    "/about-us": {
-      "title": "Om Future Homes International | Internasjonale Eiendomseksperter",
-      "description": "Møt Future Homes International: kontorer i Antalya, Istanbul, Dubai, Kypros og Bali. Hjelper internasjonale kjøpere med trygge eiendomskjøp siden 2019."
-    },
-    "/contact-us": {
-      "title": "Kontakt Future Homes International | Kontorer i Tyrkia, Dubai, Kypros & Bali",
-      "description": "Kontakt våre eiendomsrådgivere i Antalya, Istanbul, Dubai, Kypros og Bali. Gratis konsultasjon, visningsturer og full støtte gjennom kjøpsprosessen."
-    },
-    "/our-story": {
-      "title": "Vår Historie | Future Homes International",
-      "description": "Historien om Future Homes International — fra et lite kontor i Antalya til en global eiendomsfamilie som betjener kjøpere i Tyrkia, Dubai, Kypros og Bali."
-    },
-    "/ali-karan": {
-      "title": "Ali Karan — Grunnlegger & CEO | Eiendomsekspert",
-      "description": "Møt Ali Karan, grunnlegger og CEO av Future Homes International, med mange års erfaring innen eiendom i Tyrkia, Dubai, Kypros og Bali."
-    }
-  },
-  "da": {
-    "/": {
-      "title": "Ejendom til salg i Tyrkiet, Dubai, Cypern & Bali | Future Homes International",
-      "description": "Ejendom til salg i Tyrkiet, Dubai, Cypern & Bali. Lejligheder, villaer og off-plan boliger fra førende internationale agenter. Tyrkisk statsborgerskab fra $400K."
-    },
-    "/antalya": {
-      "title": "Ejendom til salg i Antalya | Lejligheder & villaer i Tyrkiet – Future Homes",
-      "description": "Ejendom til salg i Antalya: strandlejligheder, havudsigt villaer & off-plan boliger i Konyaaltı, Lara, Alanya & Belek. Fra €70.000, berettiget til tyrkisk statsborgerskab."
-    },
-    "/istanbul": {
-      "title": "Ejendom til salg i Istanbul | Lejligheder & huse i Tyrkiet – Future Homes",
-      "description": "Ejendom til salg i Istanbul: luksuslejligheder, huse & villaer i Maslak, Beylikdüzü & Bosphorus. Statsborgerskab fra $400K. Pålidelige Tyrkiet agenter."
-    },
-    "/mersin": {
-      "title": "Ejendom til salg i Mersin | Lejligheder & villaer i Tyrkiet – Future Homes",
-      "description": "Ejendom til salg i Mersin: strandlejligheder, havudsigt villaer & off-plan boliger i Mezitli, Erdemli & Tece fra €55.000, berettiget til tyrkisk statsborgerskab."
-    },
-    "/dubai": {
-      "title": "Ejendom til salg i Dubai | Lejligheder & villaer – Future Homes",
-      "description": "Dubai boliger til salg: luksuslejligheder, penthouses & villaer i Dubai Marina, Downtown, Palm Jumeirah & Business Bay fra AED 800K med høj ROI & golden visa."
-    },
-    "/cyprus": {
-      "title": "Ejendom til salg på Cypern | Villaer & lejligheder + EU-ophold",
-      "description": "Cypern ejendom til salg: villaer, lejligheder & strandboliger i Limassol, Paphos, Larnaca & Nordcypern. Køb ejendom på Cypern med EU permanent ophold fra €300.000."
-    },
-    "/bali": {
-      "title": "Ejendom til salg på Bali | Villaer i Seminyak, Canggu & Ubud",
-      "description": "Ejendom til salg på Bali: luksusvillaer, lejligheder og investeringsejendomme i Seminyak, Canggu, Ubud & Uluwatu med høje lejeafkast for udenlandske investorer."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "Ejendom til salg i Tyrkiet | Huse, villaer & lejligheder – Future Homes",
-      "description": "Ejendom til salg i Tyrkiet fra førende agenter. Huse, villaer og lejligheder i Antalya, Istanbul, Alanya & Mersin med statsborgerskab ved investering."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "Lejligheder til salg i Tyrkiet | Antalya, Istanbul & Alanya – Future Homes",
-      "description": "Lejligheder til salg i Tyrkiet: 1-4 værelses strand-, bymidte- og off-plan lejligheder i Antalya, Istanbul, Alanya & Mersin fra €70.000 med betalingsplaner."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "Villaer til salg i Tyrkiet | Luksus havudsigt & private pool villaer",
-      "description": "Luksusvillaer til salg i Tyrkiet med private pools og havudsigt. Strandvillaer i Antalya, Kalkan, Bodrum & Alanya fra €250.000. Berettiget til tyrkisk statsborgerskab."
-    },
-    "/off-plan-property-turkey": {
-      "title": "Off-plan ejendom i Tyrkiet | Nybyg med betalingsplaner",
-      "description": "Off-plan ejendom i Tyrkiet fra førende udviklere: 10-20% under markedspris, 0% rente betalingsplaner & nybyg lejligheder & villaer i Antalya, Istanbul og Alanya."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "Tyrkisk statsborgerskab ved investering 2026 | $400K ejendom",
-      "description": "Få tyrkisk statsborgerskab ved investering med $400K ejendom. Komplet guide til Tyrkiet CBI-program: proces, berettigelse, pasfordele og 110+ visumfrie lande."
-    },
-    "/information": {
-      "title": "Ejendomsinvesteringsguide | Ejendomsinformation & indsigt",
-      "description": "Ekspertguider om ejendomsinvestering, tyrkisk statsborgerskab, købsprocessen, lovkrav og ejendomsindsigt for Tyrkiet, Dubai, Cypern & Bali."
-    },
-    "/property-gallery": {
-      "title": "Ejendomsgalleri | Premium ejendomskollektion – Future Homes",
-      "description": "Udforsk vores kollektion af premium ejendomme med fotos af luksuslejligheder, moderne interiør og exceptionelle faciliteter i førsteklasses beliggenheder."
-    },
-    "/testimonials": {
-      "title": "Kundeanmeldelser | Ægte kundeoplevelser & succeshistorier",
-      "description": "Læs autentiske anmeldelser fra kunder, der fandt deres drømmeejendom hos os. Ægte udtalelser fra kunder i Tyrkiet, Dubai, Cypern og Bali."
-    },
-    "/about-us": {
-      "title": "Om Future Homes International | Internationale ejendomseksperter",
-      "description": "Mød Future Homes International: kontorer i Antalya, Istanbul, Dubai, Cypern og Bali, som har hjulpet internationale købere med sikre ejendomskøb siden 2019."
-    },
-    "/contact-us": {
-      "title": "Kontakt Future Homes International | Kontorer i Tyrkiet, Dubai, Cypern & Bali",
-      "description": "Kontakt vores ejendomsrådgivere i Antalya, Istanbul, Dubai, Cypern og Bali. Gratis konsultation, fremvisningsture og fuld support gennem købsprocessen."
-    },
-    "/our-story": {
-      "title": "Vores historie | Future Homes International",
-      "description": "Historien om Future Homes International – fra et lille Antalya-kontor til en global ejendomsfamilie, der betjener købere i Tyrkiet, Dubai, Cypern og Bali."
-    },
-    "/ali-karan": {
-      "title": "Ali Karan – Grundlægger & CEO | International ejendomsekspert",
-      "description": "Mød Ali Karan, grundlægger og CEO af Future Homes International, med mange års erfaring inden for fast ejendom i Tyrkiet, Dubai, Cypern og Bali."
-    }
-  },
-  "de": {
-    "/": {
-      "title": "Immobilien in Türkei, Dubai, Zypern & Bali | Future Homes International",
-      "description": "Immobilien zum Verkauf in Türkei, Dubai, Zypern & Bali. Wohnungen, Villen & Off-Plan-Häuser von führenden Agenten. Türkische Staatsbürgerschaft ab $400K."
-    },
-    "/antalya": {
-      "title": "Immobilien Antalya | Wohnungen & Villen Türkei — Future Homes",
-      "description": "Immobilien in Antalya: Strandwohnungen, Meerblick-Villen & Off-Plan-Häuser in Konyaaltı, Lara, Alanya & Belek. Ab €70.000, Staatsbürgerschaft möglich."
-    },
-    "/istanbul": {
-      "title": "Immobilien Istanbul | Wohnungen & Häuser Türkei — Future Homes",
-      "description": "Immobilien in Istanbul: Luxuswohnungen, Häuser & Villen in Maslak, Beylikdüzü & Bosporus. Staatsbürgerschaft ab $400K. Vertrauenswürdiger Makler Türkei."
-    },
-    "/mersin": {
-      "title": "Immobilien Mersin | Wohnungen & Villen Türkei — Future Homes",
-      "description": "Immobilien in Mersin: Strandwohnungen, Meerblick-Villen & Off-Plan-Häuser in Mezitli, Erdemli & Tece ab €55.000, Staatsbürgerschaft möglich."
-    },
-    "/dubai": {
-      "title": "Immobilien in Dubai | Wohnungen & Villen — Future Homes",
-      "description": "Immobilien in Dubai: Luxuswohnungen, Penthäuser & Villen in Dubai Marina, Downtown, Palm Jumeirah & Business Bay ab AED 800K, hohe Rendite, Golden Visa."
-    },
-    "/cyprus": {
-      "title": "Immobilien Zypern | Villen & Wohnungen + EU-Aufenthalt",
-      "description": "Immobilien in Zypern: Villen, Wohnungen & Strandhäuser in Limassol, Paphos, Larnaca & Nordzypern. Kaufen mit EU-Daueraufenthalt ab €300.000."
-    },
-    "/bali": {
-      "title": "Immobilien Bali | Villen Seminyak, Canggu & Ubud",
-      "description": "Immobilien in Bali: Luxusvillen, Wohnungen & Investment-Häuser in Seminyak, Canggu, Ubud & Uluwatu mit hohen Mietrenditen für ausländische Investoren."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "Immobilien in der Türkei | Häuser, Villen & Wohnungen — Future Homes",
-      "description": "Immobilien in der Türkei von führenden Agenten. Häuser, Villen und Wohnungen in Antalya, Istanbul, Alanya & Mersin mit Staatsbürgerschaftsoptionen."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "Wohnungen in der Türkei | Antalya, Istanbul & Alanya — Future Homes",
-      "description": "Wohnungen in der Türkei: 1–4 Schlafzimmer, Strand, Stadtzentrum, Off-Plan in Antalya, Istanbul, Alanya & Mersin ab €70.000 mit Zahlungsplänen."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "Luxusvillen Türkei | Meerblick & private Pools",
-      "description": "Luxusvillen in der Türkei mit privaten Pools und Meerblick. Strandvillen in Antalya, Kalkan, Bodrum & Alanya ab €250.000. Türkische Staatsbürgerschaft."
-    },
-    "/off-plan-property-turkey": {
-      "title": "Off-Plan Immobilien Türkei | Neubauten mit Zahlungsplan",
-      "description": "Off-Plan Immobilien in der Türkei von Top-Entwicklern: 10–20% unter Marktwert, 0% Zins-Zahlungspläne und Neubauwohnungen & Villen in Antalya, Istanbul & Alanya."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "Türkische Staatsbürgerschaft durch Investment 2026 | $400K Immobilien",
-      "description": "Türkische Staatsbürgerschaft durch Investment mit $400K Immobilien. Kompletter Leitfaden zum CBI-Programm: Prozess, Vorteile & 110+ visumfreie Länder."
-    },
-    "/information": {
-      "title": "Immobilien-Investment-Guide | Informationen & Einblicke",
-      "description": "Experten-Guides zu Immobilieninvestitionen, türkischer Staatsbürgerschaft, Kaufprozess, rechtlichen Anforderungen & Immobilien-Einblicken für Türkei, Dubai, Zypern & Bali."
-    },
-    "/property-gallery": {
-      "title": "Immobilien-Galerie | Exklusive Kollektion — Future Homes",
-      "description": "Entdecken Sie unsere Premium-Immobilien-Kollektion mit hochwertigen Fotos von Luxuswohnungen, modernem Interieur & außergewöhnlichen Annehmlichkeiten."
-    },
-    "/testimonials": {
-      "title": "Kundenstimmen | Echte Bewertungen & Erfolgsgeschichten",
-      "description": "Lesen Sie authentische Bewertungen von Kunden, die mit uns ihre Traumimmobilie fanden. Echte Erfahrungsberichte aus Türkei, Dubai, Zypern und Bali."
-    },
-    "/about-us": {
-      "title": "Über Future Homes International | Experten für internationale Immobilien",
-      "description": "Future Homes International: Büros in Antalya, Istanbul, Dubai, Zypern & Bali, hilft internationalen Käufern seit 2019 sicher Immobilien zu erwerben."
-    },
-    "/contact-us": {
-      "title": "Kontakt Future Homes International | Büros Türkei, Dubai, Zypern & Bali",
-      "description": "Kontaktieren Sie unsere Immobilienberater in Antalya, Istanbul, Dubai, Zypern und Bali. Kostenlose Beratung, Besichtigungsreisen und volle Unterstützung."
-    },
-    "/our-story": {
-      "title": "Unsere Geschichte | Future Homes International",
-      "description": "Die Geschichte von Future Homes International — vom kleinen Büro in Antalya zu einer globalen Immobilienfamilie, die Käufer in der Türkei, Dubai, Zypern und Bali bedient."
-    },
-    "/ali-karan": {
-      "title": "Ali Karan — Gründer & CEO | Internationaler Immobilienexperte",
-      "description": "Treffen Sie Ali Karan, Gründer und CEO von Future Homes International, mit jahrelanger Immobilienerfahrung in der Türkei, Dubai, Zypern und Bali."
-    }
-  },
-  "fr": {
-    "/": {
-      "title": "Immobilier à vendre en Turquie, Dubaï, Chypre & Bali | Future Homes International",
-      "description": "Propriétés à vendre en Turquie, Dubaï, Chypre & Bali. Appartements, villas & maisons neuves par des agents leaders. Citoyenneté turque par investissement dès 400K $."
-    },
-    "/antalya": {
-      "title": "Immobilier à vendre à Antalya | Appartements & Villas en Turquie — Future Homes",
-      "description": "Propriétés à vendre à Antalya : appartements en front de mer, villas avec vue mer & maisons neuves à Konyaaltı, Lara, Alanya & Belek. Dès 70 000 €, éligible citoyenneté turque."
-    },
-    "/istanbul": {
-      "title": "Immobilier à vendre à Istanbul | Appartements & Maisons en Turquie — Future Homes",
-      "description": "Propriétés à vendre à Istanbul : appartements, maisons & villas de luxe à Maslak, Beylikdüzü & Bosphore. Citoyenneté par investissement dès 400K $. Agents Turquie de confiance."
-    },
-    "/mersin": {
-      "title": "Immobilier à vendre à Mersin | Appartements & Villas en Turquie — Future Homes",
-      "description": "Propriétés à vendre à Mersin : appartements en front de mer, villas avec vue mer & maisons neuves à Mezitli, Erdemli & Tece. Dès 55 000 €, éligible citoyenneté turque."
-    },
-    "/dubai": {
-      "title": "Immobilier à vendre à Dubaï | Appartements & Villas — Future Homes",
-      "description": "Maisons à vendre à Dubaï : appartements, penthouses & villas de luxe à Dubaï Marina, Downtown, Palm Jumeirah & Business Bay. Dès 800K AED, ROI élevé & visa doré éligible."
-    },
-    "/cyprus": {
-      "title": "Immobilier à vendre à Chypre | Villas & Appartements + Résidence UE",
-      "description": "Immobilier à vendre à Chypre : villas, appartements & maisons en front de mer à Limassol, Paphos, Larnaca & Chypre du Nord. Résidence permanente UE dès 300 000 €."
-    },
-    "/bali": {
-      "title": "Immobilier à vendre à Bali | Villas à Seminyak, Canggu & Ubud",
-      "description": "Immobilier à vendre à Bali : villas, appartements et propriétés d'investissement de luxe à Seminyak, Canggu, Ubud & Uluwatu avec rendements locatifs élevés pour investisseurs."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "Immobilier à vendre en Turquie | Maisons, Villas & Appartements — Future Homes",
-      "description": "Propriétés à vendre en Turquie par des agents leaders. Maisons, villas et appartements à Antalya, Istanbul, Alanya & Mersin avec options de citoyenneté par investissement."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "Appartements à vendre en Turquie | Antalya, Istanbul & Alanya — Future Homes",
-      "description": "Appartements à vendre en Turquie : 1 à 4 chambres, front de mer, centre-ville et sur plan à Antalya, Istanbul, Alanya & Mersin. Dès 70 000 € avec plans de paiement."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "Villas à vendre en Turquie | Villas de luxe avec vue mer & piscine privée",
-      "description": "Villas de luxe à vendre en Turquie avec piscines privées et vue mer. Villas en front de mer à Antalya, Kalkan, Bodrum & Alanya. Dès 250 000 €, éligible citoyenneté turque."
-    },
-    "/off-plan-property-turkey": {
-      "title": "Immobilier neuf en Turquie | Nouvelles constructions avec plans de paiement",
-      "description": "Propriétés neuves en Turquie par des promoteurs leaders : 10-20% sous le prix du marché, plans de paiement 0% intérêt & appartements/villas à Antalya, Istanbul et Alanya."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "Citoyenneté turque par investissement 2026 | Route immobilière 400K $",
-      "description": "Obtenez la citoyenneté turque par investissement immobilier de 400K $. Guide complet du programme CBI Turquie : processus, éligibilité, avantages du passeport & 110+ pays sans visa."
-    },
-    "/information": {
-      "title": "Guide d'investissement immobilier | Infos & Analyses",
-      "description": "Guides experts sur l'investissement immobilier, la citoyenneté turque, le processus d'achat, les exigences légales & analyses pour Turquie, Dubaï, Chypre & Bali."
-    },
-    "/property-gallery": {
-      "title": "Galerie de Propriétés | Collection Immo Premium — Future Homes",
-      "description": "Découvrez notre collection de propriétés premium avec photos de haute qualité d'appartements de luxe, intérieurs modernes & commodités exceptionnelles en lieux de choix."
-    },
-    "/testimonials": {
-      "title": "Témoignages Clients | Avis & Success Stories",
-      "description": "Lisez les avis authentiques de clients qui ont trouvé la propriété de leurs rêves avec nous. Véritables témoignages de Turquie, Dubaï, Chypre et Bali."
-    },
-    "/about-us": {
-      "title": "À Propos de Future Homes International | Experts Immobiliers",
-      "description": "Rencontrez Future Homes International : bureaux à Antalya, Istanbul, Dubaï, Chypre et Bali. Nous aidons les acheteurs internationaux à acquérir des biens en toute sécurité depuis 2019."
-    },
-    "/contact-us": {
-      "title": "Contactez Future Homes International | Bureaux en Turquie, Dubaï, Chypre & Bali",
-      "description": "Contactez nos conseillers immobiliers à Antalya, Istanbul, Dubaï, Chypre et Bali. Consultation gratuite, voyages de visite et support complet pendant le processus d'achat."
-    },
-    "/our-story": {
-      "title": "Notre Histoire | Future Homes International",
-      "description": "L'histoire de Future Homes International — d'un petit bureau à Antalya à une famille immobilière mondiale au service des acheteurs en Turquie, Dubaï, Chypre et Bali."
-    },
-    "/ali-karan": {
-      "title": "Ali Karan — Fondateur & CEO | Expert Immobilier International",
-      "description": "Rencontrez Ali Karan, fondateur et PDG de Future Homes International, avec des années d'expérience dans l'immobilier en Turquie, Dubaï, Chypre et Bali."
-    }
-  },
-  "tr": {
-    "/": {
-      "title": "Türkiye, Dubai, Kıbrıs & Bali Emlak | Future Homes International",
-      "description": "Türkiye, Dubai, Kıbrıs ve Bali'de satılık emlak. Önde gelen uluslararası acentelerden daireler, villalar ve proje aşamasındaki konutlar. 400.000 $'dan başlayan Türk vatandaşlığı."
-    },
-    "/antalya": {
-      "title": "Antalya Satılık Emlak | Daireler & Villalar — Future Homes",
-      "description": "Antalya'da satılık emlak: Konyaaltı, Lara, Alanya ve Belek'te denize sıfır daireler, deniz manzaralı villalar ve proje aşamasındaki konutlar. 70.000€'dan başlayan Türk vatandaşlığı."
-    },
-    "/istanbul": {
-      "title": "İstanbul Satılık Emlak | Daireler & Evler — Future Homes",
-      "description": "İstanbul'da satılık emlak: Maslak, Beylikdüzü ve Boğaz bölgelerinde lüks daireler, evler ve villalar. 400.000 $'dan başlayan yatırım yoluyla vatandaşlık. Güvenilir Türk acenteler."
-    },
-    "/mersin": {
-      "title": "Mersin Satılık Emlak | Daireler & Villalar — Future Homes",
-      "description": "Mersin'de satılık emlak: Mezitli, Erdemli ve Tece'de denize sıfır daireler, deniz manzaralı villalar ve proje aşamasındaki konutlar. 55.000€'dan başlayan Türk vatandaşlığı."
-    },
-    "/dubai": {
-      "title": "Dubai Satılık Emlak | Daireler & Villalar — Future Homes",
-      "description": "Dubai'de satılık evler: Dubai Marina, Downtown, Palm Jumeirah ve Business Bay'de lüks daireler, penthouse'lar ve villalar. 800.000 AED'den başlayan yüksek ROI ve altın vize."
-    },
-    "/cyprus": {
-      "title": "Kıbrıs Satılık Emlak | Villalar & Daireler + AB Oturumu",
-      "description": "Kıbrıs'ta satılık emlak: Limasol, Baf, Larnaka ve Kuzey Kıbrıs'ta villalar, daireler ve denize sıfır evler. 300.000€'dan başlayan AB daimi oturum izniyle Kıbrıs'ta emlak satın alın."
-    },
-    "/bali": {
-      "title": "Bali Satılık Emlak | Seminyak, Canggu & Ubud Villaları",
-      "description": "Bali'de satılık emlak: Seminyak, Canggu, Ubud ve Uluwatu'da yabancı yatırımcılar için yüksek kira getirili lüks villalar, daireler ve yatırım konutları."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "Türkiye Satılık Emlak | Evler, Villalar & Daireler — Future Homes",
-      "description": "Önde gelen acentelerden Türkiye'de satılık emlak. Antalya, İstanbul, Alanya ve Mersin'de evler, villalar ve daireler, yatırım yoluyla vatandaşlık seçenekleriyle."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "Türkiye Satılık Daireler | Antalya, İstanbul & Alanya — Future Homes",
-      "description": "Türkiye'de satılık daireler: Antalya, İstanbul, Alanya ve Mersin'de 1-4 yatak odalı, denize sıfır, şehir merkezinde ve proje aşamasındaki daireler. 70.000€'dan başlayan ödeme planlarıyla."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "Türkiye Lüks Villalar | Deniz Manzaralı & Özel Havuzlu Villalar",
-      "description": "Türkiye'de özel havuzlu ve deniz manzaralı satılık lüks villalar. Antalya, Kalkan, Bodrum ve Alanya'da 250.000€'dan başlayan denize sıfır villalar. Türk vatandaşlığına uygun."
-    },
-    "/off-plan-property-turkey": {
-      "title": "Türkiye'de Proje Aşamasında Emlak | Yeni Yapılar & Ödeme Planları",
-      "description": "Önde gelen geliştiricilerden Türkiye'de proje aşamasında emlak: Piyasanın %10-20 altında, %0 faizli ödeme planları ve Antalya, İstanbul ve Alanya'da yeni yapım daireler ve villalar."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "Yatırım Yoluyla Türk Vatandaşlığı 2026 | 400.000$ Emlak Yolu",
-      "description": "400.000$ değerinde gayrimenkul ile yatırım yoluyla Türk vatandaşlığı alın. Türkiye CBI programı rehberi: süreç, uygunluk, pasaport faydaları ve 110+ vizesiz ülke."
-    },
-    "/information": {
-      "title": "Emlak Yatırım Rehberi | Bilgi & İçgörüler",
-      "description": "Türkiye, Dubai, Kıbrıs ve Bali için emlak yatırımı, Türk vatandaşlığı, satın alma süreci, yasal gereksinimler ve emlak içgörüleri hakkında uzman rehberler."
-    },
-    "/property-gallery": {
-      "title": "Emlak Galerisi | Premium Gayrimenkul Koleksiyonu — Future Homes",
-      "description": "Birinci sınıf lokasyonlarda lüks dairelerin, modern iç mekanların ve istisnai olanakların yüksek kaliteli fotoğraflarıyla premium emlak koleksiyonumuzu keşfedin."
-    },
-    "/testimonials": {
-      "title": "Müşteri Yorumları | Gerçek Başarı Hikayeleri",
-      "description": "Bizimle hayallerindeki mülkü bulan müşterilerin gerçek yorumlarını okuyun. Türkiye, Dubai, Kıbrıs ve Bali'den müşterilerin gerçek referansları."
-    },
-    "/about-us": {
-      "title": "Future Homes International Hakkında | Uluslararası Emlak Uzmanları",
-      "description": "Future Homes International'ı Tanıyın: Antalya, İstanbul, Dubai, Kıbrıs ve Bali'deki ofisleriyle 2019'dan beri uluslararası alıcılara güvenle mülk satın alma konusunda yardımcı oluyor."
-    },
-    "/contact-us": {
-      "title": "Future Homes International İletişim | Türkiye, Dubai, Kıbrıs & Bali",
-      "description": "Antalya, İstanbul, Dubai, Kıbrıs ve Bali'deki emlak danışmanlarımızla iletişime geçin. Ücretsiz danışmanlık, gayrimenkul turları ve satın alma sürecinde tam destek."
-    },
-    "/our-story": {
-      "title": "Hikayemiz | Future Homes International",
-      "description": "Future Homes International'ın hikayesi — küçük bir Antalya ofisinden Türkiye, Dubai, Kıbrıs ve Bali'deki alıcılara hizmet veren küresel bir emlak ailesine."
-    },
-    "/ali-karan": {
-      "title": "Ali Karan — Kurucu & CEO | Uluslararası Emlak Uzmanı",
-      "description": "Future Homes International'ın kurucusu ve CEO'su, Türkiye, Dubai, Kıbrıs ve Bali'de yılların emlak deneyimine sahip Ali Karan'ı tanıyın."
-    }
-  },
-  "ru": {
-    "/": {
-      "title": "Недвижимость в Турции, Дубае, на Кипре и Бали | Future Homes International",
-      "description": "Недвижимость на продажу в Турции, Дубае, на Кипре и Бали. Квартиры, виллы и строящиеся объекты от ведущих международных агентов. Гражданство Турции за инвестиции от $400K."
-    },
-    "/antalya": {
-      "title": "Недвижимость в Анталье | Квартиры и виллы в Турции — Future Homes",
-      "description": "Недвижимость на продажу в Анталье: апартаменты на первой линии, виллы с видом на море и строящиеся дома в Коньяалты, Ларе, Аланье и Белеке. От €70,000 с возможностью получения гражданства Турции."
-    },
-    "/istanbul": {
-      "title": "Недвижимость в Стамбуле | Квартиры и Дома в Турции — Future Homes",
-      "description": "Недвижимость на продажу в Стамбуле: элитные квартиры, дома и виллы в районах Маслак, Бейликдюзю и Босфор. Гражданство за инвестиции от $400K. Надежные агенты в Турции."
-    },
-    "/mersin": {
-      "title": "Недвижимость в Мерсине | Квартиры и виллы в Турции — Future Homes",
-      "description": "Недвижимость на продажу в Мерсине: апартаменты на первой линии, виллы с видом на море и строящиеся объекты в Мезитли, Эрдемли и Тедже от €55,000 с возможностью получения гражданства Турции."
-    },
-    "/dubai": {
-      "title": "Недвижимость в Дубае | Квартиры и виллы — Future Homes",
-      "description": "Дома в Дубае на продажу: элитные апартаменты, пентхаусы и виллы в Дубай Марина, Даунтаун, Пальме Джумейра и Бизнес-Бэй от AED 800K с высоким ROI и Золотой визой."
-    },
-    "/cyprus": {
-      "title": "Недвижимость на Кипре | Виллы и апартаменты + ВНЖ в ЕС",
-      "description": "Недвижимость на Кипре на продажу: виллы, апартаменты и дома на первой линии в Лимассоле, Пафосе, Ларнаке и Северном Кипре. Купите недвижимость на Кипре с ПМЖ в ЕС от €300,000."
-    },
-    "/bali": {
-      "title": "Недвижимость на Бали | Виллы в Семиньяке, Чангу и Убуде",
-      "description": "Недвижимость на Бали на продажу: элитные виллы, апартаменты и инвестиционные объекты в Семиньяке, Чангу, Убуде и Улувату с высокой доходностью для иностранных инвесторов."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "Недвижимость на продажу в Турции | Дома, виллы и квартиры — Future Homes",
-      "description": "Недвижимость на продажу в Турции от ведущих агентов. Дома, виллы и апартаменты в Анталье, Стамбуле, Аланье и Мерсине с возможностью получения гражданства за инвестиции."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "Квартиры на продажу в Турции | Анталья, Стамбул и Аланья — Future Homes",
-      "description": "Квартиры на продажу в Турции: 1–4 спальные на первой линии, в центре города и строящиеся апартаменты в Анталье, Стамбуле, Аланье и Мерсине от €70,000 с планами оплаты."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "Элитные виллы в Турции | С видом на море и частным бассейном",
-      "description": "Элитные виллы на продажу в Турции с частными бассейнами и видом на море. Виллы на первой линии в Анталье, Калкане, Бодруме и Аланье от €250,000. Возможно получение гражданства Турции."
-    },
-    "/off-plan-property-turkey": {
-      "title": "Строящаяся недвижимость в Турции | Новостройки с планами оплаты",
-      "description": "Строящаяся недвижимость в Турции от ведущих застройщиков: на 10–20% ниже рыночной стоимости, беспроцентные планы оплаты и новостройки (квартиры, виллы) в Анталье, Стамбуле и Аланье."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "Гражданство Турции за инвестиции 2026 | Путь через недвижимость за $400K",
-      "description": "Получите гражданство Турции за инвестиции в недвижимость от $400K. Полное руководство по программе: процесс, требования, преимущества паспорта и 110+ безвизовых стран."
-    },
-    "/information": {
-      "title": "Руководство по инвестициям в недвижимость | Информация и аналитика",
-      "description": "Экспертные руководства по инвестициям в недвижимость, гражданству Турции, процессу покупки, юридическим требованиям и аналитика рынка для Турции, Дубая, Кипра и Бали."
-    },
-    "/property-gallery": {
-      "title": "Галерея недвижимости | Коллекция премиум-класса — Future Homes",
-      "description": "Исследуйте нашу коллекцию элитной недвижимости с высококачественными фотографиями роскошных апартаментов, современных интерьеров и исключительных удобств в престижных районах."
-    },
-    "/testimonials": {
-      "title": "Отзывы клиентов | Реальные обзоры и истории успеха",
-      "description": "Прочтите подлинные отзывы клиентов, которые нашли недвижимость своей мечты с нами. Реальные отзывы от клиентов в Турции, Дубае, на Кипре и Бали."
-    },
-    "/about-us": {
-      "title": "О Future Homes International | Эксперты по международной недвижимости",
-      "description": "Познакомьтесь с Future Homes International: офисы в Анталье, Стамбуле, Дубае, на Кипре и Бали. Помогаем международным покупателям безопасно приобретать недвижимость с 2019 года."
-    },
-    "/contact-us": {
-      "title": "Контакты Future Homes International | Офисы в Турции, Дубае, на Кипре и Бали",
-      "description": "Свяжитесь с нашими консультантами по недвижимости в Анталье, Стамбуле, Дубае, на Кипре и Бали. Бесплатная консультация, обзорные туры и полная поддержка в процессе покупки."
-    },
-    "/our-story": {
-      "title": "Наша история | Future Homes International",
-      "description": "История Future Homes International — от небольшого офиса в Анталье до глобальной семьи недвижимости, обслуживающей покупателей в Турции, Дубае, на Кипре и Бали."
-    },
-    "/ali-karan": {
-      "title": "Али Каран — Основатель и CEO | Эксперт по международной недвижимости",
-      "description": "Познакомьтесь с Али Караном, основателем и генеральным директором Future Homes International, с многолетним опытом работы в сфере недвижимости в Турции, Дубае, на Кипре и Бали."
-    }
-  },
-  "ar": {
-    "/": {
-      "title": "عقارات للبيع في تركيا، دبي، قبرص وبالي | Future Homes International",
-      "description": "عقارات للبيع في تركيا، دبي، قبرص وبالي. شقق، فلل ومنازل قيد الإنشاء من وكلاء دوليين رائدين. الجنسية التركية بالاستثمار من $400 ألف."
-    },
-    "/antalya": {
-      "title": "عقارات للبيع في أنطاليا | شقق وفلل في تركيا — Future Homes",
-      "description": "عقارات للبيع في أنطاليا: شقق على شاطئ البحر، فلل بإطلالة بحرية ومنازل قيد الإنشاء في قونيا ألتي، لارا، ألانيا وبيليك. من €70,000 مع أهلية الجنسية التركية."
-    },
-    "/istanbul": {
-      "title": "عقارات للبيع في اسطنبول | شقق ومنازل في تركيا — Future Homes",
-      "description": "عقارات للبيع في اسطنبول: شقق فاخرة، منازل وفلل في مناطق ماسلاك، بيليك دوزو والبوسفور. الجنسية بالاستثمار من $400 ألف. وكلاء موثوقون في تركيا."
-    },
-    "/mersin": {
-      "title": "عقارات للبيع في مرسين | شقق وفلل في تركيا — Future Homes",
-      "description": "عقارات للبيع في مرسين: شقق على شاطئ البحر، فلل بإطلالة بحرية ومنازل قيد الإنشاء في مزتلي، إردم لي وتيجه من €55,000 مع أهلية الجنسية التركية."
-    },
-    "/dubai": {
-      "title": "عقارات للبيع في دبي | شقق وفلل — Future Homes",
-      "description": "منازل للبيع في دبي: شقق فاخرة، بنتهاوس وفلل في دبي مارينا، داون تاون، نخلة جميرا وبيزنس باي من 800 ألف درهم مع عائد استثماري عالٍ وفيزا ذهبية."
-    },
-    "/cyprus": {
-      "title": "عقارات للبيع في قبرص | فلل وشقق + إقامة أوروبية",
-      "description": "عقارات للبيع في قبرص: فلل، شقق ومنازل على شاطئ البحر في ليماسول، بافوس، لارنكا وشمال قبرص. اشترِ عقارًا في قبرص مع إقامة دائمة في الاتحاد الأوروبي من €300,000."
-    },
-    "/bali": {
-      "title": "عقارات للبيع في بالي | فلل في سيمينياك، كانغو وأوبود",
-      "description": "عقارات للبيع في بالي: فلل فاخرة، شقق ومنازل استثمارية في سيمينياك، كانغو، أوبود وأولوواتو بعوائد إيجارية عالية للمستثمرين الأجانب."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "عقارات للبيع في تركيا | منازل، فلل وشقق — Future Homes",
-      "description": "عقارات للبيع في تركيا من وكلاء رائدين. منازل، فلل وشقق في أنطاليا، اسطنبول، ألانيا ومرسين مع خيارات الجنسية بالاستثمار."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "شقق للبيع في تركيا | أنطاليا، اسطنبول وألانيا — Future Homes",
-      "description": "شقق للبيع في تركيا: شقق بغرفة إلى 4 غرف نوم على شاطئ البحر، في مراكز المدن وقيد الإنشاء في أنطاليا، اسطنبول، ألانيا ومرسين من €70,000 مع خطط سداد."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "فلل للبيع في تركيا | فاخرة بإطلالة بحرية ومسبح خاص",
-      "description": "فلل فاخرة للبيع في تركيا مع مسابح خاصة وإطلالات بحرية. فلل على شاطئ البحر في أنطاليا، كالكان، بودروم وألانيا من €250,000. مؤهلة للجنسية التركية."
-    },
-    "/off-plan-property-turkey": {
-      "title": "عقارات قيد الإنشاء في تركيا | مشاريع جديدة بخطط دفع",
-      "description": "عقارات قيد الإنشاء في تركيا من مطورين رائدين: أقل بنسبة 10-20% من السوق، خطط سداد بدون فوائد وشقق وفلل جديدة في أنطاليا، اسطنبول وألانيا."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "الجنسية التركية بالاستثمار 2026 | شراء عقار بـ $400 ألف",
-      "description": "احصل على الجنسية التركية بالاستثمار العقاري بقيمة $400 ألف. دليل كامل لبرنامج الجنسية التركية: العملية، الأهلية، فوائد جواز السفر و110+ دولة بدون تأشيرة."
-    },
-    "/information": {
-      "title": "دليل الاستثمار العقاري | معلومات ورؤى عن العقارات",
-      "description": "أدلة الخبراء حول الاستثمار العقاري، الجنسية التركية، عملية الشراء، المتطلبات القانونية ورؤى سوق العقارات في تركيا، دبي، قبرص وبالي."
-    },
-    "/property-gallery": {
-      "title": "معرض العقارات | مجموعة عقارات مميزة — Future Homes",
-      "description": "اكتشف مجموعتنا من العقارات المميزة بصور عالية الجودة لشقق فاخرة وتصاميم داخلية عصرية ومرافق استثنائية في مواقع رئيسية."
-    },
-    "/testimonials": {
-      "title": "شهادات العملاء | مراجعات حقيقية وقصص نجاح",
-      "description": "اقرأ مراجعات حقيقية من العملاء الذين وجدوا عقار أحلامهم معنا. شهادات حقيقية من عملاء في تركيا، دبي، قبرص وبالي."
-    },
-    "/about-us": {
-      "title": "عن Future Homes International | خبراء العقارات الدوليين",
-      "description": "تعرف على Future Homes International: مكاتب في أنطاليا، اسطنبول، دبي، قبرص وبالي، نساعد المشترين الدوليين على شراء العقارات بأمان منذ 2019."
-    },
-    "/contact-us": {
-      "title": "اتصل بـ Future Homes International | مكاتب في تركيا، دبي، قبرص وبالي",
-      "description": "تواصل مع مستشارينا العقاريين في أنطاليا، اسطنبول، دبي، قبرص وبالي. استشارة مجانية، رحلات معاينة ودعم كامل خلال عملية الشراء."
-    },
-    "/our-story": {
-      "title": "قصتنا | Future Homes International",
-      "description": "قصة Future Homes International — من مكتب صغير في أنطاليا إلى عائلة عقارية عالمية تخدم المشترين في تركيا، دبي، قبرص وبالي."
-    },
-    "/ali-karan": {
-      "title": "علي كاران — المؤسس والمدير التنفيذي | خبير عقاري دولي",
-      "description": "تعرف على علي كاران، مؤسس والرئيس التنفيذي لـ Future Homes International، بخبرة سنوات في العقارات عبر تركيا، دبي، قبرص وبالي."
-    }
-  },
-  "fa": {
-    "/": {
-      "title": "ملک برای فروش در ترکیه، دبی، قبرس و بالی | Future Homes International",
-      "description": "ملک برای فروش در ترکیه، دبی، قبرس و بالی. آپارتمان، ویلا و خانه‌های در حال ساخت از کارگزاران بین‌المللی برجسته. شهروندی ترکیه با سرمایه‌گذاری از 400 هزار دلار."
-    },
-    "/antalya": {
-      "title": "ملک برای فروش در آنتالیا | آپارتمان و ویلا در ترکیه — Future Homes",
-      "description": "ملک برای فروش در آنتالیا: آپارتمان‌های ساحلی، ویلاهای با منظره دریا و خانه‌های در حال ساخت در کنیالتی، لارا، آلانیا و بلک. از 70,000 یورو با شرایط شهروندی ترکیه."
-    },
-    "/istanbul": {
-      "title": "ملک برای فروش در استانبول | آپارتمان و خانه در ترکیه — Future Homes",
-      "description": "ملک برای فروش در استانبول: آپارتمان‌ها، خانه‌ها و ویلاهای لوکس در مناطق ماسلاک، بیلیک‌دوزو و بسفر. شهروندی با سرمایه‌گذاری از 400 هزار دلار. کارگزاران معتمد در ترکیه."
-    },
-    "/mersin": {
-      "title": "ملک برای فروش در مرسین | آپارتمان و ویلا در ترکیه — Future Homes",
-      "description": "ملک برای فروش در مرسین: آپارتمان‌های ساحلی، ویلاهای با منظره دریا و خانه‌های در حال ساخت در مزیتلی، اردملی و تِجه از 55,000 یورو با شرایط شهروندی ترکیه."
-    },
-    "/dubai": {
-      "title": "ملک برای فروش در دبی | آپارتمان و ویلا — Future Homes",
-      "description": "خانه‌های فروشی در دبی: آپارتمان‌های لوکس، پنت‌هاوس‌ها و ویلاها در دبی مارینا، داون‌تاون، پالم جمیرا و بیزنس بی از 800 هزار درهم با بازدهی بالا و شرایط ویزای طلایی."
-    },
-    "/cyprus": {
-      "title": "ملک برای فروش در قبرس | ویلا و آپارتمان + اقامت اتحادیه اروپا",
-      "description": "املاک فروشی در قبرس: ویلا، آپارتمان و خانه‌های ساحلی در لیماسول، پافوس، لارناکا و قبرس شمالی. خرید ملک در قبرس با اقامت دائم اتحادیه اروپا از 300,000 یورو."
-    },
-    "/bali": {
-      "title": "ملک برای فروش در بالی | ویلا در سمینیاک، کانگو و اوبود",
-      "description": "ملک برای فروش در بالی: ویلاهای لوکس، آپارتمان‌ها و خانه‌های سرمایه‌گذاری در سمینیاک، کانگو، اوبود و اولوواتو با بازده اجاره‌ای بالا برای سرمایه‌گذاران خارجی."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "ملک برای فروش در ترکیه | خانه، ویلا و آپارتمان — Future Homes",
-      "description": "ملک برای فروش در ترکیه از کارگزاران پیشرو. خانه، ویلا و آپارتمان در آنتالیا، استانبول، آلانیا و مرسین با گزینه‌های شهروندی با سرمایه‌گذاری."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "آپارتمان برای فروش در ترکیه | آنتالیا، استانبول و آلانیا — Future Homes",
-      "description": "آپارتمان برای فروش در ترکیه: 1 تا 4 خوابه ساحلی، مرکز شهر و در حال ساخت در آنتالیا، استانبول، آلانیا و مرسین از 70,000 یورو با طرح‌های پرداخت."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "ویلا برای فروش در ترکیه | ویلاهای لوکس با منظره دریا و استخر اختصاصی",
-      "description": "ویلاهای لوکس برای فروش در ترکیه با استخر خصوصی و منظره دریا. ویلاهای ساحلی در آنتالیا، کالکان، بدروم و آلانیا از 250,000 یورو. واجد شرایط شهروندی ترکیه."
-    },
-    "/off-plan-property-turkey": {
-      "title": "ملک در حال ساخت در ترکیه | نوساز با طرح‌های پرداخت",
-      "description": "ملک در حال ساخت در ترکیه از سازندگان پیشرو: 10-20% زیر قیمت بازار، طرح‌های پرداخت 0% سود و آپارتمان‌ها و ویلاهای نوساز در آنتالیا، استانبول و آلانیا."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "شهروندی ترکیه با سرمایه‌گذاری 2026 | مسیر ملک 400 هزار دلار",
-      "description": "شهروندی ترکیه را با سرمایه‌گذاری 400 هزار دلاری در املاک دریافت کنید. راهنمای کامل برنامه CBI ترکیه: فرآیند، شرایط، مزایای پاسپورت و 110+ کشور بدون ویزا."
-    },
-    "/information": {
-      "title": "راهنمای سرمایه‌گذاری ملک | اطلاعات و بینش‌های املاک",
-      "description": "راهنماهای تخصصی در مورد سرمایه‌گذاری ملک، شهروندی ترکیه، فرآیند خرید، الزامات قانونی و بینش‌های املاک برای ترکیه، دبی، قبرس و بالی."
-    },
-    "/property-gallery": {
-      "title": "گالری ملک | مجموعه املاک ممتاز — Future Homes",
-      "description": "مجموعه املاک ممتاز ما را با عکس‌های باکیفیت از آپارتمان‌های لوکس، طراحی‌های داخلی مدرن و امکانات استثنایی در مکان‌های برتر کاوش کنید."
-    },
-    "/testimonials": {
-      "title": "نظرات مشتریان | بررسی‌های واقعی و داستان‌های موفقیت",
-      "description": "نظرات معتبر مشتریانی که خانه رویایی خود را با ما پیدا کردند را بخوانید. توصیفات واقعی از مشتریان در ترکیه، دبی، قبرس و بالی."
-    },
-    "/about-us": {
-      "title": "درباره Future Homes International | کارشناسان بین‌المللی املاک",
-      "description": "با Future Homes International آشنا شوید: دفاتر در آنتالیا، استانبول، دبی، قبرس و بالی، از سال 2019 به خریداران بین‌المللی در خرید امن ملک کمک می‌کنند."
-    },
-    "/contact-us": {
-      "title": "تماس با Future Homes International | دفاتر در ترکیه، دبی، قبرس و بالی",
-      "description": "با مشاوران املاک ما در آنتالیا، استانبول، دبی، قبرس و بالی تماس بگیرید. مشاوره رایگان، سفرهای بازدید و پشتیبانی کامل در طول فرآیند خرید."
-    },
-    "/our-story": {
-      "title": "داستان ما | Future Homes International",
-      "description": "داستان Future Homes International — از یک دفتر کوچک در آنتالیا تا یک خانواده املاک جهانی که به خریداران در ترکیه، دبی، قبرس و بالی خدمات ارائه می‌دهد."
-    },
-    "/ali-karan": {
-      "title": "علی کاران — بنیانگذار و مدیر عامل | کارشناس بین‌المللی املاک",
-      "description": "با علی کاران، بنیانگذار و مدیر عامل Future Homes International، با سالها تجربه در املاک و مستغلات در ترکیه، دبی، قبرس و بالی آشنا شوید."
-    }
-  },
-  "ur": {
-    "/": {
-      "title": "ترکی، دبئی، قبرص اور بالی میں پراپرٹی برائے فروخت",
-      "description": "ترکی، دبئی، قبرص اور بالی میں پراپرٹی برائے فروخت۔ معروف بین الاقوامی ایجنٹوں سے اپارٹمنٹس، ولاز اور آف پلان گھر۔ $400K سے ترکی کی شہریت۔"
-    },
-    "/antalya": {
-      "title": "انطالیہ میں پراپرٹی برائے فروخت | اپارٹمنٹس اور ولاز – Future Homes",
-      "description": "انطالیہ میں پراپرٹی برائے فروخت: ساحل سمندر کے اپارٹمنٹس، سمندری نظارے والے ولاز اور آف پلان گھر۔ €70,000 سے، ترکی کی شہریت اہلیت۔"
-    },
-    "/istanbul": {
-      "title": "استنبول میں پراپرٹی برائے فروخت | اپارٹمنٹس اور مکانات – Future Homes",
-      "description": "استنبول میں پراپرٹی برائے فروخت: پرتعیش اپارٹمنٹس، مکانات اور ولاز۔ $400K سے شہریت۔ ترکی کے قابل اعتماد ایجنٹس۔"
-    },
-    "/mersin": {
-      "title": "مرسین میں پراپرٹی برائے فروخت | اپارٹمنٹس اور ولاز – Future Homes",
-      "description": "مرسین میں پراپرٹی برائے فروخت: ساحلی اپارٹمنٹس، سمندری نظارے والے ولاز اور آف پلان گھر۔ €55,000 سے، ترکی کی شہریت اہلیت۔"
-    },
-    "/dubai": {
-      "title": "دبئی میں پراپرٹی برائے فروخت | اپارٹمنٹس اور ولاز – Future Homes",
-      "description": "دبئی میں مکانات برائے فروخت: پرتعیش اپارٹمنٹس، پینٹ ہاؤسز اور ولاز۔ AED 800K سے، ہائی ROI اور گولڈن ویزا کی اہلیت۔"
-    },
-    "/cyprus": {
-      "title": "قبرص میں پراپرٹی برائے فروخت | ولاز اور اپارٹمنٹس + EU رہائش",
-      "description": "قبرص میں رئیل اسٹیٹ برائے فروخت: ولاز، اپارٹمنٹس اور ساحلی مکانات۔ EU مستقل رہائش کے ساتھ قبرص میں پراپرٹی خریدیں۔ €300,000 سے۔"
-    },
-    "/bali": {
-      "title": "بالی میں پراپرٹی برائے فروخت | سیمی نائیک، چانگُو اور اُبود میں ولاز",
-      "description": "بالی میں پراپرٹی برائے فروخت: پرتعیش ولاز، اپارٹمنٹس اور سرمایہ کاری کے گھر۔ غیر ملکی سرمایہ کاروں کے لیے اعلیٰ رینٹل ییلڈ۔"
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "ترکی میں پراپرٹی برائے فروخت | مکانات، ولاز اور اپارٹمنٹس",
-      "description": "ترکی میں پراپرٹی برائے فروخت: معروف ایجنٹوں سے مکانات، ولاز اور اپارٹمنٹس۔ شہریت بذریعہ سرمایہ کاری کے اختیارات دستیاب۔"
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "ترکی میں اپارٹمنٹس برائے فروخت | انطالیہ، استنبول اور الانیا",
-      "description": "ترکی میں اپارٹمنٹس برائے فروخت: 1-4 بیڈ روم ساحلی، شہر کے مرکز اور آف پلان اپارٹمنٹس۔ €70,000 سے، ادائیگی کے منصوبوں کے ساتھ۔"
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "ترکی میں پرتعیش ولاز برائے فروخت | سمندری نظارے والے ولاز",
-      "description": "ترکی میں پرتعیش ولاز برائے فروخت، نجی پولز اور سمندری نظاروں کے ساتھ۔ €250,000 سے ساحلی ولاز۔ ترکی کی شہریت کے اہل۔"
-    },
-    "/off-plan-property-turkey": {
-      "title": "ترکی میں آف پلان پراپرٹی | ادائیگی کے منصوبوں کے ساتھ نئی تعمیرات",
-      "description": "ترکی میں آف پلان پراپرٹی: معروف ڈویلپرز سے 10-20% مارکیٹ سے کم قیمت پر۔ 0% سود پر ادائیگی کے منصوبے دستیاب۔"
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "ترکی کی شہریت بذریعہ سرمایہ کاری 2026 | $400K پراپرٹی",
-      "description": "ترکی کی شہریت $400K رئیل اسٹیٹ میں سرمایہ کاری سے حاصل کریں۔ مکمل گائیڈ: عمل، اہلیت، پاسپورٹ کے فوائد اور 110+ ویزا فری ممالک۔"
-    },
-    "/information": {
-      "title": "پراپرٹی سرمایہ کاری گائیڈ | رئیل اسٹیٹ کی معلومات و بصیرت",
-      "description": "پراپرٹی سرمایہ کاری، ترکی کی شہریت، خرید و فروخت کا عمل، قانونی تقاضے اور ترکی، دبئی، قبرص اور بالی کے لیے بصیرت پر ماہرانہ گائیڈز۔"
-    },
-    "/property-gallery": {
-      "title": "پراپرٹی گیلری | پریمیم رئیل اسٹیٹ کلیکشن – Future Homes",
-      "description": "پریمیم پراپرٹیز کا ہمارا مجموعہ دیکھیں۔ پرتعیش اپارٹمنٹس، جدید اندرونی ڈیزائن اور بہترین سہولیات کی اعلیٰ معیار کی تصاویر۔"
-    },
-    "/testimonials": {
-      "title": "کلائنٹ کی رائے | حقیقی کسٹمر ریویو اور کامیابی کی کہانیاں",
-      "description": "ان کلائنٹس کے حقیقی ریویو پڑھیں جنہوں نے ہمارے ساتھ اپنا خوابوں کا گھر پایا۔ ترکی، دبئی، قبرص اور بالی سے حقیقی گواہیاں۔"
-    },
-    "/about-us": {
-      "title": "Future Homes International کے بارے میں | عالمی پراپرٹی ماہرین",
-      "description": "Future Homes International سے ملیں۔ 2019 سے بین الاقوامی خریداروں کو محفوظ طریقے سے پراپرٹی خریدنے میں مدد دے رہے ہیں۔"
-    },
-    "/contact-us": {
-      "title": "Future Homes International سے رابطہ کریں | ترکی، دبئی، قبرص میں دفاتر",
-      "description": "انطالیہ، استنبول، دبئی، قبرص اور بالی میں ہمارے پراپرٹی مشیروں سے رابطہ کریں۔ مفت مشاورت، دیکھنے کے دورے اور مکمل سپورٹ۔"
-    },
-    "/our-story": {
-      "title": "ہماری کہانی | Future Homes International",
-      "description": "Future Homes International کی کہانی — ایک چھوٹے سے انطالیہ دفتر سے ایک عالمی پراپرٹی فیملی تک۔ ترکی، دبئی، قبرص اور بالی کے خریداروں کی خدمت۔"
-    },
-    "/ali-karan": {
-      "title": "علی کرن – بانی اور سی ای او | بین الاقوامی پراپرٹی ماہر",
-      "description": "علی کرن سے ملیں، Future Homes International کے بانی اور سی ای او، جنہیں ترکی، دبئی، قبرص اور بالی میں رئیل اسٹیٹ کا وسیع تجربہ ہے۔"
-    }
-  },
-  "id": {
-    "/": {
-      "title": "Properti Dijual di Turki, Dubai, Siprus & Bali | Future Homes International",
-      "description": "Properti dijual di Turki, Dubai, Siprus & Bali. Apartemen, vila & rumah off-plan dari agen internasional terkemuka. Kewarganegaraan Turki melalui investasi mulai $400K."
-    },
-    "/antalya": {
-      "title": "Properti Dijual di Antalya | Apartemen & Vila di Turki — Future Homes",
-      "description": "Properti dijual di Antalya: apartemen tepi pantai, vila pemandangan laut & rumah off-plan di Konyaaltı, Lara, Alanya & Belek. Mulai €70.000 dengan kelayakan kewarganegaraan Turki."
-    },
-    "/istanbul": {
-      "title": "Properti Dijual di Istanbul | Apartemen & Rumah di Turki — Future Homes",
-      "description": "Properti dijual di Istanbul: apartemen mewah, rumah & vila di distrik Maslak, Beylikdüzü & Bosphorus. Kewarganegaraan melalui investasi mulai $400K. Agen Turki terpercaya."
-    },
-    "/mersin": {
-      "title": "Properti Dijual di Mersin | Apartemen & Vila di Turki — Future Homes",
-      "description": "Properti dijual di Mersin: apartemen tepi pantai, vila pemandangan laut & rumah off-plan di Mezitli, Erdemli & Tece mulai €55.000 dengan kelayakan kewarganegaraan Turki."
-    },
-    "/dubai": {
-      "title": "Properti Dijual di Dubai | Apartemen & Vila — Future Homes",
-      "description": "Rumah dijual di Dubai: apartemen mewah, penthouse & vila di Dubai Marina, Downtown, Palm Jumeirah & Business Bay mulai AED 800K dengan ROI tinggi & visa emas."
-    },
-    "/cyprus": {
-      "title": "Properti Dijual di Siprus | Vila & Apartemen + Izin Tinggal UE",
-      "description": "Real estat Siprus dijual: vila, apartemen & rumah tepi pantai di Limassol, Paphos, Larnaca & Siprus Utara. Beli properti di Siprus dengan izin tinggal permanen UE mulai €300.000."
-    },
-    "/bali": {
-      "title": "Properti Dijual di Bali | Vila di Seminyak, Canggu & Ubud",
-      "description": "Properti dijual di Bali: vila mewah, apartemen dan properti investasi di Seminyak, Canggu, Ubud & Uluwatu dengan hasil sewa tinggi bagi investor asing."
-    },
-    "/property-for-sale-in-turkey": {
-      "title": "Properti Dijual di Turki | Rumah, Vila & Apartemen — Future Homes",
-      "description": "Properti dijual di Turki dari agen terkemuka. Rumah, vila dan apartemen di Antalya, Istanbul, Alanya & Mersin dengan pilihan kewarganegaraan melalui investasi."
-    },
-    "/apartments-for-sale-in-turkey": {
-      "title": "Apartemen Dijual di Turki | Antalya, Istanbul & Alanya — Future Homes",
-      "description": "Apartemen dijual di Turki: apartemen 1-4 kamar tidur tepi pantai, pusat kota & off-plan di Antalya, Istanbul, Alanya & Mersin mulai €70.000 dengan skema pembayaran."
-    },
-    "/luxury-villas-in-turkey": {
-      "title": "Vila Dijual di Turki | Vila Mewah Pemandangan Laut & Kolam Pribadi",
-      "description": "Vila mewah dijual di Turki dengan kolam pribadi dan pemandangan laut. Vila tepi pantai di Antalya, Kalkan, Bodrum & Alanya mulai €250.000. Memenuhi syarat kewarganegaraan Turki."
-    },
-    "/off-plan-property-turkey": {
-      "title": "Properti Off-Plan di Turki | Bangunan Baru dengan Skema Pembayaran",
-      "description": "Properti off-plan di Turki dari pengembang terkemuka: 10-20% di bawah pasar, skema pembayaran bunga 0% dan apartemen & vila baru di Antalya, Istanbul, dan Alanya."
-    },
-    "/turkish-citizenship-by-investment": {
-      "title": "Kewarganegaraan Turki melalui Investasi 2026 | Jalur Properti $400K",
-      "description": "Dapatkan kewarganegaraan Turki melalui investasi properti $400K. Panduan lengkap program CBI Turki: proses, kelayakan, manfaat paspor & 110+ negara bebas visa."
-    },
-    "/information": {
-      "title": "Panduan Investasi Properti | Informasi & Wawasan Real Estat",
-      "description": "Panduan ahli investasi properti, kewarganegaraan Turki, proses pembelian, persyaratan hukum dan wawasan real estat untuk Turki, Dubai, Siprus & Bali."
-    },
-    "/property-gallery": {
-      "title": "Galeri Properti | Koleksi Real Estat Premium — Future Homes",
-      "description": "Jelajahi koleksi properti premium kami dengan foto berkualitas tinggi apartemen mewah, interior modern, dan fasilitas luar biasa di lokasi utama."
-    },
-    "/testimonials": {
-      "title": "Testimonial Klien | Ulasan & Kisah Sukses Pelanggan Nyata",
-      "description": "Baca ulasan autentik dari klien yang menemukan properti impian mereka bersama kami. Testimonial nyata dari pelanggan di Turki, Dubai, Siprus, dan Bali."
-    },
-    "/about-us": {
-      "title": "Tentang Future Homes International | Pakar Properti Internasional",
-      "description": "Temui Future Homes International: kantor di Antalya, Istanbul, Dubai, Siprus dan Bali, membantu pembeli internasional membeli properti dengan aman sejak 2019."
-    },
-    "/contact-us": {
-      "title": "Hubungi Future Homes International | Kantor di Turki, Dubai, Siprus & Bali",
-      "description": "Hubungi penasihat properti kami di Antalya, Istanbul, Dubai, Siprus dan Bali. Konsultasi gratis, kunjungan properti, dan dukungan penuh selama proses pembelian."
-    },
-    "/our-story": {
-      "title": "Kisah Kami | Future Homes International",
-      "description": "Kisah Future Homes International — dari kantor kecil di Antalya hingga menjadi keluarga properti global yang melayani pembeli di Turki, Dubai, Siprus dan Bali."
-    },
-    "/ali-karan": {
-      "title": "Ali Karan — Pendiri & CEO | Pakar Properti Internasional",
-      "description": "Temui Ali Karan, pendiri dan CEO Future Homes International, dengan pengalaman bertahun-tahun di bidang real estat di Turki, Dubai, Siprus, dan Bali."
-    }
-  },
   "en": {
     "/": {
       "title": "Property for Sale in Turkey, Dubai, Cyprus & Bali | Future Homes International",
@@ -1016,11 +81,949 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
       "title": "Ali Karan — Founder & CEO | International Property Expert",
       "description": "Meet Ali Karan, founder and CEO of Future Homes International, with years of experience in real estate across Turkey, Dubai, Cyprus and Bali."
     }
+  },
+  "sv": {
+    "/": {
+      "title": "Köpa lägenhet i Turkiet, Dubai, Cypern & Bali",
+      "description": "Hitta din drömbostad! Köpa lägenhet i Turkiet, Dubai, Cypern & Bali. Villor, lägenheter & nyproduktion. Turkiskt medborgarskap möjligt."
+    },
+    "/antalya": {
+      "title": "Lägenhet Antalya – Köpa lägenhet & villa i Turkiet",
+      "description": "Hitta din lägenhet i Antalya! Strandnära lägenheter & villor i Konyaaltı, Lara, Alanya. Från €70.000. Medborgarskap möjligt."
+    },
+    "/istanbul": {
+      "title": "Köpa lägenhet i Istanbul – Hus & villor i Turkiet",
+      "description": "Drömmer du om att köpa lägenhet i Istanbul? Lyxiga lägenheter, hus & villor i Maslak, Beylikdüzü. Medborgarskap från $400K."
+    },
+    "/mersin": {
+      "title": "Köpa lägenhet i Mersin – Villor i Turkiet",
+      "description": "Hitta din lägenhet i Mersin! Strandnära lägenheter & villor i Mezitli, Erdemli. Från €55.000. Medborgarskap möjligt."
+    },
+    "/dubai": {
+      "title": "Lägenhet Dubai – Köpa bostad & villa i Dubai",
+      "description": "Hitta din lägenhet i Dubai! Lyxiga lägenheter, takvåningar & villor i Dubai Marina, Downtown. Hög ROI & Golden Visa."
+    },
+    "/cyprus": {
+      "title": "Köpa bostad på Cypern – Villor & lägenheter",
+      "description": "Drömmer du om att köpa bostad på Cypern? Villor, lägenheter & strandnära hem. EU uppehållstillstånd från €300.000."
+    },
+    "/bali": {
+      "title": "Villa Bali – Köpa villa & lägenhet på Bali",
+      "description": "Hitta din villa på Bali! Lyxiga villor, lägenheter & investeringsbostäder i Seminyak, Canggu. Hög hyresavkastning."
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "Köpa hus i Turkiet | Lägenheter & Villor till salu",
+      "description": "Drömmer du om att köpa hus i Turkiet? Se vårt utbud av lägenheter och villor i Antalya, Alanya & Istanbul. Få medborgarskap via köp."
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "Köpa lägenhet i Turkiet | Antalya, Alanya & Istanbul",
+      "description": "Vill du köpa lägenhet i Turkiet? Upptäck strandnära lägenheter i Antalya, Alanya & Istanbul. Från €70.000 med betalningsplaner."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "Villa Turkiet | Lyxiga villor med havsutsikt & pool",
+      "description": "Hitta din drömvilla i Turkiet! Lyxiga villor med havsutsikt och privat pool i Antalya, Kalkan & Alanya. Möjlighet till medborgarskap."
+    },
+    "/off-plan-property-turkey": {
+      "title": "Nyproduktion Turkiet | Lägenheter & Villor med avbetalning",
+      "description": "Investera i nyproduktion i Turkiet. Lägenheter & villor i Antalya, Istanbul & Alanya. 10-20% under marknadspris, 0% ränta."
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "Turkiskt Medborgarskap | Köp fastighet för $400K",
+      "description": "Få turkiskt medborgarskap genom fastighetsinvestering. Köp en bostad för $400K och få passförmåner. Enkel process med Future Homes."
+    },
+    "/information": {
+      "title": "Fastighetsguide Turkiet, Dubai, Cypern & Bali",
+      "description": "Expertguider om fastighetsinvestering, köpprocess och juridiska krav i Turkiet, Dubai, Cypern & Bali. Få insikter för ditt köp."
+    },
+    "/property-gallery": {
+      "title": "Fastighetsgalleri | Premium bostäder till salu",
+      "description": "Utforska vårt fastighetsgalleri med premium bostäder. Se lyxiga lägenheter och villor med moderna interiörer i topplägen."
+    },
+    "/testimonials": {
+      "title": "Kundreferenser | Future Homes International",
+      "description": "Läs autentiska recensioner från kunder som hittat sin drömbostad i Turkiet, Dubai, Cypern och Bali med oss. Se framgångsberättelser."
+    },
+    "/about-us": {
+      "title": "Om Future Homes International | Internationella Fastighetsexperter",
+      "description": "Möt Future Homes International. Vi hjälper dig att köpa lägenhet i Turkiet, Dubai, Cypern och Bali säkert sedan 2019."
+    },
+    "/contact-us": {
+      "title": "Kontakta oss | Köpa lägenhet i Turkiet, Dubai, Cypern, Bali",
+      "description": "Kontakta våra fastighetsrådgivare. Få gratis konsultation och stöd för att köpa lägenhet i Turkiet, Dubai, Cypern och Bali."
+    },
+    "/our-story": {
+      "title": "Vår Berättelse | Future Homes International",
+      "description": "Historien om Future Homes International. Från Antalya till en global familj som hjälper dig köpa lägenhet i Turkiet och Dubai."
+    },
+    "/ali-karan": {
+      "title": "Ali Karan – Grundare & VD | Fastighetsexpert",
+      "description": "Möt Ali Karan, grundare och VD för Future Homes International. Expert på att köpa lägenhet i Turkiet, Dubai, Cypern och Bali."
+    }
+  },
+  "no": {
+    "/": {
+      "title": "Bolig i Tyrkia, Dubai, Kypros & Bali | Future Homes",
+      "description": "Finn bolig til salgs i Tyrkia, Dubai, Kypros og Bali. Leiligheter, villaer og prosjektboliger. Tyrkisk statsborgerskap fra $400K."
+    },
+    "/antalya": {
+      "title": "Leilighet til salgs Tyrkia: Antalya | Future Homes",
+      "description": "Kjøp leilighet i Antalya: strandleiligheter, villaer i Konyaaltı, Lara, Alanya. Fra €70.000 med tyrkisk statsborgerskap."
+    },
+    "/istanbul": {
+      "title": "Kjøpe hus i Tyrkia: Istanbul | Leiligheter & Villaer",
+      "description": "Kjøp hus i Istanbul: luksusleiligheter, villaer i Maslak, Beylikdüzü. Statsborgerskap fra $400K. Pålitelige agenter."
+    },
+    "/mersin": {
+      "title": "Leilighet til salgs Tyrkia: Mersin | Future Homes",
+      "description": "Finn leilighet i Mersin: strandleiligheter, villaer i Mezitli, Erdemli. Fra €55.000 med tyrkisk statsborgerskap."
+    },
+    "/dubai": {
+      "title": "Bolig til salgs i Dubai | Leiligheter & Villaer",
+      "description": "Kjøp bolig i Dubai: luksusleiligheter, villaer i Dubai Marina, Downtown. Høy avkastning og Golden Visa muligheter."
+    },
+    "/cyprus": {
+      "title": "Bolig til salgs i Kypros | Villaer & Leiligheter",
+      "description": "Kjøp bolig på Kypros: villaer, leiligheter i Limassol, Paphos. EU-opphold fra €300.000. Høy avkastning."
+    },
+    "/bali": {
+      "title": "Villa Bali: Seminyak, Canggu & Ubud | Future Homes",
+      "description": "Finn villa Bali: luksusvillaer, investeringsboliger i Seminyak, Canggu, Ubud. Høy leieavkastning for investorer."
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "Bolig i Tyrkia | Kjøpe hus & leilighet",
+      "description": "Finn din drømmebolig i Tyrkia. Hus, villaer og leiligheter i Antalya, Alanya & Istanbul. Mulighet for statsborgerskap."
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "Leilighet til salgs Tyrkia | Alanya & Antalya",
+      "description": "Kjøpe leilighet i Tyrkia? Se utvalg i Alanya, Antalya & Istanbul. Strandnære leiligheter med gode priser."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "Kjøpe hus i Tyrkia | Luksusvillaer med sjøutsikt",
+      "description": "Ønsker du å kjøpe hus i Tyrkia? Utforsk luksusvillaer med privat basseng i Antalya & Alanya. Kvalifiserer for statsborgerskap."
+    },
+    "/off-plan-property-turkey": {
+      "title": "Bolig i Tyrkia | Nye prosjekter med betalingsplan",
+      "description": "Invester i bolig i Tyrkia. Nye leiligheter og villaer i Antalya, Istanbul & Alanya. Gode priser og rentefrie betalingsplaner."
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "Tyrkisk statsborgerskap via investering | Eiendom",
+      "description": "Få tyrkisk statsborgerskap ved å kjøpe eiendom for $400K. Full guide til prosessen og passfordeler."
+    },
+    "/information": {
+      "title": "Eiendom Investeringsguide | Tyrkia, Dubai & Bali",
+      "description": "Ekspertguider for eiendomsinvestering, tyrkisk statsborgerskap og kjøpsprosessen i Tyrkia, Dubai, Kypros & Bali."
+    },
+    "/property-gallery": {
+      "title": "Eiendomsgalleri | Premium Eiendommer",
+      "description": "Utforsk vårt galleri av premium eiendommer. Luksusleiligheter og moderne villaer i Tyrkia, Dubai, Kypros & Bali."
+    },
+    "/testimonials": {
+      "title": "Kundeuttalelser | Ekte Anmeldelser fra Kunder",
+      "description": "Les autentiske kundeuttalelser fra de som fant drømmeeiendommen sin i Tyrkia, Dubai, Kypros og Bali. Din suksess er vår prioritet!"
+    },
+    "/about-us": {
+      "title": "Om Future Homes International | Eiendomseksperter",
+      "description": "Møt Future Homes International: eksperter på eiendom i Tyrkia, Dubai, Kypros og Bali. Trygge kjøp siden 2019."
+    },
+    "/contact-us": {
+      "title": "Kontakt Future Homes International | Eiendom Tyrkia, Dubai",
+      "description": "Kontakt våre eiendomsrådgivere for Tyrkia, Dubai, Kypros og Bali. Få gratis konsultasjon og støtte til ditt eiendomskjøp."
+    },
+    "/our-story": {
+      "title": "Vår Historie | Future Homes International",
+      "description": "Historien om Future Homes International: fra Antalya til en global eiendomsfamilie. Vi hjelper deg med bolig i Tyrkia, Dubai og mer."
+    },
+    "/ali-karan": {
+      "title": "Ali Karan — Grunnlegger & CEO | Eiendomsekspert",
+      "description": "Møt Ali Karan, grunnlegger av Future Homes International. Din ekspert på eiendom i Tyrkia, Dubai, Kypros og Bali."
+    }
+  },
+  "da": {
+    "/": {
+      "title": "Køb bolig i Tyrkiet, Dubai, Cypern & Bali | Future Homes",
+      "description": "Find din drømmebolig i Tyrkiet, Dubai, Cypern eller Bali. Lejligheder, villaer og off-plan boliger fra førende agenter. Tyrkisk statsborgerskab fra $400K."
+    },
+    "/antalya": {
+      "title": "Lejlighed til salg i Antalya, Tyrkiet | Villaer & boliger",
+      "description": "Lejlighed til salg i Antalya: strandlejligheder, havudsigt villaer i Konyaaltı, Lara, Alanya & Belek. Fra €70.000, med tyrkisk statsborgerskab."
+    },
+    "/istanbul": {
+      "title": "Bolig i Istanbul, Tyrkiet | Lejligheder & huse til salg",
+      "description": "Find din bolig i Istanbul: luksuslejligheder, huse & villaer i Maslak, Beylikdüzü & Bosphorus. Statsborgerskab fra $400K. Pålidelige agenter."
+    },
+    "/mersin": {
+      "title": "Bolig i Mersin, Tyrkiet | Lejligheder & villaer til salg",
+      "description": "Bolig i Mersin: strandlejligheder, havudsigt villaer i Mezitli, Erdemli & Tece fra €55.000. Berettiget til tyrkisk statsborgerskab."
+    },
+    "/dubai": {
+      "title": "Bolig Dubai | Lejligheder & villaer til salg i Dubai",
+      "description": "Find din bolig i Dubai: luksuslejligheder, penthouses & villaer i Dubai Marina, Downtown, Palm Jumeirah. Høj ROI & golden visa."
+    },
+    "/cyprus": {
+      "title": "Bolig på Cypern | Villaer & lejligheder + EU-ophold",
+      "description": "Bolig på Cypern til salg: villaer, lejligheder & strandboliger i Limassol, Paphos, Larnaca. Køb med EU permanent ophold fra €300.000."
+    },
+    "/bali": {
+      "title": "Villa Bali | Luksusvillaer & lejligheder til salg på Bali",
+      "description": "Find din villa Bali: luksusvillaer, lejligheder og investeringsejendomme i Seminyak, Canggu, Ubud. Høje lejeafkast for investorer."
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "Bolig i Tyrkiet til Salg | Huse, Villaer & Lejligheder",
+      "description": "Find din drømmebolig i Tyrkiet. Udforsk huse, villaer og lejligheder i Antalya, Alanya & Istanbul. Mulighed for tyrkisk statsborgerskab."
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "Lejlighed til Salg Tyrkiet | Antalya, Alanya & Istanbul",
+      "description": "Søg lejlighed til salg Tyrkiet. Strandnære, bynære og off-plan lejligheder i Alanya, Antalya & Istanbul. Start fra €70.000."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "Køb Bolig i Tyrkiet | Luksus Villaer med Havudsigt",
+      "description": "Køb bolig i Tyrkiet: Luksusvillaer med privat pool og havudsigt i Antalya, Kalkan & Alanya. Berettiget til tyrkisk statsborgerskab."
+    },
+    "/off-plan-property-turkey": {
+      "title": "Køb Bolig i Tyrkiet | Off-Plan Ejendomme & Nybyg",
+      "description": "Køb bolig i Tyrkiet: Off-plan ejendomme fra førende udviklere. Nybyg lejligheder & villaer i Antalya & Alanya med betalingsplaner."
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "Tyrkisk Statsborgerskab ved Investering | $400K Ejendom",
+      "description": "Få tyrkisk statsborgerskab ved investering i ejendom fra $400K. Komplet guide til processen og fordelene ved et tyrkisk pas."
+    },
+    "/information": {
+      "title": "Ejendomsinvesteringsguide | Tyrkiet, Dubai & Bali",
+      "description": "Ekspertguider til ejendomsinvestering, købsprocessen og lovkrav i Tyrkiet, Dubai, Cypern & Bali. Få værdifuld indsigt her."
+    },
+    "/property-gallery": {
+      "title": "Ejendomsgalleri | Premium Boliger i Tyrkiet & Dubai",
+      "description": "Udforsk vores eksklusive ejendomsgalleri. Se luksuslejligheder og moderne villaer i Tyrkiet, Dubai og Bali med billeder."
+    },
+    "/testimonials": {
+      "title": "Kundeanmeldelser | Future Homes International",
+      "description": "Læs autentiske anmeldelser fra kunder, der fandt deres drømmebolig i Tyrkiet, Dubai, Cypern og Bali. Din succes starter her."
+    },
+    "/about-us": {
+      "title": "Om Future Homes International | Ejendomseksperter",
+      "description": "Mød Future Homes International: Siden 2019 har vi hjulpet internationale købere med at finde bolig i Tyrkiet, Dubai, Cypern og Bali."
+    },
+    "/contact-us": {
+      "title": "Kontakt Future Homes International | Bolig i Tyrkiet & Dubai",
+      "description": "Kontakt vores ejendomsrådgivere for gratis konsultation om bolig i Tyrkiet, Dubai, Cypern og Bali. Få fuld support til dit køb."
+    },
+    "/our-story": {
+      "title": "Vores Historie | Future Homes International",
+      "description": "Historien om Future Homes International – fra Antalya til en global familie, der hjælper med bolig i Tyrkiet, Dubai, Cypern og Bali."
+    },
+    "/ali-karan": {
+      "title": "Ali Karan – Grundlægger & CEO | Future Homes International",
+      "description": "Mød Ali Karan, grundlægger og CEO af Future Homes International. Ekspert i fast ejendom i Tyrkiet, Dubai, Cypern og Bali."
+    }
+  },
+  "de": {
+    "/": {
+      "title": "Immobilien Türkei, Dubai, Zypern, Bali kaufen | Future Homes",
+      "description": "Immobilien in Türkei, Dubai, Zypern & Bali kaufen. Wohnungen, Villen & Off-Plan-Häuser. Türkische Staatsbürgerschaft ab $400K. Jetzt entdecken!"
+    },
+    "/antalya": {
+      "title": "Wohnung Antalya kaufen | Immobilien & Villen in der Türkei",
+      "description": "Wohnung Antalya kaufen: Strandwohnungen, Meerblick-Villen in Konyaaltı, Lara. Immobilien in Antalya ab €70.000. Staatsbürgerschaft möglich."
+    },
+    "/istanbul": {
+      "title": "Immobilien Istanbul kaufen | Wohnungen & Häuser Türkei",
+      "description": "Immobilien Istanbul kaufen: Luxuswohnungen, Häuser & Villen in Maslak, Beylikdüzü. Staatsbürgerschaft ab $400K. Ihr Experte für Istanbul."
+    },
+    "/mersin": {
+      "title": "Immobilien Mersin kaufen | Wohnungen & Villen Türkei",
+      "description": "Immobilien Mersin kaufen: Strandwohnungen, Meerblick-Villen in Mezitli, Erdemli. Ab €55.000 mit türkischer Staatsbürgerschaft. Jetzt ansehen!"
+    },
+    "/dubai": {
+      "title": "Wohnung Dubai kaufen | Immobilien & Villen in Dubai",
+      "description": "Wohnung Dubai kaufen: Luxuswohnungen, Penthäuser & Villen in Dubai Marina, Downtown. Hohe Rendite & Golden Visa. Jetzt Ihre Immobilie finden!"
+    },
+    "/cyprus": {
+      "title": "Immobilien Zypern | Villen, Wohnungen & EU-Aufenthalt",
+      "description": "Immobilien Zypern kaufen: Villen, Wohnungen in Limassol, Paphos. EU-Daueraufenthalt ab €300.000. Entdecken Sie Ihr Traumhaus in Zypern!"
+    },
+    "/bali": {
+      "title": "Villa Bali kaufen | Immobilien & Luxusvillen in Bali",
+      "description": "Villa Bali kaufen: Luxusvillen, Wohnungen in Seminyak, Canggu, Ubud. Hohe Mietrenditen für Investoren. Finden Sie Ihre Traumvilla auf Bali!"
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "Immobilien Türkei kaufen: Häuser, Villen & Wohnungen",
+      "description": "Immobilien Türkei kaufen: Entdecken Sie Häuser, Villen & Wohnungen in Antalya, Istanbul, Alanya. Jetzt mit Staatsbürgerschaftsoptionen sichern."
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "Wohnung kaufen Türkei: Antalya, Istanbul & Alanya",
+      "description": "Wohnung kaufen Türkei: 1-4 Zimmer Wohnungen in Antalya, Istanbul & Alanya. Strandnah, Zentrum oder Neubau ab €70.000 mit Zahlungsplänen."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "Haus kaufen Türkei: Luxusvillen mit Meerblick & Pool",
+      "description": "Haus kaufen Türkei: Luxusvillen mit Meerblick & privatem Pool in Antalya, Kalkan, Bodrum. Ab €250.000 – auch für türkische Staatsbürgerschaft."
+    },
+    "/off-plan-property-turkey": {
+      "title": "Immobilien Türkei: Off-Plan Neubauten mit Zahlungsplan",
+      "description": "Immobilien Türkei: Off-Plan Neubauten 10-20% unter Marktwert. Wohnungen & Villen in Antalya, Istanbul mit 0% Zins-Zahlungsplänen sichern."
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "Türkische Staatsbürgerschaft durch Investment: Immobilien",
+      "description": "Türkische Staatsbürgerschaft durch Investment: Erhalten Sie Ihren Pass mit $400K Immobilienkauf. Leitfaden zu Prozess, Vorteilen & visumfreien Ländern."
+    },
+    "/information": {
+      "title": "Immobilien Investment Guide: Türkei, Dubai, Zypern, Bali",
+      "description": "Immobilien Investment Guide: Expertenwissen zu Kaufprozess, rechtlichen Anforderungen & Renditechancen in Türkei, Dubai, Zypern & Bali."
+    },
+    "/property-gallery": {
+      "title": "Immobilien Galerie: Exklusive Objekte in Türkei & Dubai",
+      "description": "Immobilien Galerie: Entdecken Sie unsere Premium-Kollektion. Hochwertige Fotos von Luxuswohnungen & Villen in Top-Lagen."
+    },
+    "/testimonials": {
+      "title": "Kundenstimmen | Erfolgsgeschichten & Bewertungen",
+      "description": "Lesen Sie authentische Kundenstimmen von Käufern aus Türkei, Dubai, Zypern und Bali. Finden Sie Ihre Traumimmobilie mit Future Homes."
+    },
+    "/about-us": {
+      "title": "Über Future Homes International | Immobilienexperten",
+      "description": "Future Homes International: Ihr Partner für Immobilien in Türkei, Dubai, Zypern und Bali. Sicher kaufen seit 2019."
+    },
+    "/contact-us": {
+      "title": "Kontakt Future Homes | Immobilienberater Türkei, Dubai, Zypern",
+      "description": "Kontaktieren Sie unsere Immobilienberater für Türkei, Dubai, Zypern und Bali. Kostenlose Beratung und volle Unterstützung beim Kauf."
+    },
+    "/our-story": {
+      "title": "Unsere Geschichte | Future Homes International",
+      "description": "Die Geschichte von Future Homes International: Vom Büro in Antalya zur globalen Immobilienfamilie in Türkei, Dubai, Zypern und Bali."
+    },
+    "/ali-karan": {
+      "title": "Ali Karan | Gründer Future Homes International",
+      "description": "Treffen Sie Ali Karan, Gründer von Future Homes International. Ihr Experte für Immobilien in Türkei, Dubai, Zypern und Bali."
+    }
+  },
+  "fr": {
+    "/": {
+      "title": "Immobilier Turquie, Dubaï, Chypre, Bali | Future Homes International",
+      "description": "Découvrez l'immobilier à vendre en Turquie, Dubaï, Chypre & Bali. Appartements, villas, projets neufs. Citoyenneté turque dès 400K $."
+    },
+    "/antalya": {
+      "title": "Immobilier Antalya | Appartements & Villas en Turquie",
+      "description": "Immobilier Antalya: appartements front de mer, villas vue mer à Konyaaltı, Lara, Alanya. Dès 70K€, éligible citoyenneté turque."
+    },
+    "/istanbul": {
+      "title": "Immobilier Istanbul | Appartements & Maisons en Turquie",
+      "description": "Immobilier Istanbul: appartements, maisons de luxe à Maslak, Bosphore. Citoyenneté par investissement dès 400K $. Agents de confiance."
+    },
+    "/mersin": {
+      "title": "Immobilier Mersin | Appartements & Villas en Turquie",
+      "description": "Immobilier Mersin: appartements front de mer, villas vue mer à Mezitli, Erdemli. Dès 55K€, éligible citoyenneté turque."
+    },
+    "/dubai": {
+      "title": "Immobilier Dubaï | Appartements, Villas & Penthouses",
+      "description": "Immobilier Dubaï: appartements, villas de luxe à Dubaï Marina, Downtown, Palm Jumeirah. ROI élevé, visa doré éligible."
+    },
+    "/cyprus": {
+      "title": "Immobilier Chypre | Villas, Appartements & Résidence UE",
+      "description": "Immobilier Chypre: villas, appartements à Limassol, Paphos, Larnaca. Achetez une propriété avec résidence permanente UE dès 300K€."
+    },
+    "/bali": {
+      "title": "Villa Bali à vendre | Seminyak, Canggu & Ubud",
+      "description": "Villa Bali à vendre: villas de luxe, appartements à Seminyak, Canggu, Ubud. Rendements locatifs élevés pour investisseurs étrangers."
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "Immobilier Turquie | Maisons, Villas & Appartements",
+      "description": "Découvrez l'immobilier en Turquie : maisons, villas et appartements à Antalya, Istanbul, Alanya. Options de citoyenneté par investissement. Investissez malin !"
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "Acheter Appartement Turquie | Istanbul, Antalya, Alanya",
+      "description": "Acheter appartement en Turquie : 1 à 4 chambres à Istanbul, Antalya, Alanya. Neuf, front de mer, centre-ville. Plans de paiement disponibles. Fort rendement."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "Villas Turquie à Vendre | Luxe, Vue Mer & Piscine Privée",
+      "description": "Villas Turquie à vendre : luxe avec vue mer et piscine privée à Antalya, Bodrum. Éligible citoyenneté turque. Profitez d'un cadre de vie exceptionnel."
+    },
+    "/off-plan-property-turkey": {
+      "title": "Immobilier Neuf Turquie | Appartements & Villas sur Plan",
+      "description": "Immobilier neuf Turquie : appartements et villas sur plan à Istanbul, Antalya, Alanya. Prix avantageux, plans de paiement 0% intérêt. Investissez futé !"
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "Citoyenneté Turque par Investissement Immobilier",
+      "description": "Obtenez la citoyenneté turque par investissement immobilier. Guide complet du programme CBI : éligibilité, processus, avantages du passeport. Sécurisez votre avenir."
+    },
+    "/information": {
+      "title": "Guide Investissement Immobilier | Turquie, Dubaï, Chypre",
+      "description": "Guide d'investissement immobilier : informations et analyses pour Turquie, Dubaï, Chypre, Bali. Processus d'achat, législation, citoyenneté. Prenez la bonne décision."
+    },
+    "/property-gallery": {
+      "title": "Galerie Immobilier | Propriétés de Luxe Turquie, Dubaï",
+      "description": "Découvrez notre galerie immobilière : photos de propriétés de luxe en Turquie, Dubaï, Chypre, Bali. Appartements, villas, intérieurs modernes. Votre futur chez vous."
+    },
+    "/testimonials": {
+      "title": "Témoignages Clients | Avis Immobiliers & Succès",
+      "description": "Lisez les avis authentiques de clients qui ont trouvé leur propriété de rêve en Turquie, Dubaï, Chypre et Bali avec Future Homes."
+    },
+    "/about-us": {
+      "title": "À Propos | Future Homes International Experts Immobiliers",
+      "description": "Rencontrez Future Homes International : bureaux à Antalya, Istanbul, Dubaï, Chypre et Bali. Achat immobilier sécurisé depuis 2019."
+    },
+    "/contact-us": {
+      "title": "Contactez Future Homes | Immobilier Turquie, Dubaï, Chypre, Bali",
+      "description": "Contactez nos conseillers immobiliers à Antalya, Istanbul, Dubaï, Chypre et Bali. Consultation gratuite et support complet pour votre achat."
+    },
+    "/our-story": {
+      "title": "Notre Histoire | Future Homes International Immobilier",
+      "description": "L'histoire de Future Homes International : d'Antalya à une famille immobilière mondiale en Turquie, Dubaï, Chypre et Bali."
+    },
+    "/ali-karan": {
+      "title": "Ali Karan | Fondateur & CEO Future Homes International",
+      "description": "Rencontrez Ali Karan, fondateur et PDG de Future Homes International, expert immobilier en Turquie, Dubaï, Chypre et Bali."
+    }
+  },
+  "es": {
+    "/": {
+      "title": "Inmuebles en Venta Turquía, Dubái, Chipre y Bali",
+      "description": "Encuentre inmuebles en venta en Turquía, Dubái, Chipre y Bali. Apartamentos, villas y más. Ciudadanía turca por inversión desde $400K."
+    },
+    "/antalya": {
+      "title": "Comprar Casa en Turquía | Inmuebles en Venta en Antalya",
+      "description": "Comprar casa en Turquía, Antalya. Apartamentos y villas frente al mar en Konyaaltı, Lara, Alanya. Ciudadanía turca desde €70,000."
+    },
+    "/istanbul": {
+      "title": "Comprar Casa en Turquía | Inmuebles en Venta en Estambul",
+      "description": "Comprar casa en Turquía, Estambul. Apartamentos y villas de lujo en Maslak, Beylikdüzü. Ciudadanía por inversión desde $400K."
+    },
+    "/mersin": {
+      "title": "Comprar Casa en Turquía | Inmuebles en Venta en Mersin",
+      "description": "Comprar casa en Turquía, Mersin. Apartamentos y villas frente al mar en Mezitli, Erdemli. Ciudadanía turca desde €55,000."
+    },
+    "/dubai": {
+      "title": "Comprar Piso en Dubai | Apartamentos y Villas de Lujo",
+      "description": "Comprar piso en Dubai. Apartamentos y villas de lujo en Marina, Downtown, Palm Jumeirah. Alto ROI y visa dorada."
+    },
+    "/cyprus": {
+      "title": "Propiedades en Chipre | Villas y Apartamentos + Residencia UE",
+      "description": "Propiedades en Chipre en venta. Villas, apartamentos en Limassol, Paphos. Residencia permanente UE desde €300,000."
+    },
+    "/bali": {
+      "title": "Villa en Bali Comprar | Lujo y Rentabilidad en Indonesia",
+      "description": "Villa en Bali comprar. Villas de lujo e inversión en Seminyak, Canggu, Ubud. Altas rentabilidades para inversores."
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "Comprar Casa en Turquía | Inmuebles, Villas y Apartamentos",
+      "description": "Comprar casa en Turquía: encuentre propiedades en venta en Antalya, Estambul y Alanya. Opciones de ciudadanía por inversión."
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "Apartamentos en Venta en Turquía | Estambul, Antalya, Alanya",
+      "description": "Apartamentos en venta en Turquía: 1-4 dormitorios en Estambul, Antalya y Alanya desde €70,000. Planes de pago disponibles."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "Villas en Venta en Turquía | Lujo, Vistas al Mar y Piscina",
+      "description": "Villas en venta en Turquía: lujo con piscina privada y vistas al mar en Antalya, Bodrum. Elegibles para ciudadanía."
+    },
+    "/off-plan-property-turkey": {
+      "title": "Propiedades sobre Plano en Turquía | Obra Nueva, Planes de Pago",
+      "description": "Propiedades sobre plano en Turquía: obra nueva en Antalya, Estambul. Precios 10-20% por debajo del mercado, 0% interés."
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "Ciudadanía Turca por Inversión | Ruta de Propiedad $400K",
+      "description": "Ciudadanía turca por inversión: obténgala con $400K en bienes raíces. Guía completa del programa, beneficios y visa-free."
+    },
+    "/information": {
+      "title": "Guía de Inversión Inmobiliaria | Turquía, Dubái, Chipre, Bali",
+      "description": "Guía de inversión inmobiliaria: información experta para comprar propiedades en Turquía, Dubái, Chipre y Bali."
+    },
+    "/property-gallery": {
+      "title": "Galería de Propiedades | Inmuebles de Lujo en Venta",
+      "description": "Galería de propiedades: explore nuestra colección de inmuebles de lujo. Fotos de apartamentos y villas en ubicaciones premium."
+    },
+    "/testimonials": {
+      "title": "Testimonios de Clientes | Future Homes International",
+      "description": "Lea testimonios auténticos de clientes que encontraron su propiedad ideal. Reseñas reales de compradores en Turquía, Dubái, Chipre y Bali."
+    },
+    "/about-us": {
+      "title": "Sobre Future Homes International | Expertos Inmobiliarios",
+      "description": "Conozca Future Homes International: oficinas en Antalya, Dubái, Chipre y Bali. Ayudamos a comprar propiedades de forma segura."
+    },
+    "/contact-us": {
+      "title": "Contacto Future Homes International | Asesoría Inmobiliaria",
+      "description": "Contacte a nuestros asesores en Turquía, Dubái, Chipre y Bali. Consulta gratuita y soporte completo para su compra de inmuebles."
+    },
+    "/our-story": {
+      "title": "Nuestra Historia | Future Homes International",
+      "description": "La historia de Future Homes International: de Antalya a una familia global. Ayudamos a comprar propiedades en Turquía, Dubái, Chipre y Bali."
+    },
+    "/ali-karan": {
+      "title": "Ali Karan — Fundador y CEO | Experto Inmobiliario",
+      "description": "Conozca a Ali Karan, fundador de Future Homes International. Años de experiencia en bienes raíces en Turquía, Dubái, Chipre y Bali."
+    }
+  },
+  "tr": {
+    "/": {
+      "title": "Türkiye, Dubai, Kıbrıs, Bali Satılık Emlak | Future Homes",
+      "description": "Türkiye, Dubai, Kıbrıs ve Bali'de satılık emlak. Daire, villa ve projeden konutlar. 400K$'dan Türk vatandaşlığı fırsatı."
+    },
+    "/antalya": {
+      "title": "Antalya Satılık Daire & Villa | Denize Sıfır Evler",
+      "description": "Antalya'da satılık daire ve villa seçenekleri. Konyaaltı, Lara'da denize sıfır evler. 70.000€'dan başlayan fiyatlarla."
+    },
+    "/istanbul": {
+      "title": "İstanbul Satılık Daire | Lüks Evler & Villalar",
+      "description": "İstanbul'da satılık daire ve lüks evler. Maslak, Beylikdüzü'nde villa seçenekleri. 400K$'dan vatandaşlık imkanı."
+    },
+    "/mersin": {
+      "title": "Mersin Satılık Daire | Denize Sıfır Evler & Villalar",
+      "description": "Mersin'de satılık daire ve villa fırsatları. Mezitli, Erdemli'de denize sıfır evler. 55.000€'dan başlayan fiyatlar."
+    },
+    "/dubai": {
+      "title": "Dubai Satılık Daire | Lüks Villalar & Yüksek Getiri",
+      "description": "Dubai'de satılık daire ve lüks villalar. Marina, Downtown'da yüksek getiri potansiyelli konutlar. Altın vize fırsatı."
+    },
+    "/cyprus": {
+      "title": "Kıbrıs Satılık Daire & Villa | AB Oturumu Fırsatı",
+      "description": "Kıbrıs'ta satılık daire ve villa seçenekleri. Limasol, Baf'ta evler. 300.000€'dan AB daimi oturum izniyle yatırım."
+    },
+    "/bali": {
+      "title": "Bali Satılık Villa | Yüksek Kira Getirili Yatırım",
+      "description": "Bali'de satılık villa ve lüks daireler. Seminyak, Canggu'da yabancı yatırımcılar için yüksek kira getirisi sunar."
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "Türkiye Satılık Emlak | Daire, Villa, Ev Fırsatları",
+      "description": "Türkiye'de satılık emlak mı arıyorsunuz? Antalya, İstanbul, Mersin'de ev, villa ve daireler. Yatırım ve vatandaşlık seçenekleri burada."
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "Türkiye Satılık Daire | Antalya, İstanbul, Mersin Fırsatları",
+      "description": "Türkiye'de satılık daireler: Antalya, İstanbul, Mersin'de denize sıfır, şehir merkezinde ve projeden daireler. Uygun fiyatlar ve ödeme planları."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "Lüks Villa Satılık Türkiye | Deniz Manzaralı, Özel Havuzlu",
+      "description": "Türkiye'de satılık lüks villalar: Antalya, Kalkan'da deniz manzaralı ve özel havuzlu villalar. Türk vatandaşlığına uygun seçenekler."
+    },
+    "/off-plan-property-turkey": {
+      "title": "Projeden Satılık Daire Türkiye | Yeni Yapım, Ödeme Planlı",
+      "description": "Türkiye'de projeden satılık daire ve villalar: Antalya, İstanbul'da piyasa altında fiyatlar, %0 faizli ödeme planları ile yeni yapım fırsatları."
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "Yatırım Yoluyla Türk Vatandaşlığı | Emlak ile Vatandaşlık",
+      "description": "400.000$ emlak yatırımı ile Türk vatandaşlığı alın. Süreç, uygunluk ve pasaport faydaları hakkında detaylı bilgiye ulaşın."
+    },
+    "/information": {
+      "title": "Emlak Yatırım Rehberi | Türkiye, Dubai, Kıbrıs, Bali",
+      "description": "Türkiye, Dubai, Kıbrıs ve Bali'de emlak yatırımı, vatandaşlık ve satın alma süreçleri hakkında uzman rehberler ve bilgiler."
+    },
+    "/property-gallery": {
+      "title": "Emlak Galerisi | Lüks Daireler, Villalar, Modern Evler",
+      "description": "Birinci sınıf lokasyonlarda lüks daire, villa ve modern evlerin yüksek kaliteli fotoğraflarıyla emlak koleksiyonumuzu keşfedin."
+    },
+    "/testimonials": {
+      "title": "Müşteri Yorumları | Future Homes Başarı Hikayeleri",
+      "description": "Bizimle hayallerindeki mülkü bulan müşterilerin gerçek yorumlarını okuyun. Türkiye, Dubai, Kıbrıs ve Bali'den başarı hikayeleri burada."
+    },
+    "/about-us": {
+      "title": "Future Homes International Hakkında | Uluslararası Emlak Uzmanları",
+      "description": "Future Homes International'ı tanıyın: 2019'dan beri Antalya, İstanbul, Dubai, Kıbrıs ve Bali'de güvenle mülk satın aldırıyoruz."
+    },
+    "/contact-us": {
+      "title": "Future Homes İletişim | Türkiye, Dubai, Kıbrıs & Bali Ofisleri",
+      "description": "Antalya, İstanbul, Dubai, Kıbrıs ve Bali'deki emlak danışmanlarımızla iletişime geçin. Ücretsiz danışmanlık ve tam destek alın."
+    },
+    "/our-story": {
+      "title": "Hikayemiz | Future Homes International'ın Yükselişi",
+      "description": "Future Homes International'ın hikayesi: Antalya'dan başlayıp Türkiye, Dubai, Kıbrıs ve Bali'de küresel bir emlak ailesine dönüştük."
+    },
+    "/ali-karan": {
+      "title": "Ali Karan — Kurucu & CEO | Emlak Uzmanı",
+      "description": "Future Homes International'ın kurucusu Ali Karan'ı tanıyın. Türkiye, Dubai, Kıbrıs ve Bali'de yılların emlak deneyimine sahip."
+    }
+  },
+  "ru": {
+    "/": {
+      "title": "Недвижимость в Турции, Дубае, на Кипре, Бали",
+      "description": "Недвижимость в Турции, Дубае, на Кипре, Бали. Квартиры, виллы, строящиеся объекты. Гражданство Турции от $400K. Выгодные инвестиции."
+    },
+    "/antalya": {
+      "title": "Купить квартиру в Анталии: цены, районы, виллы",
+      "description": "Купить квартиру в Анталии: у моря, в Коньяалты, Ларе. Виллы и апартаменты от €70K. Гражданство Турции."
+    },
+    "/istanbul": {
+      "title": "Недвижимость в Стамбуле: квартиры, виллы, цены",
+      "description": "Недвижимость в Стамбуле: элитные квартиры, дома в Маслак, Бейликдюзю. Гражданство за инвестиции от $400K."
+    },
+    "/mersin": {
+      "title": "Недвижимость в Мерсине: квартиры, виллы у моря",
+      "description": "Недвижимость в Мерсине: квартиры у моря, виллы в Мезитли, Эрдемли от €55K. Возможность гражданства Турции."
+    },
+    "/dubai": {
+      "title": "Купить квартиру в Дубае: цены, виллы, районы",
+      "description": "Купить квартиру в Дубае: элитные апартаменты, виллы. Высокий ROI, Золотая виза. Дубай Марина, Даунтаун."
+    },
+    "/cyprus": {
+      "title": "Недвижимость на Кипре: виллы, квартиры, ВНЖ",
+      "description": "Недвижимость на Кипре: виллы, апартаменты в Лимассоле, Пафосе. ПМЖ в ЕС от €300K. Инвестиции."
+    },
+    "/bali": {
+      "title": "Вилла на Бали купить: цены, районы, доходность",
+      "description": "Вилла на Бали купить: элитные виллы, апартаменты в Семиньяке, Чангу. Высокая доходность для инвесторов."
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "Недвижимость в Турции | Квартиры, виллы, гражданство",
+      "description": "Недвижимость в Турции: квартиры, виллы, дома в Анталии, Стамбуле, Аланье. Цены, гражданство за инвестиции. Выгодные предложения."
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "Купить квартиру в Турции | Анталия, Стамбул, Аланья",
+      "description": "Купить квартиру в Турции: в Анталии, Стамбуле, Аланье. Новостройки, у моря, в центре. Выгодные цены и планы оплаты."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "Недвижимость в Турции: виллы | У моря, с бассейном",
+      "description": "Элитные виллы в Турции: на продажу, у моря, с бассейном в Анталии, Аланье. Инвестиции, гражданство. Высокая доходность."
+    },
+    "/off-plan-property-turkey": {
+      "title": "Недвижимость в Турции: новостройки | Квартиры, виллы",
+      "description": "Новостройки в Турции: квартиры и виллы от застройщика. Анталия, Стамбул, Аланья. Выгодные цены, планы оплаты 0%."
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "Гражданство Турции за инвестиции | Купить недвижимость",
+      "description": "Гражданство Турции за инвестиции в недвижимость от $400K. Полное руководство по программе, преимущества паспорта, безвизовые страны."
+    },
+    "/information": {
+      "title": "Недвижимость: инвестиции | Турция, Дубай, Кипр, Бали",
+      "description": "Руководство по инвестициям в недвижимость: Турция, Дубай, Кипр, Бали. Гражданство, процесс покупки, аналитика рынка."
+    },
+    "/property-gallery": {
+      "title": "Недвижимость: галерея | Квартиры, виллы, Дубай, Турция",
+      "description": "Галерея недвижимости: премиум-квартиры и виллы в Турции, Дубае, на Кипре и Бали. Фото, интерьеры, удобства. Выберите лучшее."
+    },
+    "/testimonials": {
+      "title": "Отзывы клиентов | Недвижимость в Турции, Дубае, на Кипре",
+      "description": "Читайте отзывы клиентов, купивших недвижимость в Турции, Дубае, на Кипре и Бали. Узнайте об их опыте и успешных сделках с нами."
+    },
+    "/about-us": {
+      "title": "О Future Homes International | Эксперты по недвижимости",
+      "description": "Future Homes International: офисы в Турции, Дубае, на Кипре, Бали. Помогаем безопасно купить недвижимость с 2019 года. Надежный партнер."
+    },
+    "/contact-us": {
+      "title": "Контакты | Недвижимость в Турции, Дубае, на Кипре, Бали",
+      "description": "Свяжитесь с нами для покупки недвижимости в Турции, Дубае, на Кипре, Бали. Бесплатная консультация, поддержка на всех этапах сделки."
+    },
+    "/our-story": {
+      "title": "Наша история | Future Homes International",
+      "description": "История Future Homes International: от офиса в Анталье до глобального лидера. Помогаем купить недвижимость в Турции, Дубае, на Кипре, Бали."
+    },
+    "/ali-karan": {
+      "title": "Али Каран — Основатель | Эксперт по недвижимости",
+      "description": "Познакомьтесь с Али Караном, основателем Future Homes International. Многолетний опыт в недвижимости Турции, Дубая, Кипра, Бали."
+    }
+  },
+  "ar": {
+    "/": {
+      "title": "عقارات للبيع في تركيا ودبي وقبرص وبالي | Future Homes",
+      "description": "اكتشف عقارات للبيع في تركيا ودبي وقبرص وبالي. شقق وفلل فاخرة بعوائد استثمارية عالية وإمكانية الحصول على الجنسية التركية."
+    },
+    "/antalya": {
+      "title": "عقارات انطاليا للبيع | شقق وفلل في تركيا",
+      "description": "عقارات انطاليا للبيع: شقق على الشاطئ وفلل بإطلالات بحرية. استثمر في أنطاليا واحصل على الجنسية التركية."
+    },
+    "/istanbul": {
+      "title": "عقارات اسطنبول للبيع | شقق وفلل فاخرة في تركيا",
+      "description": "عقارات اسطنبول للبيع: شقق فاخرة وفلل في أرقى مناطق اسطنبول. استثمر واحصل على الجنسية التركية عن طريق الاستثمار."
+    },
+    "/mersin": {
+      "title": "عقارات للبيع في مرسين | شقق وفلل في تركيا",
+      "description": "عقارات للبيع في مرسين: شقق على الشاطئ وفلل بإطلالات بحرية. فرص استثمارية مميزة مع أهلية الجنسية التركية."
+    },
+    "/dubai": {
+      "title": "شقق للبيع في دبي | عقارات دبي الفاخرة",
+      "description": "شقق للبيع في دبي: استثمر في عقارات دبي الفاخرة، شقق وفلل بعوائد استثمارية عالية وإمكانية الحصول على الإقامة الذهبية."
+    },
+    "/cyprus": {
+      "title": "عقارات قبرص للبيع | فلل وشقق وإقامة أوروبية",
+      "description": "عقارات قبرص للبيع: فلل وشقق فاخرة على الشاطئ. احصل على إقامة دائمة في الاتحاد الأوروبي عند شراء عقار في قبرص."
+    },
+    "/bali": {
+      "title": "فلل للبيع في بالي | عقارات استثمارية فاخرة",
+      "description": "فلل للبيع في بالي: اكتشف فلل وشقق فاخرة في بالي بعوائد إيجارية عالية للمستثمرين الأجانب. استثمر الآن."
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "عقارات للبيع في تركيا | فلل وشقق في اسطنبول وأنطاليا",
+      "description": "اكتشف عقارات للبيع في تركيا، بما في ذلك فلل وشقق في اسطنبول وأنطاليا. خيارات استثمارية مميزة مع إمكانية الحصول على الجنسية."
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "شقق للبيع في تركيا | اسطنبول، أنطاليا وألانيا",
+      "description": "شقق للبيع في تركيا: استكشف خيارات متنوعة في اسطنبول، أنطاليا وألانيا. شقق عصرية بأسعار تنافسية وخطط سداد مريحة."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "فلل للبيع في تركيا | فاخرة بإطلالات بحرية ومسابح خاصة",
+      "description": "فلل للبيع في تركيا: اكتشف فلل فاخرة بإطلالات بحرية ومسابح خاصة. استثمر في عقارات تركيا المؤهلة للجنسية التركية."
+    },
+    "/off-plan-property-turkey": {
+      "title": "عقارات قيد الإنشاء في تركيا | استثمار بأسعار مميزة",
+      "description": "استثمر في عقارات قيد الإنشاء في تركيا. مشاريع جديدة في اسطنبول وأنطاليا بأسعار تنافسية وخطط دفع مرنة وعوائد عالية."
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "الجنسية التركية عن طريق الاستثمار | احصل عليها الآن",
+      "description": "احصل على الجنسية التركية عن طريق الاستثمار العقاري. دليل شامل لبرنامج الجنسية التركية، فوائد الجواز، وشروط الأهلية."
+    },
+    "/information": {
+      "title": "دليل الاستثمار العقاري | تركيا، دبي، قبرص وبالي",
+      "description": "دليل شامل للاستثمار العقاري في تركيا، دبي، قبرص وبالي. معلومات قيمة حول الجنسية، عملية الشراء، والفرص الواعدة."
+    },
+    "/property-gallery": {
+      "title": "معرض العقارات | Future Homes International",
+      "description": "تصفح معرض عقاراتنا المميزة: شقق وفلل فاخرة في تركيا، دبي، قبرص وبالي. صور عالية الجودة لمشاريع استثمارية وسكنية."
+    },
+    "/testimonials": {
+      "title": "شهادات عملاء Future Homes | عقارات تركيا، دبي، قبرص، بالي",
+      "description": "اقرأ شهادات عملاء Future Homes الحقيقية. اكتشف قصص نجاحهم في شراء العقارات بتركيا، دبي، قبرص، وبالي. ابدأ رحلتك معنا."
+    },
+    "/about-us": {
+      "title": "عن Future Homes International | خبراء عقارات دبي وتركيا",
+      "description": "Future Homes International: خبراء العقارات في دبي، تركيا، قبرص، وبالي. نساعدك في شراء عقارات آمنة منذ 2019. تعرف علينا."
+    },
+    "/contact-us": {
+      "title": "اتصل بـ Future Homes | عقارات دبي، تركيا، قبرص، بالي",
+      "description": "تواصل مع مستشاري Future Homes لعقارات دبي، تركيا، قبرص، وبالي. استشارة مجانية ودعم كامل لعملية الشراء."
+    },
+    "/our-story": {
+      "title": "قصة Future Homes International | عقارات عالمية موثوقة",
+      "description": "اكتشف قصة Future Homes International، من أنطاليا إلى عائلة عقارية عالمية تخدم المشترين في تركيا، دبي، قبرص، وبالي."
+    },
+    "/ali-karan": {
+      "title": "علي كاران | مؤسس Future Homes، خبير عقارات دبي وتركيا",
+      "description": "تعرف على علي كاران، مؤسس Future Homes International. خبير عقاري بخبرة واسعة في عقارات دبي، تركيا، قبرص، وبالي."
+    }
+  },
+  "id": {
+    "/": {
+      "title": "Properti Dijual Turki, Dubai, Siprus & Bali | Future Homes",
+      "description": "Temukan properti dijual di Turki, Dubai, Siprus & Bali. Apartemen, vila, rumah off-plan. Kewarganegaraan Turki mulai $400K."
+    },
+    "/antalya": {
+      "title": "Properti Dijual Antalya | Apartemen & Vila Turki",
+      "description": "Properti dijual di Antalya: apartemen tepi pantai, vila pemandangan laut. Mulai €70.000, berpeluang kewarganegaraan Turki."
+    },
+    "/istanbul": {
+      "title": "Properti Dijual Istanbul | Apartemen & Rumah Turki",
+      "description": "Properti dijual di Istanbul: apartemen mewah, rumah & vila. Kewarganegaraan via investasi mulai $400K. Agen terpercaya."
+    },
+    "/mersin": {
+      "title": "Properti Dijual Mersin | Apartemen & Vila Turki",
+      "description": "Properti dijual di Mersin: apartemen tepi pantai, vila pemandangan laut. Mulai €55.000, berpeluang kewarganegaraan Turki."
+    },
+    "/dubai": {
+      "title": "Properti Dijual Dubai | Apartemen & Vila ROI Tinggi",
+      "description": "Properti dijual Dubai: apartemen mewah, penthouse & vila. ROI tinggi, visa emas. Temukan properti impian Anda di Dubai."
+    },
+    "/cyprus": {
+      "title": "Properti Dijual Siprus | Vila & Apartemen + Residen UE",
+      "description": "Properti dijual di Siprus: vila, apartemen, rumah tepi pantai. Beli properti di Siprus, dapatkan residensi UE mulai €300.000."
+    },
+    "/bali": {
+      "title": "Villa Dijual Bali | Investasi Properti Canggu Seminyak",
+      "description": "Villa dijual Bali: vila mewah, investasi properti di Seminyak, Canggu, Ubud. Hasil sewa tinggi untuk investor asing."
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "Properti Turki Dijual | Rumah, Vila, Apartemen",
+      "description": "Properti Turki dijual, beragam pilihan rumah, vila, dan apartemen. Peluang investasi properti di Turki, termasuk opsi kewarganegaraan."
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "Apartemen Dijual Turki | Antalya, Istanbul, Alanya",
+      "description": "Apartemen dijual Turki: pilihan 1-4 kamar tidur di Antalya, Istanbul, Alanya. Harga mulai €70.000 dengan skema pembayaran fleksibel."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "Vila Dijual Turki | Mewah, Pemandangan Laut, Kolam Pribadi",
+      "description": "Vila dijual Turki mewah dengan pemandangan laut & kolam pribadi. Vila tepi pantai di Antalya, Kalkan, Bodrum. Memenuhi syarat kewarganegaraan."
+    },
+    "/off-plan-property-turkey": {
+      "title": "Properti Off-Plan Turki | Bangunan Baru, Skema Pembayaran",
+      "description": "Properti off-plan Turki: bangunan baru di Antalya, Istanbul, Alanya. Harga 10-20% di bawah pasar, skema pembayaran bunga 0%."
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "Kewarganegaraan Turki | Investasi Properti $400K",
+      "description": "Dapatkan kewarganegaraan Turki melalui investasi properti $400K. Panduan lengkap program CBI, proses, manfaat paspor, dan bebas visa."
+    },
+    "/information": {
+      "title": "Investasi Properti | Panduan & Wawasan Real Estat",
+      "description": "Panduan ahli investasi properti, kewarganegaraan Turki, proses pembelian, dan wawasan real estat untuk Turki, Dubai, Siprus & Bali."
+    },
+    "/property-gallery": {
+      "title": "Galeri Properti | Koleksi Real Estat Premium",
+      "description": "Jelajahi galeri properti premium kami. Foto berkualitas tinggi apartemen mewah, interior modern, dan fasilitas terbaik di lokasi utama."
+    },
+    "/testimonials": {
+      "title": "Ulasan Klien | Testimonial Properti Turki, Dubai, Bali",
+      "description": "Baca ulasan asli klien yang sukses investasi properti di Turki, Dubai, Siprus, dan Bali. Temukan properti impian Anda bersama kami!"
+    },
+    "/about-us": {
+      "title": "Tentang Future Homes | Pakar Properti Internasional",
+      "description": "Future Homes International: ahli properti di Turki, Dubai, Siprus, Bali. Bantu pembeli internasional sejak 2019. Investasi aman."
+    },
+    "/contact-us": {
+      "title": "Hubungi Kami | Properti Dijual Turki, Dubai, Bali",
+      "description": "Hubungi penasihat properti kami untuk properti dijual di Turki, Dubai, Siprus, Bali. Konsultasi gratis & dukungan penuh."
+    },
+    "/our-story": {
+      "title": "Kisah Kami | Future Homes Internasional Properti",
+      "description": "Kisah Future Homes: dari Antalya hingga global. Layani pembeli properti di Turki, Dubai, Siprus, dan Bali. Temukan investasi Anda."
+    },
+    "/ali-karan": {
+      "title": "Ali Karan - CEO | Pakar Properti Turki, Dubai, Bali",
+      "description": "Temui Ali Karan, CEO Future Homes. Ahli real estat di Turki, Dubai, Siprus, Bali. Dapatkan panduan investasi properti terbaik."
+    }
+  },
+  "fa": {
+    "/": {
+      "title": "خرید ملک در ترکیه، دبی، قبرس و بالی | Future Homes",
+      "description": "خرید ملک در ترکیه، دبی، قبرس و بالی. آپارتمان و ویلا با بهترین قیمت‌ها. فرصت شهروندی و اقامت با سرمایه‌گذاری."
+    },
+    "/antalya": {
+      "title": "خرید آپارتمان در آنتالیا | ویلا و ملک در ترکیه",
+      "description": "خرید آپارتمان در آنتالیا، ویلاهای ساحلی و ملک در لارا و بلک. شروع قیمت از 70 هزار یورو با امکان شهروندی ترکیه."
+    },
+    "/istanbul": {
+      "title": "خرید ملک در استانبول | آپارتمان و ویلا لوکس در ترکیه",
+      "description": "خرید ملک در استانبول: آپارتمان و ویلا در بسفر و مناطق برتر. شهروندی ترکیه با سرمایه‌گذاری از 400 هزار دلار."
+    },
+    "/mersin": {
+      "title": "خرید ملک در مرسین | آپارتمان و ویلا در ترکیه",
+      "description": "خرید ملک در مرسین: آپارتمان‌های ساحلی و ویلا در مزیتلی. شروع از 55 هزار یورو با امکان شهروندی ترکیه."
+    },
+    "/dubai": {
+      "title": "خرید ملک در دبی | آپارتمان و ویلا لوکس",
+      "description": "خرید ملک در دبی: آپارتمان و ویلا در دبی مارینا و پالم جمیرا. بازدهی بالا و امکان ویزای طلایی."
+    },
+    "/cyprus": {
+      "title": "خرید ملک در قبرس | ویلا، آپارتمان و اقامت اروپا",
+      "description": "خرید ملک در قبرس: ویلا و آپارتمان در لیماسول و پافوس. اقامت دائم اروپا با سرمایه‌گذاری از 300 هزار یورو."
+    },
+    "/bali": {
+      "title": "ویلا در بالی | خرید ملک و سرمایه‌گذاری پرسود",
+      "description": "ویلا در بالی: خرید ویلاهای لوکس و ملک سرمایه‌گذاری در سمینیاک و اوبود. بازدهی اجاره‌ای بالا برای سرمایه‌گذاران."
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "خرید ملک در ترکیه | خانه، ویلا و آپارتمان",
+      "description": "خرید ملک در ترکیه با بهترین قیمت. آپارتمان، ویلا و خانه در آنتالیا، استانبول و آلانیا. شهروندی ترکیه با سرمایه گذاری."
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "خرید آپارتمان در ترکیه | آنتالیا، استانبول و آلانیا",
+      "description": "خرید آپارتمان در ترکیه از 70,000 یورو. آپارتمان‌های ساحلی و مرکز شهر در آنتالیا، استانبول و آلانیا با طرح پرداخت."
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "خرید ویلا در ترکیه | لوکس با منظره دریا و استخر",
+      "description": "خرید ویلا در ترکیه با استخر خصوصی و منظره دریا. ویلاهای ساحلی در آنتالیا، بدروم و آلانیا. واجد شرایط شهروندی ترکیه."
+    },
+    "/off-plan-property-turkey": {
+      "title": "خرید ملک در حال ساخت ترکیه | آپارتمان و ویلای نوساز",
+      "description": "خرید ملک در حال ساخت ترکیه با قیمت‌های زیر بازار. آپارتمان و ویلای نوساز در آنتالیا و استانبول با طرح‌های پرداخت 0%."
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "شهروندی ترکیه از طریق سرمایه گذاری | 400 هزار دلار",
+      "description": "شهروندی ترکیه از طریق سرمایه گذاری با 400 هزار دلار. راهنمای کامل برنامه CBI ترکیه، مزایای پاسپورت و سفر بدون ویزا."
+    },
+    "/information": {
+      "title": "راهنمای سرمایه گذاری ملک | ترکیه، دبی، قبرس و بالی",
+      "description": "راهنمای جامع سرمایه گذاری ملک در ترکیه، دبی، قبرس و بالی. اطلاعات کامل شهروندی، فرآیند خرید و الزامات قانونی."
+    },
+    "/property-gallery": {
+      "title": "گالری ملک | آپارتمان و ویلای لوکس Future Homes",
+      "description": "گالری ملک Future Homes: مجموعه ای از آپارتمان‌ها و ویلاهای لوکس با عکس‌های باکیفیت. بهترین املاک در مکان‌های برتر."
+    },
+    "/testimonials": {
+      "title": "نظرات مشتریان | تجربه خرید ملک در ترکیه، دبی، بالی",
+      "description": "نظرات واقعی مشتریان ما را بخوانید که خانه رویایی خود را در ترکیه، دبی، قبرس و بالی با Future Homes یافتند. مشاوره رایگان."
+    },
+    "/about-us": {
+      "title": "درباره Future Homes | کارشناس خرید ملک در ترکیه و دبی",
+      "description": "با Future Homes International آشنا شوید. از 2019 به خریداران در ترکیه، دبی، قبرس و بالی برای خرید ملک امن کمک می‌کنیم."
+    },
+    "/contact-us": {
+      "title": "تماس با ما | خرید ملک در ترکیه، دبی، قبرس و بالی",
+      "description": "با مشاوران Future Homes در آنتالیا، دبی و بالی تماس بگیرید. مشاوره رایگان برای خرید ملک و شهروندی ترکیه."
+    },
+    "/our-story": {
+      "title": "داستان Future Homes | خرید ملک در ترکیه، دبی، بالی",
+      "description": "داستان Future Homes International: از آنتالیا تا خدمات جهانی برای خرید ملک در ترکیه، دبی، قبرس و بالی."
+    },
+    "/ali-karan": {
+      "title": "علی کاران | بنیانگذار Future Homes، کارشناس ملک ترکیه و دبی",
+      "description": "با علی کاران، بنیانگذار Future Homes International، متخصص خرید ملک در ترکیه، دبی، قبرس و بالی آشنا شوید."
+    }
+  },
+  "ur": {
+    "/": {
+      "title": "ترکی میں پراپرٹی برائے فروخت | دبئی، قبرص، بالی",
+      "description": "ترکی، دبئی، قبرص اور بالی میں پراپرٹی برائے فروخت۔ اپارٹمنٹس، ولاز اور سرمایہ کاری کے مواقع۔ $400K سے ترک شہریت حاصل کریں۔"
+    },
+    "/antalya": {
+      "title": "انطالیہ میں اپارٹمنٹ | ولاز اور پراپرٹی برائے فروخت",
+      "description": "انطالیہ میں اپارٹمنٹ اور ولاز برائے فروخت۔ ساحلی مکانات اور آف پلان پراپرٹی۔ €70,000 سے ترکی کی شہریت کے اہل۔"
+    },
+    "/istanbul": {
+      "title": "استنبول میں پراپرٹی برائے فروخت | اپارٹمنٹس، ولاز",
+      "description": "استنبول میں پراپرٹی برائے فروخت۔ پرتعیش اپارٹمنٹس اور ولاز۔ $400K سے سرمایہ کاری کے ذریعے ترک شہریت حاصل کریں۔"
+    },
+    "/mersin": {
+      "title": "مرسین میں پراپرٹی برائے فروخت | اپارٹمنٹس، ولاز",
+      "description": "مرسین میں پراپرٹی برائے فروخت۔ ساحلی اپارٹمنٹس اور سمندری نظارے والے ولاز۔ €55,000 سے ترکی کی شہریت کے اہل۔"
+    },
+    "/dubai": {
+      "title": "دبئی میں پراپرٹی | اپارٹمنٹس اور ولاز برائے فروخت",
+      "description": "دبئی میں پراپرٹی برائے فروخت۔ پرتعیش اپارٹمنٹس اور ولاز۔ AED 800K سے اعلیٰ ROI اور گولڈن ویزا کی اہلیت۔"
+    },
+    "/cyprus": {
+      "title": "قبرص میں پراپرٹی برائے فروخت | ولاز، اپارٹمنٹس",
+      "description": "قبرص میں پراپرٹی برائے فروخت۔ ولاز، اپارٹمنٹس اور ساحلی مکانات۔ €300,000 سے EU مستقل رہائش حاصل کریں۔"
+    },
+    "/bali": {
+      "title": "بالی میں ولا | پراپرٹی برائے فروخت، اعلیٰ رینٹل ییلڈ",
+      "description": "بالی میں ولا اور پراپرٹی برائے فروخت۔ سیمی نائیک، چانگُو، اُبود میں پرتعیش سرمایہ کاری کے گھر۔ اعلیٰ رینٹل ییلڈ حاصل کریں۔"
+    },
+    "/property-for-sale-in-turkey": {
+      "title": "ترکی میں پراپرٹی برائے فروخت | مکانات، ولاز، اپارٹمنٹس",
+      "description": "ترکی میں پراپرٹی برائے فروخت: معروف ایجنٹوں سے مکانات، ولاز اور اپارٹمنٹس۔ شہریت بذریعہ سرمایہ کاری کے مواقع۔"
+    },
+    "/apartments-for-sale-in-turkey": {
+      "title": "انطالیہ میں اپارٹمنٹ | ترکی میں اپارٹمنٹس برائے فروخت",
+      "description": "انطالیہ، استنبول میں اپارٹمنٹس برائے فروخت۔ ساحلی، شہر کے مرکز کے اپارٹمنٹس €70,000 سے، ادائیگی کے منصوبوں کے ساتھ۔"
+    },
+    "/luxury-villas-in-turkey": {
+      "title": "ترکی میں ولا برائے فروخت | پرتعیش سمندری نظارے والے ولاز",
+      "description": "ترکی میں پرتعیش ولا برائے فروخت، نجی پولز اور سمندری نظاروں کے ساتھ۔ €250,000 سے۔ ترکی کی شہریت کے اہل۔"
+    },
+    "/off-plan-property-turkey": {
+      "title": "ترکی میں آف پلان پراپرٹی | نئی تعمیرات، ادائیگی کے منصوبے",
+      "description": "ترکی میں آف پلان پراپرٹی: معروف ڈویلپرز سے 10-20% مارکیٹ سے کم۔ 0% سود پر ادائیگی کے منصوبے دستیاب۔"
+    },
+    "/turkish-citizenship-by-investment": {
+      "title": "سرمایہ کاری کے ذریعے ترک شہریت | $400K پراپرٹی",
+      "description": "سرمایہ کاری کے ذریعے ترک شہریت حاصل کریں $400K رئیل اسٹیٹ سے۔ مکمل گائیڈ: عمل، اہلیت، پاسپورٹ کے فوائد۔"
+    },
+    "/information": {
+      "title": "پراپرٹی سرمایہ کاری گائیڈ | ترکی، دبئی، قبرص، بالی",
+      "description": "پراپرٹی سرمایہ کاری، ترکی کی شہریت، خرید و فروخت کا عمل اور ترکی، دبئی، قبرص، بالی کے لیے بصیرت پر گائیڈز۔"
+    },
+    "/property-gallery": {
+      "title": "پراپرٹی گیلری | پریمیم رئیل اسٹیٹ کلیکشن",
+      "description": "پریمیم پراپرٹیز کا ہمارا مجموعہ دیکھیں۔ پرتعیش اپارٹمنٹس، جدید اندرونی ڈیزائن اور بہترین سہولیات کی تصاویر۔"
+    },
+    "/testimonials": {
+      "title": "کلائنٹ کی رائے | ترکی، دبئی میں پراپرٹی کے تجربات",
+      "description": "ہمارے کلائنٹس کے حقیقی ریویو پڑھیں۔ ترکی، دبئی، قبرص اور بالی میں پراپرٹی خریدنے کے کامیاب تجربات۔ آج ہی اپنا خواب پورا کریں۔"
+    },
+    "/about-us": {
+      "title": "Future Homes | ترکی، دبئی میں پراپرٹی کے ماہرین",
+      "description": "Future Homes International سے ملیں۔ 2019 سے بین الاقوامی خریداروں کو ترکی، دبئی، قبرص میں پراپرٹی خریدنے میں مدد دے رہے ہیں۔"
+    },
+    "/contact-us": {
+      "title": "ہم سے رابطہ کریں | ترکی، دبئی میں پراپرٹی مشیر",
+      "description": "انطالیہ، دبئی، قبرص اور بالی میں ہمارے پراپرٹی مشیروں سے رابطہ کریں۔ مفت مشاورت اور خریدنے میں مکمل سپورٹ حاصل کریں۔"
+    },
+    "/our-story": {
+      "title": "ہماری کہانی | Future Homes International کا سفر",
+      "description": "Future Homes International کی کہانی جانیں۔ ایک چھوٹے دفتر سے ترکی، دبئی، قبرص اور بالی میں پراپرٹی کے خریداروں کی خدمت تک۔"
+    },
+    "/ali-karan": {
+      "title": "علی کرن | ترکی، دبئی میں پراپرٹی کے ماہر",
+      "description": "علی کرن سے ملیں، Future Homes International کے بانی۔ ترکی، دبئی، قبرص اور بالی میں رئیل اسٹیٹ کا وسیع تجربہ رکھتے ہیں۔"
+    }
   }
 };
 
-export const getLocalizedPageMeta = (path: string, lang: string): PageMeta | null => {
-  const clean = path === '' ? '/' : path.replace(/\/+$/, '') || '/';
-  const byLang = SEO_META[lang] || SEO_META['en'];
-  return byLang?.[clean] || SEO_META['en']?.[clean] || null;
-};
+/** Returns the keyword-optimized title/description for a canonical path in a language. */
+export function getLocalizedPageMeta(path: string, language: string): PageMeta | null {
+  if (!path) return null;
+  const normalized = path !== '/' ? path.replace(/\/+$/, '') || '/' : '/';
+  const byLang = SEO_META[language] || SEO_META['en'];
+  return byLang?.[normalized] || SEO_META['en']?.[normalized] || null;
+}
