@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, Square, Calendar, Car, Home, Plane, Waves, CheckCircle, Star, Award, Images, X, Share2, Check } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
+import { translateAmenity } from '@/utils/amenityTranslations';
 import { getLocaleFromPathname } from "@/utils/localeRouting";
 import {
   absoluteImage,
@@ -752,7 +753,7 @@ const PropertyDetail = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-2 p-3 border rounded-lg bg-gradient-to-r from-green-50/50 to-emerald-50/30 dark:from-green-900/10 dark:to-emerald-900/5 border-green-200/50 dark:border-green-700/30 hover:shadow-md transition-all duration-200">
                       <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
-                      <span className="text-foreground font-medium">{feature}</span>
+                      <span className="text-foreground font-medium">{translateAmenity(feature, language)}</span>
                     </div>)}
                 </div>
               </div>}
