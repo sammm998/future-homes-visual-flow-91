@@ -41,3 +41,18 @@ for (const l of LANGS.filter((x) => x !== 'en')) {
   console.log(l, (missing[l] || []).length);
 }
 require('fs').writeFileSync('/tmp/missing.json', JSON.stringify({ missingEn, missing }, null, 2));
+
+// Second pass: values identical to English (likely untranslated)
+const same: Record<string, string[]> = {};
+for (const k of [...keys].sort()) {
+  const en = translations.en?.[k];
+  if (!en) continue;
+  for (const l of LANGS) {
+    if (l === 'en') continue;
+    const v = translations[l]?.[k];
+    if (v && v.trim() === en.trim() && /[a-zA-Z]{3}/.test(en)) (same[l] ||= []).push(k);
+  }
+}
+console.log('--- identical to EN ---');
+for (const l of LANGS.filter((x) => x !== 'en')) console.log(l, (same[l] || []).length);
+require('fs').writeFileSync('/tmp/same.json', JSON.stringify(same, null, 2));
