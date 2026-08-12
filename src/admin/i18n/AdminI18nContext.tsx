@@ -23,7 +23,7 @@ const AdminI18nContext = createContext<AdminI18nValue | null>(null);
 const getInitialLang = (): AdminLang => {
   if (typeof window === "undefined") return "en";
   const stored = window.localStorage.getItem(STORAGE_KEY);
-  return stored === "tr" ? "tr" : "en";
+  return stored === "tr" || stored === "id" ? stored : "en";
 };
 
 export function AdminI18nProvider({ children }: { children: ReactNode }) {
