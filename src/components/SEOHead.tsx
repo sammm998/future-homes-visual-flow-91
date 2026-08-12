@@ -1,7 +1,11 @@
 import React from 'react';
-import { Helmet } from '@/lib/helmet-compat';
-import { supportedLanguages, getCurrentLanguage } from '@/utils/seoUtils';
+import { supportedLanguages, getCurrentLanguage, getCurrentPathname } from '@/utils/seoUtils';
 import { stripLocale, localizePath } from '@/utils/localeRouting';
+
+const OG_LOCALES: Record<string, string> = {
+  en: 'en_US', es: 'es_ES', sv: 'sv_SE', no: 'nb_NO', da: 'da_DK', de: 'de_DE',
+  fr: 'fr_FR', tr: 'tr_TR', ru: 'ru_RU', ar: 'ar_SA', fa: 'fa_IR', ur: 'ur_PK', id: 'id_ID',
+};
 
 interface SEOHeadProps {
   title: string;
@@ -36,7 +40,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   noindex = false,
   breadcrumbs
 }) => {
-  const currentLocaleFreePath = typeof window !== 'undefined' ? stripLocale(window.location.pathname) : '/';
+  const currentLocaleFreePath = stripLocale(getCurrentPathname());
   const siteName = 'Future Homes International';
   const defaultImage = 'https://futurehomesinternational.com/og-image.jpg';
   const currentLanguage = getCurrentLanguage();
@@ -117,19 +121,12 @@ const SEOHead: React.FC<SEOHeadProps> = ({
 
   // Determine locale for og:locale
   const getOgLocale = () => {
-    const localeMap: Record<string, string> = {
-      'en': 'en_US',
-      'sv': 'sv_SE',
-      'tr': 'tr_TR',
-      'ar': 'ar_SA'
-    };
-    return localeMap[currentLanguage] || 'en_US';
+    return OG_LOCALES[currentLanguage] || 'en_US';
   };
 
   return (
-    <Helmet>
-      {/* Primary Meta Tags */}
-      <html lang={currentLanguage} />
+    <>
+      {/* Primary Meta Tags (React 19 hoists these into <head>, SSR included) */}
       <title>{title}</title>
       <meta name="title" content={title} />
       <meta name="description" content={description} />
@@ -166,13 +163,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       
       {/* Alternate locales for Facebook */}
       {supportedLanguages.filter(l => l.code !== currentLanguage).map(lang => {
-        const localeMap: Record<string, string> = {
-          'en': 'en_US',
-          'sv': 'sv_SE',
-          'tr': 'tr_TR',
-          'ar': 'ar_SA'
-        };
-        return <meta key={lang.code} property="og:locale:alternate" content={localeMap[lang.code]} />;
+        return <meta key={lang.code} property="og:locale:alternate" content={OG_LOCALES[lang.code] || 'en_US'} />;
       })}
       
       {/* Article specific Open Graph tags */}
@@ -226,39 +217,29 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <link rel="dns-prefetch" href="//kiogiyemoqbnuvclneoe.supabase.co" />
       
       {/* Core Structured Data - Organization */}
-      <script type="application/ld+json">
-        {JSON.stringify(organizationSchema)}
-      </script>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
       
       {/* Core Structured Data - WebSite */}
-      <script type="application/ld+json">
-        {JSON.stringify(websiteSchema)}
-      </script>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       
       {/* Breadcrumb Structured Data */}
       {breadcrumbSchema && (
-        <script type="application/ld+json">
-          {JSON.stringify(breadcrumbSchema)}
-        </script>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       )}
       
       {/* Custom Structured Data */}
       {structuredData && (
         Array.isArray(structuredData) 
           ? structuredData.map((data, index) => (
-              <script key={index} type="application/ld+json">
-                {JSON.stringify(data)}
-              </script>
+              <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
             ))
           : (
-              <script type="application/ld+json">
-                {JSON.stringify(structuredData)}
-              </script>
+              <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
             )
       )}
       
       <meta name="format-detection" content="telephone=no" />
-    </Helmet>
+    </>
   );
 };
 
