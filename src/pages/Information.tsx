@@ -386,6 +386,17 @@ const Information = () => {
 
   console.log(`Total articles: ${articles.length}, Filtered: ${filteredArticles.length}`);
 
+  // Article cards render as real <a> links so crawlers (and middle-click /
+  // open-in-new-tab) work; the filter is still remembered for the Back button.
+  const rememberFilter = () => {
+    try { sessionStorage.setItem(STORAGE_KEY, activeFilter); } catch {}
+  };
+
+  const getArticlePath = (slug: string) =>
+    databaseArticles.some((article) => article.slug === slug)
+      ? `/articles/${slug}`
+      : `/article/${slug}`;
+
   const handleArticleClick = (slug: string) => {
     console.log(`Clicking article with slug: ${slug}`);
 
@@ -480,10 +491,14 @@ const Information = () => {
           {/* Articles Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredArticles.map((article) => (
-              <Card 
-                key={article.id} 
-                className="group hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden"
-                onClick={() => handleArticleClick(article.slug)}
+              <Link
+                key={article.id}
+                to={getArticlePath(article.slug)}
+                onClick={() => rememberFilter()}
+                className="block"
+              >
+              <Card
+                className="group hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden h-full"
               >
                 {/* Article Cover — AI-generated image if available, otherwise branded category design */}
                 <div className="relative h-48 w-full overflow-hidden">
@@ -512,19 +527,13 @@ const Information = () => {
                   <p className="text-muted-foreground mb-6 leading-relaxed line-clamp-3">
                     {article.description}
                   </p>
-                  <Button 
-                    variant="ghost" 
-                    className="group/button p-0 h-auto font-semibold"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleArticleClick(article.slug);
-                    }}
-                  >
-                    {t('info.read_more')} 
+                  <span className="group/button inline-flex items-center p-0 h-auto font-semibold text-primary">
+                    {t('info.read_more')}
                     <ArrowRight size={16} className="ml-2 transition-transform group-hover/button:translate-x-1" />
-                  </Button>
+                  </span>
                 </CardContent>
               </Card>
+              </Link>
             ))}
           </div>
 
