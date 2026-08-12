@@ -97,7 +97,7 @@ CRITICAL RULES:
 
     if (provider === "gemini") {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -264,8 +264,10 @@ Deno.serve(async (req) => {
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-    const translationApiKey = OPENAI_API_KEY || GEMINI_API_KEY || LOVABLE_API_KEY;
-    const translationProvider = OPENAI_API_KEY ? "openai" : GEMINI_API_KEY ? "gemini" : "lovable";
+    // Lovable AI first: the OpenAI key ran out of credits and every
+    // translation silently failed, leaving new listings English-only.
+    const translationApiKey = LOVABLE_API_KEY || GEMINI_API_KEY || OPENAI_API_KEY;
+    const translationProvider = LOVABLE_API_KEY ? "lovable" : GEMINI_API_KEY ? "gemini" : "openai";
 
     if (!translationApiKey || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
       return new Response(
@@ -344,6 +346,7 @@ Deno.serve(async (req) => {
 
     let totalTranslations = 0;
     let totalErrors = 0;
+    const errorDetails: string[] = [];
     const results: any[] = [];
 
     for (const property of properties) {
@@ -390,13 +393,16 @@ Deno.serve(async (req) => {
               upsertError,
             );
             totalErrors++;
+            errorDetails.push(`upsert ${lang.code}: ${upsertError.message}`);
           } else {
             totalTranslations++;
             existingLangs.add(lang.code);
           }
         } else {
           totalErrors++;
+          errorDetails.push(`translate ${lang.code}: ${translationProvider} returned null`);
         }
+
 
         // Small delay to avoid rate limits
         await new Promise((r) => setTimeout(r, 300));
@@ -422,6 +428,8 @@ Deno.serve(async (req) => {
         translations_saved: totalTranslations,
         remaining_missing_in_batch: remainingMissing,
         errors: totalErrors,
+        error_details: errorDetails.slice(0, 5),
+        provider: translationProvider,
         results,
       }),
       {
