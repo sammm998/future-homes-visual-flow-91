@@ -2032,6 +2032,10 @@ for (const [lang, keys] of Object.entries(translationsSeo)) {
   if (!translations[lang]) translations[lang] = {};
   Object.assign(translations[lang], keys);
 }
+for (const [lang, keys] of Object.entries(translationsLinks)) {
+  if (!translations[lang]) translations[lang] = {};
+  Object.assign(translations[lang], keys);
+}
 
 // Translation function with English fallback
 export const t = (key: string, language: string = 'en'): string => {
