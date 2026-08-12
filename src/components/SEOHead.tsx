@@ -1,6 +1,7 @@
 import React from 'react';
 import { supportedLanguages, getCurrentLanguage, getCurrentPathname } from '@/utils/seoUtils';
 import { stripLocale, localizePath } from '@/utils/localeRouting';
+import { getLocalizedPageMeta } from '@/utils/seoMetaTranslations';
 
 const OG_LOCALES: Record<string, string> = {
   en: 'en_US', es: 'es_ES', sv: 'sv_SE', no: 'nb_NO', da: 'da_DK', de: 'de_DE',
@@ -28,8 +29,8 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title,
-  description,
+  title: titleProp,
+  description: descriptionProp,
   keywords = "real estate Turkey, property investment Dubai, Cyprus properties, Turkish citizenship, luxury homes, overseas investment, international real estate, property for sale, investment opportunities",
   canonicalUrl,
   ogImage = 'https://futurehomesinternational.com/og-image.jpg',
@@ -56,6 +57,12 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     }
   })();
   const currentUrl = `${baseUrl}${localizePath(canonicalPath, currentLanguage)}`;
+
+  // Localized title/description for known pages, so every language gets
+  // unique, translated metadata instead of the English fallback.
+  const localized = getLocalizedPageMeta(canonicalPath, currentLanguage);
+  const title = localized?.title || titleProp;
+  const description = localized?.description || descriptionProp;
 
   // Generate hreflang URLs if not provided
   const generateHreflangUrls = () => {
