@@ -25,6 +25,9 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
   const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
   return (
     <>
+      {/* Contact bar + nav scroll as one sticky header, so the top bar can no
+          longer be half-clipped behind the sticky white nav. */}
+      <header className="sticky top-0 z-50">
       <div className="bg-brand-secondary text-white py-2 px-4">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-2 sm:mb-0 text-center sm:text-left">
@@ -42,7 +45,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
         </div>
       </div>
 
-      <nav className={cn("bg-white shadow-xs border-b sticky top-0 z-50", className)}>
+      <nav className={cn("bg-white shadow-xs border-b", className)}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -70,6 +73,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
           </div>
         </div>
       </nav>
+      </header>
 
       <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} onAIHelpOpen={() => setIsAIHelpOpen(true)} />
       <AIHelpChat isOpen={isAIHelpOpen} onClose={() => setIsAIHelpOpen(false)} />
