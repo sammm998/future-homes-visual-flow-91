@@ -116,15 +116,14 @@ export const getHreflangUrls = (path: string = ''): Array<{code: string, url: st
  * Get the current page path without language parameters
  */
 export const getCurrentPath = (): string => {
-  if (typeof window === 'undefined') return '/';
-  
-  const path = stripLocale(window.location.pathname);
-  const search = new URLSearchParams(window.location.search);
+  const path = stripLocale(getCurrentPathname());
+  const search = new URLSearchParams(getCurrentSearch());
   search.delete('lang'); // Remove lang parameter
-  
+
   const searchString = search.toString();
   return searchString ? `${path}?${searchString}` : path;
 };
+
 
 /**
  * Generate BreadcrumbList structured data
