@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Building, MapPin, Euro, Wifi, Waves, Car } from 'lucide-react';
 import { Link } from '@/lib/router-compat';
+import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const ApartmentsForSaleInTurkey = () => {
   const faqItems = [
@@ -351,7 +352,8 @@ const ApartmentsForSaleInTurkey = () => {
       </main>
 
       <FAQSchema faqItems={faqItems} />
-    </div>
+    <NordicRelatedLinks className="container mx-auto px-4 pb-12" />
+      </div>
   );
 };
 

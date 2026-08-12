@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Building, Calendar, TrendingDown, Shield, Euro, Clock } from 'lucide-react';
 import { Link } from '@/lib/router-compat';
+import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const OffPlanPropertyTurkey = () => {
   const faqItems = [
@@ -409,7 +410,8 @@ const OffPlanPropertyTurkey = () => {
       </main>
 
       <FAQSchema faqItems={faqItems} />
-    </div>
+    <NordicRelatedLinks className="container mx-auto px-4 pb-12" />
+      </div>
   );
 };
 

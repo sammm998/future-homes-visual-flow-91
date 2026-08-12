@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from '@/lib/router-compat';
 import { useTranslation } from '@/hooks/useTranslation';
+import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 interface SEOInternalLinksProps {
   /** Optional heading override */
@@ -52,6 +53,7 @@ export const SEOInternalLinks: React.FC<SEOInternalLinksProps> = ({
           </li>
         ))}
       </ul>
+      <NordicRelatedLinks variant="inline" className="mt-6" />
     </nav>
   );
 };
