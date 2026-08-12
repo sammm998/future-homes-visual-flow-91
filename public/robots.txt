@@ -36,3 +36,16 @@ User-agent: Google-Extended
 Allow: /
 
 Sitemap: https://futurehomesinternational.com/sitemap.xml
+Sitemap: https://futurehomesinternational.com/sitemap/en.xml
+Sitemap: https://futurehomesinternational.com/sitemap/sv.xml
+Sitemap: https://futurehomesinternational.com/sitemap/no.xml
+Sitemap: https://futurehomesinternational.com/sitemap/da.xml
+Sitemap: https://futurehomesinternational.com/sitemap/de.xml
+Sitemap: https://futurehomesinternational.com/sitemap/fr.xml
+Sitemap: https://futurehomesinternational.com/sitemap/es.xml
+Sitemap: https://futurehomesinternational.com/sitemap/tr.xml
+Sitemap: https://futurehomesinternational.com/sitemap/ru.xml
+Sitemap: https://futurehomesinternational.com/sitemap/ar.xml
+Sitemap: https://futurehomesinternational.com/sitemap/fa.xml
+Sitemap: https://futurehomesinternational.com/sitemap/ur.xml
+Sitemap: https://futurehomesinternational.com/sitemap/id.xml

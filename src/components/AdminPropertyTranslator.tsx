@@ -96,8 +96,8 @@ const AdminPropertyTranslator = () => {
       <CardContent className="space-y-4">
         <p className="text-sm text-muted-foreground">
           Översätter titel, plats och beskrivning för alla aktiva fastigheter
-          till 12 språk (sv, tr, ar, ru, no, da, fa, ur, de, fr, es, nl) via
-          Lovable AI. Befintliga översättningar hoppas över.
+          till 12 språk (sv, tr, ar, ru, no, da, fa, ur, de, fr, es, id) via
+          egen OpenAI/Gemini-nyckel. Befintliga översättningar hoppas över.
         </p>
 
         <div className="space-y-2">
