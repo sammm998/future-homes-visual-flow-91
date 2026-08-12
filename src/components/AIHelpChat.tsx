@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { X, Send, MessageCircle, MapPin, Euro } from "lucide-react";
+import { useHydrated } from "@/hooks/useHydrated";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -284,10 +285,12 @@ export function AIHelpChat({ isOpen, onClose }: AIHelpChatProps) {
                   )}
                   
                   <div className="text-xs text-muted-foreground mt-1">
-                    {message.timestamp.toLocaleTimeString("en-US", { 
-                      hour: "2-digit", 
-                      minute: "2-digit" 
-                    })}
+                    {hydrated
+                      ? message.timestamp.toLocaleTimeString("en-US", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })
+                      : null}
                   </div>
                 </div>
               </div>

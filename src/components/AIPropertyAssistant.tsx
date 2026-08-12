@@ -16,6 +16,7 @@ import {
   Sparkles,
   Bot
 } from "lucide-react";
+import { useHydrated } from "@/hooks/useHydrated";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -444,10 +445,12 @@ const AIPropertyAssistant = () => {
                       )}
                       
                       <div className="text-xs text-muted-foreground mt-1">
-                        {message.timestamp.toLocaleTimeString("en-US", { 
-                          hour: "2-digit", 
-                          minute: "2-digit" 
-                        })}
+                        {hydrated
+                          ? message.timestamp.toLocaleTimeString("en-US", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })
+                          : null}
                       </div>
                     </div>
                   </motion.div>
