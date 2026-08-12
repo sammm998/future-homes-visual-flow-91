@@ -24,7 +24,7 @@ export const NordicRelatedLinks: React.FC<Props> = ({ className = '', variant = 
 
   if (variant === 'inline') {
     return (
-      <nav aria-label={nordicLinksHeading(locale)} className={`flex flex-wrap gap-2 ${className}`}>
+      <div className={`flex flex-wrap gap-2 ${className}`}>
         {links.map((l) => (
           <Link
             key={l.to}
@@ -35,7 +35,7 @@ export const NordicRelatedLinks: React.FC<Props> = ({ className = '', variant = 
             {l.anchor}
           </Link>
         ))}
-      </nav>
+      </div>
     );
   }
 
