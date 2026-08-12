@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Share2, Check, Copy } from "lucide-react";
 import { toast } from "sonner";
+import { translateAmenity } from "@/utils/amenityTranslations";
 
 interface ShareLinkButtonProps {
   refNo?: string | number | null;
@@ -52,7 +53,7 @@ export const ShareLinkButton = ({ refNo, lang }: ShareLinkButtonProps) => {
       aria-label="Copy share link with preview"
     >
       {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
-      {copied ? "Copied" : "Share with preview"}
+      {copied ? translateAmenity("Copied", lang || "en") : translateAmenity("Share with preview", lang || "en")}
     </Button>
   );
 };
