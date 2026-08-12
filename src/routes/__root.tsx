@@ -38,7 +38,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
-  const location = useRouterState({ select: (s) => s.location });
+  const router = useRouter();
+  const location = router.state.location;
   // Make the active locale available to non-hook helpers during SSR *and*
   // on the client, so server HTML matches what React hydrates.
   setCurrentLocation(location.pathname, location.searchStr ? `?${location.searchStr}` : "");
@@ -70,6 +71,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const routerLocation = useRouterState({ select: (s) => s.location });
+  setCurrentLocation(
+    routerLocation.pathname,
+    routerLocation.searchStr ? `?${routerLocation.searchStr}` : "",
+  );
   return (
     <ErrorBoundary>
       <HelmetProvider>
