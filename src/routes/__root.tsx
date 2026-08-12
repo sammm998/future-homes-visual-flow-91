@@ -112,10 +112,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const location = useRouterState({ select: (s) => s.location });
+  // Make the active locale available to non-hook helpers during SSR *and*
+  // on the client, so server HTML matches what React hydrates.
+  setCurrentLocation(location.pathname, location.searchStr ? `?${location.searchStr}` : "");
+  const lang = getCurrentLanguage();
+  const dir = ["ar", "fa", "ur"].includes(lang) ? "rtl" : "ltr";
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={lang} dir={dir} suppressHydrationWarning>
       <head>
         <HeadContent />
+
       </head>
       <body>
         {/* Google Tag Manager (noscript) — ported from index.html */}
