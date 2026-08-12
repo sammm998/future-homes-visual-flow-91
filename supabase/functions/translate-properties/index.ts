@@ -428,6 +428,8 @@ Deno.serve(async (req) => {
         translations_saved: totalTranslations,
         remaining_missing_in_batch: remainingMissing,
         errors: totalErrors,
+        error_details: errorDetails.slice(0, 5),
+        provider: translationProvider,
         results,
       }),
       {
