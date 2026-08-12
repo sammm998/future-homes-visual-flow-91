@@ -2011,6 +2011,7 @@ import { translationsWizard } from './translationsWizard';
 import { translationsCities } from './translationsCities';
 import { translationsUi } from './translationsUi';
 import { translationsSeo } from './translationsSeo';
+import { translationsLinks } from './translationsLinks';
 for (const [lang, keys] of Object.entries(translationsExtra)) {
   if (!translations[lang]) translations[lang] = {};
   Object.assign(translations[lang], keys);
@@ -2028,6 +2029,10 @@ for (const [lang, keys] of Object.entries(translationsUi)) {
   Object.assign(translations[lang], keys);
 }
 for (const [lang, keys] of Object.entries(translationsSeo)) {
+  if (!translations[lang]) translations[lang] = {};
+  Object.assign(translations[lang], keys);
+}
+for (const [lang, keys] of Object.entries(translationsLinks)) {
   if (!translations[lang]) translations[lang] = {};
   Object.assign(translations[lang], keys);
 }
