@@ -1019,3 +1019,11 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
     }
   }
 };
+
+/** Returns the keyword-optimized title/description for a canonical path in a language. */
+export function getLocalizedPageMeta(path: string, language: string): PageMeta | null {
+  if (!path) return null;
+  const normalized = path !== '/' ? path.replace(/\/+$/, '') || '/' : '/';
+  const byLang = SEO_META[language] || SEO_META['en'];
+  return byLang?.[normalized] || SEO_META['en']?.[normalized] || null;
+}
