@@ -346,6 +346,7 @@ Deno.serve(async (req) => {
 
     let totalTranslations = 0;
     let totalErrors = 0;
+    const errorDetails: string[] = [];
     const results: any[] = [];
 
     for (const property of properties) {
