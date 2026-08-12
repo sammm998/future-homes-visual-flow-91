@@ -455,6 +455,17 @@ const PropertyDetail = () => {
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
 
   const canonicalUrl = `https://futurehomesinternational.com${buildPropertyUrl(property, seoLanguage)}`;
+  const fallbackReturnUrl = localizePath(
+    getLocationRoute(property.location),
+    getLocaleFromPathname(location.pathname),
+  );
+  const stateReturnUrl = location.state?.returnUrl;
+  const returnUrl =
+    typeof stateReturnUrl === 'string' &&
+    stateReturnUrl.startsWith('/') &&
+    stateReturnUrl !== `${location.pathname}${location.search}`
+      ? stateReturnUrl
+      : fallbackReturnUrl;
   const seoProperty: PropertySeoInput = {
     title: property.title,
     description: property.description || propertyDescription,
@@ -514,34 +525,18 @@ const PropertyDetail = () => {
 
       <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
         {/* Back Button */}
-        <Button variant="ghost" onClick={() => {
-        // Use returnUrl from state if available, otherwise fallback to location route
-        const returnUrl = location.state?.returnUrl;
-        const savedPage = location.state?.savedPage;
-        const savedScrollY = location.state?.savedScrollY;
-        
-        if (returnUrl) {
-          navigate(returnUrl, {
-            state: {
+        <Button variant="ghost" asChild className="mb-8">
+          <Link
+            to={returnUrl}
+            state={{
               returnedFromProperty: true,
-              savedPage,
-              savedScrollY
-            }
-          });
-        } else {
-          const locationRoute = localizePath(getLocationRoute(property?.location || ''), getLocaleFromPathname(location.pathname));
-          console.log('⬅️ PropertyDetail: Navigating to locationRoute:', locationRoute);
-          navigate(locationRoute, {
-            state: {
-              returnedFromProperty: true,
-              savedPage,
-              savedScrollY
-            }
-          });
-        }
-      }} className="mb-8">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          {t('pd.back_to_properties', language)}
+              savedPage: location.state?.savedPage,
+              savedScrollY: location.state?.savedScrollY,
+            }}
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            {t('pd.back_to_properties', language)}
+          </Link>
         </Button>
 
         <div className="grid lg:grid-cols-3 gap-8">
