@@ -47,7 +47,19 @@ export const propertyHreflangUrls = (p: PropertySeoInput): Record<string, string
 
 const numeric = (value?: string | number | null): number | null => {
   if (value === null || value === undefined || value === '') return null;
-  const n = parseFloat(String(value).replace(/[^0-9.,]/g, '').replace(',', '.'));
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  let raw = String(value).replace(/[^0-9.,]/g, '').trim();
+  if (!raw) return null;
+  // European thousand separators: 175.000 / 1,250,000 / 175.000,50
+  if (/^\d{1,3}([.,]\d{3})+([.,]\d{1,2})?$/.test(raw)) {
+    const decimalSep = raw.length - raw.lastIndexOf('.') === 3 && raw.includes(',') ? ',' : null;
+    if (decimalSep) raw = raw.replace(/\./g, '').replace(',', '.');
+    else if (/[.,]\d{1,2}$/.test(raw) && !/[.,]\d{3}$/.test(raw)) raw = raw.replace(/[.,](?=.*[.,])/g, '').replace(',', '.');
+    else raw = raw.replace(/[.,]/g, '');
+  } else {
+    raw = raw.replace(',', '.');
+  }
+  const n = parseFloat(raw);
   return Number.isFinite(n) ? n : null;
 };
 
