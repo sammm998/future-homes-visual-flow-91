@@ -1,7 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from "react";
 import { adminTr } from "./adminTranslationsTr";
+import { adminId } from "./adminTranslationsId";
 
-export type AdminLang = "en" | "tr";
+export type AdminLang = "en" | "tr" | "id";
+
+const DICTS: Record<Exclude<AdminLang, "en">, Record<string, string>> = {
+  tr: adminTr,
+  id: adminId,
+};
 
 const STORAGE_KEY = "admin_lang";
 
