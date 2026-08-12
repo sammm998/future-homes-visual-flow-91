@@ -149,6 +149,7 @@ const Testimonials = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
+        <SEOHead title="Client Testimonials | Future Homes International" description="Read reviews from international buyers who purchased property in Turkey, Dubai, Cyprus and Bali." />
         <SEOHead
           title="Client Testimonials | Real Customer Reviews & Success Stories"
           description="Read authentic reviews from our satisfied clients who found their dream properties. Real testimonials from customers in Turkey, Dubai, Cyprus & beyond."
