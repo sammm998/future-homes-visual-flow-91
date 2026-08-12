@@ -44,8 +44,8 @@ export function AdminI18nProvider({ children }: { children: ReactNode }) {
 
   const t = useCallback(
     (s: string) => {
-      if (lang === "tr") return adminTr[s] ?? s;
-      return s;
+      if (lang === "en") return s;
+      return DICTS[lang]?.[s] ?? s;
     },
     [lang]
   );
