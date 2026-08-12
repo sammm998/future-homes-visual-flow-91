@@ -36,45 +36,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "UTF-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { title: "Property for Sale in Turkey, Dubai, Cyprus & Bali" },
-      { name: "title", content: "Property for Sale in Turkey, Dubai, Cyprus & Bali" },
-      {
-        name: "description",
-        content:
-          "Buy apartments, villas and off-plan homes in Turkey, Dubai, Cyprus and Bali. Turkish citizenship by investment from $400K. Expert local agents.",
-      },
-      {
-        name: "keywords",
-        content:
-          "property for sale in turkey, apartments for sale in turkey, villas for sale in turkey, property for sale dubai, property for sale in cyprus, property for sale in bali, turkish citizenship by investment, real estate turkey, antalya apartments, istanbul property",
-      },
       { name: "author", content: "Future Homes International" },
       { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
       { name: "googlebot", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
       { name: "google-site-verification", content: "tX9miiJWQEEYeB5sWZ8ZeSrcL_RViXlqe_l9fxM7UfQ" },
-      { property: "og:type", content: "website" },
-      { property: "og:title", content: "Property for Sale in Turkey, Dubai, Cyprus & Bali" },
-      { property: "og:url", content: "https://futurehomesinternational.com/" },
-      {
-        property: "og:description",
-        content:
-          "Apartments, villas and off-plan homes with Future Homes International. Investment, citizenship and expert local guidance.",
-      },
-      { property: "og:image", content: "https://futurehomesinternational.com/og-image.jpg" },
-      { property: "og:image:alt", content: "Future Homes International property portfolio" },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
       { property: "og:site_name", content: "Future Homes International" },
-      { property: "og:locale", content: "en_US" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:url", content: "https://futurehomesinternational.com/" },
-      { name: "twitter:title", content: "Property for Sale in Turkey, Dubai, Cyprus & Bali" },
-      {
-        name: "twitter:description",
-        content:
-          "Apartments, villas and off-plan homes with Future Homes International. Investment, citizenship and expert local guidance.",
-      },
-      { name: "twitter:image", content: "https://futurehomesinternational.com/og-image.jpg" },
       { name: "theme-color", content: "#1a365d" },
       { name: "msapplication-TileColor", content: "#1a365d" },
     ],
