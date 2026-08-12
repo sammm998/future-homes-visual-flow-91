@@ -1,3 +1,4 @@
+import { getCityPath } from '@/utils/cityLinks';
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import { EnhancedSEOHead } from '@/components/EnhancedSEOHead';
@@ -222,7 +223,7 @@ const ApartmentsForSaleInTurkey = () => {
                     </div>
                   </div>
                   <Button asChild className="w-full mt-4">
-                    <Link to={`/${location.city.toLowerCase()}`}>View {location.city} Apartments</Link>
+                    <Link to={getCityPath(location.city)}>View {location.city} Apartments</Link>
                   </Button>
                 </CardContent>
               </Card>
