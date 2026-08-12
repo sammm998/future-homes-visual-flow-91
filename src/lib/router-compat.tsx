@@ -9,10 +9,12 @@ import {
   useParams as tsParams,
   useSearch as tsSearch,
   useRouter,
+  useRouterState,
   Link as TSLink,
   Navigate as TSNavigate,
   Outlet as TSOutlet,
 } from "@tanstack/react-router";
+import { getLocaleFromPathname, localizePath } from "@/utils/localeRouting";
 import { useMemo, useCallback, forwardRef, type ComponentProps, type ReactNode } from "react";
 
 // ---------- shared URL parsing ----------
