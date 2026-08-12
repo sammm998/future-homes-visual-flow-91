@@ -9,6 +9,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, Square, Calendar, Car, Home, Plane, Waves, CheckCircle, Star, Award, Images, X, Share2, Check } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
+import { getLocaleFromPathname } from "@/utils/localeRouting";
+import {
+  absoluteImage,
+  buildPropertyStructuredData,
+  propertyHreflangUrls,
+  propertyUrl,
+  type PropertySeoInput,
+} from "@/utils/propertySeoSchema";
 import SEOInternalLinks from "@/components/SEOInternalLinks";
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useProperty } from '@/hooks/useProperty';
@@ -221,6 +229,9 @@ const PropertyDetail = () => {
   const location = useLocation();
   const lang = getCurrentLanguage(location.search);
   const language = lang || 'en';
+  // During SSR there is no ?lang= param, so derive the SEO language from the
+  // URL prefix (/tr/mulk/1046) to keep metadata and schema in the right language.
+  const seoLanguage = getLocaleFromPathname(location.pathname) || language;
   const {
     formatPrice
   } = useCurrency();
@@ -233,7 +244,7 @@ const PropertyDetail = () => {
   } = useProperty(id || '');
   // Server-rendered SEO data (fetched in the route loader) so crawlers get the
   // real, translated title/description before client data arrives.
-  const routeSeo = (useLoaderData({ strict: false }) as { seo?: { title: string; description: string; image: string | null } | null } | undefined)?.seo ?? null;
+  const routeSeo = (useLoaderData({ strict: false }) as { seo?: (PropertySeoInput & { title: string; description: string }) | null } | undefined)?.seo ?? null;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
 
@@ -275,7 +286,14 @@ const PropertyDetail = () => {
         <SEOHead
           title={routeSeo?.title ? `${routeSeo.title} | Future Homes International` : "Property for Sale | Future Homes International"}
           description={routeSeo?.description || "Explore this property for sale in Turkey, Dubai, Cyprus or Bali with Future Homes International."}
-          ogImage={routeSeo?.image || undefined}
+          ogImage={absoluteImage(routeSeo?.image)}
+          ogType="product"
+          canonicalUrl={routeSeo ? propertyUrl(routeSeo, seoLanguage) : undefined}
+          hreflangUrls={routeSeo?.refNo ? propertyHreflangUrls(routeSeo) : undefined}
+          structuredData={routeSeo ? buildPropertyStructuredData(routeSeo, seoLanguage, {
+            home: t('nav.home', seoLanguage),
+            properties: t('nav.properties', seoLanguage),
+          }) : undefined}
         />
         <Navigation />
         <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
@@ -432,20 +450,37 @@ const PropertyDetail = () => {
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
 
   const canonicalUrl = `https://futurehomesinternational.com${buildPropertyUrl(property, lang)}`;
+  const seoProperty: PropertySeoInput = {
+    title: property.title,
+    description: property.description || propertyDescription,
+    image: property.images?.[0] || property.image || routeSeo?.image,
+    images: property.images || (property.image ? [property.image] : []),
+    refNo: property.refNo || routeSeo?.refNo || property.id,
+    id: property.id,
+    location: property.location,
+    district: property.district || routeSeo?.district,
+    country: property.country || routeSeo?.country,
+    price: property.price,
+    currency: property.currency || routeSeo?.currency,
+    bedrooms: property.bedrooms,
+    bathrooms: property.bathrooms,
+    area: property.area,
+    propertyType: property.propertyType,
+  };
   return <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <SEOHead title={propertyTitle} description={propertyDescription} keywords={propertyKeywords} canonicalUrl={canonicalUrl} ogImage={property.images?.[0] || property.image} structuredData={{
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": property.title,
-      "description": property.description,
-      "image": property.images || [property.image],
-      "offers": {
-        "@type": "Offer",
-        "price": property.price?.replace(/[^0-9.]/g, ''),
-        "priceCurrency": "EUR",
-        "availability": "https://schema.org/InStock"
-      }
-    }} />
+      <SEOHead
+        title={propertyTitle}
+        description={propertyDescription}
+        keywords={propertyKeywords}
+        canonicalUrl={canonicalUrl}
+        ogType="product"
+        ogImage={absoluteImage(seoProperty.image)}
+        hreflangUrls={propertyHreflangUrls(seoProperty)}
+        structuredData={buildPropertyStructuredData(seoProperty, seoLanguage, {
+          home: t('nav.home', seoLanguage),
+          properties: t('nav.properties', seoLanguage),
+        })}
+      />
       <Navigation />
       
       {/* Image Modal */}
