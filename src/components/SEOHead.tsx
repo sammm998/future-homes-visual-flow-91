@@ -56,7 +56,13 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       return currentLocaleFreePath;
     }
   })();
-  const currentUrl = `${baseUrl}${localizePath(canonicalPath, currentLanguage)}`;
+  // When explicit hreflang URLs are supplied (property/blog detail pages have
+  // language-specific path segments), the canonical must be that exact URL.
+  const currentUrl =
+    hreflangUrls[currentLanguage] ||
+    (Object.keys(hreflangUrls).length > 0 && canonicalUrl
+      ? canonicalUrl
+      : `${baseUrl}${localizePath(canonicalPath, currentLanguage)}`);
 
   // Localized title/description for known pages, so every language gets
   // unique, translated metadata instead of the English fallback.
