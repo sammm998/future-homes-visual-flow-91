@@ -408,6 +408,8 @@ const Information = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-background to-muted/10">
+        <SEOHead title="Buyer Information & Guides | Future Homes International" description="Guides on buying property abroad: legal process, residency, citizenship, taxes and financing." />
+
         <Navigation />
         <NavBar items={[]} onFilterChange={() => {}} activeFilter="" />
         <div className="pt-20 pb-16">
