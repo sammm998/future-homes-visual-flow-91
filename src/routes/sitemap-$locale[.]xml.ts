@@ -7,7 +7,7 @@ import {
 } from "@/lib/sitemapData";
 
 // Per-language sitemap, e.g. /sitemap-sv.xml, /sitemap-tr.xml, /sitemap-id.xml
-export const Route = createFileRoute("/sitemap-$locale/xml")({
+export const Route = createFileRoute("/sitemap-$locale.xml")({
   server: {
     handlers: {
       GET: async ({ params }) => {
