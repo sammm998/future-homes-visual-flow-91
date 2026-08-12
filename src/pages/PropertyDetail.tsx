@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLoaderData } from "@tanstack/react-router";
 import { useParams, Link, useNavigate, useLocation } from "@/lib/router-compat";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -230,6 +231,9 @@ const PropertyDetail = () => {
     loading,
     error
   } = useProperty(id || '');
+  // Server-rendered SEO data (fetched in the route loader) so crawlers get the
+  // real, translated title/description before client data arrives.
+  const routeSeo = (useLoaderData({ strict: false }) as { seo?: { title: string; description: string; image: string | null } | null } | undefined)?.seo ?? null;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
 
@@ -268,7 +272,11 @@ const PropertyDetail = () => {
   // Optimized loading state with skeleton
   if (loading) {
     return <div className="min-h-screen bg-background">
-        <SEOHead title="Property for Sale | Future Homes International" description="Explore this property for sale in Turkey, Dubai, Cyprus or Bali with Future Homes International." />
+        <SEOHead
+          title={routeSeo?.title ? `${routeSeo.title} | Future Homes International` : "Property for Sale | Future Homes International"}
+          description={routeSeo?.description || "Explore this property for sale in Turkey, Dubai, Cyprus or Bali with Future Homes International."}
+          ogImage={routeSeo?.image || undefined}
+        />
         <Navigation />
         <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
           {/* Skeleton loader for faster perceived performance */}
