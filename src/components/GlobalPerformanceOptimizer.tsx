@@ -58,18 +58,8 @@ export const GlobalPerformanceOptimizer: React.FC<GlobalPerformanceOptimizerProp
       {/* Performance optimization meta tags */}
       <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       
-      {/* Reduce layout shift with proper image sizing */}
+      {/* Reduce layout shift without overriding component sizing utilities */}
       <style>{`
-        img {
-          height: auto;
-          max-width: 100%;
-        }
-        
-        /* Reduce paint times */
-        * {
-          will-change: auto;
-        }
-        
         /* Optimize repaints */
         .property-card img {
           transform: translateZ(0);
