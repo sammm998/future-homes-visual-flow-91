@@ -36,12 +36,36 @@ export const getRouter = () => {
     },
   });
 
+  // Plain-string search serialization. TanStack's default JSON-based
+  // stringifier wraps numeric-looking strings in quotes (referenceNo="1389"),
+  // which then round-trips back into inputs as literal quote characters.
+  const parseSearch = (searchStr: string): Record<string, string> => {
+    const out: Record<string, string> = {};
+    new URLSearchParams(searchStr.replace(/^\?/, "")).forEach((v, k) => {
+      out[k] = v.replace(/^"(.*)"$/s, "$1");
+    });
+    return out;
+  };
+
+  const stringifySearch = (search: Record<string, unknown>): string => {
+    const params = new URLSearchParams();
+    Object.entries(search ?? {}).forEach(([k, v]) => {
+      if (v === undefined || v === null || v === "") return;
+      params.set(k, typeof v === "object" ? JSON.stringify(v) : String(v));
+    });
+    const str = params.toString();
+    return str ? `?${str}` : "";
+  };
+
   const router = createRouter({
     routeTree,
     context: { queryClient },
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
+    parseSearch: parseSearch as never,
+    stringifySearch: stringifySearch as never,
   });
+
 
   return router;
 };
