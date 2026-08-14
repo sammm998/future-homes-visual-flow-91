@@ -86,7 +86,7 @@ const BaliPropertySearch = () => {
       maxSquareFeet: searchParams.get('areaMax') || searchParams.get('maxSquareFeet') || '',
       facilities: searchParams.get('facilities')?.split(',').filter(Boolean) || [],
       sortBy: (searchParams.get('sortBy') as any) || 'ref',
-      referenceNo: searchParams.get('referenceNumber') || searchParams.get('referenceNo') || ''
+      referenceNo: (searchParams.get('referenceNumber') || searchParams.get('referenceNo') || '').replace(/["'#]/g, '').trim()
     };
 
     // Merge with location state if available
