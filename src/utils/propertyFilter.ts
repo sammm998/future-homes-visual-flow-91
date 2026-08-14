@@ -133,14 +133,19 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
     console.log(`🏘️ district filter (${filters.district}): ${beforeCount} → ${filtered.length} properties`);
   }
 
-  // Filter by reference number
-  if (filters.referenceNo && filters.referenceNo !== '') {
+  // Filter by reference number (tolerate quotes, #, spaces from pasted URLs)
+  const cleanRef = (filters.referenceNo || '')
+    .replace(/["'“”‘’#\s]/g, '')
+    .trim()
+    .toLowerCase();
+  if (cleanRef !== '') {
     const beforeCount = filtered.length;
-    filtered = filtered.filter(property => 
-      property.refNo && property.refNo.toLowerCase().includes(filters.referenceNo.toLowerCase())
+    filtered = filtered.filter(property =>
+      property.refNo && property.refNo.replace(/["'#\s]/g, '').toLowerCase().includes(cleanRef)
     );
-    console.log(`🔢 refNo filter (${filters.referenceNo}): ${beforeCount} → ${filtered.length} properties`);
+    console.log(`🔢 refNo filter (${cleanRef}): ${beforeCount} → ${filtered.length} properties`);
   }
+
 
   // Filter by price range
   if (filters.minPrice || filters.maxPrice) {
