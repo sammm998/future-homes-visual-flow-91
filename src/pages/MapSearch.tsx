@@ -110,10 +110,12 @@ const MapSearch = () => {
         if (!districtMatch) return false;
       }
 
-      // Reference number filter
-      if (filters.referenceNo && !property.ref_no?.toLowerCase().includes(filters.referenceNo.toLowerCase())) {
+      // Reference number filter (tolerate quotes/# from pasted URLs)
+      const refQuery = (filters.referenceNo || '').replace(/["'“”‘’#\s]/g, '').toLowerCase();
+      if (refQuery && !property.ref_no?.replace(/["'#\s]/g, '').toLowerCase().includes(refQuery)) {
         return false;
       }
+
 
       // Price filter
       if (filters.minPrice || filters.maxPrice) {
