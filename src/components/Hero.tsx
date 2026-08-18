@@ -30,7 +30,6 @@ const Hero: React.FC<HeroProps> = ({
   const navigate = useNavigate();
   const { selectedCurrency, formatPrice } = useCurrency();
   const { t } = useTranslation();
-  const [searchType, setSearchType] = useState("Buy");
   const [propertyType, setPropertyType] = useState("");
   const [bedrooms, setBedrooms] = useState("");
   const [location, setLocation] = useState("");
