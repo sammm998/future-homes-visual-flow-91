@@ -30,7 +30,6 @@ const Hero: React.FC<HeroProps> = ({
   const navigate = useNavigate();
   const { selectedCurrency, formatPrice } = useCurrency();
   const { t } = useTranslation();
-  const [searchType, setSearchType] = useState("Buy");
   const [propertyType, setPropertyType] = useState("");
   const [bedrooms, setBedrooms] = useState("");
   const [location, setLocation] = useState("");
@@ -185,32 +184,6 @@ const Hero: React.FC<HeroProps> = ({
 
             {/* Search Card - Responsive Layout */}
             <Card className="bg-white/10 backdrop-blur-sm border-white/20 p-3 sm:p-4 md:p-6 rounded-2xl max-w-5xl mx-auto">
-              {/* Search Type Tabs */}
-              <div className="flex justify-center mb-4 sm:mb-6">
-                <div className="bg-white/10 rounded-lg p-1 inline-flex">
-                  <button
-                    className={`px-4 sm:px-6 py-2 rounded-md text-sm font-medium transition-all ${
-                      searchType === "Buy"
-                        ? "bg-white text-black"
-                        : "text-white hover:bg-white/10"
-                    }`}
-                    onClick={() => setSearchType("Buy")}
-                  >
-                  {t('search.buy')}
-                  </button>
-                  <button
-                    className={`px-4 sm:px-6 py-2 rounded-md text-sm font-medium transition-all ${
-                      searchType === "Rent"
-                        ? "bg-white text-black"
-                        : "text-white hover:bg-white/10"
-                    }`}
-                    onClick={() => setSearchType("Rent")}
-                  >
-                  {t('search.rent')}
-                  </button>
-                </div>
-              </div>
-
               {/* Main Search Filters - Mobile-first responsive grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-4 sm:mb-6">
                 {/* Property Type */}
