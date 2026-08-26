@@ -443,7 +443,7 @@ const PropertyDetail = () => {
   const refLabel = property.refNo || property.ref_no || property.id;
   const brandSuffix = refLabel ? ` | REF ${refLabel}` : ' | Future Homes';
   const specBits = [
-    property.bedrooms ? `${property.bedrooms} bed` : null,
+    property.bedrooms ? `${property.bedrooms} ${t('pd.bedrooms', seoLanguage)}` : null,
     property.propertyType || null,
   ].filter(Boolean).join(' ');
   const baseTitle = [
@@ -454,12 +454,23 @@ const PropertyDetail = () => {
   const propertyTitle = truncate(baseTitle, 60 - brandSuffix.length) + brandSuffix;
 
   const descParts = [
-    property.bedrooms ? `${property.bedrooms} bed` : null,
-    property.bathrooms ? `${property.bathrooms} bath` : null,
+    property.bedrooms ? `${property.bedrooms} ${t('pd.bedrooms', seoLanguage)}` : null,
+    property.bathrooms ? `${property.bathrooms} ${t('pd.bathrooms', seoLanguage)}` : null,
     property.area ? `${property.area} m²` : null,
   ].filter(Boolean).join(', ');
-  const rawDesc = `${property.title}${property.location ? ` in ${property.location}` : ''}${descParts ? `. ${descParts}` : ''}${property.price ? `. From ${property.price}.` : '.'}`;
+  const localizedDescription = (property.description || routeSeo?.description || '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const rawDesc = localizedDescription.length >= 80
+    ? localizedDescription
+    : [
+        [property.title, property.location].filter(Boolean).join(', '),
+        descParts,
+        property.price || '',
+      ].filter(Boolean).join('. ') + '.';
   const propertyDescription = truncate(rawDesc, 160);
+
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
 
   const canonicalUrl = `https://futurehomesinternational.com${buildPropertyUrl(property, seoLanguage)}`;
