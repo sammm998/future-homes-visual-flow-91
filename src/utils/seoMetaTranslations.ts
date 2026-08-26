@@ -1020,3 +1020,18 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
     }
   }
 };
+
+/**
+ * Returns the localized title/description for a known, locale-free page path.
+ * Falls back to English, then to null when the page has no curated metadata.
+ */
+export function getLocalizedPageMeta(path: string, language: string): PageMeta | null {
+  const normalized = (() => {
+    const p = (path || '/').split('?')[0].split('#')[0];
+    if (p === '' || p === '/') return '/';
+    return ('/' + p.replace(/^\/+/, '').replace(/\/+$/, '')).toLowerCase();
+  })();
+
+  const byLang = SEO_META[language] || SEO_META['en'];
+  return byLang?.[normalized] || SEO_META['en']?.[normalized] || null;
+}
