@@ -626,7 +626,7 @@ const PropertyDetail = () => {
                   <Square className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-muted-foreground notranslate" translate="no">{t('area', language)}</p>
-                    <p className="font-semibold">{property.area || 'N/A'}</p>
+                    <p className="font-semibold">{property.area ? `${property.area} m²` : 'N/A'}</p>
                   </div>
                 </div>
               </div>
