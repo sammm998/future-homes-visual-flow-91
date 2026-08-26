@@ -295,10 +295,20 @@ const PropertyDetail = () => {
 
   // Optimized loading state with skeleton
   if (loading) {
+    // SSR title: keep it inside the ~60 char SERP limit and end with the REF
+    // so every property gets a short, unique, translated title.
+    const ssrSuffix = routeSeo?.refNo ? ` | REF ${routeSeo.refNo}` : ' | Future Homes';
+    const ssrBase = (routeSeo?.title || 'Property for Sale').trim();
+    const ssrLimit = 60 - ssrSuffix.length;
+    const ssrTitle =
+      (ssrBase.length <= ssrLimit
+        ? ssrBase
+        : ssrBase.slice(0, ssrLimit - 1).replace(/\s+\S*$/, '').replace(/[\s,.;:-]+$/, '') + '…') + ssrSuffix;
     return <div className="min-h-screen bg-background">
         <SEOHead
-          title={routeSeo?.title ? `${routeSeo.title} | Future Homes International` : "Property for Sale | Future Homes International"}
+          title={ssrTitle}
           description={routeSeo?.description || "Explore this property for sale in Turkey, Dubai, Cyprus or Bali with Future Homes International."}
+
           ogImage={absoluteImage(routeSeo?.image)}
           ogType="product"
           canonicalUrl={routeSeo ? propertyUrl(routeSeo, seoLanguage) : undefined}
