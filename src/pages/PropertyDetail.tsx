@@ -521,7 +521,7 @@ const PropertyDetail = () => {
       {/* Image Modal */}
       {showImageModal && property.images && <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setShowImageModal(false)}>
           <div className="relative max-w-6xl max-h-full" onClick={e => e.stopPropagation()}>
-            <Button variant="ghost" size="icon" onClick={() => setShowImageModal(false)} className="absolute -top-4 -right-4 text-white hover:bg-white/20 bg-black/50 rounded-full z-50">
+            <Button variant="ghost" size="icon" aria-label="Close" onClick={() => setShowImageModal(false)} className="absolute -top-4 -right-4 text-white hover:bg-white/20 bg-black/50 rounded-full z-50">
               <X className="h-6 w-6" />
             </Button>
             
@@ -591,13 +591,13 @@ const PropertyDetail = () => {
                   
                   {/* Navigation Arrows on Main Image */}
                   {property.images && property.images.length > 1 && <>
-                      <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
+                      <Button variant="ghost" size="icon" aria-label="Previous photo" className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
                     e.stopPropagation();
                     prevImage();
                   }}>
                         <ChevronLeft className="w-6 h-6" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
+                      <Button variant="ghost" size="icon" aria-label="Next photo" className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
                     e.stopPropagation();
                     nextImage();
                   }}>
