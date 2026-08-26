@@ -295,10 +295,20 @@ const PropertyDetail = () => {
 
   // Optimized loading state with skeleton
   if (loading) {
+    // SSR title: keep it inside the ~60 char SERP limit and end with the REF
+    // so every property gets a short, unique, translated title.
+    const ssrSuffix = routeSeo?.refNo ? ` | REF ${routeSeo.refNo}` : ' | Future Homes';
+    const ssrBase = (routeSeo?.title || 'Property for Sale').trim();
+    const ssrLimit = 60 - ssrSuffix.length;
+    const ssrTitle =
+      (ssrBase.length <= ssrLimit
+        ? ssrBase
+        : ssrBase.slice(0, ssrLimit - 1).replace(/\s+\S*$/, '').replace(/[\s,.;:-]+$/, '') + '…') + ssrSuffix;
     return <div className="min-h-screen bg-background">
         <SEOHead
-          title={routeSeo?.title ? `${routeSeo.title} | Future Homes International` : "Property for Sale | Future Homes International"}
+          title={ssrTitle}
           description={routeSeo?.description || "Explore this property for sale in Turkey, Dubai, Cyprus or Bali with Future Homes International."}
+
           ogImage={absoluteImage(routeSeo?.image)}
           ogType="product"
           canonicalUrl={routeSeo ? propertyUrl(routeSeo, seoLanguage) : undefined}
@@ -443,7 +453,7 @@ const PropertyDetail = () => {
   const refLabel = property.refNo || property.ref_no || property.id;
   const brandSuffix = refLabel ? ` | REF ${refLabel}` : ' | Future Homes';
   const specBits = [
-    property.bedrooms ? `${property.bedrooms} bed` : null,
+    property.bedrooms ? `${property.bedrooms} ${t('pd.bedrooms', seoLanguage)}` : null,
     property.propertyType || null,
   ].filter(Boolean).join(' ');
   const baseTitle = [
@@ -454,12 +464,23 @@ const PropertyDetail = () => {
   const propertyTitle = truncate(baseTitle, 60 - brandSuffix.length) + brandSuffix;
 
   const descParts = [
-    property.bedrooms ? `${property.bedrooms} bed` : null,
-    property.bathrooms ? `${property.bathrooms} bath` : null,
+    property.bedrooms ? `${property.bedrooms} ${t('pd.bedrooms', seoLanguage)}` : null,
+    property.bathrooms ? `${property.bathrooms} ${t('pd.bathrooms', seoLanguage)}` : null,
     property.area ? `${property.area} m²` : null,
   ].filter(Boolean).join(', ');
-  const rawDesc = `${property.title}${property.location ? ` in ${property.location}` : ''}${descParts ? `. ${descParts}` : ''}${property.price ? `. From ${property.price}.` : '.'}`;
+  const localizedDescription = (property.description || routeSeo?.description || '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const rawDesc = localizedDescription.length >= 80
+    ? localizedDescription
+    : [
+        [property.title, property.location].filter(Boolean).join(', '),
+        descParts,
+        property.price || '',
+      ].filter(Boolean).join('. ') + '.';
   const propertyDescription = truncate(rawDesc, 160);
+
   const propertyKeywords = `${property.location || 'property'} property, ${property.propertyType || 'real estate'}, ${property.bedrooms || ''} bedroom ${property.propertyType?.toLowerCase() || 'property'}, real estate ${property.location || ''}, property for sale ${property.location || ''}`;
 
   const canonicalUrl = `https://futurehomesinternational.com${buildPropertyUrl(property, seoLanguage)}`;
@@ -510,7 +531,7 @@ const PropertyDetail = () => {
       {/* Image Modal */}
       {showImageModal && property.images && <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setShowImageModal(false)}>
           <div className="relative max-w-6xl max-h-full" onClick={e => e.stopPropagation()}>
-            <Button variant="ghost" size="icon" onClick={() => setShowImageModal(false)} className="absolute -top-4 -right-4 text-white hover:bg-white/20 bg-black/50 rounded-full z-50">
+            <Button variant="ghost" size="icon" aria-label="Close" onClick={() => setShowImageModal(false)} className="absolute -top-4 -right-4 text-white hover:bg-white/20 bg-black/50 rounded-full z-50">
               <X className="h-6 w-6" />
             </Button>
             
@@ -580,13 +601,13 @@ const PropertyDetail = () => {
                   
                   {/* Navigation Arrows on Main Image */}
                   {property.images && property.images.length > 1 && <>
-                      <Button variant="ghost" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
+                      <Button variant="ghost" size="icon" aria-label="Previous photo" className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
                     e.stopPropagation();
                     prevImage();
                   }}>
                         <ChevronLeft className="w-6 h-6" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
+                      <Button variant="ghost" size="icon" aria-label="Next photo" className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
                     e.stopPropagation();
                     nextImage();
                   }}>

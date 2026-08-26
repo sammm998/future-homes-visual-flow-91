@@ -6,16 +6,16 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const lastmod = new Date().toISOString().split("T")[0];
+        // No <lastmod> here: generation time is not a page-specific timestamp.
         const items = SITEMAP_LOCALES.map(
           (locale) =>
             [
               "  <sitemap>",
               `    <loc>${SITEMAP_BASE_URL}/sitemap/${locale}.xml</loc>`,
-              `    <lastmod>${lastmod}</lastmod>`,
               "  </sitemap>",
             ].join("\n"),
         ).join("\n");
+
 
         return xmlResponse(
           [

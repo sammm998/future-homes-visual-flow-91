@@ -1,76 +1,77 @@
 // AUTO-GENERATED localized SEO titles/descriptions (13 languages).
 // Keyword-optimized from Semrush research per market (see scripts/seo-keyword-optimize.ts).
+// Titles kept <= 60 chars and descriptions <= 160 chars so they are not truncated in SERPs.
 // Source of truth for English: seoMetaSource.ts
 import type { PageMeta } from './seoMetaSource';
 
 export const SEO_META: Record<string, Record<string, PageMeta>> = {
   "en": {
     "/": {
-      "title": "Property for Sale in Turkey, Dubai, Cyprus & Bali | Future Homes International",
-      "description": "Property for sale in Turkey, Dubai, Cyprus & Bali. Apartments, villas & off-plan homes from leading international agents. Turkish citizenship by investment from $400K."
+      "title": "Property for Sale in Turkey, Dubai, Cyprus & Bali",
+      "description": "Property for sale in Turkey, Dubai, Cyprus & Bali. Apartments, villas & off-plan homes from leading international agents."
     },
     "/antalya": {
-      "title": "Property for Sale in Antalya | Apartments & Villas in Turkey — Future Homes",
-      "description": "Property for sale in Antalya: beachfront apartments, sea-view villas & off-plan homes in Konyaaltı, Lara, Alanya & Belek. From €70,000 with Turkish citizenship eligibility."
+      "title": "Property for Sale in Antalya | Apartments & Villas in Turkey",
+      "description": "Property for sale in Antalya: beachfront apartments, sea-view villas & off-plan homes in Konyaaltı, Lara, Alanya & Belek."
     },
     "/istanbul": {
-      "title": "Property for Sale in Istanbul | Apartments & Houses in Turkey — Future Homes",
-      "description": "Property for sale in Istanbul: luxury apartments, houses & villas in Maslak, Beylikdüzü & Bosphorus districts. Citizenship by investment from $400K. Trusted Turkey agents."
+      "title": "Property for Sale in Istanbul",
+      "description": "Property for sale in Istanbul: luxury apartments, houses & villas in Maslak, Beylikdüzü & Bosphorus districts. Citizenship by investment from $400K."
     },
     "/mersin": {
-      "title": "Property for Sale in Mersin | Apartments & Villas in Turkey — Future Homes",
-      "description": "Property for sale in Mersin: beachfront apartments, sea-view villas & off-plan homes in Mezitli, Erdemli & Tece from €55,000 with Turkish citizenship eligibility."
+      "title": "Property for Sale in Mersin | Apartments & Villas in Turkey",
+      "description": "Property for sale in Mersin: beachfront apartments, sea-view villas & off-plan homes in Mezitli, Erdemli & Tece from €55,000 with Turkish citizenship."
     },
     "/dubai": {
-      "title": "Property for Sale in Dubai | Apartments & Villas — Future Homes",
-      "description": "Dubai homes for sale: luxury apartments, penthouses & villas in Dubai Marina, Downtown, Palm Jumeirah & Business Bay from AED 800K with high ROI and golden visa eligibility."
+      "title": "Property for Sale in Dubai | Apartments & Villas",
+      "description": "Dubai homes for sale: luxury apartments, penthouses & villas in Dubai Marina, Downtown, Palm Jumeirah & Business Bay from AED 800K with high ROI and golden."
     },
     "/cyprus": {
-      "title": "Property for Sale in Cyprus | Villas & Apartments + EU Residency",
-      "description": "Cyprus real estate for sale: villas, apartments & beachfront homes in Limassol, Paphos, Larnaca & North Cyprus. Buy property in Cyprus with EU permanent residency from €300,000."
+      "title": "Property for Sale in Cyprus",
+      "description": "Cyprus real estate for sale: villas, apartments & beachfront homes in Limassol, Paphos, Larnaca & North Cyprus."
     },
     "/bali": {
-      "title": "Property for Sale in Bali | Villas in Seminyak, Canggu & Ubud",
+      "title": "Property for Sale in Bali",
       "description": "Property for sale in Bali: luxury villas, apartments and investment homes in Seminyak, Canggu, Ubud & Uluwatu with high rental yields for foreign investors."
     },
     "/property-for-sale-in-turkey": {
-      "title": "Property for Sale in Turkey | Houses, Villas & Apartments — Future Homes",
+      "title": "Property for Sale in Turkey | Houses, Villas & Apartments",
       "description": "Property for sale in Turkey from leading agents. Houses, villas and apartments in Antalya, Istanbul, Alanya & Mersin with citizenship by investment options."
     },
     "/apartments-for-sale-in-turkey": {
-      "title": "Apartments for Sale in Turkey | Antalya, Istanbul & Alanya — Future Homes",
-      "description": "Apartments for sale in Turkey: 1–4 bedroom beachfront, city-centre and off-plan apartments in Antalya, Istanbul, Alanya & Mersin from €70,000 with payment plans."
+      "title": "Apartments for Sale in Turkey | Antalya, Istanbul & Alanya",
+      "description": "Apartments for sale in Turkey: 1–4 bedroom beachfront, city-centre and off-plan apartments in Antalya, Istanbul, Alanya & Mersin from €70,000 with payment."
     },
     "/luxury-villas-in-turkey": {
-      "title": "Villas for Sale in Turkey | Luxury Sea-View & Private Pool Villas",
-      "description": "Luxury villas for sale in Turkey with private pools and sea views. Beachfront villas in Antalya, Kalkan, Bodrum & Alanya from €250,000. Turkish citizenship eligible."
+      "title": "Villas for Sale in Turkey",
+      "description": "Luxury villas for sale in Turkey with private pools and sea views. Beachfront villas in Antalya, Kalkan, Bodrum & Alanya from €250,000."
     },
     "/off-plan-property-turkey": {
       "title": "Off-Plan Property in Turkey | New Builds with Payment Plans",
-      "description": "Off-plan property in Turkey from leading developers: 10–20% below market, 0% interest payment plans and new-build apartments & villas in Antalya, Istanbul and Alanya."
+      "description": "Off-plan property in Turkey from leading developers: 10–20% below market, 0% interest payment plans and new-build apartments & villas in Antalya, Istanbul."
     },
     "/turkish-citizenship-by-investment": {
-      "title": "Turkish Citizenship by Investment 2026 | $400K Property Route",
-      "description": "Get Turkish citizenship by investment with $400K real estate. Full guide to the Turkey CBI program: process, eligibility, passport benefits and 110+ visa-free countries."
+      "title": "Turkish Citizenship by Investment 2026",
+      "description": "Get Turkish citizenship by investment with $400K real estate."
     },
     "/information": {
-      "title": "Property Investment Guide | Real Estate Information & Insights",
+      "title": "Property Investment Guide",
       "description": "Expert guides on property investment, Turkish citizenship, the buying process, legal requirements and real estate insights for Turkey, Dubai, Cyprus & Bali."
     },
     "/property-gallery": {
-      "title": "Property Gallery | Premium Real Estate Collection — Future Homes",
+      "title": "Property Gallery | Premium Real Estate Collection",
       "description": "Explore our collection of premium properties with high-quality photos of luxury apartments, modern interiors and exceptional amenities in prime locations."
     },
     "/testimonials": {
-      "title": "Client Testimonials | Real Customer Reviews & Success Stories",
+      "title": "Client Testimonials | Real Customer Reviews & Success",
       "description": "Read authentic reviews from clients who found their dream property with us. Real testimonials from customers in Turkey, Dubai, Cyprus and Bali."
     },
     "/about-us": {
-      "title": "About Future Homes International | International Property Experts",
+      "title": "About Future Homes International",
       "description": "Meet Future Homes International: offices in Antalya, Istanbul, Dubai, Cyprus and Bali, helping international buyers purchase property safely since 2019."
     },
     "/contact-us": {
-      "title": "Contact Future Homes International | Offices in Turkey, Dubai, Cyprus & Bali",
+      "title": "Contact Future Homes International",
       "description": "Contact our property advisors in Antalya, Istanbul, Dubai, Cyprus and Bali. Free consultation, viewing trips and full support through the buying process."
     },
     "/our-story": {
@@ -144,7 +145,7 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
       "description": "Läs autentiska recensioner från kunder som hittat sin drömbostad i Turkiet, Dubai, Cypern och Bali med oss. Se framgångsberättelser."
     },
     "/about-us": {
-      "title": "Om Future Homes International | Internationella Fastighetsexperter",
+      "title": "Om Future Homes International",
       "description": "Möt Future Homes International. Vi hjälper dig att köpa lägenhet i Turkiet, Dubai, Cypern och Bali säkert sedan 2019."
     },
     "/contact-us": {
@@ -382,7 +383,7 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
       "description": "Future Homes International: Ihr Partner für Immobilien in Türkei, Dubai, Zypern und Bali. Sicher kaufen seit 2019."
     },
     "/contact-us": {
-      "title": "Kontakt Future Homes | Immobilienberater Türkei, Dubai, Zypern",
+      "title": "Kontakt Future Homes | Immobilienberater Türkei, Dubai",
       "description": "Kontaktieren Sie unsere Immobilienberater für Türkei, Dubai, Zypern und Bali. Kostenlose Beratung und volle Unterstützung beim Kauf."
     },
     "/our-story": {
@@ -396,7 +397,7 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
   },
   "fr": {
     "/": {
-      "title": "Immobilier Turquie, Dubaï, Chypre, Bali | Future Homes International",
+      "title": "Immobilier Turquie, Dubaï, Chypre, Bali",
       "description": "Découvrez l'immobilier à vendre en Turquie, Dubaï, Chypre & Bali. Appartements, villas, projets neufs. Citoyenneté turque dès 400K $."
     },
     "/antalya": {
@@ -441,15 +442,15 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
     },
     "/turkish-citizenship-by-investment": {
       "title": "Citoyenneté Turque par Investissement Immobilier",
-      "description": "Obtenez la citoyenneté turque par investissement immobilier. Guide complet du programme CBI : éligibilité, processus, avantages du passeport. Sécurisez votre avenir."
+      "description": "Obtenez la citoyenneté turque par investissement immobilier. Guide complet du programme CBI : éligibilité, processus, avantages du passeport."
     },
     "/information": {
       "title": "Guide Investissement Immobilier | Turquie, Dubaï, Chypre",
-      "description": "Guide d'investissement immobilier : informations et analyses pour Turquie, Dubaï, Chypre, Bali. Processus d'achat, législation, citoyenneté. Prenez la bonne décision."
+      "description": "Guide d'investissement immobilier : informations et analyses pour Turquie, Dubaï, Chypre, Bali. Processus d'achat, législation, citoyenneté."
     },
     "/property-gallery": {
       "title": "Galerie Immobilier | Propriétés de Luxe Turquie, Dubaï",
-      "description": "Découvrez notre galerie immobilière : photos de propriétés de luxe en Turquie, Dubaï, Chypre, Bali. Appartements, villas, intérieurs modernes. Votre futur chez vous."
+      "description": "Découvrez notre galerie immobilière : photos de propriétés de luxe en Turquie, Dubaï, Chypre, Bali. Appartements, villas, intérieurs modernes."
     },
     "/testimonials": {
       "title": "Témoignages Clients | Avis Immobiliers & Succès",
@@ -460,7 +461,7 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
       "description": "Rencontrez Future Homes International : bureaux à Antalya, Istanbul, Dubaï, Chypre et Bali. Achat immobilier sécurisé depuis 2019."
     },
     "/contact-us": {
-      "title": "Contactez Future Homes | Immobilier Turquie, Dubaï, Chypre, Bali",
+      "title": "Contactez Future Homes",
       "description": "Contactez nos conseillers immobiliers à Antalya, Istanbul, Dubaï, Chypre et Bali. Consultation gratuite et support complet pour votre achat."
     },
     "/our-story": {
@@ -494,7 +495,7 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
       "description": "Comprar piso en Dubai. Apartamentos y villas de lujo en Marina, Downtown, Palm Jumeirah. Alto ROI y visa dorada."
     },
     "/cyprus": {
-      "title": "Propiedades en Chipre | Villas y Apartamentos + Residencia UE",
+      "title": "Propiedades en Chipre",
       "description": "Propiedades en Chipre en venta. Villas, apartamentos en Limassol, Paphos. Residencia permanente UE desde €300,000."
     },
     "/bali": {
@@ -514,7 +515,7 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
       "description": "Villas en venta en Turquía: lujo con piscina privada y vistas al mar en Antalya, Bodrum. Elegibles para ciudadanía."
     },
     "/off-plan-property-turkey": {
-      "title": "Propiedades sobre Plano en Turquía | Obra Nueva, Planes de Pago",
+      "title": "Propiedades sobre Plano en Turquía",
       "description": "Propiedades sobre plano en Turquía: obra nueva en Antalya, Estambul. Precios 10-20% por debajo del mercado, 0% interés."
     },
     "/turkish-citizenship-by-investment": {
@@ -522,7 +523,7 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
       "description": "Ciudadanía turca por inversión: obténgala con $400K en bienes raíces. Guía completa del programa, beneficios y visa-free."
     },
     "/information": {
-      "title": "Guía de Inversión Inmobiliaria | Turquía, Dubái, Chipre, Bali",
+      "title": "Guía de Inversión Inmobiliaria",
       "description": "Guía de inversión inmobiliaria: información experta para comprar propiedades en Turquía, Dubái, Chipre y Bali."
     },
     "/property-gallery": {
@@ -612,11 +613,11 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
       "description": "Bizimle hayallerindeki mülkü bulan müşterilerin gerçek yorumlarını okuyun. Türkiye, Dubai, Kıbrıs ve Bali'den başarı hikayeleri burada."
     },
     "/about-us": {
-      "title": "Future Homes International Hakkında | Uluslararası Emlak Uzmanları",
+      "title": "Future Homes International Hakkında",
       "description": "Future Homes International'ı tanıyın: 2019'dan beri Antalya, İstanbul, Dubai, Kıbrıs ve Bali'de güvenle mülk satın aldırıyoruz."
     },
     "/contact-us": {
-      "title": "Future Homes İletişim | Türkiye, Dubai, Kıbrıs & Bali Ofisleri",
+      "title": "Future Homes İletişim",
       "description": "Antalya, İstanbul, Dubai, Kıbrıs ve Bali'deki emlak danışmanlarımızla iletişime geçin. Ücretsiz danışmanlık ve tam destek alın."
     },
     "/our-story": {
@@ -1020,10 +1021,17 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
   }
 };
 
-/** Returns the keyword-optimized title/description for a canonical path in a language. */
+/**
+ * Returns the localized title/description for a known, locale-free page path.
+ * Falls back to English, then to null when the page has no curated metadata.
+ */
 export function getLocalizedPageMeta(path: string, language: string): PageMeta | null {
-  if (!path) return null;
-  const normalized = path !== '/' ? path.replace(/\/+$/, '') || '/' : '/';
+  const normalized = (() => {
+    const p = (path || '/').split('?')[0].split('#')[0];
+    if (p === '' || p === '/') return '/';
+    return ('/' + p.replace(/^\/+/, '').replace(/\/+$/, '')).toLowerCase();
+  })();
+
   const byLang = SEO_META[language] || SEO_META['en'];
   return byLang?.[normalized] || SEO_META['en']?.[normalized] || null;
 }

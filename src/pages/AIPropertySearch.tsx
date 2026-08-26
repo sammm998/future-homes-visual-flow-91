@@ -280,7 +280,7 @@ const AIPropertySearch = () => {
               {/* Input */}
               <form onSubmit={handleSubmit} className="w-full max-w-2xl mb-3">
                 <div className="relative flex items-center gap-2 bg-white border border-gray-200 rounded-full pl-3 pr-2 py-2 shadow-xs focus-within:border-gray-300 focus-within:shadow-md transition-all">
-                  <button type="button" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
+                  <button type="button" aria-label="Voice input" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
                     <Plus className="h-5 w-5" />
                   </button>
                   <textarea
@@ -294,12 +294,13 @@ const AIPropertySearch = () => {
                     style={{ minHeight: '24px' }}
                     disabled={isLoading}
                   />
-                  <button type="button" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
+                  <button type="button" aria-label="Voice input" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
                     <Mic className="h-4 w-4" />
                   </button>
                   <Button
                     type="submit"
                     size="icon"
+                    aria-label="Send message"
                     disabled={!inputValue.trim() || isLoading}
                     className="h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white disabled:bg-blue-300 flex-shrink-0"
                   >
@@ -497,7 +498,7 @@ const AIPropertySearch = () => {
                 </button>
               </div>
               <div className="relative flex items-center gap-2 bg-white border border-gray-200 rounded-full pl-3 pr-2 py-2 shadow-xs focus-within:border-gray-300 focus-within:shadow-md transition-all">
-                <button type="button" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <button type="button" aria-label="Voice input" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
                   <Plus className="h-5 w-5" />
                 </button>
                 <textarea
@@ -515,12 +516,13 @@ const AIPropertySearch = () => {
                   }}
                   disabled={isLoading}
                 />
-                <button type="button" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <button type="button" aria-label="Voice input" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
                   <Mic className="h-4 w-4" />
                 </button>
                 <Button
                   type="submit"
                   size="icon"
+                  aria-label="Send message"
                   disabled={!inputValue.trim() || isLoading}
                   className="h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white disabled:bg-blue-300 flex-shrink-0"
                 >
