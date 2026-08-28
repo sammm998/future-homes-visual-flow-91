@@ -13,6 +13,7 @@ import { translateAmenity } from '@/utils/amenityTranslations';
 import { getLocaleFromPathname, localizePath, stripLocale } from "@/utils/localeRouting";
 import {
   absoluteImage,
+  socialImage,
   buildPropertyStructuredData,
   propertyHreflangUrls,
   propertyUrl,
@@ -309,7 +310,7 @@ const PropertyDetail = () => {
           title={ssrTitle}
           description={routeSeo?.description || "Explore this property for sale in Turkey, Dubai, Cyprus or Bali with Future Homes International."}
 
-          ogImage={absoluteImage(routeSeo?.image)}
+          ogImage={socialImage(routeSeo?.image)}
           ogType="product"
           canonicalUrl={routeSeo ? propertyUrl(routeSeo, seoLanguage) : undefined}
           hreflangUrls={routeSeo?.refNo ? propertyHreflangUrls(routeSeo) : undefined}
@@ -519,7 +520,7 @@ const PropertyDetail = () => {
         keywords={propertyKeywords}
         canonicalUrl={canonicalUrl}
         ogType="product"
-        ogImage={absoluteImage(seoProperty.image)}
+        ogImage={socialImage(seoProperty.image)}
         hreflangUrls={propertyHreflangUrls(seoProperty)}
         structuredData={buildPropertyStructuredData(seoProperty, seoLanguage, {
           home: t('nav.home', seoLanguage),
