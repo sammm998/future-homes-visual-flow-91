@@ -1,4 +1,5 @@
 import Navigation from "@/components/Navigation";
+import aboutHero from "@/assets/about-hero.jpg";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -39,17 +40,23 @@ const AboutUs = () => {
 
       <section className="relative py-20 overflow-hidden min-h-screen flex items-center">
         <div className="absolute inset-0 w-full h-full">
-          <iframe className="absolute" src="https://www.youtube.com/embed/xlP2TafgsGI?autoplay=1&mute=1&loop=1&playlist=xlP2TafgsGI&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1" title="About Us Background Video" frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen style={{ pointerEvents: "none", width: "calc(100vw + 20vh)", height: "calc(100vh + 20vw)", minWidth: "177.77vh", minHeight: "56.25vw", top: "50%", left: "50%", transform: "translate(-50%, -50%) scale(1.2)", objectFit: "cover" }} />
+          <img
+            src={aboutHero}
+            alt="Mediterranean coastal city with modern Future Homes apartment buildings at sunset"
+            width={1920}
+            height={1088}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-black/60"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <Badge className="mb-6 px-4 py-2 bg-white/10 text-white border-white/20">{t('about.badge')}</Badge>
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
               {t('about.hero_title')}
             </h1>
-            <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto mb-8">
+            <p className="text-base sm:text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl mx-auto mb-8">
               {t('about.hero_subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

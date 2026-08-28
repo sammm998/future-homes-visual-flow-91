@@ -29,6 +29,22 @@ export const absoluteImage = (image?: string | null): string => {
   return `${SITE_URL}${image.startsWith('/') ? '' : '/'}${image}`;
 };
 
+/**
+ * Social crawlers (WhatsApp especially) drop images larger than a few hundred KB
+ * and fall back to the site logo. Route Supabase storage images through the
+ * image transformation endpoint so previews stay small and 1200x630.
+ */
+export const socialImage = (image?: string | null): string => {
+  const url = absoluteImage(image);
+  const marker = '/storage/v1/object/public/';
+  if (url.includes(marker)) {
+    const rendered = url.replace(marker, '/storage/v1/render/image/public/');
+    const sep = rendered.includes('?') ? '&' : '?';
+    return `${rendered}${sep}width=1200&height=630&resize=cover&quality=75`;
+  }
+  return url;
+};
+
 /** Localized property URL for one language, e.g. /tr/mulk/1370 */
 export const propertyPath = (p: PropertySeoInput, lang: string | null): string =>
   buildPropertyUrl({ refNo: p.refNo, ref_no: p.refNo, id: p.id }, lang);
