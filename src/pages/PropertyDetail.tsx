@@ -12,7 +12,6 @@ import SEOHead from "@/components/SEOHead";
 import { translateAmenity } from '@/utils/amenityTranslations';
 import { getLocaleFromPathname, localizePath, stripLocale } from "@/utils/localeRouting";
 import {
-  absoluteImage,
   socialImage,
   buildPropertyStructuredData,
   propertyHreflangUrls,
