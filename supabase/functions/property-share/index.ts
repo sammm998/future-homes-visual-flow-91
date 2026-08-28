@@ -77,13 +77,22 @@ serve(async (req) => {
     const langQuery = lang && lang !== "en" ? `?lang=${lang}` : "";
     const destination = `${SITE}/${pathSeg}/${encodeURIComponent(property.ref_no)}${langQuery}`;
 
+    // Always use the FIRST property image for link previews; fall back to
+    // the main image field, then to other candidates. Never the site logo
+    // unless there are truly no property photos.
+    const images: any[] = Array.isArray((property as any).property_images)
+      ? (property as any).property_images
+      : [];
+    const firstGallery = images.find(
+      (u) => typeof u === "string" && u.trim().startsWith("http")
+    );
     const rawImage = String(
-      (property as any).og_image ||
-        (Array.isArray((property as any).property_images) && (property as any).property_images[0]) ||
+      firstGallery ||
         (property as any).property_image ||
         (property as any).image ||
+        (property as any).og_image ||
         `${SITE}/favicon.png`
-    );
+    ).trim();
 
     // Social crawlers reject multi-MB images and fall back to the site logo,
     // so serve a resized 1200x630 version via Supabase image transformation.
