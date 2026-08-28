@@ -77,10 +77,22 @@ serve(async (req) => {
     const langQuery = lang && lang !== "en" ? `?lang=${lang}` : "";
     const destination = `${SITE}/${pathSeg}/${encodeURIComponent(property.ref_no)}${langQuery}`;
 
-    const image =
-      (Array.isArray(property.property_image) && property.property_image[0]) ||
-      property.image ||
-      `${SITE}/favicon.png`;
+    const rawImage = String(
+      (property as any).og_image ||
+        (Array.isArray((property as any).property_images) && (property as any).property_images[0]) ||
+        (property as any).property_image ||
+        (property as any).image ||
+        `${SITE}/favicon.png`
+    );
+
+    // Social crawlers reject multi-MB images and fall back to the site logo,
+    // so serve a resized 1200x630 version via Supabase image transformation.
+    const MARKER = "/storage/v1/object/public/";
+    const image = rawImage.includes(MARKER)
+      ? rawImage.replace(MARKER, "/storage/v1/render/image/public/") +
+        (rawImage.includes("?") ? "&" : "?") +
+        "width=1200&height=630&resize=cover&quality=75"
+      : rawImage;
 
     const brandedTitle = truncate(
       property.location ? `${title} – ${property.location}` : title,
