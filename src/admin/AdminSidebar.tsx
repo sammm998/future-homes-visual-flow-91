@@ -22,6 +22,8 @@ import {
   Table2,
   Radar,
   ScrollText,
+  Search,
+
 } from "lucide-react";
 import {
   Sidebar,
