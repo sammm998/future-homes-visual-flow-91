@@ -92,11 +92,13 @@ const groups: { label: string; items: Item[] }[] = [
   {
     label: "Insights",
     items: [
+      { to: "/admin/seo", label: "SEO", icon: Search },
       { to: "/admin/ai-insights", label: "AI insights", icon: Sparkles },
       { to: "/admin/logs", label: "Activity logs", icon: ScrollText },
       { to: "/admin/social-listening", label: "Social listening", icon: Radar },
     ],
   },
+
   {
     label: "System",
     items: [

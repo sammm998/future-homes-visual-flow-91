@@ -80,6 +80,7 @@ import { Route as SegmentIdRouteImport } from './routes/$segment.$id'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminAiInsightsRouteImport } from './routes/admin/ai-insights'
 import { Route as AdminLogsRouteImport } from './routes/admin/logs'
+import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminSocialListeningRouteImport } from './routes/admin/social-listening'
 import { Route as ArticleIdRouteImport } from './routes/article.$id'
@@ -495,6 +496,11 @@ const AdminLogsRoute = AdminLogsRouteImport.update({
   path: '/logs',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminSeoRoute = AdminSeoRouteImport.update({
+  id: '/seo',
+  path: '/seo',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -819,6 +825,7 @@ export interface FileRoutesByFullPath {
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
   '/article/$id': typeof ArticleIdRoute
@@ -939,6 +946,7 @@ export interface FileRoutesByTo {
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
   '/article/$id': typeof ArticleIdRoute
@@ -1062,6 +1070,7 @@ export interface FileRoutesById {
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
   '/article/$id': typeof ArticleIdRoute
@@ -1186,6 +1195,7 @@ export interface FileRouteTypes {
     | '/$segment/$id'
     | '/admin/ai-insights'
     | '/admin/logs'
+    | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
     | '/article/$id'
@@ -1306,6 +1316,7 @@ export interface FileRouteTypes {
     | '/$segment/$id'
     | '/admin/ai-insights'
     | '/admin/logs'
+    | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
     | '/article/$id'
@@ -1428,6 +1439,7 @@ export interface FileRouteTypes {
     | '/$segment/$id'
     | '/admin/ai-insights'
     | '/admin/logs'
+    | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
     | '/article/$id'
@@ -2024,6 +2036,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLogsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/seo': {
+      id: '/admin/seo'
+      path: '/seo'
+      fullPath: '/admin/seo'
+      preLoaderRoute: typeof AdminSeoRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/settings': {
       id: '/admin/settings'
       path: '/settings'
@@ -2471,6 +2490,7 @@ const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
 interface AdminRouteRouteChildren {
   AdminAiInsightsRoute: typeof AdminAiInsightsRoute
   AdminLogsRoute: typeof AdminLogsRoute
+  AdminSeoRoute: typeof AdminSeoRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSocialListeningRoute: typeof AdminSocialListeningRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -2510,6 +2530,7 @@ interface AdminRouteRouteChildren {
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAiInsightsRoute: AdminAiInsightsRoute,
   AdminLogsRoute: AdminLogsRoute,
+  AdminSeoRoute: AdminSeoRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSocialListeningRoute: AdminSocialListeningRoute,
   AdminIndexRoute: AdminIndexRoute,
