@@ -49,7 +49,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800&family=Epilogue:wght@300;400;500;600&display=swap",
-      },
+        media: "print",
+        "data-font-css": "true",
+      } as unknown as { rel: string; href: string },
+
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=5" },
       { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png?v=5" },
       { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png?v=5" },
