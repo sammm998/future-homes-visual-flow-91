@@ -160,12 +160,15 @@ const TestimonialsCards = () => {
                 <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center">
                   {localImageMap[testimonial.customer_name] || testimonial.image_url ? (
                     <img 
-                      src={localImageMap[testimonial.customer_name] || testimonial.image_url} 
+                      src={getOptimizedImageUrl(localImageMap[testimonial.customer_name] || testimonial.image_url || '', 96, 70)} 
                       alt={testimonial.customer_name}
+                      width={48}
+                      height={48}
                       className="w-full h-full object-cover"
                       loading="lazy"
                       decoding="async"
                     />
+
                   ) : (
                     <span className="text-primary font-semibold text-lg">
                       {testimonial.customer_name.charAt(0)}
