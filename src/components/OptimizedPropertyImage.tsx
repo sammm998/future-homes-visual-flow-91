@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import futureHomesLogo from '@/assets/future-homes-logo.png';
+import futureHomesLogo from '@/assets/future-homes-logo-mark.webp';
 import { imageCache } from '@/utils/imageCache';
 import { getOptimizedImageUrl } from '@/utils/imageOptimization';
 
@@ -205,7 +205,12 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
         )}>
           <img 
             src={futureHomesLogo} 
-            alt="Future Homes" 
+            alt=""
+            aria-hidden="true"
+            width={96}
+            height={55}
+            loading="lazy"
+            decoding="async" 
             className={cn(
               "h-auto drop-shadow-lg bg-white/80 backdrop-blur-sm rounded-lg p-2",
               showCenteredLogo ? "w-24" : "w-16"

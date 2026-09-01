@@ -48,7 +48,7 @@ const NetflixPropertyCard: React.FC<PropertyCardProps> = ({ property, onViewGall
             src={property.property_image || property.property_images?.[0]}
             alt={property.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            priority={index < 4}
+            priority={index === 0}
           />
           
           {/* Gradient Overlay */}

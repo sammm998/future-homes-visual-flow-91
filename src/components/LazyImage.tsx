@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, memo } from 'react';
 import { cn } from '@/lib/utils';
 import { getOptimizedImageUrl } from '@/utils/imageOptimization';
-import futureHomesLogo from '@/assets/future-homes-logo.png';
+import futureHomesLogo from '@/assets/future-homes-logo-mark.webp';
 
 interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;

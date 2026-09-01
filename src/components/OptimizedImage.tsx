@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import futureHomesLogo from '@/assets/future-homes-logo.png';
+import futureHomesLogo from '@/assets/future-homes-logo-mark.webp';
 
 interface OptimizedImageProps {
   src: string;

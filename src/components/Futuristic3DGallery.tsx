@@ -210,7 +210,7 @@ const Futuristic3DGallery: React.FC = () => {
                       src={property.property_image || property.property_images[0]}
                       alt={property.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      priority={index < 8}
+                      priority={index < 2}
                     />
                     
                     {/* Overlay Gradient */}
