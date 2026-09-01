@@ -38,12 +38,13 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
               <span className="text-xs sm:text-sm">info@futurehomesinternational.com</span>
             </a>
           </div>
-          <div className="flex items-center gap-3">
-            <a href="https://www.instagram.com/futurehomesinternational/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><Instagram size={16} /></a>
-            <a href="https://www.facebook.com/futurehomesturkey/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><Facebook size={16} /></a>
-            <a href="https://www.linkedin.com/company/future-homes-1/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><Linkedin size={16} /></a>
-            <a href="https://www.tiktok.com/@futurehomesglobal" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><FaTiktok size={16} /></a>
+          <div className="flex items-center gap-1">
+            <a href="https://www.instagram.com/futurehomesinternational/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Instagram size={16} aria-hidden="true" /></a>
+            <a href="https://www.facebook.com/futurehomesturkey/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Facebook size={16} aria-hidden="true" /></a>
+            <a href="https://www.linkedin.com/company/future-homes-1/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Linkedin size={16} aria-hidden="true" /></a>
+            <a href="https://www.tiktok.com/@futurehomesglobal" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><FaTiktok size={16} aria-hidden="true" /></a>
           </div>
+
         </div>
       </div>
 
