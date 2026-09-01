@@ -9,7 +9,8 @@ import istanbulImage from '@/assets/istanbul-destination.webp';
 const HeroSlider = () => {
   const slides = [
     {
-      image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.webp",
+      image: "/lovable-uploads/hero-antalya-1200.webp",
+      srcSet: "/lovable-uploads/hero-antalya-768.webp 768w, /lovable-uploads/hero-antalya-1200.webp 1200w",
       alt: "Antalya - Turkish Riviera Paradise"
     },
     {
@@ -70,6 +71,8 @@ const HeroSlider = () => {
             {visible.includes(index) && (
               <img
                 src={slide.image}
+                srcSet={(slide as { srcSet?: string }).srcSet}
+                sizes={(slide as { srcSet?: string }).srcSet ? "100vw" : undefined}
                 alt={slide.alt}
                 width={1200}
                 height={675}
