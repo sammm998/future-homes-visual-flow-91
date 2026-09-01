@@ -78,11 +78,12 @@ export function ChatBubbleAvatar({
 }: ChatBubbleAvatarProps) {
   return (
     <Avatar className={cn("h-8 w-8", className)}>
-      {src && <AvatarImage src={src} />}
+      {src && <AvatarImage src={src} width={32} height={32} loading="lazy" decoding="async" alt="" />}
       <AvatarFallback>{fallback}</AvatarFallback>
     </Avatar>
   )
 }
+
 
 interface ChatBubbleActionProps {
   icon?: React.ReactNode
