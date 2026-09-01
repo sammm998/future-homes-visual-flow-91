@@ -9,6 +9,7 @@ import { useTeamMembers } from "@/hooks/useTeamMembers";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import { useTranslation } from "@/hooks/useTranslation";
+import { getOptimizedImageUrl } from "@/utils/imageOptimization";
 
 const AboutUs = () => {
   const { t } = useTranslation();
