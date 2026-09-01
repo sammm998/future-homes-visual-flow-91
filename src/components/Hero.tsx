@@ -29,22 +29,29 @@ const Hero: React.FC<HeroProps> = ({
             setInteractiveSearch(() => m.HeroSearch);
           }
         })
-        .catch((err) => {
-          console.error("Failed to load HeroSearch:", err);
+        .catch(() => {
+          // Keep the static form if the interactive chunk fails to load.
         });
     };
 
-
     if (typeof window !== "undefined") {
-      // Use setTimeout so the interactive form reliably hydrates in all
-      // environments; requestIdleCallback can stall in headless/test runners.
+      // Load after a short delay to keep the initial paint/hydration lean, but
+      // also load immediately on first user interaction so the polished form
+      // is available before the user needs it.
       const t = setTimeout(load, 300);
+      const events = ["pointerdown", "keydown", "touchstart", "scroll"] as const;
+      const onInteraction = () => {
+        clearTimeout(t);
+        load();
+      };
+      events.forEach((e) => window.addEventListener(e, onInteraction, { once: true, passive: true }));
+
       return () => {
         cancelled = true;
         clearTimeout(t);
+        events.forEach((e) => window.removeEventListener(e, onInteraction));
       };
     }
-
   }, []);
 
   return (
