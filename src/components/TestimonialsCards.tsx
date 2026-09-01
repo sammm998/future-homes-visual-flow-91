@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useLocation, useSearchParams } from '@/lib/router-compat';
 import { supabase } from '@/integrations/supabase/client';
 import { Star } from 'lucide-react';
+import { getOptimizedImageUrl } from '@/utils/imageOptimization';
+
 
 // Import local testimonial images
 import turgutImg from "@/assets/testimonials/turgut.jpg";
