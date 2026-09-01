@@ -83,15 +83,13 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
   };
 
-  // Create optimized image URLs - return as-is to avoid transformation issues
+  // Create optimized image URLs via the storage CDN transformation endpoint
   const createOptimizedUrl = (originalUrl: string, targetWidth: number) => {
     if (!originalUrl || originalUrl.includes('placeholder.svg') || originalUrl.startsWith('data:')) {
       return originalUrl;
     }
-    
-    // Return URLs as-is to avoid transformation failures
-    // Both Supabase and CDN URLs should work without additional parameters
-    return originalUrl;
+
+    return getOptimizedImageUrl(originalUrl, targetWidth, 72);
   };
 
   // Create different sizes for responsive loading
@@ -103,6 +101,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       .map(w => `${createOptimizedUrl(baseSrc, w)} ${w}w`)
       .join(', ');
   };
+
 
   // Blur placeholder as base64
   const blurPlaceholder = "data:image/svg+xml;base64," + btoa(`
