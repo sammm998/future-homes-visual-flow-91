@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "motion/react";
+import { getOptimizedImageUrl } from "@/utils/imageOptimization";
+
 
 interface Testimonial {
   text: string;
