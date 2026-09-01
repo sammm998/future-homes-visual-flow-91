@@ -57,7 +57,7 @@ const FeaturedPropertiesShowcase = () => {
             <div key={property.id} className="group relative bg-card rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
               <div className="relative h-72 overflow-hidden">
                 <img
-                  src={property.property_image || '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png'}
+                  src={property.property_image || '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.webp'}
                   alt={property.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />

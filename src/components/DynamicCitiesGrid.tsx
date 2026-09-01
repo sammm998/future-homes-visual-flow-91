@@ -7,7 +7,7 @@ const DynamicCitiesGrid = () => {
   const cityFrames = [
     {
       id: 1,
-      image: '/lovable-uploads/2209cb13-f5ad-47af-ad83-fac59b9edd3b.png',
+      image: '/lovable-uploads/2209cb13-f5ad-47af-ad83-fac59b9edd3b.webp',
       title: 'DUBAI',
       defaultPos: { x: 0, y: 0, w: 4, h: 4 },
       mediaSize: 1,
@@ -15,7 +15,7 @@ const DynamicCitiesGrid = () => {
     },
     {
       id: 2,
-      image: '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png',
+      image: '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.webp',
       title: 'CYPRUS',
       defaultPos: { x: 4, y: 0, w: 4, h: 4 },
       mediaSize: 1,
@@ -23,7 +23,7 @@ const DynamicCitiesGrid = () => {
     },
     {
       id: 4,
-      image: '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png',
+      image: '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.webp',
       title: 'MERSIN',
       defaultPos: { x: 0, y: 4, w: 4, h: 4 },
       mediaSize: 1,
@@ -31,7 +31,7 @@ const DynamicCitiesGrid = () => {
     },
     {
       id: 5,
-      image: '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png',
+      image: '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.webp',
       title: 'CYPRUS',
       defaultPos: { x: 4, y: 4, w: 4, h: 4 },
       mediaSize: 1,
@@ -39,7 +39,7 @@ const DynamicCitiesGrid = () => {
     },
     {
       id: 6,
-      image: '/lovable-uploads/2209cb13-f5ad-47af-ad83-fac59b9edd3b.png',
+      image: '/lovable-uploads/2209cb13-f5ad-47af-ad83-fac59b9edd3b.webp',
       title: 'DUBAI',
       defaultPos: { x: 8, y: 4, w: 4, h: 4 },
       mediaSize: 1,
@@ -47,7 +47,7 @@ const DynamicCitiesGrid = () => {
     },
     {
       id: 7,
-      image: '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png',
+      image: '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.webp',
       title: 'CYPRUS',
       defaultPos: { x: 0, y: 8, w: 4, h: 4 },
       mediaSize: 1,

@@ -11,7 +11,7 @@ import {
 import { Menu, Mail, Facebook, Instagram, Linkedin } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
 import { cn } from "@/lib/utils";
-import { AIHelpChat } from "./AIHelpChat";
+
 import Sidebar from "./Sidebar";
 import CurrencySelector from "./CurrencySelector";
 import SimpleLanguageSelector from "./SimpleLanguageSelector";
@@ -22,7 +22,7 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
+
   return (
     <>
       {/* Contact bar + nav scroll as one sticky header, so the top bar can no
@@ -38,12 +38,13 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
               <span className="text-xs sm:text-sm">info@futurehomesinternational.com</span>
             </a>
           </div>
-          <div className="flex items-center gap-3">
-            <a href="https://www.instagram.com/futurehomesinternational/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><Instagram size={16} /></a>
-            <a href="https://www.facebook.com/futurehomesturkey/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><Facebook size={16} /></a>
-            <a href="https://www.linkedin.com/company/future-homes-1/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><Linkedin size={16} /></a>
-            <a href="https://www.tiktok.com/@futurehomesglobal" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><FaTiktok size={16} /></a>
+          <div className="flex items-center gap-1">
+            <a href="https://www.instagram.com/futurehomesinternational/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Instagram size={16} aria-hidden="true" /></a>
+            <a href="https://www.facebook.com/futurehomesturkey/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Facebook size={16} aria-hidden="true" /></a>
+            <a href="https://www.linkedin.com/company/future-homes-1/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Linkedin size={16} aria-hidden="true" /></a>
+            <a href="https://www.tiktok.com/@futurehomesglobal" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><FaTiktok size={16} aria-hidden="true" /></a>
           </div>
+
         </div>
       </div>
 
@@ -80,8 +81,8 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
       </nav>
       </header>
 
-      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} onAIHelpOpen={() => setIsAIHelpOpen(true)} />
-      <AIHelpChat isOpen={isAIHelpOpen} onClose={() => setIsAIHelpOpen(false)} />
+      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+
     </>
   );
 };

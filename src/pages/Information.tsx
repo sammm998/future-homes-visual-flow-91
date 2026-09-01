@@ -256,8 +256,8 @@ const Information = () => {
     // Use existing images from the project based on category for older articles
     if (text.includes('dubai')) {
       const dubaiImages = [
-        '/lovable-uploads/739b5c8c-7e7d-42ee-a412-963fad0a408d.png', // Dubai skyline
-        '/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.png', // Modern city 
+        '/lovable-uploads/739b5c8c-7e7d-42ee-a412-963fad0a408d.webp', // Dubai skyline
+        '/lovable-uploads/6cefa26f-ebbb-490a-ac8c-3e27243dae92.webp', // Modern city 
         '/lovable-uploads/86a8042b-af76-4da8-8aeb-218ab9c24059.png'  // Dubai property
       ];
       return dubaiImages[index % dubaiImages.length];
@@ -265,27 +265,27 @@ const Information = () => {
     
     if (text.includes('bali')) {
       const baliImages = [
-        '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png', // Bali landscape
-        '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Tropical setting
-        '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png'  // Island paradise
+        '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.webp', // Bali landscape
+        '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.webp', // Tropical setting
+        '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.webp'  // Island paradise
       ];
       return baliImages[index % baliImages.length];
     }
     
     if (text.includes('turkey') || text.includes('antalya') || text.includes('mersin')) {
       const turkeyImages = [
-        '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png', // Turkey landscape
-        '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Turkish setting
-        '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png'  // Turkey scenic
+        '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.webp', // Turkey landscape
+        '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.webp', // Turkish setting
+        '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.webp'  // Turkey scenic
       ];
       return turkeyImages[index % turkeyImages.length];
     }
     
     if (text.includes('cyprus')) {
       const cyprusImages = [
-        '/lovable-uploads/227fa1b1-f9c2-4427-a969-9521d121dd51.png', // Cyprus landscape
-        '/lovable-uploads/2adcc5fd-ef6d-4fee-8ed8-cc57be79fccf.png', // Cyprus coastal
-        '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png'  // Cyprus property
+        '/lovable-uploads/227fa1b1-f9c2-4427-a969-9521d121dd51.webp', // Cyprus landscape
+        '/lovable-uploads/2adcc5fd-ef6d-4fee-8ed8-cc57be79fccf.webp', // Cyprus coastal
+        '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.webp'  // Cyprus property
       ];
       return cyprusImages[index % cyprusImages.length];
     }
@@ -301,9 +301,9 @@ const Information = () => {
     
     if (text.includes('property') || text.includes('real estate') || text.includes('purchase')) {
       const propertyImages = [
-        '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png', // Luxury property
+        '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.webp', // Luxury property
         '/lovable-uploads/7335e4e2-249c-4b29-b83a-0101453f6878.png', // Modern property
-        '/lovable-uploads/aff7bebd-5943-45d9-84d8-a923abf07e24.png'  // Property exterior
+        '/lovable-uploads/aff7bebd-5943-45d9-84d8-a923abf07e24.webp'  // Property exterior
       ];
       return propertyImages[index % propertyImages.length];
     }
@@ -311,26 +311,26 @@ const Information = () => {
     if (text.includes('finance') || text.includes('banking') || text.includes('investment') || text.includes('bitcoin') || text.includes('cost')) {
       const financeImages = [
         '/lovable-uploads/57965b04-af07-45ca-8bb7-9dec10da9d29.png', // Finance/investment
-        '/lovable-uploads/5daee4c4-d9d3-41c2-99bc-382e40915f52.png', // Business finance
-        '/lovable-uploads/c869b6e7-1d37-47cf-9558-55aa3d03053e.png'  // Financial charts
+        '/lovable-uploads/5daee4c4-d9d3-41c2-99bc-382e40915f52.webp', // Business finance
+        '/lovable-uploads/c869b6e7-1d37-47cf-9558-55aa3d03053e.webp'  // Financial charts
       ];
       return financeImages[index % financeImages.length];
     }
     
     if (text.includes('living') || text.includes('lifestyle') || text.includes('culture') || text.includes('social')) {
       const livingImages = [
-        '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png', // Antalya lifestyle
-        '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Mersin living
-        '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png'  // Social lifestyle
+        '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.webp', // Antalya lifestyle
+        '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.webp', // Mersin living
+        '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.webp'  // Social lifestyle
       ];
       return livingImages[index % livingImages.length];
     }
     
     if (text.includes('business') || text.includes('opportunity')) {
       const businessImages = [
-        '/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.png', // Business opportunity
-        '/lovable-uploads/4d9ff093-d8bd-4855-80db-6c58534a8e44.png', // Investment opportunity
-        '/lovable-uploads/9537b0b1-89b0-4c63-ae02-494c98caab5d.png'  // Business growth
+        '/lovable-uploads/35d77b72-fddb-4174-b101-7f0dd0f3385d.webp', // Business opportunity
+        '/lovable-uploads/4d9ff093-d8bd-4855-80db-6c58534a8e44.webp', // Investment opportunity
+        '/lovable-uploads/9537b0b1-89b0-4c63-ae02-494c98caab5d.webp'  // Business growth
       ];
       return businessImages[index % businessImages.length];
     }
@@ -338,17 +338,17 @@ const Information = () => {
     if (text.includes('music') || text.includes('arts') || text.includes('art')) {
       const artsImages = [
         '/lovable-uploads/000f440d-ddb1-4c1b-9202-eef1ef588a8c.png', // Arts/culture
-        '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png', // Cultural activities
-        '/lovable-uploads/2209cb13-f5ad-47af-ad83-fac59b9edd3b.png'  // Music/arts scene
+        '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.webp', // Cultural activities
+        '/lovable-uploads/2209cb13-f5ad-47af-ad83-fac59b9edd3b.webp'  // Music/arts scene
       ];
       return artsImages[index % artsImages.length];
     }
     
     // Default category - use property images
     const defaultImages = [
-      '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png', // Default property 1
-      '/lovable-uploads/227fa1b1-f9c2-4427-a969-9521d121dd51.png', // Default property 2  
-      '/lovable-uploads/2adcc5fd-ef6d-4fee-8ed8-cc57be79fccf.png'  // Default property 3
+      '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.webp', // Default property 1
+      '/lovable-uploads/227fa1b1-f9c2-4427-a969-9521d121dd51.webp', // Default property 2  
+      '/lovable-uploads/2adcc5fd-ef6d-4fee-8ed8-cc57be79fccf.webp'  // Default property 3
     ];
     return defaultImages[index % defaultImages.length];
   };

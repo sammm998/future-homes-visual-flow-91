@@ -26,7 +26,7 @@ import {
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import logo from "@/assets/future-homes-logo.png";
+import logo from "@/assets/future-homes-logo.webp";
 
 interface Doc {
   id: string;

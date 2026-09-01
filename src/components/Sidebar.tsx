@@ -7,10 +7,10 @@ import { useTranslation } from '@/hooks/useTranslation';
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  onAIHelpOpen: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onAIHelpOpen }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+
   const { t, lang } = useTranslation();
   const location = useLocation();
   const withLang = (href: string) => {
