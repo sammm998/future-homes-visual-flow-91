@@ -23,10 +23,17 @@ const Hero: React.FC<HeroProps> = ({
   useEffect(() => {
     let cancelled = false;
     const load = () => {
-      import("@/components/HeroSearch").then((m) => {
-        if (!cancelled) setInteractiveSearch(() => m.HeroSearch);
-      });
+      import("@/components/HeroSearch")
+        .then((m) => {
+          if (!cancelled) {
+            setInteractiveSearch(() => m.HeroSearch);
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to load HeroSearch:", err);
+        });
     };
+
 
     if (typeof window !== "undefined") {
       if ("requestIdleCallback" in window) {
