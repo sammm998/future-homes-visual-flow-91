@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import futureHomesLogo from '@/assets/future-homes-logo.png';
 import { imageCache } from '@/utils/imageCache';
+import { getOptimizedImageUrl } from '@/utils/imageOptimization';
+
 
 interface OptimizedPropertyImageProps {
   src: string;
