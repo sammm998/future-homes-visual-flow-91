@@ -45,7 +45,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   const validSrc = getValidSrc(src);
   
   // Check if image is already cached - if so, skip loading state entirely
-  const isCached = imageCache.isCached(validSrc);
+  const isCached = imageCache.isCached(getOptimizedImageUrl(validSrc, width, 72));
   
   const [isLoading, setIsLoading] = useState(!isCached);
   const [error, setError] = useState(false);
@@ -54,12 +54,14 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   const imgRef = useRef<HTMLImageElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // Immediately preload to cache if priority
+  // Priority images are fetched by the browser itself (fetchpriority="high"
+  // on the <img> below). We never preload the raw original — it can be
+  // several megabytes — only the CDN-resized variant is ever requested.
   useEffect(() => {
     if (priority && validSrc) {
-      imageCache.preload(validSrc);
+      imageCache.preload(getOptimizedImageUrl(validSrc, width, 72));
     }
-  }, [priority, validSrc]);
+  }, [priority, validSrc, width]);
 
   // Fallback image sources - improved for faster fallback
   const getFallbackSrc = (originalSrc: string, attemptNumber: number): string => {
@@ -126,7 +128,7 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     const newValidSrc = getValidSrc(src);
     
     // Check cache first - if cached, no loading needed
-    if (imageCache.isCached(newValidSrc)) {
+    if (imageCache.isCached(getOptimizedImageUrl(newValidSrc, width, 72))) {
       setCurrentSrc(newValidSrc);
       setIsLoading(false);
       return;
@@ -134,9 +136,6 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
     
     setIsLoading(true);
     setCurrentSrc(newValidSrc);
-    
-    // Preload to cache for future use
-    imageCache.preload(newValidSrc);
   }, [src]);
 
   const handleLoad = () => {

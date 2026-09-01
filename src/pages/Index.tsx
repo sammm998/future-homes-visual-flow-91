@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import { useTranslation } from "@/hooks/useTranslation";
 import SEOInternalLinks from "@/components/SEOInternalLinks";
 import DeferredSection from "@/components/DeferredSection";
-import { useTestimonials } from "@/hooks/useTestimonials";
 import SEOHead from "@/components/SEOHead";
 import { useSEO } from "@/hooks/useSEO";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
@@ -13,18 +12,18 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
-import PropertyListingSection from "@/components/PropertyListingSection";
 import aliKaranImage from "@/assets/ali-karan-founder.webp";
 
 // Below-the-fold sections: downloaded only when the user scrolls near them.
 const FeatureDemo = lazy(() => import("@/components/ui/feature-demo").then(m => ({ default: m.FeatureDemo })));
 const InteractiveSelector = lazy(() => import("@/components/ui/interactive-selector"));
 const ShuffleGrid = lazy(() => import("@/components/ShuffleGrid"));
-const RollingTestimonials = lazy(() => import("@/components/RollingTestimonials"));
+const RollingTestimonialsSection = lazy(() => import("@/components/RollingTestimonialsSection"));
 const TestimonialsMasonryGrid = lazy(() => import("@/components/TestimonialsMasonryGrid"));
 const FounderSection = lazy(() => import("@/components/FounderSection"));
 const TeamSection = lazy(() => import("@/components/TeamSection"));
 const NewsInsights = lazy(() => import("@/components/NewsInsights"));
+const PropertyListingSection = lazy(() => import("@/components/PropertyListingSection"));
 
 const Index = () => {
   const { t } = useTranslation();
@@ -38,9 +37,6 @@ const Index = () => {
   const currentCanonicalUrl = useCanonicalUrl();
   const [showPopup, setShowPopup] = useState(false);
   // Removed sync import - database-only approach
-  const {
-    testimonials
-  } = useTestimonials();
   const {
     pageTitle,
     metaDescription,
@@ -196,7 +192,13 @@ const Index = () => {
       <OrganizationSchema />
       <Navigation />
 
-      {/* Dynamic Content Sections from CMS */}
+      {/* Hero Section - Database content with fallback */}
+      <div className="w-full">
+        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.webp" title={heroTitle || t('hero.title')} subtitle={t('hero.subtitle')} />
+      </div>
+
+      {/* Dynamic Content Sections from CMS — rendered below the hero so the
+          async CMS fetch can never push the hero down (layout shift). */}
       {!contentLoading && contentSections.length > 0 && (
         <div className="container mx-auto px-4 py-12">
           {contentSections.map((section, index) => (
@@ -204,14 +206,12 @@ const Index = () => {
           ))}
         </div>
       )}
-      
-      {/* Hero Section - Database content with fallback */}
-      <div className="w-full">
-        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.webp" title={heroTitle || t('hero.title')} subtitle={t('hero.subtitle')} />
-      </div>
+
       
       {/* Property Listing Section with Location Filters */}
-      <PropertyListingSection />
+      <DeferredSection minHeight={700}>
+        <PropertyListingSection />
+      </DeferredSection>
       
       {/* Before & After Feature */}
       <DeferredSection className="w-full" minHeight={500}>
@@ -230,11 +230,7 @@ const Index = () => {
 
       {/* Rolling Testimonials */}
       <DeferredSection minHeight={700}>
-        <RollingTestimonials
-          testimonials={testimonials}
-          title={t('home.customer_reviews')}
-          subtitle={t('home.customer_reviews_subtitle')}
-        />
+        <RollingTestimonialsSection />
       </DeferredSection>
 
       {/* Testimonials Masonry Grid */}

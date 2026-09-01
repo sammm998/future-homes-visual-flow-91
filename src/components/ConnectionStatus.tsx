@@ -13,7 +13,12 @@ export const ConnectionStatus: React.FC = () => {
   }
 
   return (
-    <Alert className="m-4" variant={isBlocked ? "destructive" : "default"}>
+    // Rendered as a floating overlay so it can never push page content down
+    // (an in-flow banner caused a large layout shift on slow connections).
+    <Alert
+      className="fixed bottom-4 left-4 right-4 z-50 w-auto max-w-xl mx-auto shadow-lg"
+      variant={isBlocked ? "destructive" : "default"}
+    >
       <div className="flex items-center gap-2">
         {isBlocked ? (
           <AlertTriangle className="h-4 w-4" />

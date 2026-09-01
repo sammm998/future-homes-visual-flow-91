@@ -175,10 +175,12 @@ const Hero: React.FC<HeroProps> = ({
         {/* Content - Centered */}
         <div className="flex-1 p-4 sm:p-8 lg:p-16 relative z-10 flex flex-col justify-center items-center">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 mb-4 sm:mb-6">
+            {/* min-heights reserve the space so a late CMS/webfont swap of the
+                headline can't shift the search card below it. */}
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 mb-4 sm:mb-6 min-h-[5.5rem] sm:min-h-[7rem] md:min-h-[10rem] flex items-center justify-center">
               {title || t('hero.title')}
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-neutral-300 mb-8 sm:mb-12">
+            <p className="text-lg sm:text-xl md:text-2xl text-neutral-300 mb-8 sm:mb-12 min-h-[3.5rem] sm:min-h-[4rem] flex items-center justify-center">
               {subtitle || t('hero.subtitle')}
             </p>
 

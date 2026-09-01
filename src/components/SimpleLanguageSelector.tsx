@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { useLocation, useNavigate } from '@/lib/router-compat';
+import { useLocation } from '@/lib/router-compat';
 import { PATH_TRANSLATIONS, buildPropertyUrl } from '@/utils/slugHelpers';
 import { localizePath, stripLocale, stripLangParam, getLocaleFromPathname } from '@/utils/localeRouting';
 import { supabase } from '@/integrations/supabase/client';
@@ -30,7 +30,6 @@ interface SimpleLanguageSelectorProps {
 const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ className = "" }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   // Derive the language from the router location so SSR and the first client
   // render agree (window/localStorage lookups caused hydration mismatches).
@@ -71,24 +70,17 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
       const data = matches && matches.length > 0 ? matches[0] : null;
 
       if (data) {
-        const url = buildPropertyUrl(data, langCode);
-        if (!langCode) {
-          window.location.assign(url);
-        } else {
-          navigate(url, { replace: true });
-        }
+        // Full navigation: the new locale's translation dictionary is loaded
+        // on document load, so a client-side navigate would keep the old texts.
+        window.location.assign(buildPropertyUrl(data, langCode));
         return;
       }
     }
 
     const target = `${localizePath(location.pathname, selectedLanguage.code)}${stripLangParam(location.search)}`;
-    if (!langCode) {
-      // Switching back to English drops the URL prefix; do a real navigation so
-      // no in-flight component re-writes the saved language from the old path.
-      window.location.assign(target);
-      return;
-    }
-    navigate(target, { replace: true });
+    // Always do a real navigation so the target locale's dictionary and
+    // server-rendered content load together.
+    window.location.assign(target);
 
   };
 

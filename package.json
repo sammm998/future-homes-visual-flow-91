@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
+    "build": "bun scripts/build-i18n.ts && vite build",
+    "build:dev": "bun scripts/build-i18n.ts && vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "build:i18n": "bun scripts/build-i18n.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
