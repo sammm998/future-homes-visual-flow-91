@@ -1,33 +1,30 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import { useTranslation } from "@/hooks/useTranslation";
-import { motion } from "framer-motion";
-import TeamSection from "@/components/TeamSection";
-import { LazyComponent, LazyShuffleGrid, LazyFeaturedProperties, LazyNewsInsights } from "@/components/LazyComponent";
-import ModernPropertyShowcase from "@/components/ModernPropertyShowcase";
-import Newsletter from "@/components/Newsletter";
 import SEOInternalLinks from "@/components/SEOInternalLinks";
-import { FeatureDemo } from "@/components/ui/feature-demo";
-import InteractiveSelector from "@/components/ui/interactive-selector";
-
-import TestimonialsMasonryGrid from "@/components/TestimonialsMasonryGrid";
-import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
-import FounderSection from "@/components/FounderSection";
-import { ZoomParallax } from "@/components/ui/zoom-parallax";
+import DeferredSection from "@/components/DeferredSection";
 import { useTestimonials } from "@/hooks/useTestimonials";
 import SEOHead from "@/components/SEOHead";
-import { PerformanceOptimizer } from "@/components/PerformanceOptimizer";
 import { useSEO } from "@/hooks/useSEO";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
 import OrganizationSchema from "@/components/OrganizationSchema";
-import { useMemo, useEffect, useState } from "react";
-// Removed useSyncAllData - database-only approach
+import { lazy, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import PropertyListingSection from "@/components/PropertyListingSection";
 import aliKaranImage from "@/assets/ali-karan-founder.webp";
+
+// Below-the-fold sections: downloaded only when the user scrolls near them.
+const FeatureDemo = lazy(() => import("@/components/ui/feature-demo").then(m => ({ default: m.FeatureDemo })));
+const InteractiveSelector = lazy(() => import("@/components/ui/interactive-selector"));
+const ShuffleGrid = lazy(() => import("@/components/ShuffleGrid"));
+const RollingTestimonials = lazy(() => import("@/components/RollingTestimonials"));
+const TestimonialsMasonryGrid = lazy(() => import("@/components/TestimonialsMasonryGrid"));
+const FounderSection = lazy(() => import("@/components/FounderSection"));
+const TeamSection = lazy(() => import("@/components/TeamSection"));
+const NewsInsights = lazy(() => import("@/components/NewsInsights"));
 
 const Index = () => {
   const { t } = useTranslation();
@@ -185,14 +182,15 @@ const Index = () => {
     }]
   };
   return <div className="min-h-screen overflow-x-clip">
-      {/* Preload critical hero images for faster LCP */}
-      <link rel="preload" as="image" href="/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.webp" />
-      <PerformanceOptimizer
-        preloadImages={[
-          '/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.webp',
-          '/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.webp'
-        ]}
-        prefetchRoutes={['/antalya', '/dubai', '/cyprus']}
+      {/* Preload the LCP hero image (responsive) */}
+      <link
+        rel="preload"
+        as="image"
+        href="/lovable-uploads/hero-antalya-1200.webp"
+        // @ts-expect-error - valid HTML attributes for responsive preload
+        imagesrcset="/lovable-uploads/hero-antalya-768.webp 768w, /lovable-uploads/hero-antalya-1200.webp 1200w"
+        imagesizes="100vw"
+        fetchpriority="high"
       />
       <SEOHead title={pageTitle || "Property for Sale in Turkey, Dubai, Cyprus & Bali | Future Homes International"} description={metaDescription || "Property for sale in Turkey, Dubai, Cyprus & Bali. Apartments, villas & off-plan homes from leading international agents. Turkish citizenship by investment from $400K."} keywords="property for sale in turkey, homes for sale in turkey, turkey real estate, turkey homes for sale, houses for sale in turkey, apartments for sale in turkey, villas for sale in turkey, property for sale in antalya, apartments for sale in antalya, property for sale in istanbul, homes for sale in istanbul turkey, property for sale in dubai, dubai homes for sale, homes to buy dubai, houses for sale in dubai, dubai apartments for sale, property for sale in cyprus, cyprus real estate, houses for sale in cyprus, property for sale in bali, bali villas for sale, turkish citizenship by investment, buy property in turkey, off plan property turkey, real estate turkey" canonicalUrl={currentCanonicalUrl} structuredData={[homePageStructuredData, faqStructuredData]} />
       <OrganizationSchema />
@@ -216,55 +214,48 @@ const Index = () => {
       <PropertyListingSection />
       
       {/* Before & After Feature */}
-      <div className="w-full">
+      <DeferredSection className="w-full" minHeight={500}>
         <FeatureDemo />
-      </div>
-      
+      </DeferredSection>
+
       {/* Interactive City Selector */}
-      <div className="w-full">
+      <DeferredSection className="w-full" minHeight={500}>
         <InteractiveSelector />
-      </div>
-      
+      </DeferredSection>
+
       {/* Featured Properties - Shuffle Grid */}
-      <LazyComponent fallback={<div className="w-full h-96 bg-muted animate-pulse rounded-lg" />}>
-        <LazyShuffleGrid />
-      </LazyComponent>
-      
-      
-      
+      <DeferredSection minHeight={600}>
+        <ShuffleGrid />
+      </DeferredSection>
+
       {/* Rolling Testimonials */}
-      <section className="py-20 bg-secondary/30 overflow-hidden">
-        <div className="container mx-auto px-4 mb-16">
-          <div className="text-center">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              {t('home.customer_reviews')}
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              {t('home.customer_reviews_subtitle')}
-            </p>
-          </div>
-        </div>
-        
-        <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
-          <TestimonialsColumn testimonials={testimonials.slice(0, 3)} className="w-80" duration={15} />
-          <TestimonialsColumn testimonials={testimonials.slice(3, 6)} className="w-80 hidden md:block" duration={19} />
-          <TestimonialsColumn testimonials={testimonials.slice(6, 9)} className="w-80 hidden lg:block" duration={17} />
-        </div>
-      </section>
+      <DeferredSection minHeight={700}>
+        <RollingTestimonials
+          testimonials={testimonials}
+          title={t('home.customer_reviews')}
+          subtitle={t('home.customer_reviews_subtitle')}
+        />
+      </DeferredSection>
 
       {/* Testimonials Masonry Grid */}
-      <TestimonialsMasonryGrid />
+      <DeferredSection minHeight={600}>
+        <TestimonialsMasonryGrid />
+      </DeferredSection>
 
       {/* Founder Section */}
-      <FounderSection />
+      <DeferredSection minHeight={600}>
+        <FounderSection />
+      </DeferredSection>
 
       {/* Team Section */}
-      <TeamSection />
+      <DeferredSection minHeight={600}>
+        <TeamSection />
+      </DeferredSection>
 
       {/* News & Insights */}
-      <LazyComponent fallback={<div className="w-full h-64 bg-muted animate-pulse rounded-lg" />}>
-        <LazyNewsInsights />
-      </LazyComponent>
+      <DeferredSection minHeight={400}>
+        <NewsInsights />
+      </DeferredSection>
       
       {/* SEO content */}
       <section className="py-16 bg-secondary/20">
