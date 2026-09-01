@@ -72,13 +72,22 @@ function Feature() {
                 src={interiorImage}
                 style={{ clipPath: `inset(0 0 0 ${inset}%)` }}
                 alt="After renovation - finished interior"
+                width={925}
+                height={910}
+                loading="lazy"
+                decoding="async"
               />
 
               <img
                 className="absolute left-0 top-0 w-full h-full object-cover select-none pointer-events-none"
                 src={floorplanImage}
                 alt="Before renovation - empty space"
+                width={1024}
+                height={1024}
+                loading="lazy"
+                decoding="async"
               />
+
             </div>
           </div>
         </div>
