@@ -28,8 +28,10 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
       {/* Contact bar + nav scroll as one sticky header, so the top bar can no
           longer be half-clipped behind the sticky white nav. */}
       <header className="sticky top-0 z-50">
-      <div className="bg-brand-secondary text-white py-2 px-4">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm">
+      {/* Fixed height so late-loading webfonts can never reflow the header
+          (this was the main source of layout shift on mobile). */}
+      <div className="bg-brand-secondary text-white px-4 h-14 sm:h-10 flex items-center overflow-hidden">
+        <div className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-2 sm:mb-0 text-center sm:text-left">
             <a href="mailto:info@futurehomesinternational.com" className="flex items-center gap-2 hover:text-brand-accent transition-colors">
               <Mail size={14} />

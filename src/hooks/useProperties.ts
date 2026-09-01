@@ -1,8 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { enhancedSupabase, resilientQuery, fallbackPropertyData } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
-import { useEffect } from 'react';
-import { preloadPropertyImages } from '@/utils/imageCache';
+
 import { getCurrentLanguage } from '@/utils/seoUtils';
 import { useLocation } from '@/lib/router-compat';
 
@@ -75,13 +74,10 @@ export const useProperties = () => {
     networkMode: 'offlineFirst',
   });
 
-  // Preload images when properties are loaded
-  useEffect(() => {
-    if (properties.length > 0) {
-      // Preload only first 3 property images to avoid bandwidth saturation
-      preloadPropertyImages(properties.slice(0, 3));
-    }
-  }, [properties]);
+  // NOTE: We intentionally do NOT preload property images here.
+  // The raw Supabase originals are multi-megabyte files; cards render
+  // CDN-resized variants via <img srcset> with native lazy loading,
+  // so any eager preload only wastes bandwidth and delays LCP.
 
   const deleteProperty = async (id: string) => {
     if (!id) {

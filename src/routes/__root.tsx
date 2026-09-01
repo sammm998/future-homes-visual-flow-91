@@ -77,7 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "window.gtag('js',new Date());}" +
           "var ev=['scroll','pointerdown','keydown','touchstart'];function onEv(){ev.forEach(function(e){window.removeEventListener(e,onEv)});load();}" +
           "ev.forEach(function(e){window.addEventListener(e,onEv,{once:true,passive:true})});" +
-          "function schedule(){if('requestIdleCallback' in window){requestIdleCallback(load,{timeout:5000});}else{setTimeout(load,3500);}}" +
+          "function schedule(){if('requestIdleCallback' in window){requestIdleCallback(load,{timeout:12000});}else{setTimeout(load,10000);}}" +
           "if(document.readyState==='complete'){schedule();}else{window.addEventListener('load',schedule);}})();",
       },
     ],
