@@ -41,12 +41,14 @@ export function HeroSearchStatic() {
   };
 
   const selectClass = "h-10 sm:h-12 w-full bg-white border-0 text-black text-sm rounded-md px-3 appearance-none";
+  const inputClass = "h-10 sm:h-12 w-full bg-white border-0 text-black placeholder:text-gray-500 text-sm rounded-md px-3";
 
   return (
     <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-3 sm:p-4 md:p-6 rounded-2xl max-w-5xl mx-auto">
       <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-4 sm:mb-6">
         <div className="lg:col-span-1">
-          <select name="propertyType" className={selectClass} defaultValue="">
+          <label htmlFor="propertyType" className="sr-only">{t('search.property_type')}</label>
+          <select id="propertyType" name="propertyType" aria-label={t('search.property_type')} className={selectClass} defaultValue="">
             <option value="">{t('search.property_type')}</option>
             <option value="apartments">{t('search.apartments')}</option>
             <option value="houses">{t('search.houses')}</option>
@@ -56,7 +58,8 @@ export function HeroSearchStatic() {
         </div>
 
         <div className="lg:col-span-1">
-          <select name="bedrooms" className={selectClass} defaultValue="">
+          <label htmlFor="bedrooms" className="sr-only">{t('search.bedrooms')}</label>
+          <select id="bedrooms" name="bedrooms" aria-label={t('search.bedrooms')} className={selectClass} defaultValue="">
             <option value="">{t('search.bedrooms')}</option>
             <option value="studio">{t('search.studio')}</option>
             <option value="1">1</option>
@@ -68,7 +71,8 @@ export function HeroSearchStatic() {
         </div>
 
         <div className="lg:col-span-1">
-          <select name="location" className={selectClass} defaultValue="">
+          <label htmlFor="location" className="sr-only">{t('search.location')}</label>
+          <select id="location" name="location" aria-label={t('search.location')} className={selectClass} defaultValue="">
             <option value="">{t('search.location')}</option>
             <option value="Antalya">Antalya</option>
             <option value="Istanbul">Istanbul</option>
@@ -80,16 +84,20 @@ export function HeroSearchStatic() {
         </div>
 
         <div className="lg:col-span-1">
+          <label htmlFor="refNo" className="sr-only">{t('search.ref_no')}</label>
           <input
+            id="refNo"
             name="refNo"
             type="text"
+            aria-label={t('search.ref_no')}
             placeholder={t('search.ref_no')}
-            className="h-10 sm:h-12 w-full bg-white border-0 text-black placeholder:text-gray-500 text-sm rounded-md px-3"
+            className={inputClass}
           />
         </div>
 
         <div className="lg:col-span-1">
-          <select name="sortBy" className={selectClass} defaultValue="">
+          <label htmlFor="sortBy" className="sr-only">{t('search.sort_by')}</label>
+          <select id="sortBy" name="sortBy" aria-label={t('search.sort_by')} className={selectClass} defaultValue="">
             <option value="">{t('search.sort_by')}</option>
             <option value="price-low">{t('search.price_low')}</option>
             <option value="price-high">{t('search.price_high')}</option>
@@ -106,22 +114,25 @@ export function HeroSearchStatic() {
           <button
             type="button"
             disabled
-            className="w-full sm:w-auto inline-flex items-center justify-center h-8 px-3 text-xs rounded-md bg-white/20 border border-white/30 text-white/70 cursor-not-allowed"
+            aria-label={t('search.advanced')}
+            className="w-full sm:w-auto inline-flex items-center justify-center min-h-10 px-4 text-xs rounded-md bg-white/20 border border-white/30 text-white/70 cursor-not-allowed"
           >
-            <Filter size={14} className="mr-1" />
+            <Filter size={14} className="mr-1" aria-hidden="true" />
             {t('search.advanced')}
           </button>
           <button
             type="submit"
-            className="w-full sm:w-auto inline-flex items-center justify-center h-8 px-4 text-xs rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+            aria-label={t('search.search')}
+            className="w-full sm:w-auto inline-flex items-center justify-center min-h-10 px-4 text-xs rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
           >
-            <Search size={14} className="mr-1" />
+            <Search size={14} className="mr-1" aria-hidden="true" />
             {t('search.search')}
           </button>
         </div>
       </form>
     </div>
   );
+
 }
 
 export default HeroSearchStatic;
