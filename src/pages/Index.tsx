@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import { useTranslation } from "@/hooks/useTranslation";
 import SEOInternalLinks from "@/components/SEOInternalLinks";
 import DeferredSection from "@/components/DeferredSection";
-import { useTestimonials } from "@/hooks/useTestimonials";
 import SEOHead from "@/components/SEOHead";
 import { useSEO } from "@/hooks/useSEO";
 import { useSEOLanguage } from "@/hooks/useSEOLanguage";
@@ -19,7 +18,7 @@ import aliKaranImage from "@/assets/ali-karan-founder.webp";
 const FeatureDemo = lazy(() => import("@/components/ui/feature-demo").then(m => ({ default: m.FeatureDemo })));
 const InteractiveSelector = lazy(() => import("@/components/ui/interactive-selector"));
 const ShuffleGrid = lazy(() => import("@/components/ShuffleGrid"));
-const RollingTestimonials = lazy(() => import("@/components/RollingTestimonials"));
+const RollingTestimonialsSection = lazy(() => import("@/components/RollingTestimonialsSection"));
 const TestimonialsMasonryGrid = lazy(() => import("@/components/TestimonialsMasonryGrid"));
 const FounderSection = lazy(() => import("@/components/FounderSection"));
 const TeamSection = lazy(() => import("@/components/TeamSection"));
@@ -38,9 +37,6 @@ const Index = () => {
   const currentCanonicalUrl = useCanonicalUrl();
   const [showPopup, setShowPopup] = useState(false);
   // Removed sync import - database-only approach
-  const {
-    testimonials
-  } = useTestimonials();
   const {
     pageTitle,
     metaDescription,
@@ -234,11 +230,7 @@ const Index = () => {
 
       {/* Rolling Testimonials */}
       <DeferredSection minHeight={700}>
-        <RollingTestimonials
-          testimonials={testimonials}
-          title={t('home.customer_reviews')}
-          subtitle={t('home.customer_reviews_subtitle')}
-        />
+        <RollingTestimonialsSection />
       </DeferredSection>
 
       {/* Testimonials Masonry Grid */}
