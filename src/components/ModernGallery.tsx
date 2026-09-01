@@ -195,7 +195,7 @@ const ModernGallery = () => {
                         className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
                           viewMode === 'masonry' ? 'h-auto' : 'h-64'
                         }`}
-                        priority={index < 6} // Prioritize first 6 images
+                        priority={index < 2} // Prioritize first 6 images
                       />
                       
                       {/* Overlay */}
