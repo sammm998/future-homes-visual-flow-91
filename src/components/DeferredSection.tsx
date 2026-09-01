@@ -42,7 +42,15 @@ const DeferredSection: React.FC<DeferredSectionProps> = ({
       { rootMargin }
     );
     io.observe(el);
-    return () => io.disconnect();
+
+    // Safety net: mount everything shortly after the page is idle, so content
+    // is always present even if the observer never fires (crawlers, no scroll).
+    const timer = window.setTimeout(() => setShow(true), 4000);
+
+    return () => {
+      io.disconnect();
+      window.clearTimeout(timer);
+    };
   }, [show, rootMargin]);
 
   return (
