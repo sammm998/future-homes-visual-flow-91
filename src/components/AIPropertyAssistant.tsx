@@ -24,7 +24,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import userAvatar from "@/assets/avatars/user-avatar.jpg";
 import aiAvatar from "@/assets/avatars/ai-avatar.jpg";
-import emmaAvatar from "@/assets/emma-ai-assistant.png";
+import emmaAvatar from "@/assets/emma-ai-assistant.webp";
 
 interface Message {
   id: number;

@@ -103,7 +103,7 @@ const ArticlePage = () => {
     
     if (text.includes('property') || text.includes('real estate') || text.includes('purchase')) {
       const propertyImages = [
-        '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png', // Luxury property
+        '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.webp', // Luxury property
         '/lovable-uploads/7335e4e2-249c-4b29-b83a-0101453f6878.png', // Modern property
         '/lovable-uploads/aff7bebd-5943-45d9-84d8-a923abf07e24.png'  // Property exterior
       ];
@@ -121,8 +121,8 @@ const ArticlePage = () => {
     
     if (text.includes('living') || text.includes('lifestyle') || text.includes('culture') || text.includes('social')) {
       const livingImages = [
-        '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.png', // Antalya lifestyle
-        '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.png', // Mersin living
+        '/lovable-uploads/956541d2-b461-4acd-a29a-463c5a97983e.webp', // Antalya lifestyle
+        '/lovable-uploads/60f987b0-c196-47b5-894d-173d604fa4c8.webp', // Mersin living
         '/lovable-uploads/0ecd2ba5-fc2d-42db-8052-d51cffc0b438.png'  // Social lifestyle
       ];
       return livingImages[index % livingImages.length];
@@ -140,15 +140,15 @@ const ArticlePage = () => {
     if (text.includes('music') || text.includes('arts') || text.includes('art')) {
       const artsImages = [
         '/lovable-uploads/000f440d-ddb1-4c1b-9202-eef1ef588a8c.png', // Arts/culture
-        '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.png', // Cultural activities
-        '/lovable-uploads/2209cb13-f5ad-47af-ad83-fac59b9edd3b.png'  // Music/arts scene
+        '/lovable-uploads/0d7b0c8a-f652-488b-bfca-3a11c1694220.webp', // Cultural activities
+        '/lovable-uploads/2209cb13-f5ad-47af-ad83-fac59b9edd3b.webp'  // Music/arts scene
       ];
       return artsImages[index % artsImages.length];
     }
     
     // Default category - use property images
     const defaultImages = [
-      '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png', // Default property 1
+      '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.webp', // Default property 1
       '/lovable-uploads/227fa1b1-f9c2-4427-a969-9521d121dd51.png', // Default property 2  
       '/lovable-uploads/2adcc5fd-ef6d-4fee-8ed8-cc57be79fccf.png'  // Default property 3
     ];

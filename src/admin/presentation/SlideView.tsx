@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import logo from "@/assets/future-homes-logo.png";
+import logo from "@/assets/future-homes-logo.webp";
 import { Slide, PresentationTheme, SLIDE_W, SLIDE_H } from "./types";
 
 interface Props {

@@ -15,7 +15,7 @@ import {
   PenLine, Volume2, VolumeX, Mic, Search, TrendingUp, Map as MapIcon, Image as ImageIcon,
 } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
-import emmaAvatar from '@/assets/emma-ai-assistant.png';
+import emmaAvatar from '@/assets/emma-ai-assistant.webp';
 import { buildLangParam, getCurrentLanguage, getTranslatedPropertyPath } from '@/utils/slugHelpers';
 
 interface PropertyLink {

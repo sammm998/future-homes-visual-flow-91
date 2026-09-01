@@ -56,7 +56,7 @@ const PropertyShowcase = () => {
             >
               <div className="relative overflow-hidden">
                 <img 
-                  src={property.property_image || '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.png'} 
+                  src={property.property_image || '/lovable-uploads/4c6b5b9c-7b79-4474-b629-9e61e450f00b.webp'} 
                   alt={property.title}
                   className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
