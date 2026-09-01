@@ -24,7 +24,7 @@ export default function FounderSection() {
             <div className="grid lg:grid-cols-2 gap-0">
               <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 to-primary-glow/10">
                 {!imageError ? (
-                  <img src={aliKaranImage} alt="Ali Karan - Founder and CEO" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" onError={() => setImageError(true)} />
+                  <img src={aliKaranImage} alt="Ali Karan - Founder and CEO" width={600} height={600} loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" onError={() => setImageError(true)} />
                 ) : (
                   <div className="w-full h-96 bg-gradient-to-br from-primary/20 to-primary-glow/20 flex items-center justify-center">
                     <div className="text-center">
