@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { GripVertical } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import floorplanImage from "@/assets/feature-floorplan.jpg";
-import interiorImage from "@/assets/feature-interior.jpg";
+import floorplanImage from "@/assets/feature-floorplan.webp";
+import interiorImage from "@/assets/feature-interior.webp";
 
 function Feature() {
   const { t } = useTranslation();
@@ -72,13 +72,22 @@ function Feature() {
                 src={interiorImage}
                 style={{ clipPath: `inset(0 0 0 ${inset}%)` }}
                 alt="After renovation - finished interior"
+                width={925}
+                height={910}
+                loading="lazy"
+                decoding="async"
               />
 
               <img
                 className="absolute left-0 top-0 w-full h-full object-cover select-none pointer-events-none"
                 src={floorplanImage}
                 alt="Before renovation - empty space"
+                width={1024}
+                height={1024}
+                loading="lazy"
+                decoding="async"
               />
+
             </div>
           </div>
         </div>

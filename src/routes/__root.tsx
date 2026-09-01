@@ -49,7 +49,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800&family=Epilogue:wght@300;400;500;600&display=swap",
-      },
+        media: "print",
+        "data-font-css": "true",
+      } as unknown as { rel: string; href: string },
+
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=5" },
       { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png?v=5" },
       { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png?v=5" },
@@ -60,6 +63,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
+        children:
+          "(function(){function a(){var l=document.querySelectorAll('link[data-font-css]');for(var i=0;i<l.length;i++){l[i].media='all';}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',a);}else{a();}window.addEventListener('load',a);})();",
+      },
+      {
+
         children:
           "(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-MNJGPRLB');",
       },

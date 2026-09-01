@@ -1,6 +1,6 @@
 // Enhanced image optimization utilities for better performance
 
-export const getOptimizedImageUrl = (url: string, width?: number, quality = 85): string => {
+export const getOptimizedImageUrl = (url: string, width?: number, quality = 75): string => {
   if (!url) return '/placeholder.svg';
   
   // If it's already a placeholder or data URL, return as is
@@ -8,14 +8,15 @@ export const getOptimizedImageUrl = (url: string, width?: number, quality = 85):
     return url;
   }
   
-  // For Supabase storage URLs, add optimization parameters
-  if (url.includes('supabase') && url.includes('storage')) {
+  // Supabase Storage → image transformation endpoint (WebP, resized on the CDN)
+  if (url.includes('/storage/v1/object/public/')) {
     try {
-      const optimizedUrl = new URL(url);
-      if (width) optimizedUrl.searchParams.set('width', width.toString());
-      optimizedUrl.searchParams.set('quality', quality.toString());
-      optimizedUrl.searchParams.set('format', 'webp');
-      return optimizedUrl.toString();
+      const transformed = new URL(url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/'));
+      transformed.search = '';
+      if (width) transformed.searchParams.set('width', Math.round(width).toString());
+      transformed.searchParams.set('quality', quality.toString());
+      transformed.searchParams.set('resize', 'contain');
+      return transformed.toString();
     } catch {
       return url; // Return original if URL parsing fails
     }
@@ -30,6 +31,7 @@ export const getOptimizedImageUrl = (url: string, width?: number, quality = 85):
   
   return url;
 };
+
 
 export const preloadImage = (src: string, priority = false): Promise<void> => {
   return new Promise((resolve, reject) => {

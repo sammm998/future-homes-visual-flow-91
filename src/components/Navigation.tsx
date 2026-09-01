@@ -51,7 +51,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
             <div className="flex items-center">
               <Link to="/" className="flex items-center gap-2">
                 <img
-                  src="/future-homes-logo-new.jpg?v=5"
+                  src="/future-homes-logo-new.webp"
                   alt="Future Homes International"
                   width={220}
                   height={130}
@@ -63,12 +63,15 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
             <div className="flex items-center space-x-2 sm:space-x-3">
               <SimpleLanguageSelector />
               <CurrencySelector />
-              <div
-                className="p-2 cursor-pointer hover:bg-muted rounded-md transition-colors"
+              <button
+                type="button"
+                aria-label="Open menu"
+                className="p-2 min-h-11 min-w-11 flex items-center justify-center cursor-pointer hover:bg-muted rounded-md transition-colors"
                 onClick={() => setIsOpen(true)}
               >
-                <Menu size={24} className="text-foreground" />
-              </div>
+                <Menu size={24} className="text-foreground" aria-hidden="true" />
+              </button>
+
             </div>
           </div>
         </div>

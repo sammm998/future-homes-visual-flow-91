@@ -2,10 +2,10 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/lib/router-compat";
 import { ChevronUp, ChevronDown, Home, Pause, Play } from "lucide-react";
-import baliImage from "@/assets/bali-destination.jpg";
-import istanbulImage from "@/assets/istanbul-destination.jpg";
-import marinaImage from "@/assets/marina-destination.jpg";
-import aliKaranImage from "@/assets/ali-karan-founder.png";
+import baliImage from "@/assets/bali-destination.webp";
+import istanbulImage from "@/assets/istanbul-destination.webp";
+import marinaImage from "@/assets/marina-destination.webp";
+import aliKaranImage from "@/assets/ali-karan-founder.webp";
 import SEOHead from "@/components/SEOHead";
 
 type Slide = {
@@ -26,7 +26,7 @@ const slides: Slide[] = [
     kicker: "Our Story",
     title: "Future Homes International",
     body: "A journey across continents — building homes, lives and legacies since 2020.",
-    image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png",
+    image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.webp",
     align: "center",
     accent: "from-amber-400/40 to-rose-500/30",
   },
@@ -77,7 +77,7 @@ const slides: Slide[] = [
     kicker: "Our Promise",
     title: "With you, long after the keys",
     body: "Legal support, after-sales service, residency and citizenship guidance — our relationship doesn't end at the contract. It begins there.",
-    image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.png",
+    image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.webp",
     align: "center",
     accent: "from-violet-500/30 to-fuchsia-500/30",
   },
@@ -86,7 +86,7 @@ const slides: Slide[] = [
     kicker: "Your Turn",
     title: "Write the next chapter with us",
     body: "Discover the home that will change your story.",
-    image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.png",
+    image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.webp",
     align: "center",
     accent: "from-amber-400/40 to-rose-500/30",
   },

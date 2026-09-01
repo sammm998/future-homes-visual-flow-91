@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "motion/react";
+import { getOptimizedImageUrl } from "@/utils/imageOptimization";
+
 
 interface Testimonial {
   text: string;
@@ -38,12 +40,13 @@ export const TestimonialsColumn = (props: {
                     <img
                       width={40}
                       height={40}
-                      src={image}
+                      src={getOptimizedImageUrl(image, 80, 70)}
                       alt={name}
-                      className="h-10 w-10 rounded-full"
+                      className="h-10 w-10 rounded-full object-cover"
                       loading="lazy"
                       decoding="async"
                     />
+
                     <div className="flex flex-col">
                       <div className="font-medium tracking-tight leading-5">{name}</div>
                       <div className="leading-5 opacity-60 tracking-tight">{role}</div>

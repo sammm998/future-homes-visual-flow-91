@@ -293,8 +293,8 @@ const Information = () => {
     if (text.includes('legal') || text.includes('citizenship') || text.includes('law') || text.includes('permit') || text.includes('visa')) {
       const legalImages = [
         '/lovable-uploads/24d14ac8-45b8-44c2-8fff-159f96b0fee6.png', // Professional/legal
-        '/lovable-uploads/ae81b7b2-74ce-4693-b5bf-43a5e3bb2b97.png', // Business/legal
-        '/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.png'  // Legal documents
+        '/lovable-uploads/ae81b7b2-74ce-4693-b5bf-43a5e3bb2b97.webp', // Business/legal
+        '/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.webp'  // Legal documents
       ];
       return legalImages[index % legalImages.length];
     }
