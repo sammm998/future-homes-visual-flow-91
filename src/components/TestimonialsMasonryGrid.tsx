@@ -32,7 +32,7 @@ const TestimonialsMasonryGrid = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {gridTestimonials.map((testimonial, index) => (
-            <TestimonialCard key={index} image={testimonial.image} name={testimonial.name} text={testimonial.text} priority={index < 4} />
+            <TestimonialCard key={index} image={testimonial.image} name={testimonial.name} text={testimonial.text} priority={index === 0} />
           ))}
         </div>
       </div>

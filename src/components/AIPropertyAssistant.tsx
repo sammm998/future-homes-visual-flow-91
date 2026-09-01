@@ -249,6 +249,10 @@ const AIPropertyAssistant = () => {
               <img 
                 src={emmaAvatar} 
                 alt="Emma - AI Property Assistant" 
+                width={128}
+                height={128}
+                loading="lazy"
+                decoding="async"
                 className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-primary/20 shadow-xl"
               />
               <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 border-3 border-background rounded-full" />
@@ -384,7 +388,7 @@ const AIPropertyAssistant = () => {
               <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-primary/5 to-primary-glow/5">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <img src={aiAvatar} alt="AI Assistant" className="w-8 h-8 rounded-full" />
+                    <img src={aiAvatar} alt="AI Assistant" width={32} height={32} loading="lazy" decoding="async" className="w-8 h-8 rounded-full" />
                     <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-background rounded-full" />
                   </div>
                   <div>
@@ -408,7 +412,11 @@ const AIPropertyAssistant = () => {
                   >
                     <img 
                       src={message.sender === "user" ? userAvatar : aiAvatar}
-                      alt={message.sender}
+                      alt=""
+                      width={24}
+                      height={24}
+                      loading="lazy"
+                      decoding="async"
                       className="w-6 h-6 rounded-full flex-shrink-0"
                     />
                     <div className={`max-w-[80%] ${message.sender === "user" ? "items-end" : ""}`}>
@@ -463,7 +471,7 @@ const AIPropertyAssistant = () => {
                     animate={{ opacity: 1 }}
                     className="flex gap-3"
                   >
-                    <img src={aiAvatar} alt="AI" className="w-6 h-6 rounded-full" />
+                    <img src={aiAvatar} alt="AI" width={24} height={24} loading="lazy" decoding="async" className="w-6 h-6 rounded-full" />
                     <div className="bg-muted rounded-2xl px-4 py-3">
                       <div className="flex space-x-1">
                         <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
