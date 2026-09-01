@@ -9,6 +9,7 @@ import { useTeamMembers } from "@/hooks/useTeamMembers";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import { useTranslation } from "@/hooks/useTranslation";
+import { getOptimizedImageUrl } from "@/utils/imageOptimization";
 
 const AboutUs = () => {
   const { t } = useTranslation();
@@ -128,7 +129,7 @@ const AboutUs = () => {
               {teamMembers.map(member => <Card key={member.id} className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                   <CardContent className="p-8 text-center">
                     {member.image_url && <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-primary/10 group-hover:scale-105 transition-transform duration-300">
-                        <img src={member.image_url} alt={member.name} className="w-full h-full object-cover" />
+                        <img src={getOptimizedImageUrl(member.image_url, 256)} alt={member.name} width={128} height={128} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       </div>}
                     <h3 className="text-2xl font-bold mb-2 notranslate" translate="no">{member.name}</h3>
                     <p className="text-primary font-semibold mb-4">{member.position}</p>
