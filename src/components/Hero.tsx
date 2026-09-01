@@ -36,19 +36,15 @@ const Hero: React.FC<HeroProps> = ({
 
 
     if (typeof window !== "undefined") {
-      if ("requestIdleCallback" in window) {
-        const id = requestIdleCallback(load, { timeout: 800 });
-        return () => {
-          cancelled = true;
-          cancelIdleCallback(id);
-        };
-      }
+      // Use setTimeout so the interactive form reliably hydrates in all
+      // environments; requestIdleCallback can stall in headless/test runners.
       const t = setTimeout(load, 300);
       return () => {
         cancelled = true;
         clearTimeout(t);
       };
     }
+
   }, []);
 
   return (
