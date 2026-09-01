@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { GripVertical } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import floorplanImage from "@/assets/feature-floorplan.jpg";
-import interiorImage from "@/assets/feature-interior.jpg";
+import floorplanImage from "@/assets/feature-floorplan.webp";
+import interiorImage from "@/assets/feature-interior.webp";
 
 function Feature() {
   const { t } = useTranslation();

@@ -27,7 +27,7 @@ import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import PropertyListingSection from "@/components/PropertyListingSection";
-import aliKaranImage from "@/assets/ali-karan-founder.png";
+import aliKaranImage from "@/assets/ali-karan-founder.webp";
 
 const Index = () => {
   const { t } = useTranslation();
@@ -186,11 +186,11 @@ const Index = () => {
   };
   return <div className="min-h-screen overflow-x-clip">
       {/* Preload critical hero images for faster LCP */}
-      <link rel="preload" as="image" href="/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png" />
+      <link rel="preload" as="image" href="/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.webp" />
       <PerformanceOptimizer
         preloadImages={[
-          '/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png',
-          '/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png'
+          '/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.webp',
+          '/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.webp'
         ]}
         prefetchRoutes={['/antalya', '/dubai', '/cyprus']}
       />
@@ -209,7 +209,7 @@ const Index = () => {
       
       {/* Hero Section - Database content with fallback */}
       <div className="w-full">
-        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.png" title={heroTitle || t('hero.title')} subtitle={t('hero.subtitle')} />
+        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.webp" title={heroTitle || t('hero.title')} subtitle={t('hero.subtitle')} />
       </div>
       
       {/* Property Listing Section with Location Filters */}

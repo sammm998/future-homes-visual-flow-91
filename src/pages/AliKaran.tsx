@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Award, Users, MapPin, Phone, Mail } from "lucide-react";
 import { Link } from "@/lib/router-compat";
-import aliKaranImage from "@/assets/ali-karan-founder.png";
+import aliKaranImage from "@/assets/ali-karan-founder.webp";
 
 
 export default function AliKaran() {

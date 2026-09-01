@@ -1,14 +1,14 @@
 import { useCallback, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
-import baliImage from '@/assets/bali-destination.jpg';
-import marinaImage from '@/assets/marina-destination.jpg';
-import istanbulImage from '@/assets/istanbul-destination.jpg';
+import baliImage from '@/assets/bali-destination.webp';
+import marinaImage from '@/assets/marina-destination.webp';
+import istanbulImage from '@/assets/istanbul-destination.webp';
 
 const HeroSlider = () => {
   const slides = [
     {
-      image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png",
+      image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.webp",
       alt: "Antalya - Turkish Riviera Paradise"
     },
     {
@@ -16,7 +16,7 @@ const HeroSlider = () => {
       alt: "Istanbul - Where East Meets West"
     },
     {
-      image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.png",
+      image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.webp",
       alt: "Dubai - Modern Metropolis"
     },
     {
@@ -24,7 +24,7 @@ const HeroSlider = () => {
       alt: "Mersin - Mediterranean Coastal"
     },
     {
-      image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.png",
+      image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.webp",
       alt: "Cyprus - Island Paradise"
     },
     {

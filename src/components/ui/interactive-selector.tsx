@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from '@/lib/router-compat';
 import { FaMapMarkerAlt, FaBuilding, FaTree, FaUmbrellaBeach, FaMountain, FaMosque } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import baliImage from '@/assets/bali-destination.jpg';
-import istanbulImage from '@/assets/istanbul-destination.jpg';
+import baliImage from '@/assets/bali-destination.webp';
+import istanbulImage from '@/assets/istanbul-destination.webp';
 import { useTranslation } from '@/hooks/useTranslation';
 
 const InteractiveSelector = () => {
@@ -13,11 +13,11 @@ const InteractiveSelector = () => {
   const [animatedOptions, setAnimatedOptions] = useState<number[]>([]);
 
   const options = [
-    { title: "Antalya", description: t('dest.antalya_desc'), propertyCount: `80+ ${t('dest.properties')}`, image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.png", icon: <FaUmbrellaBeach size={20} className="text-white" />, path: "/antalya" },
+    { title: "Antalya", description: t('dest.antalya_desc'), propertyCount: `80+ ${t('dest.properties')}`, image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.webp", icon: <FaUmbrellaBeach size={20} className="text-white" />, path: "/antalya" },
     { title: "Istanbul", description: t('dest.istanbul_desc'), propertyCount: `45+ ${t('dest.properties')}`, image: istanbulImage, icon: <FaMosque size={20} className="text-white" />, path: "/istanbul" },
-    { title: "Dubai", description: t('dest.dubai_desc'), propertyCount: `38+ ${t('dest.properties')}`, image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.png", icon: <FaBuilding size={20} className="text-white" />, path: "/dubai" },
-    { title: "Mersin", description: t('dest.mersin_desc'), propertyCount: `25+ ${t('dest.properties')}`, image: "/lovable-uploads/ae81b7b2-74ce-4693-b5bf-43a5e3bb2b97.png", icon: <FaUmbrellaBeach size={20} className="text-white" />, path: "/mersin" },
-    { title: "Cyprus", description: t('dest.cyprus_desc'), propertyCount: `32+ ${t('dest.properties')}`, image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.png", icon: <FaTree size={20} className="text-white" />, path: "/cyprus" },
+    { title: "Dubai", description: t('dest.dubai_desc'), propertyCount: `38+ ${t('dest.properties')}`, image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.webp", icon: <FaBuilding size={20} className="text-white" />, path: "/dubai" },
+    { title: "Mersin", description: t('dest.mersin_desc'), propertyCount: `25+ ${t('dest.properties')}`, image: "/lovable-uploads/ae81b7b2-74ce-4693-b5bf-43a5e3bb2b97.webp", icon: <FaUmbrellaBeach size={20} className="text-white" />, path: "/mersin" },
+    { title: "Cyprus", description: t('dest.cyprus_desc'), propertyCount: `32+ ${t('dest.properties')}`, image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.webp", icon: <FaTree size={20} className="text-white" />, path: "/cyprus" },
     { title: "Bali", description: t('dest.bali_desc'), propertyCount: `15+ ${t('dest.properties')}`, image: baliImage, icon: <FaMountain size={20} className="text-white" />, path: "/bali" },
   ];
 

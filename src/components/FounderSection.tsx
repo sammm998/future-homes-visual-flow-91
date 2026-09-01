@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { ArrowRight, Award, Users, MapPin } from "lucide-react";
 import { Link } from "@/lib/router-compat";
 import { useState } from "react";
-import aliKaranImage from "@/assets/ali-karan-founder.png";
+import aliKaranImage from "@/assets/ali-karan-founder.webp";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function FounderSection() {
