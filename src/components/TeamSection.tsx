@@ -83,7 +83,7 @@ const TeamSection = () => {
               <div className="bg-card rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-border/50 hover:border-primary/20">
                 <div className="relative mb-6">
                   {member.image_url ? (
-                    <img src={member.image_url} alt={member.name} className="w-24 h-24 rounded-full mx-auto object-cover ring-4 ring-primary/10 group-hover:ring-primary/30 transition-all" loading="lazy" decoding="async" width={96} height={96} />
+                    <img src={getOptimizedImageUrl(member.image_url, 192)} alt={member.name} className="w-24 h-24 rounded-full mx-auto object-cover ring-4 ring-primary/10 group-hover:ring-primary/30 transition-all" loading="lazy" decoding="async" width={96} height={96} />
                   ) : (
                     <div className="w-24 h-24 rounded-full mx-auto bg-gradient-to-br from-primary/20 to-primary-glow/20 flex items-center justify-center ring-4 ring-primary/10 group-hover:ring-primary/30 transition-all">
                       <Users className="w-10 h-10 text-primary" />
