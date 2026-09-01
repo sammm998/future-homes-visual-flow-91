@@ -42,22 +42,43 @@ const HeroSlider = () => {
     [Autoplay({ delay: 4000, stopOnInteraction: false })]
   );
 
+  // Only download slides that have been (or are about to be) shown.
+  const [visible, setVisible] = useState<number[]>([0]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    const i = emblaApi.selectedScrollSnap();
+    const next = (i + 1) % slides.length;
+    setVisible((prev) => (prev.includes(i) && prev.includes(next) ? prev : Array.from(new Set([...prev, i, next]))));
+  }, [emblaApi, slides.length]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    return () => { emblaApi.off('select', onSelect); };
+  }, [emblaApi, onSelect]);
+
   return (
     <div dir="ltr" className="absolute inset-0 w-full h-full overflow-hidden" ref={emblaRef}>
       <div className="flex h-full">
         {slides.map((slide, index) => (
           <div
             key={index}
-            className="flex-[0_0_100%] min-w-0 relative"
+            className="flex-[0_0_100%] min-w-0 relative bg-muted"
           >
-            <img
-              src={slide.image}
-              alt={slide.alt}
-              className="w-full h-full object-cover"
-              loading={index === 0 ? "eager" : "lazy"}
-              fetchPriority={index === 0 ? "high" : "auto"}
-              decoding={index === 0 ? "sync" : "async"}
-            />
+            {visible.includes(index) && (
+              <img
+                src={slide.image}
+                alt={slide.alt}
+                width={1200}
+                height={675}
+                className="w-full h-full object-cover"
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "low"}
+                decoding={index === 0 ? "sync" : "async"}
+              />
+            )}
             <div className="absolute inset-0 bg-black/50"></div>
           </div>
         ))}
@@ -65,5 +86,6 @@ const HeroSlider = () => {
     </div>
   );
 };
+
 
 export default HeroSlider;
