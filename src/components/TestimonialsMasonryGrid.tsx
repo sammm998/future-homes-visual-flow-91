@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { useTestimonials } from '@/hooks/useTestimonials';
 import { useTranslation } from '@/hooks/useTranslation';
+import { getOptimizedImageUrl } from '@/utils/imageOptimization';
 
 const TestimonialCard = ({ image, name, text, priority = false }: { image: string; name: string; text: string; priority?: boolean }) => (
   <div className="relative rounded-2xl overflow-hidden group transition-transform duration-300 ease-in-out hover:scale-105 h-80">
-    <img src={image} alt={name} className="w-full h-full object-cover" loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} decoding="async" onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x320/1a1a1a/ffffff?text=Image'; }} />
+    <img src={getOptimizedImageUrl(image, 600, 70)} alt={name} width={400} height={320} className="w-full h-full object-cover" loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} decoding="async" onError={(e) => { e.currentTarget.src = 'https://placehold.co/400x320/1a1a1a/ffffff?text=Image'; }} />
+
     <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
     <div className="absolute top-0 left-0 p-4 text-white">
       <div className="flex items-center gap-3 mb-2">
