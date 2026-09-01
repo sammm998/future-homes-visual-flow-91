@@ -1,6 +1,7 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
+
 import baliImage from '@/assets/bali-destination.webp';
 import marinaImage from '@/assets/marina-destination.webp';
 import istanbulImage from '@/assets/istanbul-destination.webp';
