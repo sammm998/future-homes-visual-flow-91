@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
 import { Users, Linkedin, Mail, Phone } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
+import { getOptimizedImageUrl } from '@/utils/imageOptimization';
 
 interface TeamMember {
   id: string;
