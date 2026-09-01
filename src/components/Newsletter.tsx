@@ -84,12 +84,13 @@ const Newsletter = memo(() => {
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4">{t('newsletter.follow_us')}</h3>
-                <div className="flex space-x-4">
-                  <a href="https://www.instagram.com/futurehomesglobal/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><Instagram size={24} /></a>
-                  <a href="https://www.facebook.com/futurehomesturkey/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><Facebook size={24} /></a>
-                  <a href="https://www.tiktok.com/@futurehomes.eng" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><SiTiktok size={24} /></a>
-                  <a href="https://www.linkedin.com/company/future-homes-1/" target="_blank" rel="noopener noreferrer" className="hover:text-brand-accent transition-colors"><Linkedin size={24} /></a>
+                <div className="flex space-x-1">
+                  <a href="https://www.instagram.com/futurehomesglobal/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Instagram size={24} aria-hidden="true" /></a>
+                  <a href="https://www.facebook.com/futurehomesturkey/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Facebook size={24} aria-hidden="true" /></a>
+                  <a href="https://www.tiktok.com/@futurehomes.eng" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><SiTiktok size={24} aria-hidden="true" /></a>
+                  <a href="https://www.linkedin.com/company/future-homes-1/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Linkedin size={24} aria-hidden="true" /></a>
                 </div>
+
               </div>
             </div>
           </div>
