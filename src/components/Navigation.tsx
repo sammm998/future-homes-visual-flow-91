@@ -11,7 +11,7 @@ import {
 import { Menu, Mail, Facebook, Instagram, Linkedin } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
 import { cn } from "@/lib/utils";
-import { AIHelpChat } from "./AIHelpChat";
+
 import Sidebar from "./Sidebar";
 import CurrencySelector from "./CurrencySelector";
 import SimpleLanguageSelector from "./SimpleLanguageSelector";
@@ -22,7 +22,7 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
+
   return (
     <>
       {/* Contact bar + nav scroll as one sticky header, so the top bar can no
@@ -80,8 +80,8 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
       </nav>
       </header>
 
-      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} onAIHelpOpen={() => setIsAIHelpOpen(true)} />
-      <AIHelpChat isOpen={isAIHelpOpen} onClose={() => setIsAIHelpOpen(false)} />
+      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+
     </>
   );
 };
