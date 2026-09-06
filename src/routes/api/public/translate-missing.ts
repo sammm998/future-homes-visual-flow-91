@@ -81,7 +81,7 @@ async function translateWithAI(
   if (geminiKey) {
     try {
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${geminiKey}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -130,9 +130,18 @@ export const Route = createFileRoute("/api/public/translate-missing")({
           return Response.json({ error: propError.message }, { status: 500 });
         }
 
-        const { data: existing } = await supabaseAdmin
-          .from("property_translations")
-          .select("property_id, language_code");
+        // Supabase caps a query at 1000 rows, so page through every stored
+        // translation — otherwise finished listings look untranslated.
+        const existing: Array<{ property_id: string; language_code: string }> = [];
+        for (let from = 0; ; from += 1000) {
+          const { data: page } = await supabaseAdmin
+            .from("property_translations")
+            .select("property_id, language_code")
+            .range(from, from + 999);
+          if (!page || page.length === 0) break;
+          existing.push(...page);
+          if (page.length < 1000) break;
+        }
 
         const have = new Map<string, Set<string>>();
         for (const row of existing ?? []) {
