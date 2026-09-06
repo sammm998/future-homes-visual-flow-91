@@ -3,6 +3,7 @@ import { getLocaleFromPathname } from '@/utils/localeRouting';
 import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 import { useLocation } from '@/lib/router-compat';
+import { ensurePropertyTranslation } from '@/lib/propertyTranslations.functions';
 
 const SUPPORTED_LANGUAGES = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id'];
 const SLUG_COLUMNS = ['slug', ...SUPPORTED_LANGUAGES.map(lang => `slug_${lang}`)];
@@ -140,8 +141,24 @@ export const useProperty = (id: string) => {
             if (translation.title) dbProperty.title = translation.title;
             if (translation.description) dbProperty.description = translation.description;
             if (translation.location) dbProperty.location = translation.location;
+          } else {
+            // No stored translation yet — ask the server to create one on the fly
+            // so the visitor never sees English text on a translated page.
+            try {
+              const generated = await ensurePropertyTranslation({
+                data: { propertyId: dbProperty.id, language: translationLang },
+              });
+              if (generated) {
+                if (generated.title) dbProperty.title = generated.title;
+                if (generated.description) dbProperty.description = generated.description;
+                if (generated.location) dbProperty.location = generated.location;
+              }
+            } catch {
+              /* keep English fallback */
+            }
           }
         }
+
 
         // Transform the database property to expected format
         let features: string[] = [];
