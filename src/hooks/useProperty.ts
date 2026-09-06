@@ -3,6 +3,7 @@ import { getLocaleFromPathname } from '@/utils/localeRouting';
 import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 import { useLocation } from '@/lib/router-compat';
+import { ensurePropertyTranslation } from '@/lib/propertyTranslations.functions';
 
 const SUPPORTED_LANGUAGES = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id'];
 const SLUG_COLUMNS = ['slug', ...SUPPORTED_LANGUAGES.map(lang => `slug_${lang}`)];
@@ -144,7 +145,6 @@ export const useProperty = (id: string) => {
             // No stored translation yet — ask the server to create one on the fly
             // so the visitor never sees English text on a translated page.
             try {
-              const { ensurePropertyTranslation } = await import('@/lib/propertyTranslations.functions');
               const generated = await ensurePropertyTranslation({
                 data: { propertyId: dbProperty.id, language: translationLang },
               });
