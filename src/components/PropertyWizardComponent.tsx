@@ -10,6 +10,7 @@ import { useNavigate } from '@/lib/router-compat';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/hooks/useTranslation';
+import { saveLead } from '@/lib/leads.functions';
 
 
 const PropertyWizardComponent = () => {
