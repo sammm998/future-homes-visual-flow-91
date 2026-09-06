@@ -117,6 +117,7 @@ import { Route as AdminPresentationsIndexRouteImport } from './routes/admin/pres
 import { Route as AdminPresentationsIdRouteImport } from './routes/admin/presentations.$id'
 import { Route as AdminPropertiesIndexRouteImport } from './routes/admin/properties.index'
 import { Route as AdminPropertiesNewRouteImport } from './routes/admin/properties.new'
+import { Route as ApiPublicTranslateMissingRouteImport } from './routes/api/public/translate-missing'
 import { Route as CoursesCountryIndexRouteImport } from './routes/courses.$country.index'
 import { Route as CoursesCountryModuleSlugRouteImport } from './routes/courses.$country.$moduleSlug'
 import { Route as CoursesCountryFinalExamRouteImport } from './routes/courses.$country.final-exam'
@@ -684,6 +685,12 @@ const AdminPropertiesNewRoute = AdminPropertiesNewRouteImport.update({
   path: '/properties/new',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const ApiPublicTranslateMissingRoute =
+  ApiPublicTranslateMissingRouteImport.update({
+    id: '/api/public/translate-missing',
+    path: '/api/public/translate-missing',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const CoursesCountryIndexRoute = CoursesCountryIndexRouteImport.update({
   id: '/courses/$country/',
   path: '/courses/$country/',
@@ -857,6 +864,7 @@ export interface FileRoutesByFullPath {
   '/admin/office/spreadsheet': typeof AdminOfficeSpreadsheetRoute
   '/admin/presentations/$id': typeof AdminPresentationsIdRoute
   '/admin/properties/new': typeof AdminPropertiesNewRoute
+  '/api/public/translate-missing': typeof ApiPublicTranslateMissingRoute
   '/courses/$country/$moduleSlug': typeof CoursesCountryModuleSlugRoute
   '/courses/$country/final-exam': typeof CoursesCountryFinalExamRoute
   '/$locale/courses/': typeof LocaleCoursesIndexRoute
@@ -978,6 +986,7 @@ export interface FileRoutesByTo {
   '/admin/office/spreadsheet': typeof AdminOfficeSpreadsheetRoute
   '/admin/presentations/$id': typeof AdminPresentationsIdRoute
   '/admin/properties/new': typeof AdminPropertiesNewRoute
+  '/api/public/translate-missing': typeof ApiPublicTranslateMissingRoute
   '/courses/$country/$moduleSlug': typeof CoursesCountryModuleSlugRoute
   '/courses/$country/final-exam': typeof CoursesCountryFinalExamRoute
   '/$locale/courses': typeof LocaleCoursesIndexRoute
@@ -1102,6 +1111,7 @@ export interface FileRoutesById {
   '/admin/office/spreadsheet': typeof AdminOfficeSpreadsheetRoute
   '/admin/presentations/$id': typeof AdminPresentationsIdRoute
   '/admin/properties/new': typeof AdminPropertiesNewRoute
+  '/api/public/translate-missing': typeof ApiPublicTranslateMissingRoute
   '/courses/$country/$moduleSlug': typeof CoursesCountryModuleSlugRoute
   '/courses/$country/final-exam': typeof CoursesCountryFinalExamRoute
   '/$locale/courses/': typeof LocaleCoursesIndexRoute
@@ -1227,6 +1237,7 @@ export interface FileRouteTypes {
     | '/admin/office/spreadsheet'
     | '/admin/presentations/$id'
     | '/admin/properties/new'
+    | '/api/public/translate-missing'
     | '/courses/$country/$moduleSlug'
     | '/courses/$country/final-exam'
     | '/$locale/courses/'
@@ -1348,6 +1359,7 @@ export interface FileRouteTypes {
     | '/admin/office/spreadsheet'
     | '/admin/presentations/$id'
     | '/admin/properties/new'
+    | '/api/public/translate-missing'
     | '/courses/$country/$moduleSlug'
     | '/courses/$country/final-exam'
     | '/$locale/courses'
@@ -1471,6 +1483,7 @@ export interface FileRouteTypes {
     | '/admin/office/spreadsheet'
     | '/admin/presentations/$id'
     | '/admin/properties/new'
+    | '/api/public/translate-missing'
     | '/courses/$country/$moduleSlug'
     | '/courses/$country/final-exam'
     | '/$locale/courses/'
@@ -1532,6 +1545,7 @@ export interface RootRouteChildren {
   ArticlesExpensesBuyingPropertyTurkeyRoute: typeof ArticlesExpensesBuyingPropertyTurkeyRoute
   SitemapLocaleDotxmlRoute: typeof SitemapLocaleDotxmlRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
+  ApiPublicTranslateMissingRoute: typeof ApiPublicTranslateMissingRoute
   CoursesCountryModuleSlugRoute: typeof CoursesCountryModuleSlugRoute
   CoursesCountryFinalExamRoute: typeof CoursesCountryFinalExamRoute
   CoursesCountryIndexRoute: typeof CoursesCountryIndexRoute
@@ -2295,6 +2309,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPropertiesNewRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/api/public/translate-missing': {
+      id: '/api/public/translate-missing'
+      path: '/api/public/translate-missing'
+      fullPath: '/api/public/translate-missing'
+      preLoaderRoute: typeof ApiPublicTranslateMissingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses/$country/': {
       id: '/courses/$country/'
       path: '/courses/$country'
@@ -2611,6 +2632,7 @@ const rootRouteChildren: RootRouteChildren = {
     ArticlesExpensesBuyingPropertyTurkeyRoute,
   SitemapLocaleDotxmlRoute: SitemapLocaleDotxmlRoute,
   CoursesIndexRoute: CoursesIndexRoute,
+  ApiPublicTranslateMissingRoute: ApiPublicTranslateMissingRoute,
   CoursesCountryModuleSlugRoute: CoursesCountryModuleSlugRoute,
   CoursesCountryFinalExamRoute: CoursesCountryFinalExamRoute,
   CoursesCountryIndexRoute: CoursesCountryIndexRoute,

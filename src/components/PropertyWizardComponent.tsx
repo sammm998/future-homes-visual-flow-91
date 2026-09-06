@@ -10,6 +10,7 @@ import { useNavigate } from '@/lib/router-compat';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/hooks/useTranslation';
+import { saveLead } from '@/lib/leads.functions';
 
 
 const PropertyWizardComponent = () => {
@@ -141,6 +142,26 @@ const PropertyWizardComponent = () => {
   const handleFindProperties = async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
+
+    // Always store the enquiry in the CRM first — e-mail can fail, the lead must not.
+    try {
+      await saveLead({
+        data: {
+          name: selections.contactInfo.name,
+          email: selections.contactInfo.email,
+          phone: selections.contactInfo.phone,
+          source: 'property-wizard',
+          message: [
+            selections.location ? `Location: ${selections.location}` : null,
+            selections.propertyType ? `Type: ${selections.propertyType}` : null,
+            selections.budget ? `Budget: ${selections.budget}` : null,
+            selections.features.length ? `Features: ${selections.features.join(', ')}` : null,
+          ].filter(Boolean).join('\n'),
+        },
+      });
+    } catch (leadError) {
+      console.warn('Failed to save lead:', leadError);
+    }
 
     try {
       const { data, error } = await supabase.functions.invoke('send-contact-notification', {

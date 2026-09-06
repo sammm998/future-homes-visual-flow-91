@@ -14,6 +14,7 @@ import SEOInternalLinks from "@/components/SEOInternalLinks";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import { useTranslation } from "@/hooks/useTranslation";
+import { saveLead } from "@/lib/leads.functions";
 
 const ContactUs = () => {
   const navigate = useNavigate();
@@ -32,6 +33,23 @@ const ContactUs = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    // Store the enquiry in the CRM first so a mail failure can never lose it.
+    try {
+      await saveLead({
+        data: {
+          name: `${formData.firstName} ${formData.lastName}`.trim(),
+          email: formData.email,
+          phone: formData.phone,
+          source: "contact-form",
+          message: [
+            formData.property ? `Property interest: ${formData.property}` : null,
+            formData.message,
+          ].filter(Boolean).join("\n\n"),
+        },
+      });
+    } catch (leadError) {
+      console.warn("Failed to save lead:", leadError);
+    }
     try {
       const { data, error } = await supabase.functions.invoke("send-contact-notification", {
         body: { ...formData, source: "contact-form" },

@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.54.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -32,12 +33,51 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  let leadSaved = false;
   try {
     const formData: ContactFormData = await req.json();
     console.log("Received contact form data:", formData);
 
     // Generate email content based on source
     const name = formData.name || `${formData.firstName || ''} ${formData.lastName || ''}`.trim();
+
+    // Persist the lead FIRST so an email/provider failure can never lose it.
+    try {
+      const supabase = createClient(
+        Deno.env.get("SUPABASE_URL") ?? "",
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      );
+      const messageParts: string[] = [];
+      if (formData.property) messageParts.push(`Property interest: ${formData.property}`);
+      if (formData.message) messageParts.push(formData.message);
+      if (formData.selections) {
+        const s = formData.selections;
+        messageParts.push(
+          [
+            s.location ? `Location: ${s.location}` : null,
+            s.propertyType ? `Type: ${s.propertyType}` : null,
+            s.budget ? `Budget: ${s.budget}` : null,
+            s.features?.length ? `Features: ${s.features.join(", ")}` : null,
+          ].filter(Boolean).join("\n"),
+        );
+      }
+      const { error: leadError } = await supabase.from("leads").insert({
+        name: name || "Website Visitor",
+        email: formData.email || null,
+        phone: formData.phone || null,
+        message: messageParts.filter(Boolean).join("\n\n") || null,
+        source: formData.source || "website",
+        status: "new",
+      });
+      if (leadError) {
+        console.error("Failed to save lead:", leadError);
+      } else {
+        leadSaved = true;
+      }
+    } catch (leadErr) {
+      console.error("Lead insert threw:", leadErr);
+    }
+
     const sourceLabels: Record<string, string> = {
       'contact-form': 'Contact Form',
       'ai-chat': 'AI Help Chat',
@@ -93,18 +133,23 @@ const handler = async (req: Request): Promise<Response> => {
     if (emailResponse?.error) {
       // IMPORTANT: return 200 so frontend can handle gracefully (avoid Supabase FunctionsHttpError)
       console.warn("Resend error:", emailResponse.error);
-      return new Response(JSON.stringify({ success: false, error: emailResponse.error }), {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          ...corsHeaders,
+      // The lead is already stored in the CRM, so the submission itself succeeded.
+      return new Response(
+        JSON.stringify({ success: leadSaved, leadSaved, error: emailResponse.error }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
         },
-      });
+      );
     }
+
 
     console.log("Email sent successfully:", emailResponse);
 
-    return new Response(JSON.stringify({ success: true, data: emailResponse.data }), {
+    return new Response(JSON.stringify({ success: true, leadSaved, data: emailResponse.data }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
