@@ -83,6 +83,7 @@ import { Route as AdminLogsRouteImport } from './routes/admin/logs'
 import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminSocialListeningRouteImport } from './routes/admin/social-listening'
+import { Route as ApiTranslationsFillRouteImport } from './routes/api/translations-fill'
 import { Route as ArticleIdRouteImport } from './routes/article.$id'
 import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as ArticlesExpensesBuyingPropertyTurkeyRouteImport } from './routes/articles.expenses-buying-property-turkey'
@@ -512,6 +513,11 @@ const AdminSocialListeningRoute = AdminSocialListeningRouteImport.update({
   path: '/social-listening',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const ApiTranslationsFillRoute = ApiTranslationsFillRouteImport.update({
+  id: '/api/translations-fill',
+  path: '/api/translations-fill',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArticleIdRoute = ArticleIdRouteImport.update({
   id: '/article/$id',
   path: '/article/$id',
@@ -835,6 +841,7 @@ export interface FileRoutesByFullPath {
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/api/translations-fill': typeof ApiTranslationsFillRoute
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
@@ -957,6 +964,7 @@ export interface FileRoutesByTo {
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/api/translations-fill': typeof ApiTranslationsFillRoute
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
@@ -1082,6 +1090,7 @@ export interface FileRoutesById {
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/api/translations-fill': typeof ApiTranslationsFillRoute
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
@@ -1208,6 +1217,7 @@ export interface FileRouteTypes {
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/api/translations-fill'
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
@@ -1330,6 +1340,7 @@ export interface FileRouteTypes {
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/api/translations-fill'
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
@@ -1454,6 +1465,7 @@ export interface FileRouteTypes {
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/api/translations-fill'
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
@@ -1540,6 +1552,7 @@ export interface RootRouteChildren {
   TurkishCitizenshipByInvestmentRoute: typeof TurkishCitizenshipByInvestmentRoute
   WizardThankYouRoute: typeof WizardThankYouRoute
   SegmentIdRoute: typeof SegmentIdRoute
+  ApiTranslationsFillRoute: typeof ApiTranslationsFillRoute
   ArticleIdRoute: typeof ArticleIdRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   ArticlesExpensesBuyingPropertyTurkeyRoute: typeof ArticlesExpensesBuyingPropertyTurkeyRoute
@@ -2070,6 +2083,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/social-listening'
       preLoaderRoute: typeof AdminSocialListeningRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/api/translations-fill': {
+      id: '/api/translations-fill'
+      path: '/api/translations-fill'
+      fullPath: '/api/translations-fill'
+      preLoaderRoute: typeof ApiTranslationsFillRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/article/$id': {
       id: '/article/$id'
@@ -2626,6 +2646,7 @@ const rootRouteChildren: RootRouteChildren = {
   TurkishCitizenshipByInvestmentRoute: TurkishCitizenshipByInvestmentRoute,
   WizardThankYouRoute: WizardThankYouRoute,
   SegmentIdRoute: SegmentIdRoute,
+  ApiTranslationsFillRoute: ApiTranslationsFillRoute,
   ArticleIdRoute: ArticleIdRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,
   ArticlesExpensesBuyingPropertyTurkeyRoute:
