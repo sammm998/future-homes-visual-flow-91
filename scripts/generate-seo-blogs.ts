@@ -146,6 +146,54 @@ const TOPICS: Topic[] = [
       "industry and jobs, and why buyers priced out of Istanbul look here.",
     category: "City Guides",
   },
+  {
+    slug: "turkish-food-guide",
+    title: "Turkish Food: A Complete Guide to Traditional Turkish Cuisine",
+    keywords: [
+      "turkey food", "turkish foods", "traditional turkish food", "turkish cuisine",
+      "turkisk mat", "turkiet mat",
+    ],
+    brief:
+      "An in-depth guide to Turkish cuisine: regional differences (Aegean, Black Sea, Southeast), kebabs and mezes, olive-oil dishes, " +
+      "soups, pide and lahmacun, seafood on the coasts, tea and coffee culture, and what everyday food life looks like for someone " +
+      "living in Turkey. Include a table of must-try dishes with region and description. Mention how food culture is part of daily " +
+      "life for residents and a natural draw for people considering buying a home in Turkey.",
+    category: "Lifestyle",
+  },
+  {
+    slug: "turkish-desserts-guide",
+    title: "Turkish Desserts: Baklava, Künefe and the Sweets of Turkey",
+    keywords: [
+      "turkish dessert", "turkish desserts", "baklava", "turkisk dessert", "turkiska desserter",
+    ],
+    brief:
+      "A guide to Turkish desserts: baklava and its Gaziantep origins, künefe, lokum (Turkish delight), sütlaç, kazandibi, aşure, " +
+      "helva, tulumba and şekerpare. Explain when each is eaten (Ramadan, bayram, weddings), where to find the best versions, " +
+      "and how dessert culture fits into Turkish hospitality. Include a table of desserts with main ingredients and region.",
+    category: "Lifestyle",
+  },
+  {
+    slug: "turkish-breakfast-guide",
+    title: "The Turkish Breakfast (Kahvaltı): What It Is and Where to Try It",
+    keywords: ["turkish breakfast", "kahvalti", "turkisk frukost"],
+    brief:
+      "Explain the Turkish breakfast tradition: the full serpme kahvaltı spread with cheeses, olives, tomatoes, honey and kaymak, " +
+      "menemen, börek, simit and endless tea; regional variations such as Van breakfast; typical prices; and famous breakfast " +
+      "districts in Istanbul, Izmir and the coastal resorts. Connect to lifestyle for people living or holidaying in Turkey.",
+    category: "Lifestyle",
+  },
+  {
+    slug: "istanbul-street-food-guide",
+    title: "Istanbul Street Food: What to Eat and Where to Find It",
+    keywords: [
+      "istanbul street food", "street food istanbul", "turkish street food", "eminönü food",
+    ],
+    brief:
+      "A street-food tour of Istanbul: balık ekmek in Eminönü, simit, döner, kokoreç, midye dolma, kumpir in Ortaköy, wet burgers, " +
+      "roasted chestnuts and corn, boza in winter and şalgam. Cover neighbourhoods (Eminönü, Karaköy, Kadıköy, Beşiktaş), typical " +
+      "prices, hygiene tips and seasonal specialities.",
+    category: "Lifestyle",
+  },
 ];
 
 async function gemini(prompt: string, schema: object, system: string) {
