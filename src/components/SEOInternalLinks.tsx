@@ -46,7 +46,7 @@ export const SEOInternalLinks: React.FC<SEOInternalLinksProps> = ({
           <li key={l.to}>
             <Link
               to={l.to}
-              className="text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-colors"
+              className="inline-flex items-center min-h-11 py-2 text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-colors"
             >
               {t(l.key)}
             </Link>

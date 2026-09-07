@@ -87,8 +87,12 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
   return (
     <div className={`relative ${className}`}>
       <button
+        type="button"
+        aria-label={`Language: ${currentLanguage.name}`}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 px-2 py-1 text-sm bg-background border border-border rounded-sm hover:bg-muted transition-colors"
+        className="flex items-center gap-1 px-2 min-h-11 text-sm bg-background border border-border rounded-sm hover:bg-muted transition-colors"
       >
         <span className="text-lg">{currentLanguage.flag}</span>
         <span className="text-xs">{currentLanguage.code.toUpperCase()}</span>

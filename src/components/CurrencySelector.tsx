@@ -10,7 +10,8 @@ const CurrencySelector: React.FC = () => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[80px] border border-border/50"
+        aria-label="Select currency"
+        className="flex items-center gap-2 px-3 min-h-11 rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[80px] border border-border/50"
       >
         <span 
           className="currency-display-wrapper notranslate font-mono text-xs font-bold tracking-wider" 
