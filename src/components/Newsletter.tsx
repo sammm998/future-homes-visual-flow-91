@@ -76,11 +76,11 @@ const Newsletter = memo(() => {
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2">{t('newsletter.call_us')}</h3>
-                <a href="tel:+905523032750" className="opacity-90 hover:text-brand-accent transition-colors">+90 552 303 27 50</a>
+                <a href="tel:+905523032750" className="inline-flex items-center min-h-11 opacity-90 hover:text-brand-accent transition-colors">+90 552 303 27 50</a>
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2">{t('newsletter.email')}</h3>
-                <a href="mailto:info@futurehomesinternational.com" className="opacity-90 hover:text-brand-accent transition-colors">info@futurehomesinternational.com</a>
+                <a href="mailto:info@futurehomesinternational.com" className="inline-flex items-center min-h-11 opacity-90 hover:text-brand-accent transition-colors">info@futurehomesinternational.com</a>
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4">{t('newsletter.follow_us')}</h3>
