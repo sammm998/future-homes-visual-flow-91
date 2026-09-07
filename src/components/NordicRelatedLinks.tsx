@@ -30,7 +30,7 @@ export const NordicRelatedLinks: React.FC<Props> = ({ className = '', variant = 
             key={l.to}
             to={l.to}
             title={l.title}
-            className="text-sm px-3 py-1.5 rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+            className="inline-flex items-center text-sm px-3 min-h-11 rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary transition-colors"
           >
             {l.anchor}
           </Link>
@@ -48,7 +48,7 @@ export const NordicRelatedLinks: React.FC<Props> = ({ className = '', variant = 
             <Link
               to={l.to}
               title={l.title}
-              className="text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-colors"
+              className="inline-flex items-center min-h-11 py-2 text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-colors"
             >
               {l.anchor}
             </Link>
