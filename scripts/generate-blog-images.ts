@@ -32,25 +32,53 @@ function buildPrompt(title: string, excerpt: string | null, content: string): st
   );
 }
 
-async function generateImage(prompt: string): Promise<Uint8Array> {
-  const resp = await fetch("https://ai.gateway.lovable.dev/v1/images/generations", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${LOVABLE_API_KEY}`,
-      "Content-Type": "application/json",
+async function generateViaGemini(prompt: string): Promise<Uint8Array> {
+  const key = process.env["GEMINI_API_KEY"];
+  if (!key) throw new Error("GEMINI_API_KEY missing");
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${key}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        generationConfig: { responseModalities: ["IMAGE"] },
+      }),
     },
-    body: JSON.stringify({
-      model: "google/gemini-3-pro-image",
-      messages: [{ role: "user", content: prompt }],
-      modalities: ["image", "text"],
-    }),
-  });
-  if (!resp.ok) throw new Error(`gateway ${resp.status}: ${(await resp.text()).slice(0, 300)}`);
-  const json = (await resp.json()) as { data?: { b64_json?: string }[] };
-  const b64 = json.data?.[0]?.b64_json;
-  if (!b64) throw new Error(`no image in response: ${JSON.stringify(json).slice(0, 300)}`);
+  );
+  if (!resp.ok) throw new Error(`gemini ${resp.status}: ${(await resp.text()).slice(0, 300)}`);
+  const data = (await resp.json()) as any;
+  const b64 = (data?.candidates?.[0]?.content?.parts || []).find((p: any) => p?.inlineData?.data)
+    ?.inlineData?.data as string | undefined;
+  if (!b64) throw new Error("gemini returned no image");
   return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
 }
+
+async function generateImage(prompt: string): Promise<Uint8Array> {
+  try {
+    const resp = await fetch("https://ai.gateway.lovable.dev/v1/images/generations", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-3-pro-image",
+        messages: [{ role: "user", content: prompt }],
+        modalities: ["image", "text"],
+      }),
+    });
+    if (!resp.ok) throw new Error(`gateway ${resp.status}: ${(await resp.text()).slice(0, 200)}`);
+    const json = (await resp.json()) as { data?: { b64_json?: string }[] };
+    const b64 = json.data?.[0]?.b64_json;
+    if (!b64) throw new Error("no image in gateway response");
+    return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+  } catch (e) {
+    console.warn("gateway failed, falling back to Gemini:", e instanceof Error ? e.message : e);
+    return generateViaGemini(prompt);
+  }
+}
+
 
 const force = process.argv.includes("--force");
 const limitArg = process.argv.find((a) => a.startsWith("--limit="));
