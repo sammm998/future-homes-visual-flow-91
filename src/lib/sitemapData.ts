@@ -28,6 +28,8 @@ export interface SitemapEntry {
   propertyRef?: string;
   /** Page exists in one locale only; `path` already contains the locale prefix */
   onlyLocale?: string;
+  /** Absolute image URLs shown for this page in Google results */
+  images?: string[];
 }
 
 
