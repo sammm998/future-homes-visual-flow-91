@@ -28,6 +28,8 @@ export interface SitemapEntry {
   propertyRef?: string;
   /** Page exists in one locale only; `path` already contains the locale prefix */
   onlyLocale?: string;
+  /** Absolute image URLs shown for this page in Google results */
+  images?: string[];
 }
 
 
@@ -85,9 +87,14 @@ async function fetchAll<T>(
 /** Every URL of the site, locale-free, freshly read from the database. */
 export async function getSitemapEntries(): Promise<SitemapEntry[]> {
   const [properties, posts] = await Promise.all([
-    fetchAll<{ ref_no: string | null; updated_at: string | null }>(
+    fetchAll<{
+      ref_no: string | null;
+      updated_at: string | null;
+      property_image: string | null;
+      property_images: string[] | null;
+    }>(
       "properties",
-      "ref_no, updated_at",
+      "ref_no, updated_at, property_image, property_images",
       (q) => q.eq("is_active", true),
     ),
     fetchAll<{
@@ -95,8 +102,11 @@ export async function getSitemapEntries(): Promise<SitemapEntry[]> {
       updated_at: string | null;
       language_code: string | null;
       parent_post_id: string | null;
-    }>("blog_posts", "slug, updated_at, language_code, parent_post_id", (q) =>
-      q.eq("published", true),
+      featured_image: string | null;
+    }>(
+      "blog_posts",
+      "slug, updated_at, language_code, parent_post_id, featured_image",
+      (q) => q.eq("published", true),
     ),
   ]);
 
@@ -114,11 +124,16 @@ export async function getSitemapEntries(): Promise<SitemapEntry[]> {
 
   for (const p of properties) {
     if (!p.ref_no) continue;
+    const images = [p.property_image, ...(p.property_images ?? [])]
+      .filter((src): src is string => typeof src === "string" && src.startsWith("http"))
+      .filter((src, i, arr) => arr.indexOf(src) === i)
+      .slice(0, 5);
     entries.push({
       path: `/property/${p.ref_no}`,
       propertyRef: String(p.ref_no),
       changefreq: "weekly",
       priority: "0.8",
+      ...(images.length ? { images } : {}),
       ...(p.updated_at ? { lastmod: new Date(p.updated_at).toISOString().split("T")[0] } : {}),
     });
   }
@@ -131,6 +146,9 @@ export async function getSitemapEntries(): Promise<SitemapEntry[]> {
       path: `/articles/${post.slug}`,
       changefreq: "monthly",
       priority: "0.6",
+      ...(post.featured_image && post.featured_image.startsWith("http")
+        ? { images: [post.featured_image] }
+        : {}),
       ...(post.updated_at
         ? { lastmod: new Date(post.updated_at).toISOString().split("T")[0] }
         : {}),
@@ -174,12 +192,16 @@ export function renderLocaleSitemap(entries: SitemapEntry[], locale: string): st
         (alt) =>
           `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlEscape(entryUrl(entry, alt))}" />`,
       ).join("\n");
+      const images = (entry.images ?? [])
+        .map((src) => `    <image:image>\n      <image:loc>${xmlEscape(src)}</image:loc>\n    </image:image>`)
+        .join("\n");
       return [
         "  <url>",
         `    <loc>${xmlEscape(entryUrl(entry, locale))}</loc>`,
         entry.lastmod ? `    <lastmod>${entry.lastmod}</lastmod>` : null,
         `    <changefreq>${entry.changefreq}</changefreq>`,
         `    <priority>${entry.priority}</priority>`,
+        images || null,
         alternates,
         `    <xhtml:link rel="alternate" hreflang="x-default" href="${xmlEscape(entryUrl(entry, "en"))}" />`,
         "  </url>",
@@ -191,7 +213,7 @@ export function renderLocaleSitemap(entries: SitemapEntry[], locale: string): st
 
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
     urls,
     "</urlset>",
   ].join("\n");

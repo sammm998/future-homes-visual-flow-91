@@ -85,12 +85,14 @@ import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminSocialListeningRouteImport } from './routes/admin/social-listening'
 import { Route as ApiTranslationsFillRouteImport } from './routes/api/translations-fill'
 import { Route as ArticleIdRouteImport } from './routes/article.$id'
+import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
 import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as ArticlesExpensesBuyingPropertyTurkeyRouteImport } from './routes/articles.expenses-buying-property-turkey'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as SitemapLocaleDotxmlRouteImport } from './routes/sitemap.$locale[.]xml'
 import { Route as LocaleSegmentIdRouteImport } from './routes/$locale.$segment.$id'
 import { Route as LocaleArticleIdRouteImport } from './routes/$locale/article.$id'
+import { Route as LocaleArticlesIndexRouteImport } from './routes/$locale/articles.index'
 import { Route as LocaleArticlesSlugRouteImport } from './routes/$locale/articles.$slug'
 import { Route as LocaleArticlesExpensesBuyingPropertyTurkeyRouteImport } from './routes/$locale/articles.expenses-buying-property-turkey'
 import { Route as LocaleCoursesIndexRouteImport } from './routes/$locale/courses.index'
@@ -523,6 +525,11 @@ const ArticleIdRoute = ArticleIdRouteImport.update({
   path: '/article/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArticlesIndexRoute = ArticlesIndexRouteImport.update({
+  id: '/articles/',
+  path: '/articles/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
   id: '/articles/$slug',
   path: '/articles/$slug',
@@ -552,6 +559,11 @@ const LocaleSegmentIdRoute = LocaleSegmentIdRouteImport.update({
 const LocaleArticleIdRoute = LocaleArticleIdRouteImport.update({
   id: '/article/$id',
   path: '/article/$id',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleArticlesIndexRoute = LocaleArticlesIndexRouteImport.update({
+  id: '/articles/',
+  path: '/articles/',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
 const LocaleArticlesSlugRoute = LocaleArticlesSlugRouteImport.update({
@@ -848,6 +860,7 @@ export interface FileRoutesByFullPath {
   '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/$locale/': typeof LocaleIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/articles/': typeof ArticlesIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/$locale/$segment/$id': typeof LocaleSegmentIdRoute
   '/$locale/article/$id': typeof LocaleArticleIdRoute
@@ -874,6 +887,7 @@ export interface FileRoutesByFullPath {
   '/api/public/translate-missing': typeof ApiPublicTranslateMissingRoute
   '/courses/$country/$moduleSlug': typeof CoursesCountryModuleSlugRoute
   '/courses/$country/final-exam': typeof CoursesCountryFinalExamRoute
+  '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/courses/': typeof LocaleCoursesIndexRoute
   '/admin/analytics/': typeof AdminAnalyticsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
@@ -971,6 +985,7 @@ export interface FileRoutesByTo {
   '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/$locale': typeof LocaleIndexRoute
   '/admin': typeof AdminIndexRoute
+  '/articles': typeof ArticlesIndexRoute
   '/courses': typeof CoursesIndexRoute
   '/$locale/$segment/$id': typeof LocaleSegmentIdRoute
   '/$locale/article/$id': typeof LocaleArticleIdRoute
@@ -997,6 +1012,7 @@ export interface FileRoutesByTo {
   '/api/public/translate-missing': typeof ApiPublicTranslateMissingRoute
   '/courses/$country/$moduleSlug': typeof CoursesCountryModuleSlugRoute
   '/courses/$country/final-exam': typeof CoursesCountryFinalExamRoute
+  '/$locale/articles': typeof LocaleArticlesIndexRoute
   '/$locale/courses': typeof LocaleCoursesIndexRoute
   '/admin/analytics': typeof AdminAnalyticsIndexRoute
   '/admin/blog': typeof AdminBlogIndexRoute
@@ -1097,6 +1113,7 @@ export interface FileRoutesById {
   '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/$locale/': typeof LocaleIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/articles/': typeof ArticlesIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/$locale/$segment/$id': typeof LocaleSegmentIdRoute
   '/$locale/article/$id': typeof LocaleArticleIdRoute
@@ -1123,6 +1140,7 @@ export interface FileRoutesById {
   '/api/public/translate-missing': typeof ApiPublicTranslateMissingRoute
   '/courses/$country/$moduleSlug': typeof CoursesCountryModuleSlugRoute
   '/courses/$country/final-exam': typeof CoursesCountryFinalExamRoute
+  '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/courses/': typeof LocaleCoursesIndexRoute
   '/admin/analytics/': typeof AdminAnalyticsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
@@ -1224,6 +1242,7 @@ export interface FileRouteTypes {
     | '/sitemap/$locale.xml'
     | '/$locale/'
     | '/admin/'
+    | '/articles/'
     | '/courses/'
     | '/$locale/$segment/$id'
     | '/$locale/article/$id'
@@ -1250,6 +1269,7 @@ export interface FileRouteTypes {
     | '/api/public/translate-missing'
     | '/courses/$country/$moduleSlug'
     | '/courses/$country/final-exam'
+    | '/$locale/articles/'
     | '/$locale/courses/'
     | '/admin/analytics/'
     | '/admin/blog/'
@@ -1347,6 +1367,7 @@ export interface FileRouteTypes {
     | '/sitemap/$locale.xml'
     | '/$locale'
     | '/admin'
+    | '/articles'
     | '/courses'
     | '/$locale/$segment/$id'
     | '/$locale/article/$id'
@@ -1373,6 +1394,7 @@ export interface FileRouteTypes {
     | '/api/public/translate-missing'
     | '/courses/$country/$moduleSlug'
     | '/courses/$country/final-exam'
+    | '/$locale/articles'
     | '/$locale/courses'
     | '/admin/analytics'
     | '/admin/blog'
@@ -1472,6 +1494,7 @@ export interface FileRouteTypes {
     | '/sitemap/$locale.xml'
     | '/$locale/'
     | '/admin/'
+    | '/articles/'
     | '/courses/'
     | '/$locale/$segment/$id'
     | '/$locale/article/$id'
@@ -1498,6 +1521,7 @@ export interface FileRouteTypes {
     | '/api/public/translate-missing'
     | '/courses/$country/$moduleSlug'
     | '/courses/$country/final-exam'
+    | '/$locale/articles/'
     | '/$locale/courses/'
     | '/admin/analytics/'
     | '/admin/blog/'
@@ -1557,6 +1581,7 @@ export interface RootRouteChildren {
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   ArticlesExpensesBuyingPropertyTurkeyRoute: typeof ArticlesExpensesBuyingPropertyTurkeyRoute
   SitemapLocaleDotxmlRoute: typeof SitemapLocaleDotxmlRoute
+  ArticlesIndexRoute: typeof ArticlesIndexRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
   ApiPublicTranslateMissingRoute: typeof ApiPublicTranslateMissingRoute
   CoursesCountryModuleSlugRoute: typeof CoursesCountryModuleSlugRoute
@@ -2098,6 +2123,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticleIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/articles/': {
+      id: '/articles/'
+      path: '/articles'
+      fullPath: '/articles/'
+      preLoaderRoute: typeof ArticlesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/articles/$slug': {
       id: '/articles/$slug'
       path: '/articles/$slug'
@@ -2138,6 +2170,13 @@ declare module '@tanstack/react-router' {
       path: '/article/$id'
       fullPath: '/$locale/article/$id'
       preLoaderRoute: typeof LocaleArticleIdRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/articles/': {
+      id: '/$locale/articles/'
+      path: '/articles'
+      fullPath: '/$locale/articles/'
+      preLoaderRoute: typeof LocaleArticlesIndexRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/articles/$slug': {
@@ -2470,6 +2509,7 @@ interface LocaleRouteRouteChildren {
   LocaleArticleIdRoute: typeof LocaleArticleIdRoute
   LocaleArticlesSlugRoute: typeof LocaleArticlesSlugRoute
   LocaleArticlesExpensesBuyingPropertyTurkeyRoute: typeof LocaleArticlesExpensesBuyingPropertyTurkeyRoute
+  LocaleArticlesIndexRoute: typeof LocaleArticlesIndexRoute
   LocaleCoursesIndexRoute: typeof LocaleCoursesIndexRoute
   LocaleCoursesCountryModuleSlugRoute: typeof LocaleCoursesCountryModuleSlugRoute
   LocaleCoursesCountryFinalExamRoute: typeof LocaleCoursesCountryFinalExamRoute
@@ -2518,6 +2558,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleArticlesSlugRoute: LocaleArticlesSlugRoute,
   LocaleArticlesExpensesBuyingPropertyTurkeyRoute:
     LocaleArticlesExpensesBuyingPropertyTurkeyRoute,
+  LocaleArticlesIndexRoute: LocaleArticlesIndexRoute,
   LocaleCoursesIndexRoute: LocaleCoursesIndexRoute,
   LocaleCoursesCountryModuleSlugRoute: LocaleCoursesCountryModuleSlugRoute,
   LocaleCoursesCountryFinalExamRoute: LocaleCoursesCountryFinalExamRoute,
@@ -2652,6 +2693,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesExpensesBuyingPropertyTurkeyRoute:
     ArticlesExpensesBuyingPropertyTurkeyRoute,
   SitemapLocaleDotxmlRoute: SitemapLocaleDotxmlRoute,
+  ArticlesIndexRoute: ArticlesIndexRoute,
   CoursesIndexRoute: CoursesIndexRoute,
   ApiPublicTranslateMissingRoute: ApiPublicTranslateMissingRoute,
   CoursesCountryModuleSlugRoute: CoursesCountryModuleSlugRoute,
