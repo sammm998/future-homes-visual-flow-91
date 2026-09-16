@@ -192,12 +192,16 @@ export function renderLocaleSitemap(entries: SitemapEntry[], locale: string): st
         (alt) =>
           `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlEscape(entryUrl(entry, alt))}" />`,
       ).join("\n");
+      const images = (entry.images ?? [])
+        .map((src) => `    <image:image>\n      <image:loc>${xmlEscape(src)}</image:loc>\n    </image:image>`)
+        .join("\n");
       return [
         "  <url>",
         `    <loc>${xmlEscape(entryUrl(entry, locale))}</loc>`,
         entry.lastmod ? `    <lastmod>${entry.lastmod}</lastmod>` : null,
         `    <changefreq>${entry.changefreq}</changefreq>`,
         `    <priority>${entry.priority}</priority>`,
+        images || null,
         alternates,
         `    <xhtml:link rel="alternate" hreflang="x-default" href="${xmlEscape(entryUrl(entry, "en"))}" />`,
         "  </url>",
