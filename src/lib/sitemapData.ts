@@ -124,11 +124,16 @@ export async function getSitemapEntries(): Promise<SitemapEntry[]> {
 
   for (const p of properties) {
     if (!p.ref_no) continue;
+    const images = [p.property_image, ...(p.property_images ?? [])]
+      .filter((src): src is string => typeof src === "string" && src.startsWith("http"))
+      .filter((src, i, arr) => arr.indexOf(src) === i)
+      .slice(0, 5);
     entries.push({
       path: `/property/${p.ref_no}`,
       propertyRef: String(p.ref_no),
       changefreq: "weekly",
       priority: "0.8",
+      ...(images.length ? { images } : {}),
       ...(p.updated_at ? { lastmod: new Date(p.updated_at).toISOString().split("T")[0] } : {}),
     });
   }
@@ -141,6 +146,9 @@ export async function getSitemapEntries(): Promise<SitemapEntry[]> {
       path: `/articles/${post.slug}`,
       changefreq: "monthly",
       priority: "0.6",
+      ...(post.featured_image && post.featured_image.startsWith("http")
+        ? { images: [post.featured_image] }
+        : {}),
       ...(post.updated_at
         ? { lastmod: new Date(post.updated_at).toISOString().split("T")[0] }
         : {}),
