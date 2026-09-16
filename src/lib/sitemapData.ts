@@ -87,9 +87,14 @@ async function fetchAll<T>(
 /** Every URL of the site, locale-free, freshly read from the database. */
 export async function getSitemapEntries(): Promise<SitemapEntry[]> {
   const [properties, posts] = await Promise.all([
-    fetchAll<{ ref_no: string | null; updated_at: string | null }>(
+    fetchAll<{
+      ref_no: string | null;
+      updated_at: string | null;
+      property_image: string | null;
+      property_images: string[] | null;
+    }>(
       "properties",
-      "ref_no, updated_at",
+      "ref_no, updated_at, property_image, property_images",
       (q) => q.eq("is_active", true),
     ),
     fetchAll<{
@@ -97,8 +102,11 @@ export async function getSitemapEntries(): Promise<SitemapEntry[]> {
       updated_at: string | null;
       language_code: string | null;
       parent_post_id: string | null;
-    }>("blog_posts", "slug, updated_at, language_code, parent_post_id", (q) =>
-      q.eq("published", true),
+      featured_image: string | null;
+    }>(
+      "blog_posts",
+      "slug, updated_at, language_code, parent_post_id, featured_image",
+      (q) => q.eq("published", true),
     ),
   ]);
 
