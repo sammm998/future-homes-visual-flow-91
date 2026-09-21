@@ -31,6 +31,7 @@ import { OptimizedPropertyImage } from '@/components/OptimizedPropertyImage';
 import { t } from '@/utils/translations';
 import { ShareLinkButton } from '@/components/ShareLinkButton';
 import LiveViewers from '@/components/LiveViewers';
+import PropertySuggestions from '@/components/PropertySuggestions';
 
 const parseCompletionDate = (value: string | null | undefined): Date | null => {
   if (!value) return null;
@@ -399,6 +400,7 @@ const PropertyDetail = () => {
               {t('pd.back_to_properties', language)}
             </Button>
           </div>
+          <PropertySuggestions heading={t('pd.similar_properties', language)} />
         </div>
       </div>;
   }
