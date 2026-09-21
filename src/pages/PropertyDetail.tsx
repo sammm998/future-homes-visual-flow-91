@@ -399,6 +399,7 @@ const PropertyDetail = () => {
               {t('pd.back_to_properties', language)}
             </Button>
           </div>
+          <PropertySuggestions heading={t('pd.similar_properties', language)} />
         </div>
       </div>;
   }
