@@ -27,6 +27,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import NotFound from "@/pages/NotFound";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { useLanguageUrlSync } from "@/hooks/useLanguageUrlSync";
 import { useAnalyticsTracker } from "@/hooks/useAnalyticsTracker";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
@@ -158,6 +159,7 @@ function AppChrome() {
       <main>
         <Outlet />
       </main>
+      <WhatsAppButton />
     </>
   );
 }
