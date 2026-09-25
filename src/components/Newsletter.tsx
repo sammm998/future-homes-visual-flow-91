@@ -43,11 +43,12 @@ const Newsletter = memo(() => {
   };
   
   return (
-    <section className="bg-brand-secondary text-white py-8 md:py-16">
+    <section className="bg-brand-secondary text-brand-foreground py-16 md:py-24 cinematic-section border-t border-brand-foreground/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-20">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">{t('newsletter.title')}</h2>
+            <span className="section-kicker cinematic-rule text-brand-accent mb-4">Future Homes</span>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">{t('newsletter.title')}</h2>
             <p className="text-base md:text-lg mb-6 md:mb-8 opacity-90">{t('newsletter.subtitle')}</p>
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md items-stretch">
               <Input 
@@ -55,12 +56,12 @@ const Newsletter = memo(() => {
                 placeholder={t('newsletter.placeholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/70 flex-1 h-12"
+                className="bg-brand-foreground/10 border-brand-foreground/20 text-brand-foreground placeholder:text-brand-foreground/65 flex-1 h-12 rounded-md"
                 required
               />
               <Button 
                 type="submit" variant="outline" disabled={isSubmitting}
-                className="bg-white text-brand-secondary hover:bg-white/70 border-white whitespace-nowrap h-12 px-8 flex-shrink-0"
+                 className="bg-brand-foreground text-brand-secondary hover:bg-brand-accent border-brand-foreground whitespace-nowrap h-12 px-8 flex-shrink-0 rounded-md"
                 style={{ minWidth: 'auto', width: 'auto' }}
               >
                 {isSubmitting ? t('newsletter.submitting') : t('newsletter.submit')}
@@ -95,7 +96,7 @@ const Newsletter = memo(() => {
             </div>
           </div>
         </div>
-        <div className="border-t border-white/20 mt-12 pt-8">
+        <div className="border-t border-brand-foreground/20 mt-14 pt-8">
           <div className="text-center">
             <h3 className="text-xl font-semibold mb-4">{t('newsletter.our_locations')}</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-sm opacity-90">
