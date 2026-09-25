@@ -12,19 +12,20 @@ export default function FounderSection() {
   const { t } = useTranslation();
 
   return (
-    <section className="py-20 bg-gradient-to-br from-background via-background to-primary/5">
+    <section className="py-20 lg:py-28 bg-secondary/30 cinematic-section">
       <div className="container mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-foreground mb-4">{t('home.meet_founder')}</h2>
+          <span className="section-kicker cinematic-rule mb-4">Future Homes</span>
+          <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-4">{t('home.meet_founder')}</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('home.meet_founder_subtitle')}</p>
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} viewport={{ once: true }}>
-          <Card className="overflow-hidden max-w-4xl mx-auto">
+          <Card className="overflow-hidden max-w-6xl mx-auto rounded-md cinematic-card border-border/70">
             <div className="grid lg:grid-cols-2 gap-0">
-              <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 to-primary-glow/10">
+              <div className="relative overflow-hidden bg-brand-secondary min-h-[420px]">
                 {!imageError ? (
-                  <img src={aliKaranImage} alt="Ali Karan - Founder and CEO" width={600} height={600} loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" onError={() => setImageError(true)} />
+                  <img src={aliKaranImage} alt="Ali Karan - Founder and CEO" width={600} height={600} loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-[1.04] transition-transform duration-700" onError={() => setImageError(true)} />
                 ) : (
                   <div className="w-full h-96 bg-gradient-to-br from-primary/20 to-primary-glow/20 flex items-center justify-center">
                     <div className="text-center">
@@ -36,7 +37,7 @@ export default function FounderSection() {
                 )}
               </div>
 
-              <div className="p-8 lg:p-12 flex flex-col justify-center">
+              <div className="p-8 lg:p-14 flex flex-col justify-center bg-card">
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-3xl font-bold text-foreground mb-2 notranslate" translate="no">Ali Karan</h3>
@@ -45,17 +46,17 @@ export default function FounderSection() {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="text-center p-3 rounded-lg bg-primary/5">
+                    <div className="text-center p-4 rounded-md bg-secondary/60 border border-border/60">
                       <Award className="w-6 h-6 text-primary mx-auto mb-2" />
                       <p className="text-sm font-semibold text-foreground">6 Years</p>
                       <p className="text-xs text-muted-foreground">{t('home.years_experience')}</p>
                     </div>
-                    <div className="text-center p-3 rounded-lg bg-primary/5">
+                    <div className="text-center p-4 rounded-md bg-secondary/60 border border-border/60">
                       <Users className="w-6 h-6 text-primary mx-auto mb-2" />
                       <p className="text-sm font-semibold text-foreground">1000+</p>
                       <p className="text-xs text-muted-foreground">{t('home.happy_clients')}</p>
                     </div>
-                    <div className="text-center p-3 rounded-lg bg-primary/5">
+                    <div className="text-center p-4 rounded-md bg-secondary/60 border border-border/60">
                       <MapPin className="w-6 h-6 text-primary mx-auto mb-2" />
                       <p className="text-sm font-semibold text-foreground">4</p>
                       <p className="text-xs text-muted-foreground">{t('home.countries')}</p>

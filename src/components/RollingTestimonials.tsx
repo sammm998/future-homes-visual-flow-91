@@ -7,11 +7,12 @@ interface RollingTestimonialsProps {
 }
 
 const RollingTestimonials = ({ testimonials, title, subtitle }: RollingTestimonialsProps) => (
-  <section className="py-20 bg-secondary/30 overflow-hidden">
+  <section className="py-20 lg:py-28 bg-brand-secondary text-brand-foreground overflow-hidden cinematic-section">
     <div className="container mx-auto px-4 mb-16">
       <div className="text-center">
-        <h2 className="text-4xl font-bold text-foreground mb-4">{title}</h2>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{subtitle}</p>
+        <span className="section-kicker cinematic-rule text-brand-accent mb-4">Future Homes</span>
+        <h2 className="text-4xl md:text-6xl font-bold text-brand-foreground mb-4">{title}</h2>
+        <p className="text-xl text-brand-foreground/70 max-w-2xl mx-auto">{subtitle}</p>
       </div>
     </div>
 

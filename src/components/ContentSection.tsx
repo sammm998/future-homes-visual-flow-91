@@ -17,9 +17,9 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
   section,
   className = ''
 }) => {
-  const renderHeroSection = () => <div className={`text-center mb-16 ${className}`}>
-      {section.subtitle && <Badge className="mb-4">{section.subtitle}</Badge>}
-      {section.title && <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+  const renderHeroSection = () => <div className={`text-center mb-16 cinematic-reveal ${className}`}>
+      {section.subtitle && <span className="section-kicker cinematic-rule mb-4">{section.subtitle}</span>}
+      {section.title && <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
           {section.title}
         </h2>}
       {section.content && <div className="max-w-4xl mx-auto">
@@ -27,7 +27,7 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
         </div>}
     </div>;
   const renderContentSection = () => null;
-  const renderCompanyInfoSection = () => <div className={`bg-primary/5 rounded-2xl p-8 mb-16 ${className}`}>
+  const renderCompanyInfoSection = () => <div className={`cinematic-surface rounded-md p-8 lg:p-12 mb-16 ${className}`}>
       <div className="text-center mb-8">
         {section.title && <h2 className="text-3xl font-bold text-foreground mb-4">{section.title}</h2>}
         {section.description && <p className="text-lg text-muted-foreground">{section.description.replace(/Future\s*Homes\s*Turkey\s*/gi, 'Future Homes ').replace(/Future\s*Homes\s*,?\s*/gi, 'Future Homes ').replace(/Dubai,?\s*Cyprus\s*&?\s*France/gi, 'Turkey, Dubai, Cyprus, Antalya, Mersin & France').replace(/Cyprus,?\s*Dubai\s*&?\s*France/gi, 'Turkey, Dubai, Cyprus, Antalya, Mersin & France').trim()}</p>}
@@ -60,7 +60,7 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {section.offices.map((office: any, index: number) => <Card key={index} className="text-center">
+          {section.offices.map((office: any, index: number) => <Card key={index} className="text-center cinematic-card rounded-md">
               <CardHeader>
                 <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
                 <CardTitle>{office.name}</CardTitle>
