@@ -1,122 +1,91 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 import baliImage from '@/assets/bali-destination.webp';
 import marinaImage from '@/assets/marina-destination.webp';
 import istanbulImage from '@/assets/istanbul-destination.webp';
-import antalyaVideo from '@/assets/hero-video-antalya.mp4.asset.json';
-import istanbulVideo from '@/assets/hero-video-istanbul.mp4.asset.json';
-import dubaiVideo from '@/assets/hero-video-dubai.mp4.asset.json';
-import mersinVideo from '@/assets/hero-video-mersin.mp4.asset.json';
-import cyprusVideo from '@/assets/hero-video-cyprus.mp4.asset.json';
-import baliVideo from '@/assets/hero-video-bali.mp4.asset.json';
-
-const slides = [
-  {
-    image: "/lovable-uploads/hero-antalya-1200.webp",
-    srcSet: "/lovable-uploads/hero-antalya-768.webp 768w, /lovable-uploads/hero-antalya-1200.webp 1200w",
-    video: antalyaVideo.url,
-    alt: "Antalya - Turkish Riviera Paradise"
-  },
-  {
-    image: istanbulImage,
-    video: istanbulVideo.url,
-    alt: "Istanbul - Where East Meets West"
-  },
-  {
-    image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.webp",
-    video: dubaiVideo.url,
-    alt: "Dubai - Modern Metropolis"
-  },
-  {
-    image: marinaImage,
-    video: mersinVideo.url,
-    alt: "Mersin - Mediterranean Coastal"
-  },
-  {
-    image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.webp",
-    video: cyprusVideo.url,
-    alt: "Cyprus - Island Paradise"
-  },
-  {
-    image: baliImage,
-    video: baliVideo.url,
-    alt: "Bali - Island of Gods Paradise"
-  }
-];
 
 const HeroSlider = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [previousIndex, setPreviousIndex] = useState<number | null>(null);
-  const [videosEnabled, setVideosEnabled] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
+  const slides = [
+    {
+      image: "/lovable-uploads/hero-antalya-1200.webp",
+      srcSet: "/lovable-uploads/hero-antalya-768.webp 768w, /lovable-uploads/hero-antalya-1200.webp 1200w",
+      alt: "Antalya - Turkish Riviera Paradise"
+    },
+    {
+      image: istanbulImage,
+      alt: "Istanbul - Where East Meets West"
+    },
+    {
+      image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.webp",
+      alt: "Dubai - Modern Metropolis"
+    },
+    {
+      image: marinaImage,
+      alt: "Mersin - Mediterranean Coastal"
+    },
+    {
+      image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.webp",
+      alt: "Cyprus - Island Paradise"
+    },
+    {
+      image: baliImage,
+      alt: "Bali - Island of Gods Paradise"
+    }
+  ];
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { 
+      loop: true,
+      duration: 30
+    },
+    [Autoplay({ delay: 4000, stopOnInteraction: false })]
+  );
+
+  // Only download slides that have been (or are about to be) shown.
+  const [visible, setVisible] = useState<number[]>([0]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    const i = emblaApi.selectedScrollSnap();
+    const next = (i + 1) % slides.length;
+    setVisible((prev) => (prev.includes(i) && prev.includes(next) ? prev : Array.from(new Set([...prev, i, next]))));
+  }, [emblaApi, slides.length]);
 
   useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const updateMotionPreference = () => setReduceMotion(media.matches);
-    updateMotionPreference();
-    media.addEventListener('change', updateMotionPreference);
-
-    const enable = window.setTimeout(() => setVideosEnabled(true), 1200);
-    return () => {
-      window.clearTimeout(enable);
-      media.removeEventListener('change', updateMotionPreference);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (reduceMotion) return;
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => {
-        setPreviousIndex(current);
-        return (current + 1) % slides.length;
-      });
-    }, 6500);
-    return () => window.clearInterval(timer);
-  }, [reduceMotion]);
-
-  const nextIndex = (activeIndex + 1) % slides.length;
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    return () => { emblaApi.off('select', onSelect); };
+  }, [emblaApi, onSelect]);
 
   return (
-    <div dir="ltr" className="absolute inset-0 w-full h-full overflow-hidden bg-muted" aria-hidden="true">
-      {slides.map((slide, index) => {
-        const isActive = index === activeIndex;
-        const shouldLoadVideo = videosEnabled && !reduceMotion && (
-          isActive || index === previousIndex || index === nextIndex
-        );
-
-        return (
+    <div dir="ltr" className="absolute inset-0 w-full h-full overflow-hidden" ref={emblaRef}>
+      <div className="flex h-full">
+        {slides.map((slide, index) => (
           <div
-            key={slide.alt}
-            className={`absolute inset-0 transition-opacity ease-in-out duration-[1400ms] ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+            key={index}
+            className="flex-[0_0_100%] min-w-0 relative bg-muted"
           >
-            <img
-              src={slide.image}
-              srcSet={slide.srcSet}
-              sizes={slide.srcSet ? "100vw" : undefined}
-              alt=""
-              width={1200}
-              height={675}
-              className="absolute inset-0 w-full h-full object-cover"
-              loading={index === 0 ? "eager" : "lazy"}
-              fetchPriority={index === 0 ? "high" : "low"}
-              decoding={index === 0 ? "sync" : "async"}
-            />
-            {shouldLoadVideo && (
-              <video
-                className="absolute inset-0 w-full h-full object-cover"
-                src={slide.video}
-                poster={slide.image}
-                autoPlay={isActive}
-                muted
-                loop
-                playsInline
-                preload={isActive ? "auto" : "metadata"}
+            {visible.includes(index) && (
+              <img
+                src={slide.image}
+                srcSet={(slide as { srcSet?: string }).srcSet}
+                sizes={(slide as { srcSet?: string }).srcSet ? "100vw" : undefined}
+                alt={slide.alt}
+                width={1200}
+                height={675}
+                className="w-full h-full object-cover"
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "low"}
+                decoding={index === 0 ? "sync" : "async"}
               />
             )}
+            <div className="absolute inset-0 bg-black/50"></div>
           </div>
-        );
-      })}
-      <div className="absolute inset-0 z-20 bg-black/50" />
+        ))}
+      </div>
     </div>
   );
 };
