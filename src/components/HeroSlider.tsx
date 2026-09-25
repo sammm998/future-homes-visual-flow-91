@@ -76,13 +76,14 @@ const HeroSlider = () => {
                 alt={slide.alt}
                 width={1200}
                 height={675}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cinematic-drift"
                 loading={index === 0 ? "eager" : "lazy"}
                 fetchPriority={index === 0 ? "high" : "low"}
                 decoding={index === 0 ? "sync" : "async"}
               />
             )}
-            <div className="absolute inset-0 bg-black/50"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-secondary/45 via-brand-secondary/30 to-brand-secondary/85"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-brand-secondary/30 via-transparent to-brand-secondary/15"></div>
           </div>
         ))}
       </div>

@@ -177,7 +177,7 @@ const Index = () => {
       }
     }]
   };
-  return <div className="min-h-screen overflow-x-clip">
+  return <div className="min-h-screen overflow-x-clip bg-background">
       {/* Preload the LCP hero image (responsive) */}
       <link
         rel="preload"
@@ -200,7 +200,7 @@ const Index = () => {
       {/* Dynamic Content Sections from CMS — rendered below the hero so the
           async CMS fetch can never push the hero down (layout shift). */}
       {!contentLoading && contentSections.length > 0 && (
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto px-4 py-16 lg:py-24 scroll-reveal">
           {contentSections.map((section, index) => (
             <ContentSection key={index} section={section} />
           ))}
@@ -254,9 +254,10 @@ const Index = () => {
       </DeferredSection>
       
       {/* SEO content */}
-      <section className="py-16 bg-secondary/20">
-        <div className="container mx-auto px-4 max-w-4xl space-y-5 text-muted-foreground leading-relaxed">
-          <h2 className="text-3xl font-bold text-foreground">{t('seo.home.h2')}</h2>
+      <section className="py-20 lg:py-28 bg-secondary/35 cinematic-section">
+        <div className="container mx-auto px-4 max-w-5xl space-y-6 text-muted-foreground leading-relaxed scroll-reveal">
+          <span className="section-kicker cinematic-rule">Future Homes</span>
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground leading-tight">{t('seo.home.h2')}</h2>
           <p>{t('seo.home.p1')}</p>
           <h3 className="text-xl font-semibold text-foreground">{t('seo.home.h3_1')}</h3>
           <p>{t('seo.home.p2')}</p>
@@ -269,10 +270,11 @@ const Index = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-background">
+      <section className="py-20 lg:py-28 bg-background cinematic-section">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
+          <div className="text-center mb-14 scroll-reveal">
+            <span className="section-kicker cinematic-rule mb-4">Future Homes</span>
+            <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-5 leading-tight">
               {t('home.faq_title')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -280,12 +282,12 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="max-w-4xl mx-auto space-y-6">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-4">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-card border rounded-lg p-6">
+              <article key={i} className="bg-card cinematic-card rounded-md p-6 lg:p-7">
                 <h3 className="text-lg font-semibold mb-3">{t(`home.faq${i}_q`)}</h3>
                 <p className="text-muted-foreground">{t(`home.faq${i}_a`)}</p>
-              </div>
+              </article>
             ))}
           </div>
         </div>
