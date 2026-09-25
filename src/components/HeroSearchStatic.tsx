@@ -40,12 +40,12 @@ export function HeroSearchStatic() {
     window.location.href = `${targetRoute}?${params.toString()}`;
   };
 
-  const selectClass = "h-10 sm:h-12 w-full bg-white border-0 text-black text-sm rounded-md px-3 appearance-none";
-  const inputClass = "h-10 sm:h-12 w-full bg-white border-0 text-black placeholder:text-gray-500 text-sm rounded-md px-3";
+  const selectClass = "h-12 sm:h-14 w-full bg-background text-foreground border border-border/60 text-sm rounded-md px-4 appearance-none outline-none focus:ring-2 focus:ring-brand-accent/60";
+  const inputClass = "h-12 sm:h-14 w-full bg-background text-foreground border border-border/60 placeholder:text-muted-foreground text-sm rounded-md px-4 outline-none focus:ring-2 focus:ring-brand-accent/60";
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-3 sm:p-4 md:p-6 rounded-2xl max-w-5xl mx-auto">
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-4 sm:mb-6">
+    <div className="bg-brand-secondary/55 backdrop-blur-xl border border-brand-foreground/20 p-3 sm:p-4 md:p-5 rounded-lg max-w-6xl mx-auto shadow-2xl">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3">
         <div className="lg:col-span-1">
           <label htmlFor="propertyType" className="sr-only">{t('search.property_type')}</label>
           <select id="propertyType" name="propertyType" aria-label={t('search.property_type')} className={selectClass} defaultValue="">
@@ -110,12 +110,12 @@ export function HeroSearchStatic() {
           </select>
         </div>
 
-        <div className="col-span-1 sm:col-span-2 lg:col-span-5 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
+        <div className="col-span-1 sm:col-span-2 lg:col-span-5 flex flex-col sm:flex-row gap-3 justify-end items-center pt-1">
           <button
             type="button"
             disabled
             aria-label={t('search.advanced')}
-            className="w-full sm:w-auto inline-flex items-center justify-center min-h-10 px-4 text-xs rounded-md bg-white/20 border border-white/30 text-white/70 cursor-not-allowed"
+            className="w-full sm:w-auto inline-flex items-center justify-center min-h-11 px-5 text-xs rounded-md bg-brand-foreground/10 border border-brand-foreground/25 text-brand-foreground/75 cursor-not-allowed"
           >
             <Filter size={14} className="mr-1" aria-hidden="true" />
             {t('search.advanced')}
@@ -123,7 +123,7 @@ export function HeroSearchStatic() {
           <button
             type="submit"
             aria-label={t('search.search')}
-            className="w-full sm:w-auto inline-flex items-center justify-center min-h-10 px-4 text-xs rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+            className="w-full sm:w-auto inline-flex items-center justify-center min-h-11 px-7 text-xs font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary-glow transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
           >
             <Search size={14} className="mr-1" aria-hidden="true" />
             {t('search.search')}
