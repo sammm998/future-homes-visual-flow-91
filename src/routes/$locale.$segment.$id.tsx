@@ -10,10 +10,13 @@ export const Route = createFileRoute("/$locale/$segment/$id")({
     }
   },
   loaderDeps: ({ search }) => ({ ref: (search as Record<string, unknown>)?.ref ?? null }),
-  loader: async ({ params, deps }) => ({
-    seo: await getPropertySeo({
-      data: { id: params.id, lang: params.locale, ref: deps.ref ? String(deps.ref) : null },
-    }),
-  }),
+  loader: async ({ params, deps }) => {
+    if (typeof window !== "undefined") return { seo: null };
+    return {
+      seo: await getPropertySeo({
+        data: { id: params.id, lang: params.locale, ref: deps.ref ? String(deps.ref) : null },
+      }),
+    };
+  },
   component: PropertyDetail,
 });

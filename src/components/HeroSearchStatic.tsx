@@ -41,11 +41,11 @@ export function HeroSearchStatic() {
     window.location.href = `${targetRoute}?${params.toString()}`;
   };
 
-  const selectClass = "h-12 w-full appearance-none rounded-md border border-navy-foreground/15 bg-background px-3 text-sm text-foreground outline-none focus:border-gold";
-  const inputClass = "h-12 w-full rounded-md border border-navy-foreground/15 bg-background px-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-gold";
+  const selectClass = "h-14 w-full appearance-none rounded-md border border-navy-foreground/15 bg-background px-4 text-sm font-medium text-foreground outline-none focus:border-gold";
+  const inputClass = "h-14 w-full rounded-md border border-navy-foreground/15 bg-background px-4 text-sm font-medium text-foreground outline-none placeholder:text-muted-foreground focus:border-gold";
 
   return (
-    <div className="ml-0 max-w-6xl border border-navy-foreground/15 bg-background/95 p-3 shadow-[var(--shadow-luxe)] backdrop-blur-md sm:p-4">
+    <div className="mx-auto max-w-5xl rounded-lg border border-navy-foreground/20 bg-background/15 p-2.5 shadow-[var(--shadow-luxe)] backdrop-blur-xl">
       <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <div className="lg:col-span-1">
           <label htmlFor="propertyType" className="sr-only">{t('search.property_type')}</label>
@@ -111,13 +111,13 @@ export function HeroSearchStatic() {
           </select>
         </div>
 
-        <div className="col-span-1 flex items-center gap-2 sm:col-span-2 lg:col-span-5">
+        <div className="col-span-1 flex items-center justify-center gap-2 sm:col-span-2 lg:col-span-5">
           <Button
             type="button"
             disabled
             variant="outline"
             aria-label={t('search.advanced')}
-            className="h-11 flex-1 border-border bg-background text-xs text-muted-foreground sm:flex-none"
+            className="h-12 flex-1 border-navy-foreground/25 bg-background/90 text-xs text-foreground sm:flex-none"
           >
             <Filter size={14} className="mr-1" aria-hidden="true" />
             {t('search.advanced')}
@@ -125,7 +125,7 @@ export function HeroSearchStatic() {
           <Button
             type="submit"
             aria-label={t('search.search')}
-            className="h-11 flex-1 bg-navy px-6 text-navy-foreground hover:bg-navy/90 sm:flex-none"
+            className="h-12 flex-1 bg-navy px-8 text-navy-foreground hover:bg-navy/90 sm:flex-none"
           >
             <Search size={14} className="mr-1" aria-hidden="true" />
             {t('search.search')}

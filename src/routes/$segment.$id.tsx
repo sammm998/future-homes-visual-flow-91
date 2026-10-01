@@ -19,6 +19,9 @@ export const Route = createFileRoute("/$segment/$id")({
   loaderDeps: ({ search }) => ({ ref: (search as Record<string, unknown>)?.ref ?? null }),
   loader: async ({ params, deps }) => {
     if (!(params.segment in PATH_TO_LANG)) return { seo: null };
+    // The SEO lookup is server-rendered. PropertyDetail performs its own
+    // browser-side data lookup after an in-app navigation.
+    if (typeof window !== "undefined") return { seo: null };
     return {
       seo: await getPropertySeo({
         data: {
