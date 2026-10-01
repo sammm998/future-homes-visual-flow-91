@@ -8,7 +8,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-brand-secondary text-brand-foreground pt-20 pb-10 border-t border-brand-foreground/10 relative overflow-hidden">
+    <footer className="bg-brand-secondary text-brand-foreground pt-20 pb-8 border-t border-brand-foreground/10 relative overflow-hidden cinematic-section">
       {/* Decorative element */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-brand-accent/50 to-transparent"></div>
       
@@ -46,7 +46,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-bold mb-6 tracking-tight uppercase text-xs">{t('footer.quick_links') || "Quick Links"}</h4>
+            <h4 className="section-kicker cinematic-rule text-brand-accent mb-6">{t('footer.quick_links') || "Quick Links"}</h4>
             <ul className="space-y-4">
               {['Antalya', 'Istanbul', 'Dubai', 'Cyprus', 'Bali'].map((city) => (
                 <li key={city}>
@@ -61,7 +61,7 @@ const Footer = () => {
 
           {/* Resources */}
           <div>
-            <h4 className="text-lg font-bold mb-6 tracking-tight uppercase text-xs">{t('footer.resources') || "Resources"}</h4>
+            <h4 className="section-kicker cinematic-rule text-brand-accent mb-6">{t('footer.resources') || "Resources"}</h4>
             <ul className="space-y-4">
               <li>
                 <Link to="/about-us" className="text-brand-foreground/60 hover:text-brand-accent transition-colors text-sm">{t('nav.about')}</Link>
@@ -83,7 +83,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div className="space-y-6">
-            <h4 className="text-lg font-bold mb-6 tracking-tight uppercase text-xs">{t('footer.contact') || "Contact Us"}</h4>
+            <h4 className="section-kicker cinematic-rule text-brand-accent mb-6">{t('footer.contact') || "Contact Us"}</h4>
             <div className="space-y-4">
               <a href="mailto:info@futurehomesinternational.com" className="flex items-start gap-3 group">
                 <Mail size={18} className="text-brand-accent mt-0.5" />
@@ -104,7 +104,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-brand-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="cinematic-surface bg-brand-foreground/5 px-5 py-5 rounded-md flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-brand-foreground/50 text-[10px] sm:text-xs uppercase tracking-widest font-medium">
             © {currentYear} Future Homes International. All Rights Reserved.
           </p>
