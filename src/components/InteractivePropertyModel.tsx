@@ -43,7 +43,25 @@ function Furniture({ mode }: { mode: ViewMode }) {
       <group position={[1.5, 0.42, -1.55]}>
         <mesh castShadow><boxGeometry args={[2.35, 0.34, 1.5]} /><meshStandardMaterial color="hsl(0, 0%, 100%)" /></mesh>
         <mesh position={[0, 0.32, -0.58]} castShadow><boxGeometry args={[2.2, 0.18, 0.18]} /><meshStandardMaterial color="hsl(207, 70%, 9%)" /></mesh>
+        <mesh position={[0, 0.24, 0]} castShadow><boxGeometry args={[2.05, 0.12, 1.34]} /><meshStandardMaterial color="#d8c8aa" roughness={0.95} /></mesh>
+        <mesh position={[-0.52, 0.42, -0.25]} rotation-z={-0.08} castShadow><boxGeometry args={[0.72, 0.15, 0.45]} /><meshStandardMaterial color="#f5f2ea" /></mesh>
+        <mesh position={[0.52, 0.42, -0.25]} rotation-z={0.08} castShadow><boxGeometry args={[0.72, 0.15, 0.45]} /><meshStandardMaterial color="#f5f2ea" /></mesh>
       </group>
+      <mesh position={[1.5, 0.16, -1.35]} receiveShadow>
+        <boxGeometry args={[3.15, 0.06, 2.55]} />
+        <meshStandardMaterial color="#bba98e" roughness={1} />
+      </mesh>
+      {[-0.05, 3.05].map((x) => (
+        <group key={x} position={[x, 0.38, -2.05]}>
+          <mesh castShadow><boxGeometry args={[0.55, 0.54, 0.5]} /><meshStandardMaterial color="#17394b" roughness={0.72} /></mesh>
+          <mesh position={[0, 0.55, 0]} castShadow><cylinderGeometry args={[0.07, 0.09, 0.65, 18]} /><meshStandardMaterial color="#d5b777" metalness={0.7} /></mesh>
+          <mesh position={[0, 0.9, 0]} castShadow><coneGeometry args={[0.28, 0.42, 24, 1, true]} /><meshStandardMaterial color="#f5f2ea" side={THREE.DoubleSide} /></mesh>
+        </group>
+      ))}
+      <mesh position={[1.5, 1.65, -2.88]} castShadow>
+        <boxGeometry args={[1.55, 0.9, 0.06]} />
+        <meshStandardMaterial color="#d5b777" metalness={0.2} roughness={0.55} />
+      </mesh>
       <group position={[1.4, 0.48, 1.65]}>
         <mesh castShadow><boxGeometry args={[1.65, 0.78, 0.75]} /><meshStandardMaterial color="hsl(207, 24%, 23%)" roughness={0.7} /></mesh>
         <mesh position={[0, 0.48, 0]} castShadow><boxGeometry args={[1.3, 0.12, 0.5]} /><meshStandardMaterial color="hsl(44, 35%, 94%)" /></mesh>
@@ -82,12 +100,12 @@ function Furniture({ mode }: { mode: ViewMode }) {
 function CameraRig({ immersive }: { immersive: boolean }) {
   const { camera } = useThree();
   const destination = useMemo(
-    () => new THREE.Vector3(...(immersive ? [-2.25, 1.45, 1.9] : [8.6, 7.2, 9.5]) as [number, number, number]),
+    () => new THREE.Vector3(...(immersive ? [2.8, 1.45, 1.45] : [8.6, 7.2, 9.5]) as [number, number, number]),
     [immersive],
   );
 
   useEffect(() => {
-    if (immersive) camera.lookAt(-2.2, 1.15, -1.2);
+    if (immersive) camera.lookAt(1.45, 0.72, -1.55);
   }, [camera, immersive]);
 
   useFrame((_, delta) => {
@@ -159,7 +177,7 @@ export function InteractivePropertyModel({ mode, immersive = false }: Interactiv
         maxDistance={immersive ? 3.5 : 17}
         minPolarAngle={immersive ? 1.15 : 0.45}
         maxPolarAngle={immersive ? 1.85 : 1.22}
-        target={immersive ? [-2.2, 1.15, -1.2] : [0, 0.4, 0]}
+        target={immersive ? [1.45, 0.72, -1.55] : [0, 0.4, 0]}
         enablePan={false}
       />
     </Canvas>
