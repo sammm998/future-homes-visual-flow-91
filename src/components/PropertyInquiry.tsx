@@ -94,7 +94,7 @@ export function PropertyInquiry({ refNo, title, lang, id = "enquire" }: Props) {
 export function PropertyStickyCta({ refNo, title, lang, price }: { refNo: string; title: string; lang: string; price: string }) {
   const waText = `${cc("wa_msg", lang).replace("REF", `REF ${refNo}`)} — ${title}`;
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-3 py-2.5 backdrop-blur lg:hidden">
+    <div data-property-sticky className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-3 py-2.5 backdrop-blur lg:hidden">
       <div className="flex items-center gap-2">
         <div className="min-w-0 flex-1">
           <p className="truncate text-xs text-muted-foreground">REF {refNo}</p>

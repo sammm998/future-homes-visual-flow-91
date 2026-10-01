@@ -130,7 +130,7 @@ const PropertyListingSection = () => {
                   {[...Array(totalPages)].map((_, index) => {
                     const pageNumber = index + 1;
                     if (pageNumber === 1 || pageNumber === totalPages || (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)) {
-                      return <Button key={pageNumber} variant={currentPage === pageNumber ? 'default' : 'outline'} onClick={() => setCurrentPage(pageNumber)} className="w-10 h-10 rounded-full p-0">{pageNumber}</Button>;
+                      return <Button key={pageNumber} variant={currentPage === pageNumber ? 'default' : 'outline'} onClick={() => setCurrentPage(pageNumber)} className="h-11 w-11 rounded-full p-0">{pageNumber}</Button>;
                     } else if (pageNumber === currentPage - 2 || pageNumber === currentPage + 2) {
                       return <span key={pageNumber} className="text-muted-foreground">...</span>;
                     }
