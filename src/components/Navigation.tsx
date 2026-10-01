@@ -48,7 +48,7 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
         <header className="absolute inset-x-0 top-0 z-40 lg:left-24">
           <nav className={cn("mx-auto flex h-20 max-w-[1840px] items-center justify-between px-4 sm:px-8 lg:h-24 lg:px-12", className)}>
             <Link to="/" aria-label="Future Homes International – hem" className="inline-flex items-center">
-              <img src="/future-homes-logo-new.webp" alt="Future Homes International" width={220} height={130} className="h-12 w-auto brightness-0 invert sm:h-14" />
+              <img src="/favicon-512x512.png" alt="Future Homes International" width={52} height={52} className="h-12 w-12 object-contain sm:h-14 sm:w-14" />
             </Link>
             <div className="flex items-center gap-2">
               <div className="hidden items-center gap-2 rounded-sm border border-navy-foreground/20 bg-navy/25 p-1 backdrop-blur-md sm:flex lg:hidden">

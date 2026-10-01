@@ -10,4 +10,4 @@
 - [x] Lufta upp bostadslistningarna med rymligare filter och större tvåkolumnskort.
 - [x] Rätta Bali-markörerna så de använder bostadens plats i stället för kartans visningscentrum.
 - [x] Ersätt den felaktiga adressrubriken i sidfoten med tydliga kontorsorter.
-- [ ] Ge startsidan en lyxigare Gallery Estate-komposition och förfina sidomenyn.
+- [x] Ge startsidan en lyxigare Gallery Estate-komposition och förfina sidomenyn.

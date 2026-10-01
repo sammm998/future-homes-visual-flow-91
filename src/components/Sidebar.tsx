@@ -55,7 +55,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           <div className="flex min-h-full flex-col px-6 py-7 sm:px-10 sm:py-10">
             <div className="mb-10 flex items-start justify-between border-b border-navy-foreground/10 pb-8">
               <Link to={withLang('/')} onClick={onClose} className="inline-flex items-center">
-                <img src="/future-homes-logo-new.webp" alt="Future Homes International" width={220} height={130} className="h-14 w-auto brightness-0 invert" />
+                <img src="/favicon-512x512.png" alt="Future Homes International" width={52} height={52} className="h-12 w-12 object-contain" />
+                <span className="ml-4 max-w-36 font-serif text-sm font-semibold uppercase leading-5 [letter-spacing:.12em]">Future Homes International</span>
               </Link>
               <button onClick={onClose} aria-label="Close menu" className="flex h-11 w-11 items-center justify-center border border-navy-foreground/20 text-navy-foreground transition-colors hover:border-gold hover:text-gold">
                 <X size={24} />

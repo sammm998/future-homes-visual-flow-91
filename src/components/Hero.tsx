@@ -63,11 +63,11 @@ const Hero: React.FC<HeroProps> = ({
 
   if (gallery) {
     return (
-      <section className="relative min-h-[760px] overflow-hidden bg-navy text-navy-foreground sm:min-h-[840px] lg:min-h-[calc(100svh-1rem)]">
+      <section className="relative min-h-[980px] overflow-hidden bg-navy text-navy-foreground sm:min-h-[960px] lg:min-h-[calc(100svh-1rem)]">
         <HeroSlider />
         <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-navy/15" />
 
-        <div className="relative z-10 mx-auto flex min-h-[760px] max-w-[1840px] flex-col justify-end px-5 pb-28 pt-32 sm:min-h-[840px] sm:px-10 sm:pb-36 lg:min-h-[calc(100svh-1rem)] lg:px-16 lg:pb-44 xl:px-24">
+        <div className="relative z-10 mx-auto flex min-h-[980px] max-w-[1840px] flex-col justify-end px-5 pb-[30rem] pt-32 sm:min-h-[960px] sm:px-10 sm:pb-72 lg:min-h-[calc(100svh-1rem)] lg:px-16 lg:pb-44 xl:px-24">
           <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(290px,.45fr)] lg:gap-16">
             <div className="max-w-5xl animate-fade-in">
               <div className="mb-7 flex items-center gap-4 text-[10px] font-semibold uppercase text-gold sm:text-xs [letter-spacing:.28em]">
