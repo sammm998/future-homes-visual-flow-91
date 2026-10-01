@@ -8,3 +8,5 @@
 - [x] Modernisera övriga publika informations-, kontakt-, artikel- och bostadslistningssidor.
 - [x] Säkerställ en sammanhållen upplevelse på alla språk, dator och mobil.
 - [x] Lufta upp bostadslistningarna med rymligare filter och större tvåkolumnskort.
+- [x] Rätta Bali-markörerna så de använder bostadens plats i stället för kartans visningscentrum.
+- [x] Ersätt den felaktiga adressrubriken i sidfoten med tydliga kontorsorter.

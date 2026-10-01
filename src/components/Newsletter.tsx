@@ -71,8 +71,8 @@ const Newsletter = memo(() => {
             <h2 className="text-3xl font-bold mb-8">{t('newsletter.get_in_touch')}</h2>
             <div className="space-y-6">
               <div>
-                <h3 className="text-xl font-semibold mb-2">{t('newsletter.address')}</h3>
-                <p className="opacity-90">{t('newsletter.address_text')}</p>
+                <h3 className="text-xl font-semibold mb-2">{t('newsletter.our_locations')}</h3>
+                <p className="opacity-90">Antalya, Türkiye · Bali, Indonesia</p>
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2">{t('newsletter.call_us')}</h3>

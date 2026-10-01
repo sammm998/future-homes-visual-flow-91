@@ -331,6 +331,35 @@ export const propertyCoordinatesMap: Record<string, [number, number]> = {
   // Bali properties (note: these share ref_no with Cyprus, handled by location in code)
   'bali_8001': [115.1346704, -8.6547111],   // Aquamarine I
   'bali_8002': [115.1350881, -8.6498071],   // Aquamarine 2
+  // Current Bali portfolio. Coordinates use each saved Google Maps place pin,
+  // never the map viewport centre contained earlier in some shared URLs.
+  'bali_80001': [115.1346704, -8.6547111],  // Aquamarine Villa Complex, Canggu
+  'bali_80002': [115.1350881, -8.6498071],  // Aquamarine 2, Canggu
+  'bali_80003': [115.2328213, -8.7957616],  // Nusa Dua Beach
+  'bali_80004': [115.1538843, -8.8436703],  // Amani Melasti, Ungasan
+  'bali_80005': [115.1208562, -8.6485849],  // River Villa, Pererenan
+  'bali_80006': [115.1208562, -8.6485849],  // Pererenan
+  'bali_80007': [115.1211944, -8.6448889],  // Pererenan
+  'bali_80008': [115.1070153, -8.6416192],  // Zen Luxury Complex, Cemagi
+  'bali_80009': [115.1085, -8.6415],        // The Heights, Cemagi
+  'bali_80010': [115.0836, -8.5908],        // Baza Kedungu
+  'bali_80011': [115.0888, -8.6262],        // Origins by Bali Baza, Nuanu
+  'bali_80012': [115.2694434, -8.4992953],  // Aura Apartments, Ubud
+  'bali_80013': [115.2634541, -8.6878098],  // Magnum Resort, Sanur
+  'bali_80014': [115.1525922, -8.6617818],  // The Umalas Signature
+  'bali_80015': [115.202804, -8.8270876],   // Edem Villas, Nusa Dua
+  'bali_80016': [115.1369646, -8.660663],   // Canggu
+  'bali_80017': [115.1454201, -8.6688776],  // De Vello, Canggu
+  'bali_80018': [115.1125014, -8.816442],   // Labuansait, Uluwatu
+  'bali_80019': [115.1095625, -8.8084375],  // Uluwatu
+  'bali_80020': [115.1478448, -8.6624692],  // FINNS Recreation Club, Canggu
+  'bali_80021': [115.2232055, -8.7739779],  // Kiara Beachtown, Nusa Dua
+  'bali_80022': [115.13144, -8.837955],     // Uluwatu
+  'bali_80023': [115.1399828, -8.6623534],  // Sunny Aparts II, Canggu
+  'bali_80024': [115.1375748, -8.6570608],  // Sunny Cuddles, Canggu
+  'bali_80025': [115.1551356, -8.666457],   // Premier Umalas Villas
+  'bali_80026': [115.1191178, -8.8200244],  // Sunny Ocean View, Uluwatu
+  'bali_80027': [115.1343441, -8.6593069],  // Sunny Aparts III, Canggu
   
   // Dubai properties
   '10001': [55.2176352, 25.0391345],
@@ -396,8 +425,7 @@ export const getPropertyCoordinates = (refNo: string | null, location?: string |
   
   // Handle Bali properties with conflicting ref_no
   if (location && location.toLowerCase().includes('bali')) {
-    if (refNo === '8001') return propertyCoordinatesMap['bali_8001'];
-    if (refNo === '8002') return propertyCoordinatesMap['bali_8002'];
+    return propertyCoordinatesMap[`bali_${refNo}`] || null;
   }
   
   return propertyCoordinatesMap[refNo] || null;
