@@ -71,7 +71,7 @@ const PropertyListingSection = () => {
 
   if (loading) {
     return (
-      <section className="py-16 bg-background">
+      <section className="bg-background py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <Skeleton className="h-12 w-64 mx-auto mb-4" />
@@ -86,23 +86,26 @@ const PropertyListingSection = () => {
   }
 
   return (
-    <section className="py-16 bg-gradient-to-b from-background to-secondary/20">
+    <section className="bg-background py-20 md:py-28">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{t('home.browse_properties')}</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('home.browse_subtitle')}</p>
+        <div className="mb-12 grid gap-6 border-b border-border pb-8 md:grid-cols-[1fr_1.2fr] md:items-end">
+          <div>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-gold">Future Homes Collection</p>
+            <h2 className="max-w-2xl text-4xl font-semibold leading-tight text-navy md:text-6xl">{t('home.browse_properties')}</h2>
+          </div>
+          <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground md:justify-self-end">{t('home.browse_subtitle')}</p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+        <div className="mb-12 flex flex-wrap gap-2">
           {locations.map((location) => (
             <Button
               key={location}
               variant={selectedLocation === location ? 'default' : 'outline'}
               onClick={() => handleLocationChange(location)}
-              className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+              className={`rounded-md px-5 py-2 font-medium transition-all duration-300 ${
                 selectedLocation === location 
-                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30' 
-                  : 'bg-background hover:bg-primary/10 hover:border-primary/50'
+                  ? 'bg-navy text-navy-foreground' 
+                  : 'bg-background hover:border-gold hover:bg-ivory'
               }`}
             >
               {location === 'all' ? t('home.all_locations') : location}
@@ -112,7 +115,7 @@ const PropertyListingSection = () => {
 
         {currentProperties.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="mb-12 grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-4">
               {currentProperties.map((property, index) => (
                 <PropertyCard key={property.id} property={{ ...property, area: property.sizes_m2 || '', refNo: property.ref_no }} priority={index === 0} />
               ))}

@@ -82,7 +82,8 @@ const HeroSlider = () => {
                 decoding={index === 0 ? "sync" : "async"}
               />
             )}
-            <div className="absolute inset-0 bg-black/50"></div>
+            <div className="absolute inset-0 bg-navy/45"></div>
+            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-navy/90 via-navy/25 to-transparent"></div>
           </div>
         ))}
       </div>

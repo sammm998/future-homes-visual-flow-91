@@ -55,24 +55,24 @@ const Hero: React.FC<HeroProps> = ({
   }, []);
 
   return (
-    <div className="w-full min-h-screen relative overflow-hidden -mt-20 pt-20">
+    <section className="relative -mt-20 min-h-[92svh] w-full overflow-hidden pt-20">
       <HeroSlider />
 
-      <div className="flex flex-col h-full min-h-screen">
-        <div className="flex-1 p-4 sm:p-8 lg:p-16 relative z-10 flex flex-col justify-center items-center">
-          <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 mb-4 sm:mb-6 min-h-[5.5rem] sm:min-h-[7rem] md:min-h-[10rem] flex items-center justify-center">
+      <div className="relative z-10 flex min-h-[92svh] flex-col justify-end px-4 pb-24 pt-28 sm:px-8 md:pb-28 lg:px-16">
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="max-w-5xl border-l border-gold/70 pl-5 text-left sm:pl-8">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-gold">Future Homes International</p>
+            <h1 className="max-w-5xl text-4xl font-semibold leading-[1.03] text-navy-foreground sm:text-5xl md:text-7xl lg:text-8xl">
               {title || t('hero.title')}
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-neutral-300 mb-8 sm:mb-12 min-h-[3.5rem] sm:min-h-[4rem] flex items-center justify-center">
+            <p className="mb-8 mt-5 max-w-2xl text-base leading-relaxed text-navy-foreground/80 sm:text-lg md:text-xl">
               {subtitle || t('hero.subtitle')}
             </p>
-
-            {InteractiveSearch ? <InteractiveSearch /> : <HeroSearchStatic />}
           </div>
+          {InteractiveSearch ? <InteractiveSearch /> : <HeroSearchStatic />}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

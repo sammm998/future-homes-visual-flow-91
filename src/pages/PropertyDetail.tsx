@@ -516,7 +516,7 @@ const PropertyDetail = () => {
     area: property.area,
     propertyType: property.propertyType,
   };
-  return <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-ivory/35">
       <SEOHead
         title={propertyTitle}
         description={propertyDescription}
@@ -558,7 +558,7 @@ const PropertyDetail = () => {
             </div>}
         </div>}
 
-      <div className="container mx-auto px-4 pt-24 pb-28 lg:pb-16 max-w-7xl">
+      <div className="container mx-auto max-w-[1440px] px-4 pb-28 pt-24 lg:pb-20">
         {/* Back Button */}
         <Button variant="ghost" asChild className="mb-4">
           <a href={returnUrl}>
@@ -567,7 +567,7 @@ const PropertyDetail = () => {
           </a>
         </Button>
 
-        <div className="mb-8">
+        <div className="mb-12">
           <PropertyHeroGallery
             images={property.images?.length ? property.images : [property.image].filter(Boolean)}
             alt={`${property.title} — ${property.propertyType || 'property'} in ${property.location || ''} (REF ${refLabel})`}
@@ -576,19 +576,19 @@ const PropertyDetail = () => {
           />
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-10">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-12 lg:items-start">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-12">
+          <div className="space-y-14 lg:col-span-8">
             {/* Property Header */}
-            <header className="space-y-5 border-b border-border pb-8">
+            <header className="space-y-5 border-b border-border pb-10">
               <div className="flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center rounded-full bg-navy px-3 py-1 text-xs font-semibold tracking-[0.18em] text-navy-foreground">
+                <span className="inline-flex items-center rounded-sm bg-navy px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-navy-foreground">
                   REF {property.refNo || property.id}
                 </span>
                 {property.propertyType && <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">{property.propertyType}</span>}
               </div>
 
-              <h1 className="text-3xl md:text-5xl font-bold leading-tight tracking-tight text-foreground">
+              <h1 className="max-w-4xl text-4xl font-semibold leading-[1.08] text-navy md:text-6xl">
                 {property.title}
               </h1>
 
@@ -613,7 +613,7 @@ const PropertyDetail = () => {
             {/* Key specs strip */}
             <section className="space-y-5">
               <h2 className="text-2xl font-semibold">{t('pd.property_details', language)}</h2>
-              <div className="grid grid-cols-3 overflow-hidden rounded-2xl bg-navy text-navy-foreground shadow-[var(--shadow-luxe)]">
+              <div className="grid grid-cols-3 overflow-hidden rounded-lg border border-border bg-card text-foreground shadow-sm">
                 {[
                   { icon: Bed, label: t('bedrooms', language), value: property.bedrooms || '—' },
                   { icon: Bath, label: t('bathrooms', language), value: property.bathrooms || '—' },
@@ -622,7 +622,7 @@ const PropertyDetail = () => {
                   <div key={i} className={`flex flex-col items-center gap-2 p-5 md:p-7 text-center ${i > 0 ? 'border-l border-navy-foreground/10' : ''}`}>
                     <Icon className="h-6 w-6 text-gold" />
                     <p className="text-xl md:text-2xl font-bold">{String(value).replace(/<>/g, ' – ')}</p>
-                    <p className="text-[11px] md:text-xs uppercase tracking-[0.18em] text-navy-foreground/70 notranslate" translate="no">{label}</p>
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground md:text-xs notranslate" translate="no">{label}</p>
                   </div>
                 ))}
               </div>
@@ -705,14 +705,14 @@ const PropertyDetail = () => {
               return (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-semibold">{t('pd.about_property', language)}</h2>
-                  <div className="grid grid-cols-1 gap-4">
+                  <div className="divide-y divide-border border-y border-border">
                     {sections.map((section, sIdx) => (
                       <div
                         key={sIdx}
-                        className="relative rounded-2xl border border-border bg-card p-6 md:p-8 space-y-3 before:absolute before:left-0 before:top-8 before:h-10 before:w-1 before:rounded-r before:bg-gold"
+                        className="space-y-4 py-7 first:pt-6"
                       >
                         {section.heading && (
-                          <h3 className="text-xl font-semibold text-foreground">{section.heading}</h3>
+                          <h3 className="text-xl font-semibold text-navy">{section.heading}</h3>
                         )}
                         {section.body.map((para, pIdx) => renderParagraph(para, pIdx))}
                       </div>
@@ -726,14 +726,14 @@ const PropertyDetail = () => {
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold">{t('pd.location_nearby', language)}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {property.distanceToAirport && <div className="flex items-center space-x-4 rounded-2xl border border-border bg-ivory p-5">
+                {property.distanceToAirport && <div className="flex items-center space-x-4 rounded-lg border border-border bg-card p-5">
                     <Plane className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm text-muted-foreground">{t('pd.distance_airport', language)}</p>
                       <p className="font-semibold">{property.distanceToAirport}</p>
                     </div>
                   </div>}
-                {property.distanceToBeach && <div className="flex items-center space-x-4 rounded-2xl border border-border bg-ivory p-5">
+                {property.distanceToBeach && <div className="flex items-center space-x-4 rounded-lg border border-border bg-card p-5">
                     <Waves className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm text-muted-foreground">{t('pd.distance_beach', language)}</p>
@@ -747,7 +747,7 @@ const PropertyDetail = () => {
             {property.features && property.features.length > 0 && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">{t('pd.features_amenities', language)}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-3 rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:border-gold/60 hover:shadow-md">
+                  {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-3 border-b border-border p-4 transition-colors hover:bg-card">
                       <CheckCircle className="h-5 w-5 text-gold flex-shrink-0" />
                       <span className="text-foreground font-medium">{translateAmenity(feature, language)}</span>
                     </div>)}
@@ -758,7 +758,7 @@ const PropertyDetail = () => {
             {property.pricing && property.pricing.length > 0 && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">{t('pd.available_units', language)}</h2>
                 <div className="space-y-3">
-                  {property.pricing.map((unit: any, index: number) => <div key={index} className="rounded-2xl border border-border bg-card p-5 transition hover:border-gold/60">
+                  {property.pricing.map((unit: any, index: number) => <div key={index} className="rounded-lg border border-border bg-card p-5 transition hover:border-gold/60">
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                         <div>
                           <h3 className="font-semibold">{unit.type}</h3>
@@ -776,16 +776,16 @@ const PropertyDetail = () => {
             {/* Project Timeline */}
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold">{t('pd.project_timeline', language)}</h2>
-              <div className="rounded-2xl border border-border bg-ivory p-6">
+              <div className="rounded-lg border border-border bg-card p-6">
                 <Timeline data={getTimelineData()} location={property.location} />
               </div>
             </div>
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <aside className="space-y-6 lg:col-span-4">
             {/* Quick Info Card */}
-            <div className="rounded-2xl bg-navy p-6 text-navy-foreground shadow-[var(--shadow-luxe)]">
+            <div className="rounded-lg bg-navy p-6 text-navy-foreground shadow-[var(--shadow-luxe)]">
               <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold">{t('pd.quick_info', language)}</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
@@ -808,7 +808,7 @@ const PropertyDetail = () => {
             {/* Enquiry card — WhatsApp + lead form */}
             <div className="lg:sticky lg:top-24 space-y-3">
               <PropertyInquiry refNo={String(property.refNo || property.id)} title={property.title} lang={language} />
-              <div className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
+              <div className="flex items-center gap-3 border-x border-b border-border bg-card p-4">
                 <Avatar className="h-11 w-11">
                   {agent?.image && <AvatarImage src={agent.image} />}
                   <AvatarFallback className="bg-primary/10 text-primary font-bold">FH</AvatarFallback>
@@ -826,10 +826,10 @@ const PropertyDetail = () => {
             </div>
 
             {/* Investment Highlights */}
-            <div className="rounded-2xl border border-border bg-ivory p-6">
+            <div className="border-y border-gold/35 bg-transparent py-6">
               <h3 className="mb-4 text-lg font-semibold">{t('pd.investment_highlights', language)}</h3>
               <div className="space-y-3">
-                <div className="flex items-center space-x-3 p-3 bg-card rounded-xl border border-border">
+                <div className="flex items-center space-x-3 border-b border-border p-3">
                   <div className="w-9 h-9 bg-navy rounded-lg flex items-center justify-center">
                     <Star className="h-4 w-4 text-gold" />
                   </div>
@@ -838,7 +838,7 @@ const PropertyDetail = () => {
                     <p className="text-xs text-muted-foreground">{t('pd.high_growth_area', language)}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 bg-card rounded-xl border border-border">
+                <div className="flex items-center space-x-3 border-b border-border p-3">
                   <div className="w-9 h-9 bg-navy rounded-lg flex items-center justify-center">
                     <Award className="h-4 w-4 text-gold" />
                   </div>
@@ -847,7 +847,7 @@ const PropertyDetail = () => {
                     <p className="text-xs text-muted-foreground">{t('pd.international_standards', language)}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 bg-card rounded-xl border border-border">
+                <div className="flex items-center space-x-3 p-3">
                   <div className="w-9 h-9 bg-navy rounded-lg flex items-center justify-center">
                     <Home className="h-4 w-4 text-gold" />
                   </div>
@@ -860,7 +860,7 @@ const PropertyDetail = () => {
             </div>
 
             {/* Similar Properties */}
-            <div className="rounded-2xl border border-border bg-card p-6 text-center">
+            <div className="rounded-lg border border-border bg-card p-6 text-center">
               <h3 className="text-lg font-semibold mb-2">{t('pd.similar_properties', language)}</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 {t('pd.discover_more_in', language)} {property.location}
@@ -871,7 +871,7 @@ const PropertyDetail = () => {
                 </Button>
               </Link>
             </div>
-          </div>
+          </aside>
         </div>
 
         <SEOInternalLinks />

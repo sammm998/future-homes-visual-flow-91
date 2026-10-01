@@ -143,12 +143,12 @@
   --brand-accent: 213 35% 85%;
 
   /* Refined Navy & Gold palette */
-  --gold: 40 46% 60%;
+  --gold: 39 46% 61%;
   --gold-foreground: 214 68% 13%;
-  --ivory: 43 33% 95%;
-  --navy: 214 68% 13%;
+  --ivory: 42 45% 94%;
+  --navy: 215 65% 12%;
   --navy-foreground: 43 33% 96%;
-  --shadow-luxe: 0 30px 60px -30px hsl(214 68% 13% / 0.35);
+  --shadow-luxe: 0 24px 56px -28px hsl(215 65% 12% / 0.32);
 
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222.2 47.4% 11.2%;
