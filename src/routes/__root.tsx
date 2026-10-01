@@ -32,6 +32,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import { useLanguageUrlSync } from "@/hooks/useLanguageUrlSync";
 import { useAnalyticsTracker } from "@/hooks/useAnalyticsTracker";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
+import PublicSidebarRail from "@/components/PublicSidebarRail";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -153,11 +154,15 @@ function AppChrome() {
   // Keep locale prefix, legacy ?lang= links and property URLs in sync
   useLanguageUrlSync();
   useAnalyticsTracker();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const pathWithoutLocale = pathname.replace(/^\/(?:sv|da|de|no|fr|tr|ru|ar|fa|ur|es|id)(?=\/|$)/, "");
+  const isInternal = /^\/(?:admin(?:\/|-|$)|auth(?:\/|$))/.test(pathWithoutLocale);
 
   return (
     <>
       <ConnectionStatus />
-      <main>
+      {!isInternal && <PublicSidebarRail />}
+      <main className={isInternal ? undefined : "lg:pl-24"}>
         <Outlet />
       </main>
       <WhatsAppButton />
