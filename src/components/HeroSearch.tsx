@@ -230,11 +230,12 @@ export function HeroSearch() {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex items-center gap-2 p-1 sm:col-span-2 lg:col-span-2">
+        <div className="flex flex-col gap-2 p-1 sm:col-span-2 lg:flex-row lg:items-center lg:col-span-2">
           <Dialog open={showAdvanced} onOpenChange={setShowAdvanced}>
           <DialogTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-12 w-12 shrink-0 text-muted-foreground hover:bg-ivory sm:h-14" title={t('search.advanced')}>
-              <Filter size={14} className="mr-1" />
+            <Button variant="ghost" size="icon" className="h-12 w-full justify-center gap-2 border border-border/60 bg-transparent text-sm font-semibold text-muted-foreground hover:bg-ivory hover:text-foreground sm:h-14 lg:w-auto lg:border-0 lg:px-3" title={t('search.advanced')}>
+              <Filter size={14} className="shrink-0" />
+              <span aria-hidden="true" className="truncate lg:hidden">{t('search.advanced')}</span>
               <span className="sr-only">{t('search.advanced')}</span>
             </Button>
           </DialogTrigger>
@@ -341,12 +342,12 @@ export function HeroSearch() {
             </div>
           </DialogContent>
           </Dialog>
-        <Button type="button" onClick={() => setShowAi(true)} variant="outline" className="h-12 shrink-0 border-gold bg-gold/10 px-4 font-semibold text-navy hover:bg-gold hover:text-gold-foreground sm:h-14">
+        <Button type="button" onClick={() => setShowAi(true)} variant="outline" className="h-12 w-full shrink-0 justify-center gap-2 border-gold bg-gold/10 px-4 font-semibold text-navy hover:bg-gold hover:text-gold-foreground sm:h-14 lg:w-auto">
           <Wand2 size={14} className="mr-1" />
           <span suppressHydrationWarning>{(AI_COPY[getLangFromPath()] || AI_COPY.en).title}</span>
         </Button>
         <AiSearchDialog open={showAi} onOpenChange={setShowAi} />
-        <Button onClick={handleSearch} className="h-12 flex-1 bg-navy px-5 text-navy-foreground shadow-lg hover:bg-navy/90 sm:h-14">
+        <Button onClick={handleSearch} className="h-12 w-full justify-center gap-2 bg-navy px-5 text-navy-foreground shadow-lg hover:bg-navy/90 sm:h-14 lg:w-auto lg:flex-1">
           <Search size={14} className="mr-1" />
           {t('search.search')}
         </Button>
