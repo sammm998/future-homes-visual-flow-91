@@ -15,6 +15,7 @@ import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import { useTranslation } from "@/hooks/useTranslation";
 import { saveLead } from "@/lib/leads.functions";
+import { trackConversionEvent } from "@/lib/analytics-events";
 
 const ContactUs = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const ContactUs = () => {
     setIsSubmitting(true);
     // Store the enquiry in the CRM first so a mail failure can never lose it.
     try {
-      await saveLead({
+      const result = await saveLead({
         data: {
           name: `${formData.firstName} ${formData.lastName}`.trim(),
           email: formData.email,
@@ -47,6 +48,7 @@ const ContactUs = () => {
           ].filter(Boolean).join("\n\n"),
         },
       });
+      if (result.saved) trackConversionEvent("contact_form_submit", { form: "contact", lead_saved: true });
     } catch (leadError) {
       console.warn("Failed to save lead:", leadError);
     }
