@@ -17,10 +17,10 @@ export function PropertyHeroGallery({ images, alt, lang, onOpen }: Props) {
   return (
     <div className="relative">
       {/* Mobile: swipe through every photo */}
-      <div className="-mx-4 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 md:hidden [scrollbar-width:none]">
+      <div className="-mx-4 flex snap-x snap-mandatory gap-2 overflow-x-auto px-4 pb-2 md:hidden [scrollbar-width:none]">
         {list.map((src, i) => (
           <button key={i} type="button" onClick={() => onOpen(i)} aria-label={`${alt} — photo ${i + 1}`}
-            className="relative aspect-[4/3] w-[88%] shrink-0 snap-center overflow-hidden rounded-md">
+            className="relative aspect-[4/3] w-[92%] shrink-0 snap-center overflow-hidden rounded-md first:snap-start">
             <OptimizedPropertyImage src={src} alt={`${alt} — photo ${i + 1}`} className="h-full w-full object-cover" priority={i === 0} />
             <span className="absolute bottom-2 right-2 rounded-full bg-background/85 px-2 py-0.5 text-xs font-medium text-foreground">
               {i + 1}/{list.length}

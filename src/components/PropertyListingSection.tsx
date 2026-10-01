@@ -86,23 +86,23 @@ const PropertyListingSection = () => {
   }
 
   return (
-    <section className="bg-background py-20 md:py-28">
+    <section className="bg-background py-14 md:py-28">
       <div className="container mx-auto px-4">
         <div className="mb-12 grid gap-6 border-b border-border pb-8 md:grid-cols-[1fr_1.2fr] md:items-end">
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-gold">Future Homes Collection</p>
-            <h2 className="max-w-2xl text-4xl font-semibold leading-tight text-navy md:text-6xl">{t('home.browse_properties')}</h2>
+            <h2 className="max-w-2xl text-3xl font-semibold leading-tight text-navy sm:text-4xl md:text-6xl">{t('home.browse_properties')}</h2>
           </div>
           <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground md:justify-self-end">{t('home.browse_subtitle')}</p>
         </div>
 
-        <div className="mb-12 flex flex-wrap gap-2">
+        <div className="-mx-4 mb-10 flex snap-x gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:mb-12 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
           {locations.map((location) => (
             <Button
               key={location}
               variant={selectedLocation === location ? 'default' : 'outline'}
               onClick={() => handleLocationChange(location)}
-              className={`rounded-md px-5 py-2 font-medium transition-all duration-300 ${
+              className={`shrink-0 snap-start rounded-md px-5 py-2 font-medium transition-all duration-300 ${
                 selectedLocation === location 
                   ? 'bg-navy text-navy-foreground' 
                   : 'bg-background hover:border-gold hover:bg-ivory'
@@ -122,7 +122,7 @@ const PropertyListingSection = () => {
             </div>
 
             {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-4">
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
                 <Button variant="outline" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="rounded-full">
                   <ChevronLeft className="w-4 h-4 mr-2" />{t('home.previous')}
                 </Button>

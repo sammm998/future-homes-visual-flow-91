@@ -445,7 +445,7 @@ const Information = () => {
       />
       <Navigation />
       <PublicPageHero eyebrow={t('info.badge')} title={heroTitle || t('info.hero_title')} description={heroSubtitle || t('info.hero_subtitle')} image={informationHero} imageAlt="International property investment guide" primaryLabel={t('info.back_home')} primaryTo="/" compact />
-      <div className="pb-20 pt-8">
+      <div className="pb-16 pt-6 sm:pb-20 sm:pt-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
           {/* Dynamic Content Sections */}
@@ -460,7 +460,7 @@ const Information = () => {
           <EditorialSectionHeader eyebrow="Knowledge library" title="Explore expert guidance by topic" description="Navigate buying, legal, finance, lifestyle and destination insights in one curated library." />
 
           {/* Filter Buttons */}
-          <div className="mb-12 flex flex-wrap gap-3 border-b border-border pb-8">
+          <div className="-mx-4 mb-10 flex snap-x gap-2 overflow-x-auto border-b border-border px-4 pb-5 [scrollbar-width:none] sm:mx-0 sm:mb-12 sm:flex-wrap sm:gap-3 sm:overflow-visible sm:px-0 sm:pb-8">
             {filterItems.map((filter) => {
               const IconComponent = filter.icon;
               return (
@@ -468,7 +468,7 @@ const Information = () => {
                   key={filter.value}
                   onClick={() => setActiveFilter(filter.value)}
                   variant={activeFilter === filter.value ? "default" : "outline"}
-                  className={activeFilter === filter.value ? "flex items-center gap-2 bg-navy text-navy-foreground hover:bg-navy/90" : "flex items-center gap-2 border-navy/15 bg-background hover:border-gold hover:bg-ivory"}
+                  className={activeFilter === filter.value ? "flex shrink-0 snap-start items-center gap-2 bg-navy text-navy-foreground hover:bg-navy/90" : "flex shrink-0 snap-start items-center gap-2 border-navy/15 bg-background hover:border-gold hover:bg-ivory"}
                 >
                   <IconComponent className="w-4 h-4" />
                   {filter.name}
@@ -478,7 +478,7 @@ const Information = () => {
           </div>
 
           {/* Articles Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
             {filteredArticles.map((article) => (
               <Link
                 key={article.id}

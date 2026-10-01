@@ -202,12 +202,12 @@ const AIPropertySearch = () => {
       {/* Main */}
       <main className="flex min-w-0 flex-1 flex-col bg-ivory">
         {/* Top bar */}
-        <header className="flex items-center justify-between border-b border-navy/10 bg-background/95 px-4 py-3 backdrop-blur-md sm:px-8">
-          <Link to={`/${langParam}`} className="flex items-center gap-2">
+        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-navy/10 bg-background/95 px-4 py-3 backdrop-blur-md sm:px-8">
+          <Link to={`/${langParam}`} className="flex min-w-0 items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-md bg-navy">
               <Building2 className="h-4 w-4 text-navy-foreground" />
             </div>
-            <span className="font-semibold text-sm tracking-tight">Future Homes AI</span>
+            <span className="truncate text-sm font-semibold tracking-tight">Future Homes AI</span>
           </Link>
           <div className="flex items-center gap-3">
             <select
@@ -230,7 +230,7 @@ const AIPropertySearch = () => {
         <div ref={scrollRef} className="flex-1 overflow-y-auto">
           {messages.length === 0 ? (
             // ============ Welcome screen (Emma) ============
-            <div className="mx-auto grid min-h-full w-full max-w-7xl items-center gap-10 px-4 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+            <div className="mx-auto grid min-h-full w-full max-w-7xl items-center gap-8 px-4 py-6 sm:py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
               <div className="relative hidden min-h-[650px] overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] lg:block">
                 <img src={easyFindHero} alt="Luxury international residence selected by Future Homes" className="absolute inset-0 h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/35 to-transparent" />
@@ -240,27 +240,27 @@ const AIPropertySearch = () => {
                   <p className="mt-4 max-w-lg text-sm leading-relaxed text-navy-foreground/75">Share your preferred destination, lifestyle and budget. Emma will guide your search and connect you with our local advisors.</p>
                 </div>
               </div>
-              <div className="flex w-full flex-col items-center px-1 py-6 sm:px-6">
+              <div className="flex w-full flex-col items-center px-1 py-3 sm:px-6 sm:py-6">
               <div className="relative mb-5">
-                <div className="h-24 w-24 overflow-hidden rounded-full ring-4 ring-background shadow-xl sm:h-28 sm:w-28">
+                <div className="h-20 w-20 overflow-hidden rounded-full ring-4 ring-background shadow-xl sm:h-28 sm:w-28">
                   <img src={emmaAvatar} alt="Emma — your AI property assistant" className="w-full h-full object-cover" />
                 </div>
                 <span className="absolute bottom-2 right-2 h-4 w-4 rounded-full bg-emerald-500 ring-2 ring-white" />
               </div>
               <p className="mb-3 text-xs font-semibold uppercase text-gold-foreground">Easy Find · Personal concierge</p>
-              <h1 className="mb-3 text-center text-3xl font-semibold leading-tight text-foreground md:text-5xl">
+              <h1 className="mb-3 text-center text-3xl font-semibold leading-tight text-foreground sm:text-4xl md:text-5xl">
                 Find your dream home with Emma
               </h1>
               <p className="mb-8 max-w-xl text-center text-sm leading-relaxed text-muted-foreground sm:text-base">Ask naturally in your language. Explore locations, compare investments or request a tailored property shortlist.</p>
-              <div className="w-full max-w-2xl mb-8">
+              <div className="mb-6 hidden w-full max-w-2xl sm:block">
                 <SEOInternalLinks heading="Browse property by destination" className="mt-0 border-t border-navy/10 pt-6" />
               </div>
 
               {/* Mode pills */}
-              <div className="flex items-center gap-2 mb-6 flex-wrap justify-center">
+              <div className="mb-5 grid w-full max-w-md grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:justify-center">
                 <button
                   onClick={() => setReadMode('write')}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                  className={`flex min-w-0 items-center justify-center gap-1.5 rounded-full px-2 py-2.5 text-xs font-medium transition-all sm:px-5 sm:text-sm ${
                     readMode === 'write'
                       ? 'bg-navy text-navy-foreground shadow-md'
                       : 'bg-background text-muted-foreground hover:bg-muted'
@@ -270,7 +270,7 @@ const AIPropertySearch = () => {
                 </button>
                 <button
                   onClick={() => setReadMode('speak')}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                  className={`flex min-w-0 items-center justify-center gap-1.5 rounded-full px-2 py-2.5 text-xs font-medium transition-all sm:px-5 sm:text-sm ${
                     readMode === 'speak'
                       ? 'bg-navy text-navy-foreground shadow-md'
                       : 'bg-background text-muted-foreground hover:bg-muted'
@@ -280,7 +280,7 @@ const AIPropertySearch = () => {
                 </button>
                 <button
                   onClick={() => setReadMode('muted')}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
+                  className={`flex min-w-0 items-center justify-center gap-1.5 rounded-full px-2 py-2.5 text-xs font-medium transition-all sm:px-5 sm:text-sm ${
                     readMode === 'muted'
                       ? 'bg-navy text-navy-foreground shadow-md'
                       : 'bg-background text-muted-foreground hover:bg-muted'

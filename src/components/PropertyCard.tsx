@@ -120,7 +120,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       state={{ returnUrl }}
       className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4"
     >
-      <article className="group relative aspect-[10/14] min-h-[32rem] w-full overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] transition-all duration-700 hover:-translate-y-1">
+      <article className="group relative aspect-[4/5] min-h-[28rem] w-full overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] transition-all duration-700 hover:-translate-y-1 sm:aspect-[10/14] sm:min-h-[32rem]">
         <div className="absolute inset-0 overflow-hidden bg-navy">
           <OptimizedPropertyImage
             src={getImageUrl() ?? ''}
@@ -163,7 +163,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           )}
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 z-10 min-w-0 p-6 text-navy-foreground sm:p-7">
+        <div className="absolute inset-x-0 bottom-0 z-10 min-w-0 p-5 text-navy-foreground sm:p-7">
           <div className="min-w-0 space-y-3 transition-transform duration-700 group-hover:-translate-y-1">
             <div className="flex min-w-0 items-center gap-1.5">
               <MapPin className="h-3.5 w-3.5 shrink-0 text-gold" strokeWidth={2} />
@@ -181,15 +181,15 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           </div>
 
           <div className="mt-5 grid grid-cols-3 divide-x divide-navy-foreground/15 border-y border-navy-foreground/15 py-4 transition-transform duration-700 group-hover:-translate-y-1">
-            <div className="min-w-0 px-2 text-center first:pl-0">
+            <div className="min-w-0 px-1 text-center first:pl-0 sm:px-2">
               <span className="block truncate text-[9px] font-bold uppercase text-navy-foreground/55">{t('card.beds')}</span>
               <span className="mt-1 block truncate text-base font-semibold text-navy-foreground">{property.bedrooms || '–'}</span>
             </div>
-            <div className="min-w-0 px-2 text-center">
+            <div className="min-w-0 px-1 text-center sm:px-2">
               <span className="block truncate text-[9px] font-bold uppercase text-navy-foreground/55">{t('card.bath')}</span>
               <span className="mt-1 block truncate text-base font-semibold text-navy-foreground">{property.bathrooms || '–'}</span>
             </div>
-            <div className="min-w-0 px-2 text-center last:pr-0">
+            <div className="min-w-0 px-1 text-center last:pr-0 sm:px-2">
               <span className="block truncate text-[9px] font-bold uppercase text-navy-foreground/55">{t('card.area')}</span>
               <span className="mt-1 block truncate text-base font-semibold text-navy-foreground">{property.area ? `${property.area} m²` : '–'}</span>
             </div>

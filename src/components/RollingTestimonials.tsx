@@ -66,14 +66,14 @@ const RollingTestimonials = ({ testimonials, title, subtitle, eyebrow, ratingLab
   const second = reviews.filter((_, index) => index % 2 !== 0);
 
   return (
-    <section className="relative overflow-hidden bg-navy py-20 text-navy-foreground lg:py-28">
+    <section className="relative overflow-hidden bg-navy py-14 text-navy-foreground sm:py-20 lg:py-28">
       <div className="container mx-auto px-4">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-16">
           <div className="relative z-10 self-center lg:sticky lg:top-28">
             <div className="flex items-center gap-3 text-[10px] font-bold uppercase text-gold">
               <span className="h-px w-10 bg-gold" /> {eyebrow}
             </div>
-            <h2 className="mt-7 max-w-lg text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">{title}</h2>
+            <h2 className="mt-6 max-w-lg text-3xl font-semibold leading-tight sm:text-5xl lg:text-6xl">{title}</h2>
             <p className="mt-6 max-w-md text-base leading-8 text-navy-foreground/65 sm:text-lg">{subtitle}</p>
 
             <div className="mt-10 grid max-w-md grid-cols-2 gap-px overflow-hidden rounded-md border border-navy-foreground/10 bg-navy-foreground/10">
@@ -88,7 +88,7 @@ const RollingTestimonials = ({ testimonials, title, subtitle, eyebrow, ratingLab
             </div>
           </div>
 
-          <div className="relative h-[720px] overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)]">
+          <div className="relative h-[540px] overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)] sm:h-[720px]">
             {reviews.length > 0 ? (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <ReviewColumn reviews={first.length ? first : reviews} duration={34} />

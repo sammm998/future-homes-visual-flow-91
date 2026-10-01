@@ -25,24 +25,24 @@ function Feature() {
   const copy = labels[lang] ?? labels.en;
 
   return (
-    <section className="w-full overflow-hidden bg-navy py-20 text-navy-foreground lg:py-28">
+    <section className="w-full overflow-hidden bg-navy py-14 text-navy-foreground sm:py-20 lg:py-28">
       <div className="container mx-auto px-4">
         <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:gap-14">
           <div className="max-w-xl pb-2">
             <Badge className="border border-gold/35 bg-gold/10 text-gold">{copy.studio}</Badge>
-            <h2 className="mt-6 text-4xl font-semibold leading-tight md:text-5xl lg:text-6xl">
+            <h2 className="mt-5 text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
               {t("home.before_after")}
             </h2>
             <p className="mt-5 max-w-lg text-base leading-relaxed text-navy-foreground/65 md:text-lg">
               {t("home.before_after_subtitle")}
             </p>
 
-            <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-navy-foreground/10 bg-navy-foreground/10">
-              <div className="bg-navy p-5">
+            <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-navy-foreground/10 bg-navy-foreground/10 sm:mt-10">
+              <div className="min-w-0 bg-navy p-4 sm:p-5">
                 <span className="block text-[10px] font-bold uppercase text-gold">{copy.room}</span>
                 <span className="mt-2 block text-2xl font-semibold">{copy.area}</span>
               </div>
-              <div className="bg-navy p-5">
+              <div className="min-w-0 bg-navy p-4 sm:p-5">
                 <span className="block text-[10px] font-bold uppercase text-gold">{copy.blueprint}</span>
                 <span className="mt-2 flex items-center gap-2 text-sm font-semibold"><Building2 className="h-5 w-5" /> {copy.finished}</span>
               </div>
@@ -51,7 +51,7 @@ function Feature() {
 
           <div className="relative min-w-0">
             <div className="absolute -left-5 top-10 hidden h-28 w-px bg-gold/50 lg:block" />
-            <div className="relative aspect-video min-h-[22rem] overflow-hidden rounded-lg border border-navy-foreground/10 bg-navy shadow-[var(--shadow-luxe)] sm:min-h-[31rem]">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-lg border border-navy-foreground/10 bg-navy shadow-[var(--shadow-luxe)] sm:aspect-video sm:min-h-[31rem]">
               <video
                 className="h-full w-full object-cover"
                 src={apartmentTransformation.url}
@@ -65,12 +65,12 @@ function Feature() {
                 aria-label={`${copy.blueprint} — ${copy.finished}`}
               />
 
-              <div className="pointer-events-none absolute inset-x-4 top-4 flex items-center justify-between gap-3 sm:inset-x-6 sm:top-6">
+              <div className="pointer-events-none absolute inset-x-3 top-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:inset-x-6 sm:top-6">
                 <span className="inline-flex items-center gap-2 rounded-full border border-navy-foreground/15 bg-navy/75 px-3 py-2 text-[9px] font-bold uppercase text-navy-foreground backdrop-blur-md">
                   <Film className="h-3.5 w-3.5 text-gold" />
                   {copy.blueprint}
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-navy/75 px-3 py-2 text-[9px] font-bold uppercase text-navy-foreground backdrop-blur-md">
+                <span className="inline-flex items-center gap-2 justify-self-end rounded-full border border-gold/30 bg-navy/75 px-3 py-2 text-[9px] font-bold uppercase text-navy-foreground backdrop-blur-md">
                   <Sparkles className="h-3.5 w-3.5 text-gold" />
                   {copy.finished}
                 </span>
