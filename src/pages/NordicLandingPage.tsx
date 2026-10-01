@@ -158,7 +158,7 @@ const NordicLandingPage: React.FC<Props> = ({ page }) => {
               {page.listingsTitle}
             </h2>
             {loading ? (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-8 sm:grid-cols-2">
                 {[0, 1, 2].map((i) => (
                   <div key={i} className="h-72 rounded-lg bg-muted animate-pulse" />
                 ))}
