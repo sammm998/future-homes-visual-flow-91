@@ -90,7 +90,7 @@ export const useWebsiteContent = (customSlug?: string): UseWebsiteContentResult 
     if (slug === 'contact-us') {
       const localized = contactIntro[lang] || contactIntro.en;
       return sections.map((section) => {
-        if (section.type !== 'contact') return section;
+        if (section.type !== 'contact' && section.type !== 'form') return section;
         return { ...section, title: localized.title, content: localized.content };
       });
     }
