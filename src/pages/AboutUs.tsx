@@ -100,13 +100,14 @@ const AboutUs = () => {
 
     {/* Offices — cinematic destination strip */}
     <section className="overflow-hidden bg-navy py-20 text-navy-foreground lg:py-24">
-      <div className="mx-auto mb-12 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto mb-12 max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold">Global presence</p>
         <h2 className="text-3xl font-light leading-tight sm:text-4xl md:text-5xl">{t('about.locations_title')}</h2>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-navy-foreground/70 sm:text-base">{t('about.locations_subtitle')}</p>
+        <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-navy-foreground/70 sm:text-base">{t('about.locations_subtitle')}</p>
       </div>
-      <div className="no-scrollbar flex gap-6 overflow-x-auto px-4 pb-6 sm:px-6 lg:px-8">
+      <div className="no-scrollbar flex justify-center-safe gap-6 overflow-x-auto px-4 pb-6 sm:px-6 lg:px-8">
         {offices.map((office, i) => (
+
           <div key={i} className="group w-[17rem] flex-none sm:w-[20rem]">
             <div className="relative mb-6 aspect-[3/4] overflow-hidden">
               <img
