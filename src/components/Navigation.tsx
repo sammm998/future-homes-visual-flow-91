@@ -16,6 +16,7 @@ import { whatsappLink } from "@/utils/conversionCopy";
 import CurrencySelector from "./CurrencySelector";
 import SimpleLanguageSelector from "./SimpleLanguageSelector";
 import { openPublicSidebar } from "./PublicSidebarRail";
+import futureHomesLogo from "@/assets/future-homes-logo.webp";
 
 interface NavigationProps {
   className?: string;
@@ -37,21 +38,21 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
             </div>
           </div>
         </div>
-        <header className="absolute inset-x-0 top-9 z-40 border-b border-navy/10 bg-background/95 backdrop-blur-md">
-          <nav className={cn("mx-auto flex h-20 max-w-[1840px] items-center justify-between px-4 sm:px-8 lg:h-24 lg:px-12", className)}>
-            <Link to="/" aria-label="Future Homes International – hem" className="inline-flex items-center">
-              <img src="/future-homes-logo-new.webp" alt="Future Homes International" width={220} height={130} className="h-12 w-auto sm:h-14" />
+        <header className="absolute inset-x-0 top-9 z-40 border-b border-navy/10 bg-ivory/95 backdrop-blur-xl">
+          <nav className={cn("mx-auto flex h-20 max-w-[1840px] items-center justify-between px-5 sm:px-8 lg:h-24 lg:px-12", className)}>
+            <Link to="/" aria-label="Future Homes International – hem" className="inline-flex h-full items-center py-3">
+              <img src={futureHomesLogo} alt="Future Homes International" width={1400} height={799} className="h-14 w-auto object-contain sm:h-16 lg:h-[4.5rem]" />
             </Link>
-            <div className="flex items-center gap-2">
-              <div className="hidden items-center gap-2 sm:flex">
+            <div className="flex h-full items-center gap-1 sm:gap-3">
+              <div className="hidden items-center gap-1 border-r border-navy/10 pr-3 sm:flex">
                 <SimpleLanguageSelector />
                 <CurrencySelector />
               </div>
-              <Button asChild variant="outline" className="hidden h-11 border-navy/15 bg-background text-navy hover:border-gold hover:bg-ivory sm:inline-flex">
+              <Button asChild variant="ghost" className="hidden h-11 border-0 px-4 text-navy hover:bg-gold/10 hover:text-navy md:inline-flex">
                 <a href={whatsappLink()} target="_blank" rel="noopener noreferrer"><MessageCircle aria-hidden="true" /> WhatsApp</a>
               </Button>
-              <Button type="button" variant="ghost" aria-label="Open menu" onClick={openPublicSidebar} className="group h-12 gap-3 px-2 text-navy hover:bg-transparent hover:text-gold">
-                <span className="hidden text-[10px] font-bold uppercase [letter-spacing:.2em] sm:inline">Menu</span><Menu size={25} aria-hidden="true" />
+              <Button type="button" variant="ghost" aria-label="Open menu" onClick={openPublicSidebar} className="group h-12 gap-3 border-l border-navy/10 px-3 text-navy hover:bg-transparent hover:text-gold sm:px-5">
+                <span className="hidden text-[10px] font-bold uppercase [letter-spacing:.22em] sm:inline">Menu</span><Menu size={24} strokeWidth={1.5} aria-hidden="true" />
               </Button>
             </div>
           </nav>
@@ -85,17 +86,17 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
         </div>
       </div>
 
-      <nav className={cn("bg-white shadow-xs border-b", className)}>
+      <nav className={cn("border-b border-navy/10 bg-ivory/95 backdrop-blur-xl", className)}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid h-16 grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+          <div className="grid h-20 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 lg:h-24">
             <div className="flex min-w-0 items-center">
               <Link to="/" aria-label="Future Homes International – hem" className="flex items-center gap-2">
                 <img
-                  src="/future-homes-logo-new.webp"
+                  src={futureHomesLogo}
                   alt="Future Homes International"
-                  width={220}
-                  height={130}
-                  className="h-9 w-auto sm:h-14"
+                  width={1400}
+                  height={799}
+                  className="h-14 w-auto object-contain sm:h-16 lg:h-[4.5rem]"
                 />
               </Link>
             </div>
@@ -107,10 +108,10 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
                 type="button"
                 aria-label="Open menu"
                 variant="ghost"
-                className="group flex min-h-11 items-center gap-3 px-2 text-navy hover:bg-transparent hover:text-gold"
+                className="group flex min-h-11 items-center gap-3 border-l border-navy/10 px-3 text-navy hover:bg-transparent hover:text-gold sm:px-5"
                 onClick={openPublicSidebar}
               >
-                <span className="hidden text-[10px] font-bold uppercase [letter-spacing:.2em] sm:inline">Menu</span><Menu size={25} aria-hidden="true" />
+                 <span className="hidden text-[10px] font-bold uppercase [letter-spacing:.22em] sm:inline">Menu</span><Menu size={24} strokeWidth={1.5} aria-hidden="true" />
               </Button>
 
             </div>
