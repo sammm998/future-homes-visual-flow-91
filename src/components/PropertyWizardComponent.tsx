@@ -11,6 +11,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/hooks/useTranslation';
 import { saveLead } from '@/lib/leads.functions';
+import { trackConversionEvent } from '@/lib/analytics-events';
 
 
 const PropertyWizardComponent = () => {
@@ -115,6 +116,7 @@ const PropertyWizardComponent = () => {
 
   const nextStep = async () => {
     if (currentStep < totalSteps) {
+      trackConversionEvent(currentStep === 1 ? 'wizard_start' : 'wizard_step_complete', { step: currentStep });
       setCurrentStep(prev => prev + 1);
       return;
     }
@@ -145,7 +147,7 @@ const PropertyWizardComponent = () => {
 
     // Always store the enquiry in the CRM first — e-mail can fail, the lead must not.
     try {
-      await saveLead({
+      const result = await saveLead({
         data: {
           name: selections.contactInfo.name,
           email: selections.contactInfo.email,
@@ -158,6 +160,11 @@ const PropertyWizardComponent = () => {
             selections.features.length ? `Features: ${selections.features.join(', ')}` : null,
           ].filter(Boolean).join('\n'),
         },
+      });
+      if (result.saved) trackConversionEvent('wizard_complete', {
+        location: selections.location,
+        property_type: selections.propertyType,
+        budget: selections.budget,
       });
     } catch (leadError) {
       console.warn('Failed to save lead:', leadError);

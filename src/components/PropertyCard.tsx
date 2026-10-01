@@ -8,6 +8,7 @@ import { Link, useLocation } from '@/lib/router-compat';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 import LiveViewers from './LiveViewers';
 import { useTranslation } from '@/hooks/useTranslation';
+import { trackConversionEvent } from '@/lib/analytics-events';
 
 interface Property {
   id: string | number;
@@ -120,10 +121,15 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       to={propertyUrl}
       state={{ returnUrl }}
       className="block h-full"
+      onClick={() => trackConversionEvent('property_card_click', {
+        property_id: String(property.id),
+        property_ref: property.refNo || property.ref_no || null,
+        source_page: routeLocation.pathname,
+      })}
     >
       <article className="group relative w-full h-full bg-card overflow-hidden cinematic-card rounded-md">
         {/* Image Section */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-brand-secondary">
+        <div className="relative aspect-[3/2] overflow-hidden bg-brand-secondary">
           <OptimizedPropertyImage
             src={getImageUrl() ?? ''}
             alt={property.title}
