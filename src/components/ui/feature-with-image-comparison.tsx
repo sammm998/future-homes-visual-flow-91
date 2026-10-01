@@ -1,11 +1,8 @@
-import { Suspense, useEffect, useState } from "react";
-import { Box, DoorOpen, Hand, Maximize2, Rotate3D, Undo2 } from "lucide-react";
+import { Building2, Film, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/hooks/useTranslation";
-import { InteractivePropertyModel } from "@/components/InteractivePropertyModel";
-
-type ViewMode = "blueprint" | "finished";
+import apartmentTransformation from "@/assets/apartment-blueprint-to-finished.mp4.asset.json";
+import apartmentPoster from "@/assets/apartment-video-poster.jpg.asset.json";
 
 const labels: Record<string, { studio: string; blueprint: string; finished: string; hint: string; interactive: string; room: string; area: string; enter: string; exit: string }> = {
   en: { studio: "Future Homes Design Studio", blueprint: "3D blueprint", finished: "Finished home", hint: "Drag to look around · Scroll to move closer", interactive: "Interactive model", room: "2 bedroom residence", area: "118 m²", enter: "Enter the home", exit: "Exit interior" },
@@ -25,12 +22,7 @@ const labels: Record<string, { studio: string; blueprint: string; finished: stri
 
 function Feature() {
   const { t, lang } = useTranslation();
-  const [mode, setMode] = useState<ViewMode>("finished");
-  const [immersive, setImmersive] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const copy = labels[lang] ?? labels.en;
-
-  useEffect(() => setMounted(true), []);
 
   return (
     <section className="w-full overflow-hidden bg-navy py-20 text-navy-foreground lg:py-28">
@@ -51,64 +43,37 @@ function Feature() {
                 <span className="mt-2 block text-2xl font-semibold">{copy.area}</span>
               </div>
               <div className="bg-navy p-5">
-                <span className="block text-[10px] font-bold uppercase text-gold">{copy.interactive}</span>
-                <span className="mt-2 flex items-center gap-2 text-sm font-semibold"><Rotate3D className="h-5 w-5" /> 360°</span>
+                <span className="block text-[10px] font-bold uppercase text-gold">{copy.blueprint}</span>
+                <span className="mt-2 flex items-center gap-2 text-sm font-semibold"><Building2 className="h-5 w-5" /> {copy.finished}</span>
               </div>
             </div>
           </div>
 
           <div className="relative min-w-0">
             <div className="absolute -left-5 top-10 hidden h-28 w-px bg-gold/50 lg:block" />
-            <div className="relative aspect-[4/5] min-h-[31rem] overflow-hidden rounded-lg border border-navy-foreground/10 bg-navy shadow-[var(--shadow-luxe)] sm:aspect-[16/11]">
-              {mounted ? (
-                <Suspense fallback={<div className="grid h-full place-items-center text-sm text-navy-foreground/60">{copy.interactive}</div>}>
-                  <InteractivePropertyModel mode={mode} immersive={immersive} />
-                </Suspense>
-              ) : (
-                <div className="h-full bg-navy" />
-              )}
+            <div className="relative aspect-video min-h-[22rem] overflow-hidden rounded-lg border border-navy-foreground/10 bg-navy shadow-[var(--shadow-luxe)] sm:min-h-[31rem]">
+              <video
+                className="h-full w-full object-cover"
+                src={apartmentTransformation.url}
+                poster={apartmentPoster.url}
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls
+                preload="metadata"
+                aria-label={`${copy.blueprint} — ${copy.finished}`}
+              />
 
-              <div className="pointer-events-none absolute inset-x-4 top-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:inset-x-6 sm:top-6">
-                <div className="min-w-0">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-navy-foreground/15 bg-navy/70 px-3 py-2 text-[9px] font-bold uppercase text-navy-foreground backdrop-blur-md">
-                    <span className="h-1.5 w-1.5 rounded-full bg-gold" />
-                    {copy.interactive}
-                  </span>
-                </div>
-                <Maximize2 className="h-5 w-5 shrink-0 text-navy-foreground/70" />
-              </div>
-
-              <div className="absolute inset-x-4 bottom-4 sm:inset-x-6 sm:bottom-6">
-                {mode === "finished" && (
-                  <Button
-                    type="button"
-                    className="mx-auto mb-3 flex bg-gold text-gold-foreground shadow-lg hover:bg-gold/90"
-                    onClick={() => setImmersive((current) => !current)}
-                  >
-                    {immersive ? <Undo2 /> : <DoorOpen />} {immersive ? copy.exit : copy.enter}
-                  </Button>
-                )}
-                <div className="grid grid-cols-2 rounded-md border border-navy-foreground/15 bg-navy/75 p-1 backdrop-blur-md">
-                  <Button
-                    type="button"
-                    variant={mode === "blueprint" ? "default" : "ghost"}
-                    className={mode === "blueprint" ? "bg-gold text-gold-foreground hover:bg-gold/90" : "text-navy-foreground hover:bg-navy-foreground/10 hover:text-navy-foreground"}
-                    onClick={() => { setMode("blueprint"); setImmersive(false); }}
-                  >
-                    <Box /> {copy.blueprint}
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={mode === "finished" ? "default" : "ghost"}
-                    className={mode === "finished" ? "bg-ivory text-navy hover:bg-ivory/90" : "text-navy-foreground hover:bg-navy-foreground/10 hover:text-navy-foreground"}
-                    onClick={() => setMode("finished")}
-                  >
-                    <Box /> {copy.finished}
-                  </Button>
-                </div>
-                <p className="mt-3 flex items-center justify-center gap-2 text-center text-[10px] font-semibold uppercase text-navy-foreground/55">
-                  <Hand className="h-3.5 w-3.5" /> {copy.hint}
-                </p>
+              <div className="pointer-events-none absolute inset-x-4 top-4 flex items-center justify-between gap-3 sm:inset-x-6 sm:top-6">
+                <span className="inline-flex items-center gap-2 rounded-full border border-navy-foreground/15 bg-navy/75 px-3 py-2 text-[9px] font-bold uppercase text-navy-foreground backdrop-blur-md">
+                  <Film className="h-3.5 w-3.5 text-gold" />
+                  {copy.blueprint}
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-navy/75 px-3 py-2 text-[9px] font-bold uppercase text-navy-foreground backdrop-blur-md">
+                  <Sparkles className="h-3.5 w-3.5 text-gold" />
+                  {copy.finished}
+                </span>
               </div>
             </div>
           </div>
