@@ -14,8 +14,9 @@ const RollingTestimonialsSection = () => {
   return (
     <RollingTestimonials
       testimonials={testimonials}
-      title={t("home.customer_reviews")}
-      subtitle={t("home.customer_reviews_subtitle")}
+      eyebrow={t("home.customer_reviews")}
+      title={t("home.what_people_say")}
+      subtitle={t("home.what_people_say_subtitle")}
     />
   );
 };
