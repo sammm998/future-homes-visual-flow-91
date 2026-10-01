@@ -30,6 +30,8 @@
   --color-primary-foreground: hsl(var(--primary-foreground));
   --color-primary-glow: hsl(var(--primary-glow));
   --color-brand: hsl(var(--brand));
+  --color-whatsapp: hsl(142 70% 41%);
+  --color-whatsapp-foreground: hsl(0 0% 100%);
   --color-brand-foreground: hsl(var(--brand-foreground));
   --color-brand-secondary: hsl(var(--brand-secondary));
   --color-brand-accent: hsl(var(--brand-accent));

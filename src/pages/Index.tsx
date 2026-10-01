@@ -13,6 +13,7 @@ import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import aliKaranImage from "@/assets/ali-karan-founder.webp";
+import ConversionBand from "@/components/ConversionBand";
 
 // Below-the-fold sections: downloaded only when the user scrolls near them.
 const FeatureDemo = lazy(() => import("@/components/ui/feature-demo").then(m => ({ default: m.FeatureDemo })));
@@ -183,10 +184,9 @@ const Index = () => {
         rel="preload"
         as="image"
         href="/lovable-uploads/hero-antalya-1200.webp"
-        // @ts-expect-error - valid HTML attributes for responsive preload
-        imagesrcset="/lovable-uploads/hero-antalya-768.webp 768w, /lovable-uploads/hero-antalya-1200.webp 1200w"
-        imagesizes="100vw"
-        fetchpriority="high"
+        imageSrcSet="/lovable-uploads/hero-antalya-768.webp 768w, /lovable-uploads/hero-antalya-1200.webp 1200w"
+        imageSizes="100vw"
+        fetchPriority="high"
       />
       <SEOHead title={pageTitle || "Property for Sale in Turkey, Dubai, Cyprus & Bali | Future Homes International"} description={metaDescription || "Property for sale in Turkey, Dubai, Cyprus & Bali. Apartments, villas & off-plan homes from leading international agents. Turkish citizenship by investment from $400K."} keywords="property for sale in turkey, homes for sale in turkey, turkey real estate, turkey homes for sale, houses for sale in turkey, apartments for sale in turkey, villas for sale in turkey, property for sale in antalya, apartments for sale in antalya, property for sale in istanbul, homes for sale in istanbul turkey, property for sale in dubai, dubai homes for sale, homes to buy dubai, houses for sale in dubai, dubai apartments for sale, property for sale in cyprus, cyprus real estate, houses for sale in cyprus, property for sale in bali, bali villas for sale, turkish citizenship by investment, buy property in turkey, off plan property turkey, real estate turkey" canonicalUrl={currentCanonicalUrl} structuredData={[homePageStructuredData, faqStructuredData]} />
       <OrganizationSchema />
@@ -196,6 +196,8 @@ const Index = () => {
       <div className="w-full">
         <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.webp" title={heroTitle || t('hero.title')} subtitle={t('hero.subtitle')} />
       </div>
+
+      <ConversionBand />
 
       {/* Dynamic Content Sections from CMS — rendered below the hero so the
           async CMS fetch can never push the hero down (layout shift). */}
