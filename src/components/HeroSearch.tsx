@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Search, MapPin, Home, Building, Store, Filter, Wand2 } from "lucide-react";
+import { Search, MapPin, Home, Building, Store, Filter, Wand2, Check } from "lucide-react";
 import AiSearchDialog, { COPY as AI_COPY } from "@/components/AiSearchDialog";
 import { getCurrentLanguage as getLangFromPath } from "@/utils/seoUtils";
 import { useCurrency } from "@/contexts/CurrencyContext";
@@ -239,16 +239,22 @@ export function HeroSearch() {
               <span className="sr-only">{t('search.advanced')}</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl mx-4">
-            <DialogHeader>
-              <DialogTitle>{t('search.advanced')}</DialogTitle>
+          <DialogContent className="w-[calc(100vw-2rem)] max-w-2xl overflow-hidden rounded-2xl border border-gold/25 bg-ivory p-0 text-foreground shadow-[var(--shadow-luxe)]">
+            <div className="h-1 w-full bg-gold" />
+            <div className="max-h-[85vh] overflow-y-auto p-5 sm:p-8">
+            <DialogHeader className="text-center">
+              <span className="mx-auto mb-3 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-navy">
+                <Filter className="h-3 w-3 text-gold" />
+                Future Homes
+              </span>
+              <DialogTitle className="text-center text-2xl font-semibold text-navy sm:text-3xl">{t('search.advanced')}</DialogTitle>
             </DialogHeader>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <Label className="text-sm font-medium mb-3 block">{t('search.price_range')}</Label>
+                <Label className="mb-3 block text-center text-[11px] font-bold uppercase tracking-[0.14em] text-navy/70 md:text-left">{t('search.price_range')}</Label>
                 <div className="flex gap-2">
                   <Select value={minPrice} onValueChange={setMinPrice}>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-12 rounded-xl border-navy/15 bg-background">
                       <SelectValue placeholder={t('search.min_price')} />
                     </SelectTrigger>
                     <SelectContent>
@@ -261,7 +267,7 @@ export function HeroSearch() {
                     </SelectContent>
                   </Select>
                   <Select value={maxPrice} onValueChange={setMaxPrice}>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-12 rounded-xl border-navy/15 bg-background">
                       <SelectValue placeholder={t('search.max_price')} />
                     </SelectTrigger>
                     <SelectContent>
@@ -277,68 +283,65 @@ export function HeroSearch() {
               </div>
 
               <div>
-                <Label className="text-sm font-medium mb-3 block">{t('search.square_feet')}</Label>
+                <Label className="mb-3 block text-center text-[11px] font-bold uppercase tracking-[0.14em] text-navy/70 md:text-left">{t('search.square_feet')}</Label>
                 <div className="flex gap-2">
                   <Input
                     placeholder="Min."
                     value={minSqFt}
                     onChange={(e) => setMinSqFt(e.target.value)}
+                    className="h-12 rounded-xl border-navy/15 bg-background"
                   />
                   <Input
                     placeholder="Max."
                     value={maxSqFt}
                     onChange={(e) => setMaxSqFt(e.target.value)}
+                    className="h-12 rounded-xl border-navy/15 bg-background"
                   />
                 </div>
               </div>
 
               <div className="md:col-span-2">
-                <Label className="text-sm font-medium mb-3 block">{t('search.facilities')}</Label>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="pool" checked={pool} onCheckedChange={(checked) => setPool(checked === true)} />
-                    <Label htmlFor="pool">{t('search.pool')}</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="gym" checked={gym} onCheckedChange={(checked) => setGym(checked === true)} />
-                    <Label htmlFor="gym">{t('search.gym')}</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="garden" checked={garden} onCheckedChange={(checked) => setGarden(checked === true)} />
-                    <Label htmlFor="garden">{t('search.garden')}</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="parking" checked={parking} onCheckedChange={(checked) => setParking(checked === true)} />
-                    <Label htmlFor="parking">{t('search.parking')}</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="seaView" checked={seaView} onCheckedChange={(checked) => setSeaView(checked === true)} />
-                    <Label htmlFor="seaView">{t('search.sea_view')}</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="security" checked={security} onCheckedChange={(checked) => setSecurity(checked === true)} />
-                    <Label htmlFor="security">{t('search.security')}</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="forResidencePermit" checked={forResidencePermit} onCheckedChange={(checked) => setForResidencePermit(checked === true)} />
-                    <Label htmlFor="forResidencePermit">{t('search.residence_permit')}</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="readyToMove" checked={readyToMove} onCheckedChange={(checked) => setReadyToMove(checked === true)} />
-                    <Label htmlFor="readyToMove">{t('search.ready_to_move')}</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="underConstruction" checked={underConstruction} onCheckedChange={(checked) => setUnderConstruction(checked === true)} />
-                    <Label htmlFor="underConstruction">{t('search.under_construction')}</Label>
-                  </div>
+                <Label className="mb-3 block text-center text-[11px] font-bold uppercase tracking-[0.14em] text-navy/70 md:text-left">{t('search.facilities')}</Label>
+                <div className="grid grid-cols-1 gap-2.5 min-[420px]:grid-cols-2 sm:grid-cols-3">
+                  {[
+                    { id: "pool", checked: pool, set: setPool, label: t('search.pool') },
+                    { id: "gym", checked: gym, set: setGym, label: t('search.gym') },
+                    { id: "garden", checked: garden, set: setGarden, label: t('search.garden') },
+                    { id: "parking", checked: parking, set: setParking, label: t('search.parking') },
+                    { id: "seaView", checked: seaView, set: setSeaView, label: t('search.sea_view') },
+                    { id: "security", checked: security, set: setSecurity, label: t('search.security') },
+                    { id: "forResidencePermit", checked: forResidencePermit, set: setForResidencePermit, label: t('search.residence_permit') },
+                    { id: "readyToMove", checked: readyToMove, set: setReadyToMove, label: t('search.ready_to_move') },
+                    { id: "underConstruction", checked: underConstruction, set: setUnderConstruction, label: t('search.under_construction') },
+                  ].map((f) => (
+                    <Label
+                      key={f.id}
+                      htmlFor={f.id}
+                      className={`flex cursor-pointer items-center justify-center gap-2 rounded-xl border px-3 py-3 text-center text-sm font-medium transition-colors ${
+                        f.checked
+                          ? "border-gold bg-gold/15 text-navy"
+                          : "border-navy/15 bg-background text-foreground/80 hover:border-gold/50"
+                      }`}
+                    >
+                      <Checkbox
+                        id={f.id}
+                        checked={f.checked}
+                        onCheckedChange={(checked) => f.set(checked === true)}
+                        className="sr-only"
+                      />
+                      {f.checked && <Check className="h-4 w-4 shrink-0 text-gold" />}
+                      <span className="leading-tight">{f.label}</span>
+                    </Label>
+                  ))}
                 </div>
               </div>
             </div>
-            <div className="flex justify-end mt-6">
-              <Button onClick={handleSearch} className="w-full sm:w-auto">
+            <div className="mt-7">
+              <Button onClick={handleSearch} className="h-13 w-full rounded-xl bg-navy py-3.5 text-base font-semibold text-navy-foreground hover:bg-navy/90">
                 <Search size={16} className="mr-2" />
                 {t('search.search')}
               </Button>
+            </div>
             </div>
           </DialogContent>
           </Dialog>
