@@ -12,3 +12,10 @@
 - [x] Improve the highest-impact contact paths
 - [x] Increase property image prominence in listings
 - [x] Verify conversion changes on desktop and mobile
+
+## Visual refinement
+
+- [x] Restore readable customer review cards
+- [x] Improve review motion and interaction
+- [x] Refine property card interaction and mobile spacing
+- [x] Verify the updated homepage on desktop and mobile
