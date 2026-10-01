@@ -195,17 +195,17 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
             </div>
           </div>
 
-          <div className="mt-7 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5">
+          <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 min-[1800px]:mt-7 min-[1800px]:gap-5">
             <div className="min-w-0">
               <span className="block text-[9px] font-bold uppercase text-navy-foreground/55">{t('card.price')}</span>
-              <span className="mt-1 block truncate text-xl font-bold text-navy-foreground sm:text-2xl">
+              <span className="mt-1 block truncate text-lg font-bold text-navy-foreground sm:text-xl lg:text-lg min-[1800px]:text-xl">
                 <span className="mr-1 text-[9px] font-semibold uppercase text-gold">{t('card.from')}</span>
                 {formatPriceFromString(property.price || '0', formatPrice)}
                 {Number(property.buyer_fee_percent) > 0 && <span className="ml-1 text-[10px]">+{property.buyer_fee_percent}%</span>}
               </span>
             </div>
-            <span className="flex h-12 shrink-0 items-center gap-2 bg-ivory px-5 text-[9px] font-extrabold uppercase text-navy transition-colors duration-300 group-hover:bg-gold">
-              <span className="hidden sm:inline">{t('card.view_property')}</span>
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center gap-2 bg-ivory px-0 text-[9px] font-extrabold uppercase text-navy transition-colors duration-300 group-hover:bg-gold min-[1800px]:h-12 min-[1800px]:w-auto min-[1800px]:px-5">
+              <span className="hidden min-[1800px]:inline">{t('card.view_property')}</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </span>
           </div>
