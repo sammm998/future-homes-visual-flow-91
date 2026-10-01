@@ -31,6 +31,11 @@
   --color-primary-glow: hsl(var(--primary-glow));
   --color-brand: hsl(var(--brand));
   --color-whatsapp: hsl(142 70% 41%);
+  --color-gold: hsl(var(--gold));
+  --color-gold-foreground: hsl(var(--gold-foreground));
+  --color-ivory: hsl(var(--ivory));
+  --color-navy: hsl(var(--navy));
+  --color-navy-foreground: hsl(var(--navy-foreground));
   --color-whatsapp-foreground: hsl(0 0% 100%);
   --color-brand-foreground: hsl(var(--brand-foreground));
   --color-brand-secondary: hsl(var(--brand-secondary));
@@ -136,6 +141,14 @@
   --brand-foreground: 0 0% 100%;
   --brand-secondary: 213 45% 15%;
   --brand-accent: 213 35% 85%;
+
+  /* Refined Navy & Gold palette */
+  --gold: 40 46% 60%;
+  --gold-foreground: 214 68% 13%;
+  --ivory: 43 33% 95%;
+  --navy: 214 68% 13%;
+  --navy-foreground: 43 33% 96%;
+  --shadow-luxe: 0 30px 60px -30px hsl(214 68% 13% / 0.35);
 
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222.2 47.4% 11.2%;
