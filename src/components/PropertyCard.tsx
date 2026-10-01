@@ -207,6 +207,8 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
             <span>{t('card.view_property')}</span>
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </div>
+          {/* Keeps card text clear of the floating WhatsApp button on phones. */}
+          <div className="h-8 sm:hidden" aria-hidden="true" />
         </div>
       </article>
     </Link>
