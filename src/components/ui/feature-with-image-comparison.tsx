@@ -51,7 +51,7 @@ function Feature() {
 
           <div className="relative min-w-0">
             <div className="absolute -left-5 top-10 hidden h-28 w-px bg-gold/50 lg:block" />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-lg border border-navy-foreground/10 bg-navy shadow-[var(--shadow-luxe)] sm:aspect-video sm:min-h-[31rem]">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-lg border border-navy-foreground/10 bg-navy shadow-[var(--shadow-luxe)] sm:aspect-video">
               <video
                 className="h-full w-full object-cover"
                 src={apartmentTransformation.url}
