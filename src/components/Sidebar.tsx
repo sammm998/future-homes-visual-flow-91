@@ -50,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'tween', duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed right-0 top-0 z-[100] h-full w-[min(30rem,100vw)] overflow-y-auto border-l border-navy-foreground/10 bg-navy text-navy-foreground shadow-[var(--shadow-luxe)]"
+          className="fixed right-0 top-0 z-[100] h-full w-full max-w-[30rem] overflow-x-hidden overflow-y-auto border-l border-navy-foreground/10 bg-navy text-navy-foreground shadow-[var(--shadow-luxe)]"
         >
           <div className="flex min-h-full flex-col px-7 py-8 sm:px-12 sm:py-12">
             <div className="mb-12 flex items-start justify-between border-b border-navy-foreground/10 pb-8 sm:mb-16">
@@ -71,11 +71,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                     <Link
                       key={propertyLocation.href}
                       to={propertyLocation.href}
-                      className={`group flex min-h-12 items-center gap-5 border-b border-navy-foreground/10 py-2 font-serif text-2xl text-navy-foreground transition-all duration-300 hover:translate-x-2 hover:text-gold ${location.pathname.includes(propertyLocation.href.split('?')[0]) ? 'text-gold' : ''}`}
+                      className={`group flex min-h-12 min-w-0 items-center gap-4 border-b border-navy-foreground/10 py-2 font-serif text-xl text-navy-foreground transition-all duration-300 hover:translate-x-2 hover:text-gold sm:gap-5 sm:text-2xl ${location.pathname.includes(propertyLocation.href.split('?')[0]) ? 'text-gold' : ''}`}
                       onClick={onClose}
                     >
                       <span className="text-[9px] font-sans font-bold text-gold">{String(index + 1).padStart(2, '0')}</span>
-                      <span className="flex-1">{propertyLocation.name}</span><ArrowRight className="h-4 w-4 -translate-x-2 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+                      <span className="min-w-0 flex-1 leading-tight">{propertyLocation.name}</span><ArrowRight className="h-4 w-4 shrink-0 -translate-x-2 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
                     </Link>
                   ))}
                 </div>
