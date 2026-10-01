@@ -153,15 +153,21 @@ const MapSearch = () => {
     // Fallback to URL parsing
     if (!url) return null;
     
-    // Match patterns like @25.0365811,55.2066422 or !3d25.0391345!4d55.2176352
-    const atMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
-    if (atMatch) {
-      return [parseFloat(atMatch[2]), parseFloat(atMatch[1])]; // [lng, lat]
-    }
-    
+    // A Google URL can contain both a viewport centre (@lat,lng) and the
+    // actual place pin (!3dlat!4dlng). Always prefer the place pin.
     const coordMatch = url.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
     if (coordMatch) {
       return [parseFloat(coordMatch[2]), parseFloat(coordMatch[1])]; // [lng, lat]
+    }
+
+    const queryMatch = url.match(/[?&]q=(-?\d+\.\d+),\s*(-?\d+\.\d+)/);
+    if (queryMatch) {
+      return [parseFloat(queryMatch[2]), parseFloat(queryMatch[1])];
+    }
+
+    const atMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+    if (atMatch) {
+      return [parseFloat(atMatch[2]), parseFloat(atMatch[1])]; // [lng, lat]
     }
     
     return null;
