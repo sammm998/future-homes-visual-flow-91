@@ -72,7 +72,7 @@ export const PropertyAreaInsights = ({ property, lang }: Props) => {
   const similar = useMemo(
     () =>
       area
-        .filter((p: any) => p.id !== property.id && String(p.ref_no) !== String(property.refNo))
+        .filter((p: any) => p.id !== property.id && String(p.ref_no) !== String(property.refNo) && String(p.status || "").toLowerCase() !== "sold")
         .sort((a: any, b: any) => Math.abs(num(a.price) - ownPrice) - Math.abs(num(b.price) - ownPrice))
         .slice(0, 4),
     [area, property.id, property.refNo, ownPrice],
