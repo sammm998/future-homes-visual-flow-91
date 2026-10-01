@@ -372,7 +372,36 @@ const MapSearch = () => {
     if (coords && map.current) map.current.easeTo({ center: coords, zoom: Math.max(map.current.getZoom(), 11), duration: 650, essential: true });
   };
 
-__MAP_RETURN__
+  return (
+    <main className="h-[100svh] overflow-hidden bg-ivory text-navy">
+      {loading && <div className="absolute inset-0 z-[1000] flex items-center justify-center bg-navy/85"><Loader2 className="h-10 w-10 animate-spin text-gold" /></div>}
+      <div className="grid h-full grid-rows-[42svh_1fr] lg:grid-cols-[minmax(34rem,44%)_1fr] lg:grid-rows-1">
+        <section className="order-2 flex min-h-0 flex-col border-r border-navy/10 bg-ivory lg:order-1">
+          <header className="shrink-0 border-b border-navy/10 px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
+            <div className="flex items-start justify-between gap-4">
+              <div><p className="mb-1 text-[10px] font-bold uppercase text-gold">Future Homes International</p><h1 className="text-2xl font-semibold sm:text-3xl">{t('nav.map_search')}</h1><p className="mt-2 text-xs text-navy/60">{t('common.showing')} <strong>{filteredProperties.length}</strong> {t('common.properties')}</p></div>
+              <Button variant="outline" size="icon" className="hidden border-navy/15 bg-transparent text-navy hover:border-gold lg:inline-flex" onClick={() => setIsDesktopFilterOpen(v => !v)} aria-label={t('nav.search')}><SlidersHorizontal /></Button>
+            </div>
+            <div className="mt-4 grid grid-cols-[1fr_auto] gap-2 sm:grid-cols-[1fr_1fr_auto]">
+              <Select value={filters.location} onValueChange={(value) => setFilters(c => ({...c, location:value, district:''}))}><SelectTrigger className="h-11 border-navy/15 bg-background"><MapPin className="h-4 w-4 text-gold"/><SelectValue placeholder={t('filter.select_location')}/></SelectTrigger><SelectContent>{['all','Antalya','Istanbul','Mersin','Dubai','Cyprus','Bali'].map(v=><SelectItem key={v} value={v}>{v==='all'?t('info.all'):v}</SelectItem>)}</SelectContent></Select>
+              <Select value={filters.sortBy} onValueChange={(value) => setFilters(c => ({...c, sortBy:value}))}><SelectTrigger className="hidden h-11 border-navy/15 bg-background sm:flex"><Layers3 className="h-4 w-4 text-gold"/><SelectValue placeholder={t('search.sort_by')}/></SelectTrigger><SelectContent><SelectItem value="ref">{t('search.newest')}</SelectItem><SelectItem value="price-low">{t('search.price_low')}</SelectItem><SelectItem value="price-high">{t('search.price_high')}</SelectItem></SelectContent></Select>
+              <Button className="h-11 bg-navy text-navy-foreground lg:hidden" onClick={() => setIsMobileFilterOpen(true)}><Filter/><span className="hidden sm:inline">{t('nav.search')}</span></Button>
+            </div>
+          </header>
+          {isDesktopFilterOpen && <div className="max-h-[48vh] shrink-0 overflow-y-auto border-b border-navy/10 bg-background px-5 py-5 lg:px-8"><PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch}/></div>}
+          <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-6 lg:px-8 lg:py-6"><div className="space-y-4">
+            {filteredProperties.map((property,index)=><article key={property.id} className={`group grid min-h-40 cursor-pointer grid-cols-[8.5rem_1fr] overflow-hidden border bg-background transition-all sm:grid-cols-[11rem_1fr] ${selectedProperty?.id===property.id?'border-gold shadow-[var(--shadow-luxe)]':'border-navy/10 hover:border-gold/60'}`} onClick={()=>selectProperty(property)}>
+              <div className="relative min-h-40 overflow-hidden bg-navy">{property.property_image?<img src={property.property_image} alt={property.title} loading={index<3?'eager':'lazy'} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"/>:<div className="flex h-full items-center justify-center text-gold"><Building2/></div>}<span className="absolute left-3 top-3 bg-navy/85 px-2 py-1 text-[9px] font-bold text-navy-foreground">REF {property.ref_no}</span></div>
+              <div className="flex min-w-0 flex-col justify-between p-4 sm:p-5"><div><p className="flex items-center gap-1 truncate text-[10px] font-bold uppercase text-gold"><MapPin className="h-3 w-3"/>{property.location}</p><h2 className="mt-2 line-clamp-2 text-sm font-semibold sm:text-base">{property.title}</h2><div className="mt-3 flex gap-3 text-[11px] text-navy/55">{property.bedrooms&&<span className="flex items-center gap-1"><BedDouble className="h-3.5 w-3.5"/>{property.bedrooms}</span>}<span className="truncate">{property.property_type}</span></div></div><div className="mt-4 flex items-end justify-between border-t border-navy/10 pt-3"><strong className="truncate text-sm sm:text-base">{property.price}</strong><Button size="icon" className="h-9 w-9 bg-navy text-navy-foreground hover:bg-gold" onClick={e=>{e.stopPropagation();navigate(buildPropertyUrl(property,lang))}} aria-label={t('card.view_property')}><ArrowRight/></Button></div></div>
+            </article>)}
+          </div></div>
+        </section>
+        <section className="relative order-1 min-h-0 bg-navy lg:order-2"><div ref={mapContainer} className="h-full w-full"/><div className="absolute left-4 top-4 z-[60] flex gap-1 border border-navy/10 bg-background/95 p-1 shadow-[var(--shadow-luxe)]"><Button size="sm" className="bg-navy text-navy-foreground" onClick={()=>setMapStyle('mapbox://styles/mapbox/streets-v12')}>Street</Button><Button size="sm" variant="ghost" onClick={()=>setMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}>Satellite</Button><Button size="icon" variant="ghost" className="h-9 w-9" onClick={()=>map.current?.easeTo({pitch:map.current.getPitch()===0?60:0,duration:800})}><Layers3/></Button></div></section>
+      </div>
+      {isMobileFilterOpen&&<div className="fixed inset-0 z-[200] bg-navy/55 backdrop-blur-sm lg:hidden" onClick={()=>setIsMobileFilterOpen(false)}><aside className="absolute inset-y-0 left-0 w-[min(92vw,24rem)] overflow-y-auto bg-ivory p-4" onClick={e=>e.stopPropagation()}><div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-semibold">{t('nav.search')}</h2><Button variant="ghost" size="icon" onClick={()=>setIsMobileFilterOpen(false)}><X/></Button></div><PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch}/></aside></div>}
+      <style>{`.custom-marker{width:38px;height:38px;cursor:pointer;overflow:hidden;border:3px solid hsl(var(--ivory));border-radius:999px;background:hsl(var(--ivory)) url('/favicon.png') center/contain no-repeat;box-shadow:0 8px 22px hsl(var(--navy)/.3);transition:180ms ease}.custom-marker:hover{border-color:hsl(var(--gold));transform:translateY(-2px)}.mapboxgl-ctrl-top-right{top:64px;right:12px}[data-radix-popper-content-wrapper],[role='listbox']{z-index:300!important}`}</style>
+    </main>
+  );
 };
 
 export default MapSearch;
