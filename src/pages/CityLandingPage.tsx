@@ -100,7 +100,7 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
 
         <PublicPageHero eyebrow={`${config.country} · Property collection`} title={config.h1} description={config.intro} image={heroImage} imageAlt={config.h1} primaryLabel="View available homes" primaryTo="#listings" secondaryLabel="Request a private shortlist" secondaryTo={localizePath('/contact-us', lang)} compact />
 
-        <section aria-labelledby="listings" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <section aria-labelledby="listings" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-24">
           <EditorialSectionHeader eyebrow="Curated portfolio" title="Available listings" />
           <p className="text-muted-foreground mb-6">
             {loading
@@ -125,7 +125,7 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
           )}
         </section>
 
-        <section aria-labelledby="highlights" className="bg-ivory py-16 lg:py-24">
+        <section aria-labelledby="highlights" className="bg-ivory py-14 lg:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <EditorialSectionHeader eyebrow="Local intelligence" title="What to know before buying" />
           <div className="grid gap-6 md:grid-cols-3">
@@ -141,7 +141,7 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
           </div>
         </section>
 
-        <section aria-labelledby="faq" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <section aria-labelledby="faq" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-24">
           <EditorialSectionHeader eyebrow="Buyer guidance" title="Frequently asked questions" />
           <div className="grid gap-8 md:grid-cols-2">
             {config.faq.map((item) => (

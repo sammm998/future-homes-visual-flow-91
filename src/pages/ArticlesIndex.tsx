@@ -38,17 +38,17 @@ const ArticlesIndex = () => {
           secondaryTo={localizePath('/contact-us', lang)}
           compact
         />
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
           <EditorialSectionHeader eyebrow="Expert knowledge" title="Make every decision with confidence" description="Current market guidance, buying steps and destination inspiration from our international team." />
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
               <Skeleton key={i} className="aspect-[4/5] w-full rounded-lg" />
             ))}
           </div>
         ) : blogPosts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
             {blogPosts.map((post) => (
               <Link
                 key={post.id}
@@ -68,7 +68,7 @@ const ArticlesIndex = () => {
                       />
                     ) : null}
                   </div>
-                  <CardContent className="p-6">
+                  <CardContent className="p-5 sm:p-6">
                     <p className="mb-3 text-[11px] font-semibold uppercase text-gold-foreground">Property intelligence</p>
                     <h2 className="mb-3 text-xl font-semibold leading-snug text-foreground transition-colors group-hover:text-gold-foreground">
                       {post.title}

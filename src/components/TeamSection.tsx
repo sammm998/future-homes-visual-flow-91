@@ -67,15 +67,15 @@ const TeamSection = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-background to-secondary/20">
       <div className="container mx-auto px-4">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-10 text-center sm:mb-16">
           <div className="flex items-center justify-center gap-3 mb-6">
             <Users className="w-8 h-8 text-primary" />
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl md:text-5xl">
               {t('home.meet_team')} <span className="text-primary">{t('home.team')}</span>
             </h2>
           </div>
           <div className="w-20 h-1 bg-primary mx-auto mb-6" />
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">{t('home.meet_team_subtitle')}</p>
+          <p className="mx-auto max-w-3xl text-base text-muted-foreground sm:text-xl">{t('home.meet_team_subtitle')}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -95,10 +95,10 @@ const TeamSection = () => {
                   <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors notranslate" translate="no">{member.name}</h3>
                   <p className="text-primary font-medium mb-3 notranslate" translate="no">{member.position}</p>
                   {member.bio && <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{member.bio}</p>}
-                  <div className="flex justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    {member.linkedin_url && <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><Linkedin className="w-4 h-4" /></a>}
-                    {member.email && <a href={`mailto:${member.email}`} className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><Mail className="w-4 h-4" /></a>}
-                    {member.phone && <a href={`tel:${member.phone}`} className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><Phone className="w-4 h-4" /></a>}
+                  <div className="flex justify-center gap-3 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+                    {member.linkedin_url && <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 transition-all hover:bg-primary hover:text-primary-foreground"><Linkedin className="w-4 h-4" /></a>}
+                    {member.email && <a href={`mailto:${member.email}`} aria-label={`Email ${member.name}`} className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 transition-all hover:bg-primary hover:text-primary-foreground"><Mail className="w-4 h-4" /></a>}
+                    {member.phone && <a href={`tel:${member.phone}`} aria-label={`Call ${member.name}`} className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 transition-all hover:bg-primary hover:text-primary-foreground"><Phone className="w-4 h-4" /></a>}
                   </div>
                 </div>
               </div>

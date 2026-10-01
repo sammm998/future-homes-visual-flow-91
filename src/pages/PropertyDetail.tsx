@@ -558,7 +558,7 @@ const PropertyDetail = () => {
             </div>}
         </div>}
 
-      <div className="container mx-auto max-w-[1440px] px-4 pb-28 pt-24 lg:pb-20">
+      <div className="container mx-auto max-w-[1440px] px-4 pb-28 pt-6 sm:pt-10 lg:pb-20">
         {/* Back Button */}
         <Button variant="ghost" asChild className="mb-4">
           <a href={returnUrl}>
@@ -567,7 +567,7 @@ const PropertyDetail = () => {
           </a>
         </Button>
 
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           <PropertyHeroGallery
             images={property.images?.length ? property.images : [property.image].filter(Boolean)}
             alt={`${property.title} — ${property.propertyType || 'property'} in ${property.location || ''} (REF ${refLabel})`}
@@ -578,9 +578,9 @@ const PropertyDetail = () => {
 
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-12 lg:items-start">
           {/* Main Content */}
-          <div className="space-y-14 lg:col-span-8">
+          <div className="space-y-10 sm:space-y-14 lg:col-span-8">
             {/* Property Header */}
-            <header className="space-y-5 border-b border-border pb-10">
+            <header className="space-y-4 border-b border-border pb-8 sm:space-y-5 sm:pb-10">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center rounded-sm bg-navy px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-navy-foreground">
                   REF {property.refNo || property.id}
@@ -588,7 +588,7 @@ const PropertyDetail = () => {
                 {property.propertyType && <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">{property.propertyType}</span>}
               </div>
 
-              <h1 className="max-w-4xl text-4xl font-semibold leading-[1.08] text-navy md:text-6xl">
+              <h1 className="max-w-4xl text-3xl font-semibold leading-[1.1] text-navy sm:text-4xl md:text-6xl">
                 {property.title}
               </h1>
 
@@ -597,13 +597,13 @@ const PropertyDetail = () => {
                 <span className="text-lg">{property.location}</span>
               </div>
 
-              <div className="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                  <div className="text-3xl md:text-4xl font-bold text-primary">
+              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:flex sm:flex-wrap sm:justify-between sm:gap-4">
+                <div className="min-w-0">
+                  <div className="break-words text-2xl font-bold text-primary sm:text-3xl md:text-4xl">
                     {formatPriceFromString(property.price, formatPrice)}{Number(property.buyer_fee_percent) > 0 ? ` +${property.buyer_fee_percent}%` : ''}
                   </div>
                 </div>
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
                   <LiveViewers propertyId={property.refNo || property.id || ''} />
                   <ShareLinkButton refNo={property.refNo || property.ref_no} lang={lang} />
                 </div>
@@ -619,10 +619,10 @@ const PropertyDetail = () => {
                   { icon: Bath, label: t('bathrooms', language), value: property.bathrooms || '—' },
                   { icon: Square, label: t('area', language), value: property.area ? `${property.area} m²` : '—' },
                 ].map(({ icon: Icon, label, value }, i) => (
-                  <div key={i} className={`flex flex-col items-center gap-2 p-5 md:p-7 text-center ${i > 0 ? 'border-l border-navy-foreground/10' : ''}`}>
+                  <div key={i} className={`min-w-0 flex flex-col items-center gap-2 px-2 py-4 text-center sm:p-5 md:p-7 ${i > 0 ? 'border-l border-navy-foreground/10' : ''}`}>
                     <Icon className="h-6 w-6 text-gold" />
-                    <p className="text-xl md:text-2xl font-bold">{String(value).replace(/<>/g, ' – ')}</p>
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground md:text-xs notranslate" translate="no">{label}</p>
+                    <p className="max-w-full break-words text-lg font-bold sm:text-xl md:text-2xl">{String(value).replace(/<>/g, ' – ')}</p>
+                    <p className="max-w-full text-[9px] uppercase text-muted-foreground sm:text-[11px] sm:tracking-[0.18em] md:text-xs notranslate" translate="no">{label}</p>
                   </div>
                 ))}
               </div>
@@ -730,7 +730,7 @@ const PropertyDetail = () => {
                     {sections.map((section, sIdx) => (
                       <article
                         key={sIdx}
-                        className={`relative space-y-5 overflow-hidden rounded-lg border border-border bg-card p-6 shadow-sm md:p-8 ${!section.heading || sIdx === 0 ? 'md:col-span-2' : ''}`}
+                        className={`relative space-y-5 overflow-hidden rounded-lg border border-border bg-card p-5 shadow-sm sm:p-6 md:p-8 ${!section.heading || sIdx === 0 ? 'md:col-span-2' : ''}`}
                       >
                         <span className="absolute right-5 top-3 font-serif text-5xl text-gold/15" aria-hidden="true">{String(sIdx + 1).padStart(2, '0')}</span>
                         {section.heading && (

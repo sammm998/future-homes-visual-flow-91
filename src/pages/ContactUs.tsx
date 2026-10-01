@@ -98,7 +98,7 @@ const ContactUs = () => {
         </section>
       )}
 
-      <section className="bg-ivory py-16 lg:py-24">
+      <section className="bg-ivory py-14 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
             <div className="space-y-8">
@@ -108,7 +108,7 @@ const ContactUs = () => {
                 <p className="text-lg text-muted-foreground mb-8">{t('contact.help_text')}</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
                 <Card className="rounded-lg border-navy/10 bg-background shadow-sm transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
@@ -170,7 +170,7 @@ const ContactUs = () => {
               </div>
             </div>
 
-            <Card className="rounded-lg border-navy/10 bg-background shadow-[var(--shadow-luxe)]">
+            <Card className="min-w-0 rounded-lg border-navy/10 bg-background shadow-[var(--shadow-luxe)]">
               <CardHeader>
                 <p className="mb-2 text-xs font-semibold uppercase text-gold-foreground">Tell us what you need</p>
                 <CardTitle className="text-3xl font-semibold">{t('contact.send_message')}</CardTitle>

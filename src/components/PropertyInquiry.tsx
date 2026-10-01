@@ -48,7 +48,7 @@ export function PropertyInquiry({ refNo, title, lang, id = "enquire" }: Props) {
   };
 
   return (
-    <div id={id} className="scroll-mt-24 overflow-hidden rounded-lg border border-border bg-card p-6 shadow-[var(--shadow-luxe)] md:p-8">
+    <div id={id} className="scroll-mt-24 overflow-hidden rounded-lg border border-border bg-card p-5 shadow-[var(--shadow-luxe)] sm:p-6 md:p-8">
       <div className="mb-5 h-px w-12 bg-gold" />
       <h3 className="text-2xl font-semibold text-navy">{cc("ask_title", lang)}</h3>
       <p className="mt-1 text-sm text-muted-foreground">{cc("ask_sub", lang)}</p>
@@ -94,16 +94,16 @@ export function PropertyInquiry({ refNo, title, lang, id = "enquire" }: Props) {
 export function PropertyStickyCta({ refNo, title, lang, price }: { refNo: string; title: string; lang: string; price: string }) {
   const waText = `${cc("wa_msg", lang).replace("REF", `REF ${refNo}`)} — ${title}`;
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-3 pr-24 backdrop-blur lg:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-3 py-2.5 backdrop-blur lg:hidden">
       <div className="flex items-center gap-2">
         <div className="min-w-0 flex-1">
           <p className="truncate text-xs text-muted-foreground">REF {refNo}</p>
           <p className="truncate text-sm font-bold text-primary">{price}</p>
         </div>
-        <Button asChild size="sm" variant="outline">
+        <Button asChild size="sm" variant="outline" className="shrink-0 px-3">
           <a href="#enquire">{cc("get_info", lang)}</a>
         </Button>
-        <Button asChild size="sm" className="bg-whatsapp text-whatsapp-foreground hover:bg-whatsapp/90">
+        <Button asChild size="sm" className="shrink-0 bg-whatsapp text-whatsapp-foreground hover:bg-whatsapp/90">
           <a href={whatsappLink(waText)} target="_blank" rel="noopener noreferrer" aria-label={cc("whatsapp", lang)}>
             <FaWhatsapp className="h-4 w-4" aria-hidden="true" />
           </a>

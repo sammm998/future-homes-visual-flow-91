@@ -30,15 +30,15 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
       <header className="sticky top-0 z-50">
       {/* Fixed height so late-loading webfonts can never reflow the header
           (this was the main source of layout shift on mobile). */}
-      <div className="bg-brand-secondary text-white px-4 h-14 sm:h-10 flex items-center overflow-hidden">
-        <div className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs sm:text-sm">
-          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-2 sm:mb-0 text-center sm:text-left">
+      <div className="flex h-10 items-center overflow-hidden bg-brand-secondary px-4 text-primary-foreground">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-center text-xs sm:justify-between sm:text-sm">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-4">
             <a href="mailto:info@futurehomesinternational.com" className="inline-flex items-center gap-2 min-h-10 hover:text-brand-accent transition-colors">
-              <Mail size={14} />
-              <span className="text-xs sm:text-sm">info@futurehomesinternational.com</span>
+              <Mail size={14} className="shrink-0" />
+              <span className="truncate text-xs sm:text-sm">info@futurehomesinternational.com</span>
             </a>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="hidden items-center gap-1 sm:flex">
             <a href="https://www.instagram.com/futurehomesinternational/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Instagram size={16} aria-hidden="true" /></a>
             <a href="https://www.facebook.com/futurehomesturkey/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Facebook size={16} aria-hidden="true" /></a>
             <a href="https://www.linkedin.com/company/future-homes-1/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 min-w-11 min-h-11 inline-flex items-center justify-center hover:text-brand-accent transition-colors"><Linkedin size={16} aria-hidden="true" /></a>
@@ -50,20 +50,20 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => {
 
       <nav className={cn("bg-white shadow-xs border-b", className)}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
+          <div className="grid h-16 grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+            <div className="flex min-w-0 items-center">
               <Link to="/" aria-label="Future Homes International – hem" className="flex items-center gap-2">
                 <img
                   src="/future-homes-logo-new.webp"
                   alt="Future Homes International"
                   width={220}
                   height={130}
-                  className="h-10 sm:h-14 w-auto"
+                  className="h-9 w-auto sm:h-14"
                 />
               </Link>
             </div>
 
-            <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
               <SimpleLanguageSelector />
               <CurrencySelector />
               <button

@@ -41,11 +41,11 @@ export function HeroSearchStatic() {
     window.location.href = `${targetRoute}?${params.toString()}`;
   };
 
-  const selectClass = "h-14 w-full appearance-none rounded-md border-0 bg-transparent px-4 text-sm font-semibold text-foreground outline-none focus:ring-2 focus:ring-gold/40";
-  const inputClass = "h-14 w-full rounded-md border-0 bg-transparent px-4 text-sm font-semibold text-foreground outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-gold/40";
+  const selectClass = "h-12 w-full appearance-none rounded-md border-0 bg-transparent px-4 text-sm font-semibold text-foreground outline-none focus:ring-2 focus:ring-gold/40 sm:h-14";
+  const inputClass = "h-12 w-full rounded-md border-0 bg-transparent px-4 text-sm font-semibold text-foreground outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-gold/40 sm:h-14";
 
   return (
-    <div className="mx-auto max-w-6xl rounded-lg border border-border/70 bg-background p-3 shadow-[var(--shadow-luxe)]">
+    <div className="mx-auto max-w-6xl rounded-lg border border-border/70 bg-background p-2 shadow-[var(--shadow-luxe)] sm:p-3">
       <form onSubmit={handleSubmit} className="grid grid-cols-1 divide-y divide-border sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-6 lg:divide-x">
         <div className="lg:col-span-1">
           <label htmlFor="propertyType" className="sr-only">{t('search.property_type')}</label>
@@ -115,7 +115,7 @@ export function HeroSearchStatic() {
           <Button
             type="submit"
             aria-label={t('search.search')}
-            className="h-14 w-full bg-navy px-6 text-navy-foreground shadow-lg hover:bg-navy/90"
+            className="h-12 w-full bg-navy px-6 text-navy-foreground shadow-lg hover:bg-navy/90 sm:h-14"
           >
             <Search size={14} className="mr-1" aria-hidden="true" />
             {t('search.search')}
