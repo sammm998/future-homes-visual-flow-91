@@ -1,5 +1,6 @@
 import { useTranslation } from "@/hooks/useTranslation";
 import { Search, Filter } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function HeroSearchStatic() {
   const { t } = useTranslation();
@@ -40,12 +41,12 @@ export function HeroSearchStatic() {
     window.location.href = `${targetRoute}?${params.toString()}`;
   };
 
-  const selectClass = "h-10 sm:h-12 w-full bg-white border-0 text-black text-sm rounded-md px-3 appearance-none";
-  const inputClass = "h-10 sm:h-12 w-full bg-white border-0 text-black placeholder:text-gray-500 text-sm rounded-md px-3";
+  const selectClass = "h-12 w-full appearance-none rounded-md border border-navy-foreground/15 bg-background px-3 text-sm text-foreground outline-none focus:border-gold";
+  const inputClass = "h-12 w-full rounded-md border border-navy-foreground/15 bg-background px-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-gold";
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-3 sm:p-4 md:p-6 rounded-2xl max-w-5xl mx-auto">
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-4 sm:mb-6">
+    <div className="ml-0 max-w-6xl border border-navy-foreground/15 bg-background/95 p-3 shadow-[var(--shadow-luxe)] backdrop-blur-md sm:p-4">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <div className="lg:col-span-1">
           <label htmlFor="propertyType" className="sr-only">{t('search.property_type')}</label>
           <select id="propertyType" name="propertyType" aria-label={t('search.property_type')} className={selectClass} defaultValue="">
@@ -110,24 +111,25 @@ export function HeroSearchStatic() {
           </select>
         </div>
 
-        <div className="col-span-1 sm:col-span-2 lg:col-span-5 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-          <button
+        <div className="col-span-1 flex items-center gap-2 sm:col-span-2 lg:col-span-5">
+          <Button
             type="button"
             disabled
+            variant="outline"
             aria-label={t('search.advanced')}
-            className="w-full sm:w-auto inline-flex items-center justify-center min-h-10 px-4 text-xs rounded-md bg-white/20 border border-white/30 text-white/70 cursor-not-allowed"
+            className="h-11 flex-1 border-border bg-background text-xs text-muted-foreground sm:flex-none"
           >
             <Filter size={14} className="mr-1" aria-hidden="true" />
             {t('search.advanced')}
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
             aria-label={t('search.search')}
-            className="w-full sm:w-auto inline-flex items-center justify-center min-h-10 px-4 text-xs rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+            className="h-11 flex-1 bg-navy px-6 text-navy-foreground hover:bg-navy/90 sm:flex-none"
           >
             <Search size={14} className="mr-1" aria-hidden="true" />
             {t('search.search')}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

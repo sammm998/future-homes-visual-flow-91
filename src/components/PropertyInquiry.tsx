@@ -48,8 +48,9 @@ export function PropertyInquiry({ refNo, title, lang, id = "enquire" }: Props) {
   };
 
   return (
-    <div id={id} className="scroll-mt-24 rounded-2xl border border-primary/20 bg-card p-6 shadow-xl">
-      <h3 className="text-xl font-bold text-foreground">{cc("ask_title", lang)}</h3>
+    <div id={id} className="scroll-mt-24 overflow-hidden rounded-lg border border-border bg-card p-6 shadow-[var(--shadow-luxe)] md:p-8">
+      <div className="mb-5 h-px w-12 bg-gold" />
+      <h3 className="text-2xl font-semibold text-navy">{cc("ask_title", lang)}</h3>
       <p className="mt-1 text-sm text-muted-foreground">{cc("ask_sub", lang)}</p>
 
       <Button asChild size="lg" className="mt-5 w-full bg-whatsapp text-whatsapp-foreground hover:bg-whatsapp/90">
@@ -74,11 +75,11 @@ export function PropertyInquiry({ refNo, title, lang, id = "enquire" }: Props) {
         </div>
       ) : (
         <form onSubmit={submit} className="space-y-3">
-          <Input aria-label={cc("name", lang)} placeholder={cc("name", lang)} value={name} onChange={(e) => setName(e.target.value)} maxLength={120} />
-          <Input aria-label={cc("phone", lang)} placeholder={cc("phone", lang)} type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={50} required={!email} />
-          <Input aria-label={cc("email", lang)} placeholder={cc("email", lang)} type="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={255} />
-          <Textarea aria-label={cc("message_ph", lang)} placeholder={cc("message_ph", lang)} value={message} onChange={(e) => setMessage(e.target.value)} rows={3} maxLength={2000} />
-          <Button type="submit" size="lg" className="w-full" disabled={state === "sending"}>
+          <Input className="h-12 bg-muted/45 focus-visible:ring-gold" aria-label={cc("name", lang)} placeholder={cc("name", lang)} value={name} onChange={(e) => setName(e.target.value)} maxLength={120} />
+          <Input className="h-12 bg-muted/45 focus-visible:ring-gold" aria-label={cc("phone", lang)} placeholder={cc("phone", lang)} type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} maxLength={50} required={!email} />
+          <Input className="h-12 bg-muted/45 focus-visible:ring-gold" aria-label={cc("email", lang)} placeholder={cc("email", lang)} type="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={255} />
+          <Textarea className="bg-muted/45 focus-visible:ring-gold" aria-label={cc("message_ph", lang)} placeholder={cc("message_ph", lang)} value={message} onChange={(e) => setMessage(e.target.value)} rows={3} maxLength={2000} />
+          <Button type="submit" size="lg" className="w-full bg-navy text-navy-foreground hover:bg-navy/90" disabled={state === "sending"}>
             <Send className="mr-2 h-4 w-4" aria-hidden="true" />
             {state === "sending" ? cc("sending", lang) : cc("send", lang)}
           </Button>

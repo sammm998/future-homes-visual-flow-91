@@ -9,10 +9,10 @@ export const Route = createFileRoute("/$locale/")({
         rel: "preload",
         as: "image",
         href: "/lovable-uploads/hero-antalya-1200.webp",
-        imagesrcset:
+        imageSrcSet:
           "/lovable-uploads/hero-antalya-768.webp 768w, /lovable-uploads/hero-antalya-1200.webp 1200w",
-        imagesizes: "100vw",
-        fetchpriority: "high",
+        imageSizes: "100vw",
+        fetchPriority: "high",
       } as unknown as { rel: string; href: string },
     ],
   }),
