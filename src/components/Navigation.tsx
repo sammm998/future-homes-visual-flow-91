@@ -44,7 +44,7 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
               <img src={futureHomesLogo} alt="Future Homes International" width={1400} height={799} className="h-14 w-auto object-contain sm:h-16 lg:h-[4.5rem]" />
             </Link>
             <div className="flex h-full items-center gap-1 sm:gap-3">
-              <div className="hidden items-center gap-1 border-r border-navy/10 pr-3 sm:flex">
+              <div className="flex items-center gap-0.5 border-r border-navy/10 pr-1 sm:gap-1 sm:pr-3">
                 <SimpleLanguageSelector />
                 <CurrencySelector />
               </div>
