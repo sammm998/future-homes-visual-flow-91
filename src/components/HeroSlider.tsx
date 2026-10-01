@@ -15,7 +15,7 @@ const HeroSlider = () => {
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
   const activeIndex = useRef(0);
   const transitioning = useRef(false);
-  const cleanupTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cleanupTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
