@@ -12,7 +12,10 @@ export const Route = createFileRoute("/api/public/team-image-update")({
     handlers: {
       POST: async ({ request }) => {
         const token = process.env["MAINTENANCE_TOKEN"];
-        if (!token || request.headers.get("x-maintenance-token") !== token) {
+        if (!token) {
+          return Response.json({ error: "MAINTENANCE_TOKEN not configured in this environment" }, { status: 500 });
+        }
+        if (request.headers.get("x-maintenance-token") !== token) {
           return new Response("Unauthorized", { status: 401 });
         }
 
