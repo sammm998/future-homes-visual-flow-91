@@ -245,7 +245,7 @@ const IstanbulPropertySearch = () => {
       />
       <Navigation />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto w-full max-w-[1840px] px-4 py-8 sm:px-6 lg:px-8 lg:py-12 2xl:px-10">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">
             {t('city.properties_in')} Istanbul
@@ -263,8 +263,8 @@ const IstanbulPropertySearch = () => {
           </p>
         </div>
 
-        <div className="flex flex-col gap-10 lg:flex-row xl:gap-12">
-          <div className="hidden lg:block lg:w-72 lg:flex-shrink-0 xl:w-80">
+        <div className="flex flex-col gap-10 lg:flex-row lg:gap-8 xl:gap-10 2xl:gap-10">
+          <div className="hidden lg:block lg:w-64 lg:flex-shrink-0 xl:w-72 2xl:w-80">
             <PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch} horizontal={false} />
           </div>
 
@@ -340,7 +340,7 @@ const IstanbulPropertySearch = () => {
 
             {/* Desktop Layout */}
             <div className="hidden md:block">
-              <div className="mb-8 flex items-center justify-between">
+              <div className="mb-10 flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <span className="text-sm text-muted-foreground notranslate" translate="no">
                     {t('city.showing')} {filteredProperties.length} {t('city.of')} {istanbulProperties.length} {t('city.properties')}
@@ -348,7 +348,7 @@ const IstanbulPropertySearch = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] xl:gap-x-8 2xl:gap-x-10 xl:gap-y-14">
                 {paginatedProperties.map((property, propertyIndex) => (
                   <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                     <PropertyCard property={property} priority={propertyIndex < 6} />
