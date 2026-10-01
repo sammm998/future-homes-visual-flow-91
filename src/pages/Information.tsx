@@ -85,6 +85,8 @@ import crossBorderInvestmentTaxation from "@/assets/cross-border-investment-taxa
 import realEstateFundPerformanceAnalysis from "@/assets/real-estate-fund-performance-analysis.jpg";
 import distressedRealEstateInvestment from "@/assets/distressed-real-estate-investment.jpg";
 import realEstateTechnologyTransformation from "@/assets/real-estate-technology-transformation.jpg";
+import informationHero from "@/assets/luxury-property-investment.jpg";
+import { EditorialSectionHeader, PublicPageHero } from "@/components/PublicEditorial";
 
 const STORAGE_KEY = 'fh:lastInfoFilter';
 
@@ -418,16 +420,15 @@ const Information = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/10">
+      <div className="min-h-screen bg-ivory">
         <SEOHead title="Buyer Information & Guides | Future Homes International" description="Guides on buying property abroad: legal process, residency, citizenship, taxes and financing." />
 
         <Navigation />
-        <NavBar items={[]} onFilterChange={() => {}} activeFilter="" />
-        <div className="pt-20 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-8">{t('info.loading_articles')}</h1>
-            </div>
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="rounded-lg bg-navy px-8 py-20 text-center text-navy-foreground shadow-[var(--shadow-luxe)]">
+            <p className="mb-4 text-xs font-semibold uppercase text-gold">Future Homes Journal</p>
+            <h1 className="text-4xl font-semibold md:text-5xl">{t('info.loading_articles')}</h1>
+            <div className="mx-auto mt-8 h-1 w-24 overflow-hidden rounded-full bg-navy-foreground/20"><div className="h-full w-1/2 animate-pulse bg-gold" /></div>
           </div>
         </div>
       </div>
@@ -435,7 +436,7 @@ const Information = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/10">
+    <div className="min-h-screen bg-background">
       <SEOHead
         title="Property Investment Guide | Real Estate Information & Insights"
         description="Expert guides on property investment, Turkish citizenship, buying process, legal requirements, and real estate insights for Turkey, Dubai, Cyprus & more."
@@ -443,10 +444,9 @@ const Information = () => {
         canonicalUrl="https://futurehomesinternational.com/information"
       />
       <Navigation />
-      <NavBar items={[]} onFilterChange={() => {}} activeFilter="" />
-      
-      <div className="pt-20 pb-16">
-        <div className="container mx-auto px-4">
+      <PublicPageHero eyebrow={t('info.badge')} title={heroTitle || t('info.hero_title')} description={heroSubtitle || t('info.hero_subtitle')} image={informationHero} imageAlt="International property investment guide" primaryLabel={t('info.back_home')} primaryTo="/" compact />
+      <div className="pb-20 pt-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
           {/* Dynamic Content Sections */}
           {!contentLoading && contentSections.length > 0 && (
@@ -457,21 +457,10 @@ const Information = () => {
             </div>
           )}
 
-          {/* Hero Section - Database content with fallback */}
-          <div className="text-center mb-8">
-            <Badge className="mb-4">{t('info.badge')}</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              {heroTitle || t('info.hero_title')}
-            </h1>
-            <div className="max-w-4xl mx-auto">
-              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                {heroSubtitle || t('info.hero_subtitle')}
-              </p>
-            </div>
-          </div>
+          <EditorialSectionHeader eyebrow="Knowledge library" title="Explore expert guidance by topic" description="Navigate buying, legal, finance, lifestyle and destination insights in one curated library." />
 
           {/* Filter Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
+          <div className="mb-12 flex flex-wrap gap-3 border-b border-border pb-8">
             {filterItems.map((filter) => {
               const IconComponent = filter.icon;
               return (
@@ -479,7 +468,7 @@ const Information = () => {
                   key={filter.value}
                   onClick={() => setActiveFilter(filter.value)}
                   variant={activeFilter === filter.value ? "default" : "outline"}
-                  className="flex items-center gap-2"
+                  className={activeFilter === filter.value ? "flex items-center gap-2 bg-navy text-navy-foreground hover:bg-navy/90" : "flex items-center gap-2 border-navy/15 bg-background hover:border-gold hover:bg-ivory"}
                 >
                   <IconComponent className="w-4 h-4" />
                   {filter.name}
@@ -498,10 +487,10 @@ const Information = () => {
                 className="block"
               >
               <Card
-                className="group hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden h-full"
+                className="group h-full cursor-pointer overflow-hidden rounded-lg border-border/70 transition-all duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]"
               >
                 {/* Article Cover — AI-generated image if available, otherwise branded category design */}
-                <div className="relative h-48 w-full overflow-hidden">
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-navy">
                   {article.image && /^(https?:\/\/|\/)/.test(article.image) ? (
                     <img
                       src={article.image}
@@ -519,7 +508,8 @@ const Information = () => {
                 </div>
 
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-xl group-hover:text-primary transition-colors line-clamp-2">
+                  <p className="mb-3 text-[11px] font-semibold uppercase text-gold-foreground">{article.category}</p>
+                  <CardTitle className="line-clamp-2 text-xl leading-snug transition-colors group-hover:text-gold-foreground">
                     {article.title}
                   </CardTitle>
                 </CardHeader>
@@ -527,7 +517,7 @@ const Information = () => {
                   <p className="text-muted-foreground mb-6 leading-relaxed line-clamp-3">
                     {article.description}
                   </p>
-                  <span className="group/button inline-flex items-center p-0 h-auto font-semibold text-primary">
+                  <span className="group/button inline-flex h-auto items-center p-0 font-semibold text-gold-foreground">
                     {t('info.read_more')}
                     <ArrowRight size={16} className="ml-2 transition-transform group-hover/button:translate-x-1" />
                   </span>
