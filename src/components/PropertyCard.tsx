@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { MapPin, Bed, Bath, Maximize2 } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import { formatPriceFromString } from '@/utils/priceFormatting';
@@ -79,41 +78,41 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
     return defaultImage;
   };
 
-  const getStatusConfig = (status: string) => {
-    if (!status) return { variant: 'default' as const, text: t('card.status_available'), className: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25' };
+  const getStatusText = (status: string) => {
+    if (!status) return t('card.status_available');
     
     const normalizedStatus = status.toLowerCase().trim();
     
     if (normalizedStatus.includes('sold')) {
-      return { variant: 'default' as const, text: t('card.status_sold'), className: 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/25' };
+      return t('card.status_sold');
     }
     if (normalizedStatus.includes('under construction')) {
-      return { variant: 'default' as const, text: t('card.status_under_construction'), className: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25' };
+      return t('card.status_under_construction');
     }
     if (normalizedStatus.includes('ready to move')) {
-      return { variant: 'default' as const, text: t('card.status_ready'), className: 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25' };
+      return t('card.status_ready');
     }
     if (normalizedStatus.includes('for residence permit')) {
-      return { variant: 'default' as const, text: t('card.status_residence_permit'), className: 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-lg shadow-purple-500/25' };
+      return t('card.status_residence_permit');
     }
     if (normalizedStatus.includes('exclusive')) {
-      return { variant: 'default' as const, text: t('card.status_exclusive'), className: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-amber-500/25' };
+      return t('card.status_exclusive');
     }
     if (normalizedStatus.includes('sea view')) {
-      return { variant: 'default' as const, text: t('card.status_sea_view'), className: 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/25' };
+      return t('card.status_sea_view');
     }
     if (normalizedStatus.includes('private pool')) {
-      return { variant: 'default' as const, text: t('card.status_private_pool'), className: 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-lg shadow-teal-500/25' };
+      return t('card.status_private_pool');
     }
     if (normalizedStatus.includes('available')) {
-      return { variant: 'default' as const, text: t('card.status_available'), className: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25' };
+      return t('card.status_available');
     }
     
     const capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
-    return { variant: 'default' as const, text: capitalizedStatus, className: 'bg-gradient-to-r from-gray-500 to-slate-600 text-white shadow-lg shadow-gray-500/25' };
+    return capitalizedStatus;
   };
 
-  const statusConfig = getStatusConfig(property.status);
+  const statusText = getStatusText(property.status);
 
   return (
     <Link
@@ -121,9 +120,9 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       state={{ returnUrl }}
       className="block h-full"
     >
-      <article className="group relative w-full h-full bg-white overflow-hidden shadow-2xl transition-all duration-500 hover:-translate-y-1">
+      <article className="group relative h-full w-full overflow-hidden border border-border bg-card shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[var(--shadow-luxe)]">
         {/* Image Section */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-[#1e3a5f]">
+        <div className="relative aspect-[4/3] overflow-hidden bg-navy">
           <OptimizedPropertyImage
             src={getImageUrl() ?? ''}
             alt={property.title}
@@ -134,10 +133,9 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           {/* Status — sharp pill top-left */}
           <div className="absolute top-4 left-4">
             <span
-              className="px-3 py-1 bg-[#0f1b3d] text-white text-[10px] font-bold tracking-widest uppercase"
-              style={{ fontFamily: 'Urbanist, sans-serif' }}
+              className="bg-navy px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-navy-foreground"
             >
-              {statusConfig.text}
+              {statusText}
             </span>
           </div>
 
@@ -150,8 +148,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           {property.refNo && (
             <div className="absolute bottom-4 left-4">
               <span
-                className="px-2 py-0.5 bg-black/40 backdrop-blur-sm text-white text-[10px] rounded-sm"
-                style={{ fontFamily: 'Epilogue, sans-serif' }}
+                className="rounded-sm bg-navy/70 px-2 py-0.5 text-[10px] text-navy-foreground backdrop-blur-sm"
               >
                 REF #{property.refNo}
               </span>
@@ -163,17 +160,15 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
         <div className="p-6 space-y-4">
           <div className="space-y-1">
             <div className="flex items-center gap-1.5">
-              <MapPin className="w-3 h-3 text-[#3b6fa0]" strokeWidth={2.5} />
+              <MapPin className="h-3 w-3 text-gold" strokeWidth={2.5} />
               <span
-                className="text-[11px] font-bold tracking-[0.2em] text-[#3b6fa0] uppercase"
-                style={{ fontFamily: 'Epilogue, sans-serif' }}
+                className="text-[11px] font-bold uppercase tracking-[0.2em] text-gold-foreground"
               >
                 {(property as any).location_translated || property.location}
               </span>
             </div>
             <h3
-              className="text-2xl font-bold leading-tight text-[#0f1b3d] line-clamp-2 group-hover:text-[#1e3a5f] transition-colors"
-              style={{ fontFamily: 'Urbanist, sans-serif' }}
+              className="line-clamp-2 text-2xl font-semibold leading-tight text-navy transition-colors group-hover:text-gold-foreground"
             >
               {property.title}
             </h3>
@@ -183,16 +178,14 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           <div className="flex items-center justify-between border-y border-[#e8edf3] py-4">
             <div className="flex flex-col">
               <span
-                className="text-[10px] text-gray-400 uppercase tracking-tighter"
-                style={{ fontFamily: 'Epilogue, sans-serif' }}
+                className="text-[10px] uppercase tracking-normal text-muted-foreground"
               >
                 {t('card.price')}
               </span>
               <span
-                className="text-lg font-bold text-[#0f1b3d]"
-                style={{ fontFamily: 'Urbanist, sans-serif' }}
+                className="text-lg font-bold text-navy"
               >
-                <span className="text-xs font-medium mr-1 uppercase text-[#3b6fa0]">{t('card.from')}</span>
+                <span className="mr-1 text-xs font-medium uppercase text-gold-foreground">{t('card.from')}</span>
                  {formatPriceFromString(property.price || '0', formatPrice)}
                  {Number(property.buyer_fee_percent) > 0 && <span className="ml-1 text-xs">+{property.buyer_fee_percent}%</span>}
               </span>
@@ -200,28 +193,28 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
             <div className="flex gap-4">
               {property.bedrooms && (
                 <div className="flex flex-col items-center">
-                  <span className="text-sm font-bold text-[#1e3a5f]" style={{ fontFamily: 'Urbanist, sans-serif' }}>
+                  <span className="text-sm font-bold text-navy">
                     {property.bedrooms}
                   </span>
-                  <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
+                  <span className="text-[10px] uppercase text-muted-foreground">
                     {t('card.beds')}
                   </span>
                 </div>
               )}
               <div className="flex flex-col items-center border-l border-[#e8edf3] pl-4">
-                <span className="text-sm font-bold text-[#1e3a5f]" style={{ fontFamily: 'Urbanist, sans-serif' }}>
+                <span className="text-sm font-bold text-navy">
                   {property.bathrooms || '–'}
                 </span>
-                <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
+                <span className="text-[10px] uppercase text-muted-foreground">
                   {t('card.bath')}
                 </span>
               </div>
               {property.area && (
                 <div className="flex flex-col items-center border-l border-[#e8edf3] pl-4">
-                  <span className="text-sm font-bold text-[#1e3a5f]" style={{ fontFamily: 'Urbanist, sans-serif' }}>
+                  <span className="text-sm font-bold text-navy">
                     {property.area} <span className="text-[10px]">m²</span>
                   </span>
-                  <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
+                  <span className="text-[10px] uppercase text-muted-foreground">
                     {t('card.area')}
                   </span>
                 </div>
@@ -231,8 +224,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
 
           {/* CTA */}
           <div
-            className="w-full group/btn flex items-center justify-center gap-2 bg-[#0f1b3d] text-white py-3.5 font-bold text-xs uppercase tracking-widest transition-colors group-hover:bg-[#1e3a5f]"
-            style={{ fontFamily: 'Urbanist, sans-serif' }}
+            className="group/btn flex w-full items-center justify-center gap-2 bg-navy py-3.5 text-xs font-bold uppercase tracking-widest text-navy-foreground transition-colors group-hover:bg-gold group-hover:text-gold-foreground"
           >
             {t('card.view_property')}
             <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
