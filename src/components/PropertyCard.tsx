@@ -120,7 +120,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       state={{ returnUrl }}
       className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4"
     >
-      <article className="group relative h-[30rem] w-full overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] transition-all duration-700 hover:-translate-y-2 sm:h-[34rem] lg:h-[31rem] xl:h-[29rem] min-[1600px]:h-[27rem] min-[1800px]:h-[30rem]">
+      <article className="group relative h-[30rem] w-full overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] transition-all duration-700 hover:-translate-y-2 sm:h-[34rem] lg:h-[31rem] xl:h-[29rem] 2xl:h-[28rem] 3xl:h-[30rem]">
         <div className="absolute inset-0 overflow-hidden bg-navy">
           <OptimizedPropertyImage
             src={getImageUrl() ?? ''}
@@ -163,7 +163,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           )}
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 z-10 min-w-0 p-6 text-navy-foreground sm:p-7 lg:p-6 min-[1800px]:p-8">
+        <div className="absolute inset-x-0 bottom-0 z-10 min-w-0 p-6 text-navy-foreground sm:p-7 lg:p-6 3xl:p-8">
           <div className="min-w-0 space-y-4 transition-transform duration-700 group-hover:-translate-y-1">
             <div className="flex min-w-0 items-center gap-1.5">
               <MapPin className="h-3.5 w-3.5 shrink-0 text-gold" strokeWidth={2} />
@@ -174,13 +174,13 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
               </span>
             </div>
             <h3
-                className="line-clamp-2 min-h-[3.25rem] text-xl font-semibold leading-tight text-navy-foreground sm:text-2xl lg:text-xl min-[1800px]:text-2xl"
+                className="line-clamp-2 min-h-[3.25rem] text-xl font-semibold leading-tight text-navy-foreground sm:text-2xl lg:text-xl 3xl:text-2xl"
             >
               {property.title}
             </h3>
           </div>
 
-          <div className="mt-6 grid grid-cols-3 divide-x divide-navy-foreground/15 border-y border-navy-foreground/15 py-4 transition-transform duration-700 group-hover:-translate-y-1 min-[1800px]:mt-7 min-[1800px]:py-5">
+          <div className="mt-6 grid grid-cols-3 divide-x divide-navy-foreground/15 border-y border-navy-foreground/15 py-4 transition-transform duration-700 group-hover:-translate-y-1 3xl:mt-7 3xl:py-5">
             <div className="min-w-0 px-1 text-center first:pl-0 sm:px-2">
               <span className="block truncate text-[9px] font-bold uppercase text-navy-foreground/55">{t('card.beds')}</span>
               <span className="mt-1 block truncate text-base font-semibold text-navy-foreground">{property.bedrooms || '–'}</span>
@@ -195,17 +195,17 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 min-[1800px]:mt-7 min-[1800px]:gap-5">
+          <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 3xl:mt-7 3xl:gap-5">
             <div className="min-w-0">
               <span className="block text-[9px] font-bold uppercase text-navy-foreground/55">{t('card.price')}</span>
-              <span className="mt-1 block truncate text-lg font-bold text-navy-foreground sm:text-xl lg:text-lg min-[1800px]:text-xl">
+              <span className="mt-1 block truncate text-lg font-bold text-navy-foreground sm:text-xl lg:text-lg 3xl:text-xl">
                 <span className="mr-1 text-[9px] font-semibold uppercase text-gold">{t('card.from')}</span>
                 {formatPriceFromString(property.price || '0', formatPrice)}
                 {Number(property.buyer_fee_percent) > 0 && <span className="ml-1 text-[10px]">+{property.buyer_fee_percent}%</span>}
               </span>
             </div>
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center gap-2 bg-ivory px-0 text-[9px] font-extrabold uppercase text-navy transition-colors duration-300 group-hover:bg-gold min-[1800px]:h-12 min-[1800px]:w-auto min-[1800px]:px-5">
-              <span className="hidden min-[1800px]:inline">{t('card.view_property')}</span>
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center gap-2 bg-ivory px-0 text-[9px] font-extrabold uppercase text-navy transition-colors duration-300 group-hover:bg-gold 3xl:h-12 3xl:w-auto 3xl:px-5">
+              <span className="hidden 3xl:inline">{t('card.view_property')}</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </span>
           </div>
