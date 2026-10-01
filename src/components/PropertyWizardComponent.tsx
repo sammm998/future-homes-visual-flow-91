@@ -200,25 +200,17 @@ const PropertyWizardComponent = () => {
   const getStepProgress = () => (currentStep / totalSteps) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background py-12 px-4">
+    <div className="bg-ivory px-4 py-14 lg:py-20">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            {t('wizard.find_perfect')}
-          </h1>
-          <p className="text-xl text-muted-foreground mb-8">
-            {t('wizard.help_discover')}
-          </p>
-          
+        <div className="mb-10 rounded-lg border border-navy/10 bg-card p-5 shadow-[var(--shadow-luxe)] sm:p-7">
           <div className="w-full max-w-md mx-auto mb-8">
             <div className="flex justify-between text-sm text-muted-foreground mb-2">
               <span>{t('wizard.step')} {currentStep} {t('wizard.of')} {totalSteps}</span>
               <span>{Math.round(getStepProgress())}% {t('wizard.complete')}</span>
             </div>
-            <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
               <div
-                className="bg-gradient-to-r from-primary to-primary-glow h-2 rounded-full transition-all duration-500"
+                className="h-1.5 rounded-full bg-gold transition-all duration-500"
                 style={{ width: `${(currentStep / totalSteps) * 100}%` }}
               ></div>
             </div>
@@ -238,7 +230,7 @@ const PropertyWizardComponent = () => {
 
             {currentStep === 5 ? (
               <div className="max-w-2xl mx-auto">
-                <Card className="p-8 bg-gradient-to-r from-primary/5 to-primary-glow/5 border-primary/20">
+                <Card className="rounded-lg border-navy/10 bg-card p-8 shadow-[var(--shadow-luxe)]">
                   <CardContent className="p-0">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-4">
@@ -316,24 +308,22 @@ const PropertyWizardComponent = () => {
                   return (
                     <div key={option.id} className="relative group">
                       <Card
-                        className={`cursor-pointer transition-all duration-300 overflow-hidden border-2 ${
+                        className={`h-full cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ${
                           isSelected 
-                            ? 'border-primary bg-primary/5 shadow-glow' 
-                            : 'border-border hover:border-primary/50 hover:shadow-elegant'
+                            ? 'border-gold bg-gold/10 shadow-[var(--shadow-luxe)]' 
+                            : 'border-navy/10 bg-card hover:-translate-y-1 hover:border-gold/50 hover:shadow-[var(--shadow-luxe)]'
                         }`}
                         onClick={() => handleOptionSelect(option.id)}
                       >
                         <CardContent className="p-6 relative">
-                          <div className={`absolute inset-0 bg-gradient-to-br ${option.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
-                          
                           <div className="relative z-10">
                             <div className="flex items-center justify-between mb-4">
-                              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${option.color} flex items-center justify-center text-white shadow-lg`}>
+                              <div className="flex h-12 w-12 items-center justify-center rounded-md bg-navy text-navy-foreground shadow-sm">
                                 {option.icon}
                               </div>
                               {isSelected && (
-                                <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
-                                  <Check className="w-4 h-4 text-white" />
+                                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gold">
+                                  <Check className="h-4 w-4 text-gold-foreground" />
                                 </div>
                               )}
                             </div>
@@ -360,7 +350,7 @@ const PropertyWizardComponent = () => {
             onClick={prevStep}
             variant="outline"
             disabled={currentStep === 1}
-            className="px-6 py-3 rounded-xl border-2 border-primary/20 hover:border-primary/40 disabled:opacity-50"
+            className="rounded-md border-navy/20 px-6 py-3 hover:border-gold disabled:opacity-50"
           >
             <ArrowLeft className="mr-2 w-4 h-4" />
             {t('wizard.previous')}
@@ -384,7 +374,7 @@ const PropertyWizardComponent = () => {
           <Button
             onClick={nextStep}
             disabled={!isStepValid() || isSubmitting}
-            className="bg-gradient-to-r from-primary to-primary-glow hover:from-primary-glow hover:to-primary text-white font-semibold px-6 py-3 rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl disabled:opacity-50 disabled:hover:scale-100"
+            className="rounded-md bg-navy px-6 py-3 font-semibold text-navy-foreground shadow-lg transition-all duration-200 hover:bg-navy/90 hover:shadow-xl disabled:opacity-50"
           >
             {isSubmitting ? (
               <>

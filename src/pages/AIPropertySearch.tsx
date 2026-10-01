@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
 import emmaAvatar from '@/assets/emma-ai-assistant.webp';
+import easyFindHero from '@/assets/hero-modern-estate.jpg';
 import { buildLangParam, getCurrentLanguage, getTranslatedPropertyPath } from '@/utils/slugHelpers';
 
 interface PropertyLink {
@@ -190,7 +191,7 @@ const AIPropertySearch = () => {
   };
 
   return (
-    <div dir="ltr" className="h-screen flex bg-white text-gray-900 overflow-hidden">
+    <div dir="ltr" className="h-screen flex overflow-hidden bg-ivory text-foreground">
       <SEOHead
         title="AI Property Search | Future Homes International"
         description="Chat with Emma, your personal AI assistant trained on 180+ properties and our complete property guides."
@@ -199,12 +200,12 @@ const AIPropertySearch = () => {
       />
 
       {/* Main */}
-      <main className="flex-1 flex flex-col min-w-0 bg-white">
+      <main className="flex min-w-0 flex-1 flex-col bg-ivory">
         {/* Top bar */}
-        <header className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+        <header className="flex items-center justify-between border-b border-navy/10 bg-background/95 px-4 py-3 backdrop-blur-md sm:px-8">
           <Link to={`/${langParam}`} className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-md bg-[#0a2540] flex items-center justify-center">
-              <Building2 className="h-4 w-4 text-white" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-navy">
+              <Building2 className="h-4 w-4 text-navy-foreground" />
             </div>
             <span className="font-semibold text-sm tracking-tight">Future Homes AI</span>
           </Link>
@@ -212,14 +213,14 @@ const AIPropertySearch = () => {
             <select
               value={lang ?? 'en'}
               onChange={(e) => handleLanguageChange(e.target.value)}
-              className="text-xs text-gray-600 bg-transparent border border-gray-200 rounded-md px-2 py-1 focus:outline-hidden focus:border-gray-400"
+              className="rounded-md border border-border bg-background px-3 py-2 text-xs text-foreground focus:border-gold focus:outline-hidden"
               aria-label="Language"
             >
               {LANGUAGES.map(l => (
                 <option key={l.code} value={l.code}>{l.label}</option>
               ))}
             </select>
-            <Link to={`/${langParam}`} className="text-xs text-gray-500 hover:text-gray-700 hidden sm:inline">
+            <Link to={`/${langParam}`} className="hidden text-xs text-muted-foreground transition-colors hover:text-gold-foreground sm:inline">
               futurehomesinternational.com
             </Link>
           </div>
@@ -229,18 +230,30 @@ const AIPropertySearch = () => {
         <div ref={scrollRef} className="flex-1 overflow-y-auto">
           {messages.length === 0 ? (
             // ============ Welcome screen (Emma) ============
-            <div className="min-h-full flex flex-col items-center justify-center px-4 py-10 max-w-3xl mx-auto w-full">
-              <div className="relative mb-6">
-                <div className="h-32 w-32 rounded-full overflow-hidden ring-4 ring-white shadow-xl">
+            <div className="mx-auto grid min-h-full w-full max-w-7xl items-center gap-10 px-4 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+              <div className="relative hidden min-h-[650px] overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] lg:block">
+                <img src={easyFindHero} alt="Luxury international residence selected by Future Homes" className="absolute inset-0 h-full w-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/35 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-10 text-navy-foreground">
+                  <p className="mb-3 text-xs font-semibold uppercase text-gold">Future Homes private search</p>
+                  <h2 className="text-4xl font-semibold leading-tight">One conversation. A world of carefully selected homes.</h2>
+                  <p className="mt-4 max-w-lg text-sm leading-relaxed text-navy-foreground/75">Share your preferred destination, lifestyle and budget. Emma will guide your search and connect you with our local advisors.</p>
+                </div>
+              </div>
+              <div className="flex w-full flex-col items-center px-1 py-6 sm:px-6">
+              <div className="relative mb-5">
+                <div className="h-24 w-24 overflow-hidden rounded-full ring-4 ring-background shadow-xl sm:h-28 sm:w-28">
                   <img src={emmaAvatar} alt="Emma — your AI property assistant" className="w-full h-full object-cover" />
                 </div>
                 <span className="absolute bottom-2 right-2 h-4 w-4 rounded-full bg-emerald-500 ring-2 ring-white" />
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
+              <p className="mb-3 text-xs font-semibold uppercase text-gold-foreground">Easy Find · Personal concierge</p>
+              <h1 className="mb-3 text-center text-3xl font-semibold leading-tight text-foreground md:text-5xl">
                 Find your dream home with Emma
               </h1>
+              <p className="mb-8 max-w-xl text-center text-sm leading-relaxed text-muted-foreground sm:text-base">Ask naturally in your language. Explore locations, compare investments or request a tailored property shortlist.</p>
               <div className="w-full max-w-2xl mb-8">
-                <SEOInternalLinks heading="Browse property by destination" className="border-t-0 mt-0 pt-0" />
+                <SEOInternalLinks heading="Browse property by destination" className="mt-0 border-t border-navy/10 pt-6" />
               </div>
 
               {/* Mode pills */}
@@ -249,8 +262,8 @@ const AIPropertySearch = () => {
                   onClick={() => setReadMode('write')}
                   className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
                     readMode === 'write'
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-navy text-navy-foreground shadow-md'
+                      : 'bg-background text-muted-foreground hover:bg-muted'
                   }`}
                 >
                   <PenLine className="h-4 w-4" /> Write
@@ -259,8 +272,8 @@ const AIPropertySearch = () => {
                   onClick={() => setReadMode('speak')}
                   className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
                     readMode === 'speak'
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-navy text-navy-foreground shadow-md'
+                      : 'bg-background text-muted-foreground hover:bg-muted'
                   }`}
                 >
                   <Volume2 className="h-4 w-4" /> Speak
@@ -269,8 +282,8 @@ const AIPropertySearch = () => {
                   onClick={() => setReadMode('muted')}
                   className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
                     readMode === 'muted'
-                      ? 'bg-gray-700 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                      ? 'bg-navy text-navy-foreground shadow-md'
+                      : 'bg-background text-muted-foreground hover:bg-muted'
                   }`}
                 >
                   <VolumeX className="h-4 w-4" /> Muted
@@ -279,7 +292,7 @@ const AIPropertySearch = () => {
 
               {/* Input */}
               <form onSubmit={handleSubmit} className="w-full max-w-2xl mb-3">
-                <div className="relative flex items-center gap-2 bg-white border border-gray-200 rounded-full pl-3 pr-2 py-2 shadow-xs focus-within:border-gray-300 focus-within:shadow-md transition-all">
+                <div className="relative flex items-center gap-2 rounded-xl border border-navy/10 bg-background py-2 pl-3 pr-2 shadow-[var(--shadow-luxe)] transition-all focus-within:border-gold">
                   <button type="button" aria-label="Voice input" className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
                     <Plus className="h-5 w-5" />
                   </button>
@@ -302,7 +315,7 @@ const AIPropertySearch = () => {
                     size="icon"
                     aria-label="Send message"
                     disabled={!inputValue.trim() || isLoading}
-                    className="h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white disabled:bg-blue-300 flex-shrink-0"
+                    className="h-9 w-9 flex-shrink-0 rounded-md bg-gold text-gold-foreground hover:bg-gold/90 disabled:bg-muted"
                   >
                     <ArrowUp className="h-4 w-4" />
                   </Button>
@@ -310,13 +323,13 @@ const AIPropertySearch = () => {
               </form>
 
               {/* Suggested actions */}
-              <div className="w-full max-w-2xl rounded-2xl border border-gray-200 bg-white shadow-xs overflow-hidden">
+              <div className="w-full max-w-2xl overflow-hidden rounded-lg border border-navy/10 bg-background shadow-sm">
                 {SUGGESTED_PROMPTS.map((prompt, i) => (
                   <button
                     key={i}
                     onClick={() => sendMessage(prompt.text)}
-                    className={`w-full flex items-center gap-3 px-4 py-3.5 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors ${
-                      i < SUGGESTED_PROMPTS.length - 1 ? 'border-b border-gray-100' : ''
+                    className={`flex w-full items-center gap-3 px-4 py-3.5 text-left text-sm text-foreground transition-colors hover:bg-ivory ${
+                      i < SUGGESTED_PROMPTS.length - 1 ? 'border-b border-border' : ''
                     }`}
                   >
                     <prompt.icon className="h-4 w-4 text-gray-400 flex-shrink-0" />
@@ -328,6 +341,7 @@ const AIPropertySearch = () => {
               <p className="text-xs text-gray-400 mt-6 text-center">
                 Emma can make mistakes. Verify important details with our team.
               </p>
+              </div>
             </div>
           ) : (
             // ============ Chat thread ============
