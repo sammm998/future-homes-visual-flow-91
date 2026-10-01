@@ -27,6 +27,8 @@ import {
 import { preloadImages, forceImageLoading } from '@/utils/imagePreloader';
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
+import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
+import mersinHero from '@/assets/destinations/mersin-cinematic.jpg';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const MersinPropertySearch = () => {
@@ -371,11 +373,11 @@ const MersinPropertySearch = () => {
       
       <div className="mx-auto w-full max-w-[1840px] px-4 py-8 sm:px-6 lg:px-8 lg:py-12 2xl:px-10">
         {/* Header */}
-        <div className="mb-6">
-          <h2 className="text-3xl font-bold text-foreground mb-2">
-            {t('city.properties_in')} Mersin
-          </h2>
-          <p className="text-muted-foreground">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-0">
+            <EditorialSectionHeader eyebrow="Curated residences" title={`${t('city.properties_in')} Mersin`} />
+          </div>
+          <p className="text-sm text-muted-foreground mt-4">
             {filteredProperties.length} {t('city.found')}
           </p>
         </div>
