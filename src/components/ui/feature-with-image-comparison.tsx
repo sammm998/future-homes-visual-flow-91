@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
-import { Box, Hand, Maximize2, Rotate3D } from "lucide-react";
+import { Box, DoorOpen, Hand, Maximize2, Rotate3D, Undo2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -7,9 +7,9 @@ import { InteractivePropertyModel } from "@/components/InteractivePropertyModel"
 
 type ViewMode = "blueprint" | "finished";
 
-const labels: Record<string, { studio: string; blueprint: string; finished: string; hint: string; interactive: string; room: string; area: string }> = {
-  en: { studio: "Future Homes Design Studio", blueprint: "3D blueprint", finished: "Finished home", hint: "Drag to rotate · Scroll to zoom", interactive: "Interactive model", room: "2 bedroom residence", area: "118 m²" },
-  sv: { studio: "Future Homes Designstudio", blueprint: "3D-ritning", finished: "Färdigt hem", hint: "Dra för att rotera · Scrolla för att zooma", interactive: "Interaktiv modell", room: "Bostad med 2 sovrum", area: "118 m²" },
+const labels: Record<string, { studio: string; blueprint: string; finished: string; hint: string; interactive: string; room: string; area: string; enter: string; exit: string }> = {
+  en: { studio: "Future Homes Design Studio", blueprint: "3D blueprint", finished: "Finished home", hint: "Drag to look around · Scroll to move closer", interactive: "Interactive model", room: "2 bedroom residence", area: "118 m²", enter: "Enter the home", exit: "Exit interior" },
+  sv: { studio: "Future Homes Designstudio", blueprint: "3D-ritning", finished: "Färdigt hem", hint: "Dra för att se dig omkring · Scrolla för att gå närmare", interactive: "Interaktiv modell", room: "Bostad med 2 sovrum", area: "118 m²", enter: "Gå in i bostaden", exit: "Lämna interiören" },
   no: { studio: "Future Homes Designstudio", blueprint: "3D-tegning", finished: "Ferdig bolig", hint: "Dra for å rotere · Rull for å zoome", interactive: "Interaktiv modell", room: "Bolig med 2 soverom", area: "118 m²" },
   da: { studio: "Future Homes Designstudio", blueprint: "3D-tegning", finished: "Færdigt hjem", hint: "Træk for at rotere · Rul for at zoome", interactive: "Interaktiv model", room: "Bolig med 2 soveværelser", area: "118 m²" },
   tr: { studio: "Future Homes Tasarım Stüdyosu", blueprint: "3D plan", finished: "Tamamlanmış ev", hint: "Döndürmek için sürükleyin · Yakınlaştırmak için kaydırın", interactive: "Etkileşimli model", room: "2 yatak odalı konut", area: "118 m²" },
@@ -26,6 +26,7 @@ const labels: Record<string, { studio: string; blueprint: string; finished: stri
 function Feature() {
   const { t, lang } = useTranslation();
   const [mode, setMode] = useState<ViewMode>("finished");
+  const [immersive, setImmersive] = useState(false);
   const [mounted, setMounted] = useState(false);
   const copy = labels[lang] ?? labels.en;
 
@@ -61,7 +62,7 @@ function Feature() {
             <div className="relative aspect-[4/5] min-h-[31rem] overflow-hidden rounded-lg border border-navy-foreground/10 bg-navy shadow-[var(--shadow-luxe)] sm:aspect-[16/11]">
               {mounted ? (
                 <Suspense fallback={<div className="grid h-full place-items-center text-sm text-navy-foreground/60">{copy.interactive}</div>}>
-                  <InteractivePropertyModel mode={mode} />
+                  <InteractivePropertyModel mode={mode} immersive={immersive} />
                 </Suspense>
               ) : (
                 <div className="h-full bg-navy" />
@@ -78,12 +79,21 @@ function Feature() {
               </div>
 
               <div className="absolute inset-x-4 bottom-4 sm:inset-x-6 sm:bottom-6">
+                {mode === "finished" && (
+                  <Button
+                    type="button"
+                    className="mx-auto mb-3 flex bg-gold text-gold-foreground shadow-lg hover:bg-gold/90"
+                    onClick={() => setImmersive((current) => !current)}
+                  >
+                    {immersive ? <Undo2 /> : <DoorOpen />} {immersive ? copy.exit : copy.enter}
+                  </Button>
+                )}
                 <div className="grid grid-cols-2 rounded-md border border-navy-foreground/15 bg-navy/75 p-1 backdrop-blur-md">
                   <Button
                     type="button"
                     variant={mode === "blueprint" ? "default" : "ghost"}
                     className={mode === "blueprint" ? "bg-gold text-gold-foreground hover:bg-gold/90" : "text-navy-foreground hover:bg-navy-foreground/10 hover:text-navy-foreground"}
-                    onClick={() => setMode("blueprint")}
+                    onClick={() => { setMode("blueprint"); setImmersive(false); }}
                   >
                     <Box /> {copy.blueprint}
                   </Button>
