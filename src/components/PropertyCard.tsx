@@ -120,7 +120,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       state={{ returnUrl }}
       className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4"
     >
-      <article className="group relative aspect-[4/5] min-h-[28rem] w-full overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] transition-all duration-700 hover:-translate-y-1 sm:aspect-[10/14] sm:min-h-[32rem]">
+      <article className="group relative aspect-[4/5] min-h-[30rem] w-full overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] transition-all duration-700 hover:-translate-y-2 sm:min-h-[36rem] xl:min-h-[39rem]">
         <div className="absolute inset-0 overflow-hidden bg-navy">
           <OptimizedPropertyImage
             src={getImageUrl() ?? ''}
@@ -132,7 +132,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/35 to-navy/5 transition-opacity duration-700 group-hover:opacity-95" />
           <div className="absolute inset-0 border border-navy-foreground/15 transition-colors duration-500 group-hover:border-gold/40" />
 
-          <div className="absolute left-5 top-5 max-w-[55%] sm:left-6 sm:top-6">
+          <div className="absolute left-5 top-5 max-w-[52%] sm:left-7 sm:top-7">
             <span
               className="inline-flex max-w-full items-center gap-2 rounded-full border border-navy-foreground/20 bg-navy/45 px-3 py-2 text-[9px] font-bold uppercase text-navy-foreground backdrop-blur-md"
             >
@@ -147,13 +147,13 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           </div>
 
           {/* Live viewing badge — top-right */}
-          <div className="absolute right-5 top-5 transition-opacity duration-300 group-hover:opacity-90 sm:right-6 sm:top-6">
+          <div className="absolute right-5 top-5 transition-opacity duration-300 group-hover:opacity-90 sm:right-7 sm:top-7">
             <LiveViewers propertyId={String(property.id)} compact />
           </div>
 
           {/* REF Chip — bottom-left */}
           {property.refNo && (
-            <div className="absolute right-5 top-16 sm:right-6 sm:top-[4.75rem]">
+            <div className="absolute right-5 top-16 sm:right-7 sm:top-[5rem]">
               <span
                 className="rounded-sm bg-navy/55 px-2 py-1 text-[9px] font-semibold text-navy-foreground/80 backdrop-blur-sm"
               >
@@ -163,8 +163,8 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           )}
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 z-10 min-w-0 p-5 text-navy-foreground sm:p-7">
-          <div className="min-w-0 space-y-3 transition-transform duration-700 group-hover:-translate-y-1">
+        <div className="absolute inset-x-0 bottom-0 z-10 min-w-0 p-6 text-navy-foreground sm:p-9">
+          <div className="min-w-0 space-y-4 transition-transform duration-700 group-hover:-translate-y-1">
             <div className="flex min-w-0 items-center gap-1.5">
               <MapPin className="h-3.5 w-3.5 shrink-0 text-gold" strokeWidth={2} />
               <span
@@ -174,13 +174,13 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
               </span>
             </div>
             <h3
-                className="line-clamp-2 min-h-[3.5rem] text-2xl font-semibold leading-tight text-navy-foreground sm:text-[1.7rem]"
+                className="line-clamp-2 min-h-[4rem] text-2xl font-semibold leading-tight text-navy-foreground sm:text-3xl"
             >
               {property.title}
             </h3>
           </div>
 
-          <div className="mt-5 grid grid-cols-3 divide-x divide-navy-foreground/15 border-y border-navy-foreground/15 py-4 transition-transform duration-700 group-hover:-translate-y-1">
+          <div className="mt-7 grid grid-cols-3 divide-x divide-navy-foreground/15 border-y border-navy-foreground/15 py-5 transition-transform duration-700 group-hover:-translate-y-1">
             <div className="min-w-0 px-1 text-center first:pl-0 sm:px-2">
               <span className="block truncate text-[9px] font-bold uppercase text-navy-foreground/55">{t('card.beds')}</span>
               <span className="mt-1 block truncate text-base font-semibold text-navy-foreground">{property.bedrooms || '–'}</span>
@@ -195,17 +195,17 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
             </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
+          <div className="mt-7 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-5">
             <div className="min-w-0">
               <span className="block text-[9px] font-bold uppercase text-navy-foreground/55">{t('card.price')}</span>
-              <span className="mt-1 block truncate text-xl font-bold text-navy-foreground">
+              <span className="mt-1 block truncate text-xl font-bold text-navy-foreground sm:text-2xl">
                 <span className="mr-1 text-[9px] font-semibold uppercase text-gold">{t('card.from')}</span>
                 {formatPriceFromString(property.price || '0', formatPrice)}
                 {Number(property.buyer_fee_percent) > 0 && <span className="ml-1 text-[10px]">+{property.buyer_fee_percent}%</span>}
               </span>
             </div>
-            <span className="flex h-11 shrink-0 items-center gap-2 bg-ivory px-4 text-[9px] font-extrabold uppercase text-navy transition-colors duration-300 group-hover:bg-gold">
-              <span className="hidden xl:inline">{t('card.view_property')}</span>
+            <span className="flex h-12 shrink-0 items-center gap-2 bg-ivory px-5 text-[9px] font-extrabold uppercase text-navy transition-colors duration-300 group-hover:bg-gold">
+              <span className="hidden sm:inline">{t('card.view_property')}</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </span>
           </div>

@@ -7,3 +7,4 @@
 - [x] Modernisera Easy Find i samma exklusiva stil som startsidan.
 - [x] Modernisera övriga publika informations-, kontakt-, artikel- och bostadslistningssidor.
 - [x] Säkerställ en sammanhållen upplevelse på alla språk, dator och mobil.
+- [x] Lufta upp bostadslistningarna med rymligare filter och större tvåkolumnskort.
