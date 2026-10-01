@@ -2,6 +2,7 @@ import { Building2, Film, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/hooks/useTranslation";
 import apartmentTransformation from "@/assets/apartment-blueprint-to-finished.mp4.asset.json";
+import apartmentPoster from "@/assets/apartment-video-poster.jpg.asset.json";
 
 const labels: Record<string, { studio: string; blueprint: string; finished: string; hint: string; interactive: string; room: string; area: string; enter: string; exit: string }> = {
   en: { studio: "Future Homes Design Studio", blueprint: "3D blueprint", finished: "Finished home", hint: "Drag to look around · Scroll to move closer", interactive: "Interactive model", room: "2 bedroom residence", area: "118 m²", enter: "Enter the home", exit: "Exit interior" },
@@ -54,6 +55,7 @@ function Feature() {
               <video
                 className="h-full w-full object-cover"
                 src={apartmentTransformation.url}
+                poster={apartmentPoster.url}
                 autoPlay
                 muted
                 loop
