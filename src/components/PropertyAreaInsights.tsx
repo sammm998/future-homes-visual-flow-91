@@ -1,12 +1,12 @@
-import { useMemo, useState } from "react";
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useMemo } from "react";
+import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { MapPin } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import { useProperties } from "@/hooks/useProperties";
 
 const L: Record<string, Record<string, string>> = {
-  en: { trend: "Price development in", sub: "Average asking price per m², last:", m: "mo", this: "asking price", avg: "Area average", diff: "vs area average", none: "Not enough listings for this period yet.", src: "Based on Future Homes listings in the area.", similar: "Similar homes in", map: "Map & location", open: "Open in Google Maps" },
-  sv: { trend: "Prisutveckling i", sub: "Genomsnittligt utgångspris per m², senaste:", m: "mån", this: "utgångspris", avg: "Snitt i området", diff: "jämfört med områdets snitt", none: "Inte tillräckligt många bostäder för perioden ännu.", src: "Baserat på Future Homes bostäder i området.", similar: "Liknande bostäder i", map: "Karta & läge", open: "Öppna i Google Maps" },
+  en: { trend: "Price per m² in", sub: "Median asking price per m² by district — today's available units", this: "price per m²", avg: "Median in", diff: "vs median", units: "units", none: "Not enough priced units in this area yet.", src: "Calculated from the price and size of every available unit in our listings in", src2: "Asking prices, not completed sales. Updated automatically when listings change.", similar: "Similar homes in", map: "Map & location", open: "Open in Google Maps", this_d: "This home's district" },
+  sv: { trend: "Pris per m² i", sub: "Medianpris per m² per område — dagens tillgängliga bostäder", this: "pris per m²", avg: "Median i", diff: "jämfört med medianen", units: "bostäder", none: "Inte tillräckligt många prissatta bostäder i området ännu.", src: "Beräknat från pris och storlek på varje tillgänglig bostad i våra annonser i", src2: "Utgångspriser, inte slutpriser. Uppdateras automatiskt när annonserna ändras.", similar: "Liknande bostäder i", map: "Karta & läge", open: "Öppna i Google Maps", this_d: "Den här bostadens område" },
 };
 
 const num = (v: unknown) => {
@@ -15,6 +15,34 @@ const num = (v: unknown) => {
 };
 const cityOf = (loc?: string | null) => (loc || "").split(",")[0].trim().toLowerCase();
 const fmt = (n: number) => `€${Math.round(n).toLocaleString("en-US")}`;
+const median = (a: number[]) => {
+  if (!a.length) return 0;
+  const s = [...a].sort((x, y) => x - y);
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+};
+
+/** Real €/m² per unit: each apartment type's own price ÷ its own size. Listings
+ * with a single size fall back to price ÷ size. Ranged sizes without unit data
+ * are skipped, because "from" price ÷ smallest size is not reliable. */
+export const unitPricesPerM2 = (p: any): number[] => {
+  let types = p?.apartment_types;
+  if (typeof types === "string") {
+    try { types = JSON.parse(types.replace(/'/g, '"')); } catch { types = null; }
+  }
+  const out: number[] = [];
+  if (Array.isArray(types)) {
+    for (const t of types) {
+      const price = num(t?.price), size = num(t?.size);
+      if (price > 0 && size > 0) out.push(price / size);
+    }
+  }
+  if (!out.length && !String(p?.sizes_m2 ?? "").includes("<>")) {
+    const price = num(p?.price), size = num(p?.sizes_m2 ?? p?.area);
+    if (price > 0 && size > 0) out.push(price / size);
+  }
+  return out.filter((v) => v >= 300 && v <= 30000);
+};
 
 interface Props {
   property: any;
@@ -24,48 +52,41 @@ interface Props {
 export const PropertyAreaInsights = ({ property, lang }: Props) => {
   const tr = L[lang] || L.en;
   const { properties } = useProperties();
-  const [months, setMonths] = useState(12);
   const city = cityOf(property.location);
   const cityLabel = (property.location || "").split(",")[0].trim();
 
   const area = useMemo(
-    () => (properties || []).filter((p: any) => cityOf(p.location) === city && num(p.price) > 0),
+    () => (properties || []).filter((p: any) => cityOf(p.location) === city && num(p.price) > 0 && String(p.status || "").toLowerCase() !== "sold"),
     [properties, city],
   );
 
-  const ownPpm = num(property.price) && num(property.area || property.sizes_m2) ? num(property.price) / num(property.area || property.sizes_m2) : 0;
+  const ownUnits = unitPricesPerM2(property);
+  const ownPpm = median(ownUnits);
+  const ownMin = ownUnits.length ? Math.min(...ownUnits) : 0;
+  const ownMax = ownUnits.length ? Math.max(...ownUnits) : 0;
+  const ownDistrict = String(property.property_district || "").trim();
 
-  const { series, avg } = useMemo(() => {
-    const since = new Date();
-    since.setMonth(since.getMonth() - months + 1);
-    since.setDate(1);
-    const buckets = new Map<string, number[]>();
-    for (let i = 0; i < months; i++) {
-      const d = new Date(since);
-      d.setMonth(since.getMonth() + i);
-      buckets.set(d.toISOString().slice(0, 7), []);
-    }
+  const { districts, avg, unitCount } = useMemo(() => {
     const all: number[] = [];
+    const byD = new Map<string, number[]>();
     area.forEach((p: any) => {
-      const s = num(p.sizes_m2);
-      if (!s) return;
-      const ppm = num(p.price) / s;
-      if (ppm < 300 || ppm > 30000) return;
-      all.push(ppm);
-      const k = String(p.created_at || "").slice(0, 7);
-      buckets.get(k)?.push(ppm);
+      const u = unitPricesPerM2(p);
+      all.push(...u);
+      const d = String(p.property_district || "").trim() || cityLabel;
+      byD.set(d, [...(byD.get(d) || []), ...u]);
     });
-    // Running average so the line stays continuous between sparse months
-    let carry: number[] = [];
-    const series = [...buckets.entries()].map(([k, v]) => {
-      carry = [...carry, ...v].slice(-25);
-      const d = new Date(k + "-01");
-      return { label: d.toLocaleDateString(lang, { month: "short", year: "2-digit" }), value: carry.length ? Math.round(carry.reduce((a, b) => a + b, 0) / carry.length) : null };
-    });
-    return { series, avg: all.length ? all.reduce((a, b) => a + b, 0) / all.length : 0 };
-  }, [area, months, lang]);
+    const districts = [...byD.entries()]
+      .filter(([, v]) => v.length > 0)
+      .map(([name, v]) => ({ name, value: Math.round(median(v)), count: v.length }))
+      .sort((a, b) => b.value - a.value);
+    const top = districts.slice(0, 10);
+    const own = districts.find((d) => d.name.toLowerCase() === ownDistrict.toLowerCase());
+    if (own && !top.includes(own)) top.push(own);
+    top.sort((a, b) => b.value - a.value);
+    return { districts: top, avg: median(all), unitCount: all.length };
+  }, [area, cityLabel, ownDistrict]);
 
-  const hasData = series.filter((s) => s.value).length >= 2;
+  const hasData = unitCount >= 3;
   const diff = ownPpm && avg ? ((ownPpm - avg) / avg) * 100 : null;
 
   const ownPrice = num(property.price);
@@ -86,63 +107,53 @@ export const PropertyAreaInsights = ({ property, lang }: Props) => {
 
   return (
     <div className="space-y-16 sm:space-y-20">
-      {/* Price development */}
+      {/* Price per m² */}
       <section className="border-t border-border pt-10">
         <h2 className="text-2xl font-semibold text-navy sm:text-3xl">
           {tr.trend} {cityLabel}
         </h2>
-        <p className="mt-6 text-center text-sm text-muted-foreground">{tr.sub}</p>
-        <div className="mx-auto mt-3 grid max-w-xl grid-cols-4 overflow-hidden rounded-md border border-border">
-          {[6, 12, 24, 36].map((m) => (
-            <button
-              key={m}
-              onClick={() => setMonths(m)}
-              className={`py-3 text-sm font-semibold transition ${months === m ? "bg-navy text-navy-foreground" : "bg-background text-navy hover:bg-ivory"}`}
-            >
-              {m} {tr.m}
-            </button>
-          ))}
-        </div>
+        <p className="mt-2 text-sm text-muted-foreground">{tr.sub}</p>
         <div className="mt-8 grid gap-4 text-center sm:grid-cols-2">
           {ownPpm > 0 && (
             <div>
               <p className="text-sm text-muted-foreground">REF {property.refNo} {tr.this}</p>
               <p className="mt-1 text-3xl font-semibold text-navy">{fmt(ownPpm)}/m²</p>
+              {ownUnits.length > 1 && <p className="mt-1 text-xs text-muted-foreground">{fmt(ownMin)} – {fmt(ownMax)}/m² · {ownUnits.length} {tr.units}</p>}
             </div>
           )}
-          {avg > 0 && (
+          {hasData && (
             <div>
-              <p className="text-sm text-muted-foreground">{tr.avg}</p>
+              <p className="text-sm text-muted-foreground">{tr.avg} {cityLabel}</p>
               <p className="mt-1 text-3xl font-semibold text-gold">{fmt(avg)}/m²</p>
-              {diff !== null && (
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {diff > 0 ? "+" : ""}{diff.toFixed(0)}% {tr.diff}
-                </p>
-              )}
+              <p className="mt-1 text-xs text-muted-foreground">
+                {unitCount} {tr.units}{diff !== null && ` · ${diff > 0 ? "+" : ""}${diff.toFixed(0)}% ${tr.diff}`}
+              </p>
             </div>
           )}
         </div>
-        <div className="relative mt-8 h-72 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={series} margin={{ left: 8, right: 8, top: 10 }}>
-              <defs>
-                <linearGradient id="ppm" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="hsl(var(--gold))" stopOpacity={0.45} />
-                  <stop offset="100%" stopColor="hsl(var(--gold))" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid stroke="hsl(var(--border))" vertical={false} />
-              <XAxis dataKey="label" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} interval="preserveStartEnd" />
-              <YAxis tickFormatter={(v) => `€${(v / 1000).toFixed(1)}k`} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} width={52} domain={["auto", "auto"]} />
-              <Tooltip formatter={(v: number) => [`${fmt(v)}/m²`, ""]} contentStyle={{ borderRadius: 6, border: "1px solid hsl(var(--border))" }} />
-              <Area type="monotone" dataKey="value" stroke="hsl(var(--navy))" strokeWidth={2} fill="url(#ppm)" connectNulls />
-            </AreaChart>
-          </ResponsiveContainer>
-          {!hasData && (
-            <div className="absolute inset-0 flex items-center justify-center bg-background/70 text-sm text-muted-foreground">{tr.none}</div>
-          )}
-        </div>
-        <p className="mt-3 text-xs text-muted-foreground">{tr.src}</p>
+        {hasData ? (
+          <div className="mt-8 w-full" style={{ height: Math.max(220, districts.length * 38) }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={districts} layout="vertical" margin={{ left: 8, right: 24, top: 4 }}>
+                <CartesianGrid stroke="hsl(var(--border))" horizontal={false} />
+                <XAxis type="number" tickFormatter={(v) => `€${(v / 1000).toFixed(1)}k`} tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
+                <YAxis type="category" dataKey="name" width={120} tick={{ fontSize: 12, fill: "hsl(var(--foreground))" }} tickLine={false} axisLine={false} />
+                <Tooltip formatter={(v: number, _n, item: any) => [`${fmt(v)}/m² · ${item.payload.count} ${tr.units}`, ""]} cursor={{ fill: "hsl(var(--ivory))" }} contentStyle={{ borderRadius: 6, border: "1px solid hsl(var(--border))" }} />
+                <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                  {districts.map((d) => (
+                    <Cell key={d.name} fill={d.name.toLowerCase() === ownDistrict.toLowerCase() ? "hsl(var(--gold))" : "hsl(var(--navy))"} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <p className="mt-8 rounded-md bg-muted p-6 text-center text-sm text-muted-foreground">{tr.none}</p>
+        )}
+        {ownDistrict && hasData && (
+          <p className="mt-2 flex items-center gap-2 text-xs text-muted-foreground"><span className="inline-block h-2.5 w-2.5 rounded-sm bg-gold" /> {tr.this_d}: {ownDistrict}</p>
+        )}
+        <p className="mt-3 text-xs text-muted-foreground">{tr.src} {cityLabel}. {tr.src2}</p>
       </section>
 
       {/* Map */}
