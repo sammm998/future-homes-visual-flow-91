@@ -18,4 +18,4 @@
 - [x] Restore readable customer review cards
 - [x] Improve review motion and interaction
 - [x] Refine property card interaction and mobile spacing
-- [ ] Verify the updated homepage on desktop and mobile
+- [x] Verify the updated homepage on desktop and mobile
