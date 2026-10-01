@@ -11,6 +11,13 @@ import { useProperties } from '@/hooks/useProperties';
 import { getCanonicalUrl, getHreflangUrls, getCurrentLanguage } from '@/utils/seoUtils';
 import { stripLocale, localizePath } from '@/utils/localeRouting';
 import type { CityLandingConfig } from '@/data/cityLandingPages';
+import { EditorialCta, EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
+import antalyaImage from '@/assets/destinations/antalya-cinematic.jpg';
+import istanbulImage from '@/assets/destinations/istanbul-cinematic.jpg';
+import dubaiImage from '@/assets/destinations/dubai-cinematic.jpg';
+import mersinImage from '@/assets/destinations/mersin-cinematic.jpg';
+import cyprusImage from '@/assets/destinations/cyprus-cinematic.jpg';
+import baliImage from '@/assets/destinations/bali-cinematic.jpg';
 
 interface CityLandingPageProps {
   config: CityLandingConfig;
@@ -60,6 +67,16 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
     }),
   };
 
+  const destinationImages: Record<string, string> = {
+    antalya: antalyaImage,
+    istanbul: istanbulImage,
+    dubai: dubaiImage,
+    mersin: mersinImage,
+    cyprus: cyprusImage,
+    bali: baliImage,
+  };
+  const heroImage = Object.entries(destinationImages).find(([key]) => config.slug.toLowerCase().includes(key))?.[1] ?? antalyaImage;
+
   return (
     <div className="min-h-screen bg-background">
       <EnhancedSEOHead
@@ -73,23 +90,18 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
       <FAQSchema faqItems={config.faq} />
       <Navigation />
 
-      <main className="container mx-auto px-4 py-10">
-        <BreadcrumbNavigation
+      <main>
+        <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8"><BreadcrumbNavigation
           items={[
             { name: config.country, url: localizePath('/property-for-sale-in-turkey', lang) },
             { name: config.h1, url: localizePath(`/${config.slug}`, lang) },
           ]}
-        />
+        /></div>
 
-        <header className="max-w-3xl mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">{config.h1}</h1>
-          <p className="text-muted-foreground leading-relaxed">{config.intro}</p>
-        </header>
+        <PublicPageHero eyebrow={`${config.country} · Property collection`} title={config.h1} description={config.intro} image={heroImage} imageAlt={config.h1} primaryLabel="View available homes" primaryTo="#listings" secondaryLabel="Request a private shortlist" secondaryTo={localizePath('/contact-us', lang)} compact />
 
-        <section aria-labelledby="listings" className="mb-14">
-          <h2 id="listings" className="text-2xl font-semibold mb-2">
-            Available listings
-          </h2>
+        <section aria-labelledby="listings" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+          <EditorialSectionHeader eyebrow="Curated portfolio" title="Available listings" />
           <p className="text-muted-foreground mb-6">
             {loading
               ? 'Loading current listings…'
@@ -113,13 +125,12 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
           )}
         </section>
 
-        <section aria-labelledby="highlights" className="mb-14">
-          <h2 id="highlights" className="text-2xl font-semibold mb-6">
-            What to know before buying
-          </h2>
+        <section aria-labelledby="highlights" className="bg-ivory py-16 lg:py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <EditorialSectionHeader eyebrow="Local intelligence" title="What to know before buying" />
           <div className="grid gap-6 md:grid-cols-3">
             {config.highlights.map((h) => (
-              <Card key={h.heading}>
+              <Card key={h.heading} className="rounded-lg border-navy/10 bg-background transition-all duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
                 <CardHeader>
                   <CardTitle className="text-lg">{h.heading}</CardTitle>
                 </CardHeader>
@@ -127,23 +138,22 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
               </Card>
             ))}
           </div>
+          </div>
         </section>
 
-        <section aria-labelledby="faq" className="mb-14">
-          <h2 id="faq" className="text-2xl font-semibold mb-6">
-            Frequently asked questions
-          </h2>
-          <div className="space-y-6 max-w-3xl">
+        <section aria-labelledby="faq" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+          <EditorialSectionHeader eyebrow="Buyer guidance" title="Frequently asked questions" />
+          <div className="grid gap-8 md:grid-cols-2">
             {config.faq.map((item) => (
-              <div key={item.question}>
-                <h3 className="font-semibold mb-1">{item.question}</h3>
+              <div key={item.question} className="border-t border-gold/50 pt-5">
+                <h3 className="mb-2 font-semibold">{item.question}</h3>
                 <p className="text-muted-foreground">{item.answer}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section aria-labelledby="related">
+        <section aria-labelledby="related" className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
           <h2 id="related" className="text-2xl font-semibold mb-4">
             Related pages
           </h2>
@@ -160,6 +170,7 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
             ))}
           </ul>
         </section>
+        <EditorialCta eyebrow="Private property search" title="Receive a shortlist built around you" description="Our local advisors can match your lifestyle, budget and investment goals with current opportunities." primaryLabel="Start Easy Find" primaryTo={localizePath('/ai-property-search', lang)} secondaryLabel="Contact an advisor" secondaryTo={localizePath('/contact-us', lang)} />
       </main>
     </div>
   );
