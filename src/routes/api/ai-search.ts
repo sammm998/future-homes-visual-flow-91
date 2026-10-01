@@ -37,7 +37,7 @@ Reply ONLY with JSON: {"summary": string, "filters": string[], "matches": [{"ref
 - "reason": 1-2 sentences why it fits, mentioning concrete facts. "headline": max 6 words.
 - Order by score descending. If nothing fits well, return the closest options and say so in summary.
 Write summary, filters, headline and reason in the language with code "${lang}".`;
-          const text = await askModel(apiKey, instructions, `Return JSON. Buyer request: ${query}\n\nCatalog:\n${items.map((i) => i.line).join("\n")}`, request.signal);
+          const text = await askModel(apiKey, instructions, `Return the answer as json. Buyer request: ${query}\n\nCatalog:\n${items.map((i) => i.line).join("\n")}`, request.signal);
           const parsed = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
           const byRef = new Map(rows.map((r) => [String(r.ref_no), r]));
           const matches = (Array.isArray(parsed.matches) ? parsed.matches : [])
