@@ -345,15 +345,16 @@ const MersinPropertySearch = () => {
         ]}
       />
       <Navigation />
-      
-      {/* SEO Introductory Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="prose max-w-none mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Mersin Properties: Your Gateway to Turkish Citizenship</h1>
-          <p className="text-lg text-muted-foreground mb-6">
-            Discover exceptional property investment opportunities in Mersin, Turkey's hidden gem along the Mediterranean coast. 
-            With affordable prices starting from competitive rates, Mersin offers an excellent pathway to Turkish citizenship through property investment.
-          </p>
+      <PublicPageHero
+        eyebrow="Mediterranean value"
+        title="Mersin Properties: Your Gateway to Turkish Citizenship"
+        description="Discover exceptional property investment opportunities in Mersin, Turkey's hidden gem along the Mediterranean coast — an excellent pathway to Turkish citizenship through property investment."
+        image={mersinHero}
+        imageAlt="Mersin coastline and modern residences"
+        compact
+      />
+      <div className="mx-auto w-full max-w-[1840px] px-4 pt-12 sm:px-6 lg:px-8 2xl:px-10">
+        <div className="max-w-none">
           <div className="grid md:grid-cols-3 gap-6 text-muted-foreground mb-6">
             <div>
               <h3 className="text-lg font-semibold text-foreground mb-2">✅ Turkish Citizenship Eligible</h3>
