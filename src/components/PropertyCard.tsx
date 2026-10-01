@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { MapPin } from 'lucide-react';
+import { ArrowRight, Bath, BedDouble, MapPin, Ruler } from 'lucide-react';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { OptimizedPropertyImage } from './OptimizedPropertyImage';
 import { formatPriceFromString } from '@/utils/priceFormatting';
@@ -120,9 +120,9 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       state={{ returnUrl }}
       className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4"
     >
-      <article className="group relative h-full w-full overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[var(--shadow-luxe)]">
+      <article className="group relative grid h-full w-full grid-rows-[auto_1fr] overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[var(--shadow-luxe)]">
         {/* Image Section */}
-        <div className="relative aspect-[4/5] overflow-hidden bg-navy">
+        <div className="relative aspect-[4/3] overflow-hidden bg-navy">
           <OptimizedPropertyImage
             src={getImageUrl() ?? ''}
             alt={property.title}
@@ -157,77 +157,51 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
         </div>
 
         {/* Content Section */}
-        <div className="space-y-5 p-6 md:p-7">
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5">
-              <MapPin className="h-3 w-3 text-gold" strokeWidth={2.5} />
+        <div className="grid min-w-0 grid-rows-[auto_auto_1fr_auto] gap-4 p-5 md:p-6">
+          <div className="min-w-0 space-y-2">
+            <div className="flex min-w-0 items-center gap-1.5">
+              <MapPin className="h-3.5 w-3.5 shrink-0 text-gold" strokeWidth={2.5} />
               <span
-                className="text-[11px] font-bold uppercase tracking-[0.2em] text-gold-foreground"
+                className="truncate text-[11px] font-bold uppercase text-gold-foreground"
               >
                 {(property as any).location_translated || property.location}
               </span>
             </div>
             <h3
-                className="line-clamp-2 min-h-[3.5rem] text-2xl font-semibold leading-tight text-navy transition-colors group-hover:text-gold-foreground"
+                className="line-clamp-2 min-h-[3rem] text-lg font-semibold leading-snug text-navy transition-colors group-hover:text-gold-foreground md:text-xl"
             >
               {property.title}
             </h3>
           </div>
 
-          {/* Specs Row */}
-          <div className="flex items-end justify-between border-t border-border pt-5">
-            <div className="flex flex-col">
-              <span
-                className="text-[10px] uppercase tracking-normal text-muted-foreground"
-              >
-                {t('card.price')}
-              </span>
-              <span
-                className="text-lg font-bold text-navy"
-              >
-                <span className="mr-1 text-xs font-medium uppercase text-gold-foreground">{t('card.from')}</span>
-                 {formatPriceFromString(property.price || '0', formatPrice)}
-                 {Number(property.buyer_fee_percent) > 0 && <span className="ml-1 text-xs">+{property.buyer_fee_percent}%</span>}
-              </span>
+          <div className="min-w-0 border-t border-border pt-4">
+            <span className="block text-[10px] font-semibold uppercase text-muted-foreground">{t('card.price')}</span>
+            <span className="mt-1 block break-words text-xl font-bold leading-tight text-navy">
+              <span className="mr-1 text-[10px] font-semibold uppercase text-gold-foreground">{t('card.from')}</span>
+              {formatPriceFromString(property.price || '0', formatPrice)}
+              {Number(property.buyer_fee_percent) > 0 && <span className="ml-1 text-xs">+{property.buyer_fee_percent}%</span>}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 divide-x divide-border rounded-md bg-ivory px-2 py-3">
+            <div className="flex min-w-0 items-center justify-center gap-1.5 px-1 text-navy">
+              <BedDouble className="h-4 w-4 shrink-0 text-gold-foreground" />
+              <span className="truncate text-xs font-bold">{property.bedrooms || '–'}</span>
             </div>
-            <div className="flex gap-4">
-              {property.bedrooms && (
-                <div className="flex flex-col items-center">
-                  <span className="text-sm font-bold text-navy">
-                    {property.bedrooms}
-                  </span>
-                  <span className="text-[10px] uppercase text-muted-foreground">
-                    {t('card.beds')}
-                  </span>
-                </div>
-              )}
-              <div className="flex flex-col items-center border-l border-[#e8edf3] pl-4">
-                <span className="text-sm font-bold text-navy">
-                  {property.bathrooms || '–'}
-                </span>
-                <span className="text-[10px] uppercase text-muted-foreground">
-                  {t('card.bath')}
-                </span>
-              </div>
-              {property.area && (
-                <div className="flex flex-col items-center border-l border-[#e8edf3] pl-4">
-                  <span className="text-sm font-bold text-navy">
-                    {property.area} <span className="text-[10px]">m²</span>
-                  </span>
-                  <span className="text-[10px] uppercase text-muted-foreground">
-                    {t('card.area')}
-                  </span>
-                </div>
-              )}
+            <div className="flex min-w-0 items-center justify-center gap-1.5 px-1 text-navy">
+              <Bath className="h-4 w-4 shrink-0 text-gold-foreground" />
+              <span className="truncate text-xs font-bold">{property.bathrooms || '–'}</span>
+            </div>
+            <div className="flex min-w-0 items-center justify-center gap-1.5 px-1 text-navy">
+              <Ruler className="h-4 w-4 shrink-0 text-gold-foreground" />
+              <span className="truncate text-xs font-bold">{property.area ? `${property.area} m²` : '–'}</span>
             </div>
           </div>
 
-          <div className="flex w-full items-center justify-between border-t border-border pt-4 text-xs font-bold uppercase tracking-widest text-navy transition-colors group-hover:text-gold-foreground">
-            {t('card.view_property')}
-            <span className="grid h-10 w-10 place-items-center rounded-full border border-border transition-colors group-hover:border-navy group-hover:bg-navy group-hover:text-navy-foreground">
-            <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-t border-border pt-4 text-xs font-bold uppercase text-navy transition-colors group-hover:text-gold-foreground">
+            <span className="min-w-0 truncate">{t('card.view_property')}</span>
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border transition-colors group-hover:border-navy group-hover:bg-navy group-hover:text-navy-foreground">
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </span>
           </div>
         </div>
