@@ -17,8 +17,6 @@ const rooms = [
 const walls = [
   { position: [0, 1.25, -3] as [number, number, number], size: [8, 2.5, 0.12] as [number, number, number] },
   { position: [-4, 1.25, 0] as [number, number, number], size: [0.12, 2.5, 6] as [number, number, number] },
-  { position: [4, 1.25, 0] as [number, number, number], size: [0.12, 2.5, 6] as [number, number, number] },
-  { position: [0, 1.25, 3] as [number, number, number], size: [8, 2.5, 0.12] as [number, number, number] },
   { position: [-0.5, 1.25, 1.15] as [number, number, number], size: [0.12, 2.5, 3.7] as [number, number, number] },
   { position: [1.75, 1.25, 0.25] as [number, number, number], size: [4.5, 2.5, 0.12] as [number, number, number] },
 ];
@@ -57,7 +55,7 @@ function Furniture({ mode }: { mode: ViewMode }) {
 function Apartment({ mode }: InteractivePropertyModelProps) {
   const blueprint = mode === "blueprint";
   const wallMaterial = useMemo(() => ({
-    color: blueprint ? "hsl(41, 52%, 65%)" : "hsl(44, 35%, 94%)",
+    color: blueprint ? "#d5b777" : "#f5f2ea",
     opacity: blueprint ? 0.62 : 1,
     transparent: blueprint,
     wireframe: blueprint,
@@ -69,7 +67,7 @@ function Apartment({ mode }: InteractivePropertyModelProps) {
         <mesh key={index} position={room.position} receiveShadow>
           <boxGeometry args={room.size} />
           <meshStandardMaterial
-            color={blueprint ? "hsl(207, 58%, 18%)" : index === 0 ? "hsl(35, 30%, 72%)" : "hsl(44, 35%, 87%)"}
+            color={blueprint ? "#12334a" : index === 0 ? "#cbb89c" : "#e7e1d4"}
             roughness={blueprint ? 0.55 : 0.9}
             metalness={blueprint ? 0.25 : 0}
           />
@@ -82,7 +80,7 @@ function Apartment({ mode }: InteractivePropertyModelProps) {
         </mesh>
       ))}
       {blueprint && (
-        <gridHelper args={[10, 20, "hsl(41, 52%, 65%)", "hsl(207, 35%, 29%)"]} position={[0, 0.02, 0]} />
+        <gridHelper args={[10, 20, "#d5b777", "#284a60"]} position={[0, 0.02, 0]} />
       )}
       <Furniture mode={mode} />
     </group>
@@ -95,17 +93,17 @@ export function InteractivePropertyModel({ mode }: InteractivePropertyModelProps
       shadows
       dpr={[1, 1.5]}
       camera={{ position: [8.6, 7.2, 9.5], fov: 40 }}
-      gl={{ antialias: true, alpha: true }}
+      gl={{ antialias: true, alpha: false }}
     >
-      <color attach="background" args={[mode === "blueprint" ? "hsl(207, 70%, 9%)" : "hsl(207, 45%, 14%)"]} />
-      <fog attach="fog" args={["hsl(207, 70%, 9%)", 15, 25]} />
+      <color attach="background" args={[mode === "blueprint" ? "#071827" : "#102c3c"]} />
+      <fog attach="fog" args={["#071827", 15, 25]} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 10, 7]} intensity={2.1} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
       <Apartment mode={mode} />
       <ContactShadows position={[0, -0.04, 0]} opacity={0.45} scale={15} blur={2.5} far={6} />
       <Environment>
         <Lightformer intensity={2.2} position={[0, 6, 1]} scale={[10, 10, 1]} />
-        <Lightformer intensity={1.4} color="hsl(41, 52%, 65%)" position={[-5, 2, 1]} rotation-y={Math.PI / 2} scale={[8, 2, 1]} />
+        <Lightformer intensity={1.4} color="#d5b777" position={[-5, 2, 1]} rotation-y={Math.PI / 2} scale={[8, 2, 1]} />
       </Environment>
       <OrbitControls
         makeDefault
