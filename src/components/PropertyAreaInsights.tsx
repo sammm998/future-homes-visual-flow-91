@@ -78,10 +78,13 @@ export const PropertyAreaInsights = ({ property, lang }: Props) => {
     const districts = [...byD.entries()]
       .filter(([, v]) => v.length > 0)
       .map(([name, v]) => ({ name, value: Math.round(median(v)), count: v.length }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 10);
-    return { districts, avg: median(all), unitCount: all.length };
-  }, [area, cityLabel]);
+      .sort((a, b) => b.value - a.value);
+    const top = districts.slice(0, 10);
+    const own = districts.find((d) => d.name.toLowerCase() === ownDistrict.toLowerCase());
+    if (own && !top.includes(own)) top.push(own);
+    top.sort((a, b) => b.value - a.value);
+    return { districts: top, avg: median(all), unitCount: all.length };
+  }, [area, cityLabel, ownDistrict]);
 
   const hasData = unitCount >= 3;
   const diff = ownPpm && avg ? ((ownPpm - avg) / avg) * 100 : null;
