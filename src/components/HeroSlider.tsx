@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import heroEstate from '@/assets/hero-modern-estate.webp';
 import heroEstateMobile from '@/assets/hero-modern-estate-768.webp';
 import heroEstateLaptop from '@/assets/hero-modern-estate-1200.webp';
-import broll1 from '@/assets/hero-broll-1.mp4.asset.json';
-import broll2 from '@/assets/hero-broll-2.mp4.asset.json';
+import broll1 from '@/assets/hero-broll-1-optimized.mp4.asset.json';
+import broll2 from '@/assets/hero-broll-2-optimized.mp4.asset.json';
 
 const CLIPS = [broll2.url, broll1.url];
 const CROSSFADE_MS = 1200;
