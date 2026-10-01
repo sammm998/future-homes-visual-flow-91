@@ -311,10 +311,10 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
 
   // Vertical layout (existing code)
   return (
-    <GlowCard customSize={true} className="w-full h-auto p-0 border-0">
-      <Card className="w-full h-full bg-transparent border-none shadow-none">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base">{t('nav.search')}</CardTitle>
+    <GlowCard customSize={true} className="h-auto w-full rounded-lg border border-gold/25 bg-ivory p-0 shadow-[var(--shadow-luxe)]">
+      <Card className="h-full w-full border-none bg-transparent shadow-none">
+        <CardHeader className="border-b border-gold/25 pb-4">
+          <CardTitle className="text-xl text-navy">{t('nav.search')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {/* Property Type */}

@@ -55,21 +55,23 @@ const Hero: React.FC<HeroProps> = ({
   }, []);
 
   return (
-    <section className="relative -mt-20 min-h-[92svh] w-full overflow-hidden pt-20">
-      <HeroSlider />
+    <section className="bg-ivory px-3 pb-3 pt-3 sm:px-5 sm:pb-5 lg:px-8 lg:pb-8">
+      <div className="relative min-h-[720px] overflow-hidden rounded-lg shadow-[var(--shadow-luxe)] sm:min-h-[760px]">
+        <HeroSlider />
 
-      <div className="relative z-10 flex min-h-[92svh] flex-col justify-end px-4 pb-24 pt-28 sm:px-8 md:pb-28 lg:px-16">
-        <div className="mx-auto w-full max-w-7xl">
-          <div className="max-w-5xl border-l border-gold/70 pl-5 text-left sm:pl-8">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-gold">Future Homes International</p>
-            <h1 className="max-w-5xl text-4xl font-semibold leading-[1.03] text-navy-foreground sm:text-5xl md:text-7xl lg:text-8xl">
+        <div className="relative z-10 flex min-h-[720px] flex-col items-center justify-center px-4 pb-10 pt-24 text-center sm:min-h-[760px] sm:px-8">
+          <div className="mx-auto w-full max-w-6xl">
+            <div className="mx-auto max-w-5xl">
+            <p className="mb-6 text-xs font-semibold uppercase tracking-[0.32em] text-gold">Future Homes International</p>
+            <h1 className="mx-auto max-w-5xl text-5xl font-semibold leading-none text-navy-foreground sm:text-6xl md:text-8xl lg:text-9xl">
               {title || t('hero.title')}
             </h1>
-            <p className="mb-8 mt-5 max-w-2xl text-base leading-relaxed text-navy-foreground/80 sm:text-lg md:text-xl">
+            <p className="mx-auto mb-12 mt-6 max-w-2xl text-base italic leading-relaxed text-navy-foreground/85 sm:text-lg md:text-xl">
               {subtitle || t('hero.subtitle')}
             </p>
           </div>
           {InteractiveSearch ? <InteractiveSearch /> : <HeroSearchStatic />}
+          </div>
         </div>
       </div>
     </section>

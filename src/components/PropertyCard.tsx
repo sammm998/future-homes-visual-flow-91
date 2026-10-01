@@ -118,15 +118,15 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
     <Link
       to={propertyUrl}
       state={{ returnUrl }}
-      className="block h-full"
+      className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4"
     >
-      <article className="group relative h-full w-full overflow-hidden border border-border bg-card shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[var(--shadow-luxe)]">
+      <article className="group relative h-full w-full overflow-hidden rounded-lg border border-border bg-card shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-gold/60 hover:shadow-[var(--shadow-luxe)]">
         {/* Image Section */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-navy">
+        <div className="relative aspect-[4/5] overflow-hidden bg-navy">
           <OptimizedPropertyImage
             src={getImageUrl() ?? ''}
             alt={property.title}
-            className="w-full h-full object-cover animate-kenburns"
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             priority={priority}
           />
 
@@ -146,7 +146,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
 
           {/* REF Chip — bottom-left */}
           {property.refNo && (
-            <div className="absolute bottom-4 left-4">
+            <div className="absolute bottom-4 right-4">
               <span
                 className="rounded-sm bg-navy/70 px-2 py-0.5 text-[10px] text-navy-foreground backdrop-blur-sm"
               >
@@ -157,7 +157,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
         </div>
 
         {/* Content Section */}
-        <div className="p-6 space-y-4">
+        <div className="space-y-5 p-6 md:p-7">
           <div className="space-y-1">
             <div className="flex items-center gap-1.5">
               <MapPin className="h-3 w-3 text-gold" strokeWidth={2.5} />
@@ -168,14 +168,14 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
               </span>
             </div>
             <h3
-              className="line-clamp-2 text-2xl font-semibold leading-tight text-navy transition-colors group-hover:text-gold-foreground"
+                className="line-clamp-2 min-h-[3.5rem] text-2xl font-semibold leading-tight text-navy transition-colors group-hover:text-gold-foreground"
             >
               {property.title}
             </h3>
           </div>
 
           {/* Specs Row */}
-          <div className="flex items-center justify-between border-y border-[#e8edf3] py-4">
+          <div className="flex items-end justify-between border-t border-border pt-5">
             <div className="flex flex-col">
               <span
                 className="text-[10px] uppercase tracking-normal text-muted-foreground"
@@ -222,14 +222,13 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
             </div>
           </div>
 
-          {/* CTA */}
-          <div
-            className="group/btn flex w-full items-center justify-center gap-2 bg-navy py-3.5 text-xs font-bold uppercase tracking-widest text-navy-foreground transition-colors group-hover:bg-gold group-hover:text-gold-foreground"
-          >
+          <div className="flex w-full items-center justify-between border-t border-border pt-4 text-xs font-bold uppercase tracking-widest text-navy transition-colors group-hover:text-gold-foreground">
             {t('card.view_property')}
-            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span className="grid h-10 w-10 place-items-center rounded-full border border-border transition-colors group-hover:border-navy group-hover:bg-navy group-hover:text-navy-foreground">
+            <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
+            </span>
           </div>
         </div>
       </article>
