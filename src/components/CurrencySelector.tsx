@@ -41,7 +41,7 @@ const CurrencySelector: React.FC<CurrencySelectorProps> = ({ dark = false }) => 
           />
           
           {/* Dropdown */}
-          <div className={`absolute z-50 w-32 rounded-lg border border-border bg-background shadow-lg backdrop-blur-sm ${dark ? 'bottom-0 left-full ml-2' : 'left-0 top-full mt-2'}`}>
+          <div className={`absolute z-50 w-32 rounded-lg border border-border bg-background text-foreground shadow-lg backdrop-blur-sm ${dark ? 'bottom-0 left-full ml-2' : 'left-0 top-full mt-2'}`}>
             <div className="p-1 max-h-60 overflow-y-auto scrollbar-hide">
               {currencies.map((currency) => (
                 <button
@@ -53,7 +53,7 @@ const CurrencySelector: React.FC<CurrencySelectorProps> = ({ dark = false }) => 
                   className={`w-full px-3 py-2 rounded-md text-sm transition-colors text-left flex items-center gap-3 ${
                     selectedCurrency.code === currency.code
                       ? 'bg-primary text-primary-foreground'
-                      : 'hover:bg-accent hover:text-accent-foreground'
+                      : 'text-foreground hover:bg-accent hover:text-accent-foreground'
                   }`}
                 >
                   <span 

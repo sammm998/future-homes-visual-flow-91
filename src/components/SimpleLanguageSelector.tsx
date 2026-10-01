@@ -101,14 +101,14 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
       </button>
 
       {isOpen && (
-        <div className={`absolute z-50 min-w-[160px] rounded-sm border border-border bg-background shadow-lg ${dark ? 'bottom-0 left-full ml-2' : 'right-0 top-full mt-1'}`}>
+        <div className={`absolute z-50 min-w-[160px] rounded-sm border border-border bg-background text-foreground shadow-lg ${dark ? 'bottom-0 left-full ml-2' : 'right-0 top-full mt-1'}`}>
           <div className="py-1 max-h-60 overflow-y-auto">
             {languages.map((language) => (
               <button
                 key={language.code}
                 onClick={() => handleLanguageChange(language)}
-                className={`w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted transition-colors text-left ${
-                  currentLanguage.code === language.code ? 'bg-muted' : ''
+                className={`w-full flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors text-left ${
+                  currentLanguage.code === language.code ? 'bg-muted text-foreground' : ''
                 }`}
               >
                 <span className="text-lg">{language.flag}</span>
