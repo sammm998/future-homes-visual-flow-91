@@ -159,7 +159,7 @@ const Index = () => {
 
       {/* Hero Section - Database content with fallback */}
       <div className="w-full">
-        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.webp" title={heroTitle || t('hero.title')} subtitle={t('hero.subtitle')} gallery />
+        <Hero title={heroTitle || t('hero.title')} subtitle={t('hero.subtitle')} gallery />
       </div>
 
       <ConversionBand />

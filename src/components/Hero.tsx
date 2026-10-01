@@ -8,7 +8,6 @@ import { cc, whatsappLink } from "@/utils/conversionCopy";
 import { getCurrentLanguage } from "@/utils/seoUtils";
 
 interface HeroProps {
-  backgroundImage?: string;
   title?: string;
   subtitle?: string;
   gallery?: boolean;
