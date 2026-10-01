@@ -136,7 +136,7 @@ export function HeroSearch() {
 
   return (
     <Card className="mx-auto max-w-6xl rounded-lg border-border/70 bg-background p-2 shadow-[var(--shadow-luxe)] sm:p-3">
-      <div className="grid grid-cols-1 divide-y divide-border sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-6 lg:divide-x">
+      <div className="grid grid-cols-1 divide-y divide-border sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-7 lg:divide-x">
         <div className="lg:col-span-1">
           <Select value={propertyType} onValueChange={setPropertyType}>
             <SelectTrigger className="h-12 border-0 bg-transparent text-sm font-semibold text-foreground focus:ring-gold sm:h-14">
@@ -229,7 +229,7 @@ export function HeroSearch() {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex items-center gap-2 p-1 lg:col-span-1">
+        <div className="flex items-center gap-2 p-1 sm:col-span-2 lg:col-span-2">
           <Dialog open={showAdvanced} onOpenChange={setShowAdvanced}>
           <DialogTrigger asChild>
             <Button variant="ghost" size="icon" className="h-12 w-12 shrink-0 text-muted-foreground hover:bg-ivory sm:h-14" title={t('search.advanced')}>
