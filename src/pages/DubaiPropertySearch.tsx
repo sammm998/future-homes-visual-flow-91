@@ -307,7 +307,7 @@ const DubaiPropertySearch = () => {
       />
       <Navigation />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto w-full max-w-[1840px] px-4 py-8 sm:px-6 lg:px-8 lg:py-12 2xl:px-10">
         {/* SEO Intro Content */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">

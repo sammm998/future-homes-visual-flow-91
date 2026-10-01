@@ -100,7 +100,7 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
 
         <PublicPageHero eyebrow={`${config.country} · Property collection`} title={config.h1} description={config.intro} image={heroImage} imageAlt={config.h1} primaryLabel="View available homes" primaryTo="#listings" secondaryLabel="Request a private shortlist" secondaryTo={localizePath('/contact-us', lang)} compact />
 
-        <section aria-labelledby="listings" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-24">
+        <section aria-labelledby="listings" className="mx-auto w-full max-w-[1840px] px-4 py-14 sm:px-6 lg:px-8 lg:py-24 2xl:px-10">
           <EditorialSectionHeader eyebrow="Curated portfolio" title="Available listings" />
           <p className="text-muted-foreground mb-6">
             {loading
@@ -111,7 +111,7 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
           </p>
 
           {matches.length > 0 && (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 min-[1600px]:grid-cols-4 min-[1600px]:gap-x-8">
               {matches.slice(0, 12).map((property: any) => (
                 <PropertyCard key={property.id} property={property} />
               ))}
