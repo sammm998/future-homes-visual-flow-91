@@ -25,9 +25,10 @@ const PROPERTY_PATH_SEGMENTS = new Set(Object.values(PATH_TRANSLATIONS));
 
 interface SimpleLanguageSelectorProps {
   className?: string;
+  dark?: boolean;
 }
 
-const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ className = "" }) => {
+const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ className = "", dark = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
@@ -92,7 +93,7 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 px-2 min-h-11 text-sm bg-background border border-border rounded-sm hover:bg-muted transition-colors"
+        className={`flex min-h-11 items-center gap-1 rounded-sm border px-2 text-sm transition-colors ${dark ? 'border-navy-foreground/20 bg-navy text-navy-foreground hover:border-gold hover:text-gold' : 'border-border bg-background text-foreground hover:bg-muted'}`}
       >
         <span className="text-lg">{currentLanguage.flag}</span>
         <span className="text-xs">{currentLanguage.code.toUpperCase()}</span>

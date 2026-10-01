@@ -29,6 +29,17 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
   if (gallery) {
     return (
       <>
+        <div className="absolute inset-x-0 top-0 z-50 flex h-9 items-center bg-navy px-4 text-navy-foreground lg:left-24">
+          <div className="mx-auto flex w-full max-w-[1840px] items-center justify-between text-[11px]">
+            <a href="mailto:info@futurehomesinternational.com" className="inline-flex min-w-0 items-center gap-2 transition-colors hover:text-gold"><Mail size={12} className="shrink-0"/><span className="truncate">info@futurehomesinternational.com</span></a>
+            <div className="hidden items-center gap-1 sm:flex">
+              <a href="https://www.instagram.com/futurehomesinternational/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 transition-colors hover:text-gold"><Instagram size={13}/></a>
+              <a href="https://www.facebook.com/futurehomesturkey/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 transition-colors hover:text-gold"><Facebook size={13}/></a>
+              <a href="https://www.linkedin.com/company/future-homes-1/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 transition-colors hover:text-gold"><Linkedin size={13}/></a>
+              <a href="https://www.tiktok.com/@futurehomesglobal" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="p-2 transition-colors hover:text-gold"><FaTiktok size={13}/></a>
+            </div>
+          </div>
+        </div>
         <aside className="fixed inset-y-0 left-0 z-50 hidden w-24 flex-col items-center border-r border-navy-foreground/10 bg-navy text-navy-foreground lg:flex">
           <Link to="/" aria-label="Future Homes International – hem" className="flex h-28 w-full items-center justify-center border-b border-navy-foreground/10">
             <img src="/favicon-512x512.png" alt="Future Homes International" width={52} height={52} className="h-12 w-12 object-contain" />
@@ -40,12 +51,12 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
             <span className="font-serif text-[10px] font-semibold uppercase text-navy-foreground/60 [letter-spacing:.22em] [writing-mode:vertical-rl]">Future Homes International</span>
           </div>
           <div className="flex w-full flex-col items-center gap-3 border-t border-navy-foreground/10 py-5">
-            <SimpleLanguageSelector />
-            <CurrencySelector />
+            <SimpleLanguageSelector dark />
+            <CurrencySelector dark />
           </div>
         </aside>
 
-        <header className="absolute inset-x-0 top-0 z-40 lg:left-24">
+        <header className="absolute inset-x-0 top-9 z-40 lg:left-24">
           <nav className={cn("mx-auto flex h-20 max-w-[1840px] items-center justify-between px-4 sm:px-8 lg:h-24 lg:px-12", className)}>
             <Link to="/" aria-label="Future Homes International – hem" className="inline-flex items-center">
               <img src="/favicon-512x512.png" alt="Future Homes International" width={52} height={52} className="h-12 w-12 object-contain sm:h-14 sm:w-14" />
