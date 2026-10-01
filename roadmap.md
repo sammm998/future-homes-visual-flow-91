@@ -8,7 +8,7 @@
 
 ## Conversion optimization
 
-- [ ] Analyze visitor navigation, exits and contact events
-- [ ] Improve the highest-impact contact paths
-- [ ] Increase property image prominence in listings
-- [ ] Verify conversion changes on desktop and mobile
+- [x] Analyze visitor navigation, exits and contact events
+- [x] Improve the highest-impact contact paths
+- [x] Increase property image prominence in listings
+- [x] Verify conversion changes on desktop and mobile
