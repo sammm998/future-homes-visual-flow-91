@@ -1,4 +1,4 @@
-import heroEstate from '@/assets/hero-modern-estate.jpg';
+import heroEstate from '@/assets/hero-modern-estate.webp';
 
 const HeroSlider = () => {
   return (
@@ -11,7 +11,7 @@ const HeroSlider = () => {
         className="h-full w-full object-cover object-center motion-safe:animate-[hero-drift_18s_ease-in-out_infinite_alternate]"
         loading="eager"
         fetchPriority="high"
-        decoding="sync"
+        decoding="async"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/55 to-navy/5" />
       <div className="absolute inset-0 bg-gradient-to-t from-navy/85 via-transparent to-navy/10" />

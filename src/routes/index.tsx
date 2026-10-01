@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Index from "@/pages/Index";
 import Newsletter from "@/components/Newsletter";
-import heroEstate from "@/assets/hero-modern-estate.jpg";
+import heroEstate from "@/assets/hero-modern-estate.webp";
 
 export const Route = createFileRoute("/")({
   head: () => ({

@@ -17,7 +17,7 @@ const DeferredSection: React.FC<DeferredSectionProps> = ({
   children,
   minHeight = 400,
   className,
-  rootMargin = "300px",
+  rootMargin = "200px",
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [show, setShow] = useState(false);
@@ -43,13 +43,8 @@ const DeferredSection: React.FC<DeferredSectionProps> = ({
     );
     io.observe(el);
 
-    // Safety net: mount everything shortly after the page is idle, so content
-    // is always present even if the observer never fires (crawlers, no scroll).
-    const timer = window.setTimeout(() => setShow(true), 4000);
-
     return () => {
       io.disconnect();
-      window.clearTimeout(timer);
     };
   }, [show, rootMargin]);
 
