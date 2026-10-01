@@ -31,7 +31,7 @@ const TeamSection = () => {
           .eq('is_active', true)
           .order('display_order');
         if (error) throw error;
-        setTeamMembers(data || []);
+        setTeamMembers((data || []).map((m) => ({ ...m, image_url: applyTeamImageOverride(m.id, m.image_url) })));
       } catch (error) {
         console.error('Error fetching team members:', error);
       } finally {
