@@ -46,41 +46,42 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           className="fixed inset-0 z-50 cursor-default bg-navy/65 backdrop-blur-sm"
         />
         <motion.div
-          initial={{ x: 'calc(-100% - 6rem)' }}
+          initial={{ x: '100%' }}
           animate={{ x: 0 }}
-          exit={{ x: 'calc(-100% - 6rem)' }}
+          exit={{ x: '100%' }}
           transition={{ type: 'tween', duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed left-0 top-0 z-[100] h-full w-[min(38rem,94vw)] overflow-y-auto border-r border-navy-foreground/10 bg-navy text-navy-foreground shadow-[var(--shadow-luxe)] lg:left-24 lg:w-[min(38rem,calc(94vw-6rem))]"
+          className="fixed right-0 top-0 z-[100] h-full w-[min(30rem,100vw)] overflow-y-auto border-l border-navy-foreground/10 bg-navy text-navy-foreground shadow-[var(--shadow-luxe)]"
         >
-          <div className="flex min-h-full flex-col px-6 py-7 sm:px-10 sm:py-10">
-            <div className="mb-10 flex items-start justify-between border-b border-navy-foreground/10 pb-8">
+          <div className="flex min-h-full flex-col px-7 py-8 sm:px-12 sm:py-12">
+            <div className="mb-12 flex items-start justify-between border-b border-navy-foreground/10 pb-8 sm:mb-16">
               <Link to={withLang('/')} onClick={onClose} className="inline-flex items-center">
                 <img src="/favicon-512x512.png" alt="Future Homes International" width={52} height={52} className="h-12 w-12 object-contain" />
-                <span className="ml-4 max-w-36 font-serif text-sm font-semibold uppercase leading-5 [letter-spacing:.12em]">Future Homes International</span>
+                <span className="ml-4 max-w-40 font-serif text-sm font-semibold uppercase leading-5 [letter-spacing:.12em]">Future Homes International</span>
               </Link>
-              <button onClick={onClose} aria-label="Close menu" className="flex h-11 w-11 items-center justify-center border border-navy-foreground/20 text-navy-foreground transition-colors hover:border-gold hover:text-gold">
+              <Button onClick={onClose} aria-label="Close menu" variant="ghost" size="icon" className="h-12 w-12 text-navy-foreground transition-transform duration-300 hover:rotate-90 hover:bg-navy-foreground/10 hover:text-gold">
                 <X size={24} />
-              </button>
+              </Button>
             </div>
             
-            <div className="grid flex-1 gap-10 sm:grid-cols-[1.05fr_.95fr]">
+            <div className="flex-1 space-y-12">
               <div>
                 <p className="mb-6 flex items-center gap-3 text-[10px] font-semibold uppercase text-gold [letter-spacing:.22em]"><span className="h-px w-8 bg-gold" />{t('sidebar.properties')}</p>
-                <div className="space-y-1">
-                  {propertyLocations.map((location) => (
+                <div className="space-y-2">
+                  {propertyLocations.map((propertyLocation, index) => (
                     <Link
-                      key={location.href}
-                      to={location.href}
-                      className="group flex min-h-12 items-center justify-between border-b border-navy-foreground/10 font-serif text-xl text-navy-foreground/85 transition-colors hover:text-gold"
+                      key={propertyLocation.href}
+                      to={propertyLocation.href}
+                      className={`group flex min-h-12 items-center gap-5 border-b border-navy-foreground/10 py-2 font-serif text-2xl text-navy-foreground transition-all duration-300 hover:translate-x-2 hover:text-gold ${location.pathname.includes(propertyLocation.href.split('?')[0]) ? 'text-gold' : ''}`}
                       onClick={onClose}
                     >
-                      <span>{location.name}</span><ArrowRight className="h-4 w-4 -translate-x-2 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+                      <span className="text-[9px] font-sans font-bold text-gold">{String(index + 1).padStart(2, '0')}</span>
+                      <span className="flex-1">{propertyLocation.name}</span><ArrowRight className="h-4 w-4 -translate-x-2 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
                     </Link>
                   ))}
                 </div>
               </div>
 
-              <div className="flex flex-col">
+              <div className="grid grid-cols-2 gap-x-5">
               <p className="mb-6 text-[10px] font-semibold uppercase text-gold [letter-spacing:.22em]">Explore</p>
               <Link to={withLang("/property-wizard")} onClick={onClose} className="flex min-h-11 items-center text-sm text-navy-foreground/70 transition-colors hover:text-gold">
                 {t('sidebar.easy_find')}
@@ -112,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               </div>
             </div>
 
-            <div className="mt-10 grid gap-3 border-t border-navy-foreground/10 pt-7 sm:grid-cols-2">
+             <div className="mt-12 grid gap-3 border-t border-navy-foreground/10 pt-7 sm:grid-cols-2">
               <Button asChild className="h-12 bg-gold text-gold-foreground hover:bg-gold/90"><a href={whatsappLink()} target="_blank" rel="noopener noreferrer"><MessageCircle aria-hidden="true" /> WhatsApp</a></Button>
               <Button asChild variant="outline" className="h-12 border-navy-foreground/20 bg-transparent text-navy-foreground hover:bg-navy-foreground hover:text-navy"><a href="mailto:info@futurehomesinternational.com"><Mail aria-hidden="true" /> Email</a></Button>
             </div>

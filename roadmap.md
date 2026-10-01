@@ -14,3 +14,4 @@
 - [x] Designa om kartsökningen med filter och bostadslista till vänster samt karta till höger.
 - [x] Matcha kartsökningen mot referensens horisontella filter, luftiga lista och rundade karta.
 - [x] Ge välkomstpopupen ny lyxig design, rätta språk/valuta i navigationslisten och behåll kontaktbannern.
+- [x] Ersätt den fasta vänsterlisten med en exklusiv toppmeny och en meny som öppnas från höger.
