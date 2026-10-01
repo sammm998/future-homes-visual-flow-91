@@ -32,6 +32,8 @@ import { t } from '@/utils/translations';
 import { ShareLinkButton } from '@/components/ShareLinkButton';
 import LiveViewers from '@/components/LiveViewers';
 import PropertySuggestions from '@/components/PropertySuggestions';
+import { PropertyInquiry, PropertyStickyCta } from '@/components/PropertyInquiry';
+import { PropertyHeroGallery } from '@/components/PropertyHeroGallery';
 
 const parseCompletionDate = (value: string | null | undefined): Date | null => {
   if (!value) return null;
@@ -531,37 +533,48 @@ const PropertyDetail = () => {
       <Navigation />
       
       {/* Image Modal */}
-      {showImageModal && property.images && <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setShowImageModal(false)}>
-          <div className="relative max-w-6xl max-h-full" onClick={e => e.stopPropagation()}>
-            <Button variant="ghost" size="icon" aria-label="Close" onClick={() => setShowImageModal(false)} className="absolute -top-4 -right-4 text-white hover:bg-white/20 bg-black/50 rounded-full z-50">
+      {showImageModal && property.images && <div className="fixed inset-0 bg-black/95 z-[60] flex flex-col" onClick={() => setShowImageModal(false)}>
+          <div className="flex items-center justify-between p-4 text-white" onClick={e => e.stopPropagation()}>
+            <span className="text-sm">{currentImageIndex + 1} / {property.images.length}</span>
+            <Button variant="ghost" size="icon" aria-label="Close" onClick={() => setShowImageModal(false)} className="text-white hover:bg-white/20 rounded-full">
               <X className="h-6 w-6" />
             </Button>
-            
-            <OptimizedPropertyImage src={property.images[currentImageIndex] || property.image || "/placeholder.svg"} alt={`${property.title} in ${property.location || ''} — full screen photo ${currentImageIndex + 1}`} className="max-h-[95vh] max-w-full object-contain rounded-lg" priority={true} />
-            
+          </div>
+          <div className="relative flex flex-1 items-center justify-center px-2 md:px-16 min-h-0" onClick={e => e.stopPropagation()}>
+            <OptimizedPropertyImage src={property.images[currentImageIndex] || property.image || "/placeholder.svg"} alt={`${property.title} in ${property.location || ''} — full screen photo ${currentImageIndex + 1}`} className="max-h-full max-w-full object-contain" priority={true} />
             {property.images.length > 1 && <>
-                <button onClick={prevImage} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-all">
-                  <ChevronLeft className="h-6 w-6" />
+                <button aria-label="Previous photo" onClick={prevImage} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/15 text-white p-3 rounded-full hover:bg-white/30 transition-all">
+                  <ChevronLeft className="h-7 w-7" />
                 </button>
-                <button onClick={nextImage} className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-all">
-                  <ChevronRight className="h-6 w-6" />
+                <button aria-label="Next photo" onClick={nextImage} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/15 text-white p-3 rounded-full hover:bg-white/30 transition-all">
+                  <ChevronRight className="h-7 w-7" />
                 </button>
               </>}
-            
-            <div className="text-white text-center mt-4">
-              {currentImageIndex + 1} / {property.images.length}
-            </div>
           </div>
+          {property.images.length > 1 && <div className="flex gap-2 overflow-x-auto p-3 justify-start md:justify-center" onClick={e => e.stopPropagation()}>
+              {property.images.map((img: string, i: number) => <button key={i} aria-label={`Photo ${i + 1}`} onClick={() => setCurrentImageIndex(i)} className={`h-16 w-24 shrink-0 overflow-hidden rounded-md border-2 transition ${i === currentImageIndex ? 'border-white' : 'border-transparent opacity-60 hover:opacity-100'}`}>
+                  <OptimizedPropertyImage src={img} alt="" className="h-full w-full object-cover" priority={false} />
+                </button>)}
+            </div>}
         </div>}
 
-      <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
+      <div className="container mx-auto px-4 pt-24 pb-28 lg:pb-16 max-w-7xl">
         {/* Back Button */}
-        <Button variant="ghost" asChild className="mb-8">
+        <Button variant="ghost" asChild className="mb-4">
           <a href={returnUrl}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             {t('pd.back_to_properties', language)}
           </a>
         </Button>
+
+        <div className="mb-8">
+          <PropertyHeroGallery
+            images={property.images?.length ? property.images : [property.image].filter(Boolean)}
+            alt={`${property.title} — ${property.propertyType || 'property'} in ${property.location || ''} (REF ${refLabel})`}
+            lang={language}
+            onOpen={(i) => { setCurrentImageIndex(i); setShowImageModal(true); }}
+          />
+        </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -590,42 +603,6 @@ const PropertyDetail = () => {
               <ShareLinkButton refNo={property.refNo || property.ref_no} lang={lang} />
             </div>
 
-            {/* Property Images */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-semibold">{t('pd.gallery', language)}</h2>
-              <div className="space-y-4">
-                {/* Main Image */}
-                <div className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer group" onClick={() => setShowImageModal(true)}>
-                  <OptimizedPropertyImage src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"} alt={`${property.title} — ${property.propertyType || 'property'} in ${property.location || ''} (REF ${refLabel})`} className={`w-full h-full object-cover ${currentImageIndex === 0 ? 'animate-kenburns' : 'transition-transform duration-300 group-hover:scale-105'}`} priority={true} />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                    <Images className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  
-                  {/* Navigation Arrows on Main Image */}
-                  {property.images && property.images.length > 1 && <>
-                      <Button variant="ghost" size="icon" aria-label="Previous photo" className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
-                    e.stopPropagation();
-                    prevImage();
-                  }}>
-                        <ChevronLeft className="w-6 h-6" />
-                      </Button>
-                      <Button variant="ghost" size="icon" aria-label="Next photo" className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10" onClick={e => {
-                    e.stopPropagation();
-                    nextImage();
-                  }}>
-                        <ChevronRight className="w-6 h-6" />
-                      </Button>
-                    </>}
-                </div>
-                
-                {/* Thumbnail Images */}
-                {property.images && property.images.length > 1 && <div className="grid grid-cols-4 gap-2">
-                    {property.images.slice(0, 4).map((image: string, index: number) => <div key={index} className={`aspect-square overflow-hidden rounded-sm cursor-pointer border-2 transition-all ${currentImageIndex === index ? 'border-primary' : 'border-transparent hover:border-muted-foreground/50'}`} onClick={() => setCurrentImageIndex(index)}>
-                        <OptimizedPropertyImage src={image} alt={`${property.title} in ${property.location || ''} — photo ${index + 1}`} className="w-full h-full object-cover" priority={false} />
-                      </div>)}
-                  </div>}
-              </div>
-            </div>
 
             {/* Basic Property Info */}
             <div className="space-y-6">
@@ -832,81 +809,24 @@ const PropertyDetail = () => {
               </div>
             </div>
 
-            {/* Contact Agent Card - Now Sticky */}
-            <div className="sticky top-8 p-6 border rounded-lg bg-gradient-to-br from-primary/5 via-card to-primary/10 backdrop-blur-sm shadow-lg">
-              <h3 className="text-xl font-semibold mb-4 text-center">{t('pd.contact_agent', language)}</h3>
-              
-              {agent ? <div className="space-y-4">
-                  <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-white/50 to-primary/5 rounded-xl border border-primary/20">
-                    <Avatar className="h-14 w-14 ring-2 ring-primary/30">
-                      <AvatarImage src={agent.image} />
-                      <AvatarFallback className="bg-primary/20 text-primary font-bold">
-                        {agent.name.split(' ').map((n: string) => n[0]).join('')}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h4 className="font-semibold text-foreground notranslate" translate="no">{agent.name}</h4>
-                       <p className="text-sm text-primary font-medium">{t(agent.titleKey, language)}</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    
-                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
-                      <Mail className="h-4 w-4 text-green-600" />
-                      <a href={`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
-                        {property?.contactEmail || "info@futurehomesinternational.com"}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 pt-2">
-                    <Button onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
-                      <Phone className="h-4 w-4 mr-2" />
-                      {t('pd.call_now', language)}
-                    </Button>
-                    <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
-                      <Mail className="h-4 w-4 mr-2" />
-                      {t('pd.send_message', language)}
-                    </Button>
-                  </div>
-                </div> : <div className="space-y-4">
-                  <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-white/50 to-primary/5 rounded-xl border border-primary/20">
-                    <Avatar className="h-14 w-14 ring-2 ring-primary/30">
-                      <AvatarFallback className="bg-primary/20 text-primary font-bold">EK</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h4 className="font-semibold text-foreground notranslate" translate="no">{property.agent}</h4>
-                      <p className="text-sm text-primary font-medium">{t('pd.sales_representative', language)}</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-blue-200/50 dark:border-blue-700/30">
-                      <Phone className="h-4 w-4 text-blue-600" />
-                      <a href={`tel:${property?.contactPhone || "+905523032750"}`} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
-                        {property?.contactPhone || "+90 552 303 27 50"}
-                      </a>
-                    </div>
-                    <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
-                      <Mail className="h-4 w-4 text-green-600" />
-                      <a href={`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
-                        {property?.contactEmail || "info@futurehomesinternational.com"}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 pt-2">
-                    <Button onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
-                      <Phone className="h-4 w-4 mr-2" />
-                      {t('pd.call_now', language)}
-                    </Button>
-                    <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
-                      <Mail className="h-4 w-4 mr-2" />
-                      {t('pd.send_message', language)}
-                    </Button>
-                  </div>
-                </div>}
+            {/* Enquiry card — WhatsApp + lead form */}
+            <div className="lg:sticky lg:top-24 space-y-3">
+              <PropertyInquiry refNo={String(property.refNo || property.id)} title={property.title} lang={language} />
+              <div className="flex items-center gap-3 rounded-xl border p-3">
+                <Avatar className="h-11 w-11">
+                  {agent?.image && <AvatarImage src={agent.image} />}
+                  <AvatarFallback className="bg-primary/10 text-primary font-bold">FH</AvatarFallback>
+                </Avatar>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold notranslate" translate="no">{agent?.name || property.agent}</p>
+                  <a href={`tel:${property?.contactPhone || "+905523032750"}`} className="text-xs text-primary hover:underline">
+                    <Phone className="mr-1 inline h-3 w-3" />{property?.contactPhone || "+90 552 303 27 50"}
+                  </a>
+                </div>
+                <a href={`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`} aria-label="Email" className="rounded-full p-2 text-primary hover:bg-primary/10">
+                  <Mail className="h-4 w-4" />
+                </a>
+              </div>
             </div>
 
             {/* Investment Highlights */}
@@ -959,6 +879,12 @@ const PropertyDetail = () => {
         </div>
 
         <SEOInternalLinks />
+        <PropertyStickyCta
+          refNo={String(refLabel)}
+          title={property.title}
+          lang={language}
+          price={formatPriceFromString(property.price, formatPrice)}
+        />
       </div>
     </div>;
 };
