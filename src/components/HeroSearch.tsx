@@ -8,7 +8,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Search, MapPin, Home, Building, Store, Filter, Wand2 } from "lucide-react";
-import AiSearchDialog from "@/components/AiSearchDialog";
+import AiSearchDialog, { COPY as AI_COPY } from "@/components/AiSearchDialog";
+import { getCurrentLanguage as getLangFromPath } from "@/utils/seoUtils";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { findPropertyLocationByRefNo } from "@/utils/propertyRouting";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -342,7 +343,7 @@ export function HeroSearch() {
           </Dialog>
         <Button type="button" onClick={() => setShowAi(true)} variant="outline" className="h-12 shrink-0 border-gold bg-gold/10 px-4 font-semibold text-navy hover:bg-gold hover:text-gold-foreground sm:h-14">
           <Wand2 size={14} className="mr-1" />
-          AI Search
+          <span suppressHydrationWarning>{(AI_COPY[getLangFromPath()] || AI_COPY.en).title}</span>
         </Button>
         <AiSearchDialog open={showAi} onOpenChange={setShowAi} />
         <Button onClick={handleSearch} className="h-12 flex-1 bg-navy px-5 text-navy-foreground shadow-lg hover:bg-navy/90 sm:h-14">
