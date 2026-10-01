@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useCurrency, currencies } from '@/contexts/CurrencyContext';
 
-const CurrencySelector: React.FC = () => {
+interface CurrencySelectorProps {
+  dark?: boolean;
+}
+
+const CurrencySelector: React.FC<CurrencySelectorProps> = ({ dark = false }) => {
   const { selectedCurrency, setSelectedCurrency } = useCurrency();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -11,7 +15,7 @@ const CurrencySelector: React.FC = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Select currency"
-        className="flex items-center gap-2 px-3 min-h-11 rounded-lg text-sm font-medium text-foreground hover:bg-accent transition-colors min-w-[80px] border border-border/50"
+        className={`flex min-h-11 min-w-[80px] items-center gap-2 rounded-sm border px-3 text-sm font-medium transition-colors ${dark ? 'border-navy-foreground/20 bg-navy text-navy-foreground hover:border-gold hover:text-gold' : 'border-border/50 text-foreground hover:bg-accent'}`}
       >
         <span 
           className="currency-display-wrapper notranslate font-mono text-xs font-bold tracking-wider" 
