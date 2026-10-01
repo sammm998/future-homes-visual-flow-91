@@ -20,6 +20,7 @@ const FeatureDemo = lazy(() => import("@/components/ui/feature-demo").then(m => 
 const InteractiveSelector = lazy(() => import("@/components/ui/interactive-selector"));
 const ShuffleGrid = lazy(() => import("@/components/ShuffleGrid"));
 const RollingTestimonialsSection = lazy(() => import("@/components/RollingTestimonialsSection"));
+const TestimonialsMasonryGrid = lazy(() => import("@/components/TestimonialsMasonryGrid"));
 const FounderSection = lazy(() => import("@/components/FounderSection"));
 const TeamSection = lazy(() => import("@/components/TeamSection"));
 const NewsInsights = lazy(() => import("@/components/NewsInsights"));
@@ -229,9 +230,14 @@ const Index = () => {
         <ShuffleGrid />
       </DeferredSection>
 
-      {/* Rolling Testimonials */}
+      {/* Google customer reviews */}
       <DeferredSection minHeight={700}>
         <RollingTestimonialsSection />
+      </DeferredSection>
+
+      {/* Customer testimonials */}
+      <DeferredSection minHeight={700}>
+        <TestimonialsMasonryGrid />
       </DeferredSection>
 
       {/* Founder Section */}
