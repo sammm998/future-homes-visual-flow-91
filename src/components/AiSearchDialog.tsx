@@ -20,7 +20,7 @@ const COPY: Record<string, Record<string, string>> = {
 };
 
 export function AiSearchDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
-  const lang = getCurrentLanguage() || "en";
+  const lang = getCurrentLanguage(typeof window !== "undefined" ? window.location.search : "") || "en";
   const c = COPY[lang] || COPY.en;
   const [query, setQuery] = useState("");
   const [state, setState] = useState<"idle" | "recording" | "transcribing" | "searching">("idle");
