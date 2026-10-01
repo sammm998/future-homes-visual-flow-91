@@ -37,9 +37,8 @@ export const SEOInternalLinks: React.FC<SEOInternalLinksProps> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <nav aria-label="Related pages" className={`cinematic-surface rounded-md p-6 md:p-8 mt-12 ${className}`}>
-      <span className="section-kicker cinematic-rule mb-3">Future Homes</span>
-      <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-5">
+    <nav aria-label="Related pages" className={`border-t pt-8 mt-12 ${className}`}>
+      <h2 className="text-xl font-semibold text-foreground mb-4">
         {heading ?? t('seo.links.heading')}
       </h2>
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
@@ -47,7 +46,7 @@ export const SEOInternalLinks: React.FC<SEOInternalLinksProps> = ({
           <li key={l.to}>
             <Link
               to={l.to}
-              className="inline-flex items-center min-h-11 py-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="inline-flex items-center min-h-11 py-2 text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline transition-colors"
             >
               {t(l.key)}
             </Link>

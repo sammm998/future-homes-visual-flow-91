@@ -15,7 +15,6 @@ import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import { useTranslation } from "@/hooks/useTranslation";
 import { saveLead } from "@/lib/leads.functions";
-import { trackConversionEvent } from "@/lib/analytics-events";
 
 const ContactUs = () => {
   const navigate = useNavigate();
@@ -36,7 +35,7 @@ const ContactUs = () => {
     setIsSubmitting(true);
     // Store the enquiry in the CRM first so a mail failure can never lose it.
     try {
-      const result = await saveLead({
+      await saveLead({
         data: {
           name: `${formData.firstName} ${formData.lastName}`.trim(),
           email: formData.email,
@@ -48,7 +47,6 @@ const ContactUs = () => {
           ].filter(Boolean).join("\n\n"),
         },
       });
-      if (result.saved) trackConversionEvent("contact_form_submit", { form: "contact", lead_saved: true });
     } catch (leadError) {
       console.warn("Failed to save lead:", leadError);
     }
@@ -86,18 +84,17 @@ const ContactUs = () => {
       {!contentLoading && contentSections.length > 0}
 
       {(
-        <section className="pt-36 pb-20 bg-brand-secondary text-brand-foreground cinematic-section">
+        <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-muted/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <span className="section-kicker cinematic-rule text-brand-accent mb-5">Future Homes</span>
-              <h1 className="text-4xl md:text-6xl font-bold text-brand-foreground mb-6">{t('contact.title')}</h1>
-              <p className="text-xl text-brand-foreground/70 max-w-2xl mx-auto">{t('contact.subtitle')}</p>
+            <div className="text-center mb-16">
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('contact.title')}</h1>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('contact.subtitle')}</p>
             </div>
           </div>
         </section>
       )}
 
-      <section className="py-20 lg:py-28 cinematic-section">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="space-y-8">
@@ -107,7 +104,7 @@ const ContactUs = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                 <Card className="cinematic-card rounded-md">
+                <Card className="border-none shadow-lg">
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
                       <Phone className="h-6 w-6 text-primary" />
@@ -119,7 +116,7 @@ const ContactUs = () => {
                   </CardContent>
                 </Card>
 
-                 <Card className="cinematic-card rounded-md">
+                <Card className="border-none shadow-lg">
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
                       <Mail className="h-6 w-6 text-primary" />
@@ -131,7 +128,7 @@ const ContactUs = () => {
                   </CardContent>
                 </Card>
 
-                 <Card className="cinematic-card rounded-md">
+                <Card className="border-none shadow-lg">
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
                       <MapPin className="h-6 w-6 text-primary" />
@@ -143,7 +140,7 @@ const ContactUs = () => {
                   </CardContent>
                 </Card>
 
-                 <Card className="cinematic-card rounded-md">
+                <Card className="border-none shadow-lg">
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
                       <Clock className="h-6 w-6 text-primary" />
@@ -168,7 +165,7 @@ const ContactUs = () => {
               </div>
             </div>
 
-            <Card className="cinematic-surface rounded-md border-border/70">
+            <Card className="border-none shadow-xl">
               <CardHeader>
                 <CardTitle className="text-2xl">{t('contact.send_message')}</CardTitle>
                 <CardDescription>{t('contact.form_subtitle')}</CardDescription>
@@ -209,7 +206,7 @@ const ContactUs = () => {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-primary hover:bg-primary-glow text-primary-foreground font-semibold py-3 rounded-md shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-primary hover:bg-primary-glow text-primary-foreground font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     <Send className="w-4 h-4 mr-2" />
                     {isSubmitting ? t('contact.sending') : t('contact.send_message')}

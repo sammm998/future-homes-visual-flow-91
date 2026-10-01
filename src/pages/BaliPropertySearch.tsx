@@ -418,7 +418,7 @@ const BaliPropertySearch = () => {
               </div>
 
               {/* Properties Grid */}
-              <div className="grid gap-x-8 gap-y-12 grid-cols-1 md:grid-cols-2">
+              <div className="grid gap-x-8 gap-y-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {paginatedProperties.map((property, propertyIndex) => (
                   <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                     <PropertyCard property={property} priority={propertyIndex < 6} />

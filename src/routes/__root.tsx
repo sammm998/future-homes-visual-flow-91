@@ -8,7 +8,6 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
-  type ErrorComponentProps,
   useRouter,
   useRouterState,
 } from "@tanstack/react-router";
@@ -165,7 +164,7 @@ function AppChrome() {
   );
 }
 
-function RootErrorComponent({ error, reset }: ErrorComponentProps) {
+function RootErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {

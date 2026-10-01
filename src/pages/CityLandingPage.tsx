@@ -99,7 +99,7 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
           </p>
 
           {matches.length > 0 && (
-            <div className="grid gap-8 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {matches.slice(0, 12).map((property: any) => (
                 <PropertyCard key={property.id} property={property} />
               ))}

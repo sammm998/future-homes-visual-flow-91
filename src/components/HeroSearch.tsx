@@ -133,11 +133,11 @@ export function HeroSearch() {
   }, [propertyType, bedrooms, location, refNo, sortBy, minPrice, maxPrice, minSqFt, maxSqFt, pool, gym, garden, parking, seaView, security, forResidencePermit, readyToMove, underConstruction, navigate]);
 
   return (
-    <Card className="bg-brand-secondary/55 backdrop-blur-xl border-brand-foreground/20 p-3 sm:p-4 md:p-5 rounded-lg max-w-6xl mx-auto shadow-2xl">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 mb-3">
+    <Card className="bg-white/10 backdrop-blur-sm border-white/20 p-3 sm:p-4 md:p-6 rounded-2xl max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-4 sm:mb-6">
         <div className="lg:col-span-1">
           <Select value={propertyType} onValueChange={setPropertyType}>
-            <SelectTrigger className="h-12 sm:h-14 bg-background border-border/60 text-foreground text-sm">
+            <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
               <SelectValue placeholder={t('search.property_type')} />
             </SelectTrigger>
             <SelectContent>
@@ -171,7 +171,7 @@ export function HeroSearch() {
 
         <div className="lg:col-span-1">
           <Select value={bedrooms} onValueChange={setBedrooms}>
-            <SelectTrigger className="h-12 sm:h-14 bg-background border-border/60 text-foreground text-sm">
+            <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
               <SelectValue placeholder={t('search.bedrooms')} />
             </SelectTrigger>
             <SelectContent>
@@ -187,7 +187,7 @@ export function HeroSearch() {
 
         <div className="lg:col-span-1">
           <Select value={location} onValueChange={setLocation}>
-            <SelectTrigger className="h-12 sm:h-14 bg-background border-border/60 text-foreground text-sm">
+            <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
               <SelectValue placeholder={t('search.location')} />
             </SelectTrigger>
             <SelectContent>
@@ -206,13 +206,13 @@ export function HeroSearch() {
             placeholder={t('search.ref_no')}
             value={refNo}
             onChange={(e) => setRefNo(e.target.value)}
-            className="h-12 sm:h-14 bg-background border-border/60 text-foreground placeholder:text-muted-foreground text-sm"
+            className="h-10 sm:h-12 bg-white border-0 text-black placeholder:text-gray-500 text-sm"
           />
         </div>
 
         <div className="lg:col-span-1">
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="h-12 sm:h-14 bg-background border-border/60 text-foreground text-sm">
+            <SelectTrigger className="h-10 sm:h-12 bg-white border-0 text-black text-sm">
               <SelectValue placeholder={t('search.sort_by')} />
             </SelectTrigger>
             <SelectContent>
@@ -232,7 +232,7 @@ export function HeroSearch() {
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
         <Dialog open={showAdvanced} onOpenChange={setShowAdvanced}>
           <DialogTrigger asChild>
-            <Button variant="outline" size="sm" className="w-full sm:w-auto bg-brand-foreground/10 border-brand-foreground/25 text-brand-foreground hover:bg-brand-foreground/20 h-11 px-5 text-xs">
+            <Button variant="outline" size="sm" className="w-full sm:w-auto bg-white/20 border-white/30 text-white hover:bg-white/30 h-8 px-3 text-xs">
               <Filter size={14} className="mr-1" />
               {t('search.advanced')}
             </Button>
@@ -341,7 +341,7 @@ export function HeroSearch() {
           </DialogContent>
         </Dialog>
 
-        <Button onClick={handleSearch} size="sm" className="w-full sm:w-auto bg-primary hover:bg-primary-glow px-7 h-11 text-xs transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+        <Button onClick={handleSearch} size="sm" className="w-full sm:w-auto bg-primary hover:bg-primary-glow px-4 h-8 text-xs">
           <Search size={14} className="mr-1" />
           {t('search.search')}
         </Button>

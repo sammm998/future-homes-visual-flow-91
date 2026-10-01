@@ -8,7 +8,6 @@ import { Link, useLocation } from '@/lib/router-compat';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 import LiveViewers from './LiveViewers';
 import { useTranslation } from '@/hooks/useTranslation';
-import { trackConversionEvent } from '@/lib/analytics-events';
 
 interface Property {
   id: string | number;
@@ -121,26 +120,21 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       to={propertyUrl}
       state={{ returnUrl }}
       className="block h-full"
-      onClick={() => trackConversionEvent('property_card_click', {
-        property_id: String(property.id),
-        property_ref: property.refNo || property.ref_no || null,
-        source_page: routeLocation.pathname,
-      })}
     >
-      <article className="group relative w-full h-full bg-card overflow-hidden cinematic-card rounded-md focus-within:ring-2 focus-within:ring-primary">
+      <article className="group relative w-full h-full bg-white overflow-hidden shadow-2xl transition-all duration-500 hover:-translate-y-1">
         {/* Image Section */}
-        <div className="relative aspect-[3/2] overflow-hidden bg-brand-secondary">
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#1e3a5f]">
           <OptimizedPropertyImage
             src={getImageUrl() ?? ''}
             alt={property.title}
-            className="w-full h-full object-cover animate-kenburns transition-[filter,transform] duration-700 group-hover:saturate-[1.08] group-hover:brightness-[1.03]"
+            className="w-full h-full object-cover animate-kenburns"
             priority={priority}
           />
 
           {/* Status — sharp pill top-left */}
           <div className="absolute top-4 left-4">
             <span
-              className="px-3 py-1.5 bg-brand-secondary/90 backdrop-blur-md text-brand-foreground text-[10px] font-bold tracking-[0.16em] uppercase"
+              className="px-3 py-1 bg-[#0f1b3d] text-white text-[10px] font-bold tracking-widest uppercase"
               style={{ fontFamily: 'Urbanist, sans-serif' }}
             >
               {statusConfig.text}
@@ -156,7 +150,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           {property.refNo && (
             <div className="absolute bottom-4 left-4">
               <span
-                className="px-2.5 py-1 bg-brand-secondary/65 backdrop-blur-sm text-brand-foreground text-[10px] rounded-sm"
+                className="px-2 py-0.5 bg-black/40 backdrop-blur-sm text-white text-[10px] rounded-sm"
                 style={{ fontFamily: 'Epilogue, sans-serif' }}
               >
                 REF #{property.refNo}
@@ -166,19 +160,19 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
         </div>
 
         {/* Content Section */}
-          <div className="p-5 space-y-4 sm:p-6">
+        <div className="p-6 space-y-4">
           <div className="space-y-1">
             <div className="flex items-center gap-1.5">
-                <MapPin className="w-3 h-3 text-primary" strokeWidth={2.5} />
+              <MapPin className="w-3 h-3 text-[#3b6fa0]" strokeWidth={2.5} />
               <span
-                  className="text-[11px] font-bold tracking-[0.16em] text-primary uppercase"
+                className="text-[11px] font-bold tracking-[0.2em] text-[#3b6fa0] uppercase"
                 style={{ fontFamily: 'Epilogue, sans-serif' }}
               >
                 {(property as any).location_translated || property.location}
               </span>
             </div>
             <h3
-              className="text-2xl font-bold leading-tight text-card-foreground line-clamp-2 group-hover:text-primary transition-colors"
+              className="text-2xl font-bold leading-tight text-[#0f1b3d] line-clamp-2 group-hover:text-[#1e3a5f] transition-colors"
               style={{ fontFamily: 'Urbanist, sans-serif' }}
             >
               {property.title}
@@ -186,19 +180,19 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           </div>
 
           {/* Specs Row */}
-          <div className="flex items-center justify-between border-y border-border py-4">
+          <div className="flex items-center justify-between border-y border-[#e8edf3] py-4">
             <div className="flex flex-col">
               <span
-                className="text-[10px] text-muted-foreground uppercase"
+                className="text-[10px] text-gray-400 uppercase tracking-tighter"
                 style={{ fontFamily: 'Epilogue, sans-serif' }}
               >
                 {t('card.price')}
               </span>
               <span
-                className="text-lg font-bold text-card-foreground"
+                className="text-lg font-bold text-[#0f1b3d]"
                 style={{ fontFamily: 'Urbanist, sans-serif' }}
               >
-                <span className="text-xs font-medium mr-1 uppercase text-primary">{t('card.from')}</span>
+                <span className="text-xs font-medium mr-1 uppercase text-[#3b6fa0]">{t('card.from')}</span>
                  {formatPriceFromString(property.price || '0', formatPrice)}
                  {Number(property.buyer_fee_percent) > 0 && <span className="ml-1 text-xs">+{property.buyer_fee_percent}%</span>}
               </span>
@@ -206,28 +200,28 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
             <div className="flex gap-4">
               {property.bedrooms && (
                 <div className="flex flex-col items-center">
-                  <span className="text-sm font-bold text-primary" style={{ fontFamily: 'Urbanist, sans-serif' }}>
+                  <span className="text-sm font-bold text-[#1e3a5f]" style={{ fontFamily: 'Urbanist, sans-serif' }}>
                     {property.bedrooms}
                   </span>
-                  <span className="text-[10px] text-muted-foreground uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
+                  <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
                     {t('card.beds')}
                   </span>
                 </div>
               )}
-              <div className="flex flex-col items-center border-l border-border pl-4">
-                <span className="text-sm font-bold text-primary" style={{ fontFamily: 'Urbanist, sans-serif' }}>
+              <div className="flex flex-col items-center border-l border-[#e8edf3] pl-4">
+                <span className="text-sm font-bold text-[#1e3a5f]" style={{ fontFamily: 'Urbanist, sans-serif' }}>
                   {property.bathrooms || '–'}
                 </span>
-                <span className="text-[10px] text-muted-foreground uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
+                <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
                   {t('card.bath')}
                 </span>
               </div>
               {property.area && (
-                <div className="flex flex-col items-center border-l border-border pl-4">
-                  <span className="text-sm font-bold text-primary" style={{ fontFamily: 'Urbanist, sans-serif' }}>
+                <div className="flex flex-col items-center border-l border-[#e8edf3] pl-4">
+                  <span className="text-sm font-bold text-[#1e3a5f]" style={{ fontFamily: 'Urbanist, sans-serif' }}>
                     {property.area} <span className="text-[10px]">m²</span>
                   </span>
-                  <span className="text-[10px] text-muted-foreground uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
+                  <span className="text-[10px] text-gray-400 uppercase" style={{ fontFamily: 'Epilogue, sans-serif' }}>
                     {t('card.area')}
                   </span>
                 </div>
@@ -237,7 +231,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
 
           {/* CTA */}
           <div
-              className="w-full group/btn flex items-center justify-center gap-2 bg-brand-secondary text-brand-foreground py-3.5 font-bold text-xs uppercase tracking-[0.14em] transition-[background-color,gap] duration-300 group-hover:bg-primary group-hover:gap-3"
+            className="w-full group/btn flex items-center justify-center gap-2 bg-[#0f1b3d] text-white py-3.5 font-bold text-xs uppercase tracking-widest transition-colors group-hover:bg-[#1e3a5f]"
             style={{ fontFamily: 'Urbanist, sans-serif' }}
           >
             {t('card.view_property')}

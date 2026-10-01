@@ -32,8 +32,6 @@ import { t } from '@/utils/translations';
 import { ShareLinkButton } from '@/components/ShareLinkButton';
 import LiveViewers from '@/components/LiveViewers';
 import PropertySuggestions from '@/components/PropertySuggestions';
-import { FaWhatsapp } from 'react-icons/fa';
-import { trackConversionEvent } from '@/lib/analytics-events';
 
 const parseCompletionDate = (value: string | null | undefined): Date | null => {
   if (!value) return null;
@@ -516,7 +514,7 @@ const PropertyDetail = () => {
     area: property.area,
     propertyType: property.propertyType,
   };
-  return <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <SEOHead
         title={propertyTitle}
         description={propertyDescription}
@@ -556,7 +554,7 @@ const PropertyDetail = () => {
           </div>
         </div>}
 
-      <div className="container mx-auto px-4 pt-28 pb-20 max-w-7xl cinematic-section">
+      <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
         {/* Back Button */}
         <Button variant="ghost" asChild className="mb-8">
           <a href={returnUrl}>
@@ -569,12 +567,12 @@ const PropertyDetail = () => {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Property Header */}
-             <div className="space-y-4 pb-7 border-b border-border/70">
+            <div className="space-y-4">
               <Badge variant="outline" className="w-fit">
                 REF: {property.refNo || property.id}
               </Badge>
               
-               <h1 className="text-3xl md:text-5xl font-bold text-foreground leading-tight">
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground">
                 {property.title}
               </h1>
               
@@ -597,7 +595,7 @@ const PropertyDetail = () => {
               <h2 className="text-2xl font-semibold">{t('pd.gallery', language)}</h2>
               <div className="space-y-4">
                 {/* Main Image */}
-                 <div className="relative aspect-[16/10] overflow-hidden rounded-md cursor-pointer group cinematic-card" onClick={() => setShowImageModal(true)}>
+                <div className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer group" onClick={() => setShowImageModal(true)}>
                   <OptimizedPropertyImage src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"} alt={`${property.title} — ${property.propertyType || 'property'} in ${property.location || ''} (REF ${refLabel})`} className={`w-full h-full object-cover ${currentImageIndex === 0 ? 'animate-kenburns' : 'transition-transform duration-300 group-hover:scale-105'}`} priority={true} />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                     <Images className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -633,21 +631,21 @@ const PropertyDetail = () => {
             <div className="space-y-6">
               <h2 className="text-2xl font-semibold">{t('pd.property_details', language)}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                 <div className="flex items-center space-x-3 p-4 cinematic-surface rounded-md">
+                <div className="flex items-center space-x-3 p-4 border rounded-lg">
                   <Bed className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-muted-foreground">{t('bedrooms', language)}</p>
                     <p className="font-semibold">{property.bedrooms || 'N/A'}</p>
                   </div>
                 </div>
-                 <div className="flex items-center space-x-3 p-4 cinematic-surface rounded-md">
+                <div className="flex items-center space-x-3 p-4 border rounded-lg">
                   <Bath className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-muted-foreground">{t('bathrooms', language)}</p>
                     <p className="font-semibold">{property.bathrooms || 'N/A'}</p>
                   </div>
                 </div>
-                 <div className="flex items-center space-x-3 p-4 cinematic-surface rounded-md">
+                <div className="flex items-center space-x-3 p-4 border rounded-lg">
                   <Square className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-muted-foreground notranslate" translate="no">{t('area', language)}</p>
@@ -738,7 +736,7 @@ const PropertyDetail = () => {
                     {sections.map((section, sIdx) => (
                       <div
                         key={sIdx}
-                        className="p-6 cinematic-surface rounded-md space-y-3"
+                        className="p-6 border rounded-lg bg-gradient-to-br from-blue-50/50 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/5 border-blue-200/50 dark:border-blue-700/30 space-y-3"
                       >
                         {section.heading && (
                           <h3 className="text-lg font-bold text-foreground">{section.heading}</h3>
@@ -776,8 +774,8 @@ const PropertyDetail = () => {
             {property.features && property.features.length > 0 && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">{t('pd.features_amenities', language)}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-2 p-3 cinematic-surface rounded-md transition-all duration-200">
-                      <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                  {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-2 p-3 border rounded-lg bg-gradient-to-r from-green-50/50 to-emerald-50/30 dark:from-green-900/10 dark:to-emerald-900/5 border-green-200/50 dark:border-green-700/30 hover:shadow-md transition-all duration-200">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
                       <span className="text-foreground font-medium">{translateAmenity(feature, language)}</span>
                     </div>)}
                 </div>
@@ -814,7 +812,7 @@ const PropertyDetail = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Quick Info Card */}
-            <div className="p-6 cinematic-surface rounded-md">
+            <div className="p-6 border rounded-lg bg-card/80 backdrop-blur-sm">
               <h3 className="text-xl font-semibold mb-4">{t('pd.quick_info', language)}</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
@@ -835,7 +833,7 @@ const PropertyDetail = () => {
             </div>
 
             {/* Contact Agent Card - Now Sticky */}
-            <div className="sticky top-24 p-6 cinematic-card rounded-md bg-card">
+            <div className="sticky top-8 p-6 border rounded-lg bg-gradient-to-br from-primary/5 via-card to-primary/10 backdrop-blur-sm shadow-lg">
               <h3 className="text-xl font-semibold mb-4 text-center">{t('pd.contact_agent', language)}</h3>
               
               {agent ? <div className="space-y-4">
@@ -856,26 +854,21 @@ const PropertyDetail = () => {
                     
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
                       <Mail className="h-4 w-4 text-green-600" />
-                       <a href={`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`} onClick={() => trackConversionEvent('email_click', { placement: 'property_agent', property_id: String(property.id) })} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
+                      <a href={`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
                         {property?.contactEmail || "info@futurehomesinternational.com"}
                       </a>
                     </div>
                   </div>
 
                   <div className="space-y-3 pt-2">
-                     <Button onClick={() => { trackConversionEvent('phone_click', { placement: 'property_agent', property_id: String(property.id) }); window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self'); }} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
+                    <Button onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
                       <Phone className="h-4 w-4 mr-2" />
                       {t('pd.call_now', language)}
                     </Button>
-                     <Button onClick={() => { trackConversionEvent('email_click', { placement: 'property_agent', property_id: String(property.id) }); window.open(`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`, '_self'); }} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
+                    <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
                       <Mail className="h-4 w-4 mr-2" />
                       {t('pd.send_message', language)}
                     </Button>
-                     <Button asChild className="w-full bg-[#25D366] text-white hover:bg-[#20bd5a]" size="sm">
-                       <a href={`https://wa.me/905523032750?text=${encodeURIComponent(`Hello, I am interested in property REF ${property.refNo || property.id}`)}`} target="_blank" rel="noopener noreferrer" onClick={() => trackConversionEvent('whatsapp_click', { placement: 'property_agent', property_id: String(property.id) })}>
-                         <FaWhatsapp className="h-4 w-4 mr-2" /> WhatsApp
-                       </a>
-                     </Button>
                   </div>
                 </div> : <div className="space-y-4">
                   <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-white/50 to-primary/5 rounded-xl border border-primary/20">
@@ -891,38 +884,33 @@ const PropertyDetail = () => {
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-blue-200/50 dark:border-blue-700/30">
                       <Phone className="h-4 w-4 text-blue-600" />
-                       <a href={`tel:${property?.contactPhone || "+905523032750"}`} onClick={() => trackConversionEvent('phone_click', { placement: 'property_agent', property_id: String(property.id) })} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
+                      <a href={`tel:${property?.contactPhone || "+905523032750"}`} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors cursor-pointer">
                         {property?.contactPhone || "+90 552 303 27 50"}
                       </a>
                     </div>
                     <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-green-100/50 dark:from-green-900/20 dark:to-green-800/10 rounded-lg border border-green-200/50 dark:border-green-700/30">
                       <Mail className="h-4 w-4 text-green-600" />
-                       <a href={`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`} onClick={() => trackConversionEvent('email_click', { placement: 'property_agent', property_id: String(property.id) })} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
+                      <a href={`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`} className="text-sm font-medium text-green-600 hover:text-green-800 transition-colors cursor-pointer">
                         {property?.contactEmail || "info@futurehomesinternational.com"}
                       </a>
                     </div>
                   </div>
 
                   <div className="space-y-3 pt-2">
-                     <Button onClick={() => { trackConversionEvent('phone_click', { placement: 'property_agent', property_id: String(property.id) }); window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self'); }} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
+                    <Button onClick={() => window.open(`tel:${property?.contactPhone || "+905523032750"}`, '_self')} className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white shadow-lg hover:shadow-xl transition-all duration-300" size="sm">
                       <Phone className="h-4 w-4 mr-2" />
                       {t('pd.call_now', language)}
                     </Button>
-                     <Button onClick={() => { trackConversionEvent('email_click', { placement: 'property_agent', property_id: String(property.id) }); window.open(`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`, '_self'); }} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
+                    <Button onClick={() => window.open(`mailto:${property?.contactEmail || "info@futurehomesinternational.com"}`, '_self')} variant="outline" className="w-full border-primary/30 hover:border-primary hover:bg-primary/5 text-primary font-medium transition-all duration-300" size="sm">
                       <Mail className="h-4 w-4 mr-2" />
                       {t('pd.send_message', language)}
                     </Button>
-                     <Button asChild className="w-full bg-[#25D366] text-white hover:bg-[#20bd5a]" size="sm">
-                       <a href={`https://wa.me/905523032750?text=${encodeURIComponent(`Hello, I am interested in property REF ${property.refNo || property.id}`)}`} target="_blank" rel="noopener noreferrer" onClick={() => trackConversionEvent('whatsapp_click', { placement: 'property_agent', property_id: String(property.id) })}>
-                         <FaWhatsapp className="h-4 w-4 mr-2" /> WhatsApp
-                       </a>
-                     </Button>
                   </div>
                 </div>}
             </div>
 
             {/* Investment Highlights */}
-             <div className="p-6 cinematic-surface rounded-md">
+            <div className="p-6 border rounded-lg bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-900/10 dark:to-orange-900/5 border-amber-200/50 dark:border-amber-700/30">
               <h3 className="text-lg font-semibold mb-4 text-center">{t('pd.investment_highlights', language)}</h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
@@ -956,7 +944,7 @@ const PropertyDetail = () => {
             </div>
 
             {/* Similar Properties */}
-             <div className="p-6 cinematic-surface rounded-md text-center">
+            <div className="p-6 border rounded-lg text-center bg-gradient-to-br from-purple-50 to-indigo-50/50 dark:from-purple-900/10 dark:to-indigo-900/5 border-purple-200/50 dark:border-purple-700/30">
               <h3 className="text-lg font-semibold mb-2">{t('pd.similar_properties', language)}</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 {t('pd.discover_more_in', language)} {property.location}

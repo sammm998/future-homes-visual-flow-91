@@ -438,7 +438,7 @@ const CyprusPropertySearch = () => {
 
         {/* Desktop Layout: Properties Grid */}
         <div className="hidden md:block">
-          <div className="grid gap-6 lg:gap-8 grid-cols-1 md:grid-cols-2">
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
                 {filteredProperties.length === 0 ? (
                   <div className="text-center py-12 col-span-full">
                     <p className="text-muted-foreground text-lg">{t('city.no_match')}</p>

@@ -29,20 +29,19 @@ const PopularCities = () => {
   ];
 
   return (
-    <section className="py-20 lg:py-28 bg-brand-secondary cinematic-section overflow-hidden">
-      <div className="text-center mb-12 px-4">
-        <span className="section-kicker cinematic-rule text-brand-accent mb-4">Future Homes</span>
-        <h2 className="text-4xl md:text-6xl font-bold text-brand-foreground mb-4">
+    <section className="py-0">
+      <div className="text-center mb-8">
+        <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
           {t('home.explore_destinations')}
         </h2>
-        <p className="text-xl text-brand-foreground/75 max-w-2xl mx-auto">
+        <p className="text-xl text-white/80 max-w-2xl mx-auto">
           {t('home.explore_subtitle')}
         </p>
       </div>
       <GridMotion 
         items={cityItems}
-        gradientColor="var(--brand-secondary)"
-        className="bg-brand-secondary"
+        gradientColor="hsl(213 100% 15%)"
+        className="bg-gradient-dark"
       />
     </section>
   );

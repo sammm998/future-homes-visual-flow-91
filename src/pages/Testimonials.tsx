@@ -173,8 +173,7 @@ const Testimonials = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <main className="pb-20">
-        <div className="bg-brand-secondary text-brand-foreground pt-36 pb-14 mb-16 cinematic-section">
+      <main className="pt-32 pb-20">
         <div className="container mx-auto px-4">
           {/* Hero Section - Database content with fallback */}
           <ContentSection 
@@ -183,10 +182,8 @@ const Testimonials = () => {
               title: heroTitle || t('testimonials.title', language),
               content: heroSubtitle || t('testimonials.subtitle', language)
             }}
-            className="mb-0 [&_h2]:text-brand-foreground [&_p]:text-brand-foreground/70 [&_span]:text-brand-accent"
+            className="mb-16"
           />
-        </div></div>
-        <div className="container mx-auto px-4 cinematic-section">
 
           {/* Dynamic Content Sections */}
           {!contentLoading && contentSections.length > 0 && (

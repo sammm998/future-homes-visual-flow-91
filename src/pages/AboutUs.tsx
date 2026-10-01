@@ -88,7 +88,7 @@ const AboutUs = () => {
             {contentSections.map((section, index) => <ContentSection key={index} section={section} />)}
           </section>}
 
-        <section className="py-20 lg:py-28 cinematic-section">
+        <section className="py-20">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('about.values_title')}</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('about.values_subtitle')}</p>
@@ -117,8 +117,7 @@ const AboutUs = () => {
 
         <section className="py-20">
           <div className="text-center mb-16">
-            <span className="section-kicker cinematic-rule mb-4">Future Homes</span>
-            <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">{t('about.team_title')}</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('about.team_title')}</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('about.team_subtitle')}</p>
           </div>
 
@@ -127,7 +126,7 @@ const AboutUs = () => {
             </div> : teamError ? <div className="text-center text-muted-foreground">
               <p>{t('about.team_loading_error')}</p>
             </div> : <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-               {teamMembers.map(member => <Card key={member.id} className="group cinematic-card rounded-md">
+              {teamMembers.map(member => <Card key={member.id} className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                   <CardContent className="p-8 text-center">
                     {member.image_url && <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-primary/10 group-hover:scale-105 transition-transform duration-300">
                         <img src={getOptimizedImageUrl(member.image_url, 256)} alt={member.name} width={128} height={128} loading="lazy" decoding="async" className="w-full h-full object-cover" />
@@ -149,10 +148,9 @@ const AboutUs = () => {
             </div>}
         </section>
 
-        <section className="py-20 lg:py-28 cinematic-section">
+        <section className="py-20">
           <div className="text-center mb-16">
-            <span className="section-kicker cinematic-rule mb-4">Future Homes</span>
-            <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">{t('about.locations_title')}</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('about.locations_title')}</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('about.locations_subtitle')}</p>
           </div>
 
@@ -164,7 +162,7 @@ const AboutUs = () => {
               { color: 'amber', title: t('about.dubai_office'), city: 'Dubai, UAE', sub: t('about.dubai_middle_east'), phone: '+971 54 554 2068', desc: t('about.dubai_desc') },
               { color: 'green', title: t('about.bali_office'), city: 'Bali, Indonesia', sub: t('about.bali_southeast'), phone: '+62 813-6404-2656', desc: t('about.bali_desc') },
             ].map((office, i) => (
-               <Card key={i} className="group cinematic-card rounded-md">
+              <Card key={i} className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                 <CardContent className="p-8">
                   <div className={`w-20 h-20 bg-gradient-to-br from-${office.color}-500/20 to-${office.color}-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <Building className={`w-10 h-10 text-${office.color}-500`} />
@@ -196,8 +194,8 @@ const AboutUs = () => {
           </div>
         </section>
 
-        <section className="py-20 cinematic-section">
-          <Card className="cinematic-surface rounded-md">
+        <section className="py-20">
+          <Card className="border-0 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 backdrop-blur-sm">
             <CardContent className="p-12 text-center">
               <div className="w-24 h-24 bg-gradient-to-br from-primary/20 to-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-8">
                 <Languages className="w-12 h-12 text-primary" />
@@ -211,15 +209,14 @@ const AboutUs = () => {
           </Card>
         </section>
 
-        <section className="py-20 lg:py-28 cinematic-section">
+        <section className="py-20">
           <div className="text-center mb-16">
-            <span className="section-kicker cinematic-rule mb-4">Future Homes</span>
-            <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">{t('about.support_title')}</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('about.support_title')}</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('about.support_subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, index) => <Card key={index} className="group h-full cinematic-card rounded-md">
+            {services.map((service, index) => <Card key={index} className="group h-full border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">

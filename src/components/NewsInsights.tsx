@@ -22,6 +22,11 @@ const NewsInsights = () => {
     return <FileText className="w-5 h-5" />;
   };
 
+  const getCategoryColor = (index: number) => {
+    const colors = ['text-blue-600', 'text-green-600', 'text-purple-600', 'text-orange-600', 'text-teal-600'];
+    return colors[index % colors.length];
+  };
+
   const getCategoryType = (title: string) => {
     if (title.toLowerCase().includes('citizenship') || title.toLowerCase().includes('legal')) return 'Legal Guide';
     if (title.toLowerCase().includes('investment') || title.toLowerCase().includes('business')) return 'Investment';
@@ -35,16 +40,16 @@ const NewsInsights = () => {
   const insights = blogPosts.slice(0, 3).map((post, index) => ({
     id: post.id, title: post.title, description: post.excerpt,
     type: getCategoryType(post.title), icon: getCategoryIcon(post.title),
-    color: index, slug: post.slug
+    color: getCategoryColor(index), slug: post.slug
   }));
 
   if (loading || blogPosts.length === 0) {
     return (
-      <section className="py-20 lg:py-28 bg-secondary/30 cinematic-section">
+      <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="section-kicker cinematic-rule mb-4">{t('home.news_insights')}</span>
-            <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">{t('home.stay_informed')}</h2>
+            <Badge className="mb-4">{t('home.news_insights')}</Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('home.stay_informed')}</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('home.stay_informed_subtitle')}</p>
           </div>
         </div>
@@ -53,19 +58,19 @@ const NewsInsights = () => {
   }
 
   return (
-    <section className="py-20 lg:py-28 bg-secondary/30 cinematic-section">
+    <section className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <span className="section-kicker cinematic-rule mb-4">{t('home.news_insights')}</span>
-          <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">{t('home.stay_informed')}</h2>
+          <Badge className="mb-4">{t('home.news_insights')}</Badge>
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('home.stay_informed')}</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('home.stay_informed_subtitle')}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {insights.map((item, index) => (
-            <Card key={index} className="group cinematic-card rounded-md overflow-hidden bg-card">
+            <Card key={index} className="group hover:shadow-elegant transition-all duration-300 hover:-translate-y-1">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between">
-                   <div className="w-14 h-14 bg-primary/10 text-primary rounded-md flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-110">{item.icon}</div>
+                  <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4">{item.icon}</div>
                   <Badge variant="secondary" className="text-xs">{item.type}</Badge>
                 </div>
                 <CardTitle className="text-xl group-hover:text-primary transition-colors">{item.title}</CardTitle>

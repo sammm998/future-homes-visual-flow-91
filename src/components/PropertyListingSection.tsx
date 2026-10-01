@@ -11,7 +11,7 @@ const PropertyListingSection = () => {
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const { t } = useTranslation();
-  const itemsPerPage = 6;
+  const itemsPerPage = 4;
 
   const locations = ['all', 'Antalya', 'Istanbul', 'Mersin', 'Dubai', 'Cyprus', 'Bali'];
 
@@ -71,13 +71,13 @@ const PropertyListingSection = () => {
 
   if (loading) {
     return (
-      <section className="py-20 lg:py-28 bg-background cinematic-section">
+      <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <Skeleton className="h-12 w-64 mx-auto mb-4" />
             <Skeleton className="h-6 w-96 mx-auto" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => <Skeleton key={i} className="h-96 w-full" />)}
           </div>
         </div>
@@ -86,24 +86,23 @@ const PropertyListingSection = () => {
   }
 
   return (
-    <section className="py-20 lg:py-28 bg-gradient-to-b from-background to-secondary/35 cinematic-section">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12 lg:mb-16 scroll-reveal">
-          <span className="section-kicker cinematic-rule mb-4">Future Homes</span>
-          <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-5 leading-tight">{t('home.browse_properties')}</h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">{t('home.browse_subtitle')}</p>
+    <section className="py-16 bg-gradient-to-b from-background to-secondary/20">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{t('home.browse_properties')}</h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('home.browse_subtitle')}</p>
         </div>
 
-        <div className="flex overflow-x-auto scrollbar-hide md:flex-wrap md:justify-center gap-2 mb-10 md:mb-14 pb-2 scroll-reveal">
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
           {locations.map((location) => (
             <Button
               key={location}
               variant={selectedLocation === location ? 'default' : 'outline'}
               onClick={() => handleLocationChange(location)}
-              className={`shrink-0 px-6 py-2 rounded-md font-semibold transition-all duration-300 ${
+              className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
                 selectedLocation === location 
-                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20 -translate-y-0.5' 
-                  : 'bg-background/80 hover:bg-primary/10 hover:border-primary/50'
+                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30' 
+                  : 'bg-background hover:bg-primary/10 hover:border-primary/50'
               }`}
             >
               {location === 'all' ? t('home.all_locations') : location}
@@ -113,7 +112,7 @@ const PropertyListingSection = () => {
 
         {currentProperties.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
               {currentProperties.map((property, index) => (
                 <PropertyCard key={property.id} property={{ ...property, area: property.sizes_m2 || '', refNo: property.ref_no }} priority={index === 0} />
               ))}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from '@/lib/router-compat';
-import { FaBuilding, FaTree, FaUmbrellaBeach, FaMountain, FaMosque } from 'react-icons/fa';
-import { Button } from '@/components/ui/button';
+import { FaMapMarkerAlt, FaBuilding, FaTree, FaUmbrellaBeach, FaMountain, FaMosque } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import baliImage from '@/assets/bali-destination.webp';
 import istanbulImage from '@/assets/istanbul-destination.webp';
@@ -42,17 +41,18 @@ const InteractiveSelector = () => {
   }, []);
 
   return (
-    <section className="relative py-20 lg:py-28 overflow-hidden bg-brand-secondary text-brand-foreground cinematic-section">
-      <div className="absolute inset-0 bg-noise opacity-[0.025]"></div>
+    <section className="relative min-h-screen py-16 lg:py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-noise opacity-[0.03]"></div>
+      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary-glow/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 lg:mb-16">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="space-y-6">
-            <span className="section-kicker cinematic-rule text-brand-accent">Future Homes</span>
-            <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-brand-foreground tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-foreground tracking-tight">
               {t('home.explore_destinations')}
             </h2>
-            <p className="text-lg sm:text-xl text-brand-foreground/70 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               {t('home.explore_subtitle')}
             </p>
           </motion.div>
@@ -60,7 +60,7 @@ const InteractiveSelector = () => {
 
         <div className="w-full max-w-6xl mx-auto">
           {/* Desktop View */}
-          <div className="hidden lg:flex h-[540px] rounded-md overflow-hidden shadow-2xl border border-brand-foreground/10">
+          <div className="hidden lg:flex h-[500px] rounded-2xl overflow-hidden shadow-elegant">
             {options.map((option, index) => (
               <motion.div
                 key={index}
@@ -74,7 +74,7 @@ const InteractiveSelector = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                 <div className="relative h-full flex flex-col justify-end p-6 lg:p-8">
                   <div className="flex items-center gap-4 mb-4">
-                     <div className="w-12 h-12 bg-primary/90 backdrop-blur-sm rounded-full flex items-center justify-center border border-brand-foreground/20">
+                    <div className="w-12 h-12 bg-primary/90 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20">
                       {option.icon}
                     </div>
                     {activeIndex === index && (
@@ -82,9 +82,9 @@ const InteractiveSelector = () => {
                         <h3 className="text-2xl lg:text-3xl font-bold mb-1">{option.title}</h3>
                         <p className="text-white/80 text-sm lg:text-base mb-2">{option.description}</p>
                         <p className="font-semibold text-sm mb-3 text-slate-50">{option.propertyCount}</p>
-                         <Button className="bg-primary hover:bg-primary-glow text-primary-foreground px-4 py-2 rounded-md text-sm font-semibold transition-all hover:-translate-y-0.5" onClick={(e) => { e.stopPropagation(); navigate(option.path); }}>
+                        <button className="bg-primary hover:bg-primary-glow text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors" onClick={(e) => { e.stopPropagation(); navigate(option.path); }}>
                           {t('home.view_properties')}
-                         </Button>
+                        </button>
                       </motion.div>
                     )}
                   </div>
@@ -98,7 +98,7 @@ const InteractiveSelector = () => {
             {options.map((option, index) => (
               <motion.div
                 key={index}
-                className="relative h-40 sm:h-48 rounded-md overflow-hidden shadow-lg cursor-pointer border border-brand-foreground/10"
+                className="relative h-32 sm:h-40 rounded-xl overflow-hidden shadow-lg cursor-pointer"
                 style={{ backgroundImage: `url('${option.image}')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
                 onClick={() => handleOptionClick(index)}
                 initial={{ opacity: 0, y: 30 }}
@@ -110,16 +110,16 @@ const InteractiveSelector = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
                 <div className="relative h-full flex items-center p-4 sm:p-6">
                   <div className="flex items-center gap-4">
-                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/90 backdrop-blur-sm rounded-full flex items-center justify-center border border-brand-foreground/20 flex-shrink-0">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/90 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20 flex-shrink-0">
                       {option.icon}
                     </div>
                     <div className="text-white flex-grow">
                       <h3 className="text-lg sm:text-xl font-bold mb-1">{option.title}</h3>
                       <p className="text-white/80 text-sm mb-1">{option.description}</p>
                       <p className="font-semibold text-xs sm:text-sm mb-2 text-slate-50">{option.propertyCount}</p>
-                       <Button className="bg-primary hover:bg-primary-glow text-primary-foreground px-3 py-1 rounded-sm text-xs font-semibold transition-colors" onClick={(e) => { e.stopPropagation(); navigate(option.path); }}>
+                      <button className="bg-primary hover:bg-primary-glow text-white px-3 py-1 rounded-sm text-xs font-semibold transition-colors" onClick={(e) => { e.stopPropagation(); navigate(option.path); }}>
                         {t('home.view_properties')}
-                       </Button>
+                      </button>
                     </div>
                   </div>
                 </div>

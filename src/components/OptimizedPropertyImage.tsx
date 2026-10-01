@@ -21,9 +21,9 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   alt,
   className,
   priority = false,
-  width = 720,
-  height = 480,
-  sizes = "(max-width: 768px) 100vw, (max-width: 1440px) 50vw, 42vw",
+  width = 400,
+  height = 300,
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
   showCenteredLogo = false
 }) => {
   // Helper to validate image URL
