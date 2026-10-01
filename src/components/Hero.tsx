@@ -11,11 +11,13 @@ interface HeroProps {
   backgroundImage?: string;
   title?: string;
   subtitle?: string;
+  gallery?: boolean;
 }
 
 const Hero: React.FC<HeroProps> = ({
   title,
-  subtitle
+  subtitle,
+  gallery = false
 }) => {
   const { t } = useTranslation();
   const lang = getCurrentLanguage();
@@ -58,6 +60,46 @@ const Hero: React.FC<HeroProps> = ({
       };
     }
   }, []);
+
+  if (gallery) {
+    return (
+      <section className="relative min-h-[760px] overflow-hidden bg-navy text-navy-foreground sm:min-h-[840px] lg:min-h-[calc(100svh-1rem)]">
+        <HeroSlider />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-navy/15" />
+
+        <div className="relative z-10 mx-auto flex min-h-[760px] max-w-[1840px] flex-col justify-end px-5 pb-28 pt-32 sm:min-h-[840px] sm:px-10 sm:pb-36 lg:min-h-[calc(100svh-1rem)] lg:px-16 lg:pb-44 xl:px-24">
+          <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(290px,.45fr)] lg:gap-16">
+            <div className="max-w-5xl animate-fade-in">
+              <div className="mb-7 flex items-center gap-4 text-[10px] font-semibold uppercase text-gold sm:text-xs [letter-spacing:.28em]">
+                <span className="h-px w-12 bg-gold" />
+                International Estate Gallery
+              </div>
+              <h1 className="max-w-5xl text-4xl font-semibold leading-[1.03] text-navy-foreground sm:text-6xl md:text-7xl xl:text-8xl">
+                {title || t('hero.title')}
+              </h1>
+            </div>
+
+            <div className="border-l border-navy-foreground/25 pl-6 lg:mb-2 lg:pl-8">
+              <p className="max-w-md text-sm leading-7 text-navy-foreground/78 sm:text-base">
+                {subtitle || t('hero.subtitle')}
+              </p>
+              <Button asChild variant="link" className="mt-6 h-auto p-0 text-xs font-semibold uppercase text-navy-foreground hover:text-gold [letter-spacing:.16em]">
+                <a href="#property-collection">{t('sidebar.properties')} <span aria-hidden="true">→</span></a>
+              </Button>
+            </div>
+          </div>
+
+          <div id="property-collection" className="absolute inset-x-5 bottom-5 sm:inset-x-10 lg:inset-x-16 xl:inset-x-24">
+            {InteractiveSearch ? <InteractiveSearch /> : <HeroSearchStatic />}
+          </div>
+        </div>
+
+        <div className="absolute bottom-28 right-8 hidden items-center gap-4 text-[9px] font-semibold uppercase text-navy-foreground/60 lg:flex [letter-spacing:.2em] [writing-mode:vertical-rl]">
+          <span>Scroll</span><span className="h-20 w-px bg-gradient-to-b from-gold to-transparent" />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-ivory px-3 pb-12 pt-3 sm:px-5 sm:pb-24 lg:px-8 lg:pb-28">
