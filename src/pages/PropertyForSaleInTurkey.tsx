@@ -5,9 +5,13 @@ import { BreadcrumbNavigation } from '@/components/BreadcrumbNavigation';
 import FAQSchema from '@/components/FAQSchema';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin, Home, TrendingUp, Shield, Star, Users } from 'lucide-react';
+import { ArrowRight, CheckCircle2, MapPin, Home, TrendingUp, Shield, Star, Users } from 'lucide-react';
 import { Link } from '@/lib/router-compat';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
+import { EditorialCta, EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
+import turkeyHero from '@/assets/destinations/antalya-cinematic.jpg';
+import istanbulImage from '@/assets/destinations/istanbul-cinematic.jpg';
+import mersinImage from '@/assets/destinations/mersin-cinematic.jpg';
 
 const PropertyForSaleInTurkey = () => {
   const faqItems = [
@@ -78,6 +82,12 @@ const PropertyForSaleInTurkey = () => {
     }
   ];
 
+  const locationImages: Record<string, string> = {
+    Antalya: turkeyHero,
+    Alanya: istanbulImage,
+    Mersin: mersinImage,
+  };
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -113,38 +123,22 @@ const PropertyForSaleInTurkey = () => {
       
       <Navigation />
       
-      <main className="container mx-auto px-4 py-8">
-        <BreadcrumbNavigation 
+      <main>
+        <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8"><BreadcrumbNavigation 
           items={[
             { name: 'Property for Sale in Turkey', url: '/property-for-sale-in-turkey' }
           ]}
-        />
+        /></div>
 
-        {/* Hero Section */}
-        <section className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Property for Sale in Turkey
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Discover premium properties for sale in Turkey's most desirable locations. From luxury beachfront villas to modern city apartments, find your perfect Turkish property with expert guidance and comprehensive support.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" asChild>
-              <Link to="/property-for-sale-in-turkey">View All Properties</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link to="/contact-us">Get Expert Advice</Link>
-            </Button>
-          </div>
-        </section>
+        <PublicPageHero eyebrow="Future Homes Turkey collection" title="Property for Sale in Turkey" description="Discover premium properties in Turkey's most desirable locations, from beachfront residences to modern city apartments, with private guidance from our local team." image={turkeyHero} imageAlt="Luxury coastal property in Turkey" primaryLabel="View all properties" primaryTo="/property-gallery" secondaryLabel="Get expert advice" secondaryTo="/contact-us" compact />
 
         {/* Key Benefits */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Buy Property in Turkey?</h2>
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+          <EditorialSectionHeader eyebrow="A confident purchase" title="Why Buy Property in Turkey?" description="Clear ownership, international demand and multiple lifestyle markets make Turkey a compelling long-term choice." />
           <div className="grid md:grid-cols-3 gap-8">
-            <Card>
+            <Card className="rounded-lg border-navy/10 bg-background transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
               <CardHeader>
-                <Shield className="h-12 w-12 text-primary mb-4" />
+                <Shield className="mb-4 h-10 w-10 text-gold-foreground" />
                 <CardTitle>Secure Investment</CardTitle>
               </CardHeader>
               <CardContent>
@@ -154,9 +148,9 @@ const PropertyForSaleInTurkey = () => {
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="rounded-lg border-navy/10 bg-background transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
               <CardHeader>
-                <TrendingUp className="h-12 w-12 text-primary mb-4" />
+                <TrendingUp className="mb-4 h-10 w-10 text-gold-foreground" />
                 <CardTitle>High ROI Potential</CardTitle>
               </CardHeader>
               <CardContent>
@@ -166,9 +160,9 @@ const PropertyForSaleInTurkey = () => {
               </CardContent>
             </Card>
             
-            <Card>
+            <Card className="rounded-lg border-navy/10 bg-background transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
               <CardHeader>
-                <Users className="h-12 w-12 text-primary mb-4" />
+                <Users className="mb-4 h-10 w-10 text-gold-foreground" />
                 <CardTitle>Citizenship Path</CardTitle>
               </CardHeader>
               <CardContent>
@@ -181,13 +175,14 @@ const PropertyForSaleInTurkey = () => {
         </section>
 
         {/* Property Types */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12">Property Types Available</h2>
+        <section className="bg-ivory py-16 lg:py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <EditorialSectionHeader eyebrow="Curated collections" title="Property Types Available" />
           <div className="grid md:grid-cols-3 gap-8">
             {propertyTypes.map((type, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
+              <Card key={index} className="rounded-lg border-navy/10 bg-background transition-all duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
                 <CardHeader>
-                  <type.icon className="h-12 w-12 text-primary mb-4" />
+                  <type.icon className="mb-4 h-10 w-10 text-gold-foreground" />
                   <CardTitle>{type.title}</CardTitle>
                   <p className="text-sm text-primary font-medium">{type.priceRange}</p>
                 </CardHeader>
@@ -199,39 +194,34 @@ const PropertyForSaleInTurkey = () => {
                 </CardContent>
               </Card>
             ))}
-          </div>
+          </div></div>
         </section>
 
         {/* Popular Locations */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12">Popular Locations</h2>
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+          <EditorialSectionHeader eyebrow="Destination portfolio" title="Popular Locations" />
           <div className="grid md:grid-cols-3 gap-8">
             {locations.map((location, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <MapPin className="h-8 w-8 text-primary mb-2" />
-                  <CardTitle>{location.name}</CardTitle>
-                  <p className="text-sm text-primary">{location.properties}</p>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground mb-4">{location.description}</p>
-                  <Button asChild className="w-full">
-                    <Link to={location.link}>View {location.name} Properties</Link>
-                  </Button>
-                </CardContent>
-              </Card>
+              <Link key={index} to={location.link} className="group relative aspect-[4/5] overflow-hidden rounded-lg bg-navy shadow-sm">
+                <img src={locationImages[location.name]} alt={location.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/10 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 text-navy-foreground">
+                  <div><p className="mb-2 text-xs uppercase text-gold">{location.properties}</p><h3 className="text-2xl font-semibold">{location.name}</h3><p className="mt-2 text-sm text-navy-foreground/70">{location.description}</p></div>
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-navy-foreground text-navy transition-colors group-hover:bg-gold"><ArrowRight className="h-4 w-4" /></span>
+                </div>
+              </Link>
             ))}
           </div>
         </section>
 
         {/* Buying Process */}
-        <section className="mb-16">
+        <section className="bg-ivory py-16 lg:py-24">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">Property Buying Process for Foreigners</h2>
+            <EditorialSectionHeader eyebrow="From search to ownership" title="Property Buying Process for Foreigners" align="center" />
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-semibold">1</div>
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy font-semibold text-navy-foreground">1</div>
                   <div>
                     <h3 className="font-semibold mb-2">Property Selection</h3>
                     <p className="text-muted-foreground">Browse our portfolio and select properties that match your criteria and budget.</p>
@@ -239,7 +229,7 @@ const PropertyForSaleInTurkey = () => {
                 </div>
                 
                 <div className="flex items-start space-x-4">
-                  <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-semibold">2</div>
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy font-semibold text-navy-foreground">2</div>
                   <div>
                     <h3 className="font-semibold mb-2">Legal Documentation</h3>
                     <p className="text-muted-foreground">We handle all legal paperwork including title deed checks and contract preparation.</p>
@@ -247,7 +237,7 @@ const PropertyForSaleInTurkey = () => {
                 </div>
                 
                 <div className="flex items-start space-x-4">
-                  <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-semibold">3</div>
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy font-semibold text-navy-foreground">3</div>
                   <div>
                     <h3 className="font-semibold mb-2">Payment & Transfer</h3>
                     <p className="text-muted-foreground">Secure payment processing and official property transfer at the land registry office.</p>
@@ -256,15 +246,10 @@ const PropertyForSaleInTurkey = () => {
               </div>
               
               <div className="space-y-6">
-                <div className="bg-card p-6 rounded-lg border">
+                <div className="rounded-lg border border-navy/10 bg-background p-7 shadow-sm">
                   <h3 className="font-semibold mb-4">What's Included:</h3>
                   <ul className="space-y-2 text-muted-foreground">
-                    <li>• Free property consultation</li>
-                    <li>• Legal due diligence</li>
-                    <li>• Translation services</li>
-                    <li>• Bank account opening assistance</li>
-                    <li>• Property management services</li>
-                    <li>• After-sales support</li>
+                    {['Free property consultation','Legal due diligence','Translation services','Bank account opening assistance','Property management services','After-sales support'].map((item) => <li key={item} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-gold-foreground" />{item}</li>)}
                   </ul>
                 </div>
               </div>
@@ -273,12 +258,12 @@ const PropertyForSaleInTurkey = () => {
         </section>
 
         {/* FAQ Section */}
-        <section className="mb-16">
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <EditorialSectionHeader eyebrow="Buyer guidance" title="Frequently Asked Questions" align="center" />
             <div className="space-y-6">
               {faqItems.map((item, index) => (
-                <Card key={index}>
+                <Card key={index} className="rounded-lg border-navy/10 shadow-none">
                   <CardHeader>
                     <CardTitle className="text-lg">{item.question}</CardTitle>
                   </CardHeader>
@@ -291,25 +276,11 @@ const PropertyForSaleInTurkey = () => {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="text-center bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-12">
-          <h2 className="text-3xl font-bold mb-6">Ready to Find Your Dream Property?</h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Get expert guidance from our experienced team and discover the perfect property investment opportunity in Turkey.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" asChild>
-              <Link to="/property-for-sale-in-turkey">Browse Properties</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link to="/contact-us">Contact Expert</Link>
-            </Button>
-          </div>
-        </section>
+        <EditorialCta eyebrow="Private property search" title="Ready to find your dream property?" description="Get expert guidance from our experienced team and discover the right investment opportunity in Turkey." primaryLabel="Start Easy Find" primaryTo="/ai-property-search" secondaryLabel="Contact an expert" secondaryTo="/contact-us" />
       </main>
 
       <FAQSchema faqItems={faqItems} />
-    <NordicRelatedLinks className="container mx-auto px-4 pb-12" />
+    <NordicRelatedLinks className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8" />
       </div>
   );
 };
