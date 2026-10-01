@@ -272,7 +272,7 @@ const OurStory = () => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="font-heading text-4xl md:text-6xl lg:text-7xl font-light leading-[1.05] tracking-tight mb-8"
+                className="font-serif text-4xl md:text-6xl lg:text-7xl font-light leading-[1.05] tracking-tight mb-8"
               >
                 {slide.title}
               </motion.h1>
@@ -300,7 +300,7 @@ const OurStory = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 1.0 + i * 0.15, duration: 0.6 }}
                     >
-                      <div className="text-4xl md:text-5xl font-heading text-gold">{s.value}</div>
+                      <div className="text-4xl md:text-5xl font-serif text-gold">{s.value}</div>
                       <div className="text-xs uppercase tracking-widest text-ivory/60 mt-2">{s.label}</div>
                     </motion.div>
                   ))}
@@ -367,7 +367,7 @@ const OurStory = () => {
 
       {/* Side index */}
       <div className="absolute left-6 md:left-10 bottom-10 z-30 text-ivory/70 text-sm tracking-widest">
-        <span className="text-gold text-2xl font-heading">{String(index + 1).padStart(2, "0")}</span>
+        <span className="text-gold text-2xl font-serif">{String(index + 1).padStart(2, "0")}</span>
         <span className="mx-2 text-ivory/40">/</span>
         <span>{String(slides.length).padStart(2, "0")}</span>
       </div>
