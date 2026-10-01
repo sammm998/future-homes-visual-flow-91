@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import HeroSlider from "@/components/HeroSlider";
 import HeroSearchStatic from "@/components/HeroSearchStatic";
 import { useTranslation } from "@/hooks/useTranslation";
+import { CheckCircle2, MessageCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cc, whatsappLink } from "@/utils/conversionCopy";
+import { getCurrentLanguage } from "@/utils/seoUtils";
 
 interface HeroProps {
   backgroundImage?: string;
@@ -14,6 +18,7 @@ const Hero: React.FC<HeroProps> = ({
   subtitle
 }) => {
   const { t } = useTranslation();
+  const lang = getCurrentLanguage();
 
   // Lazy-load the polished Radix-based search form after the page is idle so
   // the initial paint/hydration stays lightweight. The static native form is
@@ -55,22 +60,37 @@ const Hero: React.FC<HeroProps> = ({
   }, []);
 
   return (
-    <section className="bg-ivory px-3 pb-3 pt-3 sm:px-5 sm:pb-5 lg:px-8 lg:pb-8">
-      <div className="relative min-h-[720px] overflow-hidden rounded-lg shadow-[var(--shadow-luxe)] sm:min-h-[760px]">
+    <section className="bg-ivory px-3 pb-24 pt-3 sm:px-5 lg:px-8 lg:pb-28">
+      <div className="relative min-h-[680px] overflow-visible rounded-lg shadow-[var(--shadow-luxe)] sm:min-h-[720px]">
+        <div className="absolute inset-0 overflow-hidden rounded-lg">
         <HeroSlider />
+        </div>
 
-        <div className="relative z-10 flex min-h-[720px] flex-col items-center justify-center px-4 pb-10 pt-24 text-center sm:min-h-[760px] sm:px-8">
-          <div className="mx-auto w-full max-w-6xl">
-            <div className="mx-auto max-w-5xl">
-            <p className="mb-6 text-xs font-semibold uppercase tracking-[0.32em] text-gold">Future Homes International</p>
-            <h1 className="mx-auto max-w-5xl text-5xl font-semibold leading-none text-navy-foreground sm:text-6xl md:text-8xl lg:text-9xl">
+        <div className="relative z-10 mx-auto flex min-h-[680px] max-w-7xl flex-col justify-center px-6 pb-40 pt-20 sm:min-h-[720px] sm:px-10 md:pb-36 lg:px-16">
+          <div className="max-w-3xl">
+            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-navy-foreground/25 bg-navy/25 px-4 py-2 text-[11px] font-semibold uppercase text-navy-foreground backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-gold" /> Future Homes International
+            </p>
+            <h1 className="max-w-3xl text-5xl font-semibold leading-[1.02] text-navy-foreground sm:text-6xl md:text-7xl lg:text-8xl">
               {title || t('hero.title')}
             </h1>
-            <p className="mx-auto mb-12 mt-6 max-w-2xl text-base italic leading-relaxed text-navy-foreground/85 sm:text-lg md:text-xl">
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-navy-foreground/85 sm:text-lg md:text-xl">
               {subtitle || t('hero.subtitle')}
             </p>
+            <Button asChild variant="outline" className="mt-8 h-12 border-navy-foreground/35 bg-navy-foreground/10 px-6 text-navy-foreground backdrop-blur-md hover:bg-navy-foreground hover:text-navy">
+              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
+                <MessageCircle aria-hidden="true" /> {cc("whatsapp", lang)}
+              </a>
+            </Button>
           </div>
-          {InteractiveSearch ? <InteractiveSearch /> : <HeroSearchStatic />}
+
+          <div className="absolute inset-x-4 -bottom-16 sm:inset-x-8 lg:inset-x-16">
+            {InteractiveSearch ? <InteractiveSearch /> : <HeroSearchStatic />}
+            <ul className="mt-5 flex flex-wrap justify-center gap-x-8 gap-y-2 text-xs font-medium text-navy sm:text-sm">
+              {(["trust_1", "trust_2", "trust_3"] as const).map((key) => (
+                <li key={key} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-gold" />{cc(key, lang)}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
