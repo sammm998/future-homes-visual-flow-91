@@ -174,7 +174,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
               </span>
             </div>
             <h3
-                className="line-clamp-2 min-h-[3.25rem] text-lg font-semibold leading-tight text-navy-foreground @min-[340px]:text-xl @min-[430px]:text-2xl"
+                className="line-clamp-3 min-h-[3.25rem] text-lg font-semibold leading-tight text-navy-foreground @min-[340px]:text-xl @min-[430px]:text-2xl"
             >
               {property.title}
             </h3>
