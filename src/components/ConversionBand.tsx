@@ -8,6 +8,9 @@ import { cc, whatsappLink } from "@/utils/conversionCopy";
 import antalyaEstate from "@/assets/destination-antalya-estate.jpg";
 import istanbulEstate from "@/assets/destination-istanbul-estate.jpg";
 import dubaiEstate from "@/assets/destination-dubai-estate.jpg";
+import mersinEstate from "@/assets/destinations/mersin-cinematic.jpg";
+import cyprusEstate from "@/assets/destinations/cyprus-cinematic.jpg";
+import baliEstate from "@/assets/destinations/bali-cinematic.jpg";
 
 /** Homepage strip right under the hero: two clear ways to reach an advisor + trust points. */
 export default function ConversionBand() {
@@ -18,6 +21,9 @@ export default function ConversionBand() {
     { name: "Antalya", path: "/antalya", image: antalyaEstate },
     { name: "Istanbul", path: "/istanbul", image: istanbulEstate },
     { name: "Dubai", path: "/dubai", image: dubaiEstate },
+    { name: "Mersin", path: "/mersin", image: mersinEstate },
+    { name: "Cyprus", path: "/cyprus", image: cyprusEstate },
+    { name: "Bali", path: "/bali", image: baliEstate },
   ];
 
   return (
@@ -39,7 +45,7 @@ export default function ConversionBand() {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {destinations.map((destination) => (
             <a key={destination.name} href={localizePath(destination.path, locale)} className="group relative aspect-[4/5] overflow-hidden rounded-lg bg-navy">
               <img src={destination.image} alt={`${destination.name} luxury property`} width={1024} height={1280} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
