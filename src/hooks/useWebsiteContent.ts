@@ -63,13 +63,38 @@ export const useWebsiteContent = (customSlug?: string): UseWebsiteContentResult 
     id: { title: 'Siapa Kami', description: 'Future Homes International adalah perusahaan real estate terkemuka yang berspesialisasi dalam properti premium di Turki, Dubai, Siprus, Bali, dan Prancis. Dengan pengalaman bertahun-tahun dan komitmen pada kualitas, kami membantu klien menemukan rumah ideal atau peluang investasi terbaik.' },
   };
 
+  const contactIntro: Record<string, { title: string; content: string }> = {
+    en: { title: 'Get in Touch', content: 'Contact form and contact details.' },
+    sv: { title: 'Kom i kontakt med oss', content: 'Kontaktformulär och kontaktuppgifter.' },
+    no: { title: 'Kom i kontakt med oss', content: 'Kontaktskjema og kontaktinformasjon.' },
+    da: { title: 'Kom i kontakt med os', content: 'Kontaktformular og kontaktoplysninger.' },
+    tr: { title: 'Bizimle İletişime Geçin', content: 'İletişim formu ve iletişim bilgileri.' },
+    es: { title: 'Póngase en contacto con nosotros', content: 'Formulario de contacto y datos de contacto.' },
+    de: { title: 'Kontaktieren Sie uns', content: 'Kontaktformular und Kontaktdaten.' },
+    fr: { title: 'Contactez-nous', content: 'Formulaire de contact et coordonnées.' },
+    ru: { title: 'Свяжитесь с нами', content: 'Контактная форма и контактные данные.' },
+    ar: { title: 'تواصل معنا', content: 'نموذج الاتصال وبيانات التواصل.' },
+    fa: { title: 'با ما در تماس باشید', content: 'فرم تماس و اطلاعات تماس.' },
+    ur: { title: 'ہم سے رابطہ کریں', content: 'رابطہ فارم اور رابطے کی تفصیلات.' },
+    id: { title: 'Hubungi Kami', content: 'Formulir kontak dan detail kontak.' },
+  };
+
   const localizeSections = (sections: ContentSection[]): ContentSection[] => {
-    if (slug !== 'about-us') return sections;
-    const localized = aboutCompanyInfo[lang] || aboutCompanyInfo.en;
-    return sections.map((section) => {
-      if (section.type !== 'company_info') return section;
-      return { ...section, title: localized.title, description: localized.description };
-    });
+    if (slug === 'about-us') {
+      const localized = aboutCompanyInfo[lang] || aboutCompanyInfo.en;
+      return sections.map((section) => {
+        if (section.type !== 'company_info') return section;
+        return { ...section, title: localized.title, description: localized.description };
+      });
+    }
+    if (slug === 'contact-us') {
+      const localized = contactIntro[lang] || contactIntro.en;
+      return sections.map((section) => {
+        if (section.type !== 'contact' && section.type !== 'form') return section;
+        return { ...section, title: localized.title, content: localized.content };
+      });
+    }
+    return sections;
   };
   
   const { data, isLoading, error } = useQuery({
