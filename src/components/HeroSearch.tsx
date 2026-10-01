@@ -239,7 +239,7 @@ export function HeroSearch() {
               <span className="sr-only">{t('search.advanced')}</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="w-[calc(100vw-2rem)] max-w-2xl overflow-hidden rounded-2xl border border-gold/25 bg-ivory p-0 text-foreground shadow-[var(--shadow-luxe)]">
+          <DialogContent className="w-[calc(100%-2rem)] max-w-2xl overflow-hidden rounded-2xl border border-gold/25 bg-ivory p-0 text-foreground shadow-[var(--shadow-luxe)]">
             <div className="h-1 w-full bg-gold" />
             <div className="max-h-[85vh] overflow-y-auto p-5 sm:p-8">
             <DialogHeader className="text-center">
