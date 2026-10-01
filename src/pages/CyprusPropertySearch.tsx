@@ -308,9 +308,9 @@ const CyprusPropertySearch = () => {
         </div>
 
         {/* Layout with sidebar filter on left and content on right */}
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col gap-10 lg:flex-row xl:gap-12">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
-          <div className="hidden lg:block lg:w-80 lg:flex-shrink-0">
+          <div className="hidden lg:block lg:w-72 lg:flex-shrink-0 xl:w-80">
             <PropertyFilter 
               filters={filters}
               onFilterChange={handleFilterChange}

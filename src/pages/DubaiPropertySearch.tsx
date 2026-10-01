@@ -327,9 +327,9 @@ const DubaiPropertySearch = () => {
         </div>
 
         {/* Layout with sidebar filter on left and content on right */}
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col gap-10 lg:flex-row xl:gap-12">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
-          <div className="hidden lg:block lg:w-80 lg:flex-shrink-0">
+          <div className="hidden lg:block lg:w-72 lg:flex-shrink-0 xl:w-80">
             <PropertyFilter 
               filters={filters}
               onFilterChange={handleFilterChange}
@@ -423,7 +423,7 @@ const DubaiPropertySearch = () => {
 
             {/* Desktop Layout: Properties Grid */}
             <div className="hidden md:block">
-              <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+              <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2">
                 {paginatedProperties.map((property, propertyIndex) => (
                   <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                     <PropertyCard property={property} priority={propertyIndex < 6} />
