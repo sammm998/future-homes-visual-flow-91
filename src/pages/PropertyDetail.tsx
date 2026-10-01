@@ -599,7 +599,6 @@ const PropertyDetail = () => {
 
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{t('pd.quick_info', language)}</p>
                   <div className="text-3xl md:text-4xl font-bold text-primary">
                     {formatPriceFromString(property.price, formatPrice)}{Number(property.buyer_fee_percent) > 0 ? ` +${property.buyer_fee_percent}%` : ''}
                   </div>
@@ -790,17 +789,17 @@ const PropertyDetail = () => {
               <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold">{t('pd.quick_info', language)}</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">{t('pd.property_type', language)}:</span>
+                  <span className="text-navy-foreground/70">{t('pd.property_type', language)}:</span>
                   <span className="font-semibold">{property.propertyType || 'Apartments'}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">{t('pd.completion', language)}:</span>
+                  <span className="text-navy-foreground/70">{t('pd.completion', language)}:</span>
                   <span className="font-semibold">
                     {parseCompletionDate(property.buildingComplete)?.toLocaleDateString(language === 'en' ? 'en-US' : language, { month: 'short', year: 'numeric' }) || '—'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">{t('pd.ref_no', language)}:</span>
+                  <span className="text-navy-foreground/70">{t('pd.ref_no', language)}:</span>
                   <span className="font-semibold">{property.refNo || property.id}</span>
                 </div>
               </div>
