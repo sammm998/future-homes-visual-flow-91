@@ -216,7 +216,7 @@ const AboutUs = () => {
     {/* Closing conversion band */}
     <EditorialCta
       eyebrow="Future Homes International"
-      title={t('about.contact_us')}
+      title={t('contact.get_in_touch')}
       description={t('about.hero_subtitle')}
       primaryLabel={t('about.contact_us')}
       primaryTo="/contact-us"
