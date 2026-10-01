@@ -7,3 +7,4 @@
 - Keep map search as a split browsing workspace with filters and property results on the left and the interactive map on the right, stacking the map above results on mobile.
 - Keep the public menu controller in the shared app shell, while page headers open one right-anchored navigation drawer; never restore a permanent desktop rail.
 - Keep homepage hero clips mounted and crossfade before the active clip ends; starting the next clip before revealing it avoids blank or frozen transitions.
+- AI property search runs through server routes /api/ai-search and /api/ai-transcribe with helpers in src/lib/aiSearch.server.ts — keeps the AI key and full listing catalog on the server.
