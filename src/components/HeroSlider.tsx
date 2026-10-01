@@ -5,7 +5,7 @@ import heroEstateLaptop from '@/assets/hero-modern-estate-1200.webp';
 import broll1 from '@/assets/hero-broll-1.mp4.asset.json';
 import broll2 from '@/assets/hero-broll-2.mp4.asset.json';
 
-const CLIPS = [broll1.url, broll2.url];
+const CLIPS = [broll2.url, broll1.url];
 
 const HeroSlider = () => {
   const [enableVideo, setEnableVideo] = useState(false);
