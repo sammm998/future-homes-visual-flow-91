@@ -26,7 +26,7 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
   if (gallery) {
     return (
       <>
-        <div className="absolute inset-x-0 top-0 z-50 flex h-9 items-center bg-navy px-4 text-navy-foreground lg:left-24">
+        <div className="absolute inset-x-0 top-0 z-50 flex h-9 items-center bg-navy px-4 text-navy-foreground">
           <div className="mx-auto flex w-full max-w-[1840px] items-center justify-between text-[11px]">
             <a href="mailto:info@futurehomesinternational.com" className="inline-flex min-w-0 items-center gap-2 transition-colors hover:text-gold"><Mail size={12} className="shrink-0"/><span className="truncate">info@futurehomesinternational.com</span></a>
             <div className="hidden items-center gap-1 sm:flex">
@@ -37,21 +37,21 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
             </div>
           </div>
         </div>
-        <header className="absolute inset-x-0 top-9 z-40 lg:left-24">
+        <header className="absolute inset-x-0 top-9 z-40 border-b border-navy/10 bg-background/95 backdrop-blur-md">
           <nav className={cn("mx-auto flex h-20 max-w-[1840px] items-center justify-between px-4 sm:px-8 lg:h-24 lg:px-12", className)}>
             <Link to="/" aria-label="Future Homes International – hem" className="inline-flex items-center">
-              <img src="/favicon-512x512.png" alt="Future Homes International" width={52} height={52} className="h-12 w-12 object-contain sm:h-14 sm:w-14" />
+              <img src="/future-homes-logo-new.webp" alt="Future Homes International" width={220} height={130} className="h-12 w-auto sm:h-14" />
             </Link>
             <div className="flex items-center gap-2">
-              <div className="hidden items-center gap-2 rounded-sm border border-navy-foreground/20 bg-navy/25 p-1 backdrop-blur-md sm:flex lg:hidden">
+              <div className="hidden items-center gap-2 sm:flex">
                 <SimpleLanguageSelector />
                 <CurrencySelector />
               </div>
-              <Button asChild variant="outline" className="hidden h-11 border-navy-foreground/30 bg-navy/20 text-navy-foreground backdrop-blur-md hover:bg-navy-foreground hover:text-navy sm:inline-flex">
+              <Button asChild variant="outline" className="hidden h-11 border-navy/15 bg-background text-navy hover:border-gold hover:bg-ivory sm:inline-flex">
                 <a href={whatsappLink()} target="_blank" rel="noopener noreferrer"><MessageCircle aria-hidden="true" /> WhatsApp</a>
               </Button>
-              <Button type="button" size="icon" variant="outline" aria-label="Open menu" onClick={openPublicSidebar} className="h-11 w-11 border-navy-foreground/30 bg-navy/20 text-navy-foreground backdrop-blur-md hover:bg-navy-foreground hover:text-navy lg:hidden">
-                <Menu size={21} aria-hidden="true" />
+              <Button type="button" variant="ghost" aria-label="Open menu" onClick={openPublicSidebar} className="group h-12 gap-3 px-2 text-navy hover:bg-transparent hover:text-gold">
+                <span className="hidden text-[10px] font-bold uppercase [letter-spacing:.2em] sm:inline">Menu</span><Menu size={25} aria-hidden="true" />
               </Button>
             </div>
           </nav>
@@ -103,14 +103,15 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
             <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
               <SimpleLanguageSelector />
               <CurrencySelector />
-              <button
+              <Button
                 type="button"
                 aria-label="Open menu"
-                className="p-2 min-h-11 min-w-11 flex items-center justify-center cursor-pointer hover:bg-muted rounded-md transition-colors"
+                variant="ghost"
+                className="group flex min-h-11 items-center gap-3 px-2 text-navy hover:bg-transparent hover:text-gold"
                 onClick={openPublicSidebar}
               >
-                <Menu size={24} className="text-foreground" aria-hidden="true" />
-              </button>
+                <span className="hidden text-[10px] font-bold uppercase [letter-spacing:.2em] sm:inline">Menu</span><Menu size={25} aria-hidden="true" />
+              </Button>
 
             </div>
           </div>

@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from '@/hooks/useTranslation';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
+import Navigation from '@/components/Navigation';
 
 interface Property {
   id: string;
@@ -376,7 +377,9 @@ const MapSearch = () => {
   const openProperty = (property: Property) => navigate(buildPropertyUrl(property, lang));
 
   return (
-    <main className="flex h-[100svh] flex-col overflow-hidden bg-ivory text-navy">
+    <div className="flex h-[100svh] flex-col overflow-hidden bg-ivory text-navy">
+      <Navigation />
+    <main className="flex min-h-0 flex-1 flex-col overflow-hidden">
       <header className="shrink-0 px-4 pb-3 pt-4 sm:px-6 lg:px-8 lg:pb-5 lg:pt-6">
         <div className="mb-4 flex items-end justify-between gap-4">
           <div><p className="mb-1 text-[9px] font-bold uppercase text-gold">Future Homes International</p><h1 className="font-serif text-2xl font-semibold sm:text-3xl">{t('nav.map_search')}</h1></div>
@@ -409,6 +412,7 @@ const MapSearch = () => {
       {isMobileFilterOpen&&<div className="fixed inset-0 z-[200] bg-navy/55 backdrop-blur-sm lg:hidden" onClick={()=>setIsMobileFilterOpen(false)}><aside className="absolute inset-y-0 left-0 w-[min(92vw,24rem)] overflow-y-auto bg-ivory p-4" onClick={e=>e.stopPropagation()}><div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-semibold">{t('nav.search')}</h2><Button variant="ghost" size="icon" onClick={()=>setIsMobileFilterOpen(false)}><X/></Button></div><PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch}/></aside></div>}
       <style>{`.custom-marker{width:34px;height:34px;cursor:pointer;overflow:hidden;border:2px solid hsl(var(--ivory));border-radius:999px;background:hsl(var(--navy)) url('/favicon.png') center/contain no-repeat;box-shadow:0 8px 22px hsl(var(--navy)/.3);transition:180ms ease}.custom-marker:hover{border-color:hsl(var(--gold));transform:translateY(-2px) scale(1.06)}.mapboxgl-ctrl-top-right{top:58px;right:10px}[data-radix-popper-content-wrapper],[role='listbox']{z-index:300!important}`}</style>
     </main>
+    </div>
   );
 };
 

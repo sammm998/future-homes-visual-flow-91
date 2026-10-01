@@ -162,7 +162,7 @@ function AppChrome() {
     <>
       <ConnectionStatus />
       {!isInternal && <PublicSidebarRail />}
-      <main className={isInternal ? undefined : "lg:pl-24"}>
+      <main>
         <Outlet />
       </main>
       <WhatsAppButton />
