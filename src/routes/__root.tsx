@@ -11,6 +11,7 @@ import {
   useRouter,
   useRouterState,
 } from "@tanstack/react-router";
+import type { ErrorComponentProps } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { HelmetProvider } from '@/lib/helmet-compat';
 import { setCurrentLocation, getCurrentLanguage } from "@/utils/seoUtils";
@@ -164,7 +165,7 @@ function AppChrome() {
   );
 }
 
-function RootErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function RootErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
