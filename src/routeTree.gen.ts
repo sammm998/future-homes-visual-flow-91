@@ -83,6 +83,8 @@ import { Route as AdminLogsRouteImport } from './routes/admin/logs'
 import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminSocialListeningRouteImport } from './routes/admin/social-listening'
+import { Route as ApiAiSearchRouteImport } from './routes/api/ai-search'
+import { Route as ApiAiTranscribeRouteImport } from './routes/api/ai-transcribe'
 import { Route as ApiTranslationsFillRouteImport } from './routes/api/translations-fill'
 import { Route as ArticleIdRouteImport } from './routes/article.$id'
 import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
@@ -516,6 +518,16 @@ const AdminSocialListeningRoute = AdminSocialListeningRouteImport.update({
   path: '/social-listening',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const ApiAiSearchRoute = ApiAiSearchRouteImport.update({
+  id: '/api/ai-search',
+  path: '/api/ai-search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAiTranscribeRoute = ApiAiTranscribeRouteImport.update({
+  id: '/api/ai-transcribe',
+  path: '/api/ai-transcribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiTranslationsFillRoute = ApiTranslationsFillRouteImport.update({
   id: '/api/translations-fill',
   path: '/api/translations-fill',
@@ -860,6 +872,8 @@ export interface FileRoutesByFullPath {
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/api/ai-search': typeof ApiAiSearchRoute
+  '/api/ai-transcribe': typeof ApiAiTranscribeRoute
   '/api/translations-fill': typeof ApiTranslationsFillRoute
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
@@ -986,6 +1000,8 @@ export interface FileRoutesByTo {
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/api/ai-search': typeof ApiAiSearchRoute
+  '/api/ai-transcribe': typeof ApiAiTranscribeRoute
   '/api/translations-fill': typeof ApiTranslationsFillRoute
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
@@ -1115,6 +1131,8 @@ export interface FileRoutesById {
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/api/ai-search': typeof ApiAiSearchRoute
+  '/api/ai-transcribe': typeof ApiAiTranscribeRoute
   '/api/translations-fill': typeof ApiTranslationsFillRoute
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
@@ -1245,6 +1263,8 @@ export interface FileRouteTypes {
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/api/ai-search'
+    | '/api/ai-transcribe'
     | '/api/translations-fill'
     | '/article/$id'
     | '/articles/$slug'
@@ -1371,6 +1391,8 @@ export interface FileRouteTypes {
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/api/ai-search'
+    | '/api/ai-transcribe'
     | '/api/translations-fill'
     | '/article/$id'
     | '/articles/$slug'
@@ -1499,6 +1521,8 @@ export interface FileRouteTypes {
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/api/ai-search'
+    | '/api/ai-transcribe'
     | '/api/translations-fill'
     | '/article/$id'
     | '/articles/$slug'
@@ -1589,6 +1613,8 @@ export interface RootRouteChildren {
   TurkishCitizenshipByInvestmentRoute: typeof TurkishCitizenshipByInvestmentRoute
   WizardThankYouRoute: typeof WizardThankYouRoute
   SegmentIdRoute: typeof SegmentIdRoute
+  ApiAiSearchRoute: typeof ApiAiSearchRoute
+  ApiAiTranscribeRoute: typeof ApiAiTranscribeRoute
   ApiTranslationsFillRoute: typeof ApiTranslationsFillRoute
   ArticleIdRoute: typeof ArticleIdRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
@@ -2122,6 +2148,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/social-listening'
       preLoaderRoute: typeof AdminSocialListeningRouteImport
       parentRoute: typeof AdminRouteRoute
+    }
+    '/api/ai-search': {
+      id: '/api/ai-search'
+      path: '/api/ai-search'
+      fullPath: '/api/ai-search'
+      preLoaderRoute: typeof ApiAiSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/ai-transcribe': {
+      id: '/api/ai-transcribe'
+      path: '/api/ai-transcribe'
+      fullPath: '/api/ai-transcribe'
+      preLoaderRoute: typeof ApiAiTranscribeRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/translations-fill': {
       id: '/api/translations-fill'
@@ -2708,6 +2748,8 @@ const rootRouteChildren: RootRouteChildren = {
   TurkishCitizenshipByInvestmentRoute: TurkishCitizenshipByInvestmentRoute,
   WizardThankYouRoute: WizardThankYouRoute,
   SegmentIdRoute: SegmentIdRoute,
+  ApiAiSearchRoute: ApiAiSearchRoute,
+  ApiAiTranscribeRoute: ApiAiTranscribeRoute,
   ApiTranslationsFillRoute: ApiTranslationsFillRoute,
   ArticleIdRoute: ArticleIdRoute,
   ArticlesSlugRoute: ArticlesSlugRoute,

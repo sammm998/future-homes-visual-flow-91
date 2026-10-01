@@ -7,12 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Search, MapPin, Home, Building, Store, Filter } from "lucide-react";
+import { Search, MapPin, Home, Building, Store, Filter, Wand2 } from "lucide-react";
+import AiSearchDialog from "@/components/AiSearchDialog";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { findPropertyLocationByRefNo } from "@/utils/propertyRouting";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export function HeroSearch() {
+  const [showAi, setShowAi] = useState(false);
   const navigate = useNavigate();
   const { selectedCurrency, formatPrice } = useCurrency();
   const { t } = useTranslation();
@@ -338,6 +340,11 @@ export function HeroSearch() {
             </div>
           </DialogContent>
           </Dialog>
+        <Button type="button" onClick={() => setShowAi(true)} variant="outline" className="h-12 shrink-0 border-gold bg-gold/10 px-4 font-semibold text-navy hover:bg-gold hover:text-gold-foreground sm:h-14">
+          <Wand2 size={14} className="mr-1" />
+          AI Search
+        </Button>
+        <AiSearchDialog open={showAi} onOpenChange={setShowAi} />
         <Button onClick={handleSearch} className="h-12 flex-1 bg-navy px-5 text-navy-foreground shadow-lg hover:bg-navy/90 sm:h-14">
           <Search size={14} className="mr-1" />
           {t('search.search')}
