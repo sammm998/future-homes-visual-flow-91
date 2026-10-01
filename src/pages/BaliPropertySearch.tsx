@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/pagination";
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
+import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
+import baliHero from '@/assets/destinations/bali-cinematic.jpg';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const BaliPropertySearch = () => {
@@ -283,20 +285,20 @@ const BaliPropertySearch = () => {
         ]}
       />
       <Navigation />
+      <PublicPageHero
+        eyebrow="Tropical portfolio"
+        title={"Properties In Bali"}
+        description={"Discover Bali's most coveted real estate opportunities in Indonesia's tropical paradise — luxury villas, modern apartments and prime investment properties in Seminyak, Canggu, Ubud and Sanur."}
+        image={baliHero}
+        imageAlt="Bali villas and tropical coastline"
+        compact
+      />
       
-      <div className="mx-auto w-full max-w-[1840px] px-4 py-8 sm:px-6 lg:px-8 lg:py-12 2xl:px-10">
+      <div className="mx-auto w-full max-w-[1840px] px-4 py-12 sm:px-6 lg:px-8 lg:py-16 2xl:px-10">
         {/* SEO Intro Content */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-4">
-            Properties In Bali
-          </h1>
-          <div className="prose max-w-none text-muted-foreground">
-            <p className="mb-4">
-              Discover Bali's most coveted real estate opportunities in Indonesia's tropical paradise. Our exclusive portfolio features luxury villas, modern apartments, and prime investment properties in Bali's most desirable areas including Seminyak, Canggu, Ubud, and Sanur.
-            </p>
-            <p className="mb-4">
-              Bali offers exceptional lifestyle benefits combined with strong investment potential, featuring year-round tropical climate, vibrant culture, and growing tourism industry. Whether you're seeking a luxury vacation home, rental investment property, or permanent tropical residence, our properties provide access to Bali's unique Island of the Gods experience.
-            </p>
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-0">
+            <EditorialSectionHeader eyebrow="Curated residences" title={"Properties In Bali"} />
           </div>
           <p className="text-sm text-muted-foreground mt-4">
             {loading ? 'Loading...' : `${baliProperties.length} properties found`}

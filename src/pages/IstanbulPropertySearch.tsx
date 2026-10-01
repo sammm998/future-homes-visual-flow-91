@@ -14,6 +14,8 @@ import { generateLocationSchema, generatePropertyListSchema, generateBreadcrumbS
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
+import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
+import istanbulHero from '@/assets/destinations/istanbul-cinematic.jpg';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const IstanbulPropertySearch = () => {
@@ -244,19 +246,19 @@ const IstanbulPropertySearch = () => {
         ]}
       />
       <Navigation />
+      <PublicPageHero
+        eyebrow="Bosphorus portfolio"
+        title={`${t('city.properties_in')} Istanbul`}
+        description={`${t('istanbul.intro')} ${t('istanbul.intro2')}`}
+        image={istanbulHero}
+        imageAlt="Istanbul skyline and Bosphorus residences"
+        compact
+      />
       
-      <div className="mx-auto w-full max-w-[1840px] px-4 py-8 sm:px-6 lg:px-8 lg:py-12 2xl:px-10">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-4">
-            {t('city.properties_in')} Istanbul
-          </h1>
-          <div className="prose max-w-none text-muted-foreground">
-            <p className="mb-4">
-              {t('istanbul.intro')}
-            </p>
-            <p className="mb-4">
-              {t('istanbul.intro2')}
-            </p>
+      <div className="mx-auto w-full max-w-[1840px] px-4 py-12 sm:px-6 lg:px-8 lg:py-16 2xl:px-10">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-0">
+            <EditorialSectionHeader eyebrow="Curated residences" title={`${t('city.properties_in')} Istanbul`} />
           </div>
           <p className="text-sm text-muted-foreground mt-4">
             {loading ? t('city.loading') : `${istanbulProperties.length} ${t('city.found')}`}
