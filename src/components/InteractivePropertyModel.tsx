@@ -100,7 +100,7 @@ function Furniture({ mode }: { mode: ViewMode }) {
 function CameraRig({ immersive }: { immersive: boolean }) {
   const { camera } = useThree();
   const destination = useMemo(
-    () => new THREE.Vector3(...(immersive ? [-2.3, 1.35, 2.35] : [8.6, 7.2, 9.5]) as [number, number, number]),
+    () => new THREE.Vector3(...(immersive ? [-2.3, 2.05, 4.6] : [8.6, 7.2, 9.5]) as [number, number, number]),
     [immersive],
   );
 
@@ -174,7 +174,7 @@ export function InteractivePropertyModel({ mode, immersive = false }: Interactiv
         enableDamping
         dampingFactor={0.08}
         minDistance={immersive ? 0.4 : 8}
-        maxDistance={immersive ? 3.5 : 17}
+        maxDistance={immersive ? 7 : 17}
         minPolarAngle={immersive ? 1.15 : 0.45}
         maxPolarAngle={immersive ? 1.85 : 1.22}
         target={immersive ? [-2.25, 0.55, -0.45] : [0, 0.4, 0]}
