@@ -12,5 +12,5 @@
 - [x] Ersätt den felaktiga adressrubriken i sidfoten med tydliga kontorsorter.
 - [x] Ge startsidan en lyxigare Gallery Estate-komposition och förfina sidomenyn.
 - [x] Designa om kartsökningen med filter och bostadslista till vänster samt karta till höger.
-- [ ] Matcha kartsökningen mot referensens horisontella filter, luftiga lista och rundade karta.
-- [ ] Ge välkomstpopupen ny lyxig design, rätta språk/valuta i navigationslisten och behåll kontaktbannern.
+- [x] Matcha kartsökningen mot referensens horisontella filter, luftiga lista och rundade karta.
+- [x] Ge välkomstpopupen ny lyxig design, rätta språk/valuta i navigationslisten och behåll kontaktbannern.
