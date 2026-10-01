@@ -2,10 +2,14 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/lib/router-compat";
 import { ChevronUp, ChevronDown, Home, Pause, Play } from "lucide-react";
-import baliImage from "@/assets/bali-destination.webp";
-import istanbulImage from "@/assets/istanbul-destination.webp";
-import marinaImage from "@/assets/marina-destination.webp";
 import aliKaranImage from "@/assets/ali-karan-founder.webp";
+import introImage from "@/assets/story/story-intro.jpg";
+import growthImage from "@/assets/story/story-growth.jpg";
+import homesImage from "@/assets/story/story-homes.jpg";
+import lifestyleImage from "@/assets/story/story-lifestyle.jpg";
+import promiseImage from "@/assets/story/story-promise.jpg";
+import broll1 from "@/assets/hero-broll-1-optimized.mp4.asset.json";
+import broll2 from "@/assets/hero-broll-2-optimized.mp4.asset.json";
 import SEOHead from "@/components/SEOHead";
 
 type Slide = {
@@ -14,9 +18,9 @@ type Slide = {
   title: string;
   body: string;
   image: string;
+  video?: string;
   imagePosition?: string;
   align: "left" | "right" | "center";
-  accent: string;
   stat?: { value: string; label: string }[];
 };
 
@@ -26,9 +30,9 @@ const slides: Slide[] = [
     kicker: "Our Story",
     title: "Future Homes International",
     body: "A journey across continents — building homes, lives and legacies since 2020.",
-    image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.webp",
+    image: introImage,
+    video: broll2.url,
     align: "center",
-    accent: "from-amber-400/40 to-rose-500/30",
   },
   {
     id: "founder",
@@ -38,18 +42,16 @@ const slides: Slide[] = [
     image: aliKaranImage,
     imagePosition: "center 15%",
     align: "right",
-    accent: "from-orange-500/40 to-amber-300/20",
   },
   {
     id: "growth",
     kicker: "Growth",
-    title: "From one office to four countries",
-    body: "Today we operate across Turkey, Dubai, Cyprus and Bali — guiding clients from 50+ nationalities through every step of their property journey.",
-    image: istanbulImage,
+    title: "From one office to five countries",
+    body: "Today we operate across Turkey, Dubai, Cyprus, France and Bali — guiding clients from 50+ nationalities through every step of their property journey.",
+    image: growthImage,
     align: "left",
-    accent: "from-sky-500/30 to-indigo-500/30",
     stat: [
-      { value: "4", label: "Countries" },
+      { value: "5", label: "Countries" },
       { value: "50+", label: "Nationalities served" },
       { value: "6", label: "Years of trust" },
     ],
@@ -57,38 +59,35 @@ const slides: Slide[] = [
   {
     id: "properties",
     kicker: "Our Homes",
-    title: "Crafted apartments. Iconic views.",
+    title: "Crafted residences. Iconic views.",
     body: "From sea-front residences in Antalya to skyline penthouses in Dubai — every property in our portfolio is hand-selected for quality, location and investment potential.",
-    image: marinaImage,
+    image: homesImage,
     align: "right",
-    accent: "from-teal-400/30 to-emerald-500/30",
   },
   {
     id: "lifestyle",
     kicker: "Lifestyle",
     title: "More than a home — a life",
     body: "Mediterranean mornings, Bali sunsets, Dubai nights. We don't just sell square meters; we open doors to new lives.",
-    image: baliImage,
+    image: lifestyleImage,
     align: "left",
-    accent: "from-rose-500/30 to-orange-400/30",
   },
   {
     id: "promise",
     kicker: "Our Promise",
     title: "With you, long after the keys",
     body: "Legal support, after-sales service, residency and citizenship guidance — our relationship doesn't end at the contract. It begins there.",
-    image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.webp",
-    align: "center",
-    accent: "from-violet-500/30 to-fuchsia-500/30",
+    image: promiseImage,
+    align: "right",
   },
   {
     id: "cta",
     kicker: "Your Turn",
     title: "Write the next chapter with us",
     body: "Discover the home that will change your story.",
-    image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.webp",
+    image: introImage,
+    video: broll1.url,
     align: "center",
-    accent: "from-amber-400/40 to-rose-500/30",
   },
 ];
 
