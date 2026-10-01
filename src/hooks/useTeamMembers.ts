@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
+import { applyTeamImageOverride } from '@/lib/teamImages';
 
 export const useTeamMembers = () => {
   const { data: teamMembers = [], isLoading, error } = useQuery({
