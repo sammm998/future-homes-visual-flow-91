@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from '@/lib/router-compat';
 import { FaMapMarkerAlt, FaBuilding, FaTree, FaUmbrellaBeach, FaMountain, FaMosque } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import antalyaImage from '@/assets/destinations/antalya-cinematic.jpg';
-import istanbulImage from '@/assets/destinations/istanbul-cinematic.jpg';
-import dubaiImage from '@/assets/destinations/dubai-cinematic.jpg';
-import mersinImage from '@/assets/destinations/mersin-cinematic.jpg';
-import cyprusImage from '@/assets/destinations/cyprus-cinematic.jpg';
-import baliImage from '@/assets/destinations/bali-cinematic.jpg';
+import antalyaImage from '@/assets/destinations/antalya-cinematic.webp';
+import istanbulImage from '@/assets/destinations/istanbul-cinematic.webp';
+import dubaiImage from '@/assets/destinations/dubai-cinematic.webp';
+import mersinImage from '@/assets/destinations/mersin-cinematic.webp';
+import cyprusImage from '@/assets/destinations/cyprus-cinematic.webp';
+import baliImage from '@/assets/destinations/bali-cinematic.webp';
 import { useTranslation } from '@/hooks/useTranslation';
 
 const InteractiveSelector = () => {

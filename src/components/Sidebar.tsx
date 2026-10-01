@@ -5,7 +5,7 @@ import { ArrowRight, Mail, MapPin, MessageCircle, X } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Button } from '@/components/ui/button';
 import { whatsappLink } from '@/utils/conversionCopy';
-import futureHomesLogo from '@/assets/future-homes-logo.webp';
+import futureHomesLogo from '@/assets/future-homes-logo-400.webp';
 
 interface SidebarProps {
   isOpen: boolean;
