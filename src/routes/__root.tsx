@@ -41,8 +41,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Future Homes International" },
       { name: "google-site-verification", content: "tX9miiJWQEEYeB5sWZ8ZeSrcL_RViXlqe_l9fxM7UfQ" },
       { property: "og:site_name", content: "Future Homes International" },
-      { name: "theme-color", content: "#1a365d" },
-      { name: "msapplication-TileColor", content: "#1a365d" },
+      { name: "theme-color", content: "#071827" },
+      { name: "msapplication-TileColor", content: "#071827" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -50,7 +50,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap",
         media: "print",
         "data-font-css": "true",
       } as unknown as { rel: string; href: string },

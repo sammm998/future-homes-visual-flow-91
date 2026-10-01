@@ -1,45 +1,55 @@
 import { FaWhatsapp } from "react-icons/fa";
-import { CheckCircle2, CalendarCheck } from "lucide-react";
+import { ArrowUpRight, CalendarCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouterState } from "@tanstack/react-router";
 import { getLocaleFromPathname, localizePath } from "@/utils/localeRouting";
 import { getCurrentLanguage } from "@/utils/seoUtils";
 import { cc, whatsappLink } from "@/utils/conversionCopy";
+import antalyaEstate from "@/assets/destination-antalya-estate.jpg";
+import istanbulEstate from "@/assets/destination-istanbul-estate.jpg";
+import dubaiEstate from "@/assets/destination-dubai-estate.jpg";
 
 /** Homepage strip right under the hero: two clear ways to reach an advisor + trust points. */
 export default function ConversionBand() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const lang = getCurrentLanguage();
   const locale = getLocaleFromPathname(pathname);
+  const destinations = [
+    { name: "Antalya", path: "/antalya", image: antalyaEstate },
+    { name: "Istanbul", path: "/istanbul", image: istanbulEstate },
+    { name: "Dubai", path: "/dubai", image: dubaiEstate },
+  ];
 
   return (
-    <section className="relative z-10 bg-ivory px-4 py-12 md:px-8 md:py-20">
-      <div className="container mx-auto max-w-7xl rounded-lg border border-gold/25 bg-background px-6 py-10 shadow-[var(--shadow-luxe)] md:px-12 md:py-14">
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-2xl text-center lg:text-left">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-gold-foreground">Future Homes Concierge</p>
+    <section className="bg-background px-4 py-16 md:px-8 md:py-24">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-10 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="max-w-3xl">
+            <p className="mb-3 text-xs font-semibold uppercase text-gold-foreground">Future Homes Concierge</p>
             <h2 className="text-3xl font-semibold leading-tight text-navy md:text-5xl">{cc("band_title", lang)}</h2>
-            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{cc("band_sub", lang)}</p>
-            <ul className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-foreground lg:justify-start">
-              {(["trust_1", "trust_2", "trust_3"] as const).map((k) => (
-                <li key={k} className="flex items-center gap-1.5">
-                  <CheckCircle2 className="h-4 w-4 text-gold" aria-hidden="true" /> {cc(k, lang)}
-                </li>
-              ))}
-            </ul>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">{cc("band_sub", lang)}</p>
           </div>
-          <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto lg:flex-col xl:flex-row">
-            <Button asChild size="lg" className="h-14 flex-1 bg-whatsapp px-8 text-whatsapp-foreground shadow-lg hover:bg-whatsapp/90">
-              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
-                <FaWhatsapp className="mr-2 h-5 w-5" aria-hidden="true" /> {cc("whatsapp", lang)}
-              </a>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg" className="h-12 bg-whatsapp px-6 text-whatsapp-foreground hover:bg-whatsapp/90">
+              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer"><FaWhatsapp aria-hidden="true" />{cc("whatsapp", lang)}</a>
             </Button>
-            <Button asChild size="lg" className="h-14 flex-1 bg-navy px-8 text-navy-foreground shadow-lg hover:bg-navy/90">
-              <a href={localizePath("/contact-us", locale)}>
-                <CalendarCheck className="mr-2 h-5 w-5" aria-hidden="true" /> {cc("band_cta_form", lang)}
-              </a>
+            <Button asChild size="lg" variant="outline" className="h-12 border-navy/20 px-6 text-navy hover:bg-ivory">
+              <a href={localizePath("/contact-us", locale)}><CalendarCheck aria-hidden="true" />{cc("band_cta_form", lang)}</a>
             </Button>
           </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {destinations.map((destination) => (
+            <a key={destination.name} href={localizePath(destination.path, locale)} className="group relative aspect-[4/5] overflow-hidden rounded-lg bg-navy">
+              <img src={destination.image} alt={`${destination.name} luxury property`} width={1024} height={1280} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/10 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6 text-navy-foreground md:p-8">
+                <div><p className="mb-2 text-xs font-semibold uppercase text-gold">Future Homes</p><h3 className="text-2xl font-semibold md:text-3xl">{destination.name}</h3></div>
+                <span className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-foreground/40 bg-navy/20 backdrop-blur-md transition-colors group-hover:bg-gold group-hover:text-navy"><ArrowUpRight aria-hidden="true" /></span>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
     </section>

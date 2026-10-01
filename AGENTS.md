@@ -1,2 +1,2 @@
 - Keep the browser shim for @tanstack/start-storage-context in vite.config.ts — without it the client bundle crashes before hydration and pages never load or track visits.
-- Keep public-facing pages on the shared semantic navy, champagne, ivory, and white token system so homepage and property pages stay visually consistent.
+- Keep public-facing pages on the shared Midnight Riviera semantic navy, champagne, ivory, and white tokens with Sora/Manrope typography so homepage and property pages stay visually consistent.
