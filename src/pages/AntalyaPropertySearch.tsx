@@ -273,7 +273,9 @@ const AntalyaPropertySearch = () => {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         {/* SEO Intro Content */}
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-          <EditorialSectionHeader eyebrow="Curated residences" title={`${t('city.properties_in')} Antalya`} className="mb-0" />
+          <div className="mb-0">
+            <EditorialSectionHeader eyebrow="Curated residences" title={`${t('city.properties_in')} Antalya`} />
+          </div>
           <p className="text-sm text-muted-foreground mt-4">
             {loading ? t('city.loading') : `${antalyaProperties.length} ${t('city.found')}`}
           </p>
