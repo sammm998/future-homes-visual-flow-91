@@ -516,7 +516,7 @@ const PropertyDetail = () => {
     area: property.area,
     propertyType: property.propertyType,
   };
-  return <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+  return <div className="min-h-screen bg-background">
       <SEOHead
         title={propertyTitle}
         description={propertyDescription}
@@ -576,61 +576,57 @@ const PropertyDetail = () => {
           />
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-10">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-12">
             {/* Property Header */}
-            <div className="space-y-4">
-              <Badge variant="outline" className="w-fit">
-                REF: {property.refNo || property.id}
-              </Badge>
-              
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+            <header className="space-y-5 border-b border-border pb-8">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center rounded-full bg-navy px-3 py-1 text-xs font-semibold tracking-[0.18em] text-navy-foreground">
+                  REF {property.refNo || property.id}
+                </span>
+                {property.propertyType && <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">{property.propertyType}</span>}
+              </div>
+
+              <h1 className="text-3xl md:text-5xl font-bold leading-tight tracking-tight text-foreground">
                 {property.title}
               </h1>
-              
+
               <div className="flex items-center text-muted-foreground">
-                <MapPin className="h-5 w-5 mr-2" />
-                <span>{property.location}</span>
-              </div>
-              
-              <div className="text-3xl font-bold text-primary">
-                {formatPriceFromString(property.price, formatPrice)}{Number(property.buyer_fee_percent) > 0 ? ` +${property.buyer_fee_percent}%` : ''}
+                <MapPin className="h-5 w-5 mr-2 text-gold" />
+                <span className="text-lg">{property.location}</span>
               </div>
 
-              <LiveViewers propertyId={property.refNo || property.id || ''} />
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <div className="text-3xl md:text-4xl font-bold text-primary">
+                    {formatPriceFromString(property.price, formatPrice)}{Number(property.buyer_fee_percent) > 0 ? ` +${property.buyer_fee_percent}%` : ''}
+                  </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <LiveViewers propertyId={property.refNo || property.id || ''} />
+                  <ShareLinkButton refNo={property.refNo || property.ref_no} lang={lang} />
+                </div>
+              </div>
+            </header>
 
-              <ShareLinkButton refNo={property.refNo || property.ref_no} lang={lang} />
-            </div>
-
-
-            {/* Basic Property Info */}
-            <div className="space-y-6">
+            {/* Key specs strip */}
+            <section className="space-y-5">
               <h2 className="text-2xl font-semibold">{t('pd.property_details', language)}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex items-center space-x-3 p-4 border rounded-lg">
-                  <Bed className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">{t('bedrooms', language)}</p>
-                    <p className="font-semibold">{property.bedrooms || 'N/A'}</p>
+              <div className="grid grid-cols-3 overflow-hidden rounded-2xl bg-navy text-navy-foreground shadow-[var(--shadow-luxe)]">
+                {[
+                  { icon: Bed, label: t('bedrooms', language), value: property.bedrooms || '—' },
+                  { icon: Bath, label: t('bathrooms', language), value: property.bathrooms || '—' },
+                  { icon: Square, label: t('area', language), value: property.area ? `${property.area} m²` : '—' },
+                ].map(({ icon: Icon, label, value }, i) => (
+                  <div key={i} className={`flex flex-col items-center gap-2 p-5 md:p-7 text-center ${i > 0 ? 'border-l border-navy-foreground/10' : ''}`}>
+                    <Icon className="h-6 w-6 text-gold" />
+                    <p className="text-xl md:text-2xl font-bold">{String(value).replace(/<>/g, ' – ')}</p>
+                    <p className="text-[11px] md:text-xs uppercase tracking-[0.18em] text-navy-foreground/70 notranslate" translate="no">{label}</p>
                   </div>
-                </div>
-                <div className="flex items-center space-x-3 p-4 border rounded-lg">
-                  <Bath className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">{t('bathrooms', language)}</p>
-                    <p className="font-semibold">{property.bathrooms || 'N/A'}</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3 p-4 border rounded-lg">
-                  <Square className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="text-sm text-muted-foreground notranslate" translate="no">{t('area', language)}</p>
-                    <p className="font-semibold">{property.area ? `${property.area} m²` : 'N/A'}</p>
-                  </div>
-                </div>
+                ))}
               </div>
-            </div>
+            </section>
 
             {/* Property Description */}
             {property.description && (() => {
@@ -713,10 +709,10 @@ const PropertyDetail = () => {
                     {sections.map((section, sIdx) => (
                       <div
                         key={sIdx}
-                        className="p-6 border rounded-lg bg-gradient-to-br from-blue-50/50 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/5 border-blue-200/50 dark:border-blue-700/30 space-y-3"
+                        className="relative rounded-2xl border border-border bg-card p-6 md:p-8 space-y-3 before:absolute before:left-0 before:top-8 before:h-10 before:w-1 before:rounded-r before:bg-gold"
                       >
                         {section.heading && (
-                          <h3 className="text-lg font-bold text-foreground">{section.heading}</h3>
+                          <h3 className="text-xl font-semibold text-foreground">{section.heading}</h3>
                         )}
                         {section.body.map((para, pIdx) => renderParagraph(para, pIdx))}
                       </div>
@@ -730,14 +726,14 @@ const PropertyDetail = () => {
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold">{t('pd.location_nearby', language)}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {property.distanceToAirport && <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                {property.distanceToAirport && <div className="flex items-center space-x-4 rounded-2xl border border-border bg-ivory p-5">
                     <Plane className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm text-muted-foreground">{t('pd.distance_airport', language)}</p>
                       <p className="font-semibold">{property.distanceToAirport}</p>
                     </div>
                   </div>}
-                {property.distanceToBeach && <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                {property.distanceToBeach && <div className="flex items-center space-x-4 rounded-2xl border border-border bg-ivory p-5">
                     <Waves className="h-5 w-5 text-primary" />
                     <div>
                       <p className="text-sm text-muted-foreground">{t('pd.distance_beach', language)}</p>
@@ -751,8 +747,8 @@ const PropertyDetail = () => {
             {property.features && property.features.length > 0 && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">{t('pd.features_amenities', language)}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-2 p-3 border rounded-lg bg-gradient-to-r from-green-50/50 to-emerald-50/30 dark:from-green-900/10 dark:to-emerald-900/5 border-green-200/50 dark:border-green-700/30 hover:shadow-md transition-all duration-200">
-                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
+                  {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-3 rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:border-gold/60 hover:shadow-md">
+                      <CheckCircle className="h-5 w-5 text-gold flex-shrink-0" />
                       <span className="text-foreground font-medium">{translateAmenity(feature, language)}</span>
                     </div>)}
                 </div>
@@ -762,7 +758,7 @@ const PropertyDetail = () => {
             {property.pricing && property.pricing.length > 0 && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">{t('pd.available_units', language)}</h2>
                 <div className="space-y-3">
-                  {property.pricing.map((unit: any, index: number) => <div key={index} className="p-4 border rounded-lg">
+                  {property.pricing.map((unit: any, index: number) => <div key={index} className="rounded-2xl border border-border bg-card p-5 transition hover:border-gold/60">
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                         <div>
                           <h3 className="font-semibold">{unit.type}</h3>
@@ -780,7 +776,7 @@ const PropertyDetail = () => {
             {/* Project Timeline */}
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold">{t('pd.project_timeline', language)}</h2>
-              <div className="p-6 border rounded-lg">
+              <div className="rounded-2xl border border-border bg-ivory p-6">
                 <Timeline data={getTimelineData()} location={property.location} />
               </div>
             </div>
@@ -789,21 +785,21 @@ const PropertyDetail = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Quick Info Card */}
-            <div className="p-6 border rounded-lg bg-card/80 backdrop-blur-sm">
-              <h3 className="text-xl font-semibold mb-4">{t('pd.quick_info', language)}</h3>
+            <div className="rounded-2xl bg-navy p-6 text-navy-foreground shadow-[var(--shadow-luxe)]">
+              <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold">{t('pd.quick_info', language)}</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">{t('pd.property_type', language)}:</span>
+                  <span className="text-navy-foreground/70">{t('pd.property_type', language)}:</span>
                   <span className="font-semibold">{property.propertyType || 'Apartments'}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">{t('pd.completion', language)}:</span>
+                  <span className="text-navy-foreground/70">{t('pd.completion', language)}:</span>
                   <span className="font-semibold">
                     {parseCompletionDate(property.buildingComplete)?.toLocaleDateString(language === 'en' ? 'en-US' : language, { month: 'short', year: 'numeric' }) || '—'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">{t('pd.ref_no', language)}:</span>
+                  <span className="text-navy-foreground/70">{t('pd.ref_no', language)}:</span>
                   <span className="font-semibold">{property.refNo || property.id}</span>
                 </div>
               </div>
@@ -812,7 +808,7 @@ const PropertyDetail = () => {
             {/* Enquiry card — WhatsApp + lead form */}
             <div className="lg:sticky lg:top-24 space-y-3">
               <PropertyInquiry refNo={String(property.refNo || property.id)} title={property.title} lang={language} />
-              <div className="flex items-center gap-3 rounded-xl border p-3">
+              <div className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3">
                 <Avatar className="h-11 w-11">
                   {agent?.image && <AvatarImage src={agent.image} />}
                   <AvatarFallback className="bg-primary/10 text-primary font-bold">FH</AvatarFallback>
@@ -830,30 +826,30 @@ const PropertyDetail = () => {
             </div>
 
             {/* Investment Highlights */}
-            <div className="p-6 border rounded-lg bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-900/10 dark:to-orange-900/5 border-amber-200/50 dark:border-amber-700/30">
-              <h3 className="text-lg font-semibold mb-4 text-center">{t('pd.investment_highlights', language)}</h3>
+            <div className="rounded-2xl border border-border bg-ivory p-6">
+              <h3 className="mb-4 text-lg font-semibold">{t('pd.investment_highlights', language)}</h3>
               <div className="space-y-3">
-                <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
-                  <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-lg flex items-center justify-center">
-                    <Star className="h-4 w-4 text-white" />
+                <div className="flex items-center space-x-3 p-3 bg-card rounded-xl border border-border">
+                  <div className="w-9 h-9 bg-navy rounded-lg flex items-center justify-center">
+                    <Star className="h-4 w-4 text-gold" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">{t('pd.prime_location', language)}</p>
                     <p className="text-xs text-muted-foreground">{t('pd.high_growth_area', language)}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-500 rounded-lg flex items-center justify-center">
-                    <Award className="h-4 w-4 text-white" />
+                <div className="flex items-center space-x-3 p-3 bg-card rounded-xl border border-border">
+                  <div className="w-9 h-9 bg-navy rounded-lg flex items-center justify-center">
+                    <Award className="h-4 w-4 text-gold" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">{t('pd.quality_construction', language)}</p>
                     <p className="text-xs text-muted-foreground">{t('pd.international_standards', language)}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
-                  <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-500 rounded-lg flex items-center justify-center">
-                    <Home className="h-4 w-4 text-white" />
+                <div className="flex items-center space-x-3 p-3 bg-card rounded-xl border border-border">
+                  <div className="w-9 h-9 bg-navy rounded-lg flex items-center justify-center">
+                    <Home className="h-4 w-4 text-gold" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">{t('pd.modern_amenities', language)}</p>
@@ -864,13 +860,13 @@ const PropertyDetail = () => {
             </div>
 
             {/* Similar Properties */}
-            <div className="p-6 border rounded-lg text-center bg-gradient-to-br from-purple-50 to-indigo-50/50 dark:from-purple-900/10 dark:to-indigo-900/5 border-purple-200/50 dark:border-purple-700/30">
+            <div className="rounded-2xl border border-border bg-card p-6 text-center">
               <h3 className="text-lg font-semibold mb-2">{t('pd.similar_properties', language)}</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 {t('pd.discover_more_in', language)} {property.location}
               </p>
               <Link to={localizePath(getLocationRoute(property.location), getLocaleFromPathname(location.pathname))}>
-                <Button size="sm" className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                <Button size="sm" className="w-full bg-navy text-navy-foreground hover:bg-navy/90">
                   {t('pd.view_similar_properties', language)}
                 </Button>
               </Link>
