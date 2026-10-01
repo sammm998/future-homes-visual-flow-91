@@ -41,8 +41,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Future Homes International" },
       { name: "google-site-verification", content: "tX9miiJWQEEYeB5sWZ8ZeSrcL_RViXlqe_l9fxM7UfQ" },
       { property: "og:site_name", content: "Future Homes International" },
-      { name: "theme-color", content: "#1a365d" },
-      { name: "msapplication-TileColor", content: "#1a365d" },
+      { name: "theme-color", content: "#071827" },
+      { name: "msapplication-TileColor", content: "#071827" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

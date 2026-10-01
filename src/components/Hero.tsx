@@ -71,13 +71,13 @@ const Hero: React.FC<HeroProps> = ({
             <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-navy-foreground/25 bg-navy/25 px-4 py-2 text-[11px] font-semibold uppercase text-navy-foreground backdrop-blur-md">
               <span className="h-2 w-2 rounded-full bg-gold" /> Future Homes International
             </p>
-            <h1 className="max-w-3xl text-5xl font-semibold leading-[1.02] text-navy-foreground sm:text-6xl md:text-7xl lg:text-8xl">
+            <h1 className="max-w-3xl text-4xl font-semibold leading-[1.04] text-navy-foreground sm:text-6xl md:text-7xl lg:text-8xl">
               {title || t('hero.title')}
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-navy-foreground/85 sm:text-lg md:text-xl">
+            <p className="mt-5 hidden max-w-xl text-base leading-relaxed text-navy-foreground/85 sm:block sm:text-lg md:text-xl">
               {subtitle || t('hero.subtitle')}
             </p>
-            <Button asChild variant="outline" className="mt-8 h-12 border-navy-foreground/35 bg-navy-foreground/10 px-6 text-navy-foreground backdrop-blur-md hover:bg-navy-foreground hover:text-navy">
+            <Button asChild variant="outline" className="mt-8 hidden h-12 border-navy-foreground/35 bg-navy-foreground/10 px-6 text-navy-foreground backdrop-blur-md hover:bg-navy-foreground hover:text-navy sm:inline-flex">
               <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">
                 <MessageCircle aria-hidden="true" /> {cc("whatsapp", lang)}
               </a>
