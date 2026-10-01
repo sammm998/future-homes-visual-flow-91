@@ -15,6 +15,8 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
+import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
+import antalyaHero from '@/assets/destinations/antalya-cinematic.jpg';
 const AntalyaPropertySearch = () => {
   const { t } = useTranslation();
   const {
@@ -259,19 +261,19 @@ const AntalyaPropertySearch = () => {
         { name: 'Antalya Properties', url: 'https://futurehomesinternational.com/antalya' }
       ]} />
       <Navigation />
-      
-      <div className="container mx-auto px-4 py-8">
+      <PublicPageHero
+        eyebrow="Mediterranean portfolio"
+        title={`${t('city.properties_in')} Antalya`}
+        description={`${t('antalya.intro')} ${t('antalya.intro2')}`}
+        image={antalyaHero}
+        imageAlt="Antalya coastline and luxury residences"
+        compact
+      />
+
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         {/* SEO Intro Content */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-4">
-            {t('city.properties_in')} Antalya
-          </h1>
-          <div className="prose max-w-none text-muted-foreground">
-            <p className="mb-4">
-              {t('antalya.intro')}
-            </p>
-            <p className="mb-4">{t('antalya.intro2')}</p>
-          </div>
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <EditorialSectionHeader eyebrow="Curated residences" title={`${t('city.properties_in')} Antalya`} className="mb-0" />
           <p className="text-sm text-muted-foreground mt-4">
             {loading ? t('city.loading') : `${antalyaProperties.length} ${t('city.found')}`}
           </p>
@@ -281,11 +283,13 @@ const AntalyaPropertySearch = () => {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
           <div className="hidden lg:block lg:w-80 lg:flex-shrink-0">
-            <PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch} horizontal={false} />
+            <div className="sticky top-28 rounded-lg border border-navy/10 bg-card p-3 shadow-[var(--shadow-luxe)]">
+              <PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch} horizontal={false} />
+            </div>
           </div>
 
           {/* Mobile filter toggle - only visible on mobile */}
-          <div className="block lg:hidden mb-6">
+          <div className="mb-6 rounded-lg border border-navy/10 bg-card p-2 shadow-sm lg:hidden">
             <PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch} horizontal={true} />
           </div>
 
@@ -460,9 +464,10 @@ const AntalyaPropertySearch = () => {
       </div>
 
       {/* SEO Concluding Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="border-t border-border bg-ivory">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="prose max-w-none">
-          <h2 className="text-2xl font-bold text-foreground mb-4">Why Choose Antalya for Your Property Investment?</h2>
+          <h2 className="mb-8 text-3xl font-semibold text-foreground">Why Choose Antalya for Your Property Investment?</h2>
           <div className="grid md:grid-cols-2 gap-6 text-muted-foreground">
             <div>
               <h3 className="text-lg font-semibold text-foreground mb-2">Investment Benefits</h3>
@@ -487,6 +492,7 @@ const AntalyaPropertySearch = () => {
             Our expert team provides comprehensive support throughout your property purchase journey, from initial selection to citizenship application assistance. Contact us today to explore the best investment opportunities in Antalya.
           </p>
         </div>
+      </div>
       </div>
 
     <NordicRelatedLinks className="container mx-auto px-4 pb-12" />

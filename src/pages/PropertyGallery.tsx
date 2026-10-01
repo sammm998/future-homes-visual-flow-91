@@ -7,6 +7,8 @@ import { Link } from "@/lib/router-compat";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { EditorialCta, PublicPageHero } from "@/components/PublicEditorial";
+import galleryHero from "@/assets/luxury-property-investment.jpg";
 
 interface Property {
   id: string;
@@ -134,80 +136,11 @@ const PropertyGallery = () => {
       <Navigation />
       
       <div className="min-h-screen bg-background">
-        {/* Enhanced Hero Section */}
-        <section className="relative py-24 overflow-hidden">
-          {/* Background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary-glow/5 to-accent/10" />
-          <div className="absolute inset-0 bg-grid-pattern opacity-10" />
-          
-          <div className="container mx-auto px-4 text-center relative z-10">
-            {/* Breadcrumb */}
-            <div className="mb-8">
-              <Link 
-                to="/" 
-                className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
-              >
-                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                Back to Home
-              </Link>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Camera className="w-8 h-8 text-primary" />
-                <h1 className="text-5xl md:text-7xl font-bold">
-                  <span className="gradient-text">Immersive</span>{' '}
-                  <span className="text-foreground">Property Gallery</span>
-                </h1>
-              </div>
-              
-              <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-primary-glow mx-auto mb-8 rounded-full" />
-              
-              <p className="text-xl md:text-2xl text-muted-foreground mb-6 max-w-4xl mx-auto leading-relaxed">
-                Discover stunning visuals from our <strong className="text-primary">premium property collection</strong> across <strong className="text-primary">multiple locations</strong>.
-              </p>
-              
-              <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
-                Each image tells a story of luxury, comfort, and exceptional design.
-              </p>
-            </motion.div>
-            
-            {/* Enhanced Statistics */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap justify-center gap-8 mb-16"
-            >
-              <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 min-w-[160px] border border-primary/10 hover:border-primary/20 transition-all hover:shadow-lg hover:scale-105 group">
-                <div className="text-3xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">
-                  {properties.length}+
-                </div>
-                <div className="text-sm uppercase tracking-wide text-muted-foreground font-semibold">Properties</div>
-              </div>
-              
-              <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 min-w-[160px] border border-primary/10 hover:border-primary/20 transition-all hover:shadow-lg hover:scale-105 group">
-                <div className="text-3xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">
-                  {properties.reduce((acc, prop) => acc + prop.property_images.length, 0)}+
-                </div>
-                <div className="text-sm uppercase tracking-wide text-muted-foreground font-semibold">Total Images</div>
-              </div>
-              
-              <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 min-w-[160px] border border-primary/10 hover:border-primary/20 transition-all hover:shadow-lg hover:scale-105 group">
-                <div className="text-3xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">4K</div>
-                <div className="text-sm uppercase tracking-wide text-muted-foreground font-semibold">HD Quality</div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+        <PublicPageHero eyebrow="Visual portfolio" title="Immersive Property Gallery" description="Discover distinctive homes through a cinematic collection of architecture, interiors and exceptional settings." image={galleryHero} imageAlt="Luxury contemporary residence" compact />
 
         {/* 3D Apartment Gallery */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="bg-ivory py-16 lg:py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {loading ? (
               <div className="flex items-center justify-center py-20">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
@@ -215,7 +148,7 @@ const PropertyGallery = () => {
             ) : (
               <>
                 {/* Apartment Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {properties.map((property, index) => (
                     <motion.div
                       key={property.id}
@@ -228,7 +161,7 @@ const PropertyGallery = () => {
                       }}
                     >
                       {/* 3D Card Container */}
-                      <div className="relative h-[400px] perspective-1000">
+                      <div className="relative h-[460px] perspective-1000">
                         <motion.div 
                           className="relative w-full h-full preserve-3d group-hover:rotateY-12 transition-transform duration-500"
                           style={{
@@ -236,7 +169,7 @@ const PropertyGallery = () => {
                           }}
                         >
                           {/* Main Image */}
-                          <div className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden shadow-2xl">
+                          <div className="absolute inset-0 backface-hidden overflow-hidden rounded-lg shadow-[var(--shadow-luxe)]">
                             <img
                               src={property.property_images[cardImageIndices[property.id] || 0]}
                               alt={`${property.title} in ${property.location} — exterior view of this Future Homes property`}
@@ -282,13 +215,13 @@ const PropertyGallery = () => {
                             
                             {/* Floating Info Panel */}
                             <motion.div 
-                              className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg"
+                              className="absolute bottom-5 left-5 right-5 rounded-md border border-navy-foreground/15 bg-navy/90 p-4 text-navy-foreground shadow-lg backdrop-blur-md"
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: 0.2 }}
                             >
-                              <h3 className="text-xl font-bold text-gray-900 mb-1 line-clamp-1">{property.title}</h3>
-                              <p className="text-gray-600 text-sm mb-3 line-clamp-1">{property.location}</p>
+                              <h3 className="mb-1 line-clamp-1 text-xl font-semibold">{property.title}</h3>
+                              <p className="mb-3 line-clamp-1 text-sm text-navy-foreground/70">{property.location}</p>
                               <div className="flex justify-between items-center">
                                 <span className="text-primary font-semibold">{property.property_images.length} Images</span>
                                 <Button size="sm" className="gap-2">
@@ -312,29 +245,10 @@ const PropertyGallery = () => {
               </>
             )}
             
-            {/* Call to Action */}
-            <div className="text-center mt-16">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="flex flex-wrap justify-center gap-6"
-              >
-                <Button asChild size="lg" className="gap-2 bg-gradient-to-r from-primary to-blue-600 hover:shadow-lg transform hover:scale-105 transition-all">
-                  <Link to="/contact-us">
-                    <MapPin className="w-5 h-5" />
-                    Schedule Consultation
-                  </Link>
-                </Button>
-                <Button variant="outline" size="lg" asChild className="gap-2 hover:shadow-lg transform hover:scale-105 transition-all">
-                  <Link to="/about-us">
-                    Read more about us
-                  </Link>
-                </Button>
-              </motion.div>
-            </div>
           </div>
         </section>
+
+        <EditorialCta eyebrow="Private viewing" title="Experience your shortlist in detail" description="Tell our advisors what you are looking for and receive a handpicked collection of homes." primaryLabel="Schedule consultation" primaryTo="/contact-us" secondaryLabel="About our team" secondaryTo="/about-us" />
 
         {/* Full Screen Image Modal */}
         <AnimatePresence>
