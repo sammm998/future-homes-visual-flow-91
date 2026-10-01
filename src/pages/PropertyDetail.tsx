@@ -621,7 +621,7 @@ const PropertyDetail = () => {
                 ].map(({ icon: Icon, label, value }, i) => (
                   <div key={i} className={`flex flex-col items-center gap-2 p-5 md:p-7 text-center ${i > 0 ? 'border-l border-navy-foreground/10' : ''}`}>
                     <Icon className="h-6 w-6 text-gold" />
-                    <p className="text-xl md:text-2xl font-bold">{value}</p>
+                    <p className="text-xl md:text-2xl font-bold">{String(value).replace(/<>/g, ' – ')}</p>
                     <p className="text-[11px] md:text-xs uppercase tracking-[0.18em] text-navy-foreground/70 notranslate" translate="no">{label}</p>
                   </div>
                 ))}
