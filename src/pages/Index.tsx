@@ -179,7 +179,7 @@ const Index = () => {
       }
     }]
   };
-  return <div className="min-h-screen overflow-x-clip bg-ivory lg:pl-24">
+  return <div className="min-h-screen overflow-x-clip bg-ivory">
       {/* Preload the LCP hero image (responsive) */}
       <link
         rel="preload"

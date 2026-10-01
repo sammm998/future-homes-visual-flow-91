@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Link } from "@/lib/router-compat";
 import {
   NavigationMenu,
@@ -14,9 +13,9 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { whatsappLink } from "@/utils/conversionCopy";
 
-import Sidebar from "./Sidebar";
 import CurrencySelector from "./CurrencySelector";
 import SimpleLanguageSelector from "./SimpleLanguageSelector";
+import { openPublicSidebar } from "./PublicSidebarRail";
 
 interface NavigationProps {
   className?: string;
@@ -24,8 +23,6 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   if (gallery) {
     return (
       <>
@@ -40,22 +37,6 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
             </div>
           </div>
         </div>
-        <aside className="fixed inset-y-0 left-0 z-50 hidden w-24 flex-col items-center border-r border-navy-foreground/10 bg-navy text-navy-foreground lg:flex">
-          <Link to="/" aria-label="Future Homes International – hem" className="flex h-28 w-full items-center justify-center border-b border-navy-foreground/10">
-            <img src="/favicon-512x512.png" alt="Future Homes International" width={52} height={52} className="h-12 w-12 object-contain" />
-          </Link>
-          <div className="flex flex-1 flex-col items-center justify-center gap-12">
-            <button type="button" aria-label="Open menu" onClick={() => setIsOpen(true)} className="group flex h-12 w-12 items-center justify-center border border-navy-foreground/20 transition-colors hover:border-gold hover:text-gold">
-              <Menu size={21} aria-hidden="true" />
-            </button>
-            <span className="font-serif text-[10px] font-semibold uppercase text-navy-foreground/60 [letter-spacing:.22em] [writing-mode:vertical-rl]">Future Homes International</span>
-          </div>
-          <div className="flex w-full flex-col items-center gap-3 border-t border-navy-foreground/10 py-5">
-            <SimpleLanguageSelector dark />
-            <CurrencySelector dark />
-          </div>
-        </aside>
-
         <header className="absolute inset-x-0 top-9 z-40 lg:left-24">
           <nav className={cn("mx-auto flex h-20 max-w-[1840px] items-center justify-between px-4 sm:px-8 lg:h-24 lg:px-12", className)}>
             <Link to="/" aria-label="Future Homes International – hem" className="inline-flex items-center">
@@ -69,13 +50,12 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
               <Button asChild variant="outline" className="hidden h-11 border-navy-foreground/30 bg-navy/20 text-navy-foreground backdrop-blur-md hover:bg-navy-foreground hover:text-navy sm:inline-flex">
                 <a href={whatsappLink()} target="_blank" rel="noopener noreferrer"><MessageCircle aria-hidden="true" /> WhatsApp</a>
               </Button>
-              <Button type="button" size="icon" variant="outline" aria-label="Open menu" onClick={() => setIsOpen(true)} className="h-11 w-11 border-navy-foreground/30 bg-navy/20 text-navy-foreground backdrop-blur-md hover:bg-navy-foreground hover:text-navy lg:hidden">
+              <Button type="button" size="icon" variant="outline" aria-label="Open menu" onClick={openPublicSidebar} className="h-11 w-11 border-navy-foreground/30 bg-navy/20 text-navy-foreground backdrop-blur-md hover:bg-navy-foreground hover:text-navy lg:hidden">
                 <Menu size={21} aria-hidden="true" />
               </Button>
             </div>
           </nav>
         </header>
-        <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
       </>
     );
   }
@@ -127,7 +107,7 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
                 type="button"
                 aria-label="Open menu"
                 className="p-2 min-h-11 min-w-11 flex items-center justify-center cursor-pointer hover:bg-muted rounded-md transition-colors"
-                onClick={() => setIsOpen(true)}
+                onClick={openPublicSidebar}
               >
                 <Menu size={24} className="text-foreground" aria-hidden="true" />
               </button>
@@ -137,8 +117,6 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
         </div>
       </nav>
       </header>
-
-      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
     </>
   );
