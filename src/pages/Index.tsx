@@ -177,7 +177,7 @@ const Index = () => {
       }
     }]
   };
-  return <div className="min-h-screen overflow-x-clip">
+  return <div className="min-h-screen overflow-x-clip bg-ivory lg:pl-24">
       {/* Preload the LCP hero image (responsive) */}
       <link
         rel="preload"
@@ -189,11 +189,11 @@ const Index = () => {
       />
       <SEOHead title={pageTitle || "Property for Sale in Turkey, Dubai, Cyprus & Bali | Future Homes International"} description={metaDescription || "Property for sale in Turkey, Dubai, Cyprus & Bali. Apartments, villas & off-plan homes from leading international agents. Turkish citizenship by investment from $400K."} keywords="property for sale in turkey, homes for sale in turkey, turkey real estate, turkey homes for sale, houses for sale in turkey, apartments for sale in turkey, villas for sale in turkey, property for sale in antalya, apartments for sale in antalya, property for sale in istanbul, homes for sale in istanbul turkey, property for sale in dubai, dubai homes for sale, homes to buy dubai, houses for sale in dubai, dubai apartments for sale, property for sale in cyprus, cyprus real estate, houses for sale in cyprus, property for sale in bali, bali villas for sale, turkish citizenship by investment, buy property in turkey, off plan property turkey, real estate turkey" canonicalUrl={currentCanonicalUrl} structuredData={[homePageStructuredData, faqStructuredData]} />
       <OrganizationSchema />
-      <Navigation />
+      <Navigation gallery />
 
       {/* Hero Section - Database content with fallback */}
       <div className="w-full">
-        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.webp" title={heroTitle || t('hero.title')} subtitle={t('hero.subtitle')} />
+        <Hero backgroundImage="/lovable-uploads/5506feef-2c81-4501-9f9d-5711a9dd3cce.webp" title={heroTitle || t('hero.title')} subtitle={t('hero.subtitle')} gallery />
       </div>
 
       <ConversionBand />

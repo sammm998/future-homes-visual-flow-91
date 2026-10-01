@@ -3,3 +3,4 @@
 - Keep the homepage Before & After experience as the cinematic blueprint-to-finished apartment video; do not restore the retired 3D room viewer.
 - Build public content pages from the shared PublicEditorial primitives so headers, conversion sections, spacing, and responsive behavior stay consistent.
 - Scale property-card typography with container queries on the card itself instead of viewport breakpoints, so cards stay readable at any columns-per-row count; named custom breakpoints get overridden by later xl rules.
+- Keep the homepage shell image-led and asymmetric with a compact desktop navigation rail; use the full editorial menu for discovery without reducing mobile space.
