@@ -2,10 +2,14 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/lib/router-compat";
 import { ChevronUp, ChevronDown, Home, Pause, Play } from "lucide-react";
-import baliImage from "@/assets/bali-destination.webp";
-import istanbulImage from "@/assets/istanbul-destination.webp";
-import marinaImage from "@/assets/marina-destination.webp";
 import aliKaranImage from "@/assets/ali-karan-founder.webp";
+import introImage from "@/assets/story/story-intro.jpg";
+import growthImage from "@/assets/story/story-growth.jpg";
+import homesImage from "@/assets/story/story-homes.jpg";
+import lifestyleImage from "@/assets/story/story-lifestyle.jpg";
+import promiseImage from "@/assets/story/story-promise.jpg";
+import broll1 from "@/assets/hero-broll-1-optimized.mp4.asset.json";
+import broll2 from "@/assets/hero-broll-2-optimized.mp4.asset.json";
 import SEOHead from "@/components/SEOHead";
 
 type Slide = {
@@ -14,9 +18,9 @@ type Slide = {
   title: string;
   body: string;
   image: string;
+  video?: string;
   imagePosition?: string;
   align: "left" | "right" | "center";
-  accent: string;
   stat?: { value: string; label: string }[];
 };
 
@@ -26,9 +30,9 @@ const slides: Slide[] = [
     kicker: "Our Story",
     title: "Future Homes International",
     body: "A journey across continents — building homes, lives and legacies since 2020.",
-    image: "/lovable-uploads/37669c23-a476-4550-84f1-f370ce4333a1.webp",
+    image: introImage,
+    video: broll2.url,
     align: "center",
-    accent: "from-amber-400/40 to-rose-500/30",
   },
   {
     id: "founder",
@@ -38,18 +42,16 @@ const slides: Slide[] = [
     image: aliKaranImage,
     imagePosition: "center 15%",
     align: "right",
-    accent: "from-orange-500/40 to-amber-300/20",
   },
   {
     id: "growth",
     kicker: "Growth",
-    title: "From one office to four countries",
-    body: "Today we operate across Turkey, Dubai, Cyprus and Bali — guiding clients from 50+ nationalities through every step of their property journey.",
-    image: istanbulImage,
+    title: "From one office to five countries",
+    body: "Today we operate across Turkey, Dubai, Cyprus, France and Bali — guiding clients from 50+ nationalities through every step of their property journey.",
+    image: growthImage,
     align: "left",
-    accent: "from-sky-500/30 to-indigo-500/30",
     stat: [
-      { value: "4", label: "Countries" },
+      { value: "5", label: "Countries" },
       { value: "50+", label: "Nationalities served" },
       { value: "6", label: "Years of trust" },
     ],
@@ -57,38 +59,35 @@ const slides: Slide[] = [
   {
     id: "properties",
     kicker: "Our Homes",
-    title: "Crafted apartments. Iconic views.",
+    title: "Crafted residences. Iconic views.",
     body: "From sea-front residences in Antalya to skyline penthouses in Dubai — every property in our portfolio is hand-selected for quality, location and investment potential.",
-    image: marinaImage,
+    image: homesImage,
     align: "right",
-    accent: "from-teal-400/30 to-emerald-500/30",
   },
   {
     id: "lifestyle",
     kicker: "Lifestyle",
     title: "More than a home — a life",
     body: "Mediterranean mornings, Bali sunsets, Dubai nights. We don't just sell square meters; we open doors to new lives.",
-    image: baliImage,
+    image: lifestyleImage,
     align: "left",
-    accent: "from-rose-500/30 to-orange-400/30",
   },
   {
     id: "promise",
     kicker: "Our Promise",
     title: "With you, long after the keys",
     body: "Legal support, after-sales service, residency and citizenship guidance — our relationship doesn't end at the contract. It begins there.",
-    image: "/lovable-uploads/122a7bd0-5d6b-4bcf-8db9-bfdbcf1565d5.webp",
-    align: "center",
-    accent: "from-violet-500/30 to-fuchsia-500/30",
+    image: promiseImage,
+    align: "right",
   },
   {
     id: "cta",
     kicker: "Your Turn",
     title: "Write the next chapter with us",
     body: "Discover the home that will change your story.",
-    image: "/lovable-uploads/760abba9-43a1-433b-83fd-d578ecda1828.webp",
+    image: introImage,
+    video: broll1.url,
     align: "center",
-    accent: "from-amber-400/40 to-rose-500/30",
   },
 ];
 
@@ -195,7 +194,7 @@ const OurStory = () => {
   const slide = slides[index];
 
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-black overflow-hidden text-white select-none">
+    <div className="fixed inset-0 w-screen h-screen bg-navy overflow-hidden text-ivory select-none">
       <SEOHead
         title="Our Story | Future Homes International"
         description="The story of Future Homes International — from a small Antalya office to a global property family."
@@ -218,24 +217,37 @@ const OurStory = () => {
             animate={{ scale: 1.0 }}
             transition={{ duration: SLIDE_DURATION_MS / 1000 + 1, ease: "linear" }}
           >
-            <img
-              src={slide.image}
-              alt={slide.title}
-              className="w-full h-full object-cover"
-              style={{ objectPosition: slide.imagePosition ?? "center" }}
-              draggable={false}
-            />
+            {slide.video ? (
+              <video
+                src={slide.video}
+                poster={slide.image}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover"
+                style={{ objectPosition: slide.imagePosition ?? "center" }}
+                draggable={false}
+              />
+            )}
           </motion.div>
 
           {/* Gradient overlays */}
-          <div className={`absolute inset-0 bg-gradient-to-br ${slide.accent} mix-blend-overlay`} />
+          <div className="absolute inset-0 bg-navy/25" />
           <div
             className={`absolute inset-0 ${
               slide.align === "left"
-                ? "bg-gradient-to-r from-black/80 via-black/40 to-transparent"
+                ? "bg-gradient-to-r from-navy/90 via-navy/50 to-transparent"
                 : slide.align === "right"
-                  ? "bg-gradient-to-l from-black/80 via-black/40 to-transparent"
-                  : "bg-gradient-to-t from-black/85 via-black/40 to-black/30"
+                  ? "bg-gradient-to-l from-navy/90 via-navy/50 to-transparent"
+                  : "bg-gradient-to-t from-navy/95 via-navy/45 to-navy/40"
             }`}
           />
 
@@ -250,9 +262,9 @@ const OurStory = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
-                className="text-xs md:text-sm tracking-[0.4em] uppercase text-white/70 mb-6"
+                className="text-xs md:text-sm tracking-[0.4em] uppercase text-gold mb-6"
               >
-                <span className="inline-block w-12 h-px bg-white/70 align-middle mr-3" />
+                <span className="inline-block w-12 h-px bg-gold align-middle mr-3" />
                 {slide.kicker}
               </motion.div>
 
@@ -260,7 +272,7 @@ const OurStory = () => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight mb-8"
+                className="font-serif text-4xl md:text-6xl lg:text-7xl font-light leading-[1.05] tracking-tight mb-8"
               >
                 {slide.title}
               </motion.h1>
@@ -269,7 +281,7 @@ const OurStory = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, duration: 0.8 }}
-                className="text-lg md:text-2xl text-white/85 leading-relaxed font-light"
+                className="text-lg md:text-2xl text-ivory/85 leading-relaxed font-light"
               >
                 {slide.body}
               </motion.p>
@@ -288,8 +300,8 @@ const OurStory = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 1.0 + i * 0.15, duration: 0.6 }}
                     >
-                      <div className="text-4xl md:text-5xl font-serif text-white">{s.value}</div>
-                      <div className="text-xs uppercase tracking-widest text-white/60 mt-2">{s.label}</div>
+                      <div className="text-4xl md:text-5xl font-serif text-gold">{s.value}</div>
+                      <div className="text-xs uppercase tracking-widest text-ivory/60 mt-2">{s.label}</div>
                     </motion.div>
                   ))}
                 </motion.div>
@@ -304,13 +316,13 @@ const OurStory = () => {
                 >
                   <Link
                     to="/"
-                    className="px-8 py-4 bg-white text-black rounded-full font-medium hover:bg-white/90 transition-colors"
+                    className="px-8 py-4 bg-gold text-gold-foreground rounded-full font-medium hover:bg-ivory transition-colors"
                   >
                     Explore properties
                   </Link>
                   <Link
                     to="/contact-us"
-                    className="px-8 py-4 border border-white/40 text-white rounded-full font-medium hover:bg-white/10 transition-colors"
+                    className="px-8 py-4 border border-ivory/40 text-ivory rounded-full font-medium hover:bg-ivory/10 transition-colors"
                   >
                     Talk to us
                   </Link>
@@ -323,13 +335,13 @@ const OurStory = () => {
 
       {/* Top bar */}
       <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 md:px-10 py-6">
-        <Link to="/" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
+        <Link to="/" className="flex items-center gap-2 text-ivory/80 hover:text-ivory transition-colors">
           <Home className="w-4 h-4" />
           <span className="text-sm tracking-wide">Future Homes</span>
         </Link>
         <button
           onClick={() => setPaused((p) => !p)}
-          className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
+          className="w-10 h-10 rounded-full border border-ivory/30 flex items-center justify-center hover:bg-ivory/10 transition-colors"
           aria-label={paused ? "Play" : "Pause"}
         >
           {paused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
@@ -339,9 +351,9 @@ const OurStory = () => {
       {/* Progress bars */}
       <div className="absolute top-20 left-6 right-6 md:left-10 md:right-10 z-30 flex gap-1.5">
         {slides.map((_, i) => (
-          <div key={i} className="flex-1 h-0.5 bg-white/20 overflow-hidden rounded-full">
+          <div key={i} className="flex-1 h-0.5 bg-ivory/20 overflow-hidden rounded-full">
             <motion.div
-              className="h-full bg-white origin-left"
+              className="h-full bg-gold origin-left"
               initial={false}
               animate={{
                 scaleX: i < index ? 1 : i === index ? progress : 0,
@@ -354,9 +366,9 @@ const OurStory = () => {
       </div>
 
       {/* Side index */}
-      <div className="absolute left-6 md:left-10 bottom-10 z-30 text-white/70 text-sm tracking-widest">
-        <span className="text-white text-2xl font-serif">{String(index + 1).padStart(2, "0")}</span>
-        <span className="mx-2 text-white/40">/</span>
+      <div className="absolute left-6 md:left-10 bottom-10 z-30 text-ivory/70 text-sm tracking-widest">
+        <span className="text-gold text-2xl font-serif">{String(index + 1).padStart(2, "0")}</span>
+        <span className="mx-2 text-ivory/40">/</span>
         <span>{String(slides.length).padStart(2, "0")}</span>
       </div>
 
@@ -364,14 +376,14 @@ const OurStory = () => {
       <div className="absolute right-6 md:right-10 bottom-10 z-30 flex flex-col gap-3">
         <button
           onClick={prev}
-          className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors disabled:opacity-30"
+          className="w-12 h-12 rounded-full border border-ivory/30 flex items-center justify-center hover:bg-ivory/10 transition-colors disabled:opacity-30"
           aria-label="Previous"
         >
           <ChevronUp className="w-5 h-5" />
         </button>
         <button
           onClick={next}
-          className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
+          className="w-12 h-12 rounded-full border border-ivory/30 flex items-center justify-center hover:bg-ivory/10 transition-colors"
           aria-label="Next"
         >
           <ChevronDown className="w-5 h-5" />
@@ -383,7 +395,7 @@ const OurStory = () => {
         initial={{ opacity: 1 }}
         animate={{ opacity: index === 0 ? 0.6 : 0 }}
         transition={{ duration: 0.6 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs tracking-widest uppercase pointer-events-none"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 text-ivory/60 text-xs tracking-widest uppercase pointer-events-none"
       >
         Scroll · Swipe · Arrow keys
       </motion.div>
