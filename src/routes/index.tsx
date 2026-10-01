@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { lazy } from "react";
 import Index from "@/pages/Index";
-import Newsletter from "@/components/Newsletter";
+import DeferredSection from "@/components/DeferredSection";
 import heroEstate from "@/assets/hero-modern-estate.webp";
+
+const Newsletter = lazy(() => import("@/components/Newsletter"));
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,7 +33,7 @@ function HomePage() {
   return (
     <>
       <Index />
-      <Newsletter />
+      <DeferredSection minHeight={500} rootMargin="100px"><Newsletter /></DeferredSection>
     </>
   );
 }
