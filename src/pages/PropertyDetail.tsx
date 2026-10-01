@@ -34,6 +34,8 @@ import LiveViewers from '@/components/LiveViewers';
 import PropertySuggestions from '@/components/PropertySuggestions';
 import { PropertyInquiry, PropertyStickyCta } from '@/components/PropertyInquiry';
 import { PropertyHeroGallery } from '@/components/PropertyHeroGallery';
+import PropertyScrollGallery from '@/components/PropertyScrollGallery';
+import PropertyAreaInsights from '@/components/PropertyAreaInsights';
 
 const parseCompletionDate = (value: string | null | undefined): Date | null => {
   if (!value) return null;
@@ -533,30 +535,7 @@ const PropertyDetail = () => {
       <Navigation />
       
       {/* Image Modal */}
-      {showImageModal && property.images && <div className="fixed inset-0 bg-black/95 z-[60] flex flex-col" onClick={() => setShowImageModal(false)}>
-          <div className="flex items-center justify-between p-4 text-white" onClick={e => e.stopPropagation()}>
-            <span className="text-sm">{currentImageIndex + 1} / {property.images.length}</span>
-            <Button variant="ghost" size="icon" aria-label="Close" onClick={() => setShowImageModal(false)} className="text-white hover:bg-white/20 rounded-full">
-              <X className="h-6 w-6" />
-            </Button>
-          </div>
-          <div className="relative flex flex-1 items-center justify-center px-2 md:px-16 min-h-0" onClick={e => e.stopPropagation()}>
-            <OptimizedPropertyImage src={property.images[currentImageIndex] || property.image || "/placeholder.svg"} alt={`${property.title} in ${property.location || ''} — full screen photo ${currentImageIndex + 1}`} className="max-h-full max-w-full object-contain" priority={true} />
-            {property.images.length > 1 && <>
-                <button aria-label="Previous photo" onClick={prevImage} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/15 text-white p-3 rounded-full hover:bg-white/30 transition-all">
-                  <ChevronLeft className="h-7 w-7" />
-                </button>
-                <button aria-label="Next photo" onClick={nextImage} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/15 text-white p-3 rounded-full hover:bg-white/30 transition-all">
-                  <ChevronRight className="h-7 w-7" />
-                </button>
-              </>}
-          </div>
-          {property.images.length > 1 && <div className="flex gap-2 overflow-x-auto p-3 justify-start md:justify-center" onClick={e => e.stopPropagation()}>
-              {property.images.map((img: string, i: number) => <button key={i} aria-label={`Photo ${i + 1}`} onClick={() => setCurrentImageIndex(i)} className={`h-16 w-24 shrink-0 overflow-hidden rounded-md border-2 transition ${i === currentImageIndex ? 'border-white' : 'border-transparent opacity-60 hover:opacity-100'}`}>
-                  <OptimizedPropertyImage src={img} alt="" className="h-full w-full object-cover" priority={false} />
-                </button>)}
-            </div>}
-        </div>}
+      {showImageModal && property.images && <PropertyScrollGallery images={property.images} title={property.title} location={property.location} startIndex={currentImageIndex} onClose={() => setShowImageModal(false)} />}
 
       <div className="container mx-auto max-w-[1440px] px-4 pb-28 pt-6 sm:pt-10 lg:pb-20">
         {/* Back Button */}
@@ -897,6 +876,10 @@ const PropertyDetail = () => {
               </Link>
             </div>
           </aside>
+        </div>
+
+        <div className="mx-auto mt-16 max-w-7xl sm:mt-20">
+          <PropertyAreaInsights property={property} lang={language} />
         </div>
 
         <SEOInternalLinks />
