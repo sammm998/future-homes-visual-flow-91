@@ -66,7 +66,7 @@ const Hero: React.FC<HeroProps> = ({
         <HeroSlider />
         <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-navy/15" />
 
-        <div className="relative z-10 mx-auto flex min-h-[980px] max-w-[1840px] flex-col justify-end px-5 pb-[30rem] pt-32 sm:min-h-[960px] sm:px-10 sm:pb-72 lg:min-h-[calc(100svh-1rem)] lg:px-16 lg:pb-44 xl:px-24">
+        <div className="relative z-10 mx-auto flex min-h-[980px] max-w-[1840px] flex-col justify-end px-5 pb-10 pt-32 sm:min-h-[960px] sm:px-10 sm:pb-72 lg:min-h-[calc(100svh-1rem)] lg:px-16 lg:pb-44 xl:px-24">
           <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(290px,.45fr)] lg:gap-16">
             <div className="max-w-5xl animate-fade-in">
               <div className="mb-7 flex items-center gap-4 text-[10px] font-semibold uppercase text-gold sm:text-xs [letter-spacing:.28em]">
@@ -88,7 +88,7 @@ const Hero: React.FC<HeroProps> = ({
             </div>
           </div>
 
-          <div id="property-collection" className="absolute inset-x-5 bottom-5 sm:inset-x-10 lg:inset-x-16 xl:inset-x-24">
+          <div id="property-collection" className="mt-12 sm:absolute sm:inset-x-10 sm:bottom-5 sm:mt-0 lg:inset-x-16 xl:inset-x-24">
             {InteractiveSearch ? <InteractiveSearch /> : <HeroSearchStatic />}
           </div>
         </div>
