@@ -5,6 +5,7 @@ import { ArrowRight, Mail, MapPin, MessageCircle, X } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Button } from '@/components/ui/button';
 import { whatsappLink } from '@/utils/conversionCopy';
+import futureHomesLogo from '@/assets/future-homes-logo.webp';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -55,8 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           <div className="flex min-h-full flex-col px-7 py-8 sm:px-12 sm:py-12">
             <div className="mb-12 flex items-start justify-between border-b border-navy-foreground/10 pb-8 sm:mb-16">
               <Link to={withLang('/')} onClick={onClose} className="inline-flex items-center">
-                <img src="/favicon-512x512.png" alt="Future Homes International" width={52} height={52} className="h-12 w-12 object-contain" />
-                <span className="ml-4 max-w-40 font-serif text-sm font-semibold uppercase leading-5 [letter-spacing:.12em]">Future Homes International</span>
+                <img src={futureHomesLogo} alt="Future Homes International" width={1400} height={799} className="h-16 w-auto object-contain brightness-0 invert" />
               </Link>
               <Button onClick={onClose} aria-label="Close menu" variant="ghost" size="icon" className="h-12 w-12 text-navy-foreground transition-transform duration-300 hover:rotate-90 hover:bg-navy-foreground/10 hover:text-gold">
                 <X size={24} />
