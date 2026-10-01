@@ -59,7 +59,7 @@ const AboutUs = () => {
       eyebrow={t('about.badge')}
       title={heroTitle || t('about.hero_title')}
       description={heroSubtitle || t('about.hero_subtitle')}
-      image={aboutHeroImage}
+      image={aboutHero}
       imageAlt="Future Homes International — global real estate expertise"
       primaryLabel={t('about.contact_us')}
       primaryTo="/contact-us"
@@ -226,8 +226,5 @@ const AboutUs = () => {
   </div>;
 };
 
-// Hero image kept as a static import for SSR-safe asset resolution.
-import aboutHero from "@/assets/about-hero.jpg";
-const aboutHeroImage = aboutHero;
 
 export default AboutUs;
