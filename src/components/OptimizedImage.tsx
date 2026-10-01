@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import futureHomesLogo from '@/assets/future-homes-logo-mark.webp';
 
 interface OptimizedImageProps {
@@ -25,19 +25,6 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   ...props
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  // Always load images immediately for better performance
-  const [isInView] = useState(true);
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  // Removed intersection observer for immediate loading
-  useEffect(() => {
-    // Preload image for better performance
-    if (src) {
-      const img = new Image();
-      img.src = src;
-    }
-  }, [src]);
-
   const handleLoad = () => {
     setIsLoaded(true);
   };
@@ -48,7 +35,6 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   return (
     <div
-      ref={imgRef}
       className={`relative ${className}`}
       style={style}
       onClick={onClick}
@@ -60,22 +46,20 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           style={{ width, height }}
         />
       )}
-      {isInView && (
-        <img
+      <img
           src={src}
           alt={alt}
           className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
           style={style}
           onLoad={handleLoad}
           onError={handleError}
-          loading="eager"
+          loading={priority ? "eager" : "lazy"}
           decoding="async"
-          fetchPriority="high"
+          fetchPriority={priority ? "high" : "auto"}
           width={width}
           height={height}
           {...props}
         />
-      )}
       
       {/* Logo stamp overlay - only show for property images */}
       {isLoaded && alt.toLowerCase().includes('property') && (
