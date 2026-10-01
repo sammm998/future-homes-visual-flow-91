@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
+import { lazy, Suspense, useEffect, useState } from "react";
+
+const Sidebar = lazy(() => import("./Sidebar"));
 
 export const OPEN_PUBLIC_SIDEBAR_EVENT = "open-public-sidebar";
 
@@ -16,8 +17,12 @@ const PublicSidebarRail = () => {
     return () => window.removeEventListener(OPEN_PUBLIC_SIDEBAR_EVENT, open);
   }, []);
 
+  if (!isOpen) return null;
+
   return (
-    <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+    <Suspense fallback={null}>
+      <Sidebar isOpen onClose={() => setIsOpen(false)} />
+    </Suspense>
   );
 };
 
