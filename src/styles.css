@@ -5,11 +5,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Extra-wide screens: 4 listings per row without squeezing the cards. */
-@theme {
-  --breakpoint-3xl: 1700px;
-}
-
 /*
  * Design system definition — ported from the pre-migration src/index.css +
  * tailwind.config.ts. Tokens stay as raw HSL triplets (e.g. 213 100% 23%) so
