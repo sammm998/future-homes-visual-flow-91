@@ -27,6 +27,8 @@ import {
 import { preloadImages, forceImageLoading } from '@/utils/imagePreloader';
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
+import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
+import mersinHero from '@/assets/destinations/mersin-cinematic.jpg';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const MersinPropertySearch = () => {
@@ -343,15 +345,16 @@ const MersinPropertySearch = () => {
         ]}
       />
       <Navigation />
-      
-      {/* SEO Introductory Content */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="prose max-w-none mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Mersin Properties: Your Gateway to Turkish Citizenship</h1>
-          <p className="text-lg text-muted-foreground mb-6">
-            Discover exceptional property investment opportunities in Mersin, Turkey's hidden gem along the Mediterranean coast. 
-            With affordable prices starting from competitive rates, Mersin offers an excellent pathway to Turkish citizenship through property investment.
-          </p>
+      <PublicPageHero
+        eyebrow="Mediterranean value"
+        title="Mersin Properties: Your Gateway to Turkish Citizenship"
+        description="Discover exceptional property investment opportunities in Mersin, Turkey's hidden gem along the Mediterranean coast — an excellent pathway to Turkish citizenship through property investment."
+        image={mersinHero}
+        imageAlt="Mersin coastline and modern residences"
+        compact
+      />
+      <div className="mx-auto w-full max-w-[1840px] px-4 pt-12 sm:px-6 lg:px-8 2xl:px-10">
+        <div className="max-w-none">
           <div className="grid md:grid-cols-3 gap-6 text-muted-foreground mb-6">
             <div>
               <h3 className="text-lg font-semibold text-foreground mb-2">✅ Turkish Citizenship Eligible</h3>
@@ -371,11 +374,11 @@ const MersinPropertySearch = () => {
       
       <div className="mx-auto w-full max-w-[1840px] px-4 py-8 sm:px-6 lg:px-8 lg:py-12 2xl:px-10">
         {/* Header */}
-        <div className="mb-6">
-          <h2 className="text-3xl font-bold text-foreground mb-2">
-            {t('city.properties_in')} Mersin
-          </h2>
-          <p className="text-muted-foreground">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-0">
+            <EditorialSectionHeader eyebrow="Curated residences" title={`${t('city.properties_in')} Mersin`} />
+          </div>
+          <p className="text-sm text-muted-foreground mt-4">
             {filteredProperties.length} {t('city.found')}
           </p>
         </div>

@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/pagination";
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
+import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
+import cyprusHero from '@/assets/destinations/cyprus-cinematic.jpg';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const CyprusPropertySearch = () => {
@@ -287,20 +289,20 @@ const CyprusPropertySearch = () => {
         ]}
       />
       <Navigation />
+      <PublicPageHero
+        eyebrow="Island portfolio"
+        title={`${t('city.properties_in')} Cyprus`}
+        description={`${t('cyprus.intro')} ${t('cyprus.intro2')}`}
+        image={cyprusHero}
+        imageAlt="Cyprus coastline and luxury residences"
+        compact
+      />
       
-      <div className="mx-auto w-full max-w-[1840px] px-4 py-8 sm:px-6 lg:px-8 lg:py-12 2xl:px-10">
+      <div className="mx-auto w-full max-w-[1840px] px-4 py-12 sm:px-6 lg:px-8 lg:py-16 2xl:px-10">
         {/* SEO Intro Content */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-4">
-            {t('city.properties_in')} Cyprus
-          </h1>
-          <div className="prose max-w-none text-muted-foreground">
-            <p className="mb-4">
-              {t('cyprus.intro')}
-            </p>
-            <p className="mb-4">
-              {t('cyprus.intro2')}
-            </p>
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-0">
+            <EditorialSectionHeader eyebrow="Curated residences" title={`${t('city.properties_in')} Cyprus`} />
           </div>
           <p className="text-sm text-muted-foreground mt-4">
             {properties.length} {t('city.found')}
