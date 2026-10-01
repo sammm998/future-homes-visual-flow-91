@@ -14,7 +14,10 @@ export const useTeamMembers = () => {
           .order('display_order', { ascending: true });
         
         if (error) throw error;
-        return data || [];
+        return (data || []).map((member) => ({
+          ...member,
+          image_url: applyTeamImageOverride(member.id, member.image_url),
+        }));
       }, 3, 2000);
     },
     staleTime: 15 * 60 * 1000, // Increased to 15 minutes

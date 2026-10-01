@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Users, Linkedin, Mail, Phone } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getOptimizedImageUrl } from '@/utils/imageOptimization';
+import { applyTeamImageOverride } from '@/lib/teamImages';
 
 interface TeamMember {
   id: string;
