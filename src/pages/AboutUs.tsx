@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import { PublicPageHero, EditorialSectionHeader, EditorialCta } from "@/components/PublicEditorial";
+import aboutHero from "@/assets/about-hero.jpg";
 import antalyaImage from "@/assets/destinations/antalya-cinematic.webp";
 import mersinImage from "@/assets/destinations/mersin-cinematic.webp";
 import dubaiImage from "@/assets/destinations/dubai-cinematic.webp";
