@@ -514,7 +514,7 @@ const PropertyDetail = () => {
     area: property.area,
     propertyType: property.propertyType,
   };
-  return <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+  return <div className="min-h-screen bg-background">
       <SEOHead
         title={propertyTitle}
         description={propertyDescription}
@@ -554,7 +554,7 @@ const PropertyDetail = () => {
           </div>
         </div>}
 
-      <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
+      <div className="container mx-auto px-4 pt-28 pb-20 max-w-7xl cinematic-section">
         {/* Back Button */}
         <Button variant="ghost" asChild className="mb-8">
           <a href={returnUrl}>
@@ -567,12 +567,12 @@ const PropertyDetail = () => {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Property Header */}
-            <div className="space-y-4">
+             <div className="space-y-4 pb-7 border-b border-border/70">
               <Badge variant="outline" className="w-fit">
                 REF: {property.refNo || property.id}
               </Badge>
               
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+               <h1 className="text-3xl md:text-5xl font-bold text-foreground leading-tight">
                 {property.title}
               </h1>
               
@@ -595,7 +595,7 @@ const PropertyDetail = () => {
               <h2 className="text-2xl font-semibold">{t('pd.gallery', language)}</h2>
               <div className="space-y-4">
                 {/* Main Image */}
-                <div className="relative aspect-[16/10] overflow-hidden rounded-lg cursor-pointer group" onClick={() => setShowImageModal(true)}>
+                 <div className="relative aspect-[16/10] overflow-hidden rounded-md cursor-pointer group cinematic-card" onClick={() => setShowImageModal(true)}>
                   <OptimizedPropertyImage src={property.images?.[currentImageIndex] || property.image || "/placeholder.svg"} alt={`${property.title} — ${property.propertyType || 'property'} in ${property.location || ''} (REF ${refLabel})`} className={`w-full h-full object-cover ${currentImageIndex === 0 ? 'animate-kenburns' : 'transition-transform duration-300 group-hover:scale-105'}`} priority={true} />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                     <Images className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -631,21 +631,21 @@ const PropertyDetail = () => {
             <div className="space-y-6">
               <h2 className="text-2xl font-semibold">{t('pd.property_details', language)}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                 <div className="flex items-center space-x-3 p-4 cinematic-surface rounded-md">
                   <Bed className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-muted-foreground">{t('bedrooms', language)}</p>
                     <p className="font-semibold">{property.bedrooms || 'N/A'}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                 <div className="flex items-center space-x-3 p-4 cinematic-surface rounded-md">
                   <Bath className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-muted-foreground">{t('bathrooms', language)}</p>
                     <p className="font-semibold">{property.bathrooms || 'N/A'}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-4 border rounded-lg">
+                 <div className="flex items-center space-x-3 p-4 cinematic-surface rounded-md">
                   <Square className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm text-muted-foreground notranslate" translate="no">{t('area', language)}</p>
@@ -736,7 +736,7 @@ const PropertyDetail = () => {
                     {sections.map((section, sIdx) => (
                       <div
                         key={sIdx}
-                        className="p-6 border rounded-lg bg-gradient-to-br from-blue-50/50 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/5 border-blue-200/50 dark:border-blue-700/30 space-y-3"
+                        className="p-6 cinematic-surface rounded-md space-y-3"
                       >
                         {section.heading && (
                           <h3 className="text-lg font-bold text-foreground">{section.heading}</h3>
@@ -774,8 +774,8 @@ const PropertyDetail = () => {
             {property.features && property.features.length > 0 && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">{t('pd.features_amenities', language)}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-2 p-3 border rounded-lg bg-gradient-to-r from-green-50/50 to-emerald-50/30 dark:from-green-900/10 dark:to-emerald-900/5 border-green-200/50 dark:border-green-700/30 hover:shadow-md transition-all duration-200">
-                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
+                  {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-2 p-3 cinematic-surface rounded-md transition-all duration-200">
+                      <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
                       <span className="text-foreground font-medium">{translateAmenity(feature, language)}</span>
                     </div>)}
                 </div>
@@ -812,7 +812,7 @@ const PropertyDetail = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Quick Info Card */}
-            <div className="p-6 border rounded-lg bg-card/80 backdrop-blur-sm">
+            <div className="p-6 cinematic-surface rounded-md">
               <h3 className="text-xl font-semibold mb-4">{t('pd.quick_info', language)}</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
@@ -833,7 +833,7 @@ const PropertyDetail = () => {
             </div>
 
             {/* Contact Agent Card - Now Sticky */}
-            <div className="sticky top-8 p-6 border rounded-lg bg-gradient-to-br from-primary/5 via-card to-primary/10 backdrop-blur-sm shadow-lg">
+            <div className="sticky top-24 p-6 cinematic-card rounded-md bg-card">
               <h3 className="text-xl font-semibold mb-4 text-center">{t('pd.contact_agent', language)}</h3>
               
               {agent ? <div className="space-y-4">
@@ -910,7 +910,7 @@ const PropertyDetail = () => {
             </div>
 
             {/* Investment Highlights */}
-            <div className="p-6 border rounded-lg bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-900/10 dark:to-orange-900/5 border-amber-200/50 dark:border-amber-700/30">
+             <div className="p-6 cinematic-surface rounded-md">
               <h3 className="text-lg font-semibold mb-4 text-center">{t('pd.investment_highlights', language)}</h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 p-3 bg-gradient-to-r from-white/70 to-amber-50/30 rounded-lg border border-amber-200/30">
@@ -944,7 +944,7 @@ const PropertyDetail = () => {
             </div>
 
             {/* Similar Properties */}
-            <div className="p-6 border rounded-lg text-center bg-gradient-to-br from-purple-50 to-indigo-50/50 dark:from-purple-900/10 dark:to-indigo-900/5 border-purple-200/50 dark:border-purple-700/30">
+             <div className="p-6 cinematic-surface rounded-md text-center">
               <h3 className="text-lg font-semibold mb-2">{t('pd.similar_properties', language)}</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 {t('pd.discover_more_in', language)} {property.location}

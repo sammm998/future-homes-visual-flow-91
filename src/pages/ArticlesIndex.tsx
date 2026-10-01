@@ -22,21 +22,23 @@ const ArticlesIndex = () => {
         canonicalUrl={canonicalUrl}
       />
       <Navigation />
-      <main className="container mx-auto px-4 pt-32 pb-20">
-        <header className="max-w-3xl mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+      <main className="pb-20">
+        <header className="bg-brand-secondary text-brand-foreground pt-36 pb-20 mb-16 cinematic-section">
+          <div className="container mx-auto px-4 text-center max-w-4xl">
+          <span className="section-kicker cinematic-rule text-brand-accent mb-5">Future Homes</span>
+          <h1 className="text-4xl md:text-6xl font-bold text-brand-foreground mb-5">
             Articles &amp; Property Guides
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-brand-foreground/70 max-w-2xl mx-auto">
             Everything you need before buying abroad: city guides, costs, legal steps and
             lifestyle in Turkey, Dubai, Cyprus and Bali.
-          </p>
+          </p></div>
         </header>
-
+        <div className="container mx-auto px-4">
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[...Array(6)].map((_, i) => (
-              <Skeleton key={i} className="h-80 w-full rounded-xl" />
+              <Skeleton key={i} className="h-80 w-full rounded-md" />
             ))}
           </div>
         ) : blogPosts.length > 0 ? (
@@ -45,9 +47,9 @@ const ArticlesIndex = () => {
               <Link
                 key={post.id}
                 to={localizePath(`/articles/${post.slug}`, lang)}
-                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl"
+                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
               >
-                <Card className="h-full overflow-hidden transition-all duration-300 group-hover:shadow-elegant group-hover:-translate-y-1">
+                <Card className="h-full overflow-hidden cinematic-card rounded-md">
                   <div className="aspect-[16/10] w-full overflow-hidden bg-muted">
                     {post.featured_image ? (
                       <img
@@ -72,7 +74,7 @@ const ArticlesIndex = () => {
           </div>
         ) : (
           <p className="text-muted-foreground">No articles published yet.</p>
-        )}
+        )}</div>
       </main>
     </div>
   );
