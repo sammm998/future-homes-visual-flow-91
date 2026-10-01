@@ -137,8 +137,8 @@ export function HeroSearch() {
 
   return (
     <Card className="mx-auto max-w-6xl rounded-lg border-border/70 bg-background p-2 shadow-[var(--shadow-luxe)] sm:p-3">
-      <div className="grid grid-cols-1 divide-y divide-border sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-7 lg:divide-x">
-        <div className="lg:col-span-1">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-0 sm:divide-y-0 lg:grid-cols-7 lg:divide-x lg:divide-border">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
           <Select value={propertyType} onValueChange={setPropertyType}>
             <SelectTrigger className="h-12 border-0 bg-transparent text-sm font-semibold text-foreground focus:ring-gold sm:h-14">
               <SelectValue placeholder={t('search.property_type')} />
@@ -172,7 +172,7 @@ export function HeroSearch() {
           </Select>
         </div>
 
-        <div className="lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
           <Select value={bedrooms} onValueChange={setBedrooms}>
             <SelectTrigger className="h-12 border-0 bg-transparent text-sm font-semibold text-foreground focus:ring-gold sm:h-14">
               <SelectValue placeholder={t('search.bedrooms')} />
@@ -188,7 +188,7 @@ export function HeroSearch() {
           </Select>
         </div>
 
-        <div className="lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
           <Select value={location} onValueChange={setLocation}>
             <SelectTrigger className="h-12 border-0 bg-transparent text-sm font-semibold text-foreground focus:ring-gold sm:h-14">
               <SelectValue placeholder={t('search.location')} />
@@ -204,7 +204,7 @@ export function HeroSearch() {
           </Select>
         </div>
 
-        <div className="lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
           <Input
             placeholder={t('search.ref_no')}
             value={refNo}
@@ -213,7 +213,7 @@ export function HeroSearch() {
           />
         </div>
 
-        <div className="lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger className="h-12 border-0 bg-transparent text-sm font-semibold text-foreground focus:ring-gold sm:h-14">
               <SelectValue placeholder={t('search.sort_by')} />
