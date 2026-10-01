@@ -1,10 +1,13 @@
 import heroEstate from '@/assets/hero-modern-estate.webp';
+import heroEstateMobile from '@/assets/hero-modern-estate-768.webp';
 
 const HeroSlider = () => {
   return (
     <div dir="ltr" className="absolute inset-0 overflow-hidden bg-navy">
       <img
         src={heroEstate}
+        srcSet={`${heroEstateMobile} 768w, ${heroEstate} 1920w`}
+        sizes="100vw"
         alt="Modern Mediterranean estate overlooking the sea at sunset"
         width={1920}
         height={1080}

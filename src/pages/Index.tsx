@@ -16,7 +16,6 @@ import ConversionBand from "@/components/ConversionBand";
 // Below-the-fold sections: downloaded only when the user scrolls near them.
 const FeatureDemo = lazy(() => import("@/components/ui/feature-demo").then(m => ({ default: m.FeatureDemo })));
 const InteractiveSelector = lazy(() => import("@/components/ui/interactive-selector"));
-const ShuffleGrid = lazy(() => import("@/components/ShuffleGrid"));
 const RollingTestimonialsSection = lazy(() => import("@/components/RollingTestimonialsSection"));
 const FounderSection = lazy(() => import("@/components/FounderSection"));
 const TeamSection = lazy(() => import("@/components/TeamSection"));
@@ -189,11 +188,6 @@ const Index = () => {
       {/* Interactive City Selector */}
       <DeferredSection className="w-full" minHeight={500}>
         <InteractiveSelector />
-      </DeferredSection>
-
-      {/* Featured Properties - Shuffle Grid */}
-      <DeferredSection minHeight={600}>
-        <ShuffleGrid />
       </DeferredSection>
 
       {/* Customer reviews and testimonials */}
