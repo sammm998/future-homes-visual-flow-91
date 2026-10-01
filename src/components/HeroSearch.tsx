@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Search, MapPin, Home, Building, Store, Filter, Wand2 } from "lucide-react";
+import { Search, MapPin, Home, Building, Store, Filter, Wand2, Check } from "lucide-react";
 import AiSearchDialog, { COPY as AI_COPY } from "@/components/AiSearchDialog";
 import { getCurrentLanguage as getLangFromPath } from "@/utils/seoUtils";
 import { useCurrency } from "@/contexts/CurrencyContext";
