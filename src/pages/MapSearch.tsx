@@ -3,11 +3,13 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useLocation, useNavigate } from '@/lib/router-compat';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2 } from 'lucide-react';
+import { ArrowRight, BedDouble, Building2, Filter, Layers3, Loader2, MapPin, SlidersHorizontal, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getPropertyCoordinates } from '@/utils/propertyCoordinates';
 import PropertyFilter from '@/components/PropertyFilter';
-import { Menu, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useTranslation } from '@/hooks/useTranslation';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 
 interface Property {
@@ -62,7 +64,9 @@ const MapSearch = () => {
   const navigate = useNavigate();
   const routeLocation = useLocation();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [isDesktopFilterOpen, setIsDesktopFilterOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -80,7 +84,7 @@ const MapSearch = () => {
 
   // Filter properties based on current filters (memoized for performance)
   const filteredProperties = useMemo(() => {
-    return properties.filter((property: Property) => {
+    const matches = properties.filter((property: Property) => {
       // Property type filter
       if (filters.propertyType && property.property_type?.toLowerCase() !== filters.propertyType.toLowerCase()) {
         return false;
@@ -141,6 +145,12 @@ const MapSearch = () => {
       }
 
       return true;
+    });
+    return [...matches].sort((a, b) => {
+      const price = (value: string) => Number(value?.replace(/[^0-9.]/g, '') || 0);
+      if (filters.sortBy === 'price-low') return price(a.price) - price(b.price);
+      if (filters.sortBy === 'price-high') return price(b.price) - price(a.price);
+      return String(b.ref_no || '').localeCompare(String(a.ref_no || ''), undefined, { numeric: true });
     });
   }, [properties, filters]);
 
@@ -309,69 +319,7 @@ const MapSearch = () => {
       // Simplified marker - using favicon for fast loading
       const el = document.createElement('div');
       el.className = 'custom-marker';
-      el.style.width = '40px';
-      el.style.height = '40px';
-      el.style.background = 'white';
-      el.style.borderRadius = '50%';
-      el.style.border = '3px solid white';
-      el.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
-      el.style.cursor = 'pointer';
-      el.style.overflow = 'hidden';
-      el.style.backgroundImage = 'url(/favicon.png)';
-      el.style.backgroundSize = 'contain';
-      el.style.backgroundPosition = 'center';
-      el.style.backgroundRepeat = 'no-repeat';
-      el.style.willChange = 'auto';
-      el.style.transform = 'translate3d(0, 0, 0)';
-      el.style.backfaceVisibility = 'hidden';
-      
-      // Hover effect - only change color and shadow, not size
-      el.addEventListener('mouseenter', () => {
-        el.style.borderColor = '#0066CC';
-        el.style.boxShadow = '0 4px 12px rgba(0,102,204,0.5)';
-      });
-      
-      el.addEventListener('mouseleave', () => {
-        el.style.borderColor = 'white';
-        el.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
-      });
-
-      // Create popup content lazily on click
-      const createPopup = () => {
-        const propertyUrl = buildPropertyUrl(property, lang);
-        const popupContent = document.createElement('div');
-        popupContent.innerHTML = `
-          <div style="padding: 0; min-width: 280px;">
-            ${property.property_image ? `
-              <img src="${property.property_image}" alt="${property.title}" 
-                style="width: 100%; height: 150px; object-fit: cover; display: block;" />
-            ` : ''}
-            <div style="padding: 12px;">
-              <div style="background: #0066CC; color: white; padding: 3px 8px; 
-                border-radius: 8px; font-size: 10px; display: inline-block; margin-bottom: 8px;">
-                REF: ${property.ref_no}
-              </div>
-              <h3 style="margin: 0 0 8px 0; font-size: 15px; font-weight: 700;">${property.title}</h3>
-              <p style="margin: 0 0 8px 0; font-size: 12px; color: #666;">${property.location}</p>
-              <div style="font-size: 18px; font-weight: 700; color: #0066CC; margin-bottom: 10px;">
-                ${property.price}
-              </div>
-              <button onclick="window.location.href='${propertyUrl}'"
-                style="width: 100%; background: #0066CC; color: white; border: none; 
-                padding: 8px; border-radius: 6px; font-size: 13px; cursor: pointer;">
-                Visit Property →
-              </button>
-            </div>
-          </div>
-        `;
-        
-        return new mapboxgl.Popup({ 
-          offset: 25,
-          closeButton: true,
-          closeOnClick: false,
-          maxWidth: '300px'
-        }).setDOMContent(popupContent);
-      };
+      el.setAttribute('aria-label', `${property.title}, ${property.location}`);
 
       // Add marker with anchor set to center for stable positioning
       const marker = new mapboxgl.Marker({
@@ -392,35 +340,8 @@ const MapSearch = () => {
         
         console.log('Marker clicked:', property.ref_no);
         
-        // On mobile, show fullscreen modal
-        if (isMobile) {
-          setSelectedProperty(property);
-        } else {
-          // On desktop, show regular popup
-          if (currentPopupRef.current) {
-            currentPopupRef.current.remove();
-          }
-          
-          const popup = createPopup();
-          marker.setPopup(popup);
-          popup.addTo(map.current!);
-          currentPopupRef.current = popup;
-          
-          // Wait for popup to render, then center it perfectly
-          setTimeout(() => {
-            const mapContainer = map.current!.getContainer();
-            const mapHeight = mapContainer.clientHeight;
-            
-            // Calculate offset to center popup (move marker down so popup appears in center)
-            // Popup is ~300px tall, so offset marker down by 150px
-            map.current!.easeTo({
-              center: coords,
-              offset: [0, 150] as [number, number], // Move view up so popup is centered
-              duration: 500,
-              essential: true
-            });
-          }, 50);
-        }
+        setSelectedProperty(property);
+        map.current?.easeTo({ center: coords, zoom: Math.max(map.current.getZoom(), 11), duration: 650, essential: true });
       });
     });
 
@@ -434,207 +355,51 @@ const MapSearch = () => {
     }
 
     console.log(`Added ${markersRef.current.length} markers to map`);
-  }, [filteredProperties]);
+  }, [filteredProperties, isMobile, lang]);
 
   const handleFilterChange = (newFilters: any) => {
     setFilters(newFilters);
   };
 
   const handleSearch = () => {
-    // Filters are already applied through useEffect
-    toast({
-      title: "Search Complete",
-      description: `Found ${filteredProperties.length} properties matching your criteria.`,
-    });
+    setIsMobileFilterOpen(false);
+    setIsDesktopFilterOpen(false);
+  };
+
+  const selectProperty = (property: Property) => {
+    setSelectedProperty(property);
+    const coords = extractCoordinates(property.google_maps_embed, property.ref_no, property.location);
+    if (coords && map.current) map.current.easeTo({ center: coords, zoom: Math.max(map.current.getZoom(), 11), duration: 650, essential: true });
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden flex">
-      {loading && (
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-[1000] flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="h-12 w-12 animate-spin text-primary" />
-            <p className="text-muted-foreground">Loading properties map...</p>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile Fullscreen Property Modal */}
-      {selectedProperty && isMobile && (
-        <div className="fixed inset-0 z-[200] bg-background flex flex-col">
-          {/* Close Button */}
-          <button
-            onClick={() => setSelectedProperty(null)}
-            className="absolute top-3 right-3 z-10 bg-background/95 backdrop-blur-sm p-2 rounded-full shadow-lg border"
-          >
-            <X className="w-5 h-5" />
-          </button>
-
-          {/* Property Content - Fixed height sections */}
-          <div className="flex-1 flex flex-col h-full">
-            {/* Image Section - Fixed height */}
-            {selectedProperty.property_image && (
-              <div className="h-[35vh] flex-shrink-0">
-                <img 
-                  src={selectedProperty.property_image} 
-                  alt={selectedProperty.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            )}
-            
-            {/* Content Section - Flexible but constrained */}
-            <div className="flex-1 flex flex-col p-4 overflow-hidden">
-              <div className="flex-1 space-y-2 min-h-0">
-                <div className="inline-block bg-primary text-primary-foreground px-2 py-1 rounded-lg text-xs font-medium">
-                  REF: {selectedProperty.ref_no}
-                </div>
-                
-                <h2 className="text-xl font-bold line-clamp-2">{selectedProperty.title}</h2>
-                
-                <p className="text-sm text-muted-foreground flex items-center gap-1">
-                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span className="line-clamp-1">{selectedProperty.location}</span>
-                </p>
-                
-                <div className="text-2xl font-bold text-primary">
-                  {selectedProperty.price}
-                </div>
-                
-                <div className="flex gap-4 text-xs text-muted-foreground">
-                  {selectedProperty.bedrooms && (
-                    <span><span className="font-medium">Bedrooms:</span> {selectedProperty.bedrooms}</span>
-                  )}
-                  {selectedProperty.property_type && (
-                    <span><span className="font-medium">Type:</span> {selectedProperty.property_type}</span>
-                  )}
-                </div>
-              </div>
-              
-              {/* Button - Always visible at bottom */}
-              <button
-                onClick={() => navigate(buildPropertyUrl(selectedProperty, lang))}
-                className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-medium shadow-lg hover:opacity-90 transition-opacity mt-3 flex-shrink-0"
-              >
-                Visit Property →
-              </button>
+    <main className="h-[100svh] overflow-hidden bg-ivory text-navy">
+      <div className="grid h-full grid-rows-[42svh_1fr] lg:grid-cols-[minmax(34rem,44%)_1fr] lg:grid-rows-1">
+        <section className="order-2 flex min-h-0 flex-col border-r border-navy/10 bg-ivory lg:order-1">
+          <header className="shrink-0 border-b border-navy/10 px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
+            <div className="flex items-start justify-between gap-4">
+              <div><p className="mb-1 text-[10px] font-bold uppercase text-gold">Future Homes International</p><h1 className="text-2xl font-semibold sm:text-3xl">{t('nav.map_search')}</h1><p className="mt-2 text-xs text-navy/60">{t('common.showing')} <strong>{filteredProperties.length}</strong> {t('common.properties')}</p></div>
+              <Button variant="outline" size="icon" className="hidden border-navy/15 bg-transparent text-navy hover:border-gold lg:inline-flex" onClick={() => setIsDesktopFilterOpen(v => !v)} aria-label={t('nav.search')}><SlidersHorizontal /></Button>
             </div>
-          </div>
-        </div>
-      )}
-      
-      {/* Mobile Filter Toggle Button */}
-      <button
-        onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-        className="md:hidden fixed top-4 left-4 z-[100] bg-background/95 backdrop-blur-sm p-3 rounded-lg shadow-lg border"
-      >
-        {isMobileFilterOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-      </button>
-
-      {/* Left Sidebar Filter - Desktop & Mobile Drawer */}
-      <div className={`
-        fixed md:relative
-        ${isMobileFilterOpen ? 'left-0' : '-left-full md:left-0'}
-        top-0 h-screen w-72 flex-shrink-0 flex flex-col bg-background border-r z-[90]
-        transition-all duration-300 ease-in-out
-      `}>
-        <div className="flex-1 overflow-y-auto p-3 pt-16 md:pt-3">
-          <PropertyFilter 
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onSearch={handleSearch}
-            horizontal={false}
-          />
-        </div>
-        
-        {/* Results Counter - Fixed at bottom */}
-        <div className="flex-shrink-0 border-t p-3 bg-background">
-          <div className="bg-muted/50 px-3 py-2 rounded-lg">
-            <p className="text-xs font-medium">
-              Showing <span className="text-primary font-bold">{filteredProperties.length}</span> properties
-            </p>
-          </div>
-        </div>
+            <div className="mt-4 grid grid-cols-[1fr_auto] gap-2 sm:grid-cols-[1fr_1fr_auto]">
+              <Select value={filters.location} onValueChange={(value) => setFilters(c => ({...c, location:value, district:''}))}><SelectTrigger className="h-11 border-navy/15 bg-background"><MapPin className="h-4 w-4 text-gold"/><SelectValue placeholder={t('filter.select_location')}/></SelectTrigger><SelectContent>{['all','Antalya','Istanbul','Mersin','Dubai','Cyprus','Bali'].map(v=><SelectItem key={v} value={v}>{v==='all'?t('info.all'):v}</SelectItem>)}</SelectContent></Select>
+              <Select value={filters.sortBy} onValueChange={(value) => setFilters(c => ({...c, sortBy:value}))}><SelectTrigger className="hidden h-11 border-navy/15 bg-background sm:flex"><Layers3 className="h-4 w-4 text-gold"/><SelectValue placeholder={t('search.sort_by')}/></SelectTrigger><SelectContent><SelectItem value="ref">{t('search.newest')}</SelectItem><SelectItem value="price-low">{t('search.price_low')}</SelectItem><SelectItem value="price-high">{t('search.price_high')}</SelectItem></SelectContent></Select>
+              <Button className="h-11 bg-navy text-navy-foreground lg:hidden" onClick={() => setIsMobileFilterOpen(true)}><Filter/><span className="hidden sm:inline">{t('nav.search')}</span></Button>
+            </div>
+          </header>
+          {isDesktopFilterOpen && <div className="max-h-[48vh] shrink-0 overflow-y-auto border-b border-navy/10 bg-background px-5 py-5 lg:px-8"><PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch}/></div>}
+          <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-6 lg:px-8 lg:py-6"><div className="space-y-4">
+            {filteredProperties.map((property,index)=><article key={property.id} className={`group grid min-h-40 cursor-pointer grid-cols-[8.5rem_1fr] overflow-hidden border bg-background transition-all sm:grid-cols-[11rem_1fr] ${selectedProperty?.id===property.id?'border-gold shadow-[var(--shadow-luxe)]':'border-navy/10 hover:border-gold/60'}`} onClick={()=>selectProperty(property)}>
+              <div className="relative min-h-40 overflow-hidden bg-navy">{property.property_image?<img src={property.property_image} alt={property.title} loading={index<3?'eager':'lazy'} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"/>:<div className="flex h-full items-center justify-center text-gold"><Building2/></div>}<span className="absolute left-3 top-3 bg-navy/85 px-2 py-1 text-[9px] font-bold text-navy-foreground">REF {property.ref_no}</span></div>
+              <div className="flex min-w-0 flex-col justify-between p-4 sm:p-5"><div><p className="flex items-center gap-1 truncate text-[10px] font-bold uppercase text-gold"><MapPin className="h-3 w-3"/>{property.location}</p><h2 className="mt-2 line-clamp-2 text-sm font-semibold sm:text-base">{property.title}</h2><div className="mt-3 flex gap-3 text-[11px] text-navy/55">{property.bedrooms&&<span className="flex items-center gap-1"><BedDouble className="h-3.5 w-3.5"/>{property.bedrooms}</span>}<span className="truncate">{property.property_type}</span></div></div><div className="mt-4 flex items-end justify-between border-t border-navy/10 pt-3"><strong className="truncate text-sm sm:text-base">{property.price}</strong><Button size="icon" className="h-9 w-9 bg-navy text-navy-foreground hover:bg-gold" onClick={e=>{e.stopPropagation();navigate(buildPropertyUrl(property,lang))}} aria-label={t('card.view_property')}><ArrowRight/></Button></div></div>
+            </article>)}
+          </div></div>
+        </section>
+        <section className="relative order-1 min-h-0 bg-navy lg:order-2"><div ref={mapContainer} className="h-full w-full"/>{loading&&<div className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center bg-navy/60"><Loader2 className="h-10 w-10 animate-spin text-gold"/></div>}<div className="absolute left-4 top-4 z-[60] flex gap-1 border border-navy/10 bg-background/95 p-1 shadow-[var(--shadow-luxe)]"><Button size="sm" className="bg-navy text-navy-foreground" onClick={()=>setMapStyle('mapbox://styles/mapbox/streets-v12')}>Street</Button><Button size="sm" variant="ghost" onClick={()=>setMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}>Satellite</Button><Button size="icon" variant="ghost" className="h-9 w-9" onClick={()=>map.current?.easeTo({pitch:map.current.getPitch()===0?60:0,duration:800})}><Layers3/></Button></div></section>
       </div>
-
-      {/* Mobile Overlay */}
-      {isMobileFilterOpen && (
-        <div 
-          className="md:hidden fixed inset-0 bg-black/50 z-[80]"
-          onClick={() => setIsMobileFilterOpen(false)}
-        />
-      )}
-
-      {/* Map Style Controls */}
-      <div className="absolute top-4 left-4 md:left-[304px] z-[60] flex gap-2 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-lg mt-14 md:mt-0">
-        <button
-          onClick={() => setMapStyle('mapbox://styles/mapbox/streets-v12')}
-          className={`px-2 md:px-3 py-2 rounded-md text-xs md:text-sm font-medium transition-all ${
-            mapStyle === 'mapbox://styles/mapbox/streets-v12'
-              ? 'bg-primary text-primary-foreground'
-              : 'hover:bg-accent'
-          }`}
-        >
-          Street
-        </button>
-        <button
-          onClick={() => setMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}
-          className={`px-2 md:px-3 py-2 rounded-md text-xs md:text-sm font-medium transition-all ${
-            mapStyle === 'mapbox://styles/mapbox/satellite-streets-v12'
-              ? 'bg-primary text-primary-foreground'
-              : 'hover:bg-accent'
-          }`}
-        >
-          Satellite
-        </button>
-        <button
-          onClick={() => {
-            if (map.current) {
-              const currentPitch = map.current.getPitch();
-              map.current.easeTo({
-                pitch: currentPitch === 0 ? 60 : 0,
-                duration: 1000
-              });
-            }
-          }}
-          className="px-2 md:px-3 py-2 rounded-md text-xs md:text-sm font-medium hover:bg-accent transition-all"
-        >
-          3D
-        </button>
-      </div>
-      
-      <div 
-        ref={mapContainer} 
-        className="flex-1 h-screen"
-      />
-      
-      <style>{`
-        .mapboxgl-ctrl-top-right {
-          top: 120px !important;
-        }
-        
-        @media (min-width: 768px) {
-          .mapboxgl-ctrl-top-right {
-            top: 10px !important;
-          }
-        }
-        
-        /* Ensure Select dropdowns appear above map elements */
-        [data-radix-popper-content-wrapper] {
-          z-index: 150 !important;
-        }
-        
-        /* Ensure all radix popover content is above other elements */
-        [role="dialog"],
-        [role="menu"],
-        [role="listbox"] {
-          z-index: 150 !important;
-        }
-      `}</style>
-    </div>
+      {isMobileFilterOpen&&<div className="fixed inset-0 z-[200] bg-navy/55 backdrop-blur-sm lg:hidden" onClick={()=>setIsMobileFilterOpen(false)}><aside className="absolute inset-y-0 left-0 w-[min(92vw,24rem)] overflow-y-auto bg-ivory p-4" onClick={e=>e.stopPropagation()}><div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-semibold">{t('nav.search')}</h2><Button variant="ghost" size="icon" onClick={()=>setIsMobileFilterOpen(false)}><X/></Button></div><PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch}/></aside></div>}
+      <style>{`.custom-marker{width:38px;height:38px;cursor:pointer;overflow:hidden;border:3px solid hsl(var(--ivory));border-radius:999px;background:hsl(var(--ivory)) url('/favicon.png') center/contain no-repeat;box-shadow:0 8px 22px hsl(var(--navy)/.3);transition:180ms ease}.custom-marker:hover{border-color:hsl(var(--gold));transform:translateY(-2px)}.mapboxgl-ctrl-top-right{top:64px;right:12px}[data-radix-popper-content-wrapper],[role='listbox']{z-index:300!important}`}</style>
+    </main>
   );
 };
 
