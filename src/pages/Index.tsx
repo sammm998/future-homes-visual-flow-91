@@ -1,7 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import { useTranslation } from "@/hooks/useTranslation";
-import SEOInternalLinks from "@/components/SEOInternalLinks";
 import DeferredSection from "@/components/DeferredSection";
 import SEOHead from "@/components/SEOHead";
 import { useSEO } from "@/hooks/useSEO";
@@ -22,6 +21,7 @@ const TeamSection = lazy(() => import("@/components/TeamSection"));
 const NewsInsights = lazy(() => import("@/components/NewsInsights"));
 const PropertyListingSection = lazy(() => import("@/components/PropertyListingSection"));
 const HomeConciergeDialog = lazy(() => import("@/components/HomeConciergeDialog"));
+const HomeSeoContent = lazy(() => import("@/components/HomeSeoContent"));
 
 const Index = () => {
   const { t } = useTranslation();
@@ -210,43 +210,9 @@ const Index = () => {
         <NewsInsights />
       </DeferredSection>
       
-      {/* SEO content */}
-      <section className="py-16 bg-secondary/20">
-        <div className="container mx-auto px-4 max-w-4xl space-y-5 text-muted-foreground leading-relaxed">
-          <h2 className="text-3xl font-bold text-foreground">{t('seo.home.h2')}</h2>
-          <p>{t('seo.home.p1')}</p>
-          <h3 className="text-xl font-semibold text-foreground">{t('seo.home.h3_1')}</h3>
-          <p>{t('seo.home.p2')}</p>
-          <h3 className="text-xl font-semibold text-foreground">{t('seo.home.h3_2')}</h3>
-          <p>{t('seo.home.p3')}</p>
-          <h3 className="text-xl font-semibold text-foreground">{t('seo.home.h3_3')}</h3>
-          <p>{t('seo.home.p4')}</p>
-          <SEOInternalLinks heading={t('seo.home.links_heading')} className="border-t-0" />
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              {t('home.faq_title')}
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              {t('home.faq_subtitle')}
-            </p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto space-y-6">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-card border rounded-lg p-6">
-                <h3 className="text-lg font-semibold mb-3">{t(`home.faq${i}_q`)}</h3>
-                <p className="text-muted-foreground">{t(`home.faq${i}_a`)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <DeferredSection minHeight={1200} rootMargin="100px">
+        <HomeSeoContent />
+      </DeferredSection>
 
 
       {/* The dialog and its portrait are downloaded only when it opens. */}

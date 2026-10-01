@@ -48,8 +48,8 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
                 <SimpleLanguageSelector />
                 <CurrencySelector />
               </div>
-              <Button asChild variant="ghost" className="hidden h-11 border-0 px-4 text-navy hover:bg-gold/10 hover:text-navy md:inline-flex">
-                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer"><MessageCircle aria-hidden="true" /> WhatsApp</a>
+              <Button asChild variant="ghost" className="h-11 border-0 px-2 text-navy hover:bg-gold/10 hover:text-navy sm:px-4">
+                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle aria-hidden="true" /><span className="hidden md:inline">WhatsApp</span></a>
               </Button>
               <Button type="button" variant="ghost" aria-label="Open menu" onClick={openPublicSidebar} className="group h-12 gap-3 border-l border-navy/10 px-3 text-navy hover:bg-transparent hover:text-gold sm:px-5">
                 <span className="hidden text-[10px] font-bold uppercase [letter-spacing:.22em] sm:inline">Menu</span><Menu size={24} strokeWidth={1.5} aria-hidden="true" />
@@ -104,6 +104,9 @@ const Navigation: React.FC<NavigationProps> = ({ className, gallery = false }) =
             <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
               <SimpleLanguageSelector />
               <CurrencySelector />
+              <Button asChild variant="ghost" className="h-11 border-0 px-2 text-navy hover:bg-gold/10 hover:text-navy sm:px-4">
+                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle aria-hidden="true" /><span className="hidden md:inline">WhatsApp</span></a>
+              </Button>
               <Button
                 type="button"
                 aria-label="Open menu"
