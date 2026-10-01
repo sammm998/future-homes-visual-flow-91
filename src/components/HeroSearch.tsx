@@ -137,8 +137,8 @@ export function HeroSearch() {
 
   return (
     <Card className="mx-auto max-w-6xl rounded-lg border-border/70 bg-background p-2 shadow-[var(--shadow-luxe)] sm:p-3">
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-0 sm:divide-y-0 lg:grid-cols-7 lg:divide-x lg:divide-border">
-        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-1 lg:grid-cols-7 lg:gap-0 lg:divide-x lg:divide-border">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:col-span-1">
           <Select value={propertyType} onValueChange={setPropertyType}>
             <SelectTrigger className="h-12 border-0 bg-transparent text-sm font-semibold text-foreground focus:ring-gold sm:h-14">
               <SelectValue placeholder={t('search.property_type')} />
@@ -172,7 +172,7 @@ export function HeroSearch() {
           </Select>
         </div>
 
-        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:col-span-1">
           <Select value={bedrooms} onValueChange={setBedrooms}>
             <SelectTrigger className="h-12 border-0 bg-transparent text-sm font-semibold text-foreground focus:ring-gold sm:h-14">
               <SelectValue placeholder={t('search.bedrooms')} />
@@ -188,7 +188,7 @@ export function HeroSearch() {
           </Select>
         </div>
 
-        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:col-span-1">
           <Select value={location} onValueChange={setLocation}>
             <SelectTrigger className="h-12 border-0 bg-transparent text-sm font-semibold text-foreground focus:ring-gold sm:h-14">
               <SelectValue placeholder={t('search.location')} />
@@ -204,7 +204,7 @@ export function HeroSearch() {
           </Select>
         </div>
 
-        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:col-span-1">
           <Input
             placeholder={t('search.ref_no')}
             value={refNo}
@@ -213,7 +213,7 @@ export function HeroSearch() {
           />
         </div>
 
-        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:col-span-1">
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger className="h-12 border-0 bg-transparent text-sm font-semibold text-foreground focus:ring-gold sm:h-14">
               <SelectValue placeholder={t('search.sort_by')} />
@@ -230,10 +230,10 @@ export function HeroSearch() {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex flex-col gap-2 p-1 sm:col-span-2 lg:flex-row lg:items-center lg:col-span-2">
+        <div className="flex flex-col gap-2 p-1 sm:col-span-2 sm:flex-row sm:items-center lg:col-span-2">
           <Dialog open={showAdvanced} onOpenChange={setShowAdvanced}>
           <DialogTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-12 w-full justify-center gap-2 border border-border/60 bg-transparent text-sm font-semibold text-muted-foreground hover:bg-ivory hover:text-foreground sm:h-14 lg:w-auto lg:border-0 lg:px-3" title={t('search.advanced')}>
+            <Button variant="ghost" size="icon" className="h-12 w-full justify-center gap-2 border border-border/60 bg-transparent text-sm font-semibold text-muted-foreground hover:bg-ivory hover:text-foreground sm:h-14 sm:w-auto lg:border-0 lg:px-3" title={t('search.advanced')}>
               <Filter size={14} className="shrink-0" />
               <span aria-hidden="true" className="truncate lg:hidden">{t('search.advanced')}</span>
               <span className="sr-only">{t('search.advanced')}</span>
@@ -342,12 +342,12 @@ export function HeroSearch() {
             </div>
           </DialogContent>
           </Dialog>
-        <Button type="button" onClick={() => setShowAi(true)} variant="outline" className="h-12 w-full shrink-0 justify-center gap-2 border-gold bg-gold/10 px-4 font-semibold text-navy hover:bg-gold hover:text-gold-foreground sm:h-14 lg:w-auto">
+        <Button type="button" onClick={() => setShowAi(true)} variant="outline" className="h-12 w-full shrink-0 justify-center gap-2 border-gold bg-gold/10 px-4 font-semibold text-navy hover:bg-gold hover:text-gold-foreground sm:h-14 sm:w-auto">
           <Wand2 size={14} className="mr-1" />
           <span suppressHydrationWarning>{(AI_COPY[getLangFromPath()] || AI_COPY.en).title}</span>
         </Button>
         <AiSearchDialog open={showAi} onOpenChange={setShowAi} />
-        <Button onClick={handleSearch} className="h-12 w-full justify-center gap-2 bg-navy px-5 text-navy-foreground shadow-lg hover:bg-navy/90 sm:h-14 lg:w-auto lg:flex-1">
+        <Button onClick={handleSearch} className="h-12 w-full justify-center gap-2 bg-navy px-5 text-navy-foreground shadow-lg hover:bg-navy/90 sm:h-14 sm:flex-1">
           <Search size={14} className="mr-1" />
           {t('search.search')}
         </Button>
