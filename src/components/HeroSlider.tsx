@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import heroEstate from '@/assets/hero-modern-estate.webp';
 import heroEstateMobile from '@/assets/hero-modern-estate-768.webp';
 import heroEstateLaptop from '@/assets/hero-modern-estate-1200.webp';
@@ -6,10 +6,16 @@ import broll1 from '@/assets/hero-broll-1.mp4.asset.json';
 import broll2 from '@/assets/hero-broll-2.mp4.asset.json';
 
 const CLIPS = [broll2.url, broll1.url];
+const CROSSFADE_MS = 1200;
 
 const HeroSlider = () => {
   const [enableVideo, setEnableVideo] = useState(false);
   const [active, setActive] = useState(0);
+  const [started, setStarted] = useState(false);
+  const videos = useRef<(HTMLVideoElement | null)[]>([]);
+  const activeIndex = useRef(0);
+  const transitioning = useRef(false);
+  const cleanupTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -17,6 +23,34 @@ const HeroSlider = () => {
     const id = window.setTimeout(() => setEnableVideo(true), 600);
     return () => window.clearTimeout(id);
   }, []);
+
+  useEffect(() => () => {
+    if (cleanupTimer.current) window.clearTimeout(cleanupTimer.current);
+  }, []);
+
+  const transitionToNext = (index: number) => {
+    if (index !== activeIndex.current || transitioning.current) return;
+    const nextIndex = (index + 1) % CLIPS.length;
+    const next = videos.current[nextIndex];
+    const current = videos.current[index];
+    if (!next || !current) return;
+
+    transitioning.current = true;
+    // Start the incoming clip before revealing it; keep the outgoing frame alive
+    // throughout the crossfade rather than pausing it on the state change.
+    next.play().then(() => {
+      activeIndex.current = nextIndex;
+      setActive(nextIndex);
+      cleanupTimer.current = window.setTimeout(() => {
+        current.pause();
+        current.currentTime = 0;
+        transitioning.current = false;
+        cleanupTimer.current = null;
+      }, CROSSFADE_MS);
+    }).catch(() => {
+      transitioning.current = false;
+    });
+  };
 
   return (
     <div dir="ltr" className="absolute inset-0 overflow-hidden bg-navy">
@@ -40,20 +74,19 @@ const HeroSlider = () => {
             muted
             playsInline
             autoPlay={i === 0}
-            preload={i === 0 ? 'auto' : 'metadata'}
+            preload="auto"
             aria-hidden="true"
-            ref={(el) => {
-              if (!el) return;
-              if (i === active) {
-                if (el.paused) el.play().catch(() => {});
-              } else if (!el.paused) {
-                el.pause();
-                el.currentTime = 0;
+            ref={(el) => { videos.current[i] = el; }}
+            onPlaying={() => { if (i === 0) setStarted(true); }}
+            onTimeUpdate={(event) => {
+              const video = event.currentTarget;
+              if (Number.isFinite(video.duration) && video.duration - video.currentTime <= 1.8) {
+                transitionToNext(i);
               }
             }}
-            onEnded={() => setActive((a) => (a + 1) % CLIPS.length)}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1500ms] ${
-              i === active ? 'opacity-100' : 'opacity-0'
+            onEnded={() => transitionToNext(i)}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1200ms] ease-in-out ${
+              i === active && started ? 'opacity-100' : 'opacity-0'
             }`}
           />
         ))}

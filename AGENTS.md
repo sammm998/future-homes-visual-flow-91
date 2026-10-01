@@ -6,3 +6,4 @@
 - Keep the homepage shell image-led and asymmetric with a minimal full-width top navigation; use the full editorial menu for discovery without reducing mobile space.
 - Keep map search as a split browsing workspace with filters and property results on the left and the interactive map on the right, stacking the map above results on mobile.
 - Keep the public menu controller in the shared app shell, while page headers open one right-anchored navigation drawer; never restore a permanent desktop rail.
+- Keep homepage hero clips mounted and crossfade before the active clip ends; starting the next clip before revealing it avoids blank or frozen transitions.
