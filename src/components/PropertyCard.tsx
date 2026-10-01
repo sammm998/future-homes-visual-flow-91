@@ -120,7 +120,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
       state={{ returnUrl }}
       className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4"
     >
-      <article className="group relative h-[30rem] w-full overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] transition-all duration-700 hover:-translate-y-2 sm:h-[34rem] lg:h-[31rem] xl:h-[28rem] 2xl:h-[28rem] 3xl:h-[30rem]">
+      <article className="group relative h-[30rem] w-full overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] transition-all duration-700 hover:-translate-y-2 sm:h-[32rem] lg:h-[29rem]">
         <div className="absolute inset-0 overflow-hidden bg-navy">
           <OptimizedPropertyImage
             src={getImageUrl() ?? ''}
