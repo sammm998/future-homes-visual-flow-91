@@ -576,61 +576,58 @@ const PropertyDetail = () => {
           />
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-10">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-12">
             {/* Property Header */}
-            <div className="space-y-4">
-              <Badge variant="outline" className="w-fit">
-                REF: {property.refNo || property.id}
-              </Badge>
-              
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+            <header className="space-y-5 border-b border-border pb-8">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center rounded-full bg-navy px-3 py-1 text-xs font-semibold tracking-[0.18em] text-navy-foreground">
+                  REF {property.refNo || property.id}
+                </span>
+                {property.propertyType && <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">{property.propertyType}</span>}
+              </div>
+
+              <h1 className="text-3xl md:text-5xl font-bold leading-tight tracking-tight text-foreground">
                 {property.title}
               </h1>
-              
+
               <div className="flex items-center text-muted-foreground">
-                <MapPin className="h-5 w-5 mr-2" />
-                <span>{property.location}</span>
-              </div>
-              
-              <div className="text-3xl font-bold text-primary">
-                {formatPriceFromString(property.price, formatPrice)}{Number(property.buyer_fee_percent) > 0 ? ` +${property.buyer_fee_percent}%` : ''}
+                <MapPin className="h-5 w-5 mr-2 text-gold" />
+                <span className="text-lg">{property.location}</span>
               </div>
 
-              <LiveViewers propertyId={property.refNo || property.id || ''} />
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{t('pd.quick_info', language)}</p>
+                  <div className="text-3xl md:text-4xl font-bold text-primary">
+                    {formatPriceFromString(property.price, formatPrice)}{Number(property.buyer_fee_percent) > 0 ? ` +${property.buyer_fee_percent}%` : ''}
+                  </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <LiveViewers propertyId={property.refNo || property.id || ''} />
+                  <ShareLinkButton refNo={property.refNo || property.ref_no} lang={lang} />
+                </div>
+              </div>
+            </header>
 
-              <ShareLinkButton refNo={property.refNo || property.ref_no} lang={lang} />
-            </div>
-
-
-            {/* Basic Property Info */}
-            <div className="space-y-6">
+            {/* Key specs strip */}
+            <section className="space-y-5">
               <h2 className="text-2xl font-semibold">{t('pd.property_details', language)}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex items-center space-x-3 p-4 border rounded-lg">
-                  <Bed className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">{t('bedrooms', language)}</p>
-                    <p className="font-semibold">{property.bedrooms || 'N/A'}</p>
+              <div className="grid grid-cols-3 overflow-hidden rounded-2xl bg-navy text-navy-foreground shadow-[var(--shadow-luxe)]">
+                {[
+                  { icon: Bed, label: t('bedrooms', language), value: property.bedrooms || '—' },
+                  { icon: Bath, label: t('bathrooms', language), value: property.bathrooms || '—' },
+                  { icon: Square, label: t('area', language), value: property.area ? `${property.area} m²` : '—' },
+                ].map(({ icon: Icon, label, value }, i) => (
+                  <div key={i} className={`flex flex-col items-center gap-2 p-5 md:p-7 text-center ${i > 0 ? 'border-l border-navy-foreground/10' : ''}`}>
+                    <Icon className="h-6 w-6 text-gold" />
+                    <p className="text-xl md:text-2xl font-bold">{value}</p>
+                    <p className="text-[11px] md:text-xs uppercase tracking-[0.18em] text-navy-foreground/70 notranslate" translate="no">{label}</p>
                   </div>
-                </div>
-                <div className="flex items-center space-x-3 p-4 border rounded-lg">
-                  <Bath className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="text-sm text-muted-foreground">{t('bathrooms', language)}</p>
-                    <p className="font-semibold">{property.bathrooms || 'N/A'}</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3 p-4 border rounded-lg">
-                  <Square className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="text-sm text-muted-foreground notranslate" translate="no">{t('area', language)}</p>
-                    <p className="font-semibold">{property.area ? `${property.area} m²` : 'N/A'}</p>
-                  </div>
-                </div>
+                ))}
               </div>
-            </div>
+            </section>
 
             {/* Property Description */}
             {property.description && (() => {
