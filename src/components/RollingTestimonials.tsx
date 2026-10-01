@@ -14,6 +14,8 @@ interface RollingTestimonialsProps {
   title: string;
   subtitle: string;
   eyebrow: string;
+  ratingLabel: string;
+  verifiedLabel: string;
 }
 
 const ReviewCard = ({ review }: { review: Testimonial }) => (
@@ -58,7 +60,7 @@ const ReviewColumn = ({ reviews, duration, reverse = false, className = "" }: { 
   </div>
 );
 
-const RollingTestimonials = ({ testimonials, title, subtitle, eyebrow }: RollingTestimonialsProps) => {
+const RollingTestimonials = ({ testimonials, title, subtitle, eyebrow, ratingLabel, verifiedLabel }: RollingTestimonialsProps) => {
   const reviews = testimonials.length ? testimonials.slice(0, 10) : [];
   const first = reviews.filter((_, index) => index % 2 === 0);
   const second = reviews.filter((_, index) => index % 2 !== 0);
@@ -77,11 +79,11 @@ const RollingTestimonials = ({ testimonials, title, subtitle, eyebrow }: Rolling
             <div className="mt-10 grid max-w-md grid-cols-2 gap-px overflow-hidden rounded-md border border-navy-foreground/10 bg-navy-foreground/10">
               <div className="bg-navy p-5 sm:p-6">
                 <p className="text-3xl font-semibold text-gold">4.9/5</p>
-                <p className="mt-2 text-xs uppercase text-navy-foreground/55">Google Reviews</p>
+                <p className="mt-2 text-xs uppercase text-navy-foreground/55">{ratingLabel}</p>
               </div>
               <div className="bg-navy p-5 sm:p-6">
                 <ShieldCheck className="h-7 w-7 text-gold" />
-                <p className="mt-3 text-xs uppercase text-navy-foreground/55">Verified clients</p>
+                <p className="mt-3 text-xs uppercase text-navy-foreground/55">{verifiedLabel}</p>
               </div>
             </div>
           </div>
