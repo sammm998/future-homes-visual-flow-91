@@ -1,9 +1,11 @@
 import Navigation from "@/components/Navigation";
-import aboutHero from "@/assets/about-hero.jpg";
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { MapPin, Phone, Globe, Users, Heart, Shield, FileText, Home, CreditCard, Plane, Languages, CheckCircle, Mail, Star, Award, Target, Building } from "lucide-react";
+import { PublicPageHero, EditorialSectionHeader, EditorialCta } from "@/components/PublicEditorial";
+import antalyaImage from "@/assets/destinations/antalya-cinematic.webp";
+import mersinImage from "@/assets/destinations/mersin-cinematic.webp";
+import dubaiImage from "@/assets/destinations/dubai-cinematic.webp";
+import baliImage from "@/assets/destinations/bali-cinematic.webp";
+import strasbourgImage from "@/assets/destinations/strasbourg-cinematic.webp";
+import { MapPin, Phone, Mail, Linkedin, Building2 } from "lucide-react";
 import SEOHead from "@/components/SEOHead";
 import { useTeamMembers } from "@/hooks/useTeamMembers";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
@@ -17,15 +19,15 @@ const AboutUs = () => {
   const { pageTitle, metaDescription, contentSections, heroTitle, heroSubtitle, isLoading: contentLoading } = useWebsiteContent("about-us");
 
   const services = [
-    { icon: <Plane className="w-6 h-6" />, title: t('services.free_visits'), description: t('services.free_visits_desc') },
-    { icon: <FileText className="w-6 h-6" />, title: t('services.sales_contract'), description: t('services.sales_contract_desc') },
-    { icon: <CreditCard className="w-6 h-6" />, title: t('services.tax_number'), description: t('services.tax_number_desc') },
-    { icon: <Building className="w-6 h-6" />, title: t('services.bank_account'), description: t('services.bank_account_desc') },
-    { icon: <Globe className="w-6 h-6" />, title: t('services.translations'), description: t('services.translations_desc') },
-    { icon: <Home className="w-6 h-6" />, title: t('services.title_deed'), description: t('services.title_deed_desc') },
-    { icon: <CheckCircle className="w-6 h-6" />, title: t('services.subscriptions'), description: t('services.subscriptions_desc') },
-    { icon: <Award className="w-6 h-6" />, title: t('services.furniture'), description: t('services.furniture_desc') },
-    { icon: <Target className="w-6 h-6" />, title: t('services.sell_property'), description: t('services.sell_property_desc') },
+    { title: t('services.free_visits'), description: t('services.free_visits_desc') },
+    { title: t('services.sales_contract'), description: t('services.sales_contract_desc') },
+    { title: t('services.tax_number'), description: t('services.tax_number_desc') },
+    { title: t('services.bank_account'), description: t('services.bank_account_desc') },
+    { title: t('services.translations'), description: t('services.translations_desc') },
+    { title: t('services.title_deed'), description: t('services.title_deed_desc') },
+    { title: t('services.subscriptions'), description: t('services.subscriptions_desc') },
+    { title: t('services.furniture'), description: t('services.furniture_desc') },
+    { title: t('services.sell_property'), description: t('services.sell_property_desc') },
   ];
   const languages = ["Norwegian", "Swedish", "English", "Russian", "French", "Arabic", "Farsi", "German", "Urdu"];
   const stats = [
@@ -34,206 +36,197 @@ const AboutUs = () => {
     { number: "3", label: t('about.stat_countries') },
     { number: "9", label: t('about.stat_languages') },
   ];
+  const values = [
+    { title: t('about.value_ethics'), desc: t('about.value_ethics_desc') },
+    { title: t('about.value_professionalism'), desc: t('about.value_professionalism_desc') },
+    { title: t('about.value_transparency'), desc: t('about.value_transparency_desc') },
+  ];
+  const offices = [
+    { image: antalyaImage, city: "Antalya", sub: t('about.antalya_main'), phone: "+90 552 303 27 50", desc: t('about.antalya_desc') },
+    { image: mersinImage, city: "Mersin", sub: t('about.mersin_regional'), phone: "+90 552 303 27 50", desc: t('about.mersin_desc') },
+    { image: dubaiImage, city: "Dubai", sub: t('about.dubai_middle_east'), phone: "+971 54 554 2068", desc: t('about.dubai_desc') },
+    { image: strasbourgImage, city: "Strasbourg", sub: t('about.france_european'), phone: "+33 6 51 01 01 56", desc: t('about.france_desc') },
+    { image: baliImage, city: "Bali", sub: t('about.bali_southeast'), phone: "+62 813-6404-2656", desc: t('about.bali_desc') },
+  ];
 
   return <div className="min-h-screen bg-background">
-      <SEOHead title={pageTitle || "About Future Homes International | Leading Global Real Estate Experts"} description={metaDescription || "Leading international real estate experts since 2010."} canonicalUrl="https://futurehomesinternational.com/about-us" />
-      <Navigation />
+    <SEOHead title={pageTitle || "About Future Homes International | Leading Global Real Estate Experts"} description={metaDescription || "Leading international real estate experts since 2010."} canonicalUrl="https://futurehomesinternational.com/about-us" />
+    <Navigation />
 
-      <section className="bg-ivory px-3 pb-12 pt-3 sm:px-5 lg:px-8 lg:pb-16">
-        <div className="relative flex min-h-[620px] items-center overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)]">
-        <div className="absolute inset-0 w-full h-full">
-          <img
-            src={aboutHero}
-            alt="Mediterranean coastal city with modern Future Homes apartment buildings at sunset"
-            width={1920}
-            height={1088}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/75 to-navy/20"></div>
-        </div>
+    {/* Hero */}
+    <PublicPageHero
+      eyebrow={t('about.badge')}
+      title={heroTitle || t('about.hero_title')}
+      description={heroSubtitle || t('about.hero_subtitle')}
+      image={aboutHeroImage}
+      imageAlt="Future Homes International — global real estate expertise"
+      primaryLabel={t('about.contact_us')}
+      primaryTo="/contact-us"
+    />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            <Badge className="mb-6 border-gold/40 bg-navy/30 px-4 py-2 text-gold">{t('about.badge')}</Badge>
-            <h1 className="mb-6 text-4xl font-semibold leading-tight text-navy-foreground sm:text-5xl md:text-6xl">
-              {t('about.hero_title')}
-            </h1>
-            <p className="mb-8 max-w-2xl text-base leading-relaxed text-navy-foreground/80 sm:text-lg md:text-xl">
-              {t('about.hero_subtitle')}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/contact-us" className="inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 text-sm font-medium text-gold-foreground transition-colors hover:bg-gold/90">
-                {t('about.contact_us')}
-                <Mail className="ml-2 w-4 h-4" />
+    {/* Stats — monolithic navy band */}
+    <section className="bg-navy border-b border-gold/20 py-14 text-navy-foreground sm:py-16">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-10 px-5 md:grid-cols-4 sm:px-8">
+        {stats.map((stat, index) => (
+          <div key={index} className="space-y-2 text-center">
+            <div className="font-light tracking-tighter text-gold text-4xl sm:text-5xl">{stat.number}</div>
+            <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-navy-foreground/60">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* CMS story sections */}
+    {!contentLoading && contentSections.length > 0 && (
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        {contentSections.map((section, index) => <ContentSection key={index} section={section} />)}
+      </section>
+    )}
+
+    {/* Core values — editorial numbered columns */}
+    <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+      <EditorialSectionHeader align="center" eyebrow="Our values" title={t('about.values_title')} description={t('about.values_subtitle')} />
+      <div className="grid border border-navy/10 bg-card md:grid-cols-3">
+        {values.map((value, i) => (
+          <div key={i} className="group border-b border-navy/10 p-10 transition-colors duration-500 last:border-b-0 hover:bg-ivory md:border-b-0 md:border-r md:last:border-r-0 sm:p-12">
+            <span className="mb-6 block text-sm text-gold-foreground">{String(i + 1).padStart(2, '0')}</span>
+            <h3 className="mb-4 tracking-tight text-xl sm:text-2xl font-semibold">{value.title}</h3>
+            <p className="text-sm leading-relaxed text-muted-foreground">{value.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* Offices — cinematic destination strip */}
+    <section className="overflow-hidden bg-navy py-20 text-navy-foreground lg:py-24">
+      <div className="mx-auto mb-12 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold">Global presence</p>
+        <h2 className="text-3xl font-light leading-tight sm:text-4xl md:text-5xl">{t('about.locations_title')}</h2>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-navy-foreground/70 sm:text-base">{t('about.locations_subtitle')}</p>
+      </div>
+      <div className="no-scrollbar flex gap-6 overflow-x-auto px-4 pb-6 sm:px-6 lg:px-8">
+        {offices.map((office, i) => (
+          <div key={i} className="group w-[17rem] flex-none sm:w-[20rem]">
+            <div className="relative mb-6 aspect-[3/4] overflow-hidden">
+              <img
+                src={office.image}
+                alt={`${office.city} — Future Homes International office`}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-transparent opacity-90" />
+              <div className="absolute bottom-6 left-6">
+                <div className="mb-2 font-light text-gold text-4xl">{String(i + 1).padStart(2, '0')}</div>
+                <h3 className="text-2xl font-light sm:text-3xl">{office.city}</h3>
+                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-gold/90">{office.sub}</p>
+              </div>
+            </div>
+            <div className="space-y-2 px-1 text-sm text-navy-foreground/60">
+              <a href={`tel:${office.phone.replace(/\s/g, '')}`} className="flex items-center gap-2 transition-colors hover:text-gold notranslate" translate="no">
+                <Phone className="h-3.5 w-3.5 text-gold" />{office.phone}
               </a>
+              <a href="mailto:info@futurehomesinternational.com" className="flex items-center gap-2 break-all transition-colors hover:text-gold notranslate" translate="no">
+                <Mail className="h-3.5 w-3.5 text-gold" />info@futurehomesinternational.com
+              </a>
+              <p className="flex items-start gap-2 pt-1 text-xs leading-relaxed text-navy-foreground/45">
+                <MapPin className="mt-0.5 h-3.5 w-3.5 flex-none text-gold/70" />{office.desc}
+              </p>
             </div>
           </div>
-        </div>
-        </div>
-      </section>
-
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => <div key={index} className="text-center">
-                <div className="rounded-lg border border-navy/10 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
-                  <div className="mb-2 text-3xl font-semibold text-gold-foreground md:text-4xl">{stat.number}</div>
-                  <div className="text-muted-foreground font-medium">{stat.label}</div>
-                </div>
-              </div>)}
-          </div>
-        </div>
-      </section>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {!contentLoading && contentSections.length > 0 && <section className="py-16">
-            {contentSections.map((section, index) => <ContentSection key={index} section={section} />)}
-          </section>}
-
-        <section className="py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('about.values_title')}</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('about.values_subtitle')}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { icon: Heart, title: t('about.value_ethics'), desc: t('about.value_ethics_desc') },
-              { icon: Shield, title: t('about.value_professionalism'), desc: t('about.value_professionalism_desc') },
-              { icon: Globe, title: t('about.value_transparency'), desc: t('about.value_transparency_desc') },
-            ].map((v, i) => (
-              <div key={i} className="group">
-                <Card className="h-full rounded-lg border-navy/10 bg-card transition-all duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
-                  <CardContent className="p-8 text-center">
-                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-ivory transition-transform duration-300 group-hover:scale-105">
-                      <v.icon className="h-8 w-8 text-gold-foreground" />
-                    </div>
-                    <h3 className="text-2xl font-bold mb-4">{v.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{v.desc}</p>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('about.team_title')}</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('about.team_subtitle')}</p>
-          </div>
-
-          {teamLoading ? <div className="flex justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            </div> : teamError ? <div className="text-center text-muted-foreground">
-              <p>{t('about.team_loading_error')}</p>
-            </div> : <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {teamMembers.map(member => <Card key={member.id} className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                  <CardContent className="p-8 text-center">
-                    {member.image_url && <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-primary/10 group-hover:scale-105 transition-transform duration-300">
-                        <img src={getOptimizedImageUrl(member.image_url, 256)} alt={member.name} width={128} height={128} loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                      </div>}
-                    <h3 className="text-2xl font-bold mb-2 notranslate" translate="no">{member.name}</h3>
-                    <p className="text-primary font-semibold mb-4">{member.position}</p>
-                    {member.bio && <p className="text-muted-foreground text-sm leading-relaxed mb-6">{member.bio}</p>}
-                    <div className="flex justify-center gap-4 mb-4">
-                      {member.email && <a href={`mailto:${member.email}`} className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300"><Mail className="w-4 h-4" /></a>}
-                      {member.phone && <a href={`tel:${member.phone}`} className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300"><Phone className="w-4 h-4" /></a>}
-                      {member.linkedin_url && <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors duration-300"><Users className="w-4 h-4" /></a>}
-                    </div>
-                    <div className="space-y-2 text-sm text-muted-foreground">
-                      {member.email && <div className="flex items-center justify-center gap-2"><Mail className="w-4 h-4 text-primary" /><a href={`mailto:${member.email}`} className="hover:text-primary transition-colors">{member.email}</a></div>}
-                      {member.phone && <div className="flex items-center justify-center gap-2"><Phone className="w-4 h-4 text-primary" /><a href={`tel:${member.phone}`} className="hover:text-primary transition-colors">{member.phone}</a></div>}
-                    </div>
-                  </CardContent>
-                </Card>)}
-            </div>}
-        </section>
-
-        <section className="py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('about.locations_title')}</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('about.locations_subtitle')}</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-            {[
-              { color: 'blue', title: t('about.antalya_office'), city: 'Antalya, Turkey', sub: t('about.antalya_main'), phone: '+90 552 303 27 50', desc: t('about.antalya_desc') },
-              { color: 'red', title: t('about.mersin_office'), city: 'Mersin, Turkey', sub: t('about.mersin_regional'), phone: '+90 552 303 27 50', desc: t('about.mersin_desc') },
-              { color: 'green', title: t('about.france_office'), city: 'Strasbourg, France', sub: t('about.france_european'), phone: '+33 6 51 01 01 56', desc: t('about.france_desc') },
-              { color: 'amber', title: t('about.dubai_office'), city: 'Dubai, UAE', sub: t('about.dubai_middle_east'), phone: '+971 54 554 2068', desc: t('about.dubai_desc') },
-              { color: 'green', title: t('about.bali_office'), city: 'Bali, Indonesia', sub: t('about.bali_southeast'), phone: '+62 813-6404-2656', desc: t('about.bali_desc') },
-            ].map((office, i) => (
-              <Card key={i} className="group border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                <CardContent className="p-8">
-                  <div className={`w-20 h-20 bg-gradient-to-br from-${office.color}-500/20 to-${office.color}-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <Building className={`w-10 h-10 text-${office.color}-500`} />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4 text-center">{office.title}</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <MapPin className={`w-5 h-5 text-${office.color}-500 mt-0.5 flex-shrink-0`} />
-                      <div>
-                        <p className="font-semibold text-sm notranslate" translate="no">{office.city}</p>
-                        <p className="text-sm text-muted-foreground">{office.sub}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Phone className={`w-5 h-5 text-${office.color}-500 flex-shrink-0`} />
-                      <a href={`tel:${office.phone.replace(/\s/g, '')}`} className={`text-sm text-${office.color}-600 hover:text-${office.color}-800 transition-colors cursor-pointer notranslate`} translate="no">{office.phone}</a>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Mail className={`w-5 h-5 text-${office.color}-500 flex-shrink-0`} />
-                      <a href="mailto:info@futurehomesinternational.com" className={`text-sm text-${office.color}-600 hover:text-${office.color}-800 transition-colors cursor-pointer break-all notranslate`} translate="no">info@futurehomesinternational.com</a>
-                    </div>
-                  </div>
-                  <div className="mt-6 pt-4 border-t border-border">
-                    <p className="text-sm text-muted-foreground text-center">{office.desc}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        <section className="py-20">
-          <Card className="border-0 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 backdrop-blur-sm">
-            <CardContent className="p-12 text-center">
-              <div className="w-24 h-24 bg-gradient-to-br from-primary/20 to-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-8">
-                <Languages className="w-12 h-12 text-primary" />
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('about.languages_title')}</h2>
-              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">{t('about.languages_subtitle')}</p>
-              <div className="flex flex-wrap justify-center gap-3">
-                {languages.map((language, index) => <Badge key={index} variant="secondary" className="px-4 py-2 text-sm bg-background/50 backdrop-blur-sm hover:bg-primary hover:text-primary-foreground transition-colors duration-300">{language}</Badge>)}
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        <section className="py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{t('about.support_title')}</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('about.support_subtitle')}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, index) => <Card key={index} className="group h-full border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                      <div className="text-primary">{service.icon}</div>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-sm text-foreground mb-2 leading-tight">{service.title}</h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>)}
-          </div>
-        </section>
+        ))}
       </div>
-    </div>;
+    </section>
+
+    {/* Team — portrait gallery */}
+    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <EditorialSectionHeader align="center" eyebrow="Our experts" title={t('about.team_title')} description={t('about.team_subtitle')} />
+      {teamLoading ? (
+        <div className="flex justify-center py-12">
+          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-primary" />
+        </div>
+      ) : teamError ? (
+        <div className="text-center text-muted-foreground"><p>{t('about.team_loading_error')}</p></div>
+      ) : (
+        <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
+          {teamMembers.map((member, index) => (
+            <div key={member.id} className="group">
+              {member.image_url && (
+                <div className="mb-5 aspect-[3/4] overflow-hidden">
+                  <img
+                    src={getOptimizedImageUrl(member.image_url, 640)}
+                    alt={member.name}
+                    width={480}
+                    height={640}
+                    loading={index < 4 ? "eager" : "lazy"}
+                    decoding="async"
+                    className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
+                  />
+                </div>
+              )}
+              <h3 className="text-lg font-medium notranslate" translate="no">{member.name}</h3>
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-widest text-gold-foreground notranslate" translate="no">{member.position}</p>
+              {member.bio && <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-muted-foreground">{member.bio}</p>}
+              <div className="mt-4 flex gap-3 text-muted-foreground">
+                {member.email && <a href={`mailto:${member.email}`} aria-label={`${member.name} email`} className="transition-colors hover:text-gold-foreground"><Mail className="h-4 w-4" /></a>}
+                {member.phone && <a href={`tel:${member.phone}`} aria-label={`${member.name} phone`} className="transition-colors hover:text-gold-foreground"><Phone className="h-4 w-4" /></a>}
+                {member.linkedin_url && <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} LinkedIn`} className="transition-colors hover:text-gold-foreground"><Linkedin className="h-4 w-4" /></a>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+
+    {/* Services + languages */}
+    <section className="border-t border-navy/10 bg-card py-20 lg:py-24">
+      <div className="mx-auto grid max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
+        <div>
+          <EditorialSectionHeader eyebrow="What we handle" title={t('about.support_title')} description={t('about.support_subtitle')} />
+          <ul className="grid gap-x-10 gap-y-5 sm:grid-cols-2">
+            {services.map((service, index) => (
+              <li key={index} className="flex items-start gap-3">
+                <span className="mt-2 h-1.5 w-1.5 flex-none bg-gold" />
+                <div>
+                  <h3 className="text-sm font-semibold notranslate" translate="no">{service.title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{service.description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="bg-navy p-8 text-navy-foreground sm:p-12">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gold">We speak your language</p>
+          <h3 className="mb-4 text-2xl font-light sm:text-3xl">{t('about.languages_title')}</h3>
+          <p className="mb-8 text-sm leading-relaxed text-navy-foreground/70">{t('about.languages_subtitle')}</p>
+          <div className="flex flex-wrap gap-3">
+            {languages.map((language, index) => (
+              <span key={index} className="border border-navy-foreground/20 px-4 py-2 text-[10px] uppercase tracking-widest text-navy-foreground/85 transition-colors hover:border-gold/60 hover:text-gold">{language}</span>
+            ))}
+          </div>
+          <div className="mt-10 flex items-center gap-3 border-t border-navy-foreground/15 pt-6 text-sm text-navy-foreground/70 notranslate" translate="no">
+            <Building2 className="h-4 w-4 text-gold" />
+            <a href="mailto:info@futurehomesinternational.com" className="break-all transition-colors hover:text-gold">info@futurehomesinternational.com</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Closing conversion band */}
+    <EditorialCta
+      eyebrow="Future Homes International"
+      title={t('about.contact_us')}
+      description={t('about.hero_subtitle')}
+      primaryLabel={t('about.contact_us')}
+      primaryTo="/contact-us"
+    />
+
+    <style>{`.no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}`}</style>
+  </div>;
 };
+
+// Hero image kept as a static import for SSR-safe asset resolution.
+import aboutHero from "@/assets/about-hero.jpg";
+const aboutHeroImage = aboutHero;
+
 export default AboutUs;
