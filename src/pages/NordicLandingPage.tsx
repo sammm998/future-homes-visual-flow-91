@@ -9,6 +9,10 @@ import { Link } from '@/lib/router-compat';
 import { useProperties } from '@/hooks/useProperties';
 import { localizePath } from '@/utils/localeRouting';
 import { NORDIC_LANDING_PAGES, type NordicLandingPage as NordicPage } from '@/data/nordicLandingPages';
+import { EditorialCta, EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
+import antalyaImage from '@/assets/destinations/antalya-cinematic.jpg';
+import dubaiImage from '@/assets/destinations/dubai-cinematic.jpg';
+import baliImage from '@/assets/destinations/bali-cinematic.jpg';
 
 interface Props {
   page: NordicPage;
@@ -75,6 +79,11 @@ const NordicLandingPage: React.FC<Props> = ({ page }) => {
       url: 'https://futurehomesinternational.com',
     },
   };
+  const heroImage = page.locationFilter.toLowerCase().includes('dubai')
+    ? dubaiImage
+    : page.locationFilter.toLowerCase().includes('bali')
+      ? baliImage
+      : antalyaImage;
 
   return (
     <div className="min-h-screen bg-background">
@@ -89,26 +98,7 @@ const NordicLandingPage: React.FC<Props> = ({ page }) => {
       <Navigation />
 
       <main>
-        {/* Hero */}
-        <section className="bg-primary/5 border-b border-border">
-          <div className="container mx-auto px-4 py-16 md:py-24 max-w-5xl">
-            <p className="text-sm font-medium uppercase tracking-widest text-primary mb-4">
-              Future Homes International
-            </p>
-            <h1 className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-5">
-              {page.h1}
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8">{page.heroSubtitle}</p>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <Link to={localizePath('/contact-us', page.locale)}>{page.ctaButton}</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link to={localizePath(page.listingsPath, page.locale)}>{page.listingsCta}</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
+        <PublicPageHero eyebrow="Future Homes International" title={page.h1} description={page.heroSubtitle} image={heroImage} imageAlt={page.h1} primaryLabel={page.listingsCta} primaryTo={localizePath(page.listingsPath, page.locale)} secondaryLabel={page.ctaButton} secondaryTo={localizePath('/contact-us', page.locale)} compact />
 
         {/* Intro */}
         <section className="container mx-auto px-4 py-14 max-w-4xl">
@@ -122,10 +112,11 @@ const NordicLandingPage: React.FC<Props> = ({ page }) => {
         </section>
 
         {/* Highlights */}
-        <section className="container mx-auto px-4 pb-14 max-w-5xl">
+        <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+          <EditorialSectionHeader eyebrow="Local intelligence" title={page.sections[0]?.heading || page.h1} />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {page.highlights.map((item) => (
-              <Card key={item.title} className="h-full">
+              <Card key={item.title} className="h-full rounded-lg border-navy/10 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
                 <CardContent className="p-5">
                   <p className="text-lg font-semibold text-foreground mb-1">{item.title}</p>
                   <p className="text-sm text-muted-foreground">{item.text}</p>
@@ -152,11 +143,9 @@ const NordicLandingPage: React.FC<Props> = ({ page }) => {
         </section>
 
         {/* Listings */}
-        <section className="bg-muted/40 border-y border-border">
-          <div className="container mx-auto px-4 py-14 max-w-6xl">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
-              {page.listingsTitle}
-            </h2>
+        <section className="border-y border-border bg-ivory">
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+            <EditorialSectionHeader eyebrow="Curated portfolio" title={page.listingsTitle} />
             {loading ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {[0, 1, 2].map((i) => (
@@ -191,16 +180,7 @@ const NordicLandingPage: React.FC<Props> = ({ page }) => {
           </div>
         </section>
 
-        {/* CTA */}
-        <section className="bg-primary text-primary-foreground">
-          <div className="container mx-auto px-4 py-14 max-w-4xl text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-3">{page.ctaTitle}</h2>
-            <p className="text-primary-foreground/80 mb-6">{page.ctaText}</p>
-            <Button asChild size="lg" variant="secondary">
-              <Link to={localizePath('/contact-us', page.locale)}>{page.ctaButton}</Link>
-            </Button>
-          </div>
-        </section>
+        <EditorialCta eyebrow="Private advisory" title={page.ctaTitle} description={page.ctaText} primaryLabel={page.ctaButton} primaryTo={localizePath('/contact-us', page.locale)} secondaryLabel={page.listingsCta} secondaryTo={localizePath(page.listingsPath, page.locale)} />
 
         {/* Internal links */}
         {siblings.length > 0 && (

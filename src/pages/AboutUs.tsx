@@ -35,11 +35,12 @@ const AboutUs = () => {
     { number: "9", label: t('about.stat_languages') },
   ];
 
-  return <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+  return <div className="min-h-screen bg-background">
       <SEOHead title={pageTitle || "About Future Homes International | Leading Global Real Estate Experts"} description={metaDescription || "Leading international real estate experts since 2010."} canonicalUrl="https://futurehomesinternational.com/about-us" />
       <Navigation />
 
-      <section className="relative py-20 overflow-hidden min-h-screen flex items-center">
+      <section className="bg-ivory px-3 pb-12 pt-3 sm:px-5 lg:px-8 lg:pb-16">
+        <div className="relative flex min-h-[620px] items-center overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)]">
         <div className="absolute inset-0 w-full h-full">
           <img
             src={aboutHero}
@@ -48,25 +49,26 @@ const AboutUs = () => {
             height={1088}
             className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/75 to-navy/20"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
-            <Badge className="mb-6 px-4 py-2 bg-white/10 text-white border-white/20">{t('about.badge')}</Badge>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+          <div className="max-w-3xl">
+            <Badge className="mb-6 border-gold/40 bg-navy/30 px-4 py-2 text-gold">{t('about.badge')}</Badge>
+            <h1 className="mb-6 text-4xl font-semibold leading-tight text-navy-foreground sm:text-5xl md:text-6xl">
               {t('about.hero_title')}
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-white/90 leading-relaxed max-w-3xl mx-auto mb-8">
+            <p className="mb-8 max-w-2xl text-base leading-relaxed text-navy-foreground/80 sm:text-lg md:text-xl">
               {t('about.hero_subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/contact-us" className="inline-flex items-center justify-center px-6 py-3 bg-white/10 text-white border border-white/20 font-medium rounded-full hover:bg-white/20 transition-all duration-300 text-sm">
+              <a href="/contact-us" className="inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 text-sm font-medium text-gold-foreground transition-colors hover:bg-gold/90">
                 {t('about.contact_us')}
                 <Mail className="ml-2 w-4 h-4" />
               </a>
             </div>
           </div>
+        </div>
         </div>
       </section>
 
@@ -74,8 +76,8 @@ const AboutUs = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => <div key={index} className="text-center">
-                <div className="bg-card border rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:scale-105">
-                  <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{stat.number}</div>
+                <div className="rounded-lg border border-navy/10 bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
+                  <div className="mb-2 text-3xl font-semibold text-gold-foreground md:text-4xl">{stat.number}</div>
                   <div className="text-muted-foreground font-medium">{stat.label}</div>
                 </div>
               </div>)}
@@ -101,10 +103,10 @@ const AboutUs = () => {
               { icon: Globe, title: t('about.value_transparency'), desc: t('about.value_transparency_desc') },
             ].map((v, i) => (
               <div key={i} className="group">
-                <Card className="h-full border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <Card className="h-full rounded-lg border-navy/10 bg-card transition-all duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-luxe)]">
                   <CardContent className="p-8 text-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                      <v.icon className="w-10 h-10 text-primary" />
+                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-ivory transition-transform duration-300 group-hover:scale-105">
+                      <v.icon className="h-8 w-8 text-gold-foreground" />
                     </div>
                     <h3 className="text-2xl font-bold mb-4">{v.title}</h3>
                     <p className="text-muted-foreground leading-relaxed">{v.desc}</p>
