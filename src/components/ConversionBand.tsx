@@ -8,9 +8,9 @@ import { cc, whatsappLink } from "@/utils/conversionCopy";
 import antalyaEstate from "@/assets/destination-antalya-estate.jpg";
 import istanbulEstate from "@/assets/destination-istanbul-estate.jpg";
 import dubaiEstate from "@/assets/destination-dubai-estate.jpg";
-import mersinEstate from "@/assets/destinations/mersin-cinematic.jpg";
-import cyprusEstate from "@/assets/destinations/cyprus-cinematic.jpg";
-import baliEstate from "@/assets/destinations/bali-cinematic.jpg";
+import mersinEstate from "@/assets/destinations/mersin-cinematic.webp";
+import cyprusEstate from "@/assets/destinations/cyprus-cinematic.webp";
+import baliEstate from "@/assets/destinations/bali-cinematic.webp";
 
 /** Homepage strip right under the hero: two clear ways to reach an advisor + trust points. */
 export default function ConversionBand() {

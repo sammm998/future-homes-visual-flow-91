@@ -4,6 +4,7 @@ import Index from "@/pages/Index";
 import DeferredSection from "@/components/DeferredSection";
 import heroEstate from "@/assets/hero-modern-estate.webp";
 import heroEstateMobile from "@/assets/hero-modern-estate-768.webp";
+import heroEstateLaptop from "@/assets/hero-modern-estate-1200.webp";
 
 const Newsletter = lazy(() => import("@/components/Newsletter"));
 
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/$locale/")({
         rel: "preload",
         as: "image",
         href: heroEstate,
-        imageSrcSet: `${heroEstateMobile} 768w, ${heroEstate} 1920w`,
+        imageSrcSet: `${heroEstateMobile} 768w, ${heroEstateLaptop} 1200w, ${heroEstate} 1920w`,
         imageSizes: "100vw",
         fetchPriority: "high",
       } as unknown as { rel: string; href: string },

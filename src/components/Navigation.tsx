@@ -16,7 +16,7 @@ import { whatsappLink } from "@/utils/conversionCopy";
 import CurrencySelector from "./CurrencySelector";
 import SimpleLanguageSelector from "./SimpleLanguageSelector";
 import { openPublicSidebar } from "./PublicSidebarRail";
-import futureHomesLogo from "@/assets/future-homes-logo.webp";
+import futureHomesLogo from "@/assets/future-homes-logo-400.webp";
 
 interface NavigationProps {
   className?: string;
