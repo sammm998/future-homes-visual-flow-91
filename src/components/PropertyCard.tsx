@@ -127,13 +127,13 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
         source_page: routeLocation.pathname,
       })}
     >
-      <article className="group relative w-full h-full bg-card overflow-hidden cinematic-card rounded-md">
+      <article className="group relative w-full h-full bg-card overflow-hidden cinematic-card rounded-md focus-within:ring-2 focus-within:ring-primary">
         {/* Image Section */}
         <div className="relative aspect-[3/2] overflow-hidden bg-brand-secondary">
           <OptimizedPropertyImage
             src={getImageUrl() ?? ''}
             alt={property.title}
-            className="w-full h-full object-cover animate-kenburns transition-[filter] duration-700 group-hover:saturate-[1.08]"
+            className="w-full h-full object-cover animate-kenburns transition-[filter,transform] duration-700 group-hover:saturate-[1.08] group-hover:brightness-[1.03]"
             priority={priority}
           />
 
@@ -166,7 +166,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
         </div>
 
         {/* Content Section */}
-        <div className="p-6 space-y-4">
+          <div className="p-5 space-y-4 sm:p-6">
           <div className="space-y-1">
             <div className="flex items-center gap-1.5">
                 <MapPin className="w-3 h-3 text-primary" strokeWidth={2.5} />
@@ -237,7 +237,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
 
           {/* CTA */}
           <div
-            className="w-full group/btn flex items-center justify-center gap-2 bg-brand-secondary text-brand-foreground py-3.5 font-bold text-xs uppercase tracking-[0.14em] transition-all duration-300 group-hover:bg-primary"
+              className="w-full group/btn flex items-center justify-center gap-2 bg-brand-secondary text-brand-foreground py-3.5 font-bold text-xs uppercase tracking-[0.14em] transition-[background-color,gap] duration-300 group-hover:bg-primary group-hover:gap-3"
             style={{ fontFamily: 'Urbanist, sans-serif' }}
           >
             {t('card.view_property')}
