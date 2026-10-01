@@ -164,7 +164,7 @@ const NordicLandingPage: React.FC<Props> = ({ page }) => {
                 ))}
               </div>
             ) : (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-8 sm:grid-cols-2">
                 {featured.map((property, index) => (
                   <PropertyCard key={property.id} property={property} priority={index < 3} />
                 ))}
