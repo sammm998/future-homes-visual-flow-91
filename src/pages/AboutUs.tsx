@@ -57,8 +57,8 @@ const AboutUs = () => {
     {/* Hero */}
     <PublicPageHero
       eyebrow={t('about.badge')}
-      title={heroTitle || t('about.hero_title')}
-      description={heroSubtitle || t('about.hero_subtitle')}
+      title={t('about.hero_title') || heroTitle}
+      description={t('about.hero_subtitle') || heroSubtitle}
       image={aboutHero}
       imageAlt="Future Homes International — global real estate expertise"
       primaryLabel={t('about.contact_us')}
