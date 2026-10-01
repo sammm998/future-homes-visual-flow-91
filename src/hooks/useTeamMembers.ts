@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
+import { applyTeamImageOverride } from '@/lib/teamImages';
 
 export const useTeamMembers = () => {
   const { data: teamMembers = [], isLoading, error } = useQuery({
@@ -13,7 +14,10 @@ export const useTeamMembers = () => {
           .order('display_order', { ascending: true });
         
         if (error) throw error;
-        return data || [];
+        return (data || []).map((member) => ({
+          ...member,
+          image_url: applyTeamImageOverride(member.id, member.image_url),
+        }));
       }, 3, 2000);
     },
     staleTime: 15 * 60 * 1000, // Increased to 15 minutes
