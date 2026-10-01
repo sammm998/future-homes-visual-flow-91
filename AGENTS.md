@@ -1,3 +1,4 @@
 - Keep the browser shim for @tanstack/start-storage-context in vite.config.ts — without it the client bundle crashes before hydration and pages never load or track visits.
 - Keep public-facing pages on the shared Midnight Riviera semantic navy, champagne, ivory, and white tokens with Sora/Manrope typography so homepage and property pages stay visually consistent.
 - Keep the homepage Before & After experience as a client-mounted React Three Fiber room viewer with blueprint/finished modes, because it is an interactive 3D visualization rather than a static image comparison.
+- Build public content pages from the shared PublicEditorial primitives so headers, conversion sections, spacing, and responsive behavior stay consistent.

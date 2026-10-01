@@ -7,6 +7,9 @@ import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { getCurrentLanguage } from "@/utils/seoUtils";
 import { localizePath } from "@/utils/localeRouting";
+import { ArrowRight } from "lucide-react";
+import { EditorialCta, EditorialSectionHeader, PublicPageHero } from "@/components/PublicEditorial";
+import informationHero from "@/assets/property-investment.jpg";
 
 const ArticlesIndex = () => {
   const { blogPosts, loading } = useBlogPosts();
@@ -22,21 +25,26 @@ const ArticlesIndex = () => {
         canonicalUrl={canonicalUrl}
       />
       <Navigation />
-      <main className="container mx-auto px-4 pt-32 pb-20">
-        <header className="max-w-3xl mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Articles &amp; Property Guides
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Everything you need before buying abroad: city guides, costs, legal steps and
-            lifestyle in Turkey, Dubai, Cyprus and Bali.
-          </p>
-        </header>
+      <main>
+        <PublicPageHero
+          eyebrow="Future Homes Journal"
+          title="Articles & Property Guides"
+          description="Everything you need before buying abroad: city guides, costs, legal steps and lifestyle in Turkey, Dubai, Cyprus and Bali."
+          image={informationHero}
+          imageAlt="International property investment research and planning"
+          primaryLabel="Explore properties"
+          primaryTo={localizePath('/property-for-sale-in-turkey', lang)}
+          secondaryLabel="Speak to an advisor"
+          secondaryTo={localizePath('/contact-us', lang)}
+          compact
+        />
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <EditorialSectionHeader eyebrow="Expert knowledge" title="Make every decision with confidence" description="Current market guidance, buying steps and destination inspiration from our international team." />
 
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[...Array(6)].map((_, i) => (
-              <Skeleton key={i} className="h-80 w-full rounded-xl" />
+              <Skeleton key={i} className="aspect-[4/5] w-full rounded-lg" />
             ))}
           </div>
         ) : blogPosts.length > 0 ? (
@@ -45,10 +53,10 @@ const ArticlesIndex = () => {
               <Link
                 key={post.id}
                 to={localizePath(`/articles/${post.slug}`, lang)}
-                className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl"
+                className="group block rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
-                <Card className="h-full overflow-hidden transition-all duration-300 group-hover:shadow-elegant group-hover:-translate-y-1">
-                  <div className="aspect-[16/10] w-full overflow-hidden bg-muted">
+                <Card className="h-full overflow-hidden rounded-lg border-border/70 bg-card transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-[var(--shadow-luxe)]">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
                     {post.featured_image ? (
                       <img
                         src={post.featured_image}
@@ -56,15 +64,17 @@ const ArticlesIndex = () => {
                         loading="lazy"
                         width={640}
                         height={400}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : null}
                   </div>
                   <CardContent className="p-6">
-                    <h2 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
+                    <p className="mb-3 text-[11px] font-semibold uppercase text-gold-foreground">Property intelligence</p>
+                    <h2 className="mb-3 text-xl font-semibold leading-snug text-foreground transition-colors group-hover:text-gold-foreground">
                       {post.title}
                     </h2>
                     <p className="text-muted-foreground line-clamp-3">{post.excerpt}</p>
+                    <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-gold-foreground">Read guide <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
                   </CardContent>
                 </Card>
               </Link>
@@ -73,6 +83,8 @@ const ArticlesIndex = () => {
         ) : (
           <p className="text-muted-foreground">No articles published yet.</p>
         )}
+        </section>
+        <EditorialCta eyebrow="Private consultation" title="Turn research into the right purchase" description="Tell us what you are looking for and receive a curated shortlist from a local property advisor." primaryLabel="Start Easy Find" primaryTo={localizePath('/ai-property-search', lang)} secondaryLabel="Contact our team" secondaryTo={localizePath('/contact-us', lang)} />
       </main>
     </div>
   );
