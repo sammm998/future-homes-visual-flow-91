@@ -169,7 +169,7 @@ export function AiSearchDialog({ open, onOpenChange }: { open: boolean; onOpenCh
                           {m.property.sizes_m2 && <span className="flex items-center gap-1"><Maximize className="h-4 w-4 text-gold" />{String(m.property.sizes_m2).replace("<>", "–")} m²</span>}
                         </span>
                         <span className="flex items-center gap-3">
-                          <strong className="text-base text-navy">{m.property.price}</strong>
+                          <strong className="text-base text-navy">{/^\d/.test(String(m.property.price)) ? `€${m.property.price}` : m.property.price}</strong>
                           <Button asChild size="sm" className="bg-navy text-navy-foreground hover:bg-navy/90">
                             <a href={buildPropertyUrl(m.property, lang)}>{c.view}<ArrowRight className="ml-1 h-4 w-4" /></a>
                           </Button>
