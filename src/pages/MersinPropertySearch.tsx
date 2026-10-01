@@ -517,7 +517,7 @@ const MersinPropertySearch = () => {
             {/* Desktop Layout: Properties Grid */}
             {filteredProperties.length > 0 && (
               <div className="hidden md:block">
-                <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4 3xl:gap-x-8 3xl:gap-y-14">
+                <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] xl:gap-x-8 xl:gap-y-14">
                   {paginatedProperties.map((property, propertyIndex) => (
                     <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                       <PropertyCard property={property} priority={propertyIndex < 6} />
