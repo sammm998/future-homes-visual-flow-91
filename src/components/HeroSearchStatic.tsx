@@ -46,8 +46,8 @@ export function HeroSearchStatic() {
 
   return (
     <div className="mx-auto max-w-6xl rounded-lg border border-border/70 bg-background p-2 shadow-[var(--shadow-luxe)] sm:p-3">
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-0 lg:grid-cols-6 lg:divide-x lg:divide-border">
-        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-1 lg:grid-cols-6 lg:gap-0 lg:divide-x lg:divide-border">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:col-span-1">
           <label htmlFor="propertyType" className="sr-only">{t('search.property_type')}</label>
           <select id="propertyType" name="propertyType" aria-label={t('search.property_type')} className={selectClass} defaultValue="">
             <option value="">{t('search.property_type')}</option>
@@ -58,7 +58,7 @@ export function HeroSearchStatic() {
           </select>
         </div>
 
-        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:col-span-1">
           <label htmlFor="bedrooms" className="sr-only">{t('search.bedrooms')}</label>
           <select id="bedrooms" name="bedrooms" aria-label={t('search.bedrooms')} className={selectClass} defaultValue="">
             <option value="">{t('search.bedrooms')}</option>
@@ -71,7 +71,7 @@ export function HeroSearchStatic() {
           </select>
         </div>
 
-        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:col-span-1">
           <label htmlFor="location" className="sr-only">{t('search.location')}</label>
           <select id="location" name="location" aria-label={t('search.location')} className={selectClass} defaultValue="">
             <option value="">{t('search.location')}</option>
@@ -84,7 +84,7 @@ export function HeroSearchStatic() {
           </select>
         </div>
 
-        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:col-span-1">
           <label htmlFor="refNo" className="sr-only">{t('search.ref_no')}</label>
           <input
             id="refNo"
@@ -96,7 +96,7 @@ export function HeroSearchStatic() {
           />
         </div>
 
-        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 lg:col-span-1">
+        <div className="rounded-lg border border-border/60 bg-ivory/45 px-1.5 transition-colors focus-within:border-gold lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:col-span-1">
           <label htmlFor="sortBy" className="sr-only">{t('search.sort_by')}</label>
           <select id="sortBy" name="sortBy" aria-label={t('search.sort_by')} className={selectClass} defaultValue="">
             <option value="">{t('search.sort_by')}</option>
@@ -111,7 +111,7 @@ export function HeroSearchStatic() {
           </select>
         </div>
 
-        <div className="flex flex-col gap-2 p-1 lg:col-span-1">
+        <div className="flex flex-col gap-2 p-1 sm:flex-row sm:items-center lg:col-span-1">
           <Button
             type="submit"
             aria-label={t('search.search')}
