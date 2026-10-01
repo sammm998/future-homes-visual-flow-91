@@ -46,11 +46,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           className="fixed inset-0 z-50 cursor-default bg-navy/65 backdrop-blur-sm"
         />
         <motion.div
-          initial={{ x: '-100%' }}
+          initial={{ x: 'calc(-100% - 6rem)' }}
           animate={{ x: 0 }}
-          exit={{ x: '-100%' }}
+          exit={{ x: 'calc(-100% - 6rem)' }}
           transition={{ type: 'tween', duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed left-0 top-0 z-50 h-full w-[min(38rem,94vw)] overflow-y-auto border-r border-navy-foreground/10 bg-navy text-navy-foreground shadow-[var(--shadow-luxe)]"
+          className="fixed left-0 top-0 z-[100] h-full w-[min(38rem,94vw)] overflow-y-auto border-r border-navy-foreground/10 bg-navy text-navy-foreground shadow-[var(--shadow-luxe)] lg:left-24 lg:w-[min(38rem,calc(94vw-6rem))]"
         >
           <div className="flex min-h-full flex-col px-6 py-7 sm:px-10 sm:py-10">
             <div className="mb-10 flex items-start justify-between border-b border-navy-foreground/10 pb-8">
