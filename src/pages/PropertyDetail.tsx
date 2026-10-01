@@ -668,23 +668,40 @@ const PropertyDetail = () => {
                 const allLabeled = lines.length > 1 && lines.every(l => /^[A-ZÄÖÅ][^:]{1,60}:\s/.test(l.trim()));
                 if (allLabeled) {
                   return (
-                    <ul key={key} className="space-y-2">
+                    <ul key={key} className="grid gap-3 sm:grid-cols-2">
                       {lines.map((line, i) => {
                         const idx = line.indexOf(':');
                         const label = line.slice(0, idx).trim();
                         const value = line.slice(idx + 1).trim();
                         return (
-                          <li key={i} className="flex gap-2 text-muted-foreground leading-relaxed">
-                            <span className="text-primary mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                            <span><strong className="text-foreground font-semibold">{label}:</strong> {value}</span>
+                          <li key={i} className="flex gap-3 rounded-md border border-border bg-background p-4 leading-relaxed shadow-sm">
+                            <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-gold" />
+                            <span className="text-sm text-muted-foreground"><strong className="mb-1 block font-semibold text-navy">{label}</strong>{value}</span>
                           </li>
                         );
                       })}
                     </ul>
                   );
                 }
+                const labeledLines = lines.filter(line => /^([A-ZÄÖÅ][^:]{1,60}):\s+(.*)$/.test(line.trim()));
+                if (labeledLines.length >= 2) {
+                  return (
+                    <div key={key} className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+                      {lines.map((line, i) => {
+                        const match = line.match(/^([A-ZÄÖÅ][^:]{1,60}):\s+(.*)$/);
+                        if (!match) return <p key={i} className="sm:col-span-2 text-muted-foreground leading-relaxed">{line}</p>;
+                        return (
+                          <div key={i} className="border-l-2 border-gold pl-4">
+                            <strong className="block text-sm font-semibold text-navy">{match[1]}</strong>
+                            <span className="mt-1 block text-sm leading-relaxed text-muted-foreground">{match[2]}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                }
                 return (
-                  <p key={key} className="text-muted-foreground leading-relaxed">
+                  <p key={key} className="text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
                     {lines.map((line, i) => {
                       const m = line.match(/^([A-ZÄÖÅ][^:]{1,60}):\s+(.*)$/);
                       return (
@@ -703,22 +720,30 @@ const PropertyDetail = () => {
               };
 
               return (
-                <div className="space-y-4">
-                  <h2 className="text-2xl font-semibold">{t('pd.about_property', language)}</h2>
-                  <div className="divide-y divide-border border-y border-border">
+                <section className="space-y-6">
+                  <div className="grid grid-cols-[auto_1fr] items-center gap-4">
+                    <span className="h-px w-12 bg-gold" aria-hidden="true" />
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold-foreground">Future Homes International</p>
+                  </div>
+                  <h2 className="text-3xl font-semibold text-navy md:text-4xl">{t('pd.about_property', language)}</h2>
+                  <div className="grid gap-5 md:grid-cols-2">
                     {sections.map((section, sIdx) => (
-                      <div
+                      <article
                         key={sIdx}
-                        className="space-y-4 py-7 first:pt-6"
+                        className={`relative space-y-5 overflow-hidden rounded-lg border border-border bg-card p-6 shadow-sm md:p-8 ${!section.heading || sIdx === 0 ? 'md:col-span-2' : ''}`}
                       >
+                        <span className="absolute right-5 top-3 font-serif text-5xl text-gold/15" aria-hidden="true">{String(sIdx + 1).padStart(2, '0')}</span>
                         {section.heading && (
-                          <h3 className="text-xl font-semibold text-navy">{section.heading}</h3>
+                          <div className="relative pr-12">
+                            <span className="mb-4 block h-0.5 w-10 bg-gold" aria-hidden="true" />
+                            <h3 className="text-xl font-semibold leading-snug text-navy md:text-2xl">{section.heading}</h3>
+                          </div>
                         )}
-                        {section.body.map((para, pIdx) => renderParagraph(para, pIdx))}
-                      </div>
+                        <div className="relative space-y-5">{section.body.map((para, pIdx) => renderParagraph(para, pIdx))}</div>
+                      </article>
                     ))}
                   </div>
-                </div>
+                </section>
               );
             })()}
 
