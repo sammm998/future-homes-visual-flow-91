@@ -270,7 +270,7 @@ const AntalyaPropertySearch = () => {
         compact
       />
 
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <div className="mx-auto w-full max-w-[1840px] px-4 py-12 sm:px-6 lg:px-8 lg:py-16 2xl:px-10">
         {/* SEO Intro Content */}
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div className="mb-0">
@@ -282,9 +282,9 @@ const AntalyaPropertySearch = () => {
         </div>
 
         {/* Layout with sidebar filter on left and content on right */}
-        <div className="flex flex-col gap-10 lg:flex-row xl:gap-12">
+        <div className="flex flex-col gap-10 lg:flex-row lg:gap-8 xl:gap-10 2xl:gap-12">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
-          <div className="hidden lg:block lg:w-72 lg:flex-shrink-0 xl:w-80">
+          <div className="hidden lg:block lg:w-64 lg:flex-shrink-0 xl:w-72 2xl:w-80">
             <div className="sticky top-28">
               <PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch} horizontal={false} />
             </div>
@@ -371,7 +371,7 @@ const AntalyaPropertySearch = () => {
             {/* Desktop Layout: Grid */}
             <div className="hidden md:block">
               {/* Toolbar */}
-              <div className="mb-8 flex items-center justify-between">
+              <div className="mb-10 flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <span className="text-sm text-muted-foreground notranslate" translate="no">
                     {t('city.showing')} {filteredProperties.length} {t('city.of')} {antalyaProperties.length} {t('city.properties')}
@@ -380,7 +380,7 @@ const AntalyaPropertySearch = () => {
               </div>
 
               {/* Properties Grid */}
-              <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-2 min-[1250px]:grid-cols-3 min-[1600px]:grid-cols-4 min-[1600px]:gap-x-8 min-[1600px]:gap-y-14">
                 {paginatedProperties.map((property, propertyIndex) => <div key={property.id} className="cursor-pointer" onClick={() => handlePropertyClick(property)}>
                     <PropertyCard property={property} priority={propertyIndex < 6} />
                   </div>)}
