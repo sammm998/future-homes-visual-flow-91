@@ -15,3 +15,4 @@
 - [x] Matcha kartsökningen mot referensens horisontella filter, luftiga lista och rundade karta.
 - [x] Ge välkomstpopupen ny lyxig design, rätta språk/valuta i navigationslisten och behåll kontaktbannern.
 - [x] Ersätt den fasta vänsterlisten med en exklusiv toppmeny och en meny som öppnas från höger.
+- [x] Designa om About Us-sidan i startsidens editoriala stil med kontorsstråk och team.
