@@ -5,12 +5,12 @@ import { useRouterState } from "@tanstack/react-router";
 import { getLocaleFromPathname, localizePath } from "@/utils/localeRouting";
 import { getCurrentLanguage } from "@/utils/seoUtils";
 import { cc, whatsappLink } from "@/utils/conversionCopy";
-import antalyaEstate from "@/assets/destination-antalya-estate.jpg";
-import istanbulEstate from "@/assets/destination-istanbul-estate.jpg";
-import dubaiEstate from "@/assets/destination-dubai-estate.jpg";
-import mersinEstate from "@/assets/destinations/mersin-cinematic.webp";
-import cyprusEstate from "@/assets/destinations/cyprus-cinematic.webp";
-import baliEstate from "@/assets/destinations/bali-cinematic.webp";
+import antalyaEstate from "@/assets/thumbs-destination-antalya-estate.webp";
+import istanbulEstate from "@/assets/thumbs-destination-istanbul-estate.webp";
+import dubaiEstate from "@/assets/thumbs-destination-dubai-estate.webp";
+import mersinEstate from "@/assets/thumbs-mersin-cinematic.webp";
+import cyprusEstate from "@/assets/thumbs-cyprus-cinematic.webp";
+import baliEstate from "@/assets/thumbs-bali-cinematic.webp";
 
 /** Homepage strip right under the hero: two clear ways to reach an advisor + trust points. */
 export default function ConversionBand() {
@@ -48,7 +48,7 @@ export default function ConversionBand() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {destinations.map((destination) => (
             <a key={destination.name} href={localizePath(destination.path, locale)} className="group relative aspect-[16/10] overflow-hidden rounded-lg bg-navy sm:aspect-[4/5]">
-              <img src={destination.image} alt={`${destination.name} luxury property`} width={1024} height={1280} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src={destination.image} alt={`${destination.name} luxury property`} width={480} height={600} loading="lazy" decoding="async" sizes="(max-width: 768px) 45vw, 16vw" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/10 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 p-5 text-navy-foreground md:p-8">
                 <div><p className="mb-2 text-xs font-semibold uppercase text-gold">Future Homes</p><h3 className="text-2xl font-semibold md:text-3xl">{destination.name}</h3></div>
