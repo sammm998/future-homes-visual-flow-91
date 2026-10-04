@@ -130,7 +130,7 @@ export function applyCriteria(rows: any[], c: Criteria, relax = 0): any[] {
 }
 
 export const CRITERIA_INSTRUCTIONS = `Extract the buyer's HARD requirements from their request (any language, may be a voice transcript).
-Reply ONLY with JSON: {"locations": string[], "types": string[], "minPrice": number|null, "maxPrice": number|null, "minBeds": number|null, "maxBeds": number|null, "minSize": number|null, "maxSize": number|null, "readyToMove": boolean|null, "citizenship": boolean|null}.
+Reply ONLY with JSON: {"language": string (English name of the language the request is written in, e.g. "Swedish"), "locations": string[], "types": string[], "minPrice": number|null, "maxPrice": number|null, "minBeds": number|null, "maxBeds": number|null, "minSize": number|null, "maxSize": number|null, "readyToMove": boolean|null, "citizenship": boolean|null}.
 - locations: English names matching these cities/areas: Antalya, Alanya, Istanbul, Mersin, Dubai, Cyprus, Bali, France, or district names (e.g. "Konyaalti", "Kargicak", "Canggu"). "Turkey" => ["Antalya","Istanbul","Mersin","Alanya"]. Empty if not stated.
 - types: from "Apartment","Villa","Penthouse","Duplex","Townhouse","Land","Commercial". Empty if not stated.
 - Prices in EUR as plain numbers (convert "500k", "2 miljoner kr" roughly to EUR). "under/max" => maxPrice, "from/minst" => minPrice.

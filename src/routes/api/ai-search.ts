@@ -36,6 +36,7 @@ export const Route = createFileRoute("/api/ai-search")({
           let c: Criteria;
           try { const j = JSON.parse(critText.slice(critText.indexOf("{"), critText.lastIndexOf("}") + 1)); c = { ...j, locations: Array.isArray(j.locations) ? j.locations : [], types: Array.isArray(j.types) ? j.types : [] }; }
           catch { c = { locations: [], types: [], minPrice: null, maxPrice: null, minBeds: null, maxBeds: null, minSize: null, maxSize: null, readyToMove: null, citizenship: null }; }
+          const replyLang = typeof (c as any).language === "string" && (c as any).language.trim() ? (c as any).language.trim().slice(0, 30) : `the language with code "${lang}"`;
           let pool = applyCriteria(rows, c, 0);
           let relaxed = false;
           if (pool.length === 0) { pool = applyCriteria(rows, c, 1); relaxed = true; }
@@ -49,7 +50,7 @@ Reply ONLY with JSON: {"summary": string, "filters": string[], "matches": [{"ref
 - "filters": short chips of the criteria you understood (e.g. "Antalya", "Max €200k", "2+ bedrooms", "Near beach").
 - "reason": 1-2 sentences why it fits, mentioning concrete facts. "headline": max 6 words.
 - Order by score descending. If nothing fits well, return the closest options and say so in summary.
-Write summary, filters, headline and reason in the language with code "${lang}".`;
+Write summary, filters, headline and reason ONLY in ${replyLang} — the language the buyer wrote in — even though the catalog is in English.`;
           const text = await askModel(apiKey, instructions, `Return the answer as json. Buyer request: ${query}\n\nCatalog:\n${catalog.map((i) => i.line).join("\n")}`, request.signal);
           const parsed = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
           const byRef = new Map(rows.map((r) => [String(r.ref_no), r]));
