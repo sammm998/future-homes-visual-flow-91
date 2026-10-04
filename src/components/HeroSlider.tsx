@@ -28,7 +28,7 @@ const HeroSlider = () => {
       const run = () => setEnableVideo(true);
       id = 'requestIdleCallback' in window
         ? (window as Window & { requestIdleCallback: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback(run, { timeout: 4000 })
-        : window.setTimeout(run, 2500);
+        : globalThis.setTimeout(run, 2500) as unknown as number;
     };
     if (document.readyState === 'complete') start();
     else window.addEventListener('load', start, { once: true });
