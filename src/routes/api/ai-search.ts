@@ -49,7 +49,7 @@ Reply ONLY with JSON: {"summary": string, "filters": string[], "matches": [{"ref
 - "filters": short chips of the criteria you understood (e.g. "Antalya", "Max €200k", "2+ bedrooms", "Near beach").
 - "reason": 1-2 sentences why it fits, mentioning concrete facts. "headline": max 6 words.
 - Order by score descending. If nothing fits well, return the closest options and say so in summary.
-Write summary, filters, headline and reason in the language with code "${lang}".`;
+Write summary, filters, headline and reason in the SAME language the buyer wrote their request in (detect it from the request text; e.g. Swedish request => Swedish answer, English => English), regardless of the website language. Only if the language cannot be determined, use the language with code "${lang}".`;
           const text = await askModel(apiKey, instructions, `Return the answer as json. Buyer request: ${query}\n\nCatalog:\n${catalog.map((i) => i.line).join("\n")}`, request.signal);
           const parsed = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
           const byRef = new Map(rows.map((r) => [String(r.ref_no), r]));
