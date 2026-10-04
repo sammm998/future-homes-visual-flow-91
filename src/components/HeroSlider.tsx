@@ -19,9 +19,20 @@ const HeroSlider = () => {
 
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
-    const id = window.setTimeout(() => setEnableVideo(true), 600);
-    return () => window.clearTimeout(id);
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (reduce || conn?.saveData || /(^|-)2g|3g/.test(conn?.effectiveType ?? '')) return;
+    // Videos start only after the page has fully loaded and the browser is idle,
+    // so they never compete with the first paint.
+    let id = 0;
+    const start = () => {
+      const run = () => setEnableVideo(true);
+      id = 'requestIdleCallback' in window
+        ? (window as Window & { requestIdleCallback: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback(run, { timeout: 4000 })
+        : globalThis.setTimeout(run, 2500) as unknown as number;
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+    return () => { window.removeEventListener('load', start); window.clearTimeout(id); };
   }, []);
 
   useEffect(() => () => {
@@ -74,7 +85,7 @@ const HeroSlider = () => {
             muted
             playsInline
             autoPlay={i === 0}
-            preload="auto"
+            preload={i === 0 ? "auto" : "metadata"}
             aria-hidden="true"
             ref={(el) => { videos.current[i] = el; }}
             onPlaying={() => { if (i === 0) setStarted(true); }}
