@@ -14,7 +14,6 @@ import { generateLocationSchema, generatePropertyListSchema, generateBreadcrumbS
 import useImagePreloading from "@/hooks/useImagePreloading";
 import { preloadCriticalImages } from "@/utils/imageOptimization";
 import OptimizedPropertyImage from "@/components/OptimizedPropertyImage";
-import GlobalPerformanceOptimizer from "@/components/GlobalPerformanceOptimizer";
 import {
   Pagination,
   PaginationContent,
@@ -312,11 +311,6 @@ const MersinPropertySearch = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <GlobalPerformanceOptimizer 
-        criticalImages={propertyImages}
-        enableImageOptimization={true}
-        enableResourceHints={true}
-      />
       <SEOHead
         title="Property for Sale in Mersin | Apartments & Villas in Turkey — Future Homes"
         description="Property for sale in Mersin: beachfront apartments, sea-view villas & off-plan homes in Mezitli, Erdemli & Tece. Buy property in Mersin Turkey from €55,000 with Turkish citizenship eligibility."
