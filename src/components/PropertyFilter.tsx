@@ -520,7 +520,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = (props) => {
       {open && (
         <div className="fixed inset-0 z-[200] bg-navy/55 backdrop-blur-sm" onClick={() => setOpen(false)}>
           <aside
-            className="absolute inset-y-0 left-0 flex w-[min(92vw,24rem)] flex-col border-t-4 border-gold bg-ivory shadow-2xl"
+            className="absolute inset-y-0 right-0 flex w-[min(92vw,24rem)] flex-col border-l border-gold/25 border-t-4 border-gold bg-ivory shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-gold/25 px-5 py-4">
