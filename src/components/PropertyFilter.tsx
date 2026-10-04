@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { GlowCard } from "@/components/ui/spotlight-card";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { Eye } from "lucide-react";
+import { Eye, SlidersHorizontal, X } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { useDistrictsByLocation } from "@/hooks/useDistrictsByLocation";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -23,7 +23,7 @@ interface PropertyFilterProps {
 
 const LOCATION_OPTIONS = ['all', 'Antalya', 'Istanbul', 'Mersin', 'Dubai', 'Cyprus', 'Bali'] as const;
 
-const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange, onSearch, horizontal = false }) => {
+const PropertyFilterPanel: React.FC<PropertyFilterProps> = ({ filters, onFilterChange, onSearch, horizontal = false }) => {
   const navigate = useNavigate();
   const { selectedCurrency } = useCurrency();
   const { t, lang } = useTranslation();
@@ -497,6 +497,49 @@ const PropertyFilter: React.FC<PropertyFilterProps> = ({ filters, onFilterChange
         </CardContent>
       </Card>
     </GlowCard>
+  );
+};
+
+const PropertyFilter: React.FC<PropertyFilterProps> = (props) => {
+  const { t } = useTranslation();
+  const [open, setOpen] = React.useState(false);
+  if (!props.horizontal) return <PropertyFilterPanel {...props} />;
+  const activeCount = [props.filters?.propertyType, props.filters?.bedrooms, props.filters?.district, props.filters?.minPrice, props.filters?.maxPrice, props.filters?.referenceNo]
+    .filter((v) => v && v !== 'all' && v !== 'any').length + (Array.isArray(props.filters?.facilities) ? props.filters.facilities.length : 0);
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="flex h-12 w-full items-center justify-center gap-2 rounded-md bg-navy text-sm font-semibold text-navy-foreground"
+      >
+        <SlidersHorizontal className="h-4 w-4" />
+        {t('nav.search')}
+        {activeCount > 0 && <span className="ml-1 rounded-full bg-gold px-2 py-0.5 text-xs text-navy">{activeCount}</span>}
+      </button>
+      {open && (
+        <div className="fixed inset-0 z-[200] bg-navy/55 backdrop-blur-sm" onClick={() => setOpen(false)}>
+          <aside
+            className="absolute inset-y-0 left-0 flex w-[min(92vw,24rem)] flex-col border-t-4 border-gold bg-ivory shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-gold/25 px-5 py-4">
+              <h2 className="text-lg font-semibold text-navy">{t('nav.search')}</h2>
+              <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="rounded-full p-2 text-navy hover:bg-navy/5">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-3">
+              <PropertyFilterPanel
+                {...props}
+                horizontal={false}
+                onSearch={() => { props.onSearch?.(); setOpen(false); }}
+              />
+            </div>
+          </aside>
+        </div>
+      )}
+    </>
   );
 };
 
