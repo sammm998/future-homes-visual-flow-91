@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { askModel, loadCatalog } from "@/lib/aiSearch.server";
+import { askModel, loadCatalog, applyCriteria, CRITERIA_INSTRUCTIONS, type Criteria } from "@/lib/aiSearch.server";
 
 const errorResponse = (e: any) => {
   const status = typeof e?.status === "number" ? e.status : 500;
@@ -29,15 +29,28 @@ export const Route = createFileRoute("/api/ai-search")({
         if (!apiKey) return Response.json({ error: "AI search is not configured." }, { status: 500 });
 
         try {
-          const { items, rows } = await loadCatalog();
+          const [{ items, rows }, critText] = await Promise.all([
+            loadCatalog(),
+            askModel(apiKey, CRITERIA_INSTRUCTIONS, `Return json. Buyer request: ${query}`, request.signal),
+          ]);
+          let c: Criteria;
+          try { const j = JSON.parse(critText.slice(critText.indexOf("{"), critText.lastIndexOf("}") + 1)); c = { ...j, locations: Array.isArray(j.locations) ? j.locations : [], types: Array.isArray(j.types) ? j.types : [] }; }
+          catch { c = { locations: [], types: [], minPrice: null, maxPrice: null, minBeds: null, maxBeds: null, minSize: null, maxSize: null, readyToMove: null, citizenship: null }; }
+          let pool = applyCriteria(rows, c, 0);
+          let relaxed = false;
+          if (pool.length === 0) { pool = applyCriteria(rows, c, 1); relaxed = true; }
+          if (pool.length === 0) pool = applyCriteria(rows, c, 2);
+          if (pool.length === 0) pool = rows;
+          const allowed = new Set(pool.map((r) => String(r.ref_no)));
+          const catalog = items.filter((i) => allowed.has(i.ref));
           const instructions = `You are a senior real-estate advisor for Future Homes International (Turkey, Dubai, Cyprus, Bali, France).
-From the catalog, pick the up to 6 listings that best match the buyer's wishes (budget, location, bedrooms, size, sea/beach, facilities, citizenship, investment, lifestyle). Only use listings from the catalog. Prices are EUR.
+From the catalog, pick the up to 6 listings that best match the buyer's wishes (budget, location, bedrooms, size, sea/beach, facilities, citizenship, investment, lifestyle). Only use listings from the catalog. Prices are EUR. The catalog is already filtered to the buyer's hard requirements${relaxed ? " (slightly relaxed because nothing matched exactly — say this clearly in summary)" : ""}; rank by how well each fits ALL wishes, and never claim a fact that isn't in the listing line. Bedroom/size ranges like "2<>4" mean unit types from 2 to 4.
 Reply ONLY with JSON: {"summary": string, "filters": string[], "matches": [{"ref": string, "score": number 0-100, "headline": string, "reason": string}]}.
 - "filters": short chips of the criteria you understood (e.g. "Antalya", "Max €200k", "2+ bedrooms", "Near beach").
 - "reason": 1-2 sentences why it fits, mentioning concrete facts. "headline": max 6 words.
 - Order by score descending. If nothing fits well, return the closest options and say so in summary.
 Write summary, filters, headline and reason in the language with code "${lang}".`;
-          const text = await askModel(apiKey, instructions, `Return the answer as json. Buyer request: ${query}\n\nCatalog:\n${items.map((i) => i.line).join("\n")}`, request.signal);
+          const text = await askModel(apiKey, instructions, `Return the answer as json. Buyer request: ${query}\n\nCatalog:\n${catalog.map((i) => i.line).join("\n")}`, request.signal);
           const parsed = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
           const byRef = new Map(rows.map((r) => [String(r.ref_no), r]));
           const matches = (Array.isArray(parsed.matches) ? parsed.matches : [])
