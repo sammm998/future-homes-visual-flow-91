@@ -96,3 +96,43 @@ export async function transcribeAudio(apiKey: string, file: File): Promise<strin
   }
   try { return JSON.parse(body).text || ""; } catch { return body; }
 }
+
+export type Criteria = {
+  locations: string[]; types: string[]; minPrice: number | null; maxPrice: number | null;
+  minBeds: number | null; maxBeds: number | null; minSize: number | null; maxSize: number | null;
+  readyToMove: boolean | null; citizenship: boolean | null;
+};
+
+const nums = (v: unknown): number[] =>
+  String(v ?? "").replace(/studio/gi, "0").split("<>").map((p) => Number(p.replace(/[^\d.]/g, ""))).filter((n) => Number.isFinite(n) && String(n) !== "");
+const priceOf = (v: unknown) => { const n = String(v ?? "").replace(/[^\d]/g, ""); return n ? Number(n) : null; };
+
+/** Applies the buyer's hard requirements in code so ranking never sees non-matching homes. */
+export function applyCriteria(rows: any[], c: Criteria, relax = 0): any[] {
+  const lc = (s: unknown) => String(s ?? "").toLowerCase();
+  return rows.filter((r) => {
+    if (c.locations.length && !c.locations.some((l) => [r.location, r.property_district, r.title].some((f) => lc(f).includes(lc(l))))) return false;
+    if (relax < 2 && c.types.length && !c.types.some((t) => lc(r.property_type).includes(lc(t).replace(/s$/, "")))) return false;
+    const p = priceOf(r.price);
+    const slack = relax ? 1.15 : 1.03;
+    if (c.maxPrice && p && p > c.maxPrice * slack) return false;
+    if (c.minPrice && p && p < c.minPrice / slack) return false;
+    const b = nums(r.bedrooms);
+    if (relax < 2 && c.minBeds != null && b.length && Math.max(...b) < c.minBeds) return false;
+    if (relax < 2 && c.maxBeds != null && b.length && Math.min(...b) > c.maxBeds) return false;
+    const s = nums(r.sizes_m2);
+    if (relax < 1 && c.minSize && s.length && Math.max(...s) < c.minSize) return false;
+    if (relax < 1 && c.maxSize && s.length && Math.min(...s) > c.maxSize) return false;
+    if (relax < 1 && c.readyToMove === true && !lc(r.status).includes("ready")) return false;
+    if (relax < 1 && c.citizenship === true && !r.citizenship_eligible) return false;
+    return true;
+  });
+}
+
+export const CRITERIA_INSTRUCTIONS = `Extract the buyer's HARD requirements from their request (any language, may be a voice transcript).
+Reply ONLY with JSON: {"locations": string[], "types": string[], "minPrice": number|null, "maxPrice": number|null, "minBeds": number|null, "maxBeds": number|null, "minSize": number|null, "maxSize": number|null, "readyToMove": boolean|null, "citizenship": boolean|null}.
+- locations: English names matching these cities/areas: Antalya, Alanya, Istanbul, Mersin, Dubai, Cyprus, Bali, France, or district names (e.g. "Konyaalti", "Kargicak", "Canggu"). "Turkey" => ["Antalya","Istanbul","Mersin","Alanya"]. Empty if not stated.
+- types: from "Apartment","Villa","Penthouse","Duplex","Townhouse","Land","Commercial". Empty if not stated.
+- Prices in EUR as plain numbers (convert "500k", "2 miljoner kr" roughly to EUR). "under/max" => maxPrice, "from/minst" => minPrice.
+- "3 bedrooms" means minBeds 3. "3+1" Turkish notation means 3 bedrooms. Studio = 0.
+- Use null for anything not clearly stated. Never invent requirements.`;
