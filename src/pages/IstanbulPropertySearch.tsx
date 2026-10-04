@@ -15,7 +15,7 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
 import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
-import istanbulHero from '@/assets/destinations/istanbul-cinematic.jpg';
+import istanbulHero from '@/assets/destinations/istanbul-cinematic.webp';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const IstanbulPropertySearch = () => {

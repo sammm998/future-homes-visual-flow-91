@@ -23,7 +23,7 @@ import {
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
 import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
-import cyprusHero from '@/assets/destinations/cyprus-cinematic.jpg';
+import cyprusHero from '@/assets/destinations/cyprus-cinematic.webp';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const CyprusPropertySearch = () => {

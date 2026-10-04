@@ -16,7 +16,7 @@ import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
-import antalyaHero from '@/assets/destinations/antalya-cinematic.jpg';
+import antalyaHero from '@/assets/destinations/antalya-cinematic.webp';
 const AntalyaPropertySearch = () => {
   const { t } = useTranslation();
   const {

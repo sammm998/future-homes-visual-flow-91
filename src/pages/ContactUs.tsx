@@ -16,7 +16,7 @@ import { ContentSection } from "@/components/ContentSection";
 import { useTranslation } from "@/hooks/useTranslation";
 import { saveLead } from "@/lib/leads.functions";
 import { PublicPageHero } from "@/components/PublicEditorial";
-import contactHero from "@/assets/destinations/antalya-cinematic.jpg";
+import contactHero from "@/assets/destinations/antalya-cinematic.webp";
 
 const ContactUs = () => {
   const navigate = useNavigate();

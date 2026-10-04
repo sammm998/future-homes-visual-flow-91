@@ -10,9 +10,9 @@ import { useProperties } from '@/hooks/useProperties';
 import { localizePath } from '@/utils/localeRouting';
 import { NORDIC_LANDING_PAGES, type NordicLandingPage as NordicPage } from '@/data/nordicLandingPages';
 import { EditorialCta, EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
-import antalyaImage from '@/assets/destinations/antalya-cinematic.jpg';
-import dubaiImage from '@/assets/destinations/dubai-cinematic.jpg';
-import baliImage from '@/assets/destinations/bali-cinematic.jpg';
+import antalyaImage from '@/assets/destinations/antalya-cinematic.webp';
+import dubaiImage from '@/assets/destinations/dubai-cinematic.webp';
+import baliImage from '@/assets/destinations/bali-cinematic.webp';
 
 interface Props {
   page: NordicPage;

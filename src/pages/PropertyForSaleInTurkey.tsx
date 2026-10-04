@@ -9,9 +9,9 @@ import { ArrowRight, CheckCircle2, MapPin, Home, TrendingUp, Shield, Star, Users
 import { Link } from '@/lib/router-compat';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 import { EditorialCta, EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
-import turkeyHero from '@/assets/destinations/antalya-cinematic.jpg';
-import istanbulImage from '@/assets/destinations/istanbul-cinematic.jpg';
-import mersinImage from '@/assets/destinations/mersin-cinematic.jpg';
+import turkeyHero from '@/assets/destinations/antalya-cinematic.webp';
+import istanbulImage from '@/assets/destinations/istanbul-cinematic.webp';
+import mersinImage from '@/assets/destinations/mersin-cinematic.webp';
 
 const PropertyForSaleInTurkey = () => {
   const faqItems = [
