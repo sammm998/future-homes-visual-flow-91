@@ -20,7 +20,7 @@ const HeroSlider = () => {
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-    if (reduce || conn?.saveData || /(^|-)2g|3g/.test(conn?.effectiveType ?? '')) return;
+    if (reduce || window.innerWidth < 768 || conn?.saveData || /(^|-)2g|3g/.test(conn?.effectiveType ?? '')) return;
     // Videos start only after the page has fully loaded and the browser is idle,
     // so they never compete with the first paint.
     let id = 0;
