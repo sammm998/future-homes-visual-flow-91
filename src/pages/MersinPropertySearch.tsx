@@ -27,7 +27,7 @@ import { preloadImages, forceImageLoading } from '@/utils/imagePreloader';
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
 import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
-import mersinHero from '@/assets/destinations/mersin-cinematic.jpg';
+import mersinHero from '@/assets/destinations/mersin-cinematic.webp';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const MersinPropertySearch = () => {

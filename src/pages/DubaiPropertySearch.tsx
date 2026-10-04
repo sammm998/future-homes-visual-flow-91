@@ -23,7 +23,7 @@ import {
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
 import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
-import dubaiHero from '@/assets/destinations/dubai-cinematic.jpg';
+import dubaiHero from '@/assets/destinations/dubai-cinematic.webp';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const DubaiPropertySearch = () => {

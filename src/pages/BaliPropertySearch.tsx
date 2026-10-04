@@ -23,7 +23,7 @@ import {
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
 import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
-import baliHero from '@/assets/destinations/bali-cinematic.jpg';
+import baliHero from '@/assets/destinations/bali-cinematic.webp';
 import NordicRelatedLinks from '@/components/NordicRelatedLinks';
 
 const BaliPropertySearch = () => {
