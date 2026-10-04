@@ -4,12 +4,17 @@ import heroEstateMobile from '@/assets/hero-modern-estate-768.webp';
 import heroEstateLaptop from '@/assets/hero-modern-estate-1200.webp';
 import broll1 from '@/assets/hero-broll-1-optimized.mp4.asset.json';
 import broll2 from '@/assets/hero-broll-2-optimized.mp4.asset.json';
+import broll1m from '@/assets/hero-broll-1-mobile.mp4.asset.json';
+import broll2m from '@/assets/hero-broll-2-mobile.mp4.asset.json';
 
-const CLIPS = [broll2.url, broll1.url];
+const DESKTOP_CLIPS = [broll2.url, broll1.url];
+// Phones get light portrait-cropped 640p versions (~300 KB each).
+const MOBILE_CLIPS = [broll2m.url, broll1m.url];
 const CROSSFADE_MS = 1200;
 
 const HeroSlider = () => {
   const [enableVideo, setEnableVideo] = useState(false);
+  const [CLIPS, setClips] = useState(DESKTOP_CLIPS);
   const [active, setActive] = useState(0);
   const [started, setStarted] = useState(false);
   const videos = useRef<(HTMLVideoElement | null)[]>([]);
@@ -20,9 +25,10 @@ const HeroSlider = () => {
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-    if (reduce || window.innerWidth < 768 || conn?.saveData || /(^|-)2g|3g/.test(conn?.effectiveType ?? '')) return;
+    if (reduce || conn?.saveData || /(^|-)2g|3g/.test(conn?.effectiveType ?? '')) return;
     // Videos start only after the page has fully loaded and the browser is idle,
     // so they never compete with the first paint.
+    if (window.innerWidth < 768) setClips(MOBILE_CLIPS);
     let id = 0;
     const start = () => {
       const run = () => setEnableVideo(true);
