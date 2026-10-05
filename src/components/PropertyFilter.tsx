@@ -503,6 +503,12 @@ const PropertyFilterPanel: React.FC<PropertyFilterProps> = ({ filters, onFilterC
 const PropertyFilter: React.FC<PropertyFilterProps> = (props) => {
   const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
+  React.useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, [open]);
   if (!props.horizontal) return <PropertyFilterPanel {...props} />;
   const activeCount = [props.filters?.propertyType, props.filters?.bedrooms, props.filters?.district, props.filters?.minPrice, props.filters?.maxPrice, props.filters?.referenceNo]
     .filter((v) => v && v !== 'all' && v !== 'any').length + (Array.isArray(props.filters?.facilities) ? props.filters.facilities.length : 0);
@@ -529,7 +535,7 @@ const PropertyFilter: React.FC<PropertyFilterProps> = (props) => {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-3">
+            <div className="min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-contain p-3">
               <PropertyFilterPanel
                 {...props}
                 horizontal={false}
