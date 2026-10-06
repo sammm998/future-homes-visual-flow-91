@@ -416,7 +416,7 @@ export const translationsExtra: Record<string, Record<string, string>> = {
   },
   tr: {
     'about.badge': 'Future Homes Hakkında', 'about.hero_title': 'Geleceğinizin Gayrimenkulü',
-    'about.hero_subtitle': 'Future Homes\'un kurucusu olarak, gelecekteki evinizi ararken size eşlik etmekten gurur duyuyorum. Türkiye, Fransa ve Dubai\'de gayrimenkul satışında uzmanlaşmış Avrupa zihniyetli bir şirketiz.',
+    'about.hero_subtitle': 'Future Homes\'un kurucusu olarak, gelecekteki evinizi ararken size eşlik etmekten gurur duyuyorum. Türkiye, Fransa, Dubai ve Bali\'de gayrimenkul satışında uzmanlaşmış Avrupa zihniyetli bir şirketiz.',
     'about.contact_us': 'İletişime Geçin', 'about.stat_clients': 'Mutlu Müşteri',
     'about.stat_properties': 'Satılan Mülk', 'about.stat_countries': 'Ülke', 'about.stat_languages': 'Dil',
     'about.values_title': 'Temel Değerlerimiz',
