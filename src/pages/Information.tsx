@@ -134,24 +134,29 @@ const Information = () => {
     { name: t('info.cyprus'), value: "cyprus", icon: Globe },
   ];
 
-  // Helper function to determine category based on title/content
-  const getArticleCategory = (title: string, content: string) => {
-    const text = (title + ' ' + content).toLowerCase();
-    
-    // Check for specific country/region categories first
-    if (text.includes('dubai')) return 'dubai';
-    if (text.includes('bali')) return 'bali';
-    if (text.includes('turkey') || text.includes('antalya') || text.includes('mersin')) return 'turkey';
-    if (text.includes('cyprus')) return 'cyprus';
-    
-    // Then check for general categories - order matters for overlapping keywords
-    if (text.includes('legal') || text.includes('citizenship') || text.includes('law') || text.includes('permit') || text.includes('visa')) return 'legal';
-    if (text.includes('living') || text.includes('culture') || text.includes('social') || text.includes('lifestyle') || text.includes('climate') || text.includes('coastal') || text.includes('mountain') || text.includes('rural')) return 'living';
-    if (text.includes('reit') || text.includes('emerging markets') || text.includes('investment strategy') || text.includes('portfolio') || (text.includes('investment') && !text.includes('property investment'))) return 'investment';
-    if (text.includes('finance') || text.includes('cost') || text.includes('banking') || text.includes('currency') || text.includes('bitcoin') || text.includes('exchange')) return 'finance';
-    if (text.includes('property') || text.includes('purchase') || text.includes('real estate')) return 'property';
-    
-    return 'property'; // default
+  const canonicalCategories = new Set(['property', 'legal', 'finance', 'living', 'investment', 'dubai', 'bali', 'turkey', 'cyprus']);
+  const containsAny = (text: string, terms: string[]) => terms.some((term) => text.includes(term));
+
+  // Prefer the saved taxonomy. For older posts, classify from concise metadata
+  // only; scanning the full article caused incidental words to select the wrong tab.
+  const getArticleCategory = (title: string, excerpt = '', savedCategory = '', tags: string[] = []) => {
+    const normalizedSaved = savedCategory.trim().toLowerCase();
+    if (canonicalCategories.has(normalizedSaved)) return normalizedSaved;
+
+    const taxonomy = `${normalizedSaved} ${tags.join(' ')}`.toLowerCase();
+    const titleText = title.toLowerCase();
+    const summaryText = `${title} ${excerpt}`.toLowerCase();
+
+    if (containsAny(taxonomy, ['dubai', 'uae']) || containsAny(titleText, ['dubai', 'uae'])) return 'dubai';
+    if (taxonomy.includes('bali') || titleText.includes('bali')) return 'bali';
+    if (containsAny(taxonomy, ['turkey', 'turkish', 'antalya', 'mersin', 'istanbul']) || containsAny(titleText, ['turkey', 'turkish', 'antalya', 'mersin', 'istanbul'])) return 'turkey';
+    if (containsAny(taxonomy, ['cyprus', 'cypriot']) || containsAny(titleText, ['cyprus', 'cypriot'])) return 'cyprus';
+
+    if (containsAny(taxonomy, ['legal', 'law', 'visa', 'residency', 'citizenship', 'inheritance', 'compliance']) || containsAny(summaryText, ['legal', 'law', 'visa', 'residency', 'citizenship', 'inheritance', 'compliance', 'title deed'])) return 'legal';
+    if (containsAny(taxonomy, ['living', 'lifestyle', 'culture', 'cuisine', 'dining', 'healthcare', 'education', 'retirement']) || containsAny(summaryText, ['living', 'lifestyle', 'culture', 'cuisine', 'dining', 'healthcare', 'education', 'retirement', 'food'])) return 'living';
+    if (containsAny(taxonomy, ['finance', 'tax', 'banking', 'currency', 'mortgage', 'cost']) || containsAny(summaryText, ['finance', 'tax', 'banking', 'currency', 'mortgage', 'exchange rate', 'buying cost'])) return 'finance';
+    if (containsAny(taxonomy, ['investment', 'reit', 'portfolio', 'private equity', 'fund']) || containsAny(summaryText, ['investment strategy', 'reit', 'portfolio', 'private equity', 'investment fund', 'market cycle', 'rental yield'])) return 'investment';
+    return 'property';
   };
 
   // Helper function to get appropriate icon component
@@ -363,7 +368,12 @@ const Information = () => {
     icon: getArticleIconComponent(post.source_title || post.title),
     // Use featured_image first, fallback to category-based images if null
     image: post.featured_image || getArticleImage(post.source_title || post.title, post.source_content || post.content, index),
-    category: getArticleCategory(post.source_title || post.title, post.source_content || post.content),
+    category: getArticleCategory(
+      post.source_title || post.title,
+      post.source_excerpt || post.excerpt,
+      post.source_category || post.category || '',
+      post.source_tags || post.tags || [],
+    ),
     content: post.content,
     slug: post.slug, // Use the actual slug from database
     isDatabaseArticle: true, // Mark as database article
