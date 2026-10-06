@@ -14,11 +14,15 @@ export interface BlogPost {
   published: boolean;
   created_at: string;
   updated_at: string;
+  category?: string | null;
+  tags?: string[] | null;
   language_code?: string | null;
   parent_post_id?: string | null;
   source_title?: string;
   source_excerpt?: string | null;
   source_content?: string;
+  source_category?: string | null;
+  source_tags?: string[] | null;
 }
 
 /**
@@ -52,6 +56,8 @@ export const useBlogPosts = (includeUnpublished = false) => {
           source_title: p.title,
           source_excerpt: p.excerpt,
           source_content: p.content,
+          source_category: p.category,
+          source_tags: p.tags,
         }));
 
         if (lang === 'en' || !parents) return parentsWithSource;
@@ -137,6 +143,8 @@ export const useBlogPost = (slug: string) => {
           source_title: parent.title,
           source_excerpt: parent.excerpt,
           source_content: parent.content,
+          source_category: parent.category,
+          source_tags: parent.tags,
         };
 
         if (lang === 'en') return parentWithSource;

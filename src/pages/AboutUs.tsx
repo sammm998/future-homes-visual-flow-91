@@ -34,7 +34,7 @@ const AboutUs = () => {
   const stats = [
     { number: "1000+", label: t('about.stat_clients') },
     { number: "1000+", label: t('about.stat_properties') },
-    { number: "3", label: t('about.stat_countries') },
+    { number: "4", label: t('about.stat_countries') },
     { number: "9", label: t('about.stat_languages') },
   ];
   const values = [
