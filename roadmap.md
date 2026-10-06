@@ -16,3 +16,5 @@
 - [x] Ge välkomstpopupen ny lyxig design, rätta språk/valuta i navigationslisten och behåll kontaktbannern.
 - [x] Ersätt den fasta vänsterlisten med en exklusiv toppmeny och en meny som öppnas från höger.
 - [x] Designa om About Us-sidan i startsidens editoriala stil med kontorsstråk och team.
+- [ ] Uppdatera Om oss med Bali och fyra marknader i text och statistik.
+- [ ] Rätta informationssidans artikelkategorier så varje filter visar rätt ämnen.
