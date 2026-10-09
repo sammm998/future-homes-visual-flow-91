@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import { useLocation } from '@/lib/router-compat';
 import { PATH_TRANSLATIONS, buildPropertyUrl } from '@/utils/slugHelpers';
 import { localizePath, stripLocale, stripLangParam, getLocaleFromPathname } from '@/utils/localeRouting';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },

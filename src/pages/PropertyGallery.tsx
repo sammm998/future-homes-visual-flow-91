@@ -6,7 +6,7 @@ import { ArrowLeft, Eye, Camera, MapPin, X, ChevronLeft, ChevronRight } from "lu
 import { Link } from "@/lib/router-compat";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/legacy/client";
 import { EditorialCta, PublicPageHero } from "@/components/PublicEditorial";
 import galleryHero from "@/assets/luxury-property-investment.jpg";
 

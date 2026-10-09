@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 import { useLocation } from '@/lib/router-compat';
 import { getCurrentLanguage } from '@/utils/seoUtils';
 

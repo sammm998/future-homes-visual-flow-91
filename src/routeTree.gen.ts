@@ -35,6 +35,7 @@ import { Route as MapSearchRouteImport } from './routes/map-search'
 import { Route as MersinRouteImport } from './routes/mersin'
 import { Route as OffPlanPropertyTurkeyRouteImport } from './routes/off-plan-property-turkey'
 import { Route as OurStoryRouteImport } from './routes/our-story'
+import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PropertyForSaleInTurkeyRouteImport } from './routes/property-for-sale-in-turkey'
 import { Route as PropertyGalleryRouteImport } from './routes/property-gallery'
 import { Route as PropertyWizardRouteImport } from './routes/property-wizard'
@@ -73,6 +74,7 @@ import { Route as LocaleMapSearchRouteImport } from './routes/$locale/map-search
 import { Route as LocaleMersinRouteImport } from './routes/$locale/mersin'
 import { Route as LocaleOffPlanPropertyTurkeyRouteImport } from './routes/$locale/off-plan-property-turkey'
 import { Route as LocaleOurStoryRouteImport } from './routes/$locale/our-story'
+import { Route as LocalePartnersRouteImport } from './routes/$locale/partners'
 import { Route as LocalePropertyForSaleInTurkeyRouteImport } from './routes/$locale/property-for-sale-in-turkey'
 import { Route as LocalePropertyGalleryRouteImport } from './routes/$locale/property-gallery'
 import { Route as LocalePropertyWizardRouteImport } from './routes/$locale/property-wizard'
@@ -98,12 +100,16 @@ import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as ArticlesExpensesBuyingPropertyTurkeyRouteImport } from './routes/articles.expenses-buying-property-turkey'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as SitemapLocaleDotxmlRouteImport } from './routes/sitemap.$locale[.]xml'
+import { Route as VipIndexRouteImport } from './routes/vip.index'
+import { Route as VipAdminRouteImport } from './routes/vip.admin'
 import { Route as LocaleSegmentIdRouteImport } from './routes/$locale.$segment.$id'
 import { Route as LocaleArticleIdRouteImport } from './routes/$locale/article.$id'
 import { Route as LocaleArticlesIndexRouteImport } from './routes/$locale/articles.index'
 import { Route as LocaleArticlesSlugRouteImport } from './routes/$locale/articles.$slug'
 import { Route as LocaleArticlesExpensesBuyingPropertyTurkeyRouteImport } from './routes/$locale/articles.expenses-buying-property-turkey'
 import { Route as LocaleCoursesIndexRouteImport } from './routes/$locale/courses.index'
+import { Route as LocaleVipIndexRouteImport } from './routes/$locale/vip.index'
+import { Route as LocaleVipAdminRouteImport } from './routes/$locale/vip.admin'
 import { Route as AdminAnalyticsIndexRouteImport } from './routes/admin/analytics.index'
 import { Route as AdminAnalyticsEmailRouteImport } from './routes/admin/analytics.email'
 import { Route as AdminAnalyticsHeatmapRouteImport } from './routes/admin/analytics.heatmap'
@@ -143,6 +149,7 @@ import { Route as AdminEmailCampaignsIdRouteImport } from './routes/admin/email.
 import { Route as AdminEmailCampaignsNewRouteImport } from './routes/admin/email.campaigns.new'
 import { Route as AdminPropertiesIdIndexRouteImport } from './routes/admin/properties.$id.index'
 import { Route as AdminPropertiesIdEditRouteImport } from './routes/admin/properties.$id.edit'
+import { Route as ApiPublicHooksPropertyAlertsRouteImport } from './routes/api/public/hooks/property-alerts'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -273,6 +280,11 @@ const OffPlanPropertyTurkeyRoute = OffPlanPropertyTurkeyRouteImport.update({
 const OurStoryRoute = OurStoryRouteImport.update({
   id: '/our-story',
   path: '/our-story',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PropertyForSaleInTurkeyRoute = PropertyForSaleInTurkeyRouteImport.update({
@@ -473,6 +485,11 @@ const LocaleOurStoryRoute = LocaleOurStoryRouteImport.update({
   path: '/our-story',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocalePartnersRoute = LocalePartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 const LocalePropertyForSaleInTurkeyRoute =
   LocalePropertyForSaleInTurkeyRouteImport.update({
     id: '/property-for-sale-in-turkey',
@@ -601,6 +618,16 @@ const SitemapLocaleDotxmlRoute = SitemapLocaleDotxmlRouteImport.update({
   path: '/sitemap/$locale.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VipIndexRoute = VipIndexRouteImport.update({
+  id: '/vip/',
+  path: '/vip/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VipAdminRoute = VipAdminRouteImport.update({
+  id: '/vip/admin',
+  path: '/vip/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LocaleSegmentIdRoute = LocaleSegmentIdRouteImport.update({
   id: '/$segment/$id',
   path: '/$segment/$id',
@@ -630,6 +657,16 @@ const LocaleArticlesExpensesBuyingPropertyTurkeyRoute =
 const LocaleCoursesIndexRoute = LocaleCoursesIndexRouteImport.update({
   id: '/courses/',
   path: '/courses/',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleVipIndexRoute = LocaleVipIndexRouteImport.update({
+  id: '/vip/',
+  path: '/vip/',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleVipAdminRoute = LocaleVipAdminRouteImport.update({
+  id: '/vip/admin',
+  path: '/vip/admin',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
 const AdminAnalyticsIndexRoute = AdminAnalyticsIndexRouteImport.update({
@@ -835,6 +872,12 @@ const AdminPropertiesIdEditRoute = AdminPropertiesIdEditRouteImport.update({
   path: '/properties/$id/edit',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const ApiPublicHooksPropertyAlertsRoute =
+  ApiPublicHooksPropertyAlertsRouteImport.update({
+    id: '/api/public/hooks/property-alerts',
+    path: '/api/public/hooks/property-alerts',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -863,6 +906,7 @@ export interface FileRoutesByFullPath {
   '/mersin': typeof MersinRoute
   '/off-plan-property-turkey': typeof OffPlanPropertyTurkeyRoute
   '/our-story': typeof OurStoryRoute
+  '/partners': typeof PartnersRoute
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
   '/property-gallery': typeof PropertyGalleryRoute
   '/property-wizard': typeof PropertyWizardRoute
@@ -900,6 +944,7 @@ export interface FileRoutesByFullPath {
   '/$locale/mersin': typeof LocaleMersinRoute
   '/$locale/off-plan-property-turkey': typeof LocaleOffPlanPropertyTurkeyRoute
   '/$locale/our-story': typeof LocaleOurStoryRoute
+  '/$locale/partners': typeof LocalePartnersRoute
   '/$locale/property-for-sale-in-turkey': typeof LocalePropertyForSaleInTurkeyRoute
   '/$locale/property-gallery': typeof LocalePropertyGalleryRoute
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
@@ -922,14 +967,17 @@ export interface FileRoutesByFullPath {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
   '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
+  '/vip/admin': typeof VipAdminRoute
   '/$locale/': typeof LocaleIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/articles/': typeof ArticlesIndexRoute
   '/courses/': typeof CoursesIndexRoute
+  '/vip/': typeof VipIndexRoute
   '/$locale/$segment/$id': typeof LocaleSegmentIdRoute
   '/$locale/article/$id': typeof LocaleArticleIdRoute
   '/$locale/articles/$slug': typeof LocaleArticlesSlugRoute
   '/$locale/articles/expenses-buying-property-turkey': typeof LocaleArticlesExpensesBuyingPropertyTurkeyRoute
+  '/$locale/vip/admin': typeof LocaleVipAdminRoute
   '/admin/analytics/email': typeof AdminAnalyticsEmailRoute
   '/admin/analytics/heatmap': typeof AdminAnalyticsHeatmapRoute
   '/admin/analytics/leads': typeof AdminAnalyticsLeadsRoute
@@ -954,6 +1002,7 @@ export interface FileRoutesByFullPath {
   '/courses/$country/final-exam': typeof CoursesCountryFinalExamRoute
   '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/courses/': typeof LocaleCoursesIndexRoute
+  '/$locale/vip/': typeof LocaleVipIndexRoute
   '/admin/analytics/': typeof AdminAnalyticsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/crm/': typeof AdminCrmIndexRoute
@@ -967,6 +1016,7 @@ export interface FileRoutesByFullPath {
   '/admin/email/campaigns/$id': typeof AdminEmailCampaignsIdRoute
   '/admin/email/campaigns/new': typeof AdminEmailCampaignsNewRoute
   '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
+  '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
   '/$locale/courses/$country/': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads/': typeof AdminCrmLeadsIndexRoute
   '/admin/email/campaigns/': typeof AdminEmailCampaignsIndexRoute
@@ -997,6 +1047,7 @@ export interface FileRoutesByTo {
   '/mersin': typeof MersinRoute
   '/off-plan-property-turkey': typeof OffPlanPropertyTurkeyRoute
   '/our-story': typeof OurStoryRoute
+  '/partners': typeof PartnersRoute
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
   '/property-gallery': typeof PropertyGalleryRoute
   '/property-wizard': typeof PropertyWizardRoute
@@ -1034,6 +1085,7 @@ export interface FileRoutesByTo {
   '/$locale/mersin': typeof LocaleMersinRoute
   '/$locale/off-plan-property-turkey': typeof LocaleOffPlanPropertyTurkeyRoute
   '/$locale/our-story': typeof LocaleOurStoryRoute
+  '/$locale/partners': typeof LocalePartnersRoute
   '/$locale/property-for-sale-in-turkey': typeof LocalePropertyForSaleInTurkeyRoute
   '/$locale/property-gallery': typeof LocalePropertyGalleryRoute
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
@@ -1056,14 +1108,17 @@ export interface FileRoutesByTo {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
   '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
+  '/vip/admin': typeof VipAdminRoute
   '/$locale': typeof LocaleIndexRoute
   '/admin': typeof AdminIndexRoute
   '/articles': typeof ArticlesIndexRoute
   '/courses': typeof CoursesIndexRoute
+  '/vip': typeof VipIndexRoute
   '/$locale/$segment/$id': typeof LocaleSegmentIdRoute
   '/$locale/article/$id': typeof LocaleArticleIdRoute
   '/$locale/articles/$slug': typeof LocaleArticlesSlugRoute
   '/$locale/articles/expenses-buying-property-turkey': typeof LocaleArticlesExpensesBuyingPropertyTurkeyRoute
+  '/$locale/vip/admin': typeof LocaleVipAdminRoute
   '/admin/analytics/email': typeof AdminAnalyticsEmailRoute
   '/admin/analytics/heatmap': typeof AdminAnalyticsHeatmapRoute
   '/admin/analytics/leads': typeof AdminAnalyticsLeadsRoute
@@ -1088,6 +1143,7 @@ export interface FileRoutesByTo {
   '/courses/$country/final-exam': typeof CoursesCountryFinalExamRoute
   '/$locale/articles': typeof LocaleArticlesIndexRoute
   '/$locale/courses': typeof LocaleCoursesIndexRoute
+  '/$locale/vip': typeof LocaleVipIndexRoute
   '/admin/analytics': typeof AdminAnalyticsIndexRoute
   '/admin/blog': typeof AdminBlogIndexRoute
   '/admin/crm': typeof AdminCrmIndexRoute
@@ -1101,6 +1157,7 @@ export interface FileRoutesByTo {
   '/admin/email/campaigns/$id': typeof AdminEmailCampaignsIdRoute
   '/admin/email/campaigns/new': typeof AdminEmailCampaignsNewRoute
   '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
+  '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
   '/$locale/courses/$country': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads': typeof AdminCrmLeadsIndexRoute
   '/admin/email/campaigns': typeof AdminEmailCampaignsIndexRoute
@@ -1134,6 +1191,7 @@ export interface FileRoutesById {
   '/mersin': typeof MersinRoute
   '/off-plan-property-turkey': typeof OffPlanPropertyTurkeyRoute
   '/our-story': typeof OurStoryRoute
+  '/partners': typeof PartnersRoute
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
   '/property-gallery': typeof PropertyGalleryRoute
   '/property-wizard': typeof PropertyWizardRoute
@@ -1171,6 +1229,7 @@ export interface FileRoutesById {
   '/$locale/mersin': typeof LocaleMersinRoute
   '/$locale/off-plan-property-turkey': typeof LocaleOffPlanPropertyTurkeyRoute
   '/$locale/our-story': typeof LocaleOurStoryRoute
+  '/$locale/partners': typeof LocalePartnersRoute
   '/$locale/property-for-sale-in-turkey': typeof LocalePropertyForSaleInTurkeyRoute
   '/$locale/property-gallery': typeof LocalePropertyGalleryRoute
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
@@ -1193,14 +1252,17 @@ export interface FileRoutesById {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
   '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
+  '/vip/admin': typeof VipAdminRoute
   '/$locale/': typeof LocaleIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/articles/': typeof ArticlesIndexRoute
   '/courses/': typeof CoursesIndexRoute
+  '/vip/': typeof VipIndexRoute
   '/$locale/$segment/$id': typeof LocaleSegmentIdRoute
   '/$locale/article/$id': typeof LocaleArticleIdRoute
   '/$locale/articles/$slug': typeof LocaleArticlesSlugRoute
   '/$locale/articles/expenses-buying-property-turkey': typeof LocaleArticlesExpensesBuyingPropertyTurkeyRoute
+  '/$locale/vip/admin': typeof LocaleVipAdminRoute
   '/admin/analytics/email': typeof AdminAnalyticsEmailRoute
   '/admin/analytics/heatmap': typeof AdminAnalyticsHeatmapRoute
   '/admin/analytics/leads': typeof AdminAnalyticsLeadsRoute
@@ -1225,6 +1287,7 @@ export interface FileRoutesById {
   '/courses/$country/final-exam': typeof CoursesCountryFinalExamRoute
   '/$locale/articles/': typeof LocaleArticlesIndexRoute
   '/$locale/courses/': typeof LocaleCoursesIndexRoute
+  '/$locale/vip/': typeof LocaleVipIndexRoute
   '/admin/analytics/': typeof AdminAnalyticsIndexRoute
   '/admin/blog/': typeof AdminBlogIndexRoute
   '/admin/crm/': typeof AdminCrmIndexRoute
@@ -1238,6 +1301,7 @@ export interface FileRoutesById {
   '/admin/email/campaigns/$id': typeof AdminEmailCampaignsIdRoute
   '/admin/email/campaigns/new': typeof AdminEmailCampaignsNewRoute
   '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
+  '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
   '/$locale/courses/$country/': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads/': typeof AdminCrmLeadsIndexRoute
   '/admin/email/campaigns/': typeof AdminEmailCampaignsIndexRoute
@@ -1272,6 +1336,7 @@ export interface FileRouteTypes {
     | '/mersin'
     | '/off-plan-property-turkey'
     | '/our-story'
+    | '/partners'
     | '/property-for-sale-in-turkey'
     | '/property-gallery'
     | '/property-wizard'
@@ -1309,6 +1374,7 @@ export interface FileRouteTypes {
     | '/$locale/mersin'
     | '/$locale/off-plan-property-turkey'
     | '/$locale/our-story'
+    | '/$locale/partners'
     | '/$locale/property-for-sale-in-turkey'
     | '/$locale/property-gallery'
     | '/$locale/property-wizard'
@@ -1331,14 +1397,17 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
     | '/sitemap/$locale.xml'
+    | '/vip/admin'
     | '/$locale/'
     | '/admin/'
     | '/articles/'
     | '/courses/'
+    | '/vip/'
     | '/$locale/$segment/$id'
     | '/$locale/article/$id'
     | '/$locale/articles/$slug'
     | '/$locale/articles/expenses-buying-property-turkey'
+    | '/$locale/vip/admin'
     | '/admin/analytics/email'
     | '/admin/analytics/heatmap'
     | '/admin/analytics/leads'
@@ -1363,6 +1432,7 @@ export interface FileRouteTypes {
     | '/courses/$country/final-exam'
     | '/$locale/articles/'
     | '/$locale/courses/'
+    | '/$locale/vip/'
     | '/admin/analytics/'
     | '/admin/blog/'
     | '/admin/crm/'
@@ -1376,6 +1446,7 @@ export interface FileRouteTypes {
     | '/admin/email/campaigns/$id'
     | '/admin/email/campaigns/new'
     | '/admin/properties/$id/edit'
+    | '/api/public/hooks/property-alerts'
     | '/$locale/courses/$country/'
     | '/admin/crm/leads/'
     | '/admin/email/campaigns/'
@@ -1406,6 +1477,7 @@ export interface FileRouteTypes {
     | '/mersin'
     | '/off-plan-property-turkey'
     | '/our-story'
+    | '/partners'
     | '/property-for-sale-in-turkey'
     | '/property-gallery'
     | '/property-wizard'
@@ -1443,6 +1515,7 @@ export interface FileRouteTypes {
     | '/$locale/mersin'
     | '/$locale/off-plan-property-turkey'
     | '/$locale/our-story'
+    | '/$locale/partners'
     | '/$locale/property-for-sale-in-turkey'
     | '/$locale/property-gallery'
     | '/$locale/property-wizard'
@@ -1465,14 +1538,17 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
     | '/sitemap/$locale.xml'
+    | '/vip/admin'
     | '/$locale'
     | '/admin'
     | '/articles'
     | '/courses'
+    | '/vip'
     | '/$locale/$segment/$id'
     | '/$locale/article/$id'
     | '/$locale/articles/$slug'
     | '/$locale/articles/expenses-buying-property-turkey'
+    | '/$locale/vip/admin'
     | '/admin/analytics/email'
     | '/admin/analytics/heatmap'
     | '/admin/analytics/leads'
@@ -1497,6 +1573,7 @@ export interface FileRouteTypes {
     | '/courses/$country/final-exam'
     | '/$locale/articles'
     | '/$locale/courses'
+    | '/$locale/vip'
     | '/admin/analytics'
     | '/admin/blog'
     | '/admin/crm'
@@ -1510,6 +1587,7 @@ export interface FileRouteTypes {
     | '/admin/email/campaigns/$id'
     | '/admin/email/campaigns/new'
     | '/admin/properties/$id/edit'
+    | '/api/public/hooks/property-alerts'
     | '/$locale/courses/$country'
     | '/admin/crm/leads'
     | '/admin/email/campaigns'
@@ -1542,6 +1620,7 @@ export interface FileRouteTypes {
     | '/mersin'
     | '/off-plan-property-turkey'
     | '/our-story'
+    | '/partners'
     | '/property-for-sale-in-turkey'
     | '/property-gallery'
     | '/property-wizard'
@@ -1579,6 +1658,7 @@ export interface FileRouteTypes {
     | '/$locale/mersin'
     | '/$locale/off-plan-property-turkey'
     | '/$locale/our-story'
+    | '/$locale/partners'
     | '/$locale/property-for-sale-in-turkey'
     | '/$locale/property-gallery'
     | '/$locale/property-wizard'
@@ -1601,14 +1681,17 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
     | '/sitemap/$locale.xml'
+    | '/vip/admin'
     | '/$locale/'
     | '/admin/'
     | '/articles/'
     | '/courses/'
+    | '/vip/'
     | '/$locale/$segment/$id'
     | '/$locale/article/$id'
     | '/$locale/articles/$slug'
     | '/$locale/articles/expenses-buying-property-turkey'
+    | '/$locale/vip/admin'
     | '/admin/analytics/email'
     | '/admin/analytics/heatmap'
     | '/admin/analytics/leads'
@@ -1633,6 +1716,7 @@ export interface FileRouteTypes {
     | '/courses/$country/final-exam'
     | '/$locale/articles/'
     | '/$locale/courses/'
+    | '/$locale/vip/'
     | '/admin/analytics/'
     | '/admin/blog/'
     | '/admin/crm/'
@@ -1646,6 +1730,7 @@ export interface FileRouteTypes {
     | '/admin/email/campaigns/$id'
     | '/admin/email/campaigns/new'
     | '/admin/properties/$id/edit'
+    | '/api/public/hooks/property-alerts'
     | '/$locale/courses/$country/'
     | '/admin/crm/leads/'
     | '/admin/email/campaigns/'
@@ -1679,6 +1764,7 @@ export interface RootRouteChildren {
   MersinRoute: typeof MersinRoute
   OffPlanPropertyTurkeyRoute: typeof OffPlanPropertyTurkeyRoute
   OurStoryRoute: typeof OurStoryRoute
+  PartnersRoute: typeof PartnersRoute
   PropertyForSaleInTurkeyRoute: typeof PropertyForSaleInTurkeyRoute
   PropertyGalleryRoute: typeof PropertyGalleryRoute
   PropertyWizardRoute: typeof PropertyWizardRoute
@@ -1696,13 +1782,16 @@ export interface RootRouteChildren {
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   ArticlesExpensesBuyingPropertyTurkeyRoute: typeof ArticlesExpensesBuyingPropertyTurkeyRoute
   SitemapLocaleDotxmlRoute: typeof SitemapLocaleDotxmlRoute
+  VipAdminRoute: typeof VipAdminRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
+  VipIndexRoute: typeof VipIndexRoute
   ApiPublicTeamImageUpdateRoute: typeof ApiPublicTeamImageUpdateRoute
   ApiPublicTranslateMissingRoute: typeof ApiPublicTranslateMissingRoute
   CoursesCountryModuleSlugRoute: typeof CoursesCountryModuleSlugRoute
   CoursesCountryFinalExamRoute: typeof CoursesCountryFinalExamRoute
   CoursesCountryIndexRoute: typeof CoursesCountryIndexRoute
+  ApiPublicHooksPropertyAlertsRoute: typeof ApiPublicHooksPropertyAlertsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1887,6 +1976,13 @@ declare module '@tanstack/react-router' {
       path: '/our-story'
       fullPath: '/our-story'
       preLoaderRoute: typeof OurStoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/property-for-sale-in-turkey': {
@@ -2155,6 +2251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleOurStoryRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/partners': {
+      id: '/$locale/partners'
+      path: '/partners'
+      fullPath: '/$locale/partners'
+      preLoaderRoute: typeof LocalePartnersRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/property-for-sale-in-turkey': {
       id: '/$locale/property-for-sale-in-turkey'
       path: '/property-for-sale-in-turkey'
@@ -2330,6 +2433,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapLocaleDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vip/': {
+      id: '/vip/'
+      path: '/vip'
+      fullPath: '/vip/'
+      preLoaderRoute: typeof VipIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vip/admin': {
+      id: '/vip/admin'
+      path: '/vip/admin'
+      fullPath: '/vip/admin'
+      preLoaderRoute: typeof VipAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$locale/$segment/$id': {
       id: '/$locale/$segment/$id'
       path: '/$segment/$id'
@@ -2370,6 +2487,20 @@ declare module '@tanstack/react-router' {
       path: '/courses'
       fullPath: '/$locale/courses/'
       preLoaderRoute: typeof LocaleCoursesIndexRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/vip/': {
+      id: '/$locale/vip/'
+      path: '/vip'
+      fullPath: '/$locale/vip/'
+      preLoaderRoute: typeof LocaleVipIndexRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/vip/admin': {
+      id: '/$locale/vip/admin'
+      path: '/vip/admin'
+      fullPath: '/$locale/vip/admin'
+      preLoaderRoute: typeof LocaleVipAdminRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/admin/analytics/': {
@@ -2645,6 +2776,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPropertiesIdEditRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/api/public/hooks/property-alerts': {
+      id: '/api/public/hooks/property-alerts'
+      path: '/api/public/hooks/property-alerts'
+      fullPath: '/api/public/hooks/property-alerts'
+      preLoaderRoute: typeof ApiPublicHooksPropertyAlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -2677,6 +2815,7 @@ interface LocaleRouteRouteChildren {
   LocaleMersinRoute: typeof LocaleMersinRoute
   LocaleOffPlanPropertyTurkeyRoute: typeof LocaleOffPlanPropertyTurkeyRoute
   LocaleOurStoryRoute: typeof LocaleOurStoryRoute
+  LocalePartnersRoute: typeof LocalePartnersRoute
   LocalePropertyForSaleInTurkeyRoute: typeof LocalePropertyForSaleInTurkeyRoute
   LocalePropertyGalleryRoute: typeof LocalePropertyGalleryRoute
   LocalePropertyWizardRoute: typeof LocalePropertyWizardRoute
@@ -2691,8 +2830,10 @@ interface LocaleRouteRouteChildren {
   LocaleArticleIdRoute: typeof LocaleArticleIdRoute
   LocaleArticlesSlugRoute: typeof LocaleArticlesSlugRoute
   LocaleArticlesExpensesBuyingPropertyTurkeyRoute: typeof LocaleArticlesExpensesBuyingPropertyTurkeyRoute
+  LocaleVipAdminRoute: typeof LocaleVipAdminRoute
   LocaleArticlesIndexRoute: typeof LocaleArticlesIndexRoute
   LocaleCoursesIndexRoute: typeof LocaleCoursesIndexRoute
+  LocaleVipIndexRoute: typeof LocaleVipIndexRoute
   LocaleCoursesCountryModuleSlugRoute: typeof LocaleCoursesCountryModuleSlugRoute
   LocaleCoursesCountryFinalExamRoute: typeof LocaleCoursesCountryFinalExamRoute
   LocaleCoursesCountryIndexRoute: typeof LocaleCoursesCountryIndexRoute
@@ -2727,6 +2868,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleMersinRoute: LocaleMersinRoute,
   LocaleOffPlanPropertyTurkeyRoute: LocaleOffPlanPropertyTurkeyRoute,
   LocaleOurStoryRoute: LocaleOurStoryRoute,
+  LocalePartnersRoute: LocalePartnersRoute,
   LocalePropertyForSaleInTurkeyRoute: LocalePropertyForSaleInTurkeyRoute,
   LocalePropertyGalleryRoute: LocalePropertyGalleryRoute,
   LocalePropertyWizardRoute: LocalePropertyWizardRoute,
@@ -2743,8 +2885,10 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleArticlesSlugRoute: LocaleArticlesSlugRoute,
   LocaleArticlesExpensesBuyingPropertyTurkeyRoute:
     LocaleArticlesExpensesBuyingPropertyTurkeyRoute,
+  LocaleVipAdminRoute: LocaleVipAdminRoute,
   LocaleArticlesIndexRoute: LocaleArticlesIndexRoute,
   LocaleCoursesIndexRoute: LocaleCoursesIndexRoute,
+  LocaleVipIndexRoute: LocaleVipIndexRoute,
   LocaleCoursesCountryModuleSlugRoute: LocaleCoursesCountryModuleSlugRoute,
   LocaleCoursesCountryFinalExamRoute: LocaleCoursesCountryFinalExamRoute,
   LocaleCoursesCountryIndexRoute: LocaleCoursesCountryIndexRoute,
@@ -2865,6 +3009,7 @@ const rootRouteChildren: RootRouteChildren = {
   MersinRoute: MersinRoute,
   OffPlanPropertyTurkeyRoute: OffPlanPropertyTurkeyRoute,
   OurStoryRoute: OurStoryRoute,
+  PartnersRoute: PartnersRoute,
   PropertyForSaleInTurkeyRoute: PropertyForSaleInTurkeyRoute,
   PropertyGalleryRoute: PropertyGalleryRoute,
   PropertyWizardRoute: PropertyWizardRoute,
@@ -2883,13 +3028,16 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesExpensesBuyingPropertyTurkeyRoute:
     ArticlesExpensesBuyingPropertyTurkeyRoute,
   SitemapLocaleDotxmlRoute: SitemapLocaleDotxmlRoute,
+  VipAdminRoute: VipAdminRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,
   CoursesIndexRoute: CoursesIndexRoute,
+  VipIndexRoute: VipIndexRoute,
   ApiPublicTeamImageUpdateRoute: ApiPublicTeamImageUpdateRoute,
   ApiPublicTranslateMissingRoute: ApiPublicTranslateMissingRoute,
   CoursesCountryModuleSlugRoute: CoursesCountryModuleSlugRoute,
   CoursesCountryFinalExamRoute: CoursesCountryFinalExamRoute,
   CoursesCountryIndexRoute: CoursesCountryIndexRoute,
+  ApiPublicHooksPropertyAlertsRoute: ApiPublicHooksPropertyAlertsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

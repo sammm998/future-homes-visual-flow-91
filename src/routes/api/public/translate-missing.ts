@@ -120,7 +120,7 @@ export const Route = createFileRoute("/api/public/translate-missing")({
           /* default */
         }
 
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { supabaseAdmin } = (await import("@/integrations/supabase/client.server")) as any;
 
         const { data: properties, error: propError } = await supabaseAdmin
           .from("properties")

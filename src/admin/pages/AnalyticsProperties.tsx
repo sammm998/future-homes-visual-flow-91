@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/legacy/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";

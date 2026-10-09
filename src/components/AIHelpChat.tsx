@@ -10,7 +10,7 @@ import {
   ChatBubbleMessage,
 } from "@/components/ui/chat-bubble";
 import { Card, CardContent } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/legacy/client";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "@/lib/router-compat";
 import { useEffect, useRef } from "react";

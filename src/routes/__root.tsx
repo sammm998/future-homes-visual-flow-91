@@ -20,6 +20,7 @@ import { setCurrentLocation, getCurrentLanguage } from "@/utils/seoUtils";
 import appCss from "../styles.css?url";
 
 import { Toaster } from "@/components/ui/toaster";
+import { capturePartnerRef } from "@/hooks/useMember";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
@@ -154,6 +155,7 @@ function AppChrome() {
   // Keep locale prefix, legacy ?lang= links and property URLs in sync
   useLanguageUrlSync();
   useAnalyticsTracker();
+  useEffect(() => { capturePartnerRef(); }, []);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const pathWithoutLocale = pathname.replace(/^\/(?:sv|da|de|no|fr|tr|ru|ar|fa|ur|es|id)(?=\/|$)/, "");
   const isInternal = /^\/(?:admin(?:\/|-|$)|auth(?:\/|$))/.test(pathWithoutLocale);

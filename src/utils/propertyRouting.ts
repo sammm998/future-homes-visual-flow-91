@@ -1,4 +1,4 @@
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 
 export const findPropertyLocationByRefNo = async (refNo: string): Promise<string> => {
   // Database lookup only - no more static data fallback

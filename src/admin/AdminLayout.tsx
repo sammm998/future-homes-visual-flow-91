@@ -4,7 +4,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AdminSidebar from "./AdminSidebar";
 import AdminLanguageSwitcher from "./AdminLanguageSwitcher";
 import { AdminI18nProvider, useAdminT } from "@/admin/i18n/AdminI18nContext";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/legacy/client";
 import { Button } from "@/components/ui/button";
 import { LogOut, Bell } from "lucide-react";
 import { toast } from "sonner";

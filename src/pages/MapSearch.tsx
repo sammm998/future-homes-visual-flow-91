@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useLocation, useNavigate } from '@/lib/router-compat';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 import { ArrowRight, BedDouble, Building2, Filter, Layers3, Loader2, MapPin, Search, SlidersHorizontal, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getPropertyCoordinates } from '@/utils/propertyCoordinates';

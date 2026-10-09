@@ -6,6 +6,7 @@ import { formatPriceFromString } from '@/utils/priceFormatting';
 import { Link, useLocation } from '@/lib/router-compat';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 import LiveViewers from './LiveViewers';
+import FavoriteButton from './FavoriteButton';
 import { useTranslation } from '@/hooks/useTranslation';
 
 interface Property {
@@ -144,6 +145,10 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
               {statusText}
               </span>
             </span>
+          </div>
+
+          <div className="absolute left-5 top-16 z-10 sm:left-7 sm:top-[4.75rem]">
+            <FavoriteButton propertyId={String(property.id)} refNo={property.refNo || property.ref_no} title={property.title} price={property.price} />
           </div>
 
           {/* Live viewing badge — top-right */}

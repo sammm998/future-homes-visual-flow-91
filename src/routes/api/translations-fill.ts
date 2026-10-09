@@ -118,7 +118,7 @@ export const Route = createFileRoute("/api/translations-fill")({
           /* defaults */
         }
 
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { supabaseAdmin } = (await import("@/integrations/supabase/client.server")) as any;
 
         const { data: properties, error: propError } = await supabaseAdmin
           .from("properties")

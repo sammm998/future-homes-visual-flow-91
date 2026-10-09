@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "@/lib/router-compat";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/legacy/client";
 
 function uid() {
   return Math.random().toString(36).slice(2) + Date.now().toString(36);

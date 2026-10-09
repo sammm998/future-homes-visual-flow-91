@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/legacy/client";
 import { translatePropertyText } from "@/lib/translatePropertyText.functions";
 
 export const PROPERTY_TRANSLATION_LANGUAGES = ["sv", "tr", "ar", "ru", "no", "da", "fa", "ur", "de", "fr", "es", "id"];
@@ -27,12 +27,14 @@ export async function translateSavedProperty(
   let completed = await readCompleted();
   const count = () => PROPERTY_TRANSLATION_LANGUAGES.filter((code) => completed.has(code)).length;
   onProgress(count(), PROPERTY_TRANSLATION_LANGUAGES.length);
+  const { data: sess } = await client.auth.getSession();
+  const accessToken = sess.session?.access_token ?? "";
   for (const language of PROPERTY_TRANSLATION_LANGUAGES) {
     if (completed.has(language)) continue;
     let translated;
     try {
       translated = await translatePropertyText({
-        data: { title: property.title, description: property.description, location: property.location || "", language },
+        data: { title: property.title, description: property.description, location: property.location || "", language, accessToken },
       });
     } catch (e) {
       // Stop on any failure: no silent retry or continued charges after a denial.

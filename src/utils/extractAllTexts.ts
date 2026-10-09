@@ -201,7 +201,7 @@ export const getTextsFromFiles = async (): Promise<string[]> => {
   
   for (const component of components) {
     try {
-      const { supabase } = await import('@/integrations/supabase/client');
+      const { supabase } = await import('@/integrations/legacy/client');
       const { data, error } = await supabase.functions.invoke('extract-page-texts', {
         body: { 
           filePath: `src/pages/${component}.tsx`,
