@@ -21,3 +21,8 @@
 - [x] Designa om About Us-sidan i startsidens editoriala stil med kontorsstråk och team.
 - [x] Uppdatera Om oss med Bali och fyra marknader i text och statistik.
 - [x] Rätta informationssidans artikelkategorier så varje filter visar rätt ämnen.
+
+- [x] Fas 1: Investeringskalkylator, "Where Should I Buy?"-test och visningsresa-planerare (sparar leads).
+- [ ] Fas 2: VIP Club med favoriter och Smart Property Alerts — kräver nya tabeller i databasen (åtkomst eller Lovable Cloud) och verifierad e-postavsändare.
+- [ ] Fas 3: Partnerprogram med länkar och portal — samma databasbehov.
+- [ ] Översätt de nya verktygen till alla 13 språk.

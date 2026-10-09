@@ -86,6 +86,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               <Link to={withLang("/property-wizard")} onClick={onClose} className="flex min-h-11 items-center text-sm text-navy-foreground/70 transition-colors hover:text-gold">
                 {t('sidebar.easy_find')}
               </Link>
+              <Link to={withLang("/investment-calculator")} onClick={onClose} className="flex min-h-11 items-center text-sm text-navy-foreground/70 transition-colors hover:text-gold">
+                Investment Calculator
+              </Link>
+              <Link to={withLang("/where-should-i-buy")} onClick={onClose} className="flex min-h-11 items-center text-sm text-navy-foreground/70 transition-colors hover:text-gold">
+                Where Should I Buy?
+              </Link>
+              <Link to={withLang("/viewing-trip")} onClick={onClose} className="flex min-h-11 items-center text-sm text-navy-foreground/70 transition-colors hover:text-gold">
+                Viewing Trip Planner
+              </Link>
               <Link to={withLang("/map-search")} onClick={onClose} className="flex min-h-11 items-center text-sm text-navy-foreground/70 transition-colors hover:text-gold">
                 {t('sidebar.map_search')}
               </Link>
