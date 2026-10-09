@@ -14,6 +14,13 @@ const num = (v: unknown) => {
   return m ? parseFloat(m[0]) : 0;
 };
 const cityOf = (loc?: string | null) => (loc || "").split(",")[0].trim().toLowerCase();
+const districtKey = (name: string) => name.trim().toLowerCase().replace(/ı/g, "i").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const districtLabel = (name: string) => {
+  const key = districtKey(name);
+  if (key === "altintas") return "Altıntaş";
+  if (key === "muratpsa" || key === "muratpasa") return "Muratpaşa";
+  return name.trim();
+};
 const fmt = (n: number) => `€${Math.round(n).toLocaleString("en-US")}`;
 const median = (a: number[]) => {
   if (!a.length) return 0;
@@ -64,7 +71,7 @@ export const PropertyAreaInsights = ({ property, lang }: Props) => {
   const ownPpm = median(ownUnits);
   const ownMin = ownUnits.length ? Math.min(...ownUnits) : 0;
   const ownMax = ownUnits.length ? Math.max(...ownUnits) : 0;
-  const ownDistrict = String(property.property_district || "").trim();
+  const ownDistrict = districtLabel(String(property.property_district || ""));
 
   const { districts, avg, unitCount } = useMemo(() => {
     const all: number[] = [];
@@ -72,7 +79,9 @@ export const PropertyAreaInsights = ({ property, lang }: Props) => {
     area.forEach((p: any) => {
       const u = unitPricesPerM2(p);
       all.push(...u);
-      const d = String(p.property_district || "").trim() || cityLabel;
+      const d = districtLabel(String(p.property_district || ""));
+      // City-wide/unknown districts remain in the city median, not the district chart.
+      if (!d || districtKey(d) === districtKey(cityLabel)) return;
       byD.set(d, [...(byD.get(d) || []), ...u]);
     });
     const districts = [...byD.entries()]
