@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { ArrowLeft, GripVertical, Plus, Save, Trash2, Upload, X } from "lucide-react";
 import { DragDropContext, Draggable, Droppable, type DropResult } from "@hello-pangea/dnd";
+import { translateSavedProperty } from "@/lib/translateSavedProperty";
 
 type ApartmentType = { type?: string; size?: string; price?: string };
 
@@ -78,6 +79,8 @@ export default function PropertyEdit() {
   const [form, setForm] = useState<Form>(EMPTY);
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
+  const [translationProgress, setTranslationProgress] = useState<{ completed: number; total: number } | null>(null);
+  const [translationError, setTranslationError] = useState("");
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [taxonomy, setTaxonomy] = useState<{ locations: string[]; countries: string[]; districtsByLocation: Record<string, string[]> }>({ locations: [], countries: [], districtsByLocation: {} });
 
@@ -123,8 +126,8 @@ export default function PropertyEdit() {
   };
 
   useEffect(() => {
-    if (isNew) return;
-    supabase.from("properties").select("*").eq("id", id!).maybeSingle().then(({ data }) => {
+    if (!id) return;
+    supabase.from("properties").select("*").eq("id", id).maybeSingle().then(({ data }) => {
       if (data) {
         const d: any = data;
         let aptTypes: ApartmentType[] = [];
@@ -187,11 +190,24 @@ export default function PropertyEdit() {
     }));
   };
 
+  const runTranslations = async (propertyId: string) => {
+    setTranslationError("");
+    try {
+      await translateSavedProperty(propertyId, (completed, total) => setTranslationProgress({ completed, total }));
+      toast.success("All 12 translations are saved");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Translation failed. The property is saved.";
+      setTranslationError(message);
+      toast.error(message);
+    }
+  };
+
   const handleSave = async (publish?: boolean) => {
     if (!form.title.trim() || !form.location.trim()) {
       toast.error("Title and location are required");
       return;
     }
+    if (!isNew && !id) return;
     setSaving(true);
     const payload: any = {
       title: form.title.trim(),
@@ -233,16 +249,27 @@ export default function PropertyEdit() {
       og_image: form.og_image || null,
       buyer_fee_percent: form.buyer_fee_percent ? Number(form.buyer_fee_percent) : null,
     };
-    const res = isNew
-      ? await supabase.from("properties").insert(payload).select("id").single()
-      : await supabase.from("properties").update(payload).eq("id", id!).select("id").single();
-    setSaving(false);
-    if (res.error) {
-      toast.error(res.error.message);
-      return;
+    try {
+      const res = id
+        ? await supabase.from("properties").update(payload).eq("id", id).select("id").single()
+        : await supabase.from("properties").insert(payload).select("id").single();
+      if (res.error) {
+        toast.error(res.error.message);
+        return;
+      }
+      toast.success(isNew ? "Property created" : "Property saved");
+      if (res.data?.id && payload.is_active && payload.description?.trim()) {
+        await runTranslations(res.data.id);
+      } else {
+        setTranslationProgress(null);
+        setTranslationError("Translations start when an active property with a description is saved.");
+      }
+      if (isNew && res.data?.id) navigate(`/admin/properties/${res.data.id}/edit`, { replace: true });
+    } catch {
+      toast.error("Could not save the property. Please try again.");
+    } finally {
+      setSaving(false);
     }
-    toast.success(isNew ? "Property created" : "Property saved");
-    if (isNew && res.data?.id) navigate(`/admin/properties/${res.data.id}/edit`, { replace: true });
   };
 
   const uploadOne = async (file: File): Promise<string | null> => {
@@ -306,10 +333,23 @@ export default function PropertyEdit() {
         <div className="flex gap-2">
           <Button variant="outline" disabled={saving} onClick={() => handleSave()}>Save changes</Button>
           <Button disabled={saving} onClick={() => handleSave()} className="bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90">
-            <Save className="h-4 w-4 mr-1.5" /> Save changes
+            <Save className="h-4 w-4 mr-1.5" /> {saving ? "Saving & translating…" : "Save changes"}
           </Button>
         </div>
       </div>
+
+      {translationProgress && (
+        <p role="status" className="text-sm text-muted-foreground">Translations saved: {translationProgress.completed} / {translationProgress.total}</p>
+      )}
+      {translationError && (
+        <div role="alert" className="flex flex-wrap items-center gap-3 text-sm text-destructive">
+          <p>{translationError}</p>
+          {id && <Button variant="outline" size="sm" disabled={saving} onClick={async () => {
+            setSaving(true);
+            try { await runTranslations(id); } finally { setSaving(false); }
+          }}>Retry missing translations</Button>}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 space-y-4">
