@@ -1,23 +1,30 @@
 import { createServerFn } from "@tanstack/react-start";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { createClient } from "@supabase/supabase-js";
+import { LEGACY_SUPABASE_URL, LEGACY_SUPABASE_KEY } from "@/integrations/legacy/client";
 
 const LANGS: Record<string, string> = {
   sv: "Swedish", tr: "Turkish", ar: "Arabic", ru: "Russian", no: "Norwegian", da: "Danish",
   fa: "Persian (Farsi)", ur: "Urdu", de: "German", fr: "French", es: "Spanish", id: "Indonesian",
 };
 
-type Input = { title: string; description: string; location: string; language: string };
+type Input = { title: string; description: string; location: string; language: string; accessToken: string };
 
 /** Admin-only: translate one listing into one language with Lovable AI. The
  * browser saves the result with the admin's own session. */
 export const translatePropertyText = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
   .inputValidator((input: Input) => {
-    if (!input?.title || !input?.description || !LANGS[input.language]) throw new Error("Invalid input");
+    if (!input?.accessToken || !input?.title || !input?.description || !LANGS[input.language]) throw new Error("Invalid input");
     return input;
   })
-  .handler(async ({ data, context }) => {
-    const { data: isAdmin } = await context.supabase.rpc("is_admin");
+  .handler(async ({ data }) => {
+    // Admins sign in to the property database; verify that session there.
+    const db = createClient(LEGACY_SUPABASE_URL, LEGACY_SUPABASE_KEY, {
+      auth: { persistSession: false, autoRefreshToken: false },
+      global: { headers: { Authorization: `Bearer ${data.accessToken}` } },
+    });
+    const { data: userData } = await db.auth.getUser(data.accessToken);
+    if (!userData.user) throw new Error("Please sign in again.");
+    const { data: isAdmin } = await db.rpc("is_admin");
     if (!isAdmin) throw new Error("Only administrators can translate properties.");
     const key = process.env["LOVABLE_API_KEY"];
     if (!key) throw new Error("Translation service is not configured.");

@@ -20,7 +20,7 @@ import { useHydrated } from "@/hooks/useHydrated";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/legacy/client";
 import { useToast } from "@/hooks/use-toast";
 import userAvatar from "@/assets/avatars/user-avatar.jpg";
 import aiAvatar from "@/assets/avatars/ai-avatar.jpg";

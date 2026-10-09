@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from '@/lib/router-compat';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 
 interface Props {
   children: React.ReactNode;

@@ -36,7 +36,7 @@ export const Route = createFileRoute("/api/public/team-image-update")({
           return Response.json({ error: "imageUrl must be an https URL" }, { status: 400 });
         }
 
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { supabaseAdmin } = (await import("@/integrations/supabase/client.server")) as any;
 
         const { data, error } = await supabaseAdmin
           .from("team_members")

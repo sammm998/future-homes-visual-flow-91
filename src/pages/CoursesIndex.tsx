@@ -4,7 +4,7 @@ import { useCourses } from '@/hooks/useCourses';
 import { useAllCourseProgress } from '@/hooks/useCourseProgress';
 import CountryCourseCard from '@/components/courses/CountryCourseCard';
 import { useEffect, useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 import { GraduationCap } from 'lucide-react';
 
 export default function CoursesIndex() {

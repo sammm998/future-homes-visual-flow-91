@@ -4,7 +4,7 @@ import SEOHead from "@/components/SEOHead";
 import { FocusCards } from "@/components/ui/focus-cards";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/legacy/client";
 import { t } from "@/utils/translations";
 import { useLocation, useSearchParams } from "@/lib/router-compat";
 import { ContentSection } from "@/components/ContentSection";

@@ -36,7 +36,7 @@ export const ensurePropertyTranslation = createServerFn({ method: "POST" })
 
     let supabaseAdmin;
     try {
-      ({ supabaseAdmin } = await import("@/integrations/supabase/client.server"));
+      ({ supabaseAdmin } = (await import("@/integrations/supabase/client.server")) as any);
     } catch {
       return null; // no privileged access in this environment
     }

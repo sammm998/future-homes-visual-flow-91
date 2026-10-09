@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Link, useLocation } from '@/lib/router-compat';
 import SEOInternalLinks from '@/components/SEOInternalLinks';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

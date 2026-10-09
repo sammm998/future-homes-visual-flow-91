@@ -1,4 +1,4 @@
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 
 // Property ID redirects for missing or moved properties
 const PROPERTY_REDIRECTS: Record<string, string> = {

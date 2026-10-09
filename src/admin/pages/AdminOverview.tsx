@@ -3,7 +3,7 @@ import { Link } from "@/lib/router-compat";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Home, Users, Mail, Newspaper, Plus, ArrowUpRight } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/legacy/client";
 import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 
 interface Counts {

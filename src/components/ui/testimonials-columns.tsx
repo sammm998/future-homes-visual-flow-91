@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { motion } from "motion/react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/legacy/client";
 import { useLocation, useSearchParams } from "@/lib/router-compat";
 import { getLocaleFromPathname } from '@/utils/localeRouting';
 

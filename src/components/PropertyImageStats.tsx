@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Image, Building, MapPin, Database } from 'lucide-react';
 import { motion } from 'framer-motion';

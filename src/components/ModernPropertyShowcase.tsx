@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from '@/lib/router-compat';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { ArrowRight, MapPin, Bed, Bath, Square } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 
 interface Property {
   id: string;

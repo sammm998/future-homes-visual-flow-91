@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2 } from "lucide-react";
 import { saveLead } from "@/lib/leads.functions";
+import { getPartnerRef } from "@/hooks/useMember";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -29,7 +30,7 @@ export default function LeadCaptureCard({
     if (!form.email && !form.phone) return setState("error");
     setState("busy");
     try {
-      const res = await save({ data: { ...form, source, message: [extra, details].filter(Boolean).join("\n\n").slice(0, 4000) } });
+      const res = await save({ data: { ...form, source, partnerRef: getPartnerRef(), message: [extra, details].filter(Boolean).join("\n\n").slice(0, 4000) } });
       setState(res.saved ? "done" : "error");
     } catch {
       setState("error");

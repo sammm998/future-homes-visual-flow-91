@@ -8,7 +8,7 @@ import {
   stripLangParam,
   isSupportedLocale,
 } from '@/utils/localeRouting';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/integrations/legacy/client';
 
 const PROPERTY_PATH_SEGMENTS = new Set(Object.values(PATH_TRANSLATIONS));
 const NON_LOCALIZED_PREFIXES = ['/admin', '/admin-login', '/admin-dashboard', '/sitemap.xml'];
