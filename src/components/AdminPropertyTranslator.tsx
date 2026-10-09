@@ -6,6 +6,7 @@ import { Languages, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { translateSavedProperty, PROPERTY_TRANSLATION_LANGUAGES } from '@/lib/translateSavedProperty';
 
 const AdminPropertyTranslator = () => {
   const [loading, setLoading] = useState(false);
@@ -42,6 +43,36 @@ const AdminPropertyTranslator = () => {
       let totalSaved = 0;
       let totalErrors = 0;
       let totalProcessed = 0;
+
+      if (!force) {
+        // Only properties still missing a language; translated & saved one by one.
+        const { data: rows } = await supabase
+          .from('property_translations')
+          .select('property_id,language_code,title,description')
+          .in('property_id', allIds);
+        const doneCount = new Map<string, number>();
+        for (const r of rows || []) {
+          if (r.title?.trim() && r.description?.trim()) doneCount.set(r.property_id, (doneCount.get(r.property_id) || 0) + 1);
+        }
+        const todo = allIds.filter((id) => (doneCount.get(id) || 0) < PROPERTY_TRANSLATION_LANGUAGES.length);
+        for (let i = 0; i < todo.length; i++) {
+          setProgress({ done: i, total: todo.length });
+          const before = doneCount.get(todo[i]) || 0;
+          try {
+            const after = await translateSavedProperty(todo[i], () => {});
+            totalSaved += after - before;
+            totalProcessed++;
+          } catch (e: any) {
+            totalErrors++;
+            toast.error(e.message);
+            if (/credits|Too many|administrators/i.test(e.message)) break;
+          }
+        }
+        setProgress({ done: todo.length, total: todo.length });
+        setStats({ translations_saved: totalSaved, errors: totalErrors, properties_processed: totalProcessed });
+        toast.success(`Översatte ${totalSaved} texter för ${totalProcessed} fastigheter`);
+        return;
+      }
 
       // Process in batches
       for (let i = 0; i < allIds.length; i += batchSize) {
