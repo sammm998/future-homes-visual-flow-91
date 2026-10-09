@@ -8,3 +8,4 @@
 - Keep the public menu controller in the shared app shell, while page headers open one right-anchored navigation drawer; never restore a permanent desktop rail.
 - Keep homepage hero clips mounted and crossfade before the active clip ends; starting the next clip before revealing it avoids blank or frozen transitions.
 - AI property search runs through server routes /api/ai-search and /api/ai-transcribe with helpers in src/lib/aiSearch.server.ts — keeps the AI key and full listing catalog on the server.
+- Property editor saves await the existing translation service through translateSavedProperty, one missing language per request with persisted-row verification — avoids batch caps, duplicate work and silent partial success without introducing a second AI provider.
