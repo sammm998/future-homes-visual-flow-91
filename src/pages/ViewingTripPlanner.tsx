@@ -44,7 +44,7 @@ export default function ViewingTripPlanner() {
     <div className="min-h-screen bg-ivory">
       <Navigation />
       <PublicPageHero compact eyebrow="Viewing trip planner" title="Plan your viewing trip" description="Choose city, dates and budget. We draft a day-by-day viewing plan you can book with an adviser." image={heroImage} />
-      <main className="mx-auto grid max-w-7xl gap-6 px-4 pb-20 sm:px-6 lg:grid-cols-[22rem_1fr] lg:px-8">
+      <main className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 [&>*]:min-w-0 pb-20 sm:px-6 lg:grid-cols-[22rem_1fr] lg:px-8">
         <div className="h-fit space-y-4 rounded-lg border border-border bg-card p-5">
           <L t="City"><select className={sel} value={city} onChange={(e) => setCity(e.target.value)}>{CITIES.map((c) => <option key={c}>{c}</option>)}</select></L>
           <div className="grid grid-cols-2 gap-3">
