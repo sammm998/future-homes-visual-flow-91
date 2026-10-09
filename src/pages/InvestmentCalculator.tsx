@@ -54,7 +54,7 @@ export default function InvestmentCalculator() {
             <button key={k} onClick={() => pick(k)} className={cn("min-h-11 rounded-full border px-5 text-sm font-semibold transition-colors", market === k ? "border-navy bg-navy text-navy-foreground" : "border-border bg-card text-foreground hover:border-gold")}>{MARKETS[k].label}</button>
           ))}
         </div>
-        <div className="grid gap-6 lg:grid-cols-[22rem_1fr]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[22rem_1fr] [&>*]:min-w-0">
           <div className="space-y-4 rounded-lg border border-border bg-card p-5">
             {field("Purchase price", price, setPrice, "€")}
             {field("Cash share of price", down, setDown, "%")}
@@ -64,7 +64,7 @@ export default function InvestmentCalculator() {
             {field("Management fee", mgmt, setMgmt, "%")}
           </div>
           <div className="space-y-6">
-            <div className="grid gap-3 [grid-template-columns:repeat(auto-fill,minmax(11rem,1fr))]">
+            <div className="grid gap-3 [grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr))]">
               {[
                 ["Cash needed", eur(base.cashInvested)],
                 ["Gross rent / year", eur(base.gross)],
