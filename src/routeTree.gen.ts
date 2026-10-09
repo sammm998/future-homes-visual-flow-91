@@ -28,6 +28,7 @@ import { Route as CyprusRouteImport } from './routes/cyprus'
 import { Route as DesignYourHomeRouteImport } from './routes/design-your-home'
 import { Route as DubaiRouteImport } from './routes/dubai'
 import { Route as InformationRouteImport } from './routes/information'
+import { Route as InvestmentCalculatorRouteImport } from './routes/investment-calculator'
 import { Route as IstanbulRouteImport } from './routes/istanbul'
 import { Route as LuxuryVillasInTurkeyRouteImport } from './routes/luxury-villas-in-turkey'
 import { Route as MapSearchRouteImport } from './routes/map-search'
@@ -40,6 +41,8 @@ import { Route as PropertyWizardRouteImport } from './routes/property-wizard'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as TurkishCitizenshipByInvestmentRouteImport } from './routes/turkish-citizenship-by-investment'
+import { Route as ViewingTripRouteImport } from './routes/viewing-trip'
+import { Route as WhereShouldIBuyRouteImport } from './routes/where-should-i-buy'
 import { Route as WizardThankYouRouteImport } from './routes/wizard-thank-you'
 import { Route as LocaleIndexRouteImport } from './routes/$locale/index'
 import { Route as LocaleAboutUsRouteImport } from './routes/$locale/about-us'
@@ -54,6 +57,7 @@ import { Route as LocaleCyprusRouteImport } from './routes/$locale/cyprus'
 import { Route as LocaleDesignYourHomeRouteImport } from './routes/$locale/design-your-home'
 import { Route as LocaleDubaiRouteImport } from './routes/$locale/dubai'
 import { Route as LocaleInformationRouteImport } from './routes/$locale/information'
+import { Route as LocaleInvestmentCalculatorRouteImport } from './routes/$locale/investment-calculator'
 import { Route as LocaleIstanbulRouteImport } from './routes/$locale/istanbul'
 import { Route as LocaleKjopeLeilighetTyrkiaRouteImport } from './routes/$locale/kjope-leilighet-tyrkia'
 import { Route as LocaleKobeLejlighedTyrkietRouteImport } from './routes/$locale/kobe-lejlighed-tyrkiet'
@@ -74,7 +78,9 @@ import { Route as LocalePropertyGalleryRouteImport } from './routes/$locale/prop
 import { Route as LocalePropertyWizardRouteImport } from './routes/$locale/property-wizard'
 import { Route as LocaleTestimonialsRouteImport } from './routes/$locale/testimonials'
 import { Route as LocaleTurkishCitizenshipByInvestmentRouteImport } from './routes/$locale/turkish-citizenship-by-investment'
+import { Route as LocaleViewingTripRouteImport } from './routes/$locale/viewing-trip'
 import { Route as LocaleVillaBaliRouteImport } from './routes/$locale/villa-bali'
+import { Route as LocaleWhereShouldIBuyRouteImport } from './routes/$locale/where-should-i-buy'
 import { Route as LocaleWizardThankYouRouteImport } from './routes/$locale/wizard-thank-you'
 import { Route as SegmentIdRouteImport } from './routes/$segment.$id'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
@@ -234,6 +240,11 @@ const InformationRoute = InformationRouteImport.update({
   path: '/information',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InvestmentCalculatorRoute = InvestmentCalculatorRouteImport.update({
+  id: '/investment-calculator',
+  path: '/investment-calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IstanbulRoute = IstanbulRouteImport.update({
   id: '/istanbul',
   path: '/istanbul',
@@ -295,6 +306,16 @@ const TurkishCitizenshipByInvestmentRoute =
     path: '/turkish-citizenship-by-investment',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ViewingTripRoute = ViewingTripRouteImport.update({
+  id: '/viewing-trip',
+  path: '/viewing-trip',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WhereShouldIBuyRoute = WhereShouldIBuyRouteImport.update({
+  id: '/where-should-i-buy',
+  path: '/where-should-i-buy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WizardThankYouRoute = WizardThankYouRouteImport.update({
   id: '/wizard-thank-you',
   path: '/wizard-thank-you',
@@ -366,6 +387,12 @@ const LocaleInformationRoute = LocaleInformationRouteImport.update({
   path: '/information',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocaleInvestmentCalculatorRoute =
+  LocaleInvestmentCalculatorRouteImport.update({
+    id: '/investment-calculator',
+    path: '/investment-calculator',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
 const LocaleIstanbulRoute = LocaleIstanbulRouteImport.update({
   id: '/istanbul',
   path: '/istanbul',
@@ -473,9 +500,19 @@ const LocaleTurkishCitizenshipByInvestmentRoute =
     path: '/turkish-citizenship-by-investment',
     getParentRoute: () => LocaleRouteRoute,
   } as any)
+const LocaleViewingTripRoute = LocaleViewingTripRouteImport.update({
+  id: '/viewing-trip',
+  path: '/viewing-trip',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 const LocaleVillaBaliRoute = LocaleVillaBaliRouteImport.update({
   id: '/villa-bali',
   path: '/villa-bali',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
+const LocaleWhereShouldIBuyRoute = LocaleWhereShouldIBuyRouteImport.update({
+  id: '/where-should-i-buy',
+  path: '/where-should-i-buy',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
 const LocaleWizardThankYouRoute = LocaleWizardThankYouRouteImport.update({
@@ -819,6 +856,7 @@ export interface FileRoutesByFullPath {
   '/design-your-home': typeof DesignYourHomeRoute
   '/dubai': typeof DubaiRoute
   '/information': typeof InformationRoute
+  '/investment-calculator': typeof InvestmentCalculatorRoute
   '/istanbul': typeof IstanbulRoute
   '/luxury-villas-in-turkey': typeof LuxuryVillasInTurkeyRoute
   '/map-search': typeof MapSearchRoute
@@ -831,6 +869,8 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/turkish-citizenship-by-investment': typeof TurkishCitizenshipByInvestmentRoute
+  '/viewing-trip': typeof ViewingTripRoute
+  '/where-should-i-buy': typeof WhereShouldIBuyRoute
   '/wizard-thank-you': typeof WizardThankYouRoute
   '/$locale/about-us': typeof LocaleAboutUsRoute
   '/$locale/ai-property-search': typeof LocaleAiPropertySearchRoute
@@ -844,6 +884,7 @@ export interface FileRoutesByFullPath {
   '/$locale/design-your-home': typeof LocaleDesignYourHomeRoute
   '/$locale/dubai': typeof LocaleDubaiRoute
   '/$locale/information': typeof LocaleInformationRoute
+  '/$locale/investment-calculator': typeof LocaleInvestmentCalculatorRoute
   '/$locale/istanbul': typeof LocaleIstanbulRoute
   '/$locale/kjope-leilighet-tyrkia': typeof LocaleKjopeLeilighetTyrkiaRoute
   '/$locale/kobe-lejlighed-tyrkiet': typeof LocaleKobeLejlighedTyrkietRoute
@@ -864,7 +905,9 @@ export interface FileRoutesByFullPath {
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
   '/$locale/testimonials': typeof LocaleTestimonialsRoute
   '/$locale/turkish-citizenship-by-investment': typeof LocaleTurkishCitizenshipByInvestmentRoute
+  '/$locale/viewing-trip': typeof LocaleViewingTripRoute
   '/$locale/villa-bali': typeof LocaleVillaBaliRoute
+  '/$locale/where-should-i-buy': typeof LocaleWhereShouldIBuyRoute
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
@@ -947,6 +990,7 @@ export interface FileRoutesByTo {
   '/design-your-home': typeof DesignYourHomeRoute
   '/dubai': typeof DubaiRoute
   '/information': typeof InformationRoute
+  '/investment-calculator': typeof InvestmentCalculatorRoute
   '/istanbul': typeof IstanbulRoute
   '/luxury-villas-in-turkey': typeof LuxuryVillasInTurkeyRoute
   '/map-search': typeof MapSearchRoute
@@ -959,6 +1003,8 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/turkish-citizenship-by-investment': typeof TurkishCitizenshipByInvestmentRoute
+  '/viewing-trip': typeof ViewingTripRoute
+  '/where-should-i-buy': typeof WhereShouldIBuyRoute
   '/wizard-thank-you': typeof WizardThankYouRoute
   '/$locale/about-us': typeof LocaleAboutUsRoute
   '/$locale/ai-property-search': typeof LocaleAiPropertySearchRoute
@@ -972,6 +1018,7 @@ export interface FileRoutesByTo {
   '/$locale/design-your-home': typeof LocaleDesignYourHomeRoute
   '/$locale/dubai': typeof LocaleDubaiRoute
   '/$locale/information': typeof LocaleInformationRoute
+  '/$locale/investment-calculator': typeof LocaleInvestmentCalculatorRoute
   '/$locale/istanbul': typeof LocaleIstanbulRoute
   '/$locale/kjope-leilighet-tyrkia': typeof LocaleKjopeLeilighetTyrkiaRoute
   '/$locale/kobe-lejlighed-tyrkiet': typeof LocaleKobeLejlighedTyrkietRoute
@@ -992,7 +1039,9 @@ export interface FileRoutesByTo {
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
   '/$locale/testimonials': typeof LocaleTestimonialsRoute
   '/$locale/turkish-citizenship-by-investment': typeof LocaleTurkishCitizenshipByInvestmentRoute
+  '/$locale/viewing-trip': typeof LocaleViewingTripRoute
   '/$locale/villa-bali': typeof LocaleVillaBaliRoute
+  '/$locale/where-should-i-buy': typeof LocaleWhereShouldIBuyRoute
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
@@ -1078,6 +1127,7 @@ export interface FileRoutesById {
   '/design-your-home': typeof DesignYourHomeRoute
   '/dubai': typeof DubaiRoute
   '/information': typeof InformationRoute
+  '/investment-calculator': typeof InvestmentCalculatorRoute
   '/istanbul': typeof IstanbulRoute
   '/luxury-villas-in-turkey': typeof LuxuryVillasInTurkeyRoute
   '/map-search': typeof MapSearchRoute
@@ -1090,6 +1140,8 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/turkish-citizenship-by-investment': typeof TurkishCitizenshipByInvestmentRoute
+  '/viewing-trip': typeof ViewingTripRoute
+  '/where-should-i-buy': typeof WhereShouldIBuyRoute
   '/wizard-thank-you': typeof WizardThankYouRoute
   '/$locale/about-us': typeof LocaleAboutUsRoute
   '/$locale/ai-property-search': typeof LocaleAiPropertySearchRoute
@@ -1103,6 +1155,7 @@ export interface FileRoutesById {
   '/$locale/design-your-home': typeof LocaleDesignYourHomeRoute
   '/$locale/dubai': typeof LocaleDubaiRoute
   '/$locale/information': typeof LocaleInformationRoute
+  '/$locale/investment-calculator': typeof LocaleInvestmentCalculatorRoute
   '/$locale/istanbul': typeof LocaleIstanbulRoute
   '/$locale/kjope-leilighet-tyrkia': typeof LocaleKjopeLeilighetTyrkiaRoute
   '/$locale/kobe-lejlighed-tyrkiet': typeof LocaleKobeLejlighedTyrkietRoute
@@ -1123,7 +1176,9 @@ export interface FileRoutesById {
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
   '/$locale/testimonials': typeof LocaleTestimonialsRoute
   '/$locale/turkish-citizenship-by-investment': typeof LocaleTurkishCitizenshipByInvestmentRoute
+  '/$locale/viewing-trip': typeof LocaleViewingTripRoute
   '/$locale/villa-bali': typeof LocaleVillaBaliRoute
+  '/$locale/where-should-i-buy': typeof LocaleWhereShouldIBuyRoute
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
@@ -1210,6 +1265,7 @@ export interface FileRouteTypes {
     | '/design-your-home'
     | '/dubai'
     | '/information'
+    | '/investment-calculator'
     | '/istanbul'
     | '/luxury-villas-in-turkey'
     | '/map-search'
@@ -1222,6 +1278,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/testimonials'
     | '/turkish-citizenship-by-investment'
+    | '/viewing-trip'
+    | '/where-should-i-buy'
     | '/wizard-thank-you'
     | '/$locale/about-us'
     | '/$locale/ai-property-search'
@@ -1235,6 +1293,7 @@ export interface FileRouteTypes {
     | '/$locale/design-your-home'
     | '/$locale/dubai'
     | '/$locale/information'
+    | '/$locale/investment-calculator'
     | '/$locale/istanbul'
     | '/$locale/kjope-leilighet-tyrkia'
     | '/$locale/kobe-lejlighed-tyrkiet'
@@ -1255,7 +1314,9 @@ export interface FileRouteTypes {
     | '/$locale/property-wizard'
     | '/$locale/testimonials'
     | '/$locale/turkish-citizenship-by-investment'
+    | '/$locale/viewing-trip'
     | '/$locale/villa-bali'
+    | '/$locale/where-should-i-buy'
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
     | '/admin/ai-insights'
@@ -1338,6 +1399,7 @@ export interface FileRouteTypes {
     | '/design-your-home'
     | '/dubai'
     | '/information'
+    | '/investment-calculator'
     | '/istanbul'
     | '/luxury-villas-in-turkey'
     | '/map-search'
@@ -1350,6 +1412,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/testimonials'
     | '/turkish-citizenship-by-investment'
+    | '/viewing-trip'
+    | '/where-should-i-buy'
     | '/wizard-thank-you'
     | '/$locale/about-us'
     | '/$locale/ai-property-search'
@@ -1363,6 +1427,7 @@ export interface FileRouteTypes {
     | '/$locale/design-your-home'
     | '/$locale/dubai'
     | '/$locale/information'
+    | '/$locale/investment-calculator'
     | '/$locale/istanbul'
     | '/$locale/kjope-leilighet-tyrkia'
     | '/$locale/kobe-lejlighed-tyrkiet'
@@ -1383,7 +1448,9 @@ export interface FileRouteTypes {
     | '/$locale/property-wizard'
     | '/$locale/testimonials'
     | '/$locale/turkish-citizenship-by-investment'
+    | '/$locale/viewing-trip'
     | '/$locale/villa-bali'
+    | '/$locale/where-should-i-buy'
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
     | '/admin/ai-insights'
@@ -1468,6 +1535,7 @@ export interface FileRouteTypes {
     | '/design-your-home'
     | '/dubai'
     | '/information'
+    | '/investment-calculator'
     | '/istanbul'
     | '/luxury-villas-in-turkey'
     | '/map-search'
@@ -1480,6 +1548,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/testimonials'
     | '/turkish-citizenship-by-investment'
+    | '/viewing-trip'
+    | '/where-should-i-buy'
     | '/wizard-thank-you'
     | '/$locale/about-us'
     | '/$locale/ai-property-search'
@@ -1493,6 +1563,7 @@ export interface FileRouteTypes {
     | '/$locale/design-your-home'
     | '/$locale/dubai'
     | '/$locale/information'
+    | '/$locale/investment-calculator'
     | '/$locale/istanbul'
     | '/$locale/kjope-leilighet-tyrkia'
     | '/$locale/kobe-lejlighed-tyrkiet'
@@ -1513,7 +1584,9 @@ export interface FileRouteTypes {
     | '/$locale/property-wizard'
     | '/$locale/testimonials'
     | '/$locale/turkish-citizenship-by-investment'
+    | '/$locale/viewing-trip'
     | '/$locale/villa-bali'
+    | '/$locale/where-should-i-buy'
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
     | '/admin/ai-insights'
@@ -1599,6 +1672,7 @@ export interface RootRouteChildren {
   DesignYourHomeRoute: typeof DesignYourHomeRoute
   DubaiRoute: typeof DubaiRoute
   InformationRoute: typeof InformationRoute
+  InvestmentCalculatorRoute: typeof InvestmentCalculatorRoute
   IstanbulRoute: typeof IstanbulRoute
   LuxuryVillasInTurkeyRoute: typeof LuxuryVillasInTurkeyRoute
   MapSearchRoute: typeof MapSearchRoute
@@ -1611,6 +1685,8 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestimonialsRoute: typeof TestimonialsRoute
   TurkishCitizenshipByInvestmentRoute: typeof TurkishCitizenshipByInvestmentRoute
+  ViewingTripRoute: typeof ViewingTripRoute
+  WhereShouldIBuyRoute: typeof WhereShouldIBuyRoute
   WizardThankYouRoute: typeof WizardThankYouRoute
   SegmentIdRoute: typeof SegmentIdRoute
   ApiAiSearchRoute: typeof ApiAiSearchRoute
@@ -1764,6 +1840,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InformationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/investment-calculator': {
+      id: '/investment-calculator'
+      path: '/investment-calculator'
+      fullPath: '/investment-calculator'
+      preLoaderRoute: typeof InvestmentCalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/istanbul': {
       id: '/istanbul'
       path: '/istanbul'
@@ -1846,6 +1929,20 @@ declare module '@tanstack/react-router' {
       path: '/turkish-citizenship-by-investment'
       fullPath: '/turkish-citizenship-by-investment'
       preLoaderRoute: typeof TurkishCitizenshipByInvestmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/viewing-trip': {
+      id: '/viewing-trip'
+      path: '/viewing-trip'
+      fullPath: '/viewing-trip'
+      preLoaderRoute: typeof ViewingTripRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/where-should-i-buy': {
+      id: '/where-should-i-buy'
+      path: '/where-should-i-buy'
+      fullPath: '/where-should-i-buy'
+      preLoaderRoute: typeof WhereShouldIBuyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/wizard-thank-you': {
@@ -1944,6 +2041,13 @@ declare module '@tanstack/react-router' {
       path: '/information'
       fullPath: '/$locale/information'
       preLoaderRoute: typeof LocaleInformationRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/investment-calculator': {
+      id: '/$locale/investment-calculator'
+      path: '/investment-calculator'
+      fullPath: '/$locale/investment-calculator'
+      preLoaderRoute: typeof LocaleInvestmentCalculatorRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/istanbul': {
@@ -2086,11 +2190,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleTurkishCitizenshipByInvestmentRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/viewing-trip': {
+      id: '/$locale/viewing-trip'
+      path: '/viewing-trip'
+      fullPath: '/$locale/viewing-trip'
+      preLoaderRoute: typeof LocaleViewingTripRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/villa-bali': {
       id: '/$locale/villa-bali'
       path: '/villa-bali'
       fullPath: '/$locale/villa-bali'
       preLoaderRoute: typeof LocaleVillaBaliRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/where-should-i-buy': {
+      id: '/$locale/where-should-i-buy'
+      path: '/where-should-i-buy'
+      fullPath: '/$locale/where-should-i-buy'
+      preLoaderRoute: typeof LocaleWhereShouldIBuyRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/wizard-thank-you': {
@@ -2543,6 +2661,7 @@ interface LocaleRouteRouteChildren {
   LocaleDesignYourHomeRoute: typeof LocaleDesignYourHomeRoute
   LocaleDubaiRoute: typeof LocaleDubaiRoute
   LocaleInformationRoute: typeof LocaleInformationRoute
+  LocaleInvestmentCalculatorRoute: typeof LocaleInvestmentCalculatorRoute
   LocaleIstanbulRoute: typeof LocaleIstanbulRoute
   LocaleKjopeLeilighetTyrkiaRoute: typeof LocaleKjopeLeilighetTyrkiaRoute
   LocaleKobeLejlighedTyrkietRoute: typeof LocaleKobeLejlighedTyrkietRoute
@@ -2563,7 +2682,9 @@ interface LocaleRouteRouteChildren {
   LocalePropertyWizardRoute: typeof LocalePropertyWizardRoute
   LocaleTestimonialsRoute: typeof LocaleTestimonialsRoute
   LocaleTurkishCitizenshipByInvestmentRoute: typeof LocaleTurkishCitizenshipByInvestmentRoute
+  LocaleViewingTripRoute: typeof LocaleViewingTripRoute
   LocaleVillaBaliRoute: typeof LocaleVillaBaliRoute
+  LocaleWhereShouldIBuyRoute: typeof LocaleWhereShouldIBuyRoute
   LocaleWizardThankYouRoute: typeof LocaleWizardThankYouRoute
   LocaleIndexRoute: typeof LocaleIndexRoute
   LocaleSegmentIdRoute: typeof LocaleSegmentIdRoute
@@ -2590,6 +2711,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleDesignYourHomeRoute: LocaleDesignYourHomeRoute,
   LocaleDubaiRoute: LocaleDubaiRoute,
   LocaleInformationRoute: LocaleInformationRoute,
+  LocaleInvestmentCalculatorRoute: LocaleInvestmentCalculatorRoute,
   LocaleIstanbulRoute: LocaleIstanbulRoute,
   LocaleKjopeLeilighetTyrkiaRoute: LocaleKjopeLeilighetTyrkiaRoute,
   LocaleKobeLejlighedTyrkietRoute: LocaleKobeLejlighedTyrkietRoute,
@@ -2611,7 +2733,9 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleTestimonialsRoute: LocaleTestimonialsRoute,
   LocaleTurkishCitizenshipByInvestmentRoute:
     LocaleTurkishCitizenshipByInvestmentRoute,
+  LocaleViewingTripRoute: LocaleViewingTripRoute,
   LocaleVillaBaliRoute: LocaleVillaBaliRoute,
+  LocaleWhereShouldIBuyRoute: LocaleWhereShouldIBuyRoute,
   LocaleWizardThankYouRoute: LocaleWizardThankYouRoute,
   LocaleIndexRoute: LocaleIndexRoute,
   LocaleSegmentIdRoute: LocaleSegmentIdRoute,
@@ -2734,6 +2858,7 @@ const rootRouteChildren: RootRouteChildren = {
   DesignYourHomeRoute: DesignYourHomeRoute,
   DubaiRoute: DubaiRoute,
   InformationRoute: InformationRoute,
+  InvestmentCalculatorRoute: InvestmentCalculatorRoute,
   IstanbulRoute: IstanbulRoute,
   LuxuryVillasInTurkeyRoute: LuxuryVillasInTurkeyRoute,
   MapSearchRoute: MapSearchRoute,
@@ -2746,6 +2871,8 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestimonialsRoute: TestimonialsRoute,
   TurkishCitizenshipByInvestmentRoute: TurkishCitizenshipByInvestmentRoute,
+  ViewingTripRoute: ViewingTripRoute,
+  WhereShouldIBuyRoute: WhereShouldIBuyRoute,
   WizardThankYouRoute: WizardThankYouRoute,
   SegmentIdRoute: SegmentIdRoute,
   ApiAiSearchRoute: ApiAiSearchRoute,
