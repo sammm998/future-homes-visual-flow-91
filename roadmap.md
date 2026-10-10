@@ -23,6 +23,8 @@
 - [x] Rätta informationssidans artikelkategorier så varje filter visar rätt ämnen.
 
 - [x] Fas 1: Investeringskalkylator, "Where Should I Buy?"-test och visningsresa-planerare (sparar leads).
-- [ ] Fas 2: VIP Club med favoriter och Smart Property Alerts — kräver nya tabeller i databasen (åtkomst eller Lovable Cloud) och verifierad e-postavsändare.
-- [ ] Fas 3: Partnerprogram med länkar och portal — samma databasbehov.
+- [x] Fas 2: VIP Club med favoriter, Smart Property Alerts (e-post) och förhandslanseringar.
+- [ ] WhatsApp-utskick för alerts — väntar på att Twilio kopplas och ett WhatsApp-godkänt avsändarnummer.
+- [x] Fas 3: Partnerprogram med egen länk, portal och admin (3 % standardprovision).
+- [ ] Ge Ali/teamet adminroll i VIP-admin — väntar på att de skapar ett konto på /vip.
 - [ ] Översätt de nya verktygen till alla 13 språk.
