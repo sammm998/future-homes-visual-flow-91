@@ -10,3 +10,5 @@
 - AI property search runs through server routes /api/ai-search and /api/ai-transcribe with helpers in src/lib/aiSearch.server.ts — keeps the AI key and full listing catalog on the server.
 - Property editor saves await the existing translation service through translateSavedProperty, one missing language per request with persisted-row verification — avoids batch caps, duplicate work and silent partial success without introducing a second AI provider.
 - Investment calculator country rates live only in src/lib/investmentCalc.ts (MARKETS) — one place to update indicative fees.
+- Homes, leads, team and translations stay in the original property database via src/integrations/legacy/client.ts; Lovable Cloud (src/integrations/supabase) holds only VIP Club, alerts and partner data — keeps existing listings and admin working.
+- Smart Property Alerts run hourly via pg_cron → /api/public/hooks/property-alerts, authenticated by the x-alerts-secret header from the service-role-only alert_cron_config table; deliveries are deduplicated in alert_deliveries.
