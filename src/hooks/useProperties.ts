@@ -1,39 +1,48 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { enhancedSupabase, resilientQuery, fallbackPropertyData } from '@/lib/supabase-enhanced';
+import { enhancedSupabase, fallbackPropertyData } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 
 import { getCurrentLanguage } from '@/utils/seoUtils';
 import { useLocation } from '@/lib/router-compat';
 
-export const useProperties = () => {
+export const useProperties = (city?: string) => {
   const queryClient = useQueryClient();
   const { isOnline } = useConnectionStatus();
   const location = useLocation();
   const lang = getCurrentLanguage();
 
   const { data: properties = [], isLoading: loading, error } = useQuery<any[], Error>({
-    queryKey: ['properties', lang],
+    queryKey: ['properties', lang, city ?? 'all'],
     queryFn: async (): Promise<any[]> => {
       try {
-        const data = await resilientQuery(async () => {
-          const { data, error } = await enhancedSupabase
-            .from('properties')
-            .select('*')
-            .eq('is_active', true)
-            .order('created_at', { ascending: false });
-          
-          if (error) throw error;
-          
-          let rows = data || [];
+        const data = await (async () => {
+          // Reuse the original listing rows across languages and fetch translations
+          // concurrently, rather than making visitors wait for two serial requests.
+          const [baseRows, translated] = await Promise.all([
+            queryClient.ensureQueryData<any[]>({
+              queryKey: ['property-search-source', city ?? 'all'],
+              staleTime: 5 * 60 * 1000,
+              queryFn: async () => {
+                let query = enhancedSupabase.from('properties').select('*')
+                  .eq('is_active', true).or('status.is.null,status.not.ilike.%sold%')
+                  .order('created_at', { ascending: false });
+                if (city) query = query.ilike('location', `${city}%`);
+                const { data, error } = await query;
+                if (error) throw error;
+                return data ?? [];
+              },
+            }),
+            lang && lang !== 'en'
+              ? enhancedSupabase.from('property_translations')
+                  .select('property_id, title, description, location')
+                  .eq('language_code', lang)
+              : Promise.resolve({ data: [] }),
+          ]);
+          let rows = baseRows;
 
           // Apply translations for current language (skip English)
           if (lang && lang !== 'en' && rows.length > 0) {
-            const ids = rows.map((r: any) => r.id);
-            const { data: translations } = await enhancedSupabase
-              .from('property_translations')
-              .select('property_id, title, description, location')
-              .in('property_id', ids)
-              .eq('language_code', lang);
+            const translations = translated.data;
 
             if (translations && translations.length > 0) {
               const map = new Map(translations.map((t: any) => [t.property_id, t]));
@@ -54,7 +63,7 @@ export const useProperties = () => {
           }
 
           return rows;
-        }, 3, 1500);
+        })();
         
         return data;
       } catch (err: any) {
@@ -99,10 +108,12 @@ export const useProperties = () => {
     
     // Refresh the query
     queryClient.invalidateQueries({ queryKey: ['properties'] });
+    queryClient.invalidateQueries({ queryKey: ['property-search-source'] });
   };
 
   const refreshProperties = () => {
     queryClient.invalidateQueries({ queryKey: ['properties'] });
+    queryClient.invalidateQueries({ queryKey: ['property-search-source'] });
   };
 
   return {

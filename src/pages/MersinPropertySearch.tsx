@@ -23,7 +23,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { preloadImages, forceImageLoading } from '@/utils/imagePreloader';
 import { buildPropertyUrl, getCurrentLanguage } from "@/utils/slugHelpers";
 import { useTranslation } from "@/hooks/useTranslation";
 import { EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
@@ -36,7 +35,7 @@ const MersinPropertySearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { properties: allProperties, loading, error } = useProperties();
+  const { properties: allProperties, loading, error } = useProperties('Mersin');
   
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',
@@ -178,24 +177,8 @@ const MersinPropertySearch = () => {
 
   const properties = mersinProperties;
 
-  // Preload critical images for better performance
-  const propertyImages = useMemo(() => 
-    properties.slice(0, 12).map(p => p.image).filter(Boolean), 
-    [properties]
-  );
-  
-  useImagePreloading(propertyImages, { priority: true });
-  
-  // Force immediate image loading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      forceImageLoading();
-      // Preload all property images
-      preloadImages(propertyImages);
-    }, 100);
-    
-    return () => clearTimeout(timer);
-  }, [propertyImages]);
+  // Property cards request appropriately sized images; do not download
+  // full-resolution originals in parallel with the search results.
 
   const filteredProperties = useMemo(() => {
     if (showFiltered) {
