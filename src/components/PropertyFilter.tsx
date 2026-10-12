@@ -451,7 +451,7 @@ const PropertyFilterPanel: React.FC<PropertyFilterProps> = ({ filters, onFilterC
           </div>
 
           {/* Reference Number */}
-          <div>
+          <div className="order-first">
             <Label htmlFor="referenceNo" className="mb-2 block text-xs font-semibold uppercase text-muted-foreground">{t('search.ref_no')}</Label>
             <Input 
               id="referenceNo"
@@ -463,7 +463,7 @@ const PropertyFilterPanel: React.FC<PropertyFilterProps> = ({ filters, onFilterC
           </div>
 
           {/* Sort By */}
-          <div>
+          <div className="order-first">
             <Label htmlFor="sortBy" className="mb-2 block text-xs font-semibold uppercase text-muted-foreground">{t('search.sort_by')}</Label>
             <Select value={filters.sortBy} onValueChange={(value) => handleFilterUpdate('sortBy', value)}>
               <SelectTrigger className="h-12 bg-muted/45 text-sm">
