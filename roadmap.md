@@ -30,3 +30,4 @@
 - [x] Fas 3: Partnerprogram med egen länk, portal och admin (3 % standardprovision).
 - [ ] Ge Ali/teamet adminroll i VIP-admin — väntar på att de skapar ett konto på /vip.
 - [ ] Översätt de nya verktygen till alla 13 språk.
+- [x] Fylla kontaktsektionens "Our Locations" på startsidan med alla fem kontor (Antalya, Mersin, Dubai, Strasbourg, Bali) på alla 13 språk.

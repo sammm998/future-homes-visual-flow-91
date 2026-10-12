@@ -72,7 +72,14 @@ const Newsletter = memo(() => {
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-semibold mb-2">{t('newsletter.our_locations')}</h3>
-                <p className="opacity-90">Antalya, Türkiye · Bali, Indonesia</p>
+                <p className="flex flex-wrap items-center gap-x-2 gap-y-1 opacity-90">
+                  {(['newsletter.loc_antalya', 'newsletter.loc_mersin', 'newsletter.loc_dubai', 'newsletter.loc_strasbourg', 'newsletter.loc_bali'] as const).map((k, i) => (
+                    <span key={k} className="inline-flex items-center gap-x-2 whitespace-nowrap">
+                      {i > 0 && <span aria-hidden="true" className="opacity-50">·</span>}
+                      {t(k)}
+                    </span>
+                  ))}
+                </p>
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-2">{t('newsletter.call_us')}</h3>
