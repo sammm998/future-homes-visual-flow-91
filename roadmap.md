@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Kundvideo: snabbare destinationssökning, scrollbar filterpanel och direkt åtkomst till referensnummer/sortering; verifiera flödet.
+
 - [x] Trigga översättning efter sparande, verifiera lagrade språk och testa återupptagning samt felstopp.
 - [ ] Översätt Antalya REF 1475 och 1474 samt kontrollera en verklig uppladdning — befintlig externa översättningstjänst svarade med noll sparade översättningar och "translate da: lovable returned null"; administratörsåtkomst till tjänstens AI-konfiguration/loggar saknas.
 

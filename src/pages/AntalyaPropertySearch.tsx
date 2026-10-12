@@ -31,7 +31,7 @@ const AntalyaPropertySearch = () => {
   const {
     properties: allProperties,
     loading
-  } = useProperties();
+  } = useProperties('Antalya');
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',
     bedrooms: '',
@@ -285,7 +285,7 @@ const AntalyaPropertySearch = () => {
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-8 xl:gap-10 2xl:gap-10">
           {/* Left sidebar filter - hidden on mobile, visible on desktop */}
           <div className="hidden lg:block lg:w-64 lg:flex-shrink-0 xl:w-72 2xl:w-80">
-            <div className="sticky top-28">
+            <div className="sticky top-40">
               <PropertyFilter filters={filters} onFilterChange={handleFilterChange} onSearch={handleSearch} horizontal={false} />
             </div>
           </div>

@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { GlowCard } from "@/components/ui/spotlight-card";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Eye, SlidersHorizontal, X } from "lucide-react";
 import { useCurrency } from "@/contexts/CurrencyContext";
@@ -110,7 +109,7 @@ const PropertyFilterPanel: React.FC<PropertyFilterProps> = ({ filters, onFilterC
       maxSquareFeet: '',
       facilities: [],
       referenceNo: '',
-      sortBy: ''
+      sortBy: 'ref'
     };
     onFilterChange(resetFilters);
   };
@@ -311,12 +310,11 @@ const PropertyFilterPanel: React.FC<PropertyFilterProps> = ({ filters, onFilterC
 
   // Vertical layout (existing code)
   return (
-    <GlowCard customSize={true} className="h-auto w-full rounded-lg border border-gold/25 bg-background p-0 shadow-[var(--shadow-luxe)]">
-      <Card className="h-full w-full border-none bg-transparent shadow-none">
+      <Card className="w-full rounded-lg border border-gold/25 bg-background shadow-[var(--shadow-luxe)]">
         <CardHeader className="border-b border-gold/25 px-7 pb-6 pt-7">
           <CardTitle className="text-xl text-navy">{t('nav.search')}</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6 px-7 py-7">
+        <CardContent className="flex flex-col gap-6 px-5 py-6">
           {/* Property Type */}
           <div>
             <Label htmlFor="propertyType" className="mb-2 block text-xs font-semibold uppercase text-muted-foreground">{t('search.property_type')}</Label>
@@ -496,7 +494,6 @@ const PropertyFilterPanel: React.FC<PropertyFilterProps> = ({ filters, onFilterC
           </div>
         </CardContent>
       </Card>
-    </GlowCard>
   );
 };
 
@@ -509,7 +506,11 @@ const PropertyFilter: React.FC<PropertyFilterProps> = (props) => {
     document.body.style.overflow = 'hidden';
     return () => { document.body.style.overflow = prev; };
   }, [open]);
-  if (!props.horizontal) return <PropertyFilterPanel {...props} />;
+  if (!props.horizontal) return (
+    <div data-property-filter-scroll className="sticky top-40 max-h-[calc(100dvh-11rem)] overflow-y-auto overscroll-contain touch-pan-y [scrollbar-width:thin]">
+      <PropertyFilterPanel {...props} />
+    </div>
+  );
   const activeCount = [props.filters?.propertyType, props.filters?.bedrooms, props.filters?.district, props.filters?.minPrice, props.filters?.maxPrice, props.filters?.referenceNo]
     .filter((v) => v && v !== 'all' && v !== 'any').length + (Array.isArray(props.filters?.facilities) ? props.filters.facilities.length : 0);
   return (
