@@ -34,7 +34,7 @@ const DubaiPropertySearch = () => {
   const navigate = useNavigate();
   
   // Data hooks
-  const { properties: allProperties, loading, error } = useProperties();
+  const { properties: allProperties, loading, error } = useProperties('Dubai');
   
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',

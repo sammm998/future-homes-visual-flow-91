@@ -34,7 +34,7 @@ const BaliPropertySearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { properties: allProperties, loading } = useProperties();
+  const { properties: allProperties, loading } = useProperties('Bali');
   
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',

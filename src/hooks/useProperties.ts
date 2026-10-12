@@ -24,7 +24,7 @@ export const useProperties = (city?: string) => {
               staleTime: 5 * 60 * 1000,
               queryFn: async () => {
                 let query = enhancedSupabase.from('properties').select('*')
-                  .eq('is_active', true).not('status', 'ilike', '%sold%')
+                  .eq('is_active', true).or('status.is.null,status.not.ilike.%sold%')
                   .order('created_at', { ascending: false });
                 if (city) query = query.ilike('location', `${city}%`);
                 const { data, error } = await query;

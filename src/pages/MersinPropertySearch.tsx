@@ -36,7 +36,7 @@ const MersinPropertySearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { properties: allProperties, loading, error } = useProperties();
+  const { properties: allProperties, loading, error } = useProperties('Mersin');
   
   const [filters, setFilters] = useState<PropertyFilters>({
     propertyType: '',
