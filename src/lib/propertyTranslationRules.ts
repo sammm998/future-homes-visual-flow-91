@@ -4,7 +4,7 @@ type Text = { title?: string | null; description?: string | null; location?: str
 const normalize = (value?: string | null) => (value ?? "").replace(/\s+/g, " ").trim();
 
 /** Empty fields and copied English prose are not completed translations. */
-export function isCompletePropertyTranslation(translation: Text | null | undefined, source?: Text): boolean {
+export function isCompletePropertyTranslation(translation: Text | null | undefined, source?: Text | null): boolean {
   if (!translation || !normalize(translation.title) || !normalize(translation.description)) return false;
   if (source?.location && !normalize(translation.location)) return false;
   if (source && (normalize(translation.title) === normalize(source.title) || normalize(translation.description) === normalize(source.description))) return false;

@@ -3,7 +3,6 @@ import { getLocaleFromPathname } from '@/utils/localeRouting';
 import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 import { useLocation } from '@/lib/router-compat';
-import { ensurePropertyTranslation } from '@/lib/propertyTranslations.functions';
 
 const SUPPORTED_LANGUAGES = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id'];
 const SLUG_COLUMNS = ['slug', ...SUPPORTED_LANGUAGES.map(lang => `slug_${lang}`)];
@@ -141,21 +140,6 @@ export const useProperty = (id: string) => {
             if (translation.title) dbProperty.title = translation.title;
             if (translation.description) dbProperty.description = translation.description;
             if (translation.location) dbProperty.location = translation.location;
-          } else {
-            // No stored translation yet — ask the server to create one on the fly
-            // so the visitor never sees English text on a translated page.
-            try {
-              const generated = await ensurePropertyTranslation({
-                data: { propertyId: dbProperty.id, language: translationLang },
-              });
-              if (generated) {
-                if (generated.title) dbProperty.title = generated.title;
-                if (generated.description) dbProperty.description = generated.description;
-                if (generated.location) dbProperty.location = generated.location;
-              }
-            } catch {
-              /* keep English fallback */
-            }
           }
         }
 
@@ -190,7 +174,7 @@ export const useProperty = (id: string) => {
             
             if (Array.isArray(apartmentTypes) && apartmentTypes.length > 0) {
               pricing = apartmentTypes.map((apt: any) => ({
-                type: apt.type ? `${apt.type} Apartment` : 'Apartment',
+                type: apt.type || '',
                 size: apt.size ? `${apt.size}m²` : '',
                 price: apt.price ? `€${apt.price.toLocaleString('en-US')}` : ''
               }));
@@ -202,6 +186,7 @@ export const useProperty = (id: string) => {
 
         return {
           ...dbProperty,
+          propertyType: dbProperty.property_type,
           images,
           features,
           pricing,
