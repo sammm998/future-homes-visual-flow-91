@@ -143,7 +143,7 @@ export const getPropertySeo = createServerFn({ method: "GET" })
 
 /** Short, unique, descriptive <title> for a property page (≤ ~60 chars, always ends with the REF). */
 export function buildPropertySeoTitle(
-  p: { title?: string | null; bedrooms?: string | null; propertyType?: string | null; district?: string | null; location?: string | null; refNo?: string | number | null },
+  p: { title?: string | null; bedrooms?: string | number | null; propertyType?: string | null; district?: string | null; location?: string | null; refNo?: string | number | null },
   lang: string,
   bedroomsLabel = "Bed",
 ): string {
@@ -151,7 +151,7 @@ export function buildPropertySeoTitle(
   const city = (p.location || "").split(/[,/]/)[0].trim();
   const district = (p.district || "").trim();
   const place = [district && district.toLowerCase() !== city.toLowerCase() ? district : null, city || null].filter(Boolean).join(", ");
-  const beds = (p.bedrooms || "").replace(/\s*<>\s*/g, "–").replace(/\s+/g, " ").trim();
+  const beds = String(p.bedrooms ?? "").replace(/\s*<>\s*/g, "–").replace(/\s+/g, " ").trim();
   const type = (p.propertyType || "").trim();
   const limit = 60 - suffix.length;
   const fit = (s: string) => (s.length <= limit ? s : s.slice(0, limit - 1).replace(/\s+\S*$/, "").replace(/[\s,.;:–-]+$/, "") + "…");
