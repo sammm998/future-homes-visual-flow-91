@@ -10,7 +10,7 @@ export const homeHeroImage = {
 };
 
 // Responsive preloads do not need href. Matching React's responsive image
-// preload prevents two competing head entries for the same LCP image.
+// preload lets the browser reuse one selected image request.
 export const homeHeroPreload = {
   rel: 'preload',
   as: 'image',
