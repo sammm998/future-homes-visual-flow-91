@@ -24,3 +24,28 @@ export function isCompletePropertyTranslation(translation: Text | null | undefin
 export function propertyTranslationSourceChanged(previous: Text | null, next: Text): boolean {
   return !!previous && ["title", "description", "location"].some(key => normalize(previous[key as keyof Text]) !== normalize(next[key as keyof Text]));
 }
+/** Stable fingerprint of the English source, so stored translations are only
+ * used while they still describe the current listing text. */
+export function propertyTranslationSourceHash(source: Text): string {
+  const input = ["title", "description", "location"].map(key => normalize(source[key as keyof Text])).join("\u0001");
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < input.length; i++) {
+    hash ^= input.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash.toString(16).padStart(8, "0");
+}
+
+type StoredTranslation = Text & { source_hash?: string | null };
+
+/** Prefer a complete original-database translation; otherwise use the
+ * Lovable Cloud copy when it matches the current English source. */
+export function pickPropertyTranslation(
+  legacy: Text | null | undefined,
+  cloud: StoredTranslation | null | undefined,
+  source: Text,
+): Text | null {
+  if (isCompletePropertyTranslation(legacy, source)) return legacy!;
+  if (cloud && cloud.source_hash === propertyTranslationSourceHash(source) && isCompletePropertyTranslation(cloud, source)) return cloud;
+  return legacy ?? null;
+}
