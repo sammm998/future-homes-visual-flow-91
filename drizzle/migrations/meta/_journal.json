@@ -22,6 +22,27 @@
       "when": 1792937348376,
       "tag": "0002_cloud_property_translations",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792938405722,
+      "tag": "0003_move_listings_content_crm",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792938543042,
+      "tag": "0004_property_images_admin_uploads",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792938609950,
+      "tag": "0005_admin_analytics_functions",
+      "breakpoints": true
     }
   ]
 }

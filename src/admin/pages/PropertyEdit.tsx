@@ -1,3 +1,4 @@
+import { mediaUrl } from "@/lib/mediaUrl";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "@/lib/router-compat";
 import { supabase } from "@/integrations/legacy/client";
@@ -292,7 +293,7 @@ export default function PropertyEdit() {
     const path = `${id ?? "new"}/${Date.now()}-${Math.random().toString(36).slice(2)}-${safeName}.${extension}`;
     const { error } = await supabase.storage.from("property-images").upload(path, file, { upsert: true });
     if (error) { toast.error(error.message); return null; }
-    return supabase.storage.from("property-images").getPublicUrl(path).data.publicUrl;
+    return mediaUrl(path);
   };
 
   const handleCoverUpload = async (file: File) => {

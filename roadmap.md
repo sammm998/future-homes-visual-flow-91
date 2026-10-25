@@ -40,3 +40,10 @@
 - [ ] Ge Ali/teamet adminroll i VIP-admin — väntar på att de skapar ett konto på /vip.
 - [ ] Översätt de nya verktygen till alla 13 språk.
 - [x] Fylla kontaktsektionens "Our Locations" på startsidan med alla fem kontor (Antalya, Mersin, Dubai, Strasbourg, Bali) på alla 13 språk.
+
+## Flytt till Lovable Cloud
+- [x] Tabeller, data (294 bostäder, 3446 översättningar, 1602 bloggar, omdömen, team, sidinnehåll) och sajten läser från Cloud
+- [x] Leads, nyhetsbrev, statistik och adminpanelen sparar i Cloud
+- [ ] Admin-konton — väntar på att Samin/teamet skapar konto på /vip så jag kan ge adminbehörighet
+- [ ] Gamla leads/CRM — väntar på CSV-export från den gamla adminpanelen
+- [ ] Kopiera gamla bilder — de fungerar från gamla lagringen; kräver att publika bildmappar tillåts i arbetsytans inställningar för att flyttas

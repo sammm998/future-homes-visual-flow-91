@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LEGACY_SUPABASE_URL, LEGACY_SUPABASE_KEY } from "@/integrations/legacy/client";
 import { parsePrice } from "@/utils/priceFormatting";
 
 type Prop = { id: string; ref_no: string | null; title: string; location: string; price: string; property_type: string | null; bedrooms: string | null; property_image: string | null; created_at: string; status: string | null; description?: string | null };
@@ -74,11 +73,10 @@ export const Route = createFileRoute("/api/public/hooks/property-alerts")({
         if (!cfg?.secret || token !== cfg.secret) return json({ error: "Unauthorized" }, 401);
 
         const cols = "id,ref_no,title,location,price,property_type,bedrooms,property_image,created_at,status,description";
-        const pr = await fetch(`${LEGACY_SUPABASE_URL}/rest/v1/properties?select=${cols}&is_active=eq.true&order=created_at.desc&limit=1000`, {
-          headers: { apikey: LEGACY_SUPABASE_KEY, Authorization: `Bearer ${LEGACY_SUPABASE_KEY}` },
-        });
-        if (!pr.ok) return json({ error: "Could not load properties" }, 502);
-        const props = (await pr.json()) as Prop[];
+        const { data: propRows, error: propError } = await supabaseAdmin.from("properties").select(cols)
+          .eq("is_active", true).order("created_at", { ascending: false }).limit(1000);
+        if (propError) return json({ error: "Could not load properties" }, 502);
+        const props = (propRows ?? []) as unknown as Prop[];
         const byId = new Map(props.map((p) => [String(p.id), p]));
 
         const [{ data: searches }, { data: favs }, { data: profiles }, { data: sent }] = await Promise.all([

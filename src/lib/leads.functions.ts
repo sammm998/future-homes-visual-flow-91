@@ -33,7 +33,15 @@ export const saveLead = createServerFn({ method: "POST" })
           source: data.source || "website",
         }),
       });
-      const json = (await res.json().catch(() => ({}))) as { leadSaved?: boolean };
+      await res.json().catch(() => ({})); // office e-mail notification only
+      // The CRM now lives in Lovable Cloud.
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { error: leadError } = await supabaseAdmin.from("leads").insert({
+        name: data.name?.trim() || "Website Visitor", email: data.email || null, phone: data.phone || null,
+        message: data.message || null, source: data.source || "website",
+      });
+      const json = { leadSaved: !leadError };
+      if (leadError) console.error("[saveLead] cloud insert failed:", leadError.message);
       if (data.partnerRef) {
         try {
           // Credit the introduction to an approved partner (Lovable Cloud).
@@ -49,7 +57,6 @@ export const saveLead = createServerFn({ method: "POST" })
           console.error("[saveLead] partner attribution failed:", e);
         }
       }
-      if (!json.leadSaved) console.error("[saveLead] lead not saved", res.status, json);
       return { saved: !!json.leadSaved };
     } catch (e) {
       console.error("[saveLead] threw:", e);

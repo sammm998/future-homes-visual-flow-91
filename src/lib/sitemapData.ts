@@ -1,6 +1,6 @@
 // Shared data + URL helpers for the language-specific sitemaps.
 // Uses the publishable (anon) key: only public, already-indexable data.
-import { createClient } from "@supabase/supabase-js";
+import { createPublicCloudClient } from "@/integrations/legacy/publicCloud";
 import { SUPPORTED_LOCALES, localizePath } from "@/utils/localeRouting";
 import { PATH_TRANSLATIONS } from "@/utils/slugHelpers";
 import { NORDIC_LANDING_PAGES } from "@/data/nordicLandingPages";
@@ -9,14 +9,7 @@ export const SITEMAP_BASE_URL = "https://futurehomesinternational.com";
 
 export const SITEMAP_LOCALES = SUPPORTED_LOCALES;
 
-const SUPABASE_URL = "https://kiogiyemoqbnuvclneoe.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtpb2dpeWVtb3FibnV2Y2xuZW9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3MDg4NzIsImV4cCI6MjA2ODI4NDg3Mn0.wZFKwwrvtrps2gCFc15rHN-3eg5T_kEDioBGZV_IctI";
-
-const client = () =>
-  createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
+const client = () => createPublicCloudClient() as any;
 
 export interface SitemapEntry {
   /** Locale-free path, e.g. "/about-us" */

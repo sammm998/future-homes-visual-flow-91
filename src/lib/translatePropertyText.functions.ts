@@ -1,6 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
-import { LEGACY_SUPABASE_URL, LEGACY_SUPABASE_KEY } from "@/integrations/legacy/client";
 import { isCompletePropertyTranslation, propertyTranslationSourceHash } from "@/lib/propertyTranslationRules";
 
 const LANGS: Record<string, string> = {
@@ -18,15 +16,12 @@ export const translatePropertyText = createServerFn({ method: "POST" })
     return input;
   })
   .handler(async ({ data }) => {
-    // Admins sign in to the property database; verify that session there.
-    const db = createClient(LEGACY_SUPABASE_URL, LEGACY_SUPABASE_KEY, {
-      auth: { persistSession: false, autoRefreshToken: false },
-      global: { headers: { Authorization: `Bearer ${data.accessToken}` } },
-    });
-    const { data: userData } = await db.auth.getUser(data.accessToken);
+    // Admins sign in to Lovable Cloud; verify the caller before any AI spend.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: userData } = await supabaseAdmin.auth.getUser(data.accessToken);
     if (!userData.user) throw new Error("Please sign in again.");
-    const { data: isAdmin } = await db.rpc("is_admin");
-    if (!isAdmin) throw new Error("Only administrators can translate properties.");
+    const { data: role } = await supabaseAdmin.from("user_roles").select("role").eq("user_id", userData.user.id).eq("role", "admin").maybeSingle();
+    if (!role) throw new Error("Only administrators can translate properties.");
     const key = process.env["LOVABLE_API_KEY"];
     if (!key) throw new Error("Translation service is not configured.");
 
@@ -65,7 +60,6 @@ export const translatePropertyText = createServerFn({ method: "POST" })
     // original database has no complete translation for this listing.
     const source = { title: data.title, description: data.description, location: data.location };
     if (data.propertyId && isCompletePropertyTranslation(result, source)) {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const { error } = await supabaseAdmin.from("property_text_translations").upsert(
         { property_id: data.propertyId, language_code: data.language, ...result, source_hash: propertyTranslationSourceHash(source) },
         { onConflict: "property_id,language_code" },

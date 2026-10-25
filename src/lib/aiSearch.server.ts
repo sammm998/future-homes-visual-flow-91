@@ -1,6 +1,5 @@
 // Server-only helpers for the AI property search.
-const SUPABASE_URL = "https://kiogiyemoqbnuvclneoe.supabase.co";
-const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtpb2dpeWVtb3FibnV2Y2xuZW9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3MDg4NzIsImV4cCI6MjA2ODI4NDg3Mn0.wZFKwwrvtrps2gCFc15rHN-3eg5T_kEDioBGZV_IctI"; // public publishable key (same as browser client)
+import { CLOUD_URL as SUPABASE_URL, cloudRestHeaders } from "@/integrations/legacy/publicCloud";
 const GATEWAY = "https://ai.gateway.lovable.dev";
 
 export type CatalogItem = { id: string; ref: string; line: string };
@@ -8,7 +7,7 @@ export type CatalogItem = { id: string; ref: string; line: string };
 export async function loadCatalog(): Promise<{ items: CatalogItem[]; rows: any[] }> {
   const cols = "id,ref_no,title,location,property_district,property_type,bedrooms,bathrooms,sizes_m2,price,status,distance_to_beach_km,distance_to_airport_km,property_facilities,citizenship_eligible,property_image,property_images,slug";
   const res = await fetch(`${SUPABASE_URL}/rest/v1/properties?select=${cols}&is_active=eq.true&language_code=eq.en&limit=600`, {
-    headers: { apikey: SUPABASE_ANON, Authorization: `Bearer ${SUPABASE_ANON}` },
+    headers: cloudRestHeaders,
   });
   if (!res.ok) throw new Error(`Could not load properties (${res.status})`);
   const rows = ((await res.json()) as any[]).filter((r) => String(r.status || "").toLowerCase() !== "sold");

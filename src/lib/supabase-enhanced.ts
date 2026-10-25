@@ -1,6 +1,7 @@
 // Enhanced Supabase client with UAE connectivity optimizations
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/integrations/legacy/types';
+import { supabase as legacyProxy } from '@/integrations/legacy/client';
 
 const SUPABASE_URL = "https://kiogiyemoqbnuvclneoe.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtpb2dpeWVtb3FibnV2Y2xuZW9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3MDg4NzIsImV4cCI6MjA2ODI4NDg3Mn0.wZFKwwrvtrps2gCFc15rHN-3eg5T_kEDioBGZV_IctI";
@@ -14,27 +15,7 @@ let connectionState = {
 };
 
 // Enhanced Supabase client with retry and timeout configurations
-export const enhancedSupabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-  auth: {
-    storage: typeof localStorage !== 'undefined' ? localStorage : undefined,
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: false,
-  },
-  global: {
-    headers: {
-      'x-client-info': 'uae-resilient-client',
-    },
-  },
-  db: {
-    schema: 'public',
-  },
-  realtime: {
-    params: {
-      eventsPerSecond: 2
-    }
-  }
-});
+export const enhancedSupabase = legacyProxy;
 
 // Connection health checker
 export const checkConnection = async (): Promise<boolean> => {

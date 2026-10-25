@@ -1,3 +1,4 @@
+import { supabase as cloudNewsletter } from '@/integrations/supabase/client';
 
 import React, { memo, useState } from 'react';
 import { Button } from "@/components/ui/button";
@@ -29,7 +30,8 @@ const Newsletter = memo(() => {
         },
         body: JSON.stringify({ email }),
       });
-      if (response.ok) {
+      const { error: subError } = await cloudNewsletter.from('newsletter_subscriptions').insert({ email, source: 'website' });
+      if (response.ok || !subError) {
         toast({ title: t('common.success'), description: t('newsletter.success') });
         setEmail('');
       } else {
