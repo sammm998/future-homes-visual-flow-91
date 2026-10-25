@@ -431,7 +431,7 @@ const AntalyaPropertySearch = () => {
                 </div>}
 
               {/* Empty State */}
-              {filteredProperties.length === 0 && <div className="text-center py-16">
+              {!loading && filteredProperties.length === 0 && <div className="text-center py-16">
                   <div className="max-w-md mx-auto">
                     <Grid className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-foreground mb-2">

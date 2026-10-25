@@ -488,7 +488,7 @@ const BaliPropertySearch = () => {
               )}
 
               {/* Empty State */}
-              {filteredProperties.length === 0 && (
+              {!loading && filteredProperties.length === 0 && (
                 <div className="text-center py-16">
                   <div className="max-w-md mx-auto">
                     <Grid className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
