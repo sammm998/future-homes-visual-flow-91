@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import Navigation from '@/components/Navigation';
-import { EnhancedSEOHead } from '@/components/EnhancedSEOHead';
 import FAQSchema from '@/components/FAQSchema';
 import PropertyCard from '@/components/PropertyCard';
 import { Button } from '@/components/ui/button';
@@ -87,13 +86,8 @@ const NordicLandingPage: React.FC<Props> = ({ page }) => {
 
   return (
     <div className="min-h-screen bg-background">
-      <EnhancedSEOHead
-        title={page.title}
-        description={page.description}
-        keywords={page.keywords}
-        canonical={canonicalPath}
-        structuredData={structuredData}
-      />
+      {/* Title, description and canonical come from the route head() */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <FAQSchema faqItems={page.faq} />
       <Navigation />
 
