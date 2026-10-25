@@ -7,6 +7,7 @@
 - Keep map search as a split browsing workspace with filters and property results on the left and the interactive map on the right, stacking the map above results on mobile.
 - Keep the public menu controller in the shared app shell, while page headers open one right-anchored navigation drawer; never restore a permanent desktop rail.
 - Keep homepage hero clips mounted and crossfade before the active clip ends; starting the next clip before revealing it avoids blank or frozen transitions.
+- Share homepage responsive image candidates and preload through homeHeroImage; render headline without an entrance fade and defer automatic search/video upgrades until after initial paint — avoids duplicate image preloads and late LCP replacements across locales.
 - AI property search runs through server routes /api/ai-search and /api/ai-transcribe with helpers in src/lib/aiSearch.server.ts — keeps the AI key and full listing catalog on the server.
 - Property editor saves (including drafts) await translateSavedProperty for all twelve non-English languages; reject copied English and incomplete rows, refresh translations after source-text changes, and verify writes through the legacy admin session — keeps translations complete without changing database ownership or AI provider.
 - Property pages only read stored translations; never generate translations on visitor page views — prevents unbounded AI charges and writes against the wrong database.

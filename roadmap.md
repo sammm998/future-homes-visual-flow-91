@@ -1,5 +1,6 @@
 # Roadmap
 
+- [x] Minska startsidans FCP/LCP: AVIF-varianter (480 px 14 KB, 768 px 30 KB), delade preload/bildkandidater, rubrik utan fade, sökformulär/video senare efter sidladdning. Verifierat spanska och engelska på 390/1280 px, inga nya runtimefel, REF 1474-sökning, 3 språktester och build OK. Lokal LCP på /es 1,83 → 1,37 s (inte jämförbart med PageSpeed-produktion); ny PageSpeed-mätning kräver publicering.
 - [ ] Slutför alla saknade/felaktiga bostadsöversättningar utan manuell rättning av användaren — blockerad av saknad behörig skrivåtkomst till ursprungliga bostadsdatabasen; befintlig tjänst testad på REF 1474 spanska 2026-10-25 och svarar 0 sparade, "translate es: lovable returned null". Ny full läsgranskning: 294 bostäder, 3423 språkposter, 309 saknade/ofullständiga och 62 engelska kopior över 12 målspråk.
 - [x] Kontrollera språk från Google, rätta språkväxling samt engelska kart-/prisrubriker på samtliga 13 språk; verifierat alla språk på REF 1415, indonesiska/urdu/franska Google-länkar, bilder och språkbyten utan runtimefel (11 tester godkända).
 - [ ] Rätta sparad engelsk indonesisk titel/beskrivning för REF 1415 och övriga felaktiga bostadstexter — kräver administratörssession till ursprungliga bostadsdatabasen.
