@@ -103,10 +103,9 @@ const AboutUs = () => {
         <h2 className="text-3xl font-light leading-tight sm:text-4xl md:text-5xl">{t('about.locations_title')}</h2>
         <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-navy-foreground/70 sm:text-base">{t('about.locations_subtitle')}</p>
       </div>
-      <div className="no-scrollbar flex justify-center-safe gap-6 overflow-x-auto px-4 pb-6 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 gap-10 px-4 pb-6 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:gap-6 lg:px-8">
         {offices.map((office, i) => (
-
-          <div key={i} className="group w-[17rem] flex-none sm:w-[20rem]">
+          <div key={i} className="group">
             <div className="relative mb-6 aspect-[3/4] overflow-hidden">
               <img
                 src={office.image}
