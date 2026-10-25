@@ -3,6 +3,7 @@ import { getLocaleFromPathname } from '@/utils/localeRouting';
 import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 import { useLocation } from '@/lib/router-compat';
+import { useTranslation } from '@/hooks/useTranslation';
 
 const SUPPORTED_LANGUAGES = ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id'];
 const SLUG_COLUMNS = ['slug', ...SUPPORTED_LANGUAGES.map(lang => `slug_${lang}`)];
@@ -28,7 +29,7 @@ export const useProperty = (id: string) => {
   // Get current language from the URL path prefix (/sv/..., /tr/...), with
   // the legacy ?lang= parameter as a fallback.
   const searchParams = new URLSearchParams(location.search);
-  const lang = getLocaleFromPathname(location.pathname) || searchParams.get('lang');
+  const { lang } = useTranslation();
 
   const refFromUrl = searchParams.get('ref');
   
@@ -126,6 +127,8 @@ export const useProperty = (id: string) => {
           return null;
         }
 
+        // Retain the source city for location matching and maps in every language.
+        const locationOriginal = dbProperty.location;
         // Fetch translation for current language (if not English)
         const translationLang = normalizeLanguage(lang);
         if (translationLang && dbProperty.id) {
@@ -187,6 +190,7 @@ export const useProperty = (id: string) => {
 
         return {
           ...dbProperty,
+          location_original: locationOriginal,
           propertyType: dbProperty.property_type,
           images,
           features,
