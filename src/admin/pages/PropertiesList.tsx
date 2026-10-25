@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Search, ExternalLink, Pencil } from "lucide-react";
 import { useAdminT } from "@/admin/i18n/AdminI18nContext";
+import AdminPropertyTranslator from "@/components/AdminPropertyTranslator";
 
 interface Row {
   id: string;
@@ -70,6 +71,8 @@ export default function PropertiesList() {
           <Link to="/admin/properties/new"><Plus className="h-4 w-4 mr-1.5" /> {t("Add property")}</Link>
         </Button>
       </div>
+
+      <AdminPropertyTranslator />
 
       <Card className="bg-admin-surface">
         <CardContent className="p-3 flex flex-col sm:flex-row gap-2">

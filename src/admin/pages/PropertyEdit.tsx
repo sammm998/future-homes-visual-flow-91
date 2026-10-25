@@ -198,10 +198,12 @@ export default function PropertyEdit() {
     try {
       await translateSavedProperty(propertyId, (completed, total) => setTranslationProgress({ completed, total }), supabase, force);
       toast.success("All 12 translations are saved");
+      return true;
     } catch (error) {
       const message = error instanceof Error ? error.message : "Translation failed. The property is saved.";
       setTranslationError(message);
       toast.error(message);
+      return false;
     }
   };
 
@@ -262,8 +264,8 @@ export default function PropertyEdit() {
       }
       toast.success(isNew ? "Property created" : "Property saved");
       if (res.data?.id && payload.description?.trim()) {
-        await runTranslations(res.data.id, propertyTranslationSourceChanged(savedSource, payload));
-        setSavedSource({ title: payload.title, description: payload.description, location: payload.location });
+        const translated = await runTranslations(res.data.id, propertyTranslationSourceChanged(savedSource, payload));
+        if (translated) setSavedSource({ title: payload.title, description: payload.description, location: payload.location });
       } else {
         setTranslationProgress(null);
         setTranslationError("Add a description and save to translate this property into all 12 languages.");
@@ -350,7 +352,10 @@ export default function PropertyEdit() {
           <p>{translationError}</p>
           {id && <Button variant="outline" size="sm" disabled={saving} onClick={async () => {
             setSaving(true);
-            try { await runTranslations(id); } finally { setSaving(false); }
+            try {
+              const translated = await runTranslations(id, propertyTranslationSourceChanged(savedSource, form));
+              if (translated) setSavedSource({ title: form.title, description: form.description, location: form.location });
+            } finally { setSaving(false); }
           }}>Retry missing translations</Button>}
         </div>
       )}

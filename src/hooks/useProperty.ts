@@ -129,13 +129,14 @@ export const useProperty = (id: string) => {
         // Fetch translation for current language (if not English)
         const translationLang = normalizeLanguage(lang);
         if (translationLang && dbProperty.id) {
-          const { data: translation } = await enhancedSupabase
+          const { data: translation, error: translationError } = await enhancedSupabase
             .from('property_translations')
             .select('title, description, location')
             .eq('property_id', dbProperty.id)
             .eq('language_code', translationLang)
             .maybeSingle();
 
+          if (translationError) throw translationError;
           if (translation) {
             if (translation.title) dbProperty.title = translation.title;
             if (translation.description) dbProperty.description = translation.description;

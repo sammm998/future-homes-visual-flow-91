@@ -1,5 +1,7 @@
 # Roadmap
 
+- [x] Bekräfta att REF 1474–1479 helt saknar översättningar; testa spansk översättning av REF 1474, lägg massrättningen i aktuella bostadsadministrationen, avvisa kopierade engelska stycken och bevara misslyckad källändringsrättning för återförsök (8 tester godkända).
+- [ ] Spara översättningarna för REF 1474–1479 och verifiera bostadssidorna — förhandsvisningen är utloggad från ursprungliga bostadsadministrationen; användaren behöver logga in där.
 - [x] Granska lagrade översättningar för 294 bostäder på 13 språk; rätta språkbyten, engelska enhetstyper, kontroll av engelska kopior och fullständig sidindelning i administratörens översättningsverktyg.
 - [ ] Kör rättning av samtliga saknade/felaktiga bostadsöversättningar och verifiera en verklig uppladdning — administratörssession till ursprungliga bostadsdatabasen saknas i denna förhandsvisning.
 
