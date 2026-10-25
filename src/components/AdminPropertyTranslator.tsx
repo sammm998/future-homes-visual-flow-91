@@ -26,7 +26,6 @@ const AdminPropertyTranslator = () => {
       const { data: allProps, error: fetchError } = await supabase
         .from('properties')
         .select('id,title,description,location')
-        .eq('is_active', true)
         .order('created_at', { ascending: false });
 
       if (fetchError) throw fetchError;
@@ -37,7 +36,6 @@ const AdminPropertyTranslator = () => {
       }
 
       const allIds = allProps.map((p) => p.id);
-      const total = allIds.length;
       let totalSaved = 0;
       let totalErrors = 0;
       let totalProcessed = 0;
@@ -101,7 +99,7 @@ const AdminPropertyTranslator = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-sm text-muted-foreground">
-          Översätter titel, plats och beskrivning för alla aktiva fastigheter
+          Översätter titel, plats och beskrivning för alla fastigheter
           till 12 språk (sv, tr, ar, ru, no, da, fa, ur, de, fr, es, id) via
           Lovable AI. Sparade engelska kopior och ofullständiga översättningar rättas också.
         </p>

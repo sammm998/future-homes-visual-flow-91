@@ -6,7 +6,6 @@ export function propertyTypeLabel(value: string | null | undefined, language: st
     : type.includes('commercial') ? 'search.commercial'
     : type.includes('house') ? 'search.houses'
     : type.includes('penthouse') ? 'wizard.pt_penthouse'
-    : type.includes('land') ? 'wizard.pt_land'
     : 'search.apartments';
   return t(key, language);
 }
