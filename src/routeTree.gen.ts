@@ -63,6 +63,7 @@ import { Route as LocaleDubaiRouteImport } from './routes/$locale/dubai'
 import { Route as LocaleInformationRouteImport } from './routes/$locale/information'
 import { Route as LocaleInvestmentCalculatorRouteImport } from './routes/$locale/investment-calculator'
 import { Route as LocaleIstanbulRouteImport } from './routes/$locale/istanbul'
+import { Route as LocaleIstanbulRentalYieldRouteImport } from './routes/$locale/istanbul-rental-yield'
 import { Route as LocaleKjopeLeilighetTyrkiaRouteImport } from './routes/$locale/kjope-leilighet-tyrkia'
 import { Route as LocaleKobeLejlighedTyrkietRouteImport } from './routes/$locale/kobe-lejlighed-tyrkiet'
 import { Route as LocaleKopaLagenhetTurkietRouteImport } from './routes/$locale/kopa-lagenhet-turkiet'
@@ -76,6 +77,7 @@ import { Route as LocaleLuxuryVillasInTurkeyRouteImport } from './routes/$locale
 import { Route as LocaleMapSearchRouteImport } from './routes/$locale/map-search'
 import { Route as LocaleMersinRouteImport } from './routes/$locale/mersin'
 import { Route as LocaleOffPlanPropertyTurkeyRouteImport } from './routes/$locale/off-plan-property-turkey'
+import { Route as LocaleOffPlanTurkeyVsDubaiRouteImport } from './routes/$locale/off-plan-turkey-vs-dubai'
 import { Route as LocaleOurStoryRouteImport } from './routes/$locale/our-story'
 import { Route as LocalePartnersRouteImport } from './routes/$locale/partners'
 import { Route as LocalePropertyForSaleInTurkeyRouteImport } from './routes/$locale/property-for-sale-in-turkey'
@@ -83,6 +85,7 @@ import { Route as LocalePropertyGalleryRouteImport } from './routes/$locale/prop
 import { Route as LocalePropertyWizardRouteImport } from './routes/$locale/property-wizard'
 import { Route as LocaleTestimonialsRouteImport } from './routes/$locale/testimonials'
 import { Route as LocaleTurkishCitizenshipByInvestmentRouteImport } from './routes/$locale/turkish-citizenship-by-investment'
+import { Route as LocaleTurkishCitizenshipComplianceGuideRouteImport } from './routes/$locale/turkish-citizenship-compliance-guide'
 import { Route as LocaleViewingTripRouteImport } from './routes/$locale/viewing-trip'
 import { Route as LocaleVillaBaliRouteImport } from './routes/$locale/villa-bali'
 import { Route as LocaleWhereShouldIBuyRouteImport } from './routes/$locale/where-should-i-buy'
@@ -430,6 +433,12 @@ const LocaleIstanbulRoute = LocaleIstanbulRouteImport.update({
   path: '/istanbul',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocaleIstanbulRentalYieldRoute =
+  LocaleIstanbulRentalYieldRouteImport.update({
+    id: '/istanbul-rental-yield',
+    path: '/istanbul-rental-yield',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
 const LocaleKjopeLeilighetTyrkiaRoute =
   LocaleKjopeLeilighetTyrkiaRouteImport.update({
     id: '/kjope-leilighet-tyrkia',
@@ -500,6 +509,12 @@ const LocaleOffPlanPropertyTurkeyRoute =
     path: '/off-plan-property-turkey',
     getParentRoute: () => LocaleRouteRoute,
   } as any)
+const LocaleOffPlanTurkeyVsDubaiRoute =
+  LocaleOffPlanTurkeyVsDubaiRouteImport.update({
+    id: '/off-plan-turkey-vs-dubai',
+    path: '/off-plan-turkey-vs-dubai',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
 const LocaleOurStoryRoute = LocaleOurStoryRouteImport.update({
   id: '/our-story',
   path: '/our-story',
@@ -535,6 +550,12 @@ const LocaleTurkishCitizenshipByInvestmentRoute =
   LocaleTurkishCitizenshipByInvestmentRouteImport.update({
     id: '/turkish-citizenship-by-investment',
     path: '/turkish-citizenship-by-investment',
+    getParentRoute: () => LocaleRouteRoute,
+  } as any)
+const LocaleTurkishCitizenshipComplianceGuideRoute =
+  LocaleTurkishCitizenshipComplianceGuideRouteImport.update({
+    id: '/turkish-citizenship-compliance-guide',
+    path: '/turkish-citizenship-compliance-guide',
     getParentRoute: () => LocaleRouteRoute,
   } as any)
 const LocaleViewingTripRoute = LocaleViewingTripRouteImport.update({
@@ -958,6 +979,7 @@ export interface FileRoutesByFullPath {
   '/$locale/information': typeof LocaleInformationRoute
   '/$locale/investment-calculator': typeof LocaleInvestmentCalculatorRoute
   '/$locale/istanbul': typeof LocaleIstanbulRoute
+  '/$locale/istanbul-rental-yield': typeof LocaleIstanbulRentalYieldRoute
   '/$locale/kjope-leilighet-tyrkia': typeof LocaleKjopeLeilighetTyrkiaRoute
   '/$locale/kobe-lejlighed-tyrkiet': typeof LocaleKobeLejlighedTyrkietRoute
   '/$locale/kopa-lagenhet-turkiet': typeof LocaleKopaLagenhetTurkietRoute
@@ -971,6 +993,7 @@ export interface FileRoutesByFullPath {
   '/$locale/map-search': typeof LocaleMapSearchRoute
   '/$locale/mersin': typeof LocaleMersinRoute
   '/$locale/off-plan-property-turkey': typeof LocaleOffPlanPropertyTurkeyRoute
+  '/$locale/off-plan-turkey-vs-dubai': typeof LocaleOffPlanTurkeyVsDubaiRoute
   '/$locale/our-story': typeof LocaleOurStoryRoute
   '/$locale/partners': typeof LocalePartnersRoute
   '/$locale/property-for-sale-in-turkey': typeof LocalePropertyForSaleInTurkeyRoute
@@ -978,6 +1001,7 @@ export interface FileRoutesByFullPath {
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
   '/$locale/testimonials': typeof LocaleTestimonialsRoute
   '/$locale/turkish-citizenship-by-investment': typeof LocaleTurkishCitizenshipByInvestmentRoute
+  '/$locale/turkish-citizenship-compliance-guide': typeof LocaleTurkishCitizenshipComplianceGuideRoute
   '/$locale/viewing-trip': typeof LocaleViewingTripRoute
   '/$locale/villa-bali': typeof LocaleVillaBaliRoute
   '/$locale/where-should-i-buy': typeof LocaleWhereShouldIBuyRoute
@@ -1103,6 +1127,7 @@ export interface FileRoutesByTo {
   '/$locale/information': typeof LocaleInformationRoute
   '/$locale/investment-calculator': typeof LocaleInvestmentCalculatorRoute
   '/$locale/istanbul': typeof LocaleIstanbulRoute
+  '/$locale/istanbul-rental-yield': typeof LocaleIstanbulRentalYieldRoute
   '/$locale/kjope-leilighet-tyrkia': typeof LocaleKjopeLeilighetTyrkiaRoute
   '/$locale/kobe-lejlighed-tyrkiet': typeof LocaleKobeLejlighedTyrkietRoute
   '/$locale/kopa-lagenhet-turkiet': typeof LocaleKopaLagenhetTurkietRoute
@@ -1116,6 +1141,7 @@ export interface FileRoutesByTo {
   '/$locale/map-search': typeof LocaleMapSearchRoute
   '/$locale/mersin': typeof LocaleMersinRoute
   '/$locale/off-plan-property-turkey': typeof LocaleOffPlanPropertyTurkeyRoute
+  '/$locale/off-plan-turkey-vs-dubai': typeof LocaleOffPlanTurkeyVsDubaiRoute
   '/$locale/our-story': typeof LocaleOurStoryRoute
   '/$locale/partners': typeof LocalePartnersRoute
   '/$locale/property-for-sale-in-turkey': typeof LocalePropertyForSaleInTurkeyRoute
@@ -1123,6 +1149,7 @@ export interface FileRoutesByTo {
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
   '/$locale/testimonials': typeof LocaleTestimonialsRoute
   '/$locale/turkish-citizenship-by-investment': typeof LocaleTurkishCitizenshipByInvestmentRoute
+  '/$locale/turkish-citizenship-compliance-guide': typeof LocaleTurkishCitizenshipComplianceGuideRoute
   '/$locale/viewing-trip': typeof LocaleViewingTripRoute
   '/$locale/villa-bali': typeof LocaleVillaBaliRoute
   '/$locale/where-should-i-buy': typeof LocaleWhereShouldIBuyRoute
@@ -1251,6 +1278,7 @@ export interface FileRoutesById {
   '/$locale/information': typeof LocaleInformationRoute
   '/$locale/investment-calculator': typeof LocaleInvestmentCalculatorRoute
   '/$locale/istanbul': typeof LocaleIstanbulRoute
+  '/$locale/istanbul-rental-yield': typeof LocaleIstanbulRentalYieldRoute
   '/$locale/kjope-leilighet-tyrkia': typeof LocaleKjopeLeilighetTyrkiaRoute
   '/$locale/kobe-lejlighed-tyrkiet': typeof LocaleKobeLejlighedTyrkietRoute
   '/$locale/kopa-lagenhet-turkiet': typeof LocaleKopaLagenhetTurkietRoute
@@ -1264,6 +1292,7 @@ export interface FileRoutesById {
   '/$locale/map-search': typeof LocaleMapSearchRoute
   '/$locale/mersin': typeof LocaleMersinRoute
   '/$locale/off-plan-property-turkey': typeof LocaleOffPlanPropertyTurkeyRoute
+  '/$locale/off-plan-turkey-vs-dubai': typeof LocaleOffPlanTurkeyVsDubaiRoute
   '/$locale/our-story': typeof LocaleOurStoryRoute
   '/$locale/partners': typeof LocalePartnersRoute
   '/$locale/property-for-sale-in-turkey': typeof LocalePropertyForSaleInTurkeyRoute
@@ -1271,6 +1300,7 @@ export interface FileRoutesById {
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
   '/$locale/testimonials': typeof LocaleTestimonialsRoute
   '/$locale/turkish-citizenship-by-investment': typeof LocaleTurkishCitizenshipByInvestmentRoute
+  '/$locale/turkish-citizenship-compliance-guide': typeof LocaleTurkishCitizenshipComplianceGuideRoute
   '/$locale/viewing-trip': typeof LocaleViewingTripRoute
   '/$locale/villa-bali': typeof LocaleVillaBaliRoute
   '/$locale/where-should-i-buy': typeof LocaleWhereShouldIBuyRoute
@@ -1400,6 +1430,7 @@ export interface FileRouteTypes {
     | '/$locale/information'
     | '/$locale/investment-calculator'
     | '/$locale/istanbul'
+    | '/$locale/istanbul-rental-yield'
     | '/$locale/kjope-leilighet-tyrkia'
     | '/$locale/kobe-lejlighed-tyrkiet'
     | '/$locale/kopa-lagenhet-turkiet'
@@ -1413,6 +1444,7 @@ export interface FileRouteTypes {
     | '/$locale/map-search'
     | '/$locale/mersin'
     | '/$locale/off-plan-property-turkey'
+    | '/$locale/off-plan-turkey-vs-dubai'
     | '/$locale/our-story'
     | '/$locale/partners'
     | '/$locale/property-for-sale-in-turkey'
@@ -1420,6 +1452,7 @@ export interface FileRouteTypes {
     | '/$locale/property-wizard'
     | '/$locale/testimonials'
     | '/$locale/turkish-citizenship-by-investment'
+    | '/$locale/turkish-citizenship-compliance-guide'
     | '/$locale/viewing-trip'
     | '/$locale/villa-bali'
     | '/$locale/where-should-i-buy'
@@ -1545,6 +1578,7 @@ export interface FileRouteTypes {
     | '/$locale/information'
     | '/$locale/investment-calculator'
     | '/$locale/istanbul'
+    | '/$locale/istanbul-rental-yield'
     | '/$locale/kjope-leilighet-tyrkia'
     | '/$locale/kobe-lejlighed-tyrkiet'
     | '/$locale/kopa-lagenhet-turkiet'
@@ -1558,6 +1592,7 @@ export interface FileRouteTypes {
     | '/$locale/map-search'
     | '/$locale/mersin'
     | '/$locale/off-plan-property-turkey'
+    | '/$locale/off-plan-turkey-vs-dubai'
     | '/$locale/our-story'
     | '/$locale/partners'
     | '/$locale/property-for-sale-in-turkey'
@@ -1565,6 +1600,7 @@ export interface FileRouteTypes {
     | '/$locale/property-wizard'
     | '/$locale/testimonials'
     | '/$locale/turkish-citizenship-by-investment'
+    | '/$locale/turkish-citizenship-compliance-guide'
     | '/$locale/viewing-trip'
     | '/$locale/villa-bali'
     | '/$locale/where-should-i-buy'
@@ -1692,6 +1728,7 @@ export interface FileRouteTypes {
     | '/$locale/information'
     | '/$locale/investment-calculator'
     | '/$locale/istanbul'
+    | '/$locale/istanbul-rental-yield'
     | '/$locale/kjope-leilighet-tyrkia'
     | '/$locale/kobe-lejlighed-tyrkiet'
     | '/$locale/kopa-lagenhet-turkiet'
@@ -1705,6 +1742,7 @@ export interface FileRouteTypes {
     | '/$locale/map-search'
     | '/$locale/mersin'
     | '/$locale/off-plan-property-turkey'
+    | '/$locale/off-plan-turkey-vs-dubai'
     | '/$locale/our-story'
     | '/$locale/partners'
     | '/$locale/property-for-sale-in-turkey'
@@ -1712,6 +1750,7 @@ export interface FileRouteTypes {
     | '/$locale/property-wizard'
     | '/$locale/testimonials'
     | '/$locale/turkish-citizenship-by-investment'
+    | '/$locale/turkish-citizenship-compliance-guide'
     | '/$locale/viewing-trip'
     | '/$locale/villa-bali'
     | '/$locale/where-should-i-buy'
@@ -2227,6 +2266,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleIstanbulRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/istanbul-rental-yield': {
+      id: '/$locale/istanbul-rental-yield'
+      path: '/istanbul-rental-yield'
+      fullPath: '/$locale/istanbul-rental-yield'
+      preLoaderRoute: typeof LocaleIstanbulRentalYieldRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/kjope-leilighet-tyrkia': {
       id: '/$locale/kjope-leilighet-tyrkia'
       path: '/kjope-leilighet-tyrkia'
@@ -2318,6 +2364,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocaleOffPlanPropertyTurkeyRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/off-plan-turkey-vs-dubai': {
+      id: '/$locale/off-plan-turkey-vs-dubai'
+      path: '/off-plan-turkey-vs-dubai'
+      fullPath: '/$locale/off-plan-turkey-vs-dubai'
+      preLoaderRoute: typeof LocaleOffPlanTurkeyVsDubaiRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/our-story': {
       id: '/$locale/our-story'
       path: '/our-story'
@@ -2365,6 +2418,13 @@ declare module '@tanstack/react-router' {
       path: '/turkish-citizenship-by-investment'
       fullPath: '/$locale/turkish-citizenship-by-investment'
       preLoaderRoute: typeof LocaleTurkishCitizenshipByInvestmentRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
+    '/$locale/turkish-citizenship-compliance-guide': {
+      id: '/$locale/turkish-citizenship-compliance-guide'
+      path: '/turkish-citizenship-compliance-guide'
+      fullPath: '/$locale/turkish-citizenship-compliance-guide'
+      preLoaderRoute: typeof LocaleTurkishCitizenshipComplianceGuideRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
     '/$locale/viewing-trip': {
@@ -2882,6 +2942,7 @@ interface LocaleRouteRouteChildren {
   LocaleInformationRoute: typeof LocaleInformationRoute
   LocaleInvestmentCalculatorRoute: typeof LocaleInvestmentCalculatorRoute
   LocaleIstanbulRoute: typeof LocaleIstanbulRoute
+  LocaleIstanbulRentalYieldRoute: typeof LocaleIstanbulRentalYieldRoute
   LocaleKjopeLeilighetTyrkiaRoute: typeof LocaleKjopeLeilighetTyrkiaRoute
   LocaleKobeLejlighedTyrkietRoute: typeof LocaleKobeLejlighedTyrkietRoute
   LocaleKopaLagenhetTurkietRoute: typeof LocaleKopaLagenhetTurkietRoute
@@ -2895,6 +2956,7 @@ interface LocaleRouteRouteChildren {
   LocaleMapSearchRoute: typeof LocaleMapSearchRoute
   LocaleMersinRoute: typeof LocaleMersinRoute
   LocaleOffPlanPropertyTurkeyRoute: typeof LocaleOffPlanPropertyTurkeyRoute
+  LocaleOffPlanTurkeyVsDubaiRoute: typeof LocaleOffPlanTurkeyVsDubaiRoute
   LocaleOurStoryRoute: typeof LocaleOurStoryRoute
   LocalePartnersRoute: typeof LocalePartnersRoute
   LocalePropertyForSaleInTurkeyRoute: typeof LocalePropertyForSaleInTurkeyRoute
@@ -2902,6 +2964,7 @@ interface LocaleRouteRouteChildren {
   LocalePropertyWizardRoute: typeof LocalePropertyWizardRoute
   LocaleTestimonialsRoute: typeof LocaleTestimonialsRoute
   LocaleTurkishCitizenshipByInvestmentRoute: typeof LocaleTurkishCitizenshipByInvestmentRoute
+  LocaleTurkishCitizenshipComplianceGuideRoute: typeof LocaleTurkishCitizenshipComplianceGuideRoute
   LocaleViewingTripRoute: typeof LocaleViewingTripRoute
   LocaleVillaBaliRoute: typeof LocaleVillaBaliRoute
   LocaleWhereShouldIBuyRoute: typeof LocaleWhereShouldIBuyRoute
@@ -2935,6 +2998,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleInformationRoute: LocaleInformationRoute,
   LocaleInvestmentCalculatorRoute: LocaleInvestmentCalculatorRoute,
   LocaleIstanbulRoute: LocaleIstanbulRoute,
+  LocaleIstanbulRentalYieldRoute: LocaleIstanbulRentalYieldRoute,
   LocaleKjopeLeilighetTyrkiaRoute: LocaleKjopeLeilighetTyrkiaRoute,
   LocaleKobeLejlighedTyrkietRoute: LocaleKobeLejlighedTyrkietRoute,
   LocaleKopaLagenhetTurkietRoute: LocaleKopaLagenhetTurkietRoute,
@@ -2948,6 +3012,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleMapSearchRoute: LocaleMapSearchRoute,
   LocaleMersinRoute: LocaleMersinRoute,
   LocaleOffPlanPropertyTurkeyRoute: LocaleOffPlanPropertyTurkeyRoute,
+  LocaleOffPlanTurkeyVsDubaiRoute: LocaleOffPlanTurkeyVsDubaiRoute,
   LocaleOurStoryRoute: LocaleOurStoryRoute,
   LocalePartnersRoute: LocalePartnersRoute,
   LocalePropertyForSaleInTurkeyRoute: LocalePropertyForSaleInTurkeyRoute,
@@ -2956,6 +3021,8 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleTestimonialsRoute: LocaleTestimonialsRoute,
   LocaleTurkishCitizenshipByInvestmentRoute:
     LocaleTurkishCitizenshipByInvestmentRoute,
+  LocaleTurkishCitizenshipComplianceGuideRoute:
+    LocaleTurkishCitizenshipComplianceGuideRoute,
   LocaleViewingTripRoute: LocaleViewingTripRoute,
   LocaleVillaBaliRoute: LocaleVillaBaliRoute,
   LocaleWhereShouldIBuyRoute: LocaleWhereShouldIBuyRoute,

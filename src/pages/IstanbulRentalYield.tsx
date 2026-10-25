@@ -6,22 +6,24 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useProperties } from "@/hooks/useProperties";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
+import { newPagesCopy } from "@/content/newPagesCopy";
 import heroImage from "@/assets/destinations/istanbul-cinematic.webp";
 
 // Indicative gross long-let yield ranges per district — planning assumptions, not guarantees.
 export const DISTRICTS = [
-  { name: "Esenyurt", side: "European", gross: 7.5, profile: "Entry-level prices, high tenant demand from families and students." },
-  { name: "Beylikdüzü", side: "European", gross: 6.5, profile: "Newer complexes near the coast and metrobus line." },
-  { name: "Küçükçekmece", side: "European", gross: 6.0, profile: "Large regeneration projects, lake and airport access." },
-  { name: "Başakşehir", side: "European", gross: 5.5, profile: "Family compounds, city hospital and new metro links." },
-  { name: "Bağcılar", side: "European", gross: 6.0, profile: "Dense, central-west residential area with steady demand." },
-  { name: "Zeytinburnu", side: "European", gross: 5.0, profile: "Close to the historic peninsula and Marmaray." },
-  { name: "Şişli", side: "European", gross: 4.5, profile: "Business district, corporate and short-stay tenants." },
-  { name: "Kağıthane", side: "European", gross: 5.0, profile: "Transforming area next to Levent and Maslak." },
-  { name: "Kadıköy", side: "Asian", gross: 4.0, profile: "Prime lifestyle area, high prices and low vacancy." },
-  { name: "Ataşehir", side: "Asian", gross: 4.5, profile: "Financial centre, modern towers." },
-  { name: "Üsküdar", side: "Asian", gross: 4.0, profile: "Bosphorus side, established and in demand." },
-  { name: "Kartal / Pendik / Maltepe", side: "Asian", gross: 5.5, profile: "Coastal Asian side, metro and Sabiha Gökçen airport." },
+  { name: "Esenyurt", side: "European", gross: 7.5, key: "esenyurt" as const },
+  { name: "Beylikdüzü", side: "European", gross: 6.5, key: "beylikduzu" as const },
+  { name: "Küçükçekmece", side: "European", gross: 6.0, key: "kucukcekmece" as const },
+  { name: "Başakşehir", side: "European", gross: 5.5, key: "basaksehir" as const },
+  { name: "Bağcılar", side: "European", gross: 6.0, key: "bagcilar" as const },
+  { name: "Zeytinburnu", side: "European", gross: 5.0, key: "zeytinburnu" as const },
+  { name: "Şişli", side: "European", gross: 4.5, key: "sisli" as const },
+  { name: "Kağıthane", side: "European", gross: 5.0, key: "kagithane" as const },
+  { name: "Kadıköy", side: "Asian", gross: 4.0, key: "kadikoy" as const },
+  { name: "Ataşehir", side: "Asian", gross: 4.5, key: "atasehir" as const },
+  { name: "Üsküdar", side: "Asian", gross: 4.0, key: "uskudar" as const },
+  { name: "Kartal / Pendik / Maltepe", side: "Asian", gross: 5.5, key: "kartal" as const },
 ];
 
 export function netYield(i: { price: number; monthlyRent: number; occupancy: number; managementPct: number; annualCosts: number; taxPct: number }) {
@@ -34,6 +36,8 @@ export function netYield(i: { price: number; monthlyRent: number; occupancy: num
 const fmt = (n: number) => `€${Math.round(n).toLocaleString("en-US")}`;
 
 export default function IstanbulRentalYield() {
+  const { lang } = useTranslation();
+  const c = newPagesCopy(lang).yield;
   const [district, setDistrict] = useState(DISTRICTS[2]);
   const [price, setPrice] = useState(200000);
   const [monthlyRent, setMonthlyRent] = useState(Math.round((200000 * DISTRICTS[2].gross) / 100 / 12));
@@ -66,10 +70,10 @@ export default function IstanbulRentalYield() {
     <div className="min-h-screen bg-background">
       <Navigation />
       <main>
-        <PublicPageHero compact eyebrow="Istanbul rental-yield report" title="Rental yields in Istanbul, district by district" description="Compare indicative gross yields across 12 Istanbul districts, see real homes we have for sale there and calculate your own net yield after costs and tax." image={heroImage} imageAlt="Istanbul skyline over the Bosphorus" primaryLabel="View Istanbul homes" primaryTo="/istanbul" />
+        <PublicPageHero compact eyebrow={c.eyebrow} title={c.title} description={c.description} image={heroImage} imageAlt={c.imageAlt} primaryLabel={c.viewHomes} primaryTo="/istanbul" />
 
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <EditorialSectionHeader eyebrow="District overview" title="Indicative gross yields" description="Long-term rental yields before costs. These are planning estimates based on typical asking prices and rents — always check current rents for the specific building." />
+          <EditorialSectionHeader eyebrow={c.overviewEyebrow} title={c.overviewTitle} description={c.overviewDesc} />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {DISTRICTS.map((d) => (
               <button key={d.name} type="button" onClick={() => pick(d)} className={cn("rounded-lg border p-4 text-left transition-colors", district.name === d.name ? "border-gold bg-ivory" : "border-navy/10 hover:border-gold/60")}>
@@ -77,49 +81,49 @@ export default function IstanbulRentalYield() {
                   <span className="font-semibold text-foreground">{d.name}</span>
                   <span className="text-lg font-semibold text-gold-foreground">~{d.gross}%</span>
                 </div>
-                <p className="text-xs uppercase text-muted-foreground">{d.side} side</p>
-                <p className="mt-2 text-sm text-muted-foreground">{d.profile}</p>
+                <p className="text-xs uppercase text-muted-foreground">{d.side === "Asian" ? c.asian : c.european}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{c.profiles[d.key]}</p>
               </button>
             ))}
           </div>
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <EditorialSectionHeader eyebrow="Net yield calculator" title={`Your net yield in ${district.name}`} description="Change any number. Rent is pre-filled from the district's indicative yield." />
+          <EditorialSectionHeader eyebrow={c.calcEyebrow} title={c.calcTitle.replace("{district}", district.name)} description={c.calcDesc} />
           <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
             <div className="grid gap-4 sm:grid-cols-2">
-              {field("price", "Purchase price", price, setPrice, "€")}
-              {field("rent", "Monthly rent", monthlyRent, setMonthlyRent, "€")}
-              {field("occ", "Occupancy", occupancy, setOccupancy, "%")}
-              {field("mgmt", "Management fee", managementPct, setManagementPct, "% of rent")}
-              {field("costs", "Annual costs (maintenance, insurance, aidat)", annualCosts, setAnnualCosts, "€")}
-              {field("tax", "Income tax on rent", taxPct, setTaxPct, "%")}
+              {field("price", c.price, price, setPrice, "€")}
+              {field("rent", c.rent, monthlyRent, setMonthlyRent, "€")}
+              {field("occ", c.occupancy, occupancy, setOccupancy, "%")}
+              {field("mgmt", c.management, managementPct, setManagementPct, c.ofRent)}
+              {field("costs", c.costs, annualCosts, setAnnualCosts, "€")}
+              {field("tax", c.tax, taxPct, setTaxPct, "%")}
             </div>
             <div className="rounded-lg bg-navy p-6 text-navy-foreground shadow-[var(--shadow-luxe)]">
-              <p className="text-xs uppercase text-gold">Result</p>
+              <p className="text-xs uppercase text-gold">{c.result}</p>
               <p className="mt-2 text-5xl font-semibold">{r.netYield.toFixed(2)}%</p>
-              <p className="text-sm text-navy-foreground/75">net yield per year</p>
+              <p className="text-sm text-navy-foreground/75">{c.perYear}</p>
               <dl className="mt-6 space-y-2 text-sm">
-                <div className="flex justify-between"><dt>Gross yield</dt><dd>{r.grossYield.toFixed(2)}%</dd></div>
-                <div className="flex justify-between"><dt>Rental income / year</dt><dd>{fmt(r.grossIncome)}</dd></div>
-                <div className="flex justify-between"><dt>Net income / year</dt><dd>{fmt(r.netIncome)}</dd></div>
-                <div className="flex justify-between"><dt>Net income / month</dt><dd>{fmt(r.netIncome / 12)}</dd></div>
+                <div className="flex justify-between"><dt>{c.grossYield}</dt><dd>{r.grossYield.toFixed(2)}%</dd></div>
+                <div className="flex justify-between"><dt>{c.incomeYear}</dt><dd>{fmt(r.grossIncome)}</dd></div>
+                <div className="flex justify-between"><dt>{c.netYear}</dt><dd>{fmt(r.netIncome)}</dd></div>
+                <div className="flex justify-between"><dt>{c.netMonth}</dt><dd>{fmt(r.netIncome / 12)}</dd></div>
               </dl>
-              <p className="mt-6 text-xs text-navy-foreground/60">Estimates, not promises. Turkish rental tax is progressive; ask an accountant for your exact rate.</p>
+              <p className="mt-6 text-xs text-navy-foreground/60">{c.disclaimer}</p>
             </div>
           </div>
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <EditorialSectionHeader eyebrow="Sample listings" title={`Homes for sale in and around ${district.name}`} />
-          {loading ? <p className="text-muted-foreground">Loading homes…</p> : (
+          <EditorialSectionHeader eyebrow={c.samplesEyebrow} title={c.samplesTitle.replace("{district}", district.name)} />
+          {loading ? <p className="text-muted-foreground">{c.loading}</p> : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {samples.map((p: any, i: number) => <PropertyCard key={p.id} property={p} priority={i === 0} />)}
             </div>
           )}
         </section>
 
-        <EditorialCta eyebrow="Istanbul investment" title="Want a yield check on a specific home?" description="Our Istanbul team can send real rent comparisons for the buildings you shortlist." primaryLabel="Contact an expert" primaryTo="/contact-us" secondaryLabel="Investment calculator" secondaryTo="/investment-calculator" />
+        <EditorialCta eyebrow={c.ctaEyebrow} title={c.ctaTitle} description={c.ctaDesc} primaryLabel={c.ctaPrimary} primaryTo="/contact-us" secondaryLabel={c.ctaSecondary} secondaryTo="/investment-calculator" />
       </main>
     </div>
   );

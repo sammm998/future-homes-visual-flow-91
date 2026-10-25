@@ -20,3 +20,4 @@
 - Visitors see pickPropertyTranslation: a complete original-database translation first, else the Cloud row whose source_hash matches the current English text — stale Cloud copies never show after edits.
 - Destination searches scope listing queries by city and reuse original rows across languages with concurrent translation reads; desktop filters scroll within viewport bounds — avoids serial reloads and inaccessible controls on short screens.
 - Smart Property Alerts run hourly via pg_cron → /api/public/hooks/property-alerts, authenticated by the x-alerts-secret header from the service-role-only alert_cron_config table; deliveries are deduplicated in alert_deliveries.
+- New public page copy lives in src/content/*Copy.ts (English source) plus a generated *.i18n.json for all 12 other languages, with both /path and /$locale/path routes — keeps every page available in every site language.
