@@ -108,11 +108,7 @@ export const PropertyAreaInsights = ({ property, lang }: Props) => {
     [area, property.id, property.refNo, ownPrice],
   );
 
-  const embed =
-    property.google_maps_embed && String(property.google_maps_embed).startsWith("https://www.google.com/maps/embed")
-      ? property.google_maps_embed
-      : `https://maps.google.com/maps?q=${encodeURIComponent([property.property_district, property.location].filter(Boolean).join(", "))}&z=13&output=embed`;
-  const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([property.property_district, property.location].filter(Boolean).join(", "))}`;
+  const { embed, mapsLink } = propertyMapLocation(property);
 
   return (
     <div className="space-y-16 sm:space-y-20">
