@@ -140,3 +140,27 @@ export const getPropertySeo = createServerFn({ method: "GET" })
       propertyType: str(property.property_type),
     };
   });
+
+/** Short, unique, descriptive <title> for a property page (≤ ~60 chars, always ends with the REF). */
+export function buildPropertySeoTitle(
+  p: { title?: string | null; bedrooms?: string | number | null; propertyType?: string | null; district?: string | null; location?: string | null; refNo?: string | number | null },
+  lang: string,
+  bedroomsLabel = "Bed",
+): string {
+  const suffix = p.refNo ? ` | REF ${p.refNo}` : " | Future Homes";
+  const city = (p.location || "").split(/[,/]/)[0].trim();
+  const district = (p.district || "").trim();
+  const place = [district && district.toLowerCase() !== city.toLowerCase() ? district : null, city || null].filter(Boolean).join(", ");
+  const beds = String(p.bedrooms ?? "").replace(/\s*<>\s*/g, "–").replace(/\s+/g, " ").trim();
+  const type = (p.propertyType || "").trim();
+  const limit = 60 - suffix.length;
+  const fit = (s: string) => (s.length <= limit ? s : s.slice(0, limit - 1).replace(/\s+\S*$/, "").replace(/[\s,.;:–-]+$/, "") + "…");
+  if (lang === "en" && (type || beds) && place) {
+    const typeLabel = type ? type.charAt(0).toUpperCase() + type.slice(1) : "Home";
+    const head = beds && /\d/.test(beds) ? `${beds} ${bedroomsLabel} ${typeLabel}` : typeLabel;
+    const full = `${head} for Sale in ${place}`;
+    return fit(full.length <= limit ? full : `${head} in ${place}`) + suffix;
+  }
+  const base = (p.title || "Property").trim();
+  return fit(place ? `${base.length > limit - place.length - 3 ? base.slice(0, Math.max(10, limit - place.length - 4)).replace(/\s+\S*$/, "") + "…" : base} – ${place}` : base) + suffix;
+}

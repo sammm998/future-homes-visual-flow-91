@@ -156,7 +156,7 @@ const ApartmentsForSaleInTurkey = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties?type=apartment">View All Apartments</Link>
+              <Link to="/map-search">View All Apartments</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/contact-us">Get Property Advice</Link>
@@ -343,7 +343,7 @@ const ApartmentsForSaleInTurkey = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties?type=apartment">Browse Apartments</Link>
+              <Link to="/map-search">Browse Apartments</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/contact-us">Get Expert Advice</Link>

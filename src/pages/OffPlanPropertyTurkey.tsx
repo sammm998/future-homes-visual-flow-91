@@ -167,7 +167,7 @@ const OffPlanPropertyTurkey = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties?status=off-plan">View Off-Plan Projects</Link>
+              <Link to="/off-plan-turkey-vs-dubai">View Off-Plan Projects</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/contact-us">Get Investment Guide</Link>
@@ -400,7 +400,7 @@ const OffPlanPropertyTurkey = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties?status=off-plan">Browse Off-Plan Projects</Link>
+              <Link to="/off-plan-turkey-vs-dubai">Browse Off-Plan Projects</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/contact-us">Get Investment Consultation</Link>

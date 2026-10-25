@@ -8,11 +8,8 @@ const Newsletter = lazy(() => import("@/components/Newsletter"));
 
 export const Route = createFileRoute("/")({
   head: () => ({
+    // Localized title/description/og come from EnhancedSEOHead on the page (one source, all 13 languages).
     meta: [
-      { title: "Future Homes International | Luxury Property Worldwide" },
-      { name: "description", content: "Discover carefully selected homes in Turkey, Dubai, Cyprus and Bali with multilingual property advisors." },
-      { property: "og:title", content: "Future Homes International | Luxury Property Worldwide" },
-      { property: "og:description", content: "Discover carefully selected international homes with personal, multilingual guidance." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
