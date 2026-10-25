@@ -1,16 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Page from "@/pages/IstanbulRentalYield";
+import { newPagesCopy } from "@/content/newPagesCopy";
 
 export const Route = createFileRoute("/istanbul-rental-yield")({
-  head: () => ({
-    meta: [
-      { title: "Istanbul Rental Yields by District | Future Homes" },
-      { name: "description", content: "Indicative rental yields for 12 Istanbul districts, sample listings and a net yield calculator after costs and tax." },
-      { property: "og:title", content: "Istanbul Rental Yields by District | Future Homes" },
-      { property: "og:description", content: "Indicative rental yields for 12 Istanbul districts, sample listings and a net yield calculator after costs and tax." },
-      { property: "og:type", content: "article" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: ({ params }) => {
+    const m = newPagesCopy((params as { locale?: string }).locale).meta.yield;
+    return {
+      meta: [
+        { title: m.title },
+        { name: "description", content: m.description },
+        { property: "og:title", content: m.title },
+        { property: "og:description", content: m.description },
+        { property: "og:type", content: "article" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+    };
+  },
   component: Page,
 });
