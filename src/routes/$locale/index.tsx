@@ -19,7 +19,7 @@ export const Route = createFileRoute("/$locale/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [homeHeroPreload],
-  })),
+  }),
   component: LocaleHomePage,
 });
 
