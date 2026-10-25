@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from "@/lib/router-compat";
-import { Helmet } from '@/lib/helmet-compat';
 import ArticleLayout from '@/components/ArticleLayout';
 import ArticleContent from '@/components/ArticleContent';
 import { useBlogPost } from "@/hooks/useBlogPosts";
@@ -202,12 +201,8 @@ const ArticlePage = () => {
 
   return (
     <>
-      <Helmet>
-        <html lang={currentLang} />
-        <title>{(blogPost.title ?? '')} - Future Homes</title>
-        <meta name="description" content={(blogPost.excerpt ?? '') || `${(blogPost.title ?? '')} - Read more on Future Homes blog`} />
+      <>
         <meta name="keywords" content={tags.join(', ')} />
-        <link rel="canonical" href={canonical} />
 
         {supportedLanguages.map(lang => {
           const url = lang.code === 'en'
@@ -218,11 +213,6 @@ const ArticlePage = () => {
         <link rel="alternate" hrefLang="x-default" href={`${ORIGIN}${articlePath}`} />
 
         {/* Open Graph tags */}
-        <meta property="og:title" content={(blogPost.title ?? '')} />
-        <meta property="og:description" content={(blogPost.excerpt ?? '') || (blogPost.title ?? '')} />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content={canonical} />
-        <meta property="og:image" content={absImage} />
         <meta property="og:locale" content={currentLocale} />
         {supportedLanguages.filter(l => l.ogLocale !== currentLocale).map(l => (
           <meta key={l.code} property="og:locale:alternate" content={l.ogLocale} />
@@ -233,10 +223,6 @@ const ArticlePage = () => {
         )}
         
         {/* Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={(blogPost.title ?? '')} />
-        <meta name="twitter:description" content={(blogPost.excerpt ?? '') || (blogPost.title ?? '')} />
-        <meta name="twitter:image" content={absImage} />
         
         {/* Structured Data */}
         <script type="application/ld+json">
@@ -267,7 +253,7 @@ const ArticlePage = () => {
             }
           })}
         </script>
-      </Helmet>
+      </>
 
       <ArticleLayout
         title={(blogPost.title ?? '')}
