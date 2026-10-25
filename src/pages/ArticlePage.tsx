@@ -207,7 +207,7 @@ const ArticlePage = () => {
         {supportedLanguages.map(lang => {
           const url = lang.code === 'en'
             ? `${ORIGIN}${articlePath}`
-            : `${ORIGIN}${articlePath}?lang=${lang.code}`;
+            : `${ORIGIN}/${lang.code}${articlePath}`;
           return <link key={lang.code} rel="alternate" hrefLang={lang.hreflang} href={url} />;
         })}
         <link rel="alternate" hrefLang="x-default" href={`${ORIGIN}${articlePath}`} />
