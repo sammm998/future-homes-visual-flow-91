@@ -1,3 +1,4 @@
+import { OfficialSources, CITIZENSHIP_SOURCES } from '@/components/OfficialSources';
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import { EnhancedSEOHead } from '@/components/EnhancedSEOHead';
@@ -437,6 +438,7 @@ const TurkishCitizenshipByInvestment = () => {
                 </Card>
               ))}
             </div>
+            <OfficialSources sources={CITIZENSHIP_SOURCES} />
           </div>
         </section>
 

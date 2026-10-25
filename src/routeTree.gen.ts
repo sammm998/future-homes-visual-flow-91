@@ -30,10 +30,12 @@ import { Route as DubaiRouteImport } from './routes/dubai'
 import { Route as InformationRouteImport } from './routes/information'
 import { Route as InvestmentCalculatorRouteImport } from './routes/investment-calculator'
 import { Route as IstanbulRouteImport } from './routes/istanbul'
+import { Route as IstanbulRentalYieldRouteImport } from './routes/istanbul-rental-yield'
 import { Route as LuxuryVillasInTurkeyRouteImport } from './routes/luxury-villas-in-turkey'
 import { Route as MapSearchRouteImport } from './routes/map-search'
 import { Route as MersinRouteImport } from './routes/mersin'
 import { Route as OffPlanPropertyTurkeyRouteImport } from './routes/off-plan-property-turkey'
+import { Route as OffPlanTurkeyVsDubaiRouteImport } from './routes/off-plan-turkey-vs-dubai'
 import { Route as OurStoryRouteImport } from './routes/our-story'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PropertyForSaleInTurkeyRouteImport } from './routes/property-for-sale-in-turkey'
@@ -42,6 +44,7 @@ import { Route as PropertyWizardRouteImport } from './routes/property-wizard'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as TurkishCitizenshipByInvestmentRouteImport } from './routes/turkish-citizenship-by-investment'
+import { Route as TurkishCitizenshipComplianceGuideRouteImport } from './routes/turkish-citizenship-compliance-guide'
 import { Route as ViewingTripRouteImport } from './routes/viewing-trip'
 import { Route as WhereShouldIBuyRouteImport } from './routes/where-should-i-buy'
 import { Route as WizardThankYouRouteImport } from './routes/wizard-thank-you'
@@ -258,6 +261,11 @@ const IstanbulRoute = IstanbulRouteImport.update({
   path: '/istanbul',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IstanbulRentalYieldRoute = IstanbulRentalYieldRouteImport.update({
+  id: '/istanbul-rental-yield',
+  path: '/istanbul-rental-yield',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LuxuryVillasInTurkeyRoute = LuxuryVillasInTurkeyRouteImport.update({
   id: '/luxury-villas-in-turkey',
   path: '/luxury-villas-in-turkey',
@@ -276,6 +284,11 @@ const MersinRoute = MersinRouteImport.update({
 const OffPlanPropertyTurkeyRoute = OffPlanPropertyTurkeyRouteImport.update({
   id: '/off-plan-property-turkey',
   path: '/off-plan-property-turkey',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OffPlanTurkeyVsDubaiRoute = OffPlanTurkeyVsDubaiRouteImport.update({
+  id: '/off-plan-turkey-vs-dubai',
+  path: '/off-plan-turkey-vs-dubai',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OurStoryRoute = OurStoryRouteImport.update({
@@ -317,6 +330,12 @@ const TurkishCitizenshipByInvestmentRoute =
   TurkishCitizenshipByInvestmentRouteImport.update({
     id: '/turkish-citizenship-by-investment',
     path: '/turkish-citizenship-by-investment',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const TurkishCitizenshipComplianceGuideRoute =
+  TurkishCitizenshipComplianceGuideRouteImport.update({
+    id: '/turkish-citizenship-compliance-guide',
+    path: '/turkish-citizenship-compliance-guide',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ViewingTripRoute = ViewingTripRouteImport.update({
@@ -907,10 +926,12 @@ export interface FileRoutesByFullPath {
   '/information': typeof InformationRoute
   '/investment-calculator': typeof InvestmentCalculatorRoute
   '/istanbul': typeof IstanbulRoute
+  '/istanbul-rental-yield': typeof IstanbulRentalYieldRoute
   '/luxury-villas-in-turkey': typeof LuxuryVillasInTurkeyRoute
   '/map-search': typeof MapSearchRoute
   '/mersin': typeof MersinRoute
   '/off-plan-property-turkey': typeof OffPlanPropertyTurkeyRoute
+  '/off-plan-turkey-vs-dubai': typeof OffPlanTurkeyVsDubaiRoute
   '/our-story': typeof OurStoryRoute
   '/partners': typeof PartnersRoute
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
@@ -919,6 +940,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/turkish-citizenship-by-investment': typeof TurkishCitizenshipByInvestmentRoute
+  '/turkish-citizenship-compliance-guide': typeof TurkishCitizenshipComplianceGuideRoute
   '/viewing-trip': typeof ViewingTripRoute
   '/where-should-i-buy': typeof WhereShouldIBuyRoute
   '/wizard-thank-you': typeof WizardThankYouRoute
@@ -1049,10 +1071,12 @@ export interface FileRoutesByTo {
   '/information': typeof InformationRoute
   '/investment-calculator': typeof InvestmentCalculatorRoute
   '/istanbul': typeof IstanbulRoute
+  '/istanbul-rental-yield': typeof IstanbulRentalYieldRoute
   '/luxury-villas-in-turkey': typeof LuxuryVillasInTurkeyRoute
   '/map-search': typeof MapSearchRoute
   '/mersin': typeof MersinRoute
   '/off-plan-property-turkey': typeof OffPlanPropertyTurkeyRoute
+  '/off-plan-turkey-vs-dubai': typeof OffPlanTurkeyVsDubaiRoute
   '/our-story': typeof OurStoryRoute
   '/partners': typeof PartnersRoute
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
@@ -1061,6 +1085,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/turkish-citizenship-by-investment': typeof TurkishCitizenshipByInvestmentRoute
+  '/turkish-citizenship-compliance-guide': typeof TurkishCitizenshipComplianceGuideRoute
   '/viewing-trip': typeof ViewingTripRoute
   '/where-should-i-buy': typeof WhereShouldIBuyRoute
   '/wizard-thank-you': typeof WizardThankYouRoute
@@ -1194,10 +1219,12 @@ export interface FileRoutesById {
   '/information': typeof InformationRoute
   '/investment-calculator': typeof InvestmentCalculatorRoute
   '/istanbul': typeof IstanbulRoute
+  '/istanbul-rental-yield': typeof IstanbulRentalYieldRoute
   '/luxury-villas-in-turkey': typeof LuxuryVillasInTurkeyRoute
   '/map-search': typeof MapSearchRoute
   '/mersin': typeof MersinRoute
   '/off-plan-property-turkey': typeof OffPlanPropertyTurkeyRoute
+  '/off-plan-turkey-vs-dubai': typeof OffPlanTurkeyVsDubaiRoute
   '/our-story': typeof OurStoryRoute
   '/partners': typeof PartnersRoute
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
@@ -1206,6 +1233,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/testimonials': typeof TestimonialsRoute
   '/turkish-citizenship-by-investment': typeof TurkishCitizenshipByInvestmentRoute
+  '/turkish-citizenship-compliance-guide': typeof TurkishCitizenshipComplianceGuideRoute
   '/viewing-trip': typeof ViewingTripRoute
   '/where-should-i-buy': typeof WhereShouldIBuyRoute
   '/wizard-thank-you': typeof WizardThankYouRoute
@@ -1340,10 +1368,12 @@ export interface FileRouteTypes {
     | '/information'
     | '/investment-calculator'
     | '/istanbul'
+    | '/istanbul-rental-yield'
     | '/luxury-villas-in-turkey'
     | '/map-search'
     | '/mersin'
     | '/off-plan-property-turkey'
+    | '/off-plan-turkey-vs-dubai'
     | '/our-story'
     | '/partners'
     | '/property-for-sale-in-turkey'
@@ -1352,6 +1382,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/testimonials'
     | '/turkish-citizenship-by-investment'
+    | '/turkish-citizenship-compliance-guide'
     | '/viewing-trip'
     | '/where-should-i-buy'
     | '/wizard-thank-you'
@@ -1482,10 +1513,12 @@ export interface FileRouteTypes {
     | '/information'
     | '/investment-calculator'
     | '/istanbul'
+    | '/istanbul-rental-yield'
     | '/luxury-villas-in-turkey'
     | '/map-search'
     | '/mersin'
     | '/off-plan-property-turkey'
+    | '/off-plan-turkey-vs-dubai'
     | '/our-story'
     | '/partners'
     | '/property-for-sale-in-turkey'
@@ -1494,6 +1527,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/testimonials'
     | '/turkish-citizenship-by-investment'
+    | '/turkish-citizenship-compliance-guide'
     | '/viewing-trip'
     | '/where-should-i-buy'
     | '/wizard-thank-you'
@@ -1626,10 +1660,12 @@ export interface FileRouteTypes {
     | '/information'
     | '/investment-calculator'
     | '/istanbul'
+    | '/istanbul-rental-yield'
     | '/luxury-villas-in-turkey'
     | '/map-search'
     | '/mersin'
     | '/off-plan-property-turkey'
+    | '/off-plan-turkey-vs-dubai'
     | '/our-story'
     | '/partners'
     | '/property-for-sale-in-turkey'
@@ -1638,6 +1674,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/testimonials'
     | '/turkish-citizenship-by-investment'
+    | '/turkish-citizenship-compliance-guide'
     | '/viewing-trip'
     | '/where-should-i-buy'
     | '/wizard-thank-you'
@@ -1771,10 +1808,12 @@ export interface RootRouteChildren {
   InformationRoute: typeof InformationRoute
   InvestmentCalculatorRoute: typeof InvestmentCalculatorRoute
   IstanbulRoute: typeof IstanbulRoute
+  IstanbulRentalYieldRoute: typeof IstanbulRentalYieldRoute
   LuxuryVillasInTurkeyRoute: typeof LuxuryVillasInTurkeyRoute
   MapSearchRoute: typeof MapSearchRoute
   MersinRoute: typeof MersinRoute
   OffPlanPropertyTurkeyRoute: typeof OffPlanPropertyTurkeyRoute
+  OffPlanTurkeyVsDubaiRoute: typeof OffPlanTurkeyVsDubaiRoute
   OurStoryRoute: typeof OurStoryRoute
   PartnersRoute: typeof PartnersRoute
   PropertyForSaleInTurkeyRoute: typeof PropertyForSaleInTurkeyRoute
@@ -1783,6 +1822,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestimonialsRoute: typeof TestimonialsRoute
   TurkishCitizenshipByInvestmentRoute: typeof TurkishCitizenshipByInvestmentRoute
+  TurkishCitizenshipComplianceGuideRoute: typeof TurkishCitizenshipComplianceGuideRoute
   ViewingTripRoute: typeof ViewingTripRoute
   WhereShouldIBuyRoute: typeof WhereShouldIBuyRoute
   WizardThankYouRoute: typeof WizardThankYouRoute
@@ -1956,6 +1996,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IstanbulRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/istanbul-rental-yield': {
+      id: '/istanbul-rental-yield'
+      path: '/istanbul-rental-yield'
+      fullPath: '/istanbul-rental-yield'
+      preLoaderRoute: typeof IstanbulRentalYieldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/luxury-villas-in-turkey': {
       id: '/luxury-villas-in-turkey'
       path: '/luxury-villas-in-turkey'
@@ -1982,6 +2029,13 @@ declare module '@tanstack/react-router' {
       path: '/off-plan-property-turkey'
       fullPath: '/off-plan-property-turkey'
       preLoaderRoute: typeof OffPlanPropertyTurkeyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/off-plan-turkey-vs-dubai': {
+      id: '/off-plan-turkey-vs-dubai'
+      path: '/off-plan-turkey-vs-dubai'
+      fullPath: '/off-plan-turkey-vs-dubai'
+      preLoaderRoute: typeof OffPlanTurkeyVsDubaiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/our-story': {
@@ -2038,6 +2092,13 @@ declare module '@tanstack/react-router' {
       path: '/turkish-citizenship-by-investment'
       fullPath: '/turkish-citizenship-by-investment'
       preLoaderRoute: typeof TurkishCitizenshipByInvestmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/turkish-citizenship-compliance-guide': {
+      id: '/turkish-citizenship-compliance-guide'
+      path: '/turkish-citizenship-compliance-guide'
+      fullPath: '/turkish-citizenship-compliance-guide'
+      preLoaderRoute: typeof TurkishCitizenshipComplianceGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/viewing-trip': {
@@ -3024,10 +3085,12 @@ const rootRouteChildren: RootRouteChildren = {
   InformationRoute: InformationRoute,
   InvestmentCalculatorRoute: InvestmentCalculatorRoute,
   IstanbulRoute: IstanbulRoute,
+  IstanbulRentalYieldRoute: IstanbulRentalYieldRoute,
   LuxuryVillasInTurkeyRoute: LuxuryVillasInTurkeyRoute,
   MapSearchRoute: MapSearchRoute,
   MersinRoute: MersinRoute,
   OffPlanPropertyTurkeyRoute: OffPlanPropertyTurkeyRoute,
+  OffPlanTurkeyVsDubaiRoute: OffPlanTurkeyVsDubaiRoute,
   OurStoryRoute: OurStoryRoute,
   PartnersRoute: PartnersRoute,
   PropertyForSaleInTurkeyRoute: PropertyForSaleInTurkeyRoute,
@@ -3036,6 +3099,8 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestimonialsRoute: TestimonialsRoute,
   TurkishCitizenshipByInvestmentRoute: TurkishCitizenshipByInvestmentRoute,
+  TurkishCitizenshipComplianceGuideRoute:
+    TurkishCitizenshipComplianceGuideRoute,
   ViewingTripRoute: ViewingTripRoute,
   WhereShouldIBuyRoute: WhereShouldIBuyRoute,
   WizardThankYouRoute: WizardThankYouRoute,
