@@ -2,7 +2,6 @@ import Navigation from "@/components/Navigation";
 import { PublicPageHero, EditorialSectionHeader, EditorialCta } from "@/components/PublicEditorial";
 import aboutHero from "@/assets/about-hero.jpg";
 import antalyaImage from "@/assets/destinations/antalya-cinematic.webp";
-import mersinImage from "@/assets/destinations/mersin-cinematic.webp";
 import dubaiImage from "@/assets/destinations/dubai-cinematic.webp";
 import baliImage from "@/assets/destinations/bali-cinematic.webp";
 import strasbourgImage from "@/assets/destinations/strasbourg-cinematic.webp";
@@ -43,11 +42,10 @@ const AboutUs = () => {
     { title: t('about.value_transparency'), desc: t('about.value_transparency_desc') },
   ];
   const offices = [
-    { image: antalyaImage, city: "Antalya", sub: t('about.antalya_main'), phone: "+90 552 303 27 50", desc: t('about.antalya_desc') },
-    { image: mersinImage, city: "Mersin", sub: t('about.mersin_regional'), phone: "+90 552 303 27 50", desc: t('about.mersin_desc') },
-    { image: dubaiImage, city: "Dubai", sub: t('about.dubai_middle_east'), phone: "+971 54 554 2068", desc: t('about.dubai_desc') },
-    { image: strasbourgImage, city: "Strasbourg", sub: t('about.france_european'), phone: "+33 6 51 01 01 56", desc: t('about.france_desc') },
-    { image: baliImage, city: "Bali", sub: t('about.bali_southeast'), phone: "+62 813-6404-2656", desc: t('about.bali_desc') },
+    { image: antalyaImage, city: "Antalya, Türkiye", sub: t('about.antalya_main'), phone: "+90 552 303 27 50", desc: t('about.antalya_desc') },
+    { image: dubaiImage, city: "Dubai, UAE", sub: t('about.dubai_middle_east'), phone: "+971 54 554 2068", desc: t('about.dubai_desc') },
+    { image: strasbourgImage, city: "Strasbourg, France", sub: t('about.france_european'), phone: "+33 6 51 01 01 56", desc: t('about.france_desc') },
+    { image: baliImage, city: "Bali, Indonesia", sub: t('about.bali_southeast'), phone: "+62 813-6404-2656", desc: t('about.bali_desc') },
   ];
 
   return <div className="min-h-screen bg-background">
