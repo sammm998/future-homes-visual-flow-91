@@ -1,3 +1,4 @@
+import { buildPropertySeoTitle } from '@/lib/propertySeo.functions';
 import React, { useState, useEffect } from "react";
 import { useLoaderData } from "@tanstack/react-router";
 import { useParams, Link, useNavigate, useLocation } from "@/lib/router-compat";
@@ -304,13 +305,9 @@ const PropertyDetail = () => {
   if (loading) {
     // SSR title: keep it inside the ~60 char SERP limit and end with the REF
     // so every property gets a short, unique, translated title.
-    const ssrSuffix = routeSeo?.refNo ? ` | REF ${routeSeo.refNo}` : ' | Future Homes';
-    const ssrBase = (routeSeo?.title || 'Property for Sale').trim();
-    const ssrLimit = 60 - ssrSuffix.length;
-    const ssrTitle =
-      (ssrBase.length <= ssrLimit
-        ? ssrBase
-        : ssrBase.slice(0, ssrLimit - 1).replace(/\s+\S*$/, '').replace(/[\s,.;:-]+$/, '') + '…') + ssrSuffix;
+    const ssrTitle = routeSeo
+      ? buildPropertySeoTitle(routeSeo, seoLanguage, seoLanguage === 'en' ? 'Bed' : t('pd.bedrooms', seoLanguage))
+      : 'Property for Sale | Future Homes';
     return <div className="min-h-screen bg-background">
         <SEOHead
           title={ssrTitle}
@@ -326,6 +323,7 @@ const PropertyDetail = () => {
           }) : undefined}
         />
         <Navigation />
+        <h1 className="sr-only">{routeSeo?.title || 'Property for sale'}</h1>
         <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
           {/* Skeleton loader for faster perceived performance */}
           <div className="animate-pulse">
@@ -460,16 +458,14 @@ const PropertyDetail = () => {
   };
   const refLabel = property.refNo || property.ref_no || property.id;
   const brandSuffix = refLabel ? ` | REF ${refLabel}` : ' | Future Homes';
-  const specBits = [
-    property.bedrooms ? `${property.bedrooms} ${t('pd.bedrooms', seoLanguage)}` : null,
-    property.propertyType || null,
-  ].filter(Boolean).join(' ');
-  const baseTitle = [
-    property.title,
-    specBits || null,
-    property.location || null,
-  ].filter(Boolean).join(' – ');
-  const propertyTitle = truncate(baseTitle, 60 - brandSuffix.length) + brandSuffix;
+  const propertyTitle = buildPropertySeoTitle({
+    title: property.title,
+    bedrooms: property.bedrooms,
+    propertyType: property.propertyType,
+    district: (property as any).property_district || routeSeo?.district,
+    location: (property as any).location_original || property.location,
+    refNo: refLabel,
+  }, seoLanguage, seoLanguage === 'en' ? 'Bed' : t('pd.bedrooms', seoLanguage));
 
   const descParts = [
     property.bedrooms ? `${property.bedrooms} ${t('pd.bedrooms', seoLanguage)}` : null,
