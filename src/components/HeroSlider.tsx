@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import heroEstate from '@/assets/hero-modern-estate.webp';
-import heroEstateMobile from '@/assets/hero-modern-estate-768.webp';
-import heroEstateLaptop from '@/assets/hero-modern-estate-1200.webp';
+import { homeHeroImage } from '@/lib/homeHeroImage';
 import broll1 from '@/assets/hero-broll-1-optimized.mp4.asset.json';
 import broll2 from '@/assets/hero-broll-2-optimized.mp4.asset.json';
 import broll1m from '@/assets/hero-broll-1-mobile.mp4.asset.json';
@@ -81,9 +79,9 @@ const HeroSlider = () => {
   return (
     <div dir="ltr" className="absolute inset-0 overflow-hidden bg-navy">
       <img
-        src={heroEstate}
-        srcSet={`${heroEstateMobile} 768w, ${heroEstateLaptop} 1200w, ${heroEstate} 1920w`}
-        sizes="100vw"
+        src={homeHeroImage.src}
+        srcSet={homeHeroImage.srcSet}
+        sizes={homeHeroImage.sizes}
         alt="Modern Mediterranean estate overlooking the sea at sunset"
         width={1920}
         height={1080}

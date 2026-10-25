@@ -2,9 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { lazy } from "react";
 import Index from "@/pages/Index";
 import DeferredSection from "@/components/DeferredSection";
-import heroEstate from "@/assets/hero-modern-estate.webp";
-import heroEstateMobile from "@/assets/hero-modern-estate-768.webp";
-import heroEstateLaptop from "@/assets/hero-modern-estate-1200.webp";
+import { homeHeroPreload } from "@/lib/homeHeroImage";
 
 const Newsletter = lazy(() => import("@/components/Newsletter"));
 
@@ -18,16 +16,7 @@ export const Route = createFileRoute("/$locale/")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [
-      {
-        rel: "preload",
-        as: "image",
-        href: heroEstate,
-        imageSrcSet: `${heroEstateMobile} 768w, ${heroEstateLaptop} 1200w, ${heroEstate} 1920w`,
-        imageSizes: "100vw",
-        fetchPriority: "high",
-      } as unknown as { rel: string; href: string },
-    ],
+    links: [homeHeroPreload],
   }),
   component: LocaleHomePage,
 });
