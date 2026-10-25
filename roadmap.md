@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Granska samtliga bostäder på 13 språk, rätta blandade språk på listnings- och detaljsidor samt verifiera automatisk översättning vid sparande.
+
 - [x] Kundvideo: ortsavgränsad sökning, återanvända data, scrollbar filterpanel och referensnummer/sortering högst upp; startsida → Antalya → scroll → prissortering → REF 1474 verifierat utan runtimefel.
 
 - [x] Trigga översättning efter sparande, verifiera lagrade språk och testa återupptagning samt felstopp.
