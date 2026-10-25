@@ -429,7 +429,7 @@ const IstanbulPropertySearch = () => {
                       });
                       setShowFiltered(false);
                     }} variant="outline">
-                      Clear Filters
+                      {t('city.clear_filters')}
                     </Button>
                   </div>
                 </div>

@@ -262,7 +262,7 @@ const AntalyaPropertySearch = () => {
       ]} />
       <Navigation />
       <PublicPageHero
-        eyebrow="Mediterranean portfolio"
+        eyebrow={t('city.properties')}
         title={`${t('city.properties_in')} Antalya`}
         description={`${t('antalya.intro')} ${t('antalya.intro2')}`}
         image={antalyaHero}
@@ -274,7 +274,7 @@ const AntalyaPropertySearch = () => {
         {/* SEO Intro Content */}
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div className="mb-0">
-            <EditorialSectionHeader eyebrow="Curated residences" title={`${t('city.properties_in')} Antalya`} />
+            <EditorialSectionHeader eyebrow={t('city.properties')} title={`${t('city.properties_in')} Antalya`} />
           </div>
           <p className="text-sm text-muted-foreground mt-4">
             {loading ? t('city.loading') : `${antalyaProperties.length} ${t('city.found')}`}
@@ -435,10 +435,10 @@ const AntalyaPropertySearch = () => {
                   <div className="max-w-md mx-auto">
                     <Grid className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-foreground mb-2">
-                      No Properties Found
+                      {t('city.no_found')}
                     </h3>
                     <p className="text-muted-foreground mb-6">
-                      Try adjusting your search criteria to find more properties.
+                      {t('city.try_adjust')}
                     </p>
                     <Button onClick={() => {
                   setFilters({
@@ -456,7 +456,7 @@ const AntalyaPropertySearch = () => {
                   });
                   setShowFiltered(false);
                 }} variant="outline">
-                      Clear Filters
+                      {t('city.clear_filters')}
                     </Button>
                   </div>
                 </div>}
@@ -469,29 +469,29 @@ const AntalyaPropertySearch = () => {
       <div className="border-t border-border bg-ivory">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="prose max-w-none">
-          <h2 className="mb-8 text-3xl font-semibold text-foreground">Why Choose Antalya for Your Property Investment?</h2>
+          <h2 className="mb-8 text-3xl font-semibold text-foreground">{t('city.why_choose')} Antalya {t('city.why_choose_suffix')}</h2>
           <div className="grid md:grid-cols-2 gap-6 text-muted-foreground">
             <div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">Investment Benefits</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-2">{t('city.investment_benefits')}</h3>
               <ul className="space-y-2 text-sm">
-                <li>• Turkish citizenship eligibility with $400,000+ investment</li>
-                <li>• Strong rental yields and capital appreciation potential</li>
-                <li>• No foreign ownership restrictions</li>
-                <li>• Growing tourism and international business hub</li>
+                <li>• {t('antalya.benefit1')}</li>
+                <li>• {t('antalya.benefit2')}</li>
+                <li>• {t('antalya.benefit3')}</li>
+                <li>• {t('antalya.benefit4')}</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">Lifestyle Advantages</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-2">{t('city.lifestyle_advantages')}</h3>
               <ul className="space-y-2 text-sm">
-                <li>• 300+ days of sunshine annually</li>
-                <li>• World-class beaches and marinas</li>
-                <li>• Rich historical and cultural attractions</li>
-                <li>• Modern healthcare and international schools</li>
+                <li>• {t('antalya.lifestyle1')}</li>
+                <li>• {t('antalya.lifestyle2')}</li>
+                <li>• {t('antalya.lifestyle3')}</li>
+                <li>• {t('antalya.lifestyle4')}</li>
               </ul>
             </div>
           </div>
           <p className="mt-6 text-sm">
-            Our expert team provides comprehensive support throughout your property purchase journey, from initial selection to citizenship application assistance. Contact us today to explore the best investment opportunities in Antalya.
+            {t('city.expert_team')}
           </p>
         </div>
       </div>

@@ -408,7 +408,7 @@ const MersinPropertySearch = () => {
                     });
                     setShowFiltered(false);
                   }}>
-                    Clear Filters
+                    {t('city.clear_filters')}
                   </Button>
                 </div>
               </div>
