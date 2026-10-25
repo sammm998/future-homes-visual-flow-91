@@ -1,10 +1,7 @@
 import { readCloudTranslations, pickPropertyTranslation } from "@/lib/cloudPropertyTranslations";
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
+import { createPublicCloudClient } from "@/integrations/legacy/publicCloud";
 
-const SUPABASE_URL = "https://kiogiyemoqbnuvclneoe.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtpb2dpeWVtb3FibnV2Y2xuZW9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI3MDg4NzIsImV4cCI6MjA2ODI4NDg3Mn0.wZFKwwrvtrps2gCFc15rHN-3eg5T_kEDioBGZV_IctI";
 
 const SUPPORTED_LANGUAGES = [
   "sv",
@@ -60,9 +57,7 @@ export const getPropertySeo = createServerFn({ method: "GET" })
   .handler(async ({ data }): Promise<PropertySeo | null> => {
     if (!data.id) return null;
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-      auth: { persistSession: false, autoRefreshToken: false },
-    });
+    const supabase = createPublicCloudClient() as any;
 
     const slugColumns = ["slug", ...SUPPORTED_LANGUAGES.map((l) => `slug_${l}`)];
     const select =
