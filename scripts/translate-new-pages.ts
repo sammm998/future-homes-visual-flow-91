@@ -18,6 +18,11 @@ function sameShape(a: any, b: any): boolean {
   return typeof b === "string" && b.trim().length > 0;
 }
 
+function copied(a: any, b: any): number {
+  if (typeof a === "string") return a.length > 25 && a === b ? 1 : 0;
+  return Object.keys(a).reduce((n, k) => n + copied(a[k], b?.[k]), 0);
+}
+
 await Promise.all(targets.map(async (lang) => {
   for (let attempt = 0; attempt < 3; attempt++) {
     const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -37,6 +42,8 @@ await Promise.all(targets.map(async (lang) => {
     try {
       const parsed = JSON.parse(j.choices[0].message.content.replace(/^```json|```$/g, ""));
       if (!sameShape(EN, parsed)) throw new Error("shape mismatch");
+      const same = copied(EN, parsed);
+      if (same > 8) throw new Error(`${same} strings left in English`);
       out[lang] = parsed;
       console.log("ok", lang);
       return;
