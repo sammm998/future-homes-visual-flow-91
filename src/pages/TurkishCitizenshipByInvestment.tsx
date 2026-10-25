@@ -200,7 +200,7 @@ const TurkishCitizenshipByInvestment = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties?citizenship-eligible=true">View Eligible Properties</Link>
+              <Link to="/map-search">View Eligible Properties</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/contact-us">Get Citizenship Consultation</Link>
@@ -450,7 +450,7 @@ const TurkishCitizenshipByInvestment = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties?citizenship-eligible=true">View Eligible Properties</Link>
+              <Link to="/map-search">View Eligible Properties</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/contact-us">Book Consultation</Link>

@@ -156,7 +156,7 @@ const LuxuryVillasInTurkey = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties?type=villa">View All Villas</Link>
+              <Link to="/map-search">View All Villas</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/contact-us">Schedule Villa Tour</Link>
@@ -343,7 +343,7 @@ const LuxuryVillasInTurkey = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" asChild>
-              <Link to="/properties?type=villa">Browse Luxury Villas</Link>
+              <Link to="/map-search">Browse Luxury Villas</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/contact-us">Schedule Private Tour</Link>

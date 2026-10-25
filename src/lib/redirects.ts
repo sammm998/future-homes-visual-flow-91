@@ -40,6 +40,7 @@ const LEGACY_PATHS: Record<string, string> = {
   "/kalkan": "/kalkan-property-for-sale",
   "/dubai-off-plan": "/dubai-off-plan-property",
   "/bali-villas": "/bali-villas-for-sale",
+  "/articles/apartments-for-sale-in-turkey-guide": "/apartments-for-sale-in-turkey",
 };
 
 /** Old first segments that pointed at a single listing. */
@@ -114,6 +115,24 @@ export function resolveRedirect(rawUrl: string): string | null {
 
   let rest = `/${segments.join("/")}`;
   if (rest === "/") rest = "/";
+
+  // 4a. Old filtered listing URLs -> the dedicated page for that filter (query dropped).
+  if (rest === "/properties" || rest === "/property-for-sale-in-turkey") {
+    const q = url.searchParams;
+    const type = (q.get("type") || "").toLowerCase();
+    const status = (q.get("status") || "").toLowerCase();
+    const target =
+      q.has("citizenship-eligible") ? "/turkish-citizenship-by-investment"
+      : /villa/.test(type) ? "/luxury-villas-in-turkey"
+      : /apartment|flat/.test(type) ? "/apartments-for-sale-in-turkey"
+      : /off-?plan|construction/.test(status) ? "/off-plan-property-turkey"
+      : null;
+    if (target || rest === "/properties") {
+      for (const k of ["type", "status", "citizenship-eligible"]) url.searchParams.delete(k);
+      rest = target || "/property-for-sale-in-turkey";
+      changed = true;
+    }
+  }
 
   // 4. Legacy single-page mappings.
   if (LEGACY_PATHS[rest]) {
