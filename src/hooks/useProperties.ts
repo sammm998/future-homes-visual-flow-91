@@ -3,6 +3,7 @@ import { enhancedSupabase, fallbackPropertyData } from '@/lib/supabase-enhanced'
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 
 import { useTranslation } from '@/hooks/useTranslation';
+import { readCloudTranslations, pickPropertyTranslation } from '@/lib/cloudPropertyTranslations';
 
 export const useProperties = (city?: string) => {
   const queryClient = useQueryClient();
@@ -16,7 +17,7 @@ export const useProperties = (city?: string) => {
         const data = await (async () => {
           // Reuse the original listing rows across languages and fetch translations
           // concurrently, rather than making visitors wait for two serial requests.
-          const [baseRows, translated] = await Promise.all([
+          const [baseRows, translated, cloudRows] = await Promise.all([
             queryClient.ensureQueryData<any[]>({
               queryKey: ['property-search-source', city ?? 'all'],
               staleTime: 5 * 60 * 1000,
@@ -35,6 +36,7 @@ export const useProperties = (city?: string) => {
                   .select('property_id, title, description, location')
                   .eq('language_code', lang)
               : Promise.resolve({ data: [] }),
+            lang && lang !== 'en' ? readCloudTranslations(lang) : Promise.resolve(new Map()),
           ]);
           if ('error' in translated && translated.error) throw translated.error;
           let rows = baseRows;
@@ -43,22 +45,20 @@ export const useProperties = (city?: string) => {
           if (lang && lang !== 'en' && rows.length > 0) {
             const translations = translated.data;
 
-            if (translations && translations.length > 0) {
-              const map = new Map(translations.map((t: any) => [t.property_id, t]));
-              rows = rows.map((r: any) => {
-                const t: any = map.get(r.id);
-                if (!t) return r;
-                return {
-                  ...r,
-                  title: t.title || r.title,
-                  description: t.description || r.description,
-                  // Keep original English location for filter/prefix matching;
-                  // expose translated copy separately for display purposes.
-                  location: r.location,
-                  location_translated: t.location || null,
-                };
-              });
-            }
+            const map = new Map((translations ?? []).map((t: any) => [t.property_id, t]));
+            rows = rows.map((r: any) => {
+              const t: any = pickPropertyTranslation(map.get(r.id), cloudRows.get(r.id), r);
+              if (!t) return r;
+              return {
+                ...r,
+                title: t.title || r.title,
+                description: t.description || r.description,
+                // Keep original English location for filter/prefix matching;
+                // expose translated copy separately for display purposes.
+                location: r.location,
+                location_translated: t.location || null,
+              };
+            });
           }
 
           return rows;

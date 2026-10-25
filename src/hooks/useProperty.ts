@@ -1,3 +1,4 @@
+import { readCloudTranslations, pickPropertyTranslation } from '@/lib/cloudPropertyTranslations';
 import { useQuery } from '@tanstack/react-query';
 import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
@@ -131,14 +132,18 @@ export const useProperty = (id: string) => {
         // Fetch translation for current language (if not English)
         const translationLang = normalizeLanguage(lang);
         if (translationLang && dbProperty.id) {
-          const { data: translation, error: translationError } = await enhancedSupabase
-            .from('property_translations')
-            .select('title, description, location')
-            .eq('property_id', dbProperty.id)
-            .eq('language_code', translationLang)
-            .maybeSingle();
+          const [{ data: legacyTranslation, error: translationError }, cloudRows] = await Promise.all([
+            enhancedSupabase
+              .from('property_translations')
+              .select('title, description, location')
+              .eq('property_id', dbProperty.id)
+              .eq('language_code', translationLang)
+              .maybeSingle(),
+            readCloudTranslations(translationLang, dbProperty.id),
+          ]);
 
           if (translationError) throw translationError;
+          const translation = pickPropertyTranslation(legacyTranslation, cloudRows.get(dbProperty.id), dbProperty);
           if (translation) {
             if (translation.title) dbProperty.title = translation.title;
             if (translation.description) dbProperty.description = translation.description;
