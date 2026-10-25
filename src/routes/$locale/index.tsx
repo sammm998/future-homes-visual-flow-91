@@ -20,7 +20,6 @@ export const Route = createFileRoute("/$locale/")({
     ],
     links: [homeHeroPreload],
   }),
-  ),
   component: LocaleHomePage,
 });
 
