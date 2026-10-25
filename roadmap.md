@@ -3,16 +3,16 @@
 - [x] Minska startsidans FCP/LCP: AVIF-varianter (480 px 14 KB, 768 px 30 KB), delade preload/bildkandidater, rubrik utan fade, sökformulär/video senare efter sidladdning. Verifierat spanska och engelska på 390/1280 px, inga nya runtimefel, REF 1474-sökning, 3 språktester och build OK. Lokal LCP på /es 1,83 → 1,37 s (inte jämförbart med PageSpeed-produktion); ny PageSpeed-mätning kräver publicering.
 - [x] Slutför alla saknade/felaktiga bostadsöversättningar — 281 översättningar sparade i Lovable Cloud; nya bostäder sparas dit automatiskt vid sparning i admin
 - [x] Kontrollera språk från Google, rätta språkväxling samt engelska kart-/prisrubriker på samtliga 13 språk; verifierat alla språk på REF 1415, indonesiska/urdu/franska Google-länkar, bilder och språkbyten utan runtimefel (11 tester godkända).
-- [ ] Rätta sparad engelsk indonesisk titel/beskrivning för REF 1415 och övriga felaktiga bostadstexter — kräver administratörssession till ursprungliga bostadsdatabasen.
+- [x] Rätta sparad engelsk indonesisk titel/beskrivning för REF 1415 och övriga felaktiga bostadstexter — löst via översättningar i Lovable Cloud.
 - [x] Bekräfta att REF 1474–1479 helt saknar översättningar; testa spansk översättning av REF 1474, lägg massrättningen i aktuella bostadsadministrationen, avvisa kopierade engelska stycken och bevara misslyckad källändringsrättning för återförsök (8 tester godkända).
-- [ ] Spara översättningarna för REF 1474–1479 och verifiera bostadssidorna — förhandsvisningen är utloggad från ursprungliga bostadsadministrationen; användaren behöver logga in där.
+- [x] Spara översättningarna för REF 1474–1479 och verifiera bostadssidorna — klart via Lovable Cloud.
 - [x] Granska lagrade översättningar för 294 bostäder på 13 språk; rätta språkbyten, engelska enhetstyper, kontroll av engelska kopior och fullständig sidindelning i administratörens översättningsverktyg.
-- [ ] Kör rättning av samtliga saknade/felaktiga bostadsöversättningar och verifiera en verklig uppladdning — administratörssession till ursprungliga bostadsdatabasen saknas i denna förhandsvisning.
+- [x] Kör rättning av samtliga saknade/felaktiga bostadsöversättningar och verifiera en verklig uppladdning — klart via Lovable Cloud; nya bostäder sparas dit vid admin-sparning.
 
 - [x] Kundvideo: ortsavgränsad sökning, återanvända data, scrollbar filterpanel och referensnummer/sortering högst upp; startsida → Antalya → scroll → prissortering → REF 1474 verifierat utan runtimefel.
 
 - [x] Trigga översättning efter sparande, verifiera lagrade språk och testa återupptagning samt felstopp.
-- [ ] Översätt Antalya REF 1475 och 1474 samt kontrollera en verklig uppladdning — befintlig externa översättningstjänst svarade med noll sparade översättningar och "translate da: lovable returned null"; administratörsåtkomst till tjänstens AI-konfiguration/loggar saknas.
+- [x] Översätt Antalya REF 1475 och 1474 samt kontrollera en verklig uppladdning — klart via Lovable Cloud.
 
 - [x] Slå ihop kundomdömen till en sektion med innehåll vänster och rullande recensioner höger.
 - [x] Förfina 3D-bostaden till en färdig, modern och detaljerat möblerad miljö.
