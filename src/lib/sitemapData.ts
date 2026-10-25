@@ -52,6 +52,9 @@ export const STATIC_PAGES: SitemapEntry[] = [
   { path: "/apartments-for-sale-in-turkey", priority: "0.8", changefreq: "weekly" },
   { path: "/luxury-villas-in-turkey", priority: "0.8", changefreq: "weekly" },
   { path: "/off-plan-property-turkey", priority: "0.7", changefreq: "weekly" },
+  { path: "/istanbul-rental-yield", priority: "0.7", changefreq: "weekly" },
+  { path: "/off-plan-turkey-vs-dubai", priority: "0.7", changefreq: "weekly" },
+  { path: "/turkish-citizenship-compliance-guide", priority: "0.7", changefreq: "monthly" },
   { path: "/articles/expenses-buying-property-turkey", priority: "0.7", changefreq: "monthly" },
 ];
 

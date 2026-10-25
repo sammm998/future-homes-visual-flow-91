@@ -1,3 +1,4 @@
+import { OfficialSources, CITIZENSHIP_SOURCES } from '@/components/OfficialSources';
 import React from 'react';
 import codingBackgroundImage from '@/assets/coding-background.jpg';
 import Navigation from '@/components/Navigation';
@@ -571,6 +572,7 @@ const ExpensesBuyingPropertyTurkey = () => {
               </Card>
             ))}
           </div>
+            <OfficialSources />
         </section>
 
         {/* CTA Section */}
