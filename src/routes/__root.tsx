@@ -67,8 +67,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png?v=5" },
       { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png?v=5" },
       { rel: "manifest", href: "/site.webmanifest?v=5" },
+      // Listing/content data comes from Lovable Cloud; older images still live on the original storage host.
+      { rel: "preconnect", href: "https://slwesocsoncujeghgkzh.supabase.co", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "//kiogiyemoqbnuvclneoe.supabase.co" },
-      { rel: "preconnect", href: "https://kiogiyemoqbnuvclneoe.supabase.co", crossOrigin: "anonymous" },
     ],
     scripts: [
       {
@@ -86,7 +87,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "window.gtag('js',new Date());}" +
           "var ev=['scroll','pointerdown','keydown','touchstart'];function onEv(){ev.forEach(function(e){window.removeEventListener(e,onEv)});load();}" +
           "ev.forEach(function(e){window.addEventListener(e,onEv,{once:true,passive:true})});" +
-          "function schedule(){if('requestIdleCallback' in window){requestIdleCallback(load,{timeout:12000});}else{setTimeout(load,10000);}}" +
+          // Without interaction, wait well past initial load so GTM's ~300 ms of main-thread work never competes with hydration.
+          "function schedule(){setTimeout(function(){if('requestIdleCallback' in window){requestIdleCallback(load,{timeout:4000});}else{load();}},9000);}" +
           "if(document.readyState==='complete'){schedule();}else{window.addEventListener('load',schedule);}})();",
       },
     ],
