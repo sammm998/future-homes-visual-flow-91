@@ -10,6 +10,7 @@ import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, S
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
 import { translateAmenity } from '@/utils/amenityTranslations';
+import { propertyTypeLabel } from '@/utils/propertyTypeLabel';
 import { getLocaleFromPathname, localizePath, stripLocale } from "@/utils/localeRouting";
 import {
   socialImage,
@@ -765,7 +766,7 @@ const PropertyDetail = () => {
                   {property.pricing.map((unit: any, index: number) => <div key={index} className="rounded-lg border border-border bg-card p-5 transition hover:border-gold/60">
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                         <div>
-                          <h3 className="font-semibold">{unit.type}</h3>
+                          <h3 className="font-semibold">{unit.type} {propertyTypeLabel('apartment', language)}</h3>
                           <p className="text-sm text-muted-foreground">{unit.size}</p>
                         </div>
                         <div className="text-xl font-bold text-primary mt-2 md:mt-0">
@@ -794,7 +795,7 @@ const PropertyDetail = () => {
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-navy-foreground/70">{t('pd.property_type', language)}:</span>
-                  <span className="font-semibold">{property.propertyType || 'Apartments'}</span>
+                  <span className="font-semibold">{propertyTypeLabel(property.propertyType, language)}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-navy-foreground/70">{t('pd.completion', language)}:</span>
