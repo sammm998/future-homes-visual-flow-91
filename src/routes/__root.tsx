@@ -15,6 +15,8 @@ import type { ErrorComponentProps } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { HelmetProvider } from '@/lib/helmet-compat';
 import { setCurrentLocation, getCurrentLanguage } from "@/utils/seoUtils";
+import { resolveUrlLocale } from "@/utils/localeRouting";
+import { ensureLanguage } from "@/utils/translations";
 
 
 import appCss from "../styles.css?url";
@@ -36,6 +38,9 @@ import { reportLovableError } from "@/lib/lovable-error-reporting";
 import PublicSidebarRail from "@/components/PublicSidebarRail";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  beforeLoad: async ({ location }) => {
+    await ensureLanguage(resolveUrlLocale(location.pathname, location.searchStr));
+  },
   head: () => ({
     // Sitewide defaults only — per-page title/description/og live in SEOHead
     meta: [
@@ -99,7 +104,7 @@ function RootShell({ children }: { children: ReactNode }) {
   // Make the active locale available to non-hook helpers during SSR *and*
   // on the client, so server HTML matches what React hydrates.
   setCurrentLocation(location.pathname, location.searchStr ? `?${location.searchStr}` : "");
-  const lang = getCurrentLanguage();
+  const lang = resolveUrlLocale(location.pathname, location.searchStr);
   const dir = ["ar", "fa", "ur"].includes(lang) ? "rtl" : "ltr";
 
   return (

@@ -11,6 +11,7 @@ import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
 import { translateAmenity } from '@/utils/amenityTranslations';
 import { propertyTypeLabel } from '@/utils/propertyTypeLabel';
+import { useTranslation } from '@/hooks/useTranslation';
 import { getLocaleFromPathname, localizePath, stripLocale } from "@/utils/localeRouting";
 import {
   socialImage,
@@ -234,8 +235,8 @@ const PropertyDetail = () => {
   } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const lang = getCurrentLanguage(location.search);
-  const language = lang || 'en';
+  const { lang: language } = useTranslation();
+  const lang = language;
   // During SSR there is no ?lang= param, so derive the SEO language from the
   // URL prefix (/tr/mulk/1046) to keep metadata and schema in the right language.
   // Some URLs carry the localized segment without a locale prefix
@@ -565,7 +566,7 @@ const PropertyDetail = () => {
                 <span className="inline-flex items-center rounded-sm bg-navy px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-navy-foreground">
                   REF {property.refNo || property.id}
                 </span>
-                {property.propertyType && <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">{property.propertyType}</span>}
+                {property.propertyType && <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">{propertyTypeLabel(property.propertyType, language)}</span>}
               </div>
 
               <h1 className="max-w-4xl text-3xl font-semibold leading-[1.1] text-navy sm:text-4xl md:text-6xl">

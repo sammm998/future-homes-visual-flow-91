@@ -34,13 +34,15 @@ export const useLanguageUrlSync = () => {
 
     // 1. Legacy ?lang= links -> path-based URL
     if (langFromUrl && isSupportedLocale(langFromUrl)) {
+      // A prefixed Google URL wins over a conflicting legacy query parameter.
+      const targetLang = langFromPath || langFromUrl;
       processingRef.current = true;
-      if (langFromUrl === 'en') {
+      if (targetLang === 'en') {
         localStorage.removeItem('preferred_language');
       } else {
-        localStorage.setItem('preferred_language', langFromUrl);
+        localStorage.setItem('preferred_language', targetLang);
       }
-      const target = `${localizePath(location.pathname, langFromUrl)}${stripLangParam(location.search)}`;
+      const target = `${localizePath(location.pathname, targetLang)}${stripLangParam(location.search)}`;
       navigate(target, { replace: true });
       setTimeout(() => { processingRef.current = false; }, 100);
       return;
