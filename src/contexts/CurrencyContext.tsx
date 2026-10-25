@@ -119,17 +119,17 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   // Fetch live rates on mount
   useEffect(() => {
-    fetchLiveRates().then(rates => {
-      if (rates) {
-        setLiveRates(rates);
-        currencies = buildCurrencies(rates);
-        // Update selected currency with new rate
-        setSelectedCurrencyState(prev => {
-          const updated = currencies.find(c => c.code === prev.code);
-          return updated || prev;
-        });
-      }
+    // Fallback rates render instantly; fetch live rates once the browser is idle so it never competes with first paint.
+    let cancelled = false;
+    const run = () => fetchLiveRates().then(rates => {
+      if (cancelled || !rates) return;
+      setLiveRates(rates);
+      currencies = buildCurrencies(rates);
+      setSelectedCurrencyState(prev => currencies.find(c => c.code === prev.code) || prev);
     });
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    const id = w.requestIdleCallback ? w.requestIdleCallback(run, { timeout: 5000 }) : window.setTimeout(run, 2500);
+    return () => { cancelled = true; if (!w.requestIdleCallback) clearTimeout(id); };
   }, []);
 
   const convertPrice = useCallback((price: number, fromCurrency: string = 'EUR'): number => {
