@@ -385,7 +385,7 @@ const MersinPropertySearch = () => {
           {/* Main content area */}
           <div className="flex-1 min-w-0">
             {/* No Properties Message */}
-            {filteredProperties.length === 0 && (
+            {!loading && filteredProperties.length === 0 && (
               <div className="flex items-center justify-center min-h-[400px]">
                 <div className="text-center">
                   <h3 className="text-lg font-semibold text-foreground mb-2">{t('city.no_found')}</h3>
