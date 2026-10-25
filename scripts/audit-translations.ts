@@ -1,7 +1,7 @@
 // Audit: find every t('key') used in src and report which languages lack it.
 import { readdirSync, statSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { translations } from '../src/utils/translations';
+import { translations } from '../src/utils/translationsSource';
 
 const LANGS = ['en','sv','no','da','de','fr','es','tr','ru','ar','fa','ur','id'];
 
