@@ -1626,6 +1626,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_top_properties: {
+        Args: { days_back?: number; top_n?: number }
+        Returns: {
+          id: string
+          location: string
+          price: string
+          title: string
+          views: number
+        }[]
+      }
+      get_traffic_summary: { Args: { days_back?: number }; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

@@ -36,6 +36,13 @@
       "when": 1792938543042,
       "tag": "0004_property_images_admin_uploads",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792938609950,
+      "tag": "0005_admin_analytics_functions",
+      "breakpoints": true
     }
   ]
 }
