@@ -66,7 +66,7 @@ export function useLocation() {
   return useMemo(
     () => ({
       pathname: loc.pathname,
-      search: loc.searchStr ? `?${loc.searchStr}` : "",
+      search: loc.searchStr ? `?${loc.searchStr.replace(/^\?+/, '')}` : "",
       hash: loc.hash ?? "",
       // react-router types state loosely; legacy call sites read arbitrary keys.
       state: (loc.state ?? null) as any,
