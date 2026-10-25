@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from '@/lib/helmet-compat';
 import { supportedLanguages, getLanguageFromUrl } from '@/utils/seoConfig';
 import { stripLocale, localizePath, getLocaleFromPathname } from '@/utils/localeRouting';
 
@@ -100,14 +99,13 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
   };
 
   return (
-    <Helmet>
-      {/* Basic Meta Tags */}
+    <>
+      {/* Basic Meta Tags — React 19 hoists these into <head>, SSR included */}
       <title>{title}</title>
       <meta name="description" content={description} />
       {keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
       
       {/* Language and Canonical */}
-      <html lang={currentLanguage} />
       <link rel="canonical" href={resolvedCanonical} />
       
       {/* Robots */}
@@ -172,6 +170,6 @@ export const EnhancedSEOHead: React.FC<EnhancedSEOHeadProps> = ({
           {JSON.stringify(structuredData)}
         </script>
       )}
-    </Helmet>
+    </>
   );
 };
