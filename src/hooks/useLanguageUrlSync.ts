@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useHydrated } from '@tanstack/react-router';
 import { useLocation, useNavigate } from '@/lib/router-compat';
 import { PATH_TRANSLATIONS, buildPropertyUrl } from '@/utils/slugHelpers';
 import {
@@ -23,8 +24,10 @@ export const useLanguageUrlSync = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const processingRef = useRef(false);
+  const hydrated = useHydrated();
 
   useEffect(() => {
+    if (!hydrated) return;
     if (processingRef.current) return;
     if (NON_LOCALIZED_PREFIXES.some((p) => location.pathname.startsWith(p))) return;
 
@@ -34,13 +37,15 @@ export const useLanguageUrlSync = () => {
 
     // 1. Legacy ?lang= links -> path-based URL
     if (langFromUrl && isSupportedLocale(langFromUrl)) {
+      // A prefixed Google URL wins over a conflicting legacy query parameter.
+      const targetLang = langFromPath || langFromUrl;
       processingRef.current = true;
-      if (langFromUrl === 'en') {
+      if (targetLang === 'en') {
         localStorage.removeItem('preferred_language');
       } else {
-        localStorage.setItem('preferred_language', langFromUrl);
+        localStorage.setItem('preferred_language', targetLang);
       }
-      const target = `${localizePath(location.pathname, langFromUrl)}${stripLangParam(location.search)}`;
+      const target = `${localizePath(location.pathname, targetLang)}${stripLangParam(location.search)}`;
       navigate(target, { replace: true });
       setTimeout(() => { processingRef.current = false; }, 100);
       return;
@@ -56,8 +61,8 @@ export const useLanguageUrlSync = () => {
     // 2. Saved preference but no prefix in the URL -> add the prefix
     if (effectiveLang && !langFromPath) {
       processingRef.current = true;
-      navigate(`${localizePath(location.pathname, effectiveLang)}${location.search}`, { replace: true });
-      setTimeout(() => { processingRef.current = false; }, 100);
+      // A document navigation keeps SSR markup and the preferred dictionary together.
+      window.location.replace(`${localizePath(location.pathname, effectiveLang)}${location.search}`);
       return;
     }
 
@@ -104,5 +109,5 @@ export const useLanguageUrlSync = () => {
     syncPropertyUrl();
 
     return () => { cancelled = true; };
-  }, [location.pathname, location.search, navigate]);
+  }, [hydrated, location.pathname, location.search, navigate]);
 };

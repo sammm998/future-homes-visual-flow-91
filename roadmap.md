@@ -1,5 +1,7 @@
 # Roadmap
 
+- [x] Kontrollera språk från Google, rätta språkväxling samt engelska kart-/prisrubriker på samtliga 13 språk; verifierat alla språk på REF 1415, indonesiska/urdu/franska Google-länkar, bilder och språkbyten utan runtimefel (11 tester godkända).
+- [ ] Rätta sparad engelsk indonesisk titel/beskrivning för REF 1415 och övriga felaktiga bostadstexter — kräver administratörssession till ursprungliga bostadsdatabasen.
 - [x] Bekräfta att REF 1474–1479 helt saknar översättningar; testa spansk översättning av REF 1474, lägg massrättningen i aktuella bostadsadministrationen, avvisa kopierade engelska stycken och bevara misslyckad källändringsrättning för återförsök (8 tester godkända).
 - [ ] Spara översättningarna för REF 1474–1479 och verifiera bostadssidorna — förhandsvisningen är utloggad från ursprungliga bostadsadministrationen; användaren behöver logga in där.
 - [x] Granska lagrade översättningar för 294 bostäder på 13 språk; rätta språkbyten, engelska enhetstyper, kontroll av engelska kopior och fullständig sidindelning i administratörens översättningsverktyg.

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useLocation } from '@/lib/router-compat';
 import { PATH_TRANSLATIONS, buildPropertyUrl } from '@/utils/slugHelpers';
-import { localizePath, stripLocale, stripLangParam, getLocaleFromPathname } from '@/utils/localeRouting';
+import { localizePath, stripLocale, stripLangParam, resolveUrlLocale } from '@/utils/localeRouting';
 import { supabase } from '@/integrations/legacy/client';
 
 const languages = [
@@ -34,7 +34,7 @@ const SimpleLanguageSelector: React.FC<SimpleLanguageSelectorProps> = ({ classNa
 
   // Derive the language from the router location so SSR and the first client
   // render agree (window/localStorage lookups caused hydration mismatches).
-  const currentLanguageCode = getLocaleFromPathname(location.pathname) || 'en';
+  const currentLanguageCode = resolveUrlLocale(location.pathname, location.search);
   const currentLanguage = useMemo(() => {
     return languages.find(lang => lang.code === currentLanguageCode) || languages[0];
   }, [currentLanguageCode]);

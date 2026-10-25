@@ -10,6 +10,7 @@
 - AI property search runs through server routes /api/ai-search and /api/ai-transcribe with helpers in src/lib/aiSearch.server.ts — keeps the AI key and full listing catalog on the server.
 - Property editor saves (including drafts) await translateSavedProperty for all twelve non-English languages; reject copied English and incomplete rows, refresh translations after source-text changes, and verify writes through the legacy admin session — keeps translations complete without changing database ownership or AI provider.
 - Property pages only read stored translations; never generate translations on visitor page views — prevents unbounded AI charges and writes against the wrong database.
+- Resolve landing locales from router pathname/query with prefix precedence and await dictionary loading in the root beforeLoad; never count a pending dictionary as loaded — keeps language flags and content synchronized across Google links and client navigation.
 - Keep bulk property translation repair on the current admin property list and preserve failed source-change refreshes until all languages save — prevents the repair tool being stranded on the retired dashboard or stale translations being skipped after a failure.
 - Resolve property map embeds and outbound map links through propertyMapLocation so verified location corrections apply consistently to both.
 - Investment calculator country rates live only in src/lib/investmentCalc.ts (MARKETS) — one place to update indicative fees.

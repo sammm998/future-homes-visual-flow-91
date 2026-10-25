@@ -20,6 +20,15 @@ export const getLocaleFromPathname = (pathname: string): Locale | null => {
   return null;
 };
 
+/** The URL, never a previous visitor preference, selects a search landing's language. */
+export const resolveUrlLocale = (pathname: string, search = ''): Locale => {
+  const prefix = getLocaleFromPathname(pathname);
+  if (prefix) return prefix;
+  const query = new URLSearchParams(search).get('lang');
+  if (isSupportedLocale(query)) return query;
+  return 'en';
+};
+
 /** Removes a leading locale segment: /sv/antalya -> /antalya */
 export const stripLocale = (pathname: string): string => {
   const locale = getLocaleFromPathname(pathname);

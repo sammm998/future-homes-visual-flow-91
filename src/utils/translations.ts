@@ -22,16 +22,19 @@ const detectLanguage = (): string => {
 };
 
 const loaded = new Set<string>(['en']);
+const pending = new Map<string, Promise<void>>();
 
 /** Loads a dictionary on demand (used when the user switches language client-side). */
 export const ensureLanguage = async (language: string): Promise<void> => {
   if (loaded.has(language) || !(language in loaders)) return;
-  loaded.add(language);
-  try {
-    translations[language] = (await loaders[language]()).default;
-  } catch {
-    loaded.delete(language);
-  }
+  const existing = pending.get(language);
+  if (existing) return existing;
+  const request = loaders[language]().then(module => {
+    translations[language] = module.default;
+    loaded.add(language);
+  }).finally(() => pending.delete(language));
+  pending.set(language, request);
+  return request;
 };
 
 if (import.meta.env.SSR) {

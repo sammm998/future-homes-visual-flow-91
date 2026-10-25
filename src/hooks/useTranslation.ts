@@ -1,4 +1,4 @@
-import { getCurrentLanguage } from '@/utils/seoUtils';
+import { resolveUrlLocale } from '@/utils/localeRouting';
 import { t } from '@/utils/translations';
 import { useLocation } from '@/lib/router-compat';
 import { useMemo, useEffect } from 'react';
@@ -8,7 +8,7 @@ const RTL_LANGUAGES = ['ar', 'fa', 'ur'];
 export const useTranslation = () => {
   const location = useLocation();
   
-  const lang = useMemo(() => getCurrentLanguage(), [location.pathname, location.search]);
+  const lang = useMemo(() => resolveUrlLocale(location.pathname, location.search), [location.pathname, location.search]);
   
   const isRTL = RTL_LANGUAGES.includes(lang);
 
