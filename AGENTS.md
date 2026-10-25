@@ -10,6 +10,7 @@
 - AI property search runs through server routes /api/ai-search and /api/ai-transcribe with helpers in src/lib/aiSearch.server.ts — keeps the AI key and full listing catalog on the server.
 - Property editor saves (including drafts) await translateSavedProperty for all twelve non-English languages; reject copied English and incomplete rows, refresh translations after source-text changes, and verify writes through the legacy admin session — keeps translations complete without changing database ownership or AI provider.
 - Property pages only read stored translations; never generate translations on visitor page views — prevents unbounded AI charges and writes against the wrong database.
+- Resolve property map embeds and outbound map links through propertyMapLocation so verified location corrections apply consistently to both.
 - Investment calculator country rates live only in src/lib/investmentCalc.ts (MARKETS) — one place to update indicative fees.
 - Homes, leads, team and translations stay in the original property database via src/integrations/legacy/client.ts; Lovable Cloud (src/integrations/supabase) holds only VIP Club, alerts and partner data — keeps existing listings and admin working.
 - Destination searches scope listing queries by city and reuse original rows across languages with concurrent translation reads; desktop filters scroll within viewport bounds — avoids serial reloads and inaccessible controls on short screens.

@@ -3,6 +3,7 @@ import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis
 import { MapPin } from "lucide-react";
 import PropertyCard from "@/components/PropertyCard";
 import { useProperties } from "@/hooks/useProperties";
+import { propertyMapLocation } from "@/utils/propertyMapLocation";
 
 const L: Record<string, Record<string, string>> = {
   en: { trend: "Price per m² in", sub: "Median asking price per m² by district — today's available units", this: "price per m²", avg: "Median in", diff: "vs median", units: "units", none: "Not enough priced units in this area yet.", src: "Calculated from the price and size of every available unit in our listings in", src2: "Asking prices, not completed sales. Updated automatically when listings change.", similar: "Similar homes in", map: "Map & location", open: "Open in Google Maps", this_d: "This home's district" },
