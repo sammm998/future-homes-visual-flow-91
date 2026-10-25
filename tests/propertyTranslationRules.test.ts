@@ -1,6 +1,5 @@
-/// <reference types="bun" />
 import { describe, it, expect } from "bun:test";
-import { PROPERTY_TRANSLATION_LANGUAGES, isCompletePropertyTranslation, propertyTranslationSourceChanged } from "./propertyTranslationRules";
+import { PROPERTY_TRANSLATION_LANGUAGES, isCompletePropertyTranslation, propertyTranslationSourceChanged } from "../src/lib/propertyTranslationRules";
 
 const source = { title: "Luxury villas in Antalya", description: "A villa near the beach.", location: "Antalya" };
 describe("property translation completeness", () => {
