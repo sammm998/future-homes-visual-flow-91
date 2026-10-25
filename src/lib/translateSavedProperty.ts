@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/legacy/client";
 import { translatePropertyText } from "@/lib/translatePropertyText.functions";
-import { PROPERTY_TRANSLATION_LANGUAGES, isCompletePropertyTranslation } from "./propertyTranslationRules";
+import { PROPERTY_TRANSLATION_LANGUAGES, isCompletePropertyTranslation, pickPropertyTranslation } from "./propertyTranslationRules";
+import { supabase as cloud } from "@/integrations/supabase/client";
 export { PROPERTY_TRANSLATION_LANGUAGES } from "./propertyTranslationRules";
 
 /** Translate one language at a time via Lovable AI, save with the admin's own
@@ -11,12 +12,18 @@ export async function translateSavedProperty(
   client = supabase,
   force = false,
 ) {
+  // A language counts as done when either database holds a complete,
+  // current translation; the site reads both.
   const readCompleted = async () => {
-    const { data, error } = await client.from("property_translations")
-      .select("language_code,title,description,location")
-      .eq("property_id", propertyId);
+    const [{ data, error }, { data: cloudRows }] = await Promise.all([
+      client.from("property_translations").select("language_code,title,description,location").eq("property_id", propertyId),
+      cloud.from("property_text_translations").select("language_code,title,description,location,source_hash").eq("property_id", propertyId),
+    ]);
     if (error) throw new Error("Could not check saved translations.");
-    return new Set((data || []).filter((row) => isCompletePropertyTranslation(row, property)).map((row) => row.language_code));
+    const legacy = new Map((data || []).map((row) => [row.language_code, row]));
+    const stored = new Map((cloudRows || []).map((row) => [row.language_code, row]));
+    return new Set(PROPERTY_TRANSLATION_LANGUAGES.filter((code) =>
+      isCompletePropertyTranslation(pickPropertyTranslation(legacy.get(code), stored.get(code), property!), property)));
   };
 
   const { data: property, error: propError } = await client.from("properties")
@@ -36,7 +43,7 @@ export async function translateSavedProperty(
     let translated;
     try {
       translated = await translatePropertyText({
-        data: { title: property.title, description: property.description, location: property.location || "", language, accessToken },
+        data: { title: property.title, description: property.description, location: property.location || "", language, accessToken, propertyId },
       });
     } catch (e) {
       // Stop on any failure: no silent retry or continued charges after a denial.
@@ -47,7 +54,8 @@ export async function translateSavedProperty(
       { property_id: propertyId, language_code: language, ...translated, updated_at: new Date().toISOString() },
       { onConflict: "property_id,language_code" },
     );
-    if (error) throw new Error(`The ${language.toUpperCase()} translation could not be saved: ${error.message}`);
+    // The Cloud copy was saved by the server; the original database may refuse writes.
+    if (error) console.warn(`[translations] original database refused ${language}: ${error.message}`);
     completed = await readCompleted();
     if (!completed.has(language)) throw new Error(`The ${language.toUpperCase()} translation was not saved.`);
     onProgress(count(), PROPERTY_TRANSLATION_LANGUAGES.length);

@@ -1,3 +1,4 @@
+import { readCloudTranslations, pickPropertyTranslation } from "@/lib/cloudPropertyTranslations";
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 
@@ -103,12 +104,16 @@ export const getPropertySeo = createServerFn({ method: "GET" })
 
     // Localized title/description when the visitor is not on the English site
     if (data.lang && SUPPORTED_LANGUAGES.includes(data.lang)) {
-      const { data: translation } = await supabase
-        .from("property_translations")
-        .select("title, description, location")
-        .eq("property_id", property.id)
-        .eq("language_code", data.lang)
-        .maybeSingle();
+      const [{ data: legacyTranslation }, cloudRows] = await Promise.all([
+        supabase
+          .from("property_translations")
+          .select("title, description, location")
+          .eq("property_id", property.id)
+          .eq("language_code", data.lang)
+          .maybeSingle(),
+        readCloudTranslations(data.lang, property.id),
+      ]);
+      const translation = pickPropertyTranslation(legacyTranslation, cloudRows.get(property.id), property);
 
       if (translation) {
         if (translation.title) property.title = translation.title;

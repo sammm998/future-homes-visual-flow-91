@@ -235,6 +235,42 @@ export type Database = {
         }
         Relationships: []
       }
+      property_text_translations: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          language_code: string
+          location: string | null
+          property_id: string
+          source_hash: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          language_code: string
+          location?: string | null
+          property_id: string
+          source_hash: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          language_code?: string
+          location?: string | null
+          property_id?: string
+          source_hash?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       saved_searches: {
         Row: {
           active: boolean

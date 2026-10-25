@@ -1,13 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { LEGACY_SUPABASE_URL, LEGACY_SUPABASE_KEY } from "@/integrations/legacy/client";
+import { isCompletePropertyTranslation, propertyTranslationSourceHash } from "@/lib/propertyTranslationRules";
 
 const LANGS: Record<string, string> = {
   sv: "Swedish", tr: "Turkish", ar: "Arabic", ru: "Russian", no: "Norwegian", da: "Danish",
   fa: "Persian (Farsi)", ur: "Urdu", de: "German", fr: "French", es: "Spanish", id: "Indonesian",
 };
 
-type Input = { title: string; description: string; location: string; language: string; accessToken: string };
+type Input = { title: string; description: string; location: string; language: string; accessToken: string; propertyId?: string };
 
 /** Admin-only: translate one listing into one language with Lovable AI. The
  * browser saves the result with the admin's own session. */
@@ -55,9 +56,21 @@ export const translatePropertyText = createServerFn({ method: "POST" })
     const text: string = json?.choices?.[0]?.message?.content ?? "";
     const obj = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
     if (!obj?.title || !obj?.description) throw new Error("Translation came back empty.");
-    return {
+    const result = {
       title: String(obj.title),
       description: String(obj.description),
       location: String(obj.location || data.location || ""),
     };
+    // Store a verified copy in Lovable Cloud, which the site reads when the
+    // original database has no complete translation for this listing.
+    const source = { title: data.title, description: data.description, location: data.location };
+    if (data.propertyId && isCompletePropertyTranslation(result, source)) {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { error } = await supabaseAdmin.from("property_text_translations").upsert(
+        { property_id: data.propertyId, language_code: data.language, ...result, source_hash: propertyTranslationSourceHash(source) },
+        { onConflict: "property_id,language_code" },
+      );
+      if (error) throw new Error(`Could not save the translation: ${error.message}`);
+    }
+    return result;
   });
