@@ -24,7 +24,7 @@ await Promise.all(targets.map(async (lang) => {
       method: "POST",
       headers: { Authorization: `Bearer ${process.env.LOVABLE_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-3.8-flash",
         response_format: { type: "json_object" },
         messages: [
           { role: "system", content: `You translate real-estate website copy from English to ${LANGS[lang]}. Return ONLY JSON with exactly the same keys and array lengths. Keep placeholders like {district} unchanged. Keep proper names, Turkish legal terms in parentheses (tapu, kat irtifakı, şerh, vergi numarası, DASK, DAB, SPK, NVI, TKGM, RERA, Oqood, NOC, e-İkamet), numbers, currencies and "Future Homes" unchanged.` },
