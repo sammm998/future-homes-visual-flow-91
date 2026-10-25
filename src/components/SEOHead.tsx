@@ -2,6 +2,8 @@ import React from 'react';
 import { supportedLanguages, getCurrentLanguage, getCurrentPathname } from '@/utils/seoUtils';
 import { stripLocale, localizePath } from '@/utils/localeRouting';
 import { getLocalizedPageMeta } from '@/utils/seoMetaTranslations';
+import { useLocation } from '@/lib/router-compat';
+import { resolveUrlLocale } from '@/utils/localeRouting';
 
 const OG_LOCALES: Record<string, string> = {
   en: 'en_US', es: 'es_ES', sv: 'sv_SE', no: 'nb_NO', da: 'da_DK', de: 'de_DE',
@@ -41,10 +43,11 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   noindex = false,
   breadcrumbs
 }) => {
-  const currentLocaleFreePath = stripLocale(getCurrentPathname());
+  const location = useLocation();
+  const currentLocaleFreePath = stripLocale(location.pathname);
   const siteName = 'Future Homes International';
   const defaultImage = 'https://futurehomesinternational.com/og-image.jpg';
-  const currentLanguage = getCurrentLanguage();
+  const currentLanguage = resolveUrlLocale(location.pathname, location.search);
   const baseUrl = 'https://futurehomesinternational.com';
 
   // Self-referencing, locale-aware canonical

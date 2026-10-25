@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useHydrated } from '@tanstack/react-router';
 import { useLocation, useNavigate } from '@/lib/router-compat';
 import { PATH_TRANSLATIONS, buildPropertyUrl } from '@/utils/slugHelpers';
 import {
@@ -23,8 +24,10 @@ export const useLanguageUrlSync = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const processingRef = useRef(false);
+  const hydrated = useHydrated();
 
   useEffect(() => {
+    if (!hydrated) return;
     if (processingRef.current) return;
     if (NON_LOCALIZED_PREFIXES.some((p) => location.pathname.startsWith(p))) return;
 
@@ -106,5 +109,5 @@ export const useLanguageUrlSync = () => {
     syncPropertyUrl();
 
     return () => { cancelled = true; };
-  }, [location.pathname, location.search, navigate]);
+  }, [hydrated, location.pathname, location.search, navigate]);
 };
