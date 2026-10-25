@@ -131,6 +131,8 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
           <div className="max-w-4xl mx-auto">
             {/* Hero — AI-generated featured image when available, otherwise branded category hero */}
             {featuredImage && /^(https?:\/\/|\/)/.test(featuredImage) ? (
+              <>
+              <h1 className="mb-6 text-3xl font-semibold leading-tight text-foreground sm:text-4xl md:text-5xl">{title}</h1>
               <div className="relative w-full aspect-[16/9] mb-8 overflow-hidden rounded-2xl shadow-elegant">
                 <img
                   src={featuredImage}
@@ -139,6 +141,7 @@ const ArticleLayout: React.FC<ArticleLayoutProps> = ({
                   loading="eager"
                 />
               </div>
+              </>
             ) : (
               <CategoryHero
                 category={resolvedCategory}
