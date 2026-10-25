@@ -1,5 +1,6 @@
 # Roadmap
 
+- [ ] Rätta engelska bostadstexter från skärmbilderna (REF 1474–1479); gör massrättningen tillgänglig i aktuella bostadsadministrationen och verifiera sparade språk — kräver inloggning i ursprungliga bostadsadministrationen.
 - [x] Granska lagrade översättningar för 294 bostäder på 13 språk; rätta språkbyten, engelska enhetstyper, kontroll av engelska kopior och fullständig sidindelning i administratörens översättningsverktyg.
 - [ ] Kör rättning av samtliga saknade/felaktiga bostadsöversättningar och verifiera en verklig uppladdning — administratörssession till ursprungliga bostadsdatabasen saknas i denna förhandsvisning.
 

@@ -17,6 +17,11 @@ describe("property translation completeness", () => {
   it("allows unchanged proper place names with translated prose", () => {
     expect(isCompletePropertyTranslation({ title: "Vila mewah di Antalya", description: "Vila dekat pantai.", location: "Antalya" }, source)).toBe(true);
   });
+  it("rejects mixed descriptions containing an untranslated English paragraph", () => {
+    const original = { ...source, description: "Located in Antalya, this project offers comfortable family living.\nOutdoor swimming pool and a modern fitness center." };
+    expect(isCompletePropertyTranslation({ title: "Apartamentos en Antalya", location: "Antalya", description: "Situado en Antalya, este proyecto ofrece una cómoda vida familiar.\nOutdoor swimming pool and a modern fitness center." }, original)).toBe(false);
+    expect(isCompletePropertyTranslation({ title: "Apartamentos en Antalya", location: "Antalya", description: "Situado en Antalya, este proyecto ofrece una cómoda vida familiar.\nPiscina al aire libre y un gimnasio moderno." }, original)).toBe(true);
+  });
   it("retranslates changed source text, but not whitespace-only edits", () => {
     expect(propertyTranslationSourceChanged(source, { ...source, description: "Two villas near the beach." })).toBe(true);
     expect(propertyTranslationSourceChanged(source, { ...source, title: " Luxury villas in Antalya " })).toBe(false);
