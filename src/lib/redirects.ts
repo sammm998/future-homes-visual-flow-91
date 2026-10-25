@@ -40,7 +40,6 @@ const LEGACY_PATHS: Record<string, string> = {
   "/kalkan": "/kalkan-property-for-sale",
   "/dubai-off-plan": "/dubai-off-plan-property",
   "/bali-villas": "/bali-villas-for-sale",
-  "/articles/apartments-for-sale-in-turkey-guide": "/apartments-for-sale-in-turkey",
 };
 
 /** Old first segments that pointed at a single listing. */
