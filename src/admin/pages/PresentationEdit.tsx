@@ -1,3 +1,4 @@
+import { mediaUrl } from "@/lib/mediaUrl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "@/lib/router-compat";
 import { supabase } from "@/integrations/legacy/client";
@@ -605,8 +606,7 @@ function ImagePicker({
       const path = `presentations/${Date.now()}_${file.name.replace(/[^\w.-]/g, "_")}`;
       const { error } = await supabase.storage.from("property-images").upload(path, file);
       if (!error) {
-        const { data } = supabase.storage.from("property-images").getPublicUrl(path);
-        urls.push(data.publicUrl);
+        urls.push(mediaUrl(path));
       }
     }
     setUploading(false);
