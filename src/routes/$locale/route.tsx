@@ -11,23 +11,6 @@ export const Route = createFileRoute("/$locale")({
       throw notFound();
     }
   },
-  head: ({ params }) => {
-    const c = getCityLandingConfig(params.locale);
-    if (!c) return {};
-    const url = `https://futurehomesinternational.com/${c.slug}`;
-    return {
-      meta: [
-        { title: `${c.title} | Future Homes` },
-        { name: "description", content: c.metaDescription },
-        { property: "og:title", content: c.title },
-        { property: "og:description", content: c.metaDescription },
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: url },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
-      links: [{ rel: "canonical", href: url }],
-    };
-  },
   component: LocaleLayout,
 });
 
