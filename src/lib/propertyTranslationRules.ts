@@ -7,7 +7,9 @@ const normalize = (value?: string | null) => (value ?? "").replace(/\s+/g, " ").
 export function containsCopiedSourceProse(translated: string, source: string): boolean {
   const blocks = source.replace(/<[^>]*>/g, "\n").split(/\n+|(?<=[.!?])\s+/)
     .map(block => normalize(block).toLowerCase())
-    .filter(block => block.length >= 35 && block.split(/\s+/).length >= 6);
+    .filter(block => block.length >= 35 && block.split(/\s+/).length >= 6)
+    // Distance/data lines such as "Ngurah Rai International Airport (DPS): 17 km" are names, not prose.
+    .filter(block => !/:\s*[\d~≈]/.test(block));
   const target = normalize(translated.replace(/<[^>]*>/g, " ")).toLowerCase();
   return blocks.some(block => target.includes(block));
 }
