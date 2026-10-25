@@ -4,13 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Languages, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { translateSavedProperty, PROPERTY_TRANSLATION_LANGUAGES } from '@/lib/translateSavedProperty';
+import { isCompletePropertyTranslation } from '@/lib/propertyTranslationRules';
 
 const AdminPropertyTranslator = () => {
   const [loading, setLoading] = useState(false);
-  const [batchSize, setBatchSize] = useState(3);
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const [stats, setStats] = useState<{
     translations_saved: number;
@@ -27,7 +25,7 @@ const AdminPropertyTranslator = () => {
       // Get all active property IDs
       const { data: allProps, error: fetchError } = await supabase
         .from('properties')
-        .select('id')
+        .select('id,title,description,location')
         .eq('is_active', true)
         .order('created_at', { ascending: false });
 
@@ -44,28 +42,39 @@ const AdminPropertyTranslator = () => {
       let totalErrors = 0;
       let totalProcessed = 0;
 
-      if (!force) {
+      {
         // Only properties still missing a language; translated & saved one by one.
-        const { data: rows } = await supabase
-          .from('property_translations')
-          .select('property_id,language_code,title,description')
-          .in('property_id', allIds);
-        const doneCount = new Map<string, number>();
-        for (const r of rows || []) {
-          if (r.title?.trim() && r.description?.trim()) doneCount.set(r.property_id, (doneCount.get(r.property_id) || 0) + 1);
+        const rows: Array<{property_id: string; language_code: string; title: string | null; description: string | null; location: string | null}> = [];
+        for (let from = 0; ; from += 500) {
+          const { data: page, error } = await supabase.from('property_translations')
+            .select('property_id,language_code,title,description,location')
+            .order('id').range(from, from + 499);
+          if (error) throw error;
+          rows.push(...(page ?? []));
+          if (!page || page.length < 500) break;
         }
-        const todo = allIds.filter((id) => (doneCount.get(id) || 0) < PROPERTY_TRANSLATION_LANGUAGES.length);
+        const sources = new Map(allProps.map(p => [p.id, p]));
+        const completed = new Map<string, Set<string>>();
+        for (const r of rows) {
+          if (!PROPERTY_TRANSLATION_LANGUAGES.some(code => code === r.language_code) || !isCompletePropertyTranslation(r, sources.get(r.property_id))) continue;
+          const languages = completed.get(r.property_id) ?? new Set<string>();
+          languages.add(r.language_code);
+          completed.set(r.property_id, languages);
+        }
+        const doneCount = new Map([...completed].map(([id, languages]) => [id, languages.size]));
+        const todo = allIds.filter(id => force || (doneCount.get(id) || 0) < PROPERTY_TRANSLATION_LANGUAGES.length);
         for (let i = 0; i < todo.length; i++) {
           setProgress({ done: i, total: todo.length });
           const before = doneCount.get(todo[i]) || 0;
           try {
-            const after = await translateSavedProperty(todo[i], () => {});
-            totalSaved += after - before;
+            const after = await translateSavedProperty(todo[i], () => {}, supabase, force);
+            totalSaved += force ? after : after - before;
             totalProcessed++;
           } catch (e: any) {
             totalErrors++;
             toast.error(e.message);
-            if (/credits|Too many|administrators/i.test(e.message)) break;
+            setStats({ translations_saved: totalSaved, errors: totalErrors, properties_processed: totalProcessed });
+            return; // Every failure ends this run; never continue billing after a denial.
           }
         }
         setProgress({ done: todo.length, total: todo.length });
@@ -74,40 +83,6 @@ const AdminPropertyTranslator = () => {
         return;
       }
 
-      // Process in batches
-      for (let i = 0; i < allIds.length; i += batchSize) {
-        const batch = allIds.slice(i, i + batchSize);
-        setProgress({ done: i, total });
-
-        const { data, error } = await supabase.functions.invoke(
-          'translate-properties',
-          {
-            body: {
-              property_ids: batch,
-              force,
-            },
-          },
-        );
-
-        if (error) {
-          console.error('Batch error:', error);
-          totalErrors += batch.length;
-        } else if (data) {
-          totalSaved += data.translations_saved || 0;
-          totalErrors += data.errors || 0;
-          totalProcessed += data.properties_processed || 0;
-        }
-      }
-
-      setProgress({ done: total, total });
-      setStats({
-        translations_saved: totalSaved,
-        errors: totalErrors,
-        properties_processed: totalProcessed,
-      });
-      toast.success(
-        `Översatte ${totalSaved} texter för ${totalProcessed} fastigheter`,
-      );
     } catch (e: any) {
       console.error('Translation error:', e);
       toast.error(`Fel: ${e.message || 'Okänt fel'}`);
@@ -128,22 +103,8 @@ const AdminPropertyTranslator = () => {
         <p className="text-sm text-muted-foreground">
           Översätter titel, plats och beskrivning för alla aktiva fastigheter
           till 12 språk (sv, tr, ar, ru, no, da, fa, ur, de, fr, es, id) via
-          egen OpenAI/Gemini-nyckel. Befintliga översättningar hoppas över.
+          Lovable AI. Sparade engelska kopior och ofullständiga översättningar rättas också.
         </p>
-
-        <div className="space-y-2">
-          <Label htmlFor="batch-size">Batchstorlek (fastigheter per anrop)</Label>
-          <Input
-            id="batch-size"
-            type="number"
-            min={1}
-            max={10}
-            value={batchSize}
-            onChange={(e) => setBatchSize(Number(e.target.value) || 3)}
-            disabled={loading}
-            className="w-32"
-          />
-        </div>
 
         <div className="flex gap-2">
           <Button
