@@ -61,8 +61,8 @@ export const useLanguageUrlSync = () => {
     // 2. Saved preference but no prefix in the URL -> add the prefix
     if (effectiveLang && !langFromPath) {
       processingRef.current = true;
-      navigate(`${localizePath(location.pathname, effectiveLang)}${location.search}`, { replace: true });
-      setTimeout(() => { processingRef.current = false; }, 100);
+      // A document navigation keeps SSR markup and the preferred dictionary together.
+      window.location.replace(`${localizePath(location.pathname, effectiveLang)}${location.search}`);
       return;
     }
 
