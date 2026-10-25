@@ -30,15 +30,24 @@ const HeroSlider = () => {
     // so they never compete with the first paint.
     if (window.innerWidth < 768) setClips(MOBILE_CLIPS);
     let id = 0;
+    let idleId: number | undefined;
     const start = () => {
       const run = () => setEnableVideo(true);
-      id = 'requestIdleCallback' in window
-        ? (window as Window & { requestIdleCallback: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback(run, { timeout: 4000 })
-        : globalThis.setTimeout(run, 2500) as unknown as number;
+      // An idle callback can fire immediately on slow networks. Allow the still
+      // image and text to finish painting before requesting either video.
+      id = window.setTimeout(() => {
+        if ('requestIdleCallback' in window) {
+          idleId = window.requestIdleCallback(run, { timeout: 4000 });
+        } else run();
+      }, 8000);
     };
     if (document.readyState === 'complete') start();
     else window.addEventListener('load', start, { once: true });
-    return () => { window.removeEventListener('load', start); window.clearTimeout(id); };
+    return () => {
+      window.removeEventListener('load', start);
+      window.clearTimeout(id);
+      if (idleId !== undefined) window.cancelIdleCallback(idleId);
+    };
   }, []);
 
   useEffect(() => () => {

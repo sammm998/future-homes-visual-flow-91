@@ -28,7 +28,10 @@ const Hero: React.FC<HeroProps> = ({
 
   useEffect(() => {
     let cancelled = false;
+    let requested = false;
     const load = () => {
+      if (requested || cancelled) return;
+      requested = true;
       import("@/components/HeroSearch")
         .then((m) => {
           if (!cancelled) {
@@ -44,17 +47,23 @@ const Hero: React.FC<HeroProps> = ({
       // Load after a short delay to keep the initial paint/hydration lean, but
       // also load immediately on first user interaction so the polished form
       // is available before the user needs it.
-      const t = setTimeout(load, 300);
+      // Keep search downloads and the form replacement out of the first paint.
+      // Interaction still upgrades immediately; the native form remains usable.
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      const schedule = () => { timer = setTimeout(load, 5000); };
+      if (document.readyState === 'complete') schedule();
+      else window.addEventListener('load', schedule, { once: true });
       const events = ["pointerdown", "keydown", "touchstart", "scroll"] as const;
       const onInteraction = () => {
-        clearTimeout(t);
+        clearTimeout(timer);
         load();
       };
       events.forEach((e) => window.addEventListener(e, onInteraction, { once: true, passive: true }));
 
       return () => {
         cancelled = true;
-        clearTimeout(t);
+        clearTimeout(timer);
+        window.removeEventListener('load', schedule);
         events.forEach((e) => window.removeEventListener(e, onInteraction));
       };
     }
@@ -68,7 +77,7 @@ const Hero: React.FC<HeroProps> = ({
 
         <div className="relative z-10 mx-auto flex min-h-[980px] max-w-[1840px] flex-col justify-end px-5 pb-10 pt-32 sm:min-h-[960px] sm:px-10 sm:pb-72 lg:min-h-[calc(100svh-1rem)] lg:px-16 lg:pb-44 xl:px-24">
           <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(290px,.45fr)] lg:gap-16">
-            <div className="max-w-5xl animate-fade-in">
+            <div className="max-w-5xl">
               <div className="mb-7 flex items-center gap-4 text-[10px] font-semibold uppercase text-gold sm:text-xs [letter-spacing:.28em]">
                 <span className="h-px w-12 bg-gold" />
                 International Estate Gallery
