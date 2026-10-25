@@ -2,14 +2,12 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { enhancedSupabase, fallbackPropertyData } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 
-import { getCurrentLanguage } from '@/utils/seoUtils';
-import { useLocation } from '@/lib/router-compat';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export const useProperties = (city?: string) => {
   const queryClient = useQueryClient();
   const { isOnline } = useConnectionStatus();
-  const location = useLocation();
-  const lang = getCurrentLanguage();
+  const { lang } = useTranslation();
 
   const { data: properties = [], isLoading: loading, error } = useQuery<any[], Error>({
     queryKey: ['properties', lang, city ?? 'all'],
