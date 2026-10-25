@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation } from '@/lib/router-compat';
-import { getCurrentLanguage, getCanonicalUrl, getHreflangUrls, getCurrentPath } from '@/utils/seoUtils';
+import { getCanonicalUrl, getHreflangUrls } from '@/utils/seoUtils';
 import { resolveUrlLocale, stripLocale, stripLangParam } from '@/utils/localeRouting';
 
 /**

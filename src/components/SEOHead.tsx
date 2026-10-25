@@ -1,5 +1,5 @@
 import React from 'react';
-import { supportedLanguages, getCurrentLanguage, getCurrentPathname } from '@/utils/seoUtils';
+import { supportedLanguages } from '@/utils/seoUtils';
 import { stripLocale, localizePath } from '@/utils/localeRouting';
 import { getLocalizedPageMeta } from '@/utils/seoMetaTranslations';
 import { useLocation } from '@/lib/router-compat';

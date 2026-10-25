@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { getLocaleFromPathname } from '@/utils/localeRouting';
 import { enhancedSupabase, resilientQuery } from '@/lib/supabase-enhanced';
 import { useConnectionStatus } from '@/hooks/useConnectionStatus';
 import { useLocation } from '@/lib/router-compat';
