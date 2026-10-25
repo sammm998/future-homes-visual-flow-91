@@ -150,6 +150,7 @@ import { Route as AdminEmailCampaignsNewRouteImport } from './routes/admin/email
 import { Route as AdminPropertiesIdIndexRouteImport } from './routes/admin/properties.$id.index'
 import { Route as AdminPropertiesIdEditRouteImport } from './routes/admin/properties.$id.edit'
 import { Route as ApiPublicHooksPropertyAlertsRouteImport } from './routes/api/public/hooks/property-alerts'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -878,6 +879,11 @@ const ApiPublicHooksPropertyAlertsRoute =
     path: '/api/public/hooks/property-alerts',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -1017,6 +1023,7 @@ export interface FileRoutesByFullPath {
   '/admin/email/campaigns/new': typeof AdminEmailCampaignsNewRoute
   '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/$locale/courses/$country/': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads/': typeof AdminCrmLeadsIndexRoute
   '/admin/email/campaigns/': typeof AdminEmailCampaignsIndexRoute
@@ -1158,6 +1165,7 @@ export interface FileRoutesByTo {
   '/admin/email/campaigns/new': typeof AdminEmailCampaignsNewRoute
   '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/$locale/courses/$country': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads': typeof AdminCrmLeadsIndexRoute
   '/admin/email/campaigns': typeof AdminEmailCampaignsIndexRoute
@@ -1302,6 +1310,7 @@ export interface FileRoutesById {
   '/admin/email/campaigns/new': typeof AdminEmailCampaignsNewRoute
   '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/$locale/courses/$country/': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads/': typeof AdminCrmLeadsIndexRoute
   '/admin/email/campaigns/': typeof AdminEmailCampaignsIndexRoute
@@ -1447,6 +1456,7 @@ export interface FileRouteTypes {
     | '/admin/email/campaigns/new'
     | '/admin/properties/$id/edit'
     | '/api/public/hooks/property-alerts'
+    | '/api/public/media/$'
     | '/$locale/courses/$country/'
     | '/admin/crm/leads/'
     | '/admin/email/campaigns/'
@@ -1588,6 +1598,7 @@ export interface FileRouteTypes {
     | '/admin/email/campaigns/new'
     | '/admin/properties/$id/edit'
     | '/api/public/hooks/property-alerts'
+    | '/api/public/media/$'
     | '/$locale/courses/$country'
     | '/admin/crm/leads'
     | '/admin/email/campaigns'
@@ -1731,6 +1742,7 @@ export interface FileRouteTypes {
     | '/admin/email/campaigns/new'
     | '/admin/properties/$id/edit'
     | '/api/public/hooks/property-alerts'
+    | '/api/public/media/$'
     | '/$locale/courses/$country/'
     | '/admin/crm/leads/'
     | '/admin/email/campaigns/'
@@ -1792,6 +1804,7 @@ export interface RootRouteChildren {
   CoursesCountryFinalExamRoute: typeof CoursesCountryFinalExamRoute
   CoursesCountryIndexRoute: typeof CoursesCountryIndexRoute
   ApiPublicHooksPropertyAlertsRoute: typeof ApiPublicHooksPropertyAlertsRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -2783,6 +2796,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksPropertyAlertsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -3038,6 +3058,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoursesCountryFinalExamRoute: CoursesCountryFinalExamRoute,
   CoursesCountryIndexRoute: CoursesCountryIndexRoute,
   ApiPublicHooksPropertyAlertsRoute: ApiPublicHooksPropertyAlertsRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
