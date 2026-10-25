@@ -14,7 +14,7 @@ import {
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { HelmetProvider } from '@/lib/helmet-compat';
-import { setCurrentLocation, getCurrentLanguage } from "@/utils/seoUtils";
+import { setCurrentLocation } from "@/utils/seoUtils";
 import { resolveUrlLocale } from "@/utils/localeRouting";
 import { ensureLanguage } from "@/utils/translations";
 
@@ -103,7 +103,7 @@ function RootShell({ children }: { children: ReactNode }) {
   const location = router.state.location;
   // Make the active locale available to non-hook helpers during SSR *and*
   // on the client, so server HTML matches what React hydrates.
-  setCurrentLocation(location.pathname, location.searchStr ? `?${location.searchStr}` : "");
+  setCurrentLocation(location.pathname, location.searchStr);
   const lang = resolveUrlLocale(location.pathname, location.searchStr);
   const dir = ["ar", "fa", "ur"].includes(lang) ? "rtl" : "ltr";
 
@@ -135,7 +135,7 @@ function RootComponent() {
   const routerLocation = useRouterState({ select: (s) => s.location });
   setCurrentLocation(
     routerLocation.pathname,
-    routerLocation.searchStr ? `?${routerLocation.searchStr}` : "",
+    routerLocation.searchStr,
   );
   return (
     <ErrorBoundary>
