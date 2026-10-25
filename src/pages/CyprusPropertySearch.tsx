@@ -365,7 +365,7 @@ const CyprusPropertySearch = () => {
                   variant="outline"
                   className="mt-4"
                 >
-                  Clear Filters
+                  {t('city.clear_filters')}
                 </Button>
               </div>
             ) : (
@@ -464,7 +464,7 @@ const CyprusPropertySearch = () => {
                       variant="outline"
                       className="mt-4"
                     >
-                      Clear Filters
+                      {t('city.clear_filters')}
                     </Button>
                   </div>
                 ) : (

@@ -38,6 +38,7 @@ export const useProperties = (city?: string) => {
                   .eq('language_code', lang)
               : Promise.resolve({ data: [] }),
           ]);
+          if ('error' in translated && translated.error) throw translated.error;
           let rows = baseRows;
 
           // Apply translations for current language (skip English)

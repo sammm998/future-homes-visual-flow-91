@@ -1,5 +1,8 @@
 # Roadmap
 
+- [x] Granska lagrade översättningar för 294 bostäder på 13 språk; rätta språkbyten, engelska enhetstyper, kontroll av engelska kopior och fullständig sidindelning i administratörens översättningsverktyg.
+- [ ] Kör rättning av samtliga saknade/felaktiga bostadsöversättningar och verifiera en verklig uppladdning — administratörssession till ursprungliga bostadsdatabasen saknas i denna förhandsvisning.
+
 - [x] Kundvideo: ortsavgränsad sökning, återanvända data, scrollbar filterpanel och referensnummer/sortering högst upp; startsida → Antalya → scroll → prissortering → REF 1474 verifierat utan runtimefel.
 
 - [x] Trigga översättning efter sparande, verifiera lagrade språk och testa återupptagning samt felstopp.

@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { ArrowLeft, GripVertical, Plus, Save, Trash2, Upload, X } from "lucide-react";
 import { DragDropContext, Draggable, Droppable, type DropResult } from "@hello-pangea/dnd";
 import { translateSavedProperty } from "@/lib/translateSavedProperty";
+import { propertyTranslationSourceChanged } from "@/lib/propertyTranslationRules";
 
 type ApartmentType = { type?: string; size?: string; price?: string };
 
@@ -79,6 +80,7 @@ export default function PropertyEdit() {
   const [form, setForm] = useState<Form>(EMPTY);
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
+  const [savedSource, setSavedSource] = useState<{ title: string; description: string; location: string } | null>(null);
   const [translationProgress, setTranslationProgress] = useState<{ completed: number; total: number } | null>(null);
   const [translationError, setTranslationError] = useState("");
   const [uploadingGallery, setUploadingGallery] = useState(false);
@@ -130,6 +132,7 @@ export default function PropertyEdit() {
     supabase.from("properties").select("*").eq("id", id).maybeSingle().then(({ data }) => {
       if (data) {
         const d: any = data;
+        setSavedSource({ title: d.title ?? "", description: d.description ?? "", location: d.location ?? "" });
         let aptTypes: ApartmentType[] = [];
         try {
           const raw = typeof d.apartment_types === "string" ? JSON.parse(d.apartment_types) : d.apartment_types;
@@ -190,10 +193,10 @@ export default function PropertyEdit() {
     }));
   };
 
-  const runTranslations = async (propertyId: string) => {
+  const runTranslations = async (propertyId: string, force = false) => {
     setTranslationError("");
     try {
-      await translateSavedProperty(propertyId, (completed, total) => setTranslationProgress({ completed, total }));
+      await translateSavedProperty(propertyId, (completed, total) => setTranslationProgress({ completed, total }), supabase, force);
       toast.success("All 12 translations are saved");
     } catch (error) {
       const message = error instanceof Error ? error.message : "Translation failed. The property is saved.";
@@ -258,11 +261,12 @@ export default function PropertyEdit() {
         return;
       }
       toast.success(isNew ? "Property created" : "Property saved");
-      if (res.data?.id && payload.is_active && payload.description?.trim()) {
-        await runTranslations(res.data.id);
+      if (res.data?.id && payload.description?.trim()) {
+        await runTranslations(res.data.id, propertyTranslationSourceChanged(savedSource, payload));
+        setSavedSource({ title: payload.title, description: payload.description, location: payload.location });
       } else {
         setTranslationProgress(null);
-        setTranslationError("Translations start when an active property with a description is saved.");
+        setTranslationError("Add a description and save to translate this property into all 12 languages.");
       }
       if (isNew && res.data?.id) navigate(`/admin/properties/${res.data.id}/edit`, { replace: true });
     } catch {

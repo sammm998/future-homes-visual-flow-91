@@ -8,7 +8,8 @@
 - Keep the public menu controller in the shared app shell, while page headers open one right-anchored navigation drawer; never restore a permanent desktop rail.
 - Keep homepage hero clips mounted and crossfade before the active clip ends; starting the next clip before revealing it avoids blank or frozen transitions.
 - AI property search runs through server routes /api/ai-search and /api/ai-transcribe with helpers in src/lib/aiSearch.server.ts — keeps the AI key and full listing catalog on the server.
-- Property editor saves await the existing translation service through translateSavedProperty, one missing language per request with persisted-row verification — avoids batch caps, duplicate work and silent partial success without introducing a second AI provider.
+- Property editor saves (including drafts) await translateSavedProperty for all twelve non-English languages; reject copied English and incomplete rows, refresh translations after source-text changes, and verify writes through the legacy admin session — keeps translations complete without changing database ownership or AI provider.
+- Property pages only read stored translations; never generate translations on visitor page views — prevents unbounded AI charges and writes against the wrong database.
 - Investment calculator country rates live only in src/lib/investmentCalc.ts (MARKETS) — one place to update indicative fees.
 - Homes, leads, team and translations stay in the original property database via src/integrations/legacy/client.ts; Lovable Cloud (src/integrations/supabase) holds only VIP Club, alerts and partner data — keeps existing listings and admin working.
 - Destination searches scope listing queries by city and reuse original rows across languages with concurrent translation reads; desktop filters scroll within viewport bounds — avoids serial reloads and inaccessible controls on short screens.
