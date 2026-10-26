@@ -43,6 +43,13 @@
       "when": 1792938609950,
       "tag": "0005_admin_analytics_functions",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793033759100,
+      "tag": "0006_migration",
+      "breakpoints": true
     }
   ]
 }
