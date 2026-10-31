@@ -28,6 +28,7 @@ export interface Property {
   coordinates: [number, number];
   features?: string[];
   property_district?: string | null;
+  property_type?: string | null;
   apartment_types?: unknown;
   property_prices_by_room?: string | null;
   price_currency?: string | null;
@@ -45,6 +46,11 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
     filtered = filtered.filter(property => {
       const type = filters.propertyType.toLowerCase();
       const title = property.title.toLowerCase();
+      const storedType = (property.property_type || '').toLowerCase();
+      if (storedType) {
+        const singular = type.replace(/s$/, '');
+        return storedType.includes(singular) || (type === 'apartments' && /flat|duplex/.test(storedType));
+      }
       
       if (type === 'apartments') {
         return title.includes('apartment') || title.includes('flat') || title.includes('duplex');

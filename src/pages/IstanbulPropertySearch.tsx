@@ -135,6 +135,7 @@ const IstanbulPropertySearch = () => {
       property_prices_by_room: property.property_prices_by_room,
       price_currency: property.price_currency,
       property_district: property.property_district,
+      property_type: property.property_type,
       buyer_fee_percent: property.buyer_fee_percent,
       bedrooms: property.bedrooms || '',
       bathrooms: property.bathrooms || '',
