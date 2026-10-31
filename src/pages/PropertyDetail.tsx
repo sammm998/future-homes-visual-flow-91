@@ -541,10 +541,15 @@ const PropertyDetail = () => {
       <div className="container mx-auto max-w-[1440px] px-4 pb-28 pt-6 sm:pt-10 lg:pb-20">
         {/* Back Button */}
         <Button variant="ghost" asChild className="mb-4">
-          <a href={returnUrl}>
+          <Link to={returnUrl} onClick={event => {
+            if (typeof stateReturnUrl === 'string') {
+              event.preventDefault();
+              navigate(-1);
+            }
+          }}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             {t('pd.back_to_properties', language)}
-          </a>
+          </Link>
         </Button>
 
         <div className="mb-8 sm:mb-12">
