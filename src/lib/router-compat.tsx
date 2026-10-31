@@ -16,6 +16,7 @@ import {
 } from "@tanstack/react-router";
 import { getLocaleFromPathname, localizePath } from "@/utils/localeRouting";
 import { shouldResetNavigationScroll } from './navigationScroll';
+import { resolveUrlLocale } from '@/utils/localeRouting';
 import { useMemo, useCallback, forwardRef, type ComponentProps, type ReactNode } from "react";
 
 // ---------- shared URL parsing ----------
@@ -135,6 +136,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
 ) {
   const { pathname, search, hash } = parseTo(to);
   const currentPathname = useRouterState({ select: (s) => s.location.pathname });
+  const router = useRouter();
   const activeLocale = getLocaleFromPathname(currentPathname);
   // Keep the active language when navigating between internal pages; without
   // this, every link silently dropped the visitor back to the English URL.
@@ -153,6 +155,17 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
       replace={replace}
       state={state as never}
       {...((rest ?? {}) as Record<string, unknown>)}
+      onPointerEnter={(event) => {
+        rest.onPointerEnter?.(event);
+        const city = localizedPathname.split('/').filter(Boolean).at(-1);
+        if (!city || !['antalya', 'istanbul', 'mersin', 'dubai', 'cyprus', 'bali'].includes(city)) return;
+        const lang = resolveUrlLocale(localizedPathname, '');
+        void import('./propertySearchQuery').then(({ propertySearchOptions }) =>
+          router.options.context.queryClient.prefetchQuery(propertySearchOptions(
+            router.options.context.queryClient, lang, city.charAt(0).toUpperCase() + city.slice(1),
+          )),
+        ).catch(() => {});
+      }}
     >
       {children}
     </TSLink>

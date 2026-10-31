@@ -24,4 +24,6 @@
 - SEO tags render as plain React 19 <title>/<meta> (EnhancedSEOHead, SEOHead) or route head(), never react-helmet — Helmet output is client-only so crawlers saw the homepage defaults; a page uses one of the two, not both, to avoid duplicate titles.
 - Use propertySearchSelection for bedroom-specific prices and canonical district matching/options across search surfaces; keep unit-pricing and district fields in result mappings so card display, price limits and sorting agree.
 - Router compatibility navigation preserves scroll for same-path/query updates and resets it for actual page changes; this keeps live search filters stable without changing normal navigation.
+- TanStack Router alone owns history scroll restoration; search pagination lives in URL parameters and property-card navigation must not bubble into a second navigation handler.
+- Destination links prefetch propertySearchOptions on pointer intent; those queries reuse cached source listings and language translations to avoid reloading the catalog between destinations.
 - Homepage media uses useMediaVisibility to pause outside the viewport or a hidden tab; below-fold videos acquire sources only on entering view, preserving motion without offscreen decoding.
