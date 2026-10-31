@@ -1,5 +1,10 @@
 # Roadmap
 
+## Reported search and customer-photo issues
+- [ ] Check missing Happy Customers photo uploaded through futurehomescms.se and repair the confirmed cause.
+- [ ] Match listing prices and price sorting/filtering to selected bedrooms.
+- [ ] Correct district options, reset behavior and deselection; verify actual search flows.
+
 - [x] Minska startsidans FCP/LCP: AVIF-varianter (480 px 14 KB, 768 px 30 KB), delade preload/bildkandidater, rubrik utan fade, sökformulär/video senare efter sidladdning. Verifierat spanska och engelska på 390/1280 px, inga nya runtimefel, REF 1474-sökning, 3 språktester och build OK. Lokal LCP på /es 1,83 → 1,37 s (inte jämförbart med PageSpeed-produktion); ny PageSpeed-mätning kräver publicering.
 - [x] Slutför alla saknade/felaktiga bostadsöversättningar — 281 översättningar sparade i Lovable Cloud; nya bostäder sparas dit automatiskt vid sparning i admin
 - [x] Kontrollera språk från Google, rätta språkväxling samt engelska kart-/prisrubriker på samtliga 13 språk; verifierat alla språk på REF 1415, indonesiska/urdu/franska Google-länkar, bilder och språkbyten utan runtimefel (11 tester godkända).
