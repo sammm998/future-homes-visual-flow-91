@@ -11,6 +11,7 @@ import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import ConversionBand from "@/components/ConversionBand";
+import { usePropertySearchWarmup } from '@/hooks/usePropertySearchWarmup';
 
 // Below-the-fold sections: downloaded only when the user scrolls near them.
 const FeatureDemo = lazy(() => import("@/components/ui/feature-demo").then(m => ({ default: m.FeatureDemo })));
@@ -24,6 +25,7 @@ const HomeConciergeDialog = lazy(() => import("@/components/HomeConciergeDialog"
 const HomeSeoContent = lazy(() => import("@/components/HomeSeoContent"));
 
 const Index = () => {
+  usePropertySearchWarmup();
   const { t } = useTranslation();
   const {
     canonicalUrl,

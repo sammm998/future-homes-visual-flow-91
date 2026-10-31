@@ -6,6 +6,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Button } from '@/components/ui/button';
 import { whatsappLink } from '@/utils/conversionCopy';
 import futureHomesLogo from '@/assets/future-homes-logo-400.webp';
+import { usePropertySearchWarmup } from '@/hooks/usePropertySearchWarmup';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+  usePropertySearchWarmup(isOpen, true);
 
   const { t, lang } = useTranslation();
   const location = useLocation();

@@ -160,7 +160,29 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
         rest.onPointerEnter?.(event);
         const city = localizedPathname.split('/').filter(Boolean).at(-1);
         if (!city || !['antalya', 'istanbul', 'mersin', 'dubai', 'cyprus', 'bali'].includes(city)) return;
-        const lang = resolveUrlLocale(localizedPathname, '');
+        const lang = resolveUrlLocale(localizedPathname, search ? new URLSearchParams(search).toString() : '');
+        void import('./propertySearchQuery').then(({ propertySearchOptions }) =>
+          router.options.context.queryClient.prefetchQuery(propertySearchOptions(
+            router.options.context.queryClient, lang, city.charAt(0).toUpperCase() + city.slice(1),
+          )),
+        ).catch(() => {});
+      }}
+      onFocus={(event) => {
+        rest.onFocus?.(event);
+        const city = localizedPathname.split('/').filter(Boolean).at(-1);
+        if (!city || !['antalya', 'istanbul', 'mersin', 'dubai', 'cyprus', 'bali'].includes(city)) return;
+        const lang = resolveUrlLocale(localizedPathname, search ? new URLSearchParams(search).toString() : '');
+        void import('./propertySearchQuery').then(({ propertySearchOptions }) =>
+          router.options.context.queryClient.prefetchQuery(propertySearchOptions(
+            router.options.context.queryClient, lang, city.charAt(0).toUpperCase() + city.slice(1),
+          )),
+        ).catch(() => {});
+      }}
+      onPointerDown={(event) => {
+        rest.onPointerDown?.(event);
+        const city = localizedPathname.split('/').filter(Boolean).at(-1);
+        if (!city || !['antalya', 'istanbul', 'mersin', 'dubai', 'cyprus', 'bali'].includes(city)) return;
+        const lang = resolveUrlLocale(localizedPathname, search ? new URLSearchParams(search).toString() : '');
         void import('./propertySearchQuery').then(({ propertySearchOptions }) =>
           router.options.context.queryClient.prefetchQuery(propertySearchOptions(
             router.options.context.queryClient, lang, city.charAt(0).toUpperCase() + city.slice(1),
