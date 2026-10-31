@@ -1,5 +1,8 @@
 # Roadmap
 
+## Homepage speed
+- [ ] Reduce offscreen video work, unnecessary scroll-triggered downloads and destination image weight; verify homepage search and all 13 locales.
+
 ## Reported search and customer-photo issues
 - [x] Keep search position stable for same-page filter changes; bedrooms, type, minimum/maximum price stayed at scroll 600, filters survived reload, no runtime errors, 14 focused tests passed.
 - [x] Restore Mr. Edward's review/photo from old CMS to current Cloud; photo verified in public testimonials. Old CMS remains separate; future edits there do not sync automatically.
