@@ -2,13 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from '@/lib/router-compat';
 import { FaMapMarkerAlt, FaBuilding, FaTree, FaUmbrellaBeach, FaMountain, FaMosque } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import antalyaImage from '@/assets/destinations/antalya-cinematic.webp';
-import istanbulImage from '@/assets/destinations/istanbul-cinematic.webp';
-import dubaiImage from '@/assets/destinations/dubai-cinematic.webp';
-import mersinImage from '@/assets/destinations/mersin-cinematic.webp';
-import cyprusImage from '@/assets/destinations/cyprus-cinematic.webp';
-import baliImage from '@/assets/destinations/bali-cinematic.webp';
+import antalyaAsset from '@/assets/destinations/antalya-cinematic.avif.asset.json';
+import istanbulAsset from '@/assets/destinations/istanbul-cinematic.avif.asset.json';
+import dubaiAsset from '@/assets/destinations/dubai-cinematic.avif.asset.json';
+import mersinAsset from '@/assets/destinations/mersin-cinematic.avif.asset.json';
+import cyprusAsset from '@/assets/destinations/cyprus-cinematic.avif.asset.json';
+import baliAsset from '@/assets/destinations/bali-cinematic.avif.asset.json';
 import { useTranslation } from '@/hooks/useTranslation';
+
+const antalyaImage = antalyaAsset.url;
+const istanbulImage = istanbulAsset.url;
+const dubaiImage = dubaiAsset.url;
+const mersinImage = mersinAsset.url;
+const cyprusImage = cyprusAsset.url;
+const baliImage = baliAsset.url;
 
 const InteractiveSelector = () => {
   const navigate = useNavigate();
