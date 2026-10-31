@@ -23,3 +23,4 @@
 - New public page copy lives in src/content/*Copy.ts (English source) plus a generated *.i18n.json for all 12 other languages, with both /path and /$locale/path routes — keeps every page available in every site language.
 - SEO tags render as plain React 19 <title>/<meta> (EnhancedSEOHead, SEOHead) or route head(), never react-helmet — Helmet output is client-only so crawlers saw the homepage defaults; a page uses one of the two, not both, to avoid duplicate titles.
 - Use propertySearchSelection for bedroom-specific prices and canonical district matching/options across search surfaces; keep unit-pricing and district fields in result mappings so card display, price limits and sorting agree.
+- Router compatibility navigation preserves scroll for same-path/query updates and resets it for actual page changes; this keeps live search filters stable without changing normal navigation.
