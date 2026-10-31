@@ -119,6 +119,7 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
     <Link
       to={propertyUrl}
       state={{ returnUrl }}
+      onClick={event => event.stopPropagation()}
       className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4"
     >
       <article className="group relative h-[30rem] w-full @container overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)] transition-all duration-700 hover:-translate-y-2 sm:h-[32rem] lg:h-[30rem]">
