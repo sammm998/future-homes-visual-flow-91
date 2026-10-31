@@ -1,7 +1,7 @@
 # Roadmap
 
 ## Reported search and customer-photo issues
-- [ ] Keep page and filter-panel positions stable while changing search options.
+- [x] Keep search position stable for same-page filter changes; bedrooms, type, minimum/maximum price stayed at scroll 600, filters survived reload, no runtime errors, 14 focused tests passed.
 - [x] Restore Mr. Edward's review/photo from old CMS to current Cloud; photo verified in public testimonials. Old CMS remains separate; future edits there do not sync automatically.
 - [x] Match listing prices, price sorting/filtering and linked detail prices to selected bedrooms; REF 3019 shows €95,000 for 2 beds in all 13 languages, with 15 regression tests passing.
 - [x] Correct district options, spelling normalization and deselection; Mersin Erdemli → All verified with bedroom selection preserved, no browser errors.
