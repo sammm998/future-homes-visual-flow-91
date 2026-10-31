@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { useEffect, useRef } from "react";
 import { useMediaVisibility } from "@/hooks/useMediaVisibility";
 import { useTranslation } from "@/hooks/useTranslation";
-import apartmentTransformation from "@/assets/apartment-blueprint-optimized.mp4.asset.json";
+import apartmentTransformation from "@/assets/apartment-blueprint-web.mp4.asset.json";
 import apartmentPoster from "@/assets/apartment-video-poster.jpg.asset.json";
 
 const labels: Record<string, { studio: string; blueprint: string; finished: string; hint: string; interactive: string; room: string; area: string; enter: string; exit: string }> = {
