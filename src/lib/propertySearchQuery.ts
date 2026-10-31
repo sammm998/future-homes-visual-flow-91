@@ -84,5 +84,5 @@ export const propertySearchOptions = (queryClient: QueryClient, lang: string, ci
     refetchOnWindowFocus: false,
     retry: 2,
     retryDelay: 3000,
-    networkMode: 'offlineFirst',
+    networkMode: 'offlineFirst' as const,
   });
