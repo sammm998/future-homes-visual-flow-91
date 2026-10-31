@@ -1,13 +1,25 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { enhancedSupabase, fallbackPropertyData } from '@/lib/supabase-enhanced';
-import { useConnectionStatus } from '@/hooks/useConnectionStatus';
+import { useEffect, useState } from 'react';
 
 import { useTranslation } from '@/hooks/useTranslation';
 import { propertySearchOptions } from '@/lib/propertySearchQuery';
 
 export const useProperties = (city?: string) => {
   const queryClient = useQueryClient();
-  const { isOnline } = useConnectionStatus();
+  // Browser connectivity events are enough here. A database probe for every
+  // mounted list (and every 30 seconds) duplicated the actual listing reads.
+  const [isOnline, setIsOnline] = useState(true);
+  useEffect(() => {
+    const update = () => setIsOnline(navigator.onLine);
+    update();
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+    return () => {
+      window.removeEventListener('online', update);
+      window.removeEventListener('offline', update);
+    };
+  }, []);
   const { lang } = useTranslation();
 
   const { data: properties = [], isLoading: loading, error } = useQuery<any[], Error>(
