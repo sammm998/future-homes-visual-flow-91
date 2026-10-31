@@ -55,7 +55,7 @@ const PropertyFilterPanel: React.FC<PropertyFilterProps> = ({ filters, onFilterC
       newFilters.district = ''; // Reset district when location changes
       
       // Check if we're on the map-search page - if so, don't navigate
-      const isMapSearch = window.location.pathname === '/map-search';
+      const isMapSearch = window.location.pathname.endsWith('/map-search');
       
       if (!isMapSearch) {
         const locationRoutes: Record<string, string> = {
@@ -174,14 +174,15 @@ const PropertyFilterPanel: React.FC<PropertyFilterProps> = ({ filters, onFilterC
             <div>
               <Label htmlFor="district" className="text-xs mb-1 block">{t('filter.district')}</Label>
               <Select 
-                value={filters.district} 
-                onValueChange={(value) => handleFilterUpdate('district', value)}
+                value={filters.district || 'all'}
+                onValueChange={(value) => handleFilterUpdate('district', value === 'all' ? '' : value)}
                 disabled={availableDistricts.length === 0}
               >
                 <SelectTrigger className="h-9">
                   <SelectValue placeholder={availableDistricts.length === 0 ? t('filter.select_location_first') : t('filter.select_district')} />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="all">{t('info.all')}</SelectItem>
                   {availableDistricts.map(district => (
                     <SelectItem key={district.value} value={district.value}>
                       {district.label}
@@ -370,14 +371,15 @@ const PropertyFilterPanel: React.FC<PropertyFilterProps> = ({ filters, onFilterC
           <div>
             <Label htmlFor="district" className="mb-2 block text-xs font-semibold uppercase text-muted-foreground">{t('filter.district')}</Label>
             <Select 
-              value={filters.district} 
-              onValueChange={(value) => handleFilterUpdate('district', value)}
+              value={filters.district || 'all'}
+              onValueChange={(value) => handleFilterUpdate('district', value === 'all' ? '' : value)}
               disabled={availableDistricts.length === 0}
             >
               <SelectTrigger className="h-12 bg-muted/45 text-sm">
                 <SelectValue placeholder={availableDistricts.length === 0 ? t('filter.select_location_first') : t('filter.select_district')} />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="all">{t('info.all')}</SelectItem>
                 {availableDistricts.map(district => (
                   <SelectItem key={district.value} value={district.value}>
                     {district.label}
