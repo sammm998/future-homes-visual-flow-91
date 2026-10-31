@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Homepage speed
+- [ ] Speed up destination listing navigation/cache and restore back position/pagination; verify real home → list → property → back.
 - [x] Reduce offscreen video work and scroll-triggered form downloads; Before & After reduced 13.84 MB → 2.57 MB, destination images 1.02 MB → 0.44 MB, offscreen section rendering deferred. All 13 homepage locales, Antalya results, 17 regression tests and build checked. Visibility pause verified using a temporary WebM test source because sandbox Chromium cannot decode H264; published speed measurement still requires publishing.
 
 ## Reported search and customer-photo issues
