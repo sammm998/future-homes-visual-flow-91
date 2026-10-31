@@ -6,6 +6,7 @@ import PropertyFilter from "@/components/PropertyFilter";
 import PropertyCard from "@/components/PropertyCard";
 import { Button } from "@/components/ui/button";
 import { Eye, Grid } from "lucide-react";
+import { useSearchPage } from '@/hooks/useSearchPage';
 import { useProperties } from "@/hooks/useProperties";
 import { filterProperties, PropertyFilters } from "@/utils/propertyFilter";
 import SEOHead from "@/components/SEOHead";
@@ -51,30 +52,8 @@ const MersinPropertySearch = () => {
     referenceNo: ''
   });
   const [showFiltered, setShowFiltered] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useSearchPage();
   const itemsPerPage = 20;
-  
-  // Restore page and scroll position when returning from property detail
-  useEffect(() => {
-    const state = location.state as { 
-      returnedFromProperty?: boolean;
-      savedPage?: number;
-      savedScrollY?: number;
-    } | null;
-
-    if (state?.returnedFromProperty) {
-      if (state.savedPage) {
-        setCurrentPage(state.savedPage);
-      }
-      if (state.savedScrollY !== undefined) {
-        const timer = setTimeout(() => {
-          window.scrollTo({ top: state.savedScrollY, behavior: 'instant' });
-        }, 100);
-        return () => clearTimeout(timer);
-      }
-      window.history.replaceState({}, document.title);
-    }
-  }, [location.state]);
   
   // Load filters from URL parameters and location state on mount
   useEffect(() => {
@@ -203,9 +182,7 @@ const MersinPropertySearch = () => {
     return filteredProperties.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredProperties, currentPage, itemsPerPage]);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filters]);
+
 
   const handleFilterChange = (newFilters: PropertyFilters) => {
     setFilters(newFilters);
