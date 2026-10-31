@@ -223,7 +223,8 @@ const MapSearch = () => {
   }, []);
 
   useEffect(() => {
-    if (!mapContainer.current || !mapboxToken) return;
+    const container = mapContainer.current;
+    if (!container || !mapboxToken) return;
 
     const initMap = async () => {
       try {
@@ -241,7 +242,7 @@ const MapSearch = () => {
         mapboxgl.accessToken = mapboxToken;
         
         map.current = new mapboxgl.Map({
-          container: mapContainer.current,
+          container,
           style: mapStyle,
           center: [35, 35], // Centered on Middle East
           zoom: 3,
