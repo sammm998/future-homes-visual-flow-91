@@ -37,7 +37,7 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
   console.log('🔍 filterProperties: Starting with', properties.length, 'properties');
   console.log('🔧 filterProperties: Applied filters:', filters);
   
-  let filtered = properties.map(property => ({ ...property, price: selectSearchPrice(property, filters.bedrooms) }));
+  let filtered = properties.map(property => ({ ...property, selectedBedrooms: filters.bedrooms, price: selectSearchPrice(property, filters.bedrooms) }));
   
   // Filter by property type
   if (filters.propertyType && filters.propertyType !== '' && filters.propertyType !== 'all') {

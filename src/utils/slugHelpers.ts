@@ -104,7 +104,8 @@ export const buildPropertyUrl = (property: any, lang: string | null): string => 
   const path = getTranslatedPropertyPath(lang);
   const ref = getPropertyReference(property) || property?.id;
   const safeRef = encodeURIComponent(String(ref));
-  return localizePath(`/${path}/${safeRef}`, lang);
+  const url = localizePath(`/${path}/${safeRef}`, lang);
+  return property?.selectedBedrooms ? `${url}?bedrooms=${encodeURIComponent(property.selectedBedrooms)}` : url;
 };
 
 // Extract language from URL path (for translated paths like /fastighet/)

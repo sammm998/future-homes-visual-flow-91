@@ -39,6 +39,7 @@ import { PropertyInquiry, PropertyStickyCta } from '@/components/PropertyInquiry
 import { PropertyHeroGallery } from '@/components/PropertyHeroGallery';
 import PropertyScrollGallery from '@/components/PropertyScrollGallery';
 import PropertyAreaInsights from '@/components/PropertyAreaInsights';
+import { selectSearchPrice } from '@/utils/propertySearchSelection';
 
 const parseCompletionDate = (value: string | null | undefined): Date | null => {
   if (!value) return null;
@@ -251,10 +252,12 @@ const PropertyDetail = () => {
 
   // Use the database-focused useProperty hook for all lookups
   const {
-    property,
+    property: sourceProperty,
     loading,
     error
   } = useProperty(id || '');
+  const selectedBedrooms = new URLSearchParams(location.search).get('bedrooms') || '';
+  const property = sourceProperty ? { ...sourceProperty, selectedBedrooms, price: selectSearchPrice(sourceProperty, selectedBedrooms) } : null;
   // Server-rendered SEO data (fetched in the route loader) so crawlers get the
   // real, translated title/description before client data arrives.
   const routeSeo = (useLoaderData({ strict: false }) as { seo?: (PropertySeoInput & { title: string; description: string }) | null } | undefined)?.seo ?? null;
@@ -577,7 +580,7 @@ const PropertyDetail = () => {
               <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:flex sm:flex-wrap sm:justify-between sm:gap-4">
                 <div className="min-w-0">
                   <div className="break-words text-2xl font-bold text-primary sm:text-3xl md:text-4xl">
-                    {formatPriceFromString(property.price, formatPrice)}{Number(property.buyer_fee_percent) > 0 ? ` +${property.buyer_fee_percent}%` : ''}
+                    {property.price ? formatPriceFromString(property.price, formatPrice) : t('home.price_on_request', language)}{Number(property.buyer_fee_percent) > 0 ? ` +${property.buyer_fee_percent}%` : ''}
                   </div>
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
@@ -885,7 +888,7 @@ const PropertyDetail = () => {
           refNo={String(refLabel)}
           title={property.title}
           lang={language}
-          price={formatPriceFromString(property.price, formatPrice)}
+          price={property.price ? formatPriceFromString(property.price, formatPrice) : t('home.price_on_request', language)}
         />
       </div>
     </div>;

@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useTranslation } from '@/hooks/useTranslation';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 import Navigation from '@/components/Navigation';
+import { bedroomMatches, districtMatches, searchUnits, selectSearchPrice } from '@/utils/propertySearchSelection';
 
 interface Property {
   id: string;
@@ -19,6 +20,10 @@ interface Property {
   title: string;
   location: string;
   price: string;
+  apartment_types?: unknown;
+  property_prices_by_room?: string | null;
+  price_currency?: string | null;
+  selectedBedrooms?: string;
   google_maps_embed: string | null;
   slug: string | null;
   slug_sv?: string | null;
@@ -86,33 +91,34 @@ const MapSearch = () => {
 
   // Filter properties based on current filters (memoized for performance)
   const filteredProperties = useMemo(() => {
-    const matches = properties.filter((property: Property) => {
+    const matches = properties.map(property => ({ ...property, selectedBedrooms: filters.bedrooms, price: selectSearchPrice(property, filters.bedrooms) })).filter((property: Property) => {
       // Property type filter
       if (filters.propertyType && property.property_type?.toLowerCase() !== filters.propertyType.toLowerCase()) {
         return false;
       }
 
       // Bedrooms filter
-      if (filters.bedrooms && filters.bedrooms !== 'studio') {
+      const units = searchUnits(property);
+      if (filters.bedrooms && units.length && !units.some(unit => bedroomMatches(unit.type, filters.bedrooms))) return false;
+      if (filters.bedrooms && !units.length && filters.bedrooms !== 'studio') {
         const bedroomsMatch = property.bedrooms?.toLowerCase().includes(filters.bedrooms) || 
                              property.title?.toLowerCase().includes(`${filters.bedrooms}+1`);
         if (!bedroomsMatch) return false;
       }
-      if (filters.bedrooms === 'studio' && !property.bedrooms?.toLowerCase().includes('studio')) {
+      if (filters.bedrooms === 'studio' && !units.length && !bedroomMatches(property.bedrooms || '', 'studio')) {
         return false;
       }
 
       // Location filter
       if (filters.location && filters.location !== 'all') {
-        if (!property.location?.toLowerCase().includes(filters.location.toLowerCase())) {
+        if (!property.location?.toLowerCase().startsWith(filters.location.toLowerCase())) {
           return false;
         }
       }
 
       // District filter
       if (filters.district) {
-        const districtMatch = property.property_district?.toLowerCase().includes(filters.district.toLowerCase()) ||
-                             property.location?.toLowerCase().includes(filters.district.toLowerCase());
+        const districtMatch = districtMatches(property.property_district, filters.district);
         if (!districtMatch) return false;
       }
 
@@ -125,6 +131,7 @@ const MapSearch = () => {
 
       // Price filter
       if (filters.minPrice || filters.maxPrice) {
+        if (!property.price) return false;
         const priceValue = parseFloat(property.price?.replace(/[^0-9.]/g, '') || '0');
         if (filters.minPrice && priceValue < parseFloat(filters.minPrice)) return false;
         if (filters.maxPrice && priceValue > parseFloat(filters.maxPrice)) return false;
@@ -223,8 +230,8 @@ const MapSearch = () => {
         // Fetch all active properties
         const { data: propertiesData, error } = await supabase
           .from('properties')
-          .select('id, ref_no, title, location, price, google_maps_embed, slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, slug_es, slug_de, slug_fr, slug_id, property_image, property_images, property_type, bedrooms, property_district, amenities')
-          .eq('is_active', true);
+          .select('id, ref_no, title, location, price, apartment_types, property_prices_by_room, price_currency, google_maps_embed, slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, slug_es, slug_de, slug_fr, slug_id, property_image, property_images, property_type, bedrooms, property_district, amenities')
+          .eq('is_active', true).or('status.is.null,status.not.ilike.%sold%');
 
         if (error) throw error;
 
@@ -234,7 +241,7 @@ const MapSearch = () => {
         mapboxgl.accessToken = mapboxToken;
         
         map.current = new mapboxgl.Map({
-          container: mapContainer.current!,
+          container: mapContainer.current,
           style: mapStyle,
           center: [35, 35], // Centered on Middle East
           zoom: 3,
@@ -266,13 +273,13 @@ const MapSearch = () => {
         // Add terrain/satellite control
         map.current.on('load', () => {
           // Add 3D terrain
-          map.current!.addSource('mapbox-dem', {
+          map.current?.addSource('mapbox-dem', {
             'type': 'raster-dem',
             'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
             'tileSize': 512,
             'maxzoom': 14
           });
-          map.current!.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+          map.current?.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
         });
 
       } catch (error) {
@@ -302,11 +309,13 @@ const MapSearch = () => {
 
   // Update markers when filtered properties change (optimized)
   useEffect(() => {
-    if (!map.current || filteredProperties.length === 0) return;
+    const activeMap = map.current;
+    if (!activeMap) return;
 
     // Clear existing markers
     markersRef.current.forEach(marker => marker.remove());
     markersRef.current = [];
+    setSelectedProperty(current => filteredProperties.find(property => property.id === current?.id) || null);
 
     const bounds = new mapboxgl.LngLatBounds();
 
@@ -331,7 +340,7 @@ const MapSearch = () => {
         rotationAlignment: 'viewport'
       })
         .setLngLat(coords)
-        .addTo(map.current!);
+        .addTo(activeMap);
 
       markersRef.current.push(marker);
 
