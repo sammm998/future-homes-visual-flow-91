@@ -1,7 +1,7 @@
 # Roadmap
 
 ## Homepage speed
-- [ ] Recheck current homepage/search timings and reduce unnecessary catalog fields without changing prices, languages or navigation.
+- [x] Rechecked homepage/search speed; shared catalog now uses explicit fields (about 190 KB less uncompressed). Live Indonesian homepage FCP/LCP 1.75 s, response starts at 1.35 s in one desktop browser sample; local home → visible Antalya cards 4.58 s including scroll/screenshot overhead, so sub-second navigation is not verified. Correct REF 3019 two-bedroom price verified in all 13 languages, 21 tests pass, no browser errors. No instance change or publication; live improvement remains unmeasured.
 - [x] Destination intent prefetch, smaller city payloads, shared cached source/translation reads; removed duplicate card navigation and forced scroll resets, pagination persisted in URL. Home → Antalya measured 2.53 s locally; back button restored page 2, same card and scroll 850; all six destinations and 13 language bedroom prices checked, 20 tests passed. Not a guarantee of sub-second cold loads; live comparison requires publishing.
 - [x] Reduce offscreen video work and scroll-triggered form downloads; Before & After reduced 13.84 MB → 2.57 MB, destination images 1.02 MB → 0.44 MB, offscreen section rendering deferred. All 13 homepage locales, Antalya results, 17 regression tests and build checked. Visibility pause verified using a temporary WebM test source because sandbox Chromium cannot decode H264; published speed measurement still requires publishing.
 
