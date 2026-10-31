@@ -1,6 +1,17 @@
 import { expect, test } from 'bun:test';
 import { QueryClient } from '@tanstack/react-query';
-import { propertySearchOptions } from '../src/lib/propertySearchQuery';
+import { propertySearchOptions, SEARCH_FIELDS } from '../src/lib/propertySearchQuery';
+
+test('search projection keeps bedroom pricing, districts, country and every localized slug', () => {
+  const fields = SEARCH_FIELDS.split(',');
+  expect(fields).not.toContain('*');
+  for (const field of ['apartment_types', 'property_prices_by_room', 'price_currency', 'property_district', 'country']) {
+    expect(fields).toContain(field);
+  }
+  for (const language of ['sv', 'tr', 'ar', 'ru', 'no', 'da', 'fa', 'ur', 'es', 'de', 'fr', 'id']) {
+    expect(fields).toContain(`slug_${language}`);
+  }
+});
 
 test('cached catalog serves Antalya without including Antalya-like unrelated locations', async () => {
   const client = new QueryClient();

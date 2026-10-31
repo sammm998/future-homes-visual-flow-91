@@ -26,4 +26,5 @@
 - Router compatibility navigation preserves scroll for same-path/query updates and resets it for actual page changes; this keeps live search filters stable without changing normal navigation.
 - TanStack Router alone owns history scroll restoration; search pagination lives in URL parameters and property-card navigation must not bubble into a second navigation handler.
 - Destination links prefetch propertySearchOptions on pointer intent; those queries reuse cached source listings and language translations to avoid reloading the catalog between destinations.
+- All shared property-search catalog reads use the explicit SEARCH_FIELDS projection, including country and unit-pricing fields; never fetch complete editor rows for public cards.
 - Homepage media uses useMediaVisibility to pause outside the viewport or a hidden tab; below-fold videos acquire sources only on entering view, preserving motion without offscreen decoding.

@@ -2,7 +2,7 @@ import type { QueryClient } from '@tanstack/react-query';
 import { enhancedSupabase, fallbackPropertyData } from '@/lib/supabase-enhanced';
 import { readCloudTranslations, pickPropertyTranslation } from '@/lib/cloudPropertyTranslations';
 
-const SEARCH_FIELDS = 'id,ref_no,title,description,location,price,bedrooms,bathrooms,sizes_m2,status,is_active,created_at,property_image,property_images,property_facilities,apartment_types,property_prices_by_room,price_currency,property_district,property_type,buyer_fee_percent,slug,slug_sv,slug_tr,slug_ar,slug_ru,slug_no,slug_da,slug_fa,slug_ur,slug_es,slug_de,slug_fr,slug_id';
+export const SEARCH_FIELDS = 'id,ref_no,title,description,location,country,price,bedrooms,bathrooms,sizes_m2,status,is_active,created_at,property_image,property_images,property_facilities,apartment_types,property_prices_by_room,price_currency,property_district,property_type,buyer_fee_percent,slug,slug_sv,slug_tr,slug_ar,slug_ru,slug_no,slug_da,slug_fa,slug_ur,slug_es,slug_de,slug_fr,slug_id';
 
 export const propertySearchOptions = (queryClient: QueryClient, lang: string, city?: string, isOnline = true) => ({
     queryKey: ['properties', lang, city ?? 'all'],
@@ -23,7 +23,7 @@ export const propertySearchOptions = (queryClient: QueryClient, lang: string, ci
                   const prefix = city.toLowerCase();
                   return location === prefix || location.startsWith(prefix + ',') || location.startsWith(prefix + ' ');
                 });
-                let query = enhancedSupabase.from('properties').select(city ? SEARCH_FIELDS : '*')
+                let query = enhancedSupabase.from('properties').select(SEARCH_FIELDS)
                   .eq('is_active', true).or('status.is.null,status.not.ilike.%sold%')
                   .order('created_at', { ascending: false });
                 if (city) query = query.ilike('location', `${city}%`);
