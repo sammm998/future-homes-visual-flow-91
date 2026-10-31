@@ -15,6 +15,7 @@ import {
   Outlet as TSOutlet,
 } from "@tanstack/react-router";
 import { getLocaleFromPathname, localizePath } from "@/utils/localeRouting";
+import { shouldResetNavigationScroll } from './navigationScroll';
 import { useMemo, useCallback, forwardRef, type ComponentProps, type ReactNode } from "react";
 
 // ---------- shared URL parsing ----------
@@ -33,7 +34,7 @@ function parseTo(to: string): { pathname: string; search?: Record<string, string
 
 // ---------- useNavigate ----------
 
-type NavigateOptions = { replace?: boolean; state?: unknown };
+type NavigateOptions = { replace?: boolean; state?: unknown; resetScroll?: boolean };
 
 type NavigateFn = {
   (to: string | number, options?: NavigateOptions): void;
@@ -55,6 +56,7 @@ export function useNavigate(): NavigateFn {
       hash,
       state: options?.state as never,
       replace: options?.replace,
+      resetScroll: shouldResetNavigationScroll(router.state.location.pathname, pathname, options?.resetScroll),
     });
   }, [tsNav, router]) as NavigateFn;
 }
@@ -108,7 +110,7 @@ export function useSearchParams(): [URLSearchParams, (init: URLSearchParams | Re
             : new URLSearchParams(init);
       const searchObj: Record<string, string> = {};
       next.forEach((v, k) => { searchObj[k] = v; });
-      nav({ to: live.pathname, search: searchObj as never, replace: opts?.replace });
+      nav({ to: live.pathname, search: searchObj as never, replace: opts?.replace, resetScroll: false });
     },
     [nav, router],
   );
