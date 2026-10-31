@@ -53,10 +53,12 @@ const Hero: React.FC<HeroProps> = ({
       const schedule = () => { timer = setTimeout(load, 5000); };
       if (document.readyState === 'complete') schedule();
       else window.addEventListener('load', schedule, { once: true });
-      const events = ["pointerdown", "keydown", "touchstart", "scroll"] as const;
+      // Scrolling must not trigger the heavy form download mid-scroll.
+      const events = ["pointerdown", "keydown"] as const;
       const onInteraction = () => {
         clearTimeout(timer);
-        load();
+        if ('requestIdleCallback' in window) window.requestIdleCallback(load, { timeout: 4000 });
+        else timer = setTimeout(load, 200);
       };
       events.forEach((e) => window.addEventListener(e, onInteraction, { once: true, passive: true }));
 

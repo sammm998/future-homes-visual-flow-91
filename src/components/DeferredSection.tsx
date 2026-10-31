@@ -49,7 +49,9 @@ const DeferredSection: React.FC<DeferredSectionProps> = ({
   }, [show, rootMargin]);
 
   return (
-    <div ref={ref} className={className} style={show ? undefined : { minHeight }}>
+    <div ref={ref} className={className} style={show
+      ? { contentVisibility: 'auto', containIntrinsicSize: `auto ${minHeight}px` }
+      : { minHeight }}>
       {show ? <Suspense fallback={<div style={{ minHeight }} />}>{children}</Suspense> : null}
     </div>
   );

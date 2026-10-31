@@ -1,7 +1,9 @@
 import { Building2, Film, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useEffect, useRef } from "react";
+import { useMediaVisibility } from "@/hooks/useMediaVisibility";
 import { useTranslation } from "@/hooks/useTranslation";
-import apartmentTransformation from "@/assets/apartment-blueprint-to-finished.mp4.asset.json";
+import apartmentTransformation from "@/assets/apartment-blueprint-web.mp4.asset.json";
 import apartmentPoster from "@/assets/apartment-video-poster.jpg.asset.json";
 
 const labels: Record<string, { studio: string; blueprint: string; finished: string; hint: string; interactive: string; room: string; area: string; enter: string; exit: string }> = {
@@ -23,6 +25,16 @@ const labels: Record<string, { studio: string; blueprint: string; finished: stri
 function Feature() {
   const { t, lang } = useTranslation();
   const copy = labels[lang] ?? labels.en;
+  const { ref, visible, hasEntered } = useMediaVisibility<HTMLDivElement>();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (visible && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      void video.play().catch(() => {});
+    } else video.pause();
+  }, [visible]);
 
   return (
     <section className="w-full overflow-hidden bg-navy py-14 text-navy-foreground sm:py-20 lg:py-28">
@@ -51,17 +63,17 @@ function Feature() {
 
           <div className="relative min-w-0">
             <div className="absolute -left-5 top-10 hidden h-28 w-px bg-gold/50 lg:block" />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-lg border border-navy-foreground/10 bg-navy shadow-[var(--shadow-luxe)] sm:aspect-video">
+            <div ref={ref} className="relative aspect-[4/5] overflow-hidden rounded-lg border border-navy-foreground/10 bg-navy shadow-[var(--shadow-luxe)] sm:aspect-video">
               <video
+                ref={videoRef}
                 className="h-full w-full object-cover"
-                src={apartmentTransformation.url}
+                src={hasEntered ? apartmentTransformation.url : undefined}
                 poster={apartmentPoster.url}
-                autoPlay
                 muted
                 loop
                 playsInline
                 controls
-                preload="metadata"
+                preload="none"
                 aria-label={`${copy.blueprint} — ${copy.finished}`}
               />
 

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { homeHeroImage } from '@/lib/homeHeroImage';
+import { useMediaVisibility } from '@/hooks/useMediaVisibility';
 import broll1 from '@/assets/hero-broll-1-optimized.mp4.asset.json';
 import broll2 from '@/assets/hero-broll-2-optimized.mp4.asset.json';
 import broll1m from '@/assets/hero-broll-1-mobile.mp4.asset.json';
@@ -11,6 +12,7 @@ const MOBILE_CLIPS = [broll2m.url, broll1m.url];
 const CROSSFADE_MS = 1200;
 
 const HeroSlider = () => {
+  const { ref, visible } = useMediaVisibility<HTMLDivElement>();
   const [enableVideo, setEnableVideo] = useState(false);
   const [CLIPS, setClips] = useState(DESKTOP_CLIPS);
   const [active, setActive] = useState(0);
@@ -52,8 +54,20 @@ const HeroSlider = () => {
     if (cleanupTimer.current) window.clearTimeout(cleanupTimer.current);
   }, []);
 
+  useEffect(() => {
+    if (!enableVideo) return;
+    videos.current.forEach((video, index) => {
+      if (!video) return;
+      if (visible && index === activeIndex.current) {
+        void video.play().catch(() => {});
+      } else if (!visible) {
+        video.pause();
+      }
+    });
+  }, [visible, enableVideo]);
+
   const transitionToNext = (index: number) => {
-    if (index !== activeIndex.current || transitioning.current) return;
+    if (!visible || index !== activeIndex.current || transitioning.current) return;
     const nextIndex = (index + 1) % CLIPS.length;
     const next = videos.current[nextIndex];
     const current = videos.current[index];
@@ -77,7 +91,7 @@ const HeroSlider = () => {
   };
 
   return (
-    <div dir="ltr" className="absolute inset-0 overflow-hidden bg-navy">
+    <div ref={ref} dir="ltr" className="absolute inset-0 overflow-hidden bg-navy">
       <img
         src={homeHeroImage.src}
         srcSet={homeHeroImage.srcSet}
@@ -94,10 +108,10 @@ const HeroSlider = () => {
         CLIPS.map((src, i) => (
           <video
             key={src}
-            src={src}
+            src={visible || started ? src : undefined}
             muted
             playsInline
-            autoPlay={i === 0}
+            autoPlay={visible && i === 0}
             preload={i === 0 ? "auto" : "metadata"}
             aria-hidden="true"
             ref={(el) => { videos.current[i] = el; }}
