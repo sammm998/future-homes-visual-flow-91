@@ -1,3 +1,5 @@
+import { bedroomMatches, districtMatches, searchUnits, selectSearchPrice } from './propertySearchSelection';
+
 export interface PropertyFilters {
   propertyType: string;
   bedrooms: string;
@@ -25,13 +27,18 @@ export interface Property {
   image: string;
   coordinates: [number, number];
   features?: string[];
+  property_district?: string | null;
+  property_type?: string | null;
+  apartment_types?: unknown;
+  property_prices_by_room?: string | null;
+  price_currency?: string | null;
 }
 
 export const filterProperties = (properties: Property[], filters: PropertyFilters): Property[] => {
   console.log('🔍 filterProperties: Starting with', properties.length, 'properties');
   console.log('🔧 filterProperties: Applied filters:', filters);
   
-  let filtered = [...properties];
+  let filtered = properties.map(property => ({ ...property, selectedBedrooms: filters.bedrooms, price: selectSearchPrice(property, filters.bedrooms) }));
   
   // Filter by property type
   if (filters.propertyType && filters.propertyType !== '' && filters.propertyType !== 'all') {
@@ -39,6 +46,11 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
     filtered = filtered.filter(property => {
       const type = filters.propertyType.toLowerCase();
       const title = property.title.toLowerCase();
+      const storedType = (property.property_type || '').toLowerCase();
+      if (storedType) {
+        const singular = type.replace(/s$/, '');
+        return storedType.includes(singular) || (type === 'apartments' && /flat|duplex/.test(storedType));
+      }
       
       if (type === 'apartments') {
         return title.includes('apartment') || title.includes('flat') || title.includes('duplex');
@@ -58,6 +70,8 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
   if (filters.bedrooms && filters.bedrooms !== '' && filters.bedrooms !== 'all') {
     const beforeCount = filtered.length;
     filtered = filtered.filter(property => {
+      const units = searchUnits(property);
+      if (units.length) return units.some(unit => bedroomMatches(unit.type, filters.bedrooms));
       // Handle studio apartments
       if (filters.bedrooms === 'studio') {
         const propertyBedrooms = property.bedrooms.toLowerCase();
@@ -118,7 +132,7 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
   if (filters.location && filters.location !== '' && filters.location !== 'all') {
     const beforeCount = filtered.length;
     filtered = filtered.filter(property => 
-      property.location.toLowerCase().includes(filters.location.toLowerCase())
+      property.location.toLowerCase().startsWith(filters.location.toLowerCase())
     );
     console.log(`📍 location filter (${filters.location}): ${beforeCount} → ${filtered.length} properties`);
   }
@@ -127,8 +141,7 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
   if (filters.district && filters.district !== '' && filters.district !== 'all') {
     const beforeCount = filtered.length;
     filtered = filtered.filter(property => 
-      property.location.toLowerCase().includes(filters.district.toLowerCase()) ||
-      property.title.toLowerCase().includes(filters.district.toLowerCase())
+      districtMatches(property.property_district, filters.district)
     );
     console.log(`🏘️ district filter (${filters.district}): ${beforeCount} → ${filtered.length} properties`);
   }
@@ -167,7 +180,7 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
         minPropertyPrice = maxPropertyPrice = price;
       }
       
-      if (minPropertyPrice === 0 && maxPropertyPrice === 0) return true; // Skip if price can't be parsed
+      if (minPropertyPrice === 0 && maxPropertyPrice === 0) return !filters.bedrooms;
       
       const filterMinPrice = filters.minPrice ? parseInt(filters.minPrice.replace(/[€$£,]/g, '')) : 0;
       const filterMaxPrice = filters.maxPrice ? parseInt(filters.maxPrice.replace(/[€$£,]/g, '')) : Infinity;
@@ -214,7 +227,7 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
         // Create facility synonyms for better matching
         const facilityLower = facility.toLowerCase();
         
-        return property.features!.some(feature => {
+        return property.features?.some(feature => {
           const featureLower = feature.toLowerCase();
           
           // Direct match
@@ -333,7 +346,7 @@ export const filterProperties = (properties: Property[], filters: PropertyFilter
         };
         const refA = getRefNumber(a.refNo);
         const refB = getRefNumber(b.refNo);
-        return refA - refB;
+        return refB - refA;
       }
     }
   });

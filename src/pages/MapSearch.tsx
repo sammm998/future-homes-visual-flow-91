@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useTranslation } from '@/hooks/useTranslation';
 import { buildPropertyUrl, getCurrentLanguage } from '@/utils/slugHelpers';
 import Navigation from '@/components/Navigation';
+import { bedroomMatches, districtMatches, searchUnits, selectSearchPrice } from '@/utils/propertySearchSelection';
 
 interface Property {
   id: string;
@@ -19,6 +20,10 @@ interface Property {
   title: string;
   location: string;
   price: string;
+  apartment_types?: unknown;
+  property_prices_by_room?: string | null;
+  price_currency?: string | null;
+  selectedBedrooms?: string;
   google_maps_embed: string | null;
   slug: string | null;
   slug_sv?: string | null;
@@ -86,33 +91,34 @@ const MapSearch = () => {
 
   // Filter properties based on current filters (memoized for performance)
   const filteredProperties = useMemo(() => {
-    const matches = properties.filter((property: Property) => {
+    const matches = properties.map(property => ({ ...property, selectedBedrooms: filters.bedrooms, price: selectSearchPrice(property, filters.bedrooms) })).filter((property: Property) => {
       // Property type filter
       if (filters.propertyType && property.property_type?.toLowerCase() !== filters.propertyType.toLowerCase()) {
         return false;
       }
 
       // Bedrooms filter
-      if (filters.bedrooms && filters.bedrooms !== 'studio') {
+      const units = searchUnits(property);
+      if (filters.bedrooms && units.length && !units.some(unit => bedroomMatches(unit.type, filters.bedrooms))) return false;
+      if (filters.bedrooms && !units.length && filters.bedrooms !== 'studio') {
         const bedroomsMatch = property.bedrooms?.toLowerCase().includes(filters.bedrooms) || 
                              property.title?.toLowerCase().includes(`${filters.bedrooms}+1`);
         if (!bedroomsMatch) return false;
       }
-      if (filters.bedrooms === 'studio' && !property.bedrooms?.toLowerCase().includes('studio')) {
+      if (filters.bedrooms === 'studio' && !units.length && !bedroomMatches(property.bedrooms || '', 'studio')) {
         return false;
       }
 
       // Location filter
       if (filters.location && filters.location !== 'all') {
-        if (!property.location?.toLowerCase().includes(filters.location.toLowerCase())) {
+        if (!property.location?.toLowerCase().startsWith(filters.location.toLowerCase())) {
           return false;
         }
       }
 
       // District filter
       if (filters.district) {
-        const districtMatch = property.property_district?.toLowerCase().includes(filters.district.toLowerCase()) ||
-                             property.location?.toLowerCase().includes(filters.district.toLowerCase());
+        const districtMatch = districtMatches(property.property_district, filters.district);
         if (!districtMatch) return false;
       }
 
@@ -125,6 +131,7 @@ const MapSearch = () => {
 
       // Price filter
       if (filters.minPrice || filters.maxPrice) {
+        if (!property.price) return false;
         const priceValue = parseFloat(property.price?.replace(/[^0-9.]/g, '') || '0');
         if (filters.minPrice && priceValue < parseFloat(filters.minPrice)) return false;
         if (filters.maxPrice && priceValue > parseFloat(filters.maxPrice)) return false;
@@ -216,15 +223,16 @@ const MapSearch = () => {
   }, []);
 
   useEffect(() => {
-    if (!mapContainer.current || !mapboxToken) return;
+    const container = mapContainer.current;
+    if (!container || !mapboxToken) return;
 
     const initMap = async () => {
       try {
         // Fetch all active properties
         const { data: propertiesData, error } = await supabase
           .from('properties')
-          .select('id, ref_no, title, location, price, google_maps_embed, slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, slug_es, slug_de, slug_fr, slug_id, property_image, property_images, property_type, bedrooms, property_district, amenities')
-          .eq('is_active', true);
+          .select('id, ref_no, title, location, price, apartment_types, property_prices_by_room, price_currency, google_maps_embed, slug, slug_sv, slug_tr, slug_ar, slug_ru, slug_no, slug_da, slug_fa, slug_ur, slug_es, slug_de, slug_fr, slug_id, property_image, property_images, property_type, bedrooms, property_district, amenities')
+          .eq('is_active', true).or('status.is.null,status.not.ilike.%sold%');
 
         if (error) throw error;
 
@@ -234,7 +242,7 @@ const MapSearch = () => {
         mapboxgl.accessToken = mapboxToken;
         
         map.current = new mapboxgl.Map({
-          container: mapContainer.current!,
+          container,
           style: mapStyle,
           center: [35, 35], // Centered on Middle East
           zoom: 3,
@@ -266,13 +274,13 @@ const MapSearch = () => {
         // Add terrain/satellite control
         map.current.on('load', () => {
           // Add 3D terrain
-          map.current!.addSource('mapbox-dem', {
+          map.current?.addSource('mapbox-dem', {
             'type': 'raster-dem',
             'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
             'tileSize': 512,
             'maxzoom': 14
           });
-          map.current!.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+          map.current?.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
         });
 
       } catch (error) {
@@ -302,11 +310,13 @@ const MapSearch = () => {
 
   // Update markers when filtered properties change (optimized)
   useEffect(() => {
-    if (!map.current || filteredProperties.length === 0) return;
+    const activeMap = map.current;
+    if (!activeMap) return;
 
     // Clear existing markers
     markersRef.current.forEach(marker => marker.remove());
     markersRef.current = [];
+    setSelectedProperty(current => filteredProperties.find(property => property.id === current?.id) || null);
 
     const bounds = new mapboxgl.LngLatBounds();
 
@@ -331,7 +341,7 @@ const MapSearch = () => {
         rotationAlignment: 'viewport'
       })
         .setLngLat(coords)
-        .addTo(map.current!);
+        .addTo(activeMap);
 
       markersRef.current.push(marker);
 
@@ -398,14 +408,14 @@ const MapSearch = () => {
           <div className="divide-y divide-navy/10">
             {filteredProperties.map((property,index)=><article key={property.id} className={`group grid min-h-36 cursor-pointer grid-cols-[7.5rem_1fr] p-3 transition-colors sm:grid-cols-[9rem_1fr] ${selectedProperty?.id===property.id?'bg-ivory':'hover:bg-ivory/60'}`} onClick={()=>selectProperty(property)}>
               <div className="relative min-h-32 overflow-hidden rounded-sm bg-navy">{(property.property_image || property.property_images?.[0])?<img src={property.property_image || property.property_images?.[0] || ''} alt={property.title} loading={index<3?'eager':'lazy'} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"/>:<div className="flex h-full items-center justify-center text-gold"><Building2/></div>}<span className="absolute left-2 top-2 rounded-sm bg-navy/85 px-2 py-1 text-[8px] font-bold text-navy-foreground">REF {property.ref_no}</span></div>
-              <div className="flex min-w-0 flex-col justify-between px-4 py-1"><div><p className="flex items-center gap-1 truncate text-[9px] font-bold uppercase text-gold"><MapPin className="h-3 w-3"/>{property.location}</p><h2 className="mt-2 line-clamp-2 font-serif text-sm font-semibold sm:text-base">{property.title}</h2><div className="mt-3 flex gap-3 text-[10px] text-navy/50">{property.bedrooms&&<span className="flex items-center gap-1"><BedDouble className="h-3.5 w-3.5"/>{property.bedrooms}</span>}<span className="truncate">{property.property_type}</span></div></div><div className="flex items-end justify-between"><strong className="truncate text-sm sm:text-base">{property.price}</strong><Button size="icon" variant="ghost" className="h-9 w-9 text-navy hover:bg-navy hover:text-navy-foreground" onClick={event=>{event.stopPropagation();openProperty(property)}} aria-label={t('card.view_property')}><ArrowRight/></Button></div></div>
+              <div className="flex min-w-0 flex-col justify-between px-4 py-1"><div><p className="flex items-center gap-1 truncate text-[9px] font-bold uppercase text-gold"><MapPin className="h-3 w-3"/>{property.location}</p><h2 className="mt-2 line-clamp-2 font-serif text-sm font-semibold sm:text-base">{property.title}</h2><div className="mt-3 flex gap-3 text-[10px] text-navy/50">{property.bedrooms&&<span className="flex items-center gap-1"><BedDouble className="h-3.5 w-3.5"/>{property.bedrooms}</span>}<span className="truncate">{property.property_type}</span></div></div><div className="flex items-end justify-between"><strong className="truncate text-sm sm:text-base">{property.price || t('home.price_on_request')}</strong><Button size="icon" variant="ghost" className="h-9 w-9 text-navy hover:bg-navy hover:text-navy-foreground" onClick={event=>{event.stopPropagation();openProperty(property)}} aria-label={t('card.view_property')}><ArrowRight/></Button></div></div>
             </article>)}
           </div>
         </section>
         <section className="relative order-1 min-h-0 overflow-hidden rounded-md border border-navy/10 bg-navy shadow-[var(--shadow-luxe)] lg:order-2"><div ref={mapContainer} className="h-full w-full"/>{loading&&<div className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center bg-navy/60"><Loader2 className="h-10 w-10 animate-spin text-gold"/></div>}<div className="absolute left-3 top-3 z-[60] flex gap-1 rounded-sm border border-navy/10 bg-background/95 p-1 shadow-[var(--shadow-luxe)]"><Button size="sm" className="bg-navy text-navy-foreground" onClick={()=>setMapStyle('mapbox://styles/mapbox/streets-v12')}>Street</Button><Button size="sm" variant="ghost" onClick={()=>setMapStyle('mapbox://styles/mapbox/satellite-streets-v12')}>Satellite</Button><Button size="icon" variant="ghost" className="h-9 w-9" aria-label="3D" onClick={()=>map.current?.easeTo({pitch:map.current.getPitch()===0?60:0,duration:800})}><Layers3/></Button></div>
           {selectedProperty&&<article className="absolute bottom-4 left-4 right-4 z-[70] grid max-w-md grid-cols-[7rem_1fr] overflow-hidden rounded-sm border border-gold/40 bg-navy text-navy-foreground shadow-[var(--shadow-luxe)] sm:left-auto sm:grid-cols-[8rem_1fr]">
             <div className="min-h-32 bg-ivory">{(selectedProperty.property_image || selectedProperty.property_images?.[0])?<img src={selectedProperty.property_image || selectedProperty.property_images?.[0] || ''} alt={selectedProperty.title} className="h-full w-full object-cover"/>:<div className="flex h-full items-center justify-center text-gold"><Building2/></div>}</div>
-            <div className="relative flex min-w-0 flex-col justify-between p-4 pr-11"><Button variant="ghost" size="icon" className="absolute right-1 top-1 h-9 w-9 text-navy-foreground/60 hover:bg-navy-foreground/10 hover:text-navy-foreground" onClick={()=>setSelectedProperty(null)} aria-label="Close"><X/></Button><div><p className="text-[9px] font-bold uppercase text-gold">REF {selectedProperty.ref_no} · {selectedProperty.location}</p><h2 className="mt-2 line-clamp-2 font-serif text-sm font-semibold">{selectedProperty.title}</h2></div><div className="mt-3 flex items-end justify-between gap-2"><strong className="truncate text-sm">{selectedProperty.price}</strong><Button size="sm" className="h-9 shrink-0 bg-gold text-gold-foreground hover:bg-ivory" onClick={()=>openProperty(selectedProperty)}>{t('card.view_property')}<ArrowRight/></Button></div></div>
+            <div className="relative flex min-w-0 flex-col justify-between p-4 pr-11"><Button variant="ghost" size="icon" className="absolute right-1 top-1 h-9 w-9 text-navy-foreground/60 hover:bg-navy-foreground/10 hover:text-navy-foreground" onClick={()=>setSelectedProperty(null)} aria-label="Close"><X/></Button><div><p className="text-[9px] font-bold uppercase text-gold">REF {selectedProperty.ref_no} · {selectedProperty.location}</p><h2 className="mt-2 line-clamp-2 font-serif text-sm font-semibold">{selectedProperty.title}</h2></div><div className="mt-3 flex items-end justify-between gap-2"><strong className="truncate text-sm">{selectedProperty.price || t('home.price_on_request')}</strong><Button size="sm" className="h-9 shrink-0 bg-gold text-gold-foreground hover:bg-ivory" onClick={()=>openProperty(selectedProperty)}>{t('card.view_property')}<ArrowRight/></Button></div></div>
           </article>}
         </section>
       </div>

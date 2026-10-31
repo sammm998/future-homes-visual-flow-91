@@ -203,8 +203,8 @@ const PropertyCard: React.FC<PropertyCardProps> = memo(({ property, priority = f
           <div className="mt-6 min-w-0 lg:mt-7">
             <span className="block text-[9px] font-bold uppercase text-navy-foreground/55">{t('card.price')}</span>
             <span className="mt-1 block truncate text-lg font-bold text-navy-foreground @min-[340px]:text-xl">
-              <span className="mr-1 text-[9px] font-semibold uppercase text-gold">{t('card.from')}</span>
-              {formatPriceFromString(property.price || '0', formatPrice)}
+              {property.price && <span className="mr-1 text-[9px] font-semibold uppercase text-gold">{t('card.from')}</span>}
+              {property.price ? formatPriceFromString(property.price, formatPrice) : t('home.price_on_request')}
               {Number(property.buyer_fee_percent) > 0 && <span className="ml-1 text-[10px]">+{property.buyer_fee_percent}%</span>}
             </span>
           </div>

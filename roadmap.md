@@ -1,5 +1,10 @@
 # Roadmap
 
+## Reported search and customer-photo issues
+- [x] Restore Mr. Edward's review/photo from old CMS to current Cloud; photo verified in public testimonials. Old CMS remains separate; future edits there do not sync automatically.
+- [x] Match listing prices, price sorting/filtering and linked detail prices to selected bedrooms; REF 3019 shows €95,000 for 2 beds in all 13 languages, with 15 regression tests passing.
+- [x] Correct district options, spelling normalization and deselection; Mersin Erdemli → All verified with bedroom selection preserved, no browser errors.
+
 - [x] Minska startsidans FCP/LCP: AVIF-varianter (480 px 14 KB, 768 px 30 KB), delade preload/bildkandidater, rubrik utan fade, sökformulär/video senare efter sidladdning. Verifierat spanska och engelska på 390/1280 px, inga nya runtimefel, REF 1474-sökning, 3 språktester och build OK. Lokal LCP på /es 1,83 → 1,37 s (inte jämförbart med PageSpeed-produktion); ny PageSpeed-mätning kräver publicering.
 - [x] Slutför alla saknade/felaktiga bostadsöversättningar — 281 översättningar sparade i Lovable Cloud; nya bostäder sparas dit automatiskt vid sparning i admin
 - [x] Kontrollera språk från Google, rätta språkväxling samt engelska kart-/prisrubriker på samtliga 13 språk; verifierat alla språk på REF 1415, indonesiska/urdu/franska Google-länkar, bilder och språkbyten utan runtimefel (11 tester godkända).
