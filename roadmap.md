@@ -1,7 +1,7 @@
 # Roadmap
 
 ## Homepage speed
-- [ ] Reduce offscreen video work, unnecessary scroll-triggered downloads and destination image weight; verify homepage search and all 13 locales.
+- [x] Reduce offscreen video work and scroll-triggered form downloads; Before & After reduced 13.84 MB → 2.57 MB, destination images 1.02 MB → 0.44 MB, offscreen section rendering deferred. All 13 homepage locales, Antalya results, 17 regression tests and build checked. Visibility pause verified using a temporary WebM test source because sandbox Chromium cannot decode H264; published speed measurement still requires publishing.
 
 ## Reported search and customer-photo issues
 - [x] Keep search position stable for same-page filter changes; bedrooms, type, minimum/maximum price stayed at scroll 600, filters survived reload, no runtime errors, 14 focused tests passed.
