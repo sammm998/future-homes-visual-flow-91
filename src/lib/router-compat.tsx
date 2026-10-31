@@ -154,6 +154,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
       hash={hash}
       replace={replace}
       state={state as never}
+      preload={['antalya', 'istanbul', 'mersin', 'dubai', 'cyprus', 'bali'].includes(localizedPathname.split('/').filter(Boolean).at(-1) ?? '') ? 'intent' : false}
       {...((rest ?? {}) as Record<string, unknown>)}
       onPointerEnter={(event) => {
         rest.onPointerEnter?.(event);
