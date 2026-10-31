@@ -29,3 +29,6 @@ test('district options belong to their city and consolidate spelling variants', 
   expect(options.Antalya).toEqual([{ value: 'altintas', label: 'Altıntaş' }]);
   expect(options.Mersin).toEqual([{ value: 'mezitli', label: 'Mezitli' }]);
 });
+test('translated titles retain apartment type filtering and selected price', () => {
+  expect(filterProperties([{ ...listing, title: 'Lägenheter i Erdemli', property_type: 'Apartments' }], { ...filters, propertyType: 'apartments' })[0]?.price).toBe('€95,000');
+});
