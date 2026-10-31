@@ -17,7 +17,12 @@ export const propertySearchOptions = (queryClient: QueryClient, lang: string, ci
               staleTime: 5 * 60 * 1000,
               queryFn: async () => {
                 const all = queryClient.getQueryData<any[]>(['property-search-source', 'all']);
-                if (city && all) return all.filter(row => row.location?.toLowerCase().startsWith(city.toLowerCase()));
+                const cachedAt = queryClient.getQueryState(['property-search-source', 'all'])?.dataUpdatedAt ?? 0;
+                if (city && all && Date.now() - cachedAt < 5 * 60 * 1000) return all.filter(row => {
+                  const location = row.location?.toLowerCase().trim() ?? '';
+                  const prefix = city.toLowerCase();
+                  return location === prefix || location.startsWith(prefix + ',') || location.startsWith(prefix + ' ');
+                });
                 let query = enhancedSupabase.from('properties').select(city ? SEARCH_FIELDS : '*')
                   .eq('is_active', true).or('status.is.null,status.not.ilike.%sold%')
                   .order('created_at', { ascending: false });
