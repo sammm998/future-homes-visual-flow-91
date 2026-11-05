@@ -1,5 +1,8 @@
 # Roadmap
 
+## Mikail password recovery
+- [ ] Diagnose expired recovery links, add a working retry on the password page, verify it and request one new email for Mikail without changing Batuhan's account.
+
 ## CMS customer reviews
 - [x] Add customer-review management to the CMS menu, including create/edit/delete, photo uploads and editing all 13 stored language versions; verified as Batuhan: create, edit, reload persistence, photo HTTP 200, Swedish public readback and deletion. Desktop/mobile checked, 3 tests pass, build OK. Requires publication.
 
