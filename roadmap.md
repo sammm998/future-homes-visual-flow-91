@@ -1,5 +1,8 @@
 # Roadmap
 
+## Mikail password recovery
+- [x] Logs confirm expired/consumed links. Invalid-link retry and initialization/error guards verified in browser; 3 recovery tests pass, build OK. New email accepted and recovery_sent_at confirmed at 12:50 UTC for Mikail only. Delivery and Mikail's actual password selection unverified; page changes require publication.
+
 ## CMS customer reviews
 - [x] Add customer-review management to the CMS menu, including create/edit/delete, photo uploads and editing all 13 stored language versions; verified as Batuhan: create, edit, reload persistence, photo HTTP 200, Swedish public readback and deletion. Desktop/mobile checked, 3 tests pass, build OK. Requires publication.
 

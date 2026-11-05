@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Lock } from 'lucide-react';
+import { adminRecoveryRedirect, adminRecoveryState } from '@/lib/adminRecovery';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -16,25 +17,51 @@ const AdminLogin = () => {
   const [resetMode, setResetMode] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [sessionReady, setSessionReady] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+  const [emailSent, setEmailSent] = useState(false);
 
   useEffect(() => {
-    const isReset = new URLSearchParams(window.location.search).get('reset') === '1'
-      || new URLSearchParams(window.location.hash.slice(1)).get('type') === 'recovery';
+    const initial = adminRecoveryState(window.location.search, window.location.hash, false);
+    const isReset = initial.resetMode;
     setResetMode(isReset);
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'PASSWORD_RECOVERY') setResetMode(true);
-      setSessionReady(Boolean(session));
+      setSessionReady(Boolean(session) && !initial.linkError);
     });
     supabase.auth.getSession().then(({ data }) => {
-      setSessionReady(Boolean(data.session));
+      setSessionReady(Boolean(data.session) && !initial.linkError);
+      setCheckingSession(false);
       if (data.session && !isReset) navigate('/admin', { replace: true });
+    }).catch(() => {
+      setSessionReady(false);
+      setCheckingSession(false);
     });
     return () => listener.subscription.unsubscribe();
   }, [navigate]);
 
+  const handleRecoveryEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: adminRecoveryRedirect(window.location.origin),
+      });
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      setEmailSent(true);
+    } catch {
+      toast.error('Could not request the email. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (resetMode) {
+      if (!sessionReady || checkingSession) return;
       if (password !== confirmPassword) {
         toast.error('Passwords do not match');
         return;
@@ -71,10 +98,19 @@ const AdminLogin = () => {
             <Lock className="h-6 w-6 text-primary" />
           </div>
           <CardTitle className="text-2xl">{resetMode ? 'Set your password' : 'Admin Login'}</CardTitle>
-          <CardDescription>{resetMode ? (sessionReady ? 'Future Homes International' : 'The link is invalid or expired. Request a new password email.') : 'Logga in för att komma åt admin dashboard'}</CardDescription>
+          <CardDescription>{resetMode ? (checkingSession ? 'Checking your password link...' : sessionReady ? 'Future Homes International' : 'The link is invalid or expired. Request a new password email.') : 'Logga in för att komma åt CMS'}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
+          {resetMode && !checkingSession && !sessionReady ? (
+            <form onSubmit={handleRecoveryEmail} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="recovery-email">Email</Label>
+                <Input id="recovery-email" type="email" autoComplete="email" value={email} onChange={(e) => { setEmail(e.target.value); setEmailSent(false); }} required />
+              </div>
+              {emailSent && <p role="status" className="text-sm text-muted-foreground">A new password email has been requested. Open only the latest email; older links may no longer work.</p>}
+              <Button type="submit" className="w-full" disabled={loading || emailSent}>{loading ? 'Please wait...' : 'Send new password email'}</Button>
+            </form>
+          ) : <form onSubmit={handleLogin} className="space-y-4">
             {!resetMode && <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -101,10 +137,10 @@ const AdminLogin = () => {
               <Label htmlFor="confirm-password">Confirm new password</Label>
               <Input id="confirm-password" type="password" autoComplete="new-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
             </div>}
-            <Button type="submit" className="w-full" disabled={loading || (resetMode && !sessionReady)}>
+            <Button type="submit" className="w-full" disabled={loading || checkingSession || (resetMode && !sessionReady)}>
               {loading ? 'Please wait...' : resetMode ? 'Save password' : 'Logga in'}
             </Button>
-          </form>
+          </form>}
         </CardContent>
       </Card>
     </div>
