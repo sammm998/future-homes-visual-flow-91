@@ -30,3 +30,4 @@
 - All shared property-search catalog reads use the explicit SEARCH_FIELDS projection, including country and unit-pricing fields; never fetch complete editor rows for public cards.
 - Homepage media uses useMediaVisibility to pause outside the viewport or a hidden tab; below-fold videos acquire sources only on entering view, preserving motion without offscreen decoding.
 - Admin password recovery uses /admin-login?reset=1 and preserves the recovery session until password update succeeds; never redirect a recovery session straight to the dashboard.
+- Customer reviews are managed at /admin/testimonials using the Cloud client and existing admin RLS, with photos served through public media and language edits stored in testimonial_translations — keeps CMS edits on the same data visitors read.
