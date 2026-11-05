@@ -1,14 +1,13 @@
 import React from 'react';
 import { supportedLanguages } from '@/utils/seoUtils';
-import { stripLocale, localizePath } from '@/utils/localeRouting';
-import { getLocalizedPageMeta } from '@/utils/seoMetaTranslations';
+import { localizePath } from '@/utils/localeRouting';
+import { getPageMeta } from '@/utils/pageMeta';
 import { useLocation } from '@/lib/router-compat';
 import { resolveUrlLocale } from '@/utils/localeRouting';
-
-const OG_LOCALES: Record<string, string> = {
-  en: 'en_US', es: 'es_ES', sv: 'sv_SE', no: 'nb_NO', da: 'da_DK', de: 'de_DE',
-  fr: 'fr_FR', tr: 'tr_TR', ru: 'ru_RU', ar: 'ar_SA', fa: 'fa_IR', ur: 'ur_PK', id: 'id_ID',
-};
+import {
+  DEFAULT_OG_IMAGE, OG_LOCALES, ROBOTS_INDEX, ROBOTS_NOINDEX, SITE_NAME, SITE_URL,
+  fitTitle, normalizeSeoPath, toAbsoluteUrl,
+} from '@/lib/seoTags';
 
 interface SEOHeadProps {
   title: string;
@@ -33,9 +32,9 @@ interface SEOHeadProps {
 const SEOHead: React.FC<SEOHeadProps> = ({
   title: titleProp,
   description: descriptionProp,
-  keywords = "real estate Turkey, property investment Dubai, Cyprus properties, Turkish citizenship, luxury homes, overseas investment, international real estate, property for sale, investment opportunities",
+  keywords,
   canonicalUrl,
-  ogImage = 'https://futurehomesinternational.com/og-image.jpg',
+  ogImage,
   ogType = 'website',
   structuredData,
   hreflangUrls = {},
@@ -44,17 +43,17 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   breadcrumbs
 }) => {
   const location = useLocation();
-  const currentLocaleFreePath = stripLocale(location.pathname);
-  const siteName = 'Future Homes International';
-  const defaultImage = 'https://futurehomesinternational.com/og-image.jpg';
+  const currentLocaleFreePath = normalizeSeoPath(location.pathname);
+  const siteName = SITE_NAME;
   const currentLanguage = resolveUrlLocale(location.pathname, location.search);
-  const baseUrl = 'https://futurehomesinternational.com';
+  const baseUrl = SITE_URL;
+  const image = toAbsoluteUrl(ogImage) || DEFAULT_OG_IMAGE;
 
   // Self-referencing, locale-aware canonical
   const canonicalPath = (() => {
     if (!canonicalUrl) return currentLocaleFreePath;
     try {
-      return stripLocale(new URL(canonicalUrl, baseUrl).pathname);
+      return normalizeSeoPath(new URL(canonicalUrl, baseUrl).pathname);
     } catch {
       return currentLocaleFreePath;
     }
@@ -69,8 +68,8 @@ const SEOHead: React.FC<SEOHeadProps> = ({
 
   // Localized title/description for known pages, so every language gets
   // unique, translated metadata instead of the English fallback.
-  const localized = getLocalizedPageMeta(canonicalPath, currentLanguage);
-  const title = localized?.title || titleProp;
+  const localized = getPageMeta(canonicalPath, currentLanguage);
+  const title = fitTitle(localized?.title || titleProp);
   const description = localized?.description || descriptionProp;
 
   // Generate hreflang URLs if not provided
@@ -92,9 +91,11 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
+    "@id": `${baseUrl}/#organization`,
     "name": "Future Homes International",
     "url": baseUrl,
-    "logo": `${baseUrl}/favicon.png`,
+    "logo": `${baseUrl}/future-homes-logo-new.jpg`,
+    "image": DEFAULT_OG_IMAGE,
     "email": "info@futurehomesinternational.com",
     "telephone": "+90 552 303 27 50",
     "address": {
@@ -114,13 +115,12 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${baseUrl}/#website`,
     "name": siteName,
+    "alternateName": "Future Homes",
     "url": baseUrl,
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": `${baseUrl}/ai-property-search?q={search_term_string}`,
-      "query-input": "required name=search_term_string"
-    }
+    "inLanguage": currentLanguage,
+    "publisher": { "@id": `${baseUrl}/#organization` }
   };
 
   // Breadcrumb structured data
@@ -135,54 +135,34 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     }))
   } : null;
 
-  // Determine locale for og:locale
-  const getOgLocale = () => {
-    return OG_LOCALES[currentLanguage] || 'en_US';
-  };
-
   return (
     <>
-      {/* Primary Meta Tags (React 19 hoists these into <head>, SSR included) */}
+      {/* React 19 hoists these into <head>, SSR included. Sitewide tags
+          (charset, viewport, icons, theme colour) live in the root route. */}
       <title>{title}</title>
-      <meta name="title" content={title} />
       <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
-      <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"} />
-      <meta name="author" content="Future Homes International" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-      <meta name="language" content={currentLanguage === 'en' ? 'English' : currentLanguage} />
-      <meta name="revisit-after" content="7 days" />
-      <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-      <meta name="bingbot" content="index, follow" />
-      
-      {/* Canonical URL */}
-      <link rel="canonical" href={currentUrl} />
-      
-      {/* Hreflang Tags for International SEO */}
-      {Object.entries(finalHreflangUrls).map(([lang, url]) => (
+      {keywords && currentLanguage === 'en' && <meta name="keywords" content={keywords} />}
+      <meta name="robots" content={noindex ? ROBOTS_NOINDEX : ROBOTS_INDEX} />
+
+      {!noindex && <link rel="canonical" href={currentUrl} />}
+      {!noindex && Object.entries(finalHreflangUrls).map(([lang, url]) => (
         <link key={lang} rel="alternate" hrefLang={lang} href={url} />
       ))}
-      <link rel="alternate" hrefLang="x-default" href={finalHreflangUrls['en'] || currentUrl} />
-      
-      {/* Open Graph / Facebook */}
+      {!noindex && <link rel="alternate" hrefLang="x-default" href={finalHreflangUrls['en'] || currentUrl} />}
+
       <meta property="og:type" content={ogType} />
       <meta property="og:url" content={currentUrl} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={ogImage || defaultImage} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
+      <meta property="og:image" content={image} />
+      {image === DEFAULT_OG_IMAGE && <meta property="og:image:width" content="1200" />}
+      {image === DEFAULT_OG_IMAGE && <meta property="og:image:height" content="630" />}
       <meta property="og:image:alt" content={title} />
-      <meta property="og:site_name" content={siteName} />
-      <meta property="og:locale" content={getOgLocale()} />
-      
-      {/* Alternate locales for Facebook */}
-      {supportedLanguages.filter(l => l.code !== currentLanguage).map(lang => {
-        return <meta key={lang.code} property="og:locale:alternate" content={OG_LOCALES[lang.code] || 'en_US'} />;
-      })}
-      
-      {/* Article specific Open Graph tags */}
+      <meta property="og:locale" content={OG_LOCALES[currentLanguage] || 'en_US'} />
+      {!noindex && supportedLanguages.filter(l => l.code !== currentLanguage).map(lang => (
+        <meta key={lang.code} property="og:locale:alternate" content={OG_LOCALES[lang.code] || 'en_US'} />
+      ))}
+
       {article && (
         <>
           {article.publishedTime && <meta property="article:published_time" content={article.publishedTime} />}
@@ -194,67 +174,21 @@ const SEOHead: React.FC<SEOHeadProps> = ({
           ))}
         </>
       )}
-      
-      {/* Twitter */}
+
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content={currentUrl} />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage || defaultImage} />
+      <meta name="twitter:image" content={image} />
       <meta name="twitter:image:alt" content={title} />
-      <meta name="twitter:site" content="@FutureHomesTR" />
-      <meta name="twitter:creator" content="@FutureHomesTR" />
-      
-      {/* Business Contact Information */}
-      <meta name="contact" content="info@futurehomesinternational.com" />
-      <meta name="coverage" content="Worldwide" />
-      <meta name="distribution" content="Global" />
-      <meta name="rating" content="General" />
-      
-      {/* Geographic Tags */}
-      <meta name="geo.region" content="TR" />
-      <meta name="geo.placename" content="Turkey" />
-      <meta name="geo.position" content="39.925533;32.866287" />
-      <meta name="ICBM" content="39.925533, 32.866287" />
-      
-      {/* Mobile Optimization */}
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-      <meta name="apple-mobile-web-app-title" content={siteName} />
-      <meta name="mobile-web-app-capable" content="yes" />
-      <meta name="theme-color" content="#1a365d" />
-      <meta name="msapplication-TileColor" content="#1a365d" />
-      
-      {/* Favicon - using uploaded favicon only */}
-      <link rel="icon" type="image/png" href="/favicon.png" />
-      <link rel="apple-touch-icon" href="/favicon.png" />
-      
-      {/* Preconnect for Performance */}
-      <link rel="dns-prefetch" href="//kiogiyemoqbnuvclneoe.supabase.co" />
-      
-      {/* Core Structured Data - Organization */}
+
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
-      
-      {/* Core Structured Data - WebSite */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
-      
-      {/* Breadcrumb Structured Data */}
       {breadcrumbSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       )}
-      
-      {/* Custom Structured Data */}
-      {structuredData && (
-        Array.isArray(structuredData) 
-          ? structuredData.map((data, index) => (
-              <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
-            ))
-          : (
-              <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-            )
-      )}
-      
-      <meta name="format-detection" content="telephone=no" />
+      {structuredData && (Array.isArray(structuredData) ? structuredData : [structuredData]).map((data, index) => (
+        <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
+      ))}
     </>
   );
 };

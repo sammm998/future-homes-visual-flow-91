@@ -11,6 +11,7 @@ import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 import { ContentSection } from "@/components/ContentSection";
 import ConversionBand from "@/components/ConversionBand";
+import HomeSeoContent from "@/components/HomeSeoContent";
 import { usePropertySearchWarmup } from '@/hooks/usePropertySearchWarmup';
 
 // Below-the-fold sections: downloaded only when the user scrolls near them.
@@ -22,7 +23,6 @@ const TeamSection = lazy(() => import("@/components/TeamSection"));
 const NewsInsights = lazy(() => import("@/components/NewsInsights"));
 const PropertyListingSection = lazy(() => import("@/components/PropertyListingSection"));
 const HomeConciergeDialog = lazy(() => import("@/components/HomeConciergeDialog"));
-const HomeSeoContent = lazy(() => import("@/components/HomeSeoContent"));
 
 const Index = () => {
   usePropertySearchWarmup();
@@ -212,9 +212,11 @@ const Index = () => {
         <NewsInsights />
       </DeferredSection>
       
-      <DeferredSection minHeight={1200} rootMargin="100px">
+      {/* Server-rendered so the guide text, FAQ and internal links are in the
+          initial HTML for crawlers; content-visibility skips offscreen paint. */}
+      <div style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 1200px' }}>
         <HomeSeoContent />
-      </DeferredSection>
+      </div>
 
 
       {/* The dialog and its portrait are downloaded only when it opens. */}

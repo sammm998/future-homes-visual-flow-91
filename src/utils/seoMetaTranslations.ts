@@ -1,8 +1,10 @@
 // AUTO-GENERATED localized SEO titles/descriptions (13 languages).
+// After editing, run `bun scripts/build-i18n.ts` (also part of `bun run build`) so the per-language dictionaries the browser reads are regenerated.
 // Keyword-optimized from Semrush research per market (see scripts/seo-keyword-optimize.ts).
 // Titles kept <= 60 chars and descriptions <= 160 chars so they are not truncated in SERPs.
 // Source of truth for English: seoMetaSource.ts
 import type { PageMeta } from './seoMetaSource';
+import { SEO_META_EXTRA } from './seoMetaExtra';
 
 export const SEO_META: Record<string, Record<string, PageMeta>> = {
   "en": {
@@ -24,7 +26,7 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
     },
     "/dubai": {
       "title": "Property for Sale in Dubai | Apartments & Villas",
-      "description": "Dubai homes for sale: luxury apartments, penthouses & villas in Dubai Marina, Downtown, Palm Jumeirah & Business Bay from AED 800K with high ROI and golden."
+      "description": "Dubai homes for sale: luxury apartments, penthouses & villas in Dubai Marina, Downtown & Palm Jumeirah from AED 800K, with Golden Visa eligibility."
     },
     "/cyprus": {
       "title": "Property for Sale in Cyprus",
@@ -40,7 +42,7 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
     },
     "/apartments-for-sale-in-turkey": {
       "title": "Apartments for Sale in Turkey | Antalya, Istanbul & Alanya",
-      "description": "Apartments for sale in Turkey: 1–4 bedroom beachfront, city-centre and off-plan apartments in Antalya, Istanbul, Alanya & Mersin from €70,000 with payment."
+      "description": "Apartments for sale in Turkey: 1–4 bedroom beachfront, city-centre and off-plan apartments in Antalya, Istanbul, Alanya & Mersin from €70,000 with payment plans."
     },
     "/luxury-villas-in-turkey": {
       "title": "Villas for Sale in Turkey",
@@ -48,11 +50,11 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
     },
     "/off-plan-property-turkey": {
       "title": "Off-Plan Property in Turkey | New Builds with Payment Plans",
-      "description": "Off-plan property in Turkey from leading developers: 10–20% below market, 0% interest payment plans and new-build apartments & villas in Antalya, Istanbul."
+      "description": "Off-plan property in Turkey from leading developers: 10–20% below market, 0% interest payment plans on new-build apartments & villas in Antalya and Istanbul."
     },
     "/turkish-citizenship-by-investment": {
       "title": "Turkish Citizenship by Investment 2026",
-      "description": "Get Turkish citizenship by investment with $400K real estate."
+      "description": "Get Turkish citizenship by investment with $400K in real estate: eligible properties, the step-by-step process, costs, timelines and visa-free travel benefits."
     },
     "/information": {
       "title": "Property Investment Guide",
@@ -63,7 +65,7 @@ export const SEO_META: Record<string, Record<string, PageMeta>> = {
       "description": "Explore our collection of premium properties with high-quality photos of luxury apartments, modern interiors and exceptional amenities in prime locations."
     },
     "/testimonials": {
-      "title": "Client Testimonials | Real Customer Reviews & Success",
+      "title": "Client Testimonials | Real Buyer Reviews & Success Stories",
       "description": "Read authentic reviews from clients who found their dream property with us. Real testimonials from customers in Turkey, Dubai, Cyprus and Bali."
     },
     "/about-us": {
@@ -1032,6 +1034,11 @@ export function getLocalizedPageMeta(path: string, language: string): PageMeta |
     return ('/' + p.replace(/^\/+/, '').replace(/\/+$/, '')).toLowerCase();
   })();
 
-  const byLang = SEO_META[language] || SEO_META['en'];
-  return byLang?.[normalized] || SEO_META['en']?.[normalized] || null;
+  return (
+    SEO_META[language]?.[normalized] ||
+    SEO_META_EXTRA[normalized]?.[language] ||
+    SEO_META['en']?.[normalized] ||
+    SEO_META_EXTRA[normalized]?.en ||
+    null
+  );
 }

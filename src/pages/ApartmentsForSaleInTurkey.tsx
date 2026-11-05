@@ -109,13 +109,13 @@ const ApartmentsForSaleInTurkey = () => {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://futurehomesturkey.com/"
+          "item": "https://futurehomesinternational.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Property for Sale in Turkey",
-          "item": "https://futurehomesturkey.com/property-for-sale-in-turkey"
+          "item": "https://futurehomesinternational.com/property-for-sale-in-turkey"
         },
         {
           "@type": "ListItem",

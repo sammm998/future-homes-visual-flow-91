@@ -4,9 +4,9 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 
-export const CLOUD_URL = "https://slwesocsoncujeghgkzh.supabase.co";
-export const CLOUD_PUBLISHABLE_KEY = "sb_publishable_hhsY9ChXnw98hh-tr9vm8Q_w49N0ZIs";
-export const cloudRestHeaders = { apikey: CLOUD_PUBLISHABLE_KEY };
+import { CLOUD_PUBLISHABLE_KEY, CLOUD_URL } from "./publicCloudConfig";
+
+export { CLOUD_PUBLISHABLE_KEY, CLOUD_URL, cloudRestHeaders } from "./publicCloudConfig";
 
 const stripBearerKey: typeof fetch = (input, init) => {
   const headers = new Headers(init?.headers);

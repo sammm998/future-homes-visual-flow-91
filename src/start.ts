@@ -1,6 +1,7 @@
 import { createStart } from "@tanstack/react-start";
 
-import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
+// Lazy variant of the generated auth-attacher (keeps the Supabase SDK off the critical path).
+import { attachSupabaseAuth } from "@/lib/lazyAuthAttacher";
 
 // NOTE: do not call `createMiddleware()` at module scope in this file.
 // `@tanstack/react-start` imports this module back (start instance registration),

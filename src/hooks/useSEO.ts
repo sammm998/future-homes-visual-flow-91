@@ -12,7 +12,7 @@ interface SEOData {
 
 export const useSEO = (customData?: Partial<SEOData>): SEOData => {
   const location = useLocation();
-  const baseUrl = 'https://futurehomesturkey.com';
+  const baseUrl = 'https://futurehomesinternational.com';
   
   const defaultData = useMemo(() => {
     const path = location.pathname;
@@ -122,7 +122,7 @@ export const useSEO = (customData?: Partial<SEOData>): SEOData => {
 
 export const usePropertySEO = (property: any, location: string) => {
   const { pathname } = useLocation();
-  const baseUrl = 'https://futurehomesturkey.com';
+  const baseUrl = 'https://futurehomesinternational.com';
   
   return useMemo(() => {
     if (!property) {

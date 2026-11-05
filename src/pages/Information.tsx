@@ -428,22 +428,6 @@ const Information = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-ivory">
-        <SEOHead title="Buyer Information & Guides | Future Homes International" description="Guides on buying property abroad: legal process, residency, citizenship, taxes and financing." />
-
-        <Navigation />
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="rounded-lg bg-navy px-8 py-20 text-center text-navy-foreground shadow-[var(--shadow-luxe)]">
-            <p className="mb-4 text-xs font-semibold uppercase text-gold">Future Homes Journal</p>
-            <h1 className="text-4xl font-semibold md:text-5xl">{t('info.loading_articles')}</h1>
-            <div className="mx-auto mt-8 h-1 w-24 overflow-hidden rounded-full bg-navy-foreground/20"><div className="h-full w-1/2 animate-pulse bg-gold" /></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background">

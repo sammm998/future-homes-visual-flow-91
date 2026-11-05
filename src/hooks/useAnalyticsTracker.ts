@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "@/lib/router-compat";
-import { supabase } from "@/integrations/legacy/client";
+// The database client is imported on demand so it stays off the critical path.
+const loadClient = () => import("@/integrations/legacy/client").then((m) => m.supabase);
 
 function uid() {
   return Math.random().toString(36).slice(2) + Date.now().toString(36);
@@ -119,6 +120,7 @@ function getPropertyIdentifier(pathname: string) {
 async function resolvePropertyId(pathname: string): Promise<string | null> {
   const identifier = getPropertyIdentifier(pathname);
   if (!identifier) return null;
+  const supabase = await loadClient();
 
   const refResult = await supabase
     .from("properties")
@@ -178,6 +180,8 @@ export function useAnalyticsTracker() {
     (async () => {
       const propertyId = await resolvePropertyId(location.pathname);
       if (cancelled) return;
+      const supabase = await loadClient();
+      if (cancelled) return;
 
       supabase.from("analytics_events").insert({
       event_type: "pageview",
@@ -214,7 +218,7 @@ export function useAnalyticsTracker() {
       const target = e.target as HTMLElement | null;
       const tag = target?.tagName?.toLowerCase() || null;
       const { device } = parseUA();
-      supabase.from("heatmap_clicks").insert({
+      void loadClient().then((supabase) => supabase.from("heatmap_clicks").insert({
         page: location.pathname,
         x_pct: Number(((x / docW) * 100).toFixed(2)),
         y_pct: Number(((y / docH) * 100).toFixed(2)),
@@ -224,7 +228,7 @@ export function useAnalyticsTracker() {
         visitor_id: getVisitorId(),
         session_id: getSessionId(),
         device,
-      }).then(() => { /* fire & forget */ });
+      })).then(() => { /* fire & forget */ });
     };
     window.addEventListener("click", onClick, { passive: true });
     return () => window.removeEventListener("click", onClick);

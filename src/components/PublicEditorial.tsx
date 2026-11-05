@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router-compat";
 import { cn } from "@/lib/utils";
+import ResponsiveImage from "@/components/ResponsiveImage";
 
 type PublicPageHeroProps = {
   eyebrow: string;
@@ -35,9 +36,12 @@ export function PublicPageHero({
     <section className="bg-ivory px-3 pb-10 pt-3 sm:px-5 lg:px-8 lg:pb-16">
       <div className={cn("relative overflow-hidden rounded-lg bg-navy shadow-[var(--shadow-luxe)]", compact ? "min-h-[390px] sm:min-h-[430px]" : "min-h-[460px] sm:min-h-[520px]")}> 
         {image ? (
-          <img
+          <ResponsiveImage
             src={image}
             alt={imageAlt}
+            sizes="100vw"
+            priority
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover opacity-55 transition-transform duration-1000 motion-safe:hover:scale-[1.02]"
           />
         ) : null}

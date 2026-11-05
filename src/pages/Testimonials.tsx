@@ -146,31 +146,14 @@ const Testimonials = () => {
     setSelectedTestimonial(card as CardTestimonial);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <SEOHead title="Client Testimonials | Future Homes International" description="Read reviews from international buyers who purchased property in Turkey, Dubai, Cyprus and Bali." />
-        <SEOHead
-          title="Client Testimonials | Real Customer Reviews & Success Stories"
-          description="Read authentic reviews from our satisfied clients who found their dream properties. Real testimonials from customers in Turkey, Dubai, Cyprus & beyond."
-          keywords="client testimonials, customer reviews, property buyer reviews, real estate testimonials, success stories, client feedback"
-          canonicalUrl="https://futurehomesinternational.com/testimonials"
-        />
-        <Navigation />
-        <main className="pt-32 pb-20">
-          <div className="container mx-auto px-4">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
-              <p className="mt-4 text-muted-foreground">{t('testimonials.loading', language)}</p>
-            </div>
-          </div>
-        </main>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Client Testimonials | Real Buyer Reviews & Success Stories"
+        description="Read authentic reviews from clients who found their dream property with us. Real testimonials from customers in Turkey, Dubai, Cyprus and Bali."
+        canonicalUrl="https://futurehomesinternational.com/testimonials"
+      />
       <Navigation />
       
       <main className="pt-32 pb-20">
@@ -183,6 +166,7 @@ const Testimonials = () => {
               content: heroSubtitle || t('testimonials.subtitle', language)
             }}
             className="mb-16"
+            primaryHeading
           />
 
           {/* Dynamic Content Sections */}
@@ -194,7 +178,12 @@ const Testimonials = () => {
             </div>
           )}
 
-          {testimonials.length === 0 ? (
+          {loading ? (
+            <div className="text-center py-20">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto"></div>
+              <p className="mt-4 text-muted-foreground">{t('testimonials.loading', language)}</p>
+            </div>
+          ) : testimonials.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-muted-foreground text-lg">{t('testimonials.none', language)}</p>
             </div>

@@ -1,4 +1,4 @@
-import { Helmet } from '@/lib/helmet-compat';
+import SEOHead from '@/components/SEOHead';
 import { Link, NavLink, useNavigate, useParams } from '@/lib/router-compat';
 import { useMemo, useState } from 'react';
 import DOMPurify from 'dompurify';
@@ -71,10 +71,11 @@ export default function CourseLesson() {
 
   return (
     <>
-      <Helmet>
-        <title>{mod.title} | {course.title}</title>
-        <meta name="description" content={mod.summary || course.description} />
-      </Helmet>
+      <SEOHead
+        title={`${mod.title} | ${course.title}`}
+        description={mod.summary || course.description || `${mod.title} — ${course.title}`}
+        ogType="article"
+      />
 
       <Navigation />
 

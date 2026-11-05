@@ -8,7 +8,7 @@ import PropertyCard from '@/components/PropertyCard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useProperties } from '@/hooks/useProperties';
-import { getCanonicalUrl, getHreflangUrls, getCurrentLanguage } from '@/utils/seoUtils';
+import { getCanonicalUrl, getCurrentLanguage } from '@/utils/seoUtils';
 import { stripLocale, localizePath } from '@/utils/localeRouting';
 import type { CityLandingConfig } from '@/data/cityLandingPages';
 import { EditorialCta, EditorialSectionHeader, PublicPageHero } from '@/components/PublicEditorial';
@@ -29,15 +29,10 @@ const CityLandingPage: React.FC<CityLandingPageProps> = ({ config }) => {
   const { properties = [], loading } = useProperties() as any;
 
   const path = stripLocale(location.pathname);
-  const canonical = getCanonicalUrl(path, lang);
-  const hreflangAlternates = useMemo(
-    () =>
-      getHreflangUrls(path).reduce<Record<string, string>>((acc, item) => {
-        acc[item.hreflang] = item.url;
-        return acc;
-      }, {}),
-    [path]
-  );
+  // The landing copy is English-only, so every language prefix points its
+  // canonical at the English URL instead of competing as duplicate content.
+  const canonical = getCanonicalUrl(path, 'en');
+  const hreflangAlternates = useMemo(() => ({ en: canonical }), [canonical]);
 
   const matches = useMemo(() => {
     const needles = config.locationMatch.map((m) => m.toLowerCase());

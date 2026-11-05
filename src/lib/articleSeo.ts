@@ -1,5 +1,6 @@
 // Per-article <head> data read during SSR so Google sees each article's own title and description.
-import { CLOUD_URL, cloudRestHeaders } from "@/integrations/legacy/publicCloud";
+import { CLOUD_URL, cloudRestHeaders } from "@/integrations/legacy/publicCloudConfig";
+import { hreflangMap, normalizeSeoPath } from "@/lib/seoTags";
 
 export type ArticleSeo = { title: string; description: string; image: string | null; lang: string } | null;
 
@@ -33,6 +34,8 @@ export async function fetchArticleSeo(slug: string, lang: string): Promise<Artic
 export function articleHead(seo: ArticleSeo, path: string) {
   if (!seo) return { meta: [{ title: "Article | Future Homes International" }] };
   const url = `https://futurehomesinternational.com${path}`;
+  const localeFree = normalizeSeoPath(path);
+  const alternates = Object.entries(hreflangMap(localeFree)).map(([hreflang, href]) => ({ rel: "alternate", hrefLang: hreflang, href }));
   const image = seo.image && /^https:\/\//.test(seo.image) ? seo.image : null;
   return {
     meta: [
@@ -45,6 +48,10 @@ export function articleHead(seo: ArticleSeo, path: string) {
       { name: "twitter:card", content: "summary_large_image" },
       ...(image ? [{ property: "og:image", content: image }, { name: "twitter:image", content: image }] : []),
     ],
-    links: [{ rel: "canonical", href: url }],
+    links: [
+      { rel: "canonical", href: url },
+      ...alternates,
+      { rel: "alternate", hrefLang: "x-default", href: `https://futurehomesinternational.com${localeFree}` },
+    ],
   };
 }

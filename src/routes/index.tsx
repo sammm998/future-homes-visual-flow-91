@@ -9,10 +9,6 @@ const Newsletter = lazy(() => import("@/components/Newsletter"));
 export const Route = createFileRoute("/")({
   head: () => ({
     // Localized title/description/og come from EnhancedSEOHead on the page (one source, all 13 languages).
-    meta: [
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
     links: [homeHeroPreload],
   }),
   component: HomePage,

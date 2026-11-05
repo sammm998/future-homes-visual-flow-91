@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Navigate } from '@/lib/router-compat';
 import ArticleLayout from '@/components/ArticleLayout';
 import ArticleContent from '@/components/ArticleContent';
-import { Helmet } from '@/lib/helmet-compat';
+import SEOHead from '@/components/SEOHead';
 
 const Article = () => {
   const { id } = useParams(); // This is the slug
@@ -274,57 +274,28 @@ const Article = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{article.title} - Future Homes</title>
-        <meta name="description" content={article.description} />
-        <meta name="keywords" content={article.tags?.join(', ')} />
-        <link rel="canonical" href={`/article/${article.slug}`} />
-        
-        {/* Open Graph tags */}
-        <meta property="og:title" content={article.title} />
-        <meta property="og:description" content={article.description} />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content={`/article/${article.slug}`} />
-        {article.featuredImage && (
-          <meta property="og:image" content={article.featuredImage} />
-        )}
-        
-        {/* Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={article.title} />
-        <meta name="twitter:description" content={article.description} />
-        {article.featuredImage && (
-          <meta name="twitter:image" content={article.featuredImage} />
-        )}
-        
-        {/* Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": article.title,
-            "description": article.description,
-            "image": article.featuredImage,
-            "author": {
-              "@type": "Organization",
-              "name": article.author || "Future Homes"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "Future Homes",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "/future-homes-logo-new.jpg"
-              }
-            },
-            "url": `/article/${article.slug}`,
-            "mainEntityOfPage": {
-              "@type": "WebPage",
-              "@id": `/article/${article.slug}`
-            }
-          })}
-        </script>
-      </Helmet>
+      <SEOHead
+        title={`${article.title} | Future Homes`}
+        description={article.description}
+        canonicalUrl={`https://futurehomesinternational.com/article/${article.slug}`}
+        ogImage={article.featuredImage}
+        ogType="article"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": article.title,
+          "description": article.description,
+          ...(article.featuredImage ? { "image": article.featuredImage } : {}),
+          "author": { "@type": "Organization", "name": article.author || "Future Homes" },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Future Homes International",
+            "logo": { "@type": "ImageObject", "url": "https://futurehomesinternational.com/future-homes-logo-new.jpg" }
+          },
+          "url": `https://futurehomesinternational.com/article/${article.slug}`,
+          "mainEntityOfPage": { "@type": "WebPage", "@id": `https://futurehomesinternational.com/article/${article.slug}` }
+        }}
+      />
 
       <ArticleLayout
         title={article.title}

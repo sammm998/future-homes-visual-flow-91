@@ -1,4 +1,4 @@
-import { Helmet } from '@/lib/helmet-compat';
+import SEOHead from '@/components/SEOHead';
 import { Link, useParams } from '@/lib/router-compat';
 import Navigation from '@/components/Navigation';
 import { useCourseByCountry } from '@/hooks/useCourses';
@@ -45,10 +45,10 @@ export default function CourseOverview() {
 
   return (
     <>
-      <Helmet>
-        <title>{course.title} | Future Homes Academy</title>
-        <meta name="description" content={course.description} />
-      </Helmet>
+      <SEOHead
+        title={`${course.title} | Future Homes Academy`}
+        description={course.description || `${course.title} — free property buying course from Future Homes International.`}
+      />
 
       <Navigation />
 

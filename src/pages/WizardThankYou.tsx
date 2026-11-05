@@ -9,6 +9,7 @@ const WizardThankYou = () => {
         title="Thank You for Using Easy Find | Future Homes International"
         description="Thank you for using our property search wizard. We're preparing personalized recommendations for you."
         canonicalUrl="https://futurehomesinternational.com/wizard-thank-you"
+        noindex
       />
       <Navigation />
       <ThankYouContent

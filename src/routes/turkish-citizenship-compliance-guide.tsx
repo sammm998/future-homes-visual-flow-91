@@ -1,20 +1,13 @@
+import { buildRouteSeoHead } from "@/lib/seoTags";
 import { createFileRoute } from "@tanstack/react-router";
 import Page from "@/pages/CitizenshipComplianceGuide";
-import { newPagesCopy } from "@/content/newPagesCopy";
+import { newPagesShared } from "@/content/newPagesShared";
 
 export const Route = createFileRoute("/turkish-citizenship-compliance-guide")({
   head: ({ params }) => {
-    const m = newPagesCopy((params as { locale?: string }).locale).meta.guide;
-    return {
-      meta: [
-        { title: m.title },
-        { name: "description", content: m.description },
-        { property: "og:title", content: m.title },
-        { property: "og:description", content: m.description },
-        { property: "og:type", content: "article" },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
-    };
+    const locale = (params as { locale?: string }).locale;
+    const m = newPagesShared(locale).meta.guide;
+    return buildRouteSeoHead({ locale, path: "/turkish-citizenship-compliance-guide", title: m.title, description: m.description, type: "article" });
   },
   component: Page,
 });

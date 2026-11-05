@@ -5,7 +5,7 @@
  * Anchor texts are keyword-optimised and varied per source page so the
  * same target does not always receive the identical anchor.
  */
-import { NORDIC_LANDING_PAGES } from "./nordicLandingPages";
+import { NORDIC_LANDING_INDEX } from "./nordicLandingIndex";
 
 export interface NordicInternalLink {
   to: string;
@@ -209,13 +209,13 @@ export function getNordicInternalLinks(
   if (!rule) return [];
 
   return rule.targets[locale]
-    .filter((slug) => NORDIC_LANDING_PAGES.some((p) => p.locale === locale && p.slug === slug))
+    .filter((slug) => NORDIC_LANDING_INDEX.some((p) => p.locale === locale && p.slug === slug))
     // don't link a page to itself
     .filter((slug) => path !== `/${slug}` && !cleanPath.endsWith(`/${slug}`))
     .map((slug) => {
-      const page = NORDIC_LANDING_PAGES.find((p) => p.locale === locale && p.slug === slug)!;
+      const page = NORDIC_LANDING_INDEX.find((p) => p.locale === locale && p.slug === slug)!;
       const variants = ANCHORS[slug]?.[locale] ?? [];
-      const anchor = variants[rule.context] || variants[0] || page.h1;
+      const anchor = variants[rule.context] || variants[0] || page.title;
       return { to: `/${locale}/${slug}`, anchor, title: page.title };
     });
 }
