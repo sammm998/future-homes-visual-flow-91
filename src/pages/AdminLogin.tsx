@@ -27,7 +27,7 @@ const AdminLogin = () => {
     });
     supabase.auth.getSession().then(({ data }) => {
       setSessionReady(Boolean(data.session));
-      if (data.session && !isReset) navigate('/admin-dashboard', { replace: true });
+      if (data.session && !isReset) navigate('/admin', { replace: true });
     });
     return () => listener.subscription.unsubscribe();
   }, [navigate]);
@@ -49,7 +49,7 @@ const AdminLogin = () => {
       setPassword('');
       setConfirmPassword('');
       toast.success('Password saved');
-      navigate('/admin-dashboard', { replace: true });
+      navigate('/admin', { replace: true });
       return;
     }
     setLoading(true);
@@ -60,7 +60,7 @@ const AdminLogin = () => {
       return;
     }
     toast.success('Inloggad');
-    navigate('/admin-dashboard', { replace: true });
+    navigate('/admin', { replace: true });
   };
 
   return (
