@@ -23,6 +23,7 @@ import {
   Radar,
   ScrollText,
   Search,
+  MessageSquare,
 
 } from "lucide-react";
 import {
@@ -53,6 +54,7 @@ const groups: { label: string; items: Item[] }[] = [
       { to: "/admin/properties/new", label: "Add property", icon: Plus },
       { to: "/admin/blog", label: "Blog", icon: Newspaper },
       { to: "/admin/blog/ai", label: "Create with AI", icon: Sparkles },
+      { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquare },
     ],
   },
   {

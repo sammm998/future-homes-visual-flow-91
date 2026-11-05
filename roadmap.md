@@ -1,5 +1,8 @@
 # Roadmap
 
+## CMS customer reviews
+- [ ] Add customer-review management to the CMS menu, including create/edit/delete, photo uploads and all 13 stored language versions; verify authenticated saves and public readback.
+
 ## Homepage speed
 - [x] Warm translated catalog after homepage load and seed all six city caches; preload destination page code on menu opening, extend intent to touch/focus with correct query locale, remove per-list connection polling. Measured actual Antalya click → cards inserted at 0.78 s locally after warmup (not a cold-load/mobile/live guarantee); all 13 REF 3019 prices correct, back restored scroll 650, 21 tests passed and build OK. Publication and live comparison not performed.
 - [x] Rechecked homepage/search speed; shared catalog now uses explicit fields (about 190 KB less uncompressed). Live Indonesian homepage FCP/LCP 1.75 s, response starts at 1.35 s in one desktop browser sample; local home → visible Antalya cards 4.58 s including scroll/screenshot overhead, so sub-second navigation is not verified. Correct REF 3019 two-bedroom price verified in all 13 languages, 21 tests pass, no browser errors. No instance change or publication; live improvement remains unmeasured.

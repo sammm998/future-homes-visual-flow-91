@@ -2,6 +2,24 @@
 // Keys are the exact English source strings used in the UI.
 // Anything not present here falls back to the English source string.
 export const adminTr: Record<string, string> = {
+  "Testimonials": "Müşteri yorumları",
+  "Add testimonial": "Müşteri yorumu ekle",
+  "Edit testimonial": "Müşteri yorumunu düzenle",
+  "Delete testimonial?": "Müşteri yorumu silinsin mi?",
+  "Country": "Ülke",
+  "Property type": "İlan türü",
+  "Company": "Şirket",
+  "Company URL": "Şirket bağlantısı",
+  "Photo URL": "Fotoğraf bağlantısı",
+  "Upload photo": "Fotoğraf yükle",
+  "Rating": "Puan",
+  "Review language": "Yorum dili",
+  "Review": "Yorum",
+  "Name and review required": "Ad ve yorum gerekli",
+  "Rating must be between 1 and 5": "Puan 1 ile 5 arasında olmalı",
+  "Use an http or https company URL": "http veya https şirket bağlantısı kullanın",
+  "Use an http or https image URL": "http veya https fotoğraf bağlantısı kullanın",
+  "Choose an image under 20 MB": "20 MB altında bir fotoğraf seçin",
   // Layout / header
   "Future Homes International · Admin": "Future Homes International · Yönetim",
   "Notifications": "Bildirimler",
