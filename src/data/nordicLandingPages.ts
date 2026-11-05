@@ -870,3 +870,6 @@ export const getNordicPage = (locale: string, slug: string) =>
 /** Locale-prefixed paths, used by the sitemap. */
 export const nordicLandingPaths = () =>
   NORDIC_LANDING_PAGES.map((p) => `/${p.locale}/${p.slug}`);
+
+
+export { nordicAlternates } from "./nordicLandingIndex";

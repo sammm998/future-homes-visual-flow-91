@@ -1,4 +1,4 @@
-import { Helmet } from '@/lib/helmet-compat';
+import SEOHead from '@/components/SEOHead';
 import Navigation from '@/components/Navigation';
 import { useCourses } from '@/hooks/useCourses';
 import { useAllCourseProgress } from '@/hooks/useCourseProgress';
@@ -29,14 +29,11 @@ export default function CoursesIndex() {
 
   return (
     <>
-      <Helmet>
-        <title>Real Estate Investment Courses | Future Homes</title>
-        <meta
-          name="description"
-          content="Free pedagogical courses on investing in property across Turkey, Dubai, Cyprus, Bali, Spain and Greece. Learn the legal framework, taxes, financing and rental yields."
-        />
-        <link rel="canonical" href="https://future-homes-visual-flow-91.lovable.app/courses" />
-      </Helmet>
+      <SEOHead
+        title="Free Property Buying Courses | Future Homes"
+        description="Free step-by-step courses on buying property in Turkey, Dubai, Cyprus and Bali — legal process, costs, financing and residency, with a final exam."
+        canonicalUrl="https://futurehomesinternational.com/courses"
+      />
 
       <Navigation />
 

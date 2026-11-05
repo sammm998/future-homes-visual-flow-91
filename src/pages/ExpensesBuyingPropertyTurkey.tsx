@@ -136,7 +136,7 @@ const ExpensesBuyingPropertyTurkey = () => {
     },
     "datePublished": "2024-06-28",
     "dateModified": "2024-09-22",
-    "url": "https://futurehomesturkey.com/articles/expenses-buying-property-turkey"
+    "url": "https://futurehomesinternational.com/articles/expenses-buying-property-turkey"
   };
 
   return (
@@ -145,7 +145,7 @@ const ExpensesBuyingPropertyTurkey = () => {
         title="Expenses When Buying Property - Complete Cost Guide 2024"
         description="Comprehensive guide to property purchase costs. Learn about taxes, fees, legal costs, and ongoing expenses when buying real estate internationally."
         keywords={['Property buying costs', 'Real estate taxes', 'Property purchase expenses', 'Property fees', 'Real estate costs']}
-        canonical="https://futurehomesturkey.com/articles/expenses-buying-property"
+        canonical="https://futurehomesinternational.com/articles/expenses-buying-property-turkey"
         structuredData={structuredData}
         articleData={{
           publishedTime: "2024-06-28T00:00:00Z",

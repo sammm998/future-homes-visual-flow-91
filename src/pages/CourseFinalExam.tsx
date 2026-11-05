@@ -1,4 +1,4 @@
-import { Helmet } from '@/lib/helmet-compat';
+import SEOHead from '@/components/SEOHead';
 import { Link, useParams } from '@/lib/router-compat';
 import { useState } from 'react';
 import Navigation from '@/components/Navigation';
@@ -48,13 +48,11 @@ export default function CourseFinalExam() {
 
   return (
     <>
-      <Helmet>
-        <title>Final Exam · {course.title} | Future Homes Academy</title>
-        <meta
-          name="description"
-          content={`Final exam for ${course.title}. Test all the competencies you built across the course.`}
-        />
-      </Helmet>
+      <SEOHead
+        title={`Final Exam · ${course.title} | Future Homes Academy`}
+        description={`Final exam for ${course.title}. Test all the competencies you built across the course.`}
+        noindex
+      />
 
       <Navigation />
 

@@ -9,7 +9,6 @@ import {
   stripLangParam,
   isSupportedLocale,
 } from '@/utils/localeRouting';
-import { supabase } from '@/integrations/legacy/client';
 
 const PROPERTY_PATH_SEGMENTS = new Set(Object.values(PATH_TRANSLATIONS));
 const NON_LOCALIZED_PREFIXES = ['/admin', '/admin-login', '/admin-dashboard', '/sitemap.xml'];
@@ -78,6 +77,8 @@ export const useLanguageUrlSync = () => {
 
     const syncPropertyUrl = async () => {
       const refFromUrl = searchParams.get('ref');
+      const { supabase } = await import('@/integrations/legacy/client');
+      if (cancelled) return;
       let query = supabase.from('properties').select('*').eq('is_active', true);
 
       if (refFromUrl) {

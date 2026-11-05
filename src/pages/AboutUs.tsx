@@ -1,6 +1,7 @@
 import Navigation from "@/components/Navigation";
 import { PublicPageHero, EditorialSectionHeader, EditorialCta } from "@/components/PublicEditorial";
 import aboutHero from "@/assets/about-hero.jpg";
+import ResponsiveImage from "@/components/ResponsiveImage";
 import antalyaImage from "@/assets/destinations/antalya-cinematic.webp";
 import dubaiImage from "@/assets/destinations/dubai-cinematic.webp";
 import baliImage from "@/assets/destinations/bali-cinematic.webp";
@@ -107,7 +108,8 @@ const AboutUs = () => {
         {offices.map((office, i) => (
           <div key={i} className="group">
             <div className="relative mb-6 aspect-[3/4] overflow-hidden">
-              <img
+              <ResponsiveImage
+                sizes="(min-width: 1024px) 33vw, 100vw"
                 src={office.image}
                 alt={`${office.city} — Future Homes International office`}
                 loading="lazy"

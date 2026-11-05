@@ -239,22 +239,6 @@ const MersinPropertySearch = () => {
     });
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <SEOHead title="Property for Sale in Mersin, Turkey | Apartments & Villas — Future Homes" description="Buy property in Mersin: affordable sea-view apartments and villas on Turkey’s Mediterranean coast." />
-        <Navigation />
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-              <p className="text-muted-foreground">Loading properties...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   if (error) {
     return (
@@ -338,7 +322,7 @@ const MersinPropertySearch = () => {
             <EditorialSectionHeader eyebrow="Curated residences" title={`${t('city.properties_in')} Mersin`} />
           </div>
           <p className="text-sm text-muted-foreground mt-4">
-            {filteredProperties.length} {t('city.found')}
+            {loading ? t('city.loading') : `${filteredProperties.length} ${t('city.found')}`}
           </p>
         </div>
 

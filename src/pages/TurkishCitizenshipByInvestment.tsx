@@ -160,7 +160,7 @@ const TurkishCitizenshipByInvestment = () => {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://futurehomesturkey.com/"
+          "item": "https://futurehomesinternational.com/"
         },
         {
           "@type": "ListItem",

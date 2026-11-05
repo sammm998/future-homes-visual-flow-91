@@ -8,8 +8,12 @@ Disallow: /admin
 Disallow: /admin/
 Disallow: /admin-login
 Disallow: /admin-dashboard
+Disallow: /vip/admin
+Disallow: /api/
 Disallow: /contact-thank-you
 Disallow: /wizard-thank-you
+Disallow: /*/contact-thank-you
+Disallow: /*/wizard-thank-you
 
 # Tracking parameters (avoid duplicate URLs)
 Disallow: /*?*utm_

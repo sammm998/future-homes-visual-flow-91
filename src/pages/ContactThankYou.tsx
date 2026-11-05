@@ -9,6 +9,7 @@ const ContactThankYou = () => {
         title="Thank You for Contacting Us | Future Homes International"
         description="Thank you for reaching out to Future Homes International. We'll get back to you shortly."
         canonicalUrl="https://futurehomesinternational.com/contact-thank-you"
+        noindex
       />
       <Navigation />
       <ThankYouContent

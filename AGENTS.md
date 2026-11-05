@@ -30,3 +30,9 @@
 - All shared property-search catalog reads use the explicit SEARCH_FIELDS projection, including country and unit-pricing fields; never fetch complete editor rows for public cards.
 - Homepage media uses useMediaVisibility to pause outside the viewport or a hidden tab; below-fold videos acquire sources only on entering view, preserving motion without offscreen decoding.
 - Admin password recovery uses /admin-login?reset=1 and preserves the recovery session until password update succeeds; never redirect a recovery session straight to the dashboard.
+- Every public page emits exactly one title/description/canonical/hreflang set: render SEOHead (EnhancedSEOHead is only a wrapper) or return buildRouteSeoHead() from the route head(), never both; English-only pages point canonical at the English URL — non-English canonicals to English or missing hreflang drop language versions from Google.
+- Localized page titles/descriptions live in seoMetaTranslations.ts / seoMetaExtra.ts; scripts/build-i18n.ts copies them into each dict.<lang>.ts so the browser only loads its own language — rerun it after editing.
+- Keep the Supabase SDK out of the app shell: root-level hooks, start middleware (lib/lazyAuthAttacher.ts) and route loaders/head import the client dynamically or use publicCloudConfig.ts — a static import puts ~56 kB gzip in front of hydration on every page.
+- Page heroes render through ResponsiveImage, which swaps in the AVIF variants registered in lib/destinationImages.ts and preloads the hero; add variants there for new hero photos instead of shipping full-size originals to phones.
+- Sora/Manrope are self-hosted variable fonts in public/fonts (declared in styles.css, Latin files preloaded in __root); do not reintroduce Google Fonts links.
+- Content shown on load must not wait for client data: keep hero, H1 and intro text outside loading branches so server HTML is never just "Loading…".

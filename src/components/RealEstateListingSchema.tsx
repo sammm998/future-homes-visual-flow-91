@@ -55,7 +55,7 @@ const RealEstateListingSchema: React.FC<RealEstateListingSchemaProps> = ({ prope
     "realEstateAgent": {
       "@type": "RealEstateAgent",
       "name": "Future Homes",
-      "url": "https://futurehomesturkey.com"
+      "url": "https://futurehomesinternational.com"
     }
   };
 

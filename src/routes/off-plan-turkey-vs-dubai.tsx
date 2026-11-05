@@ -1,20 +1,13 @@
+import { buildRouteSeoHead } from "@/lib/seoTags";
 import { createFileRoute } from "@tanstack/react-router";
 import Page from "@/pages/OffPlanComparison";
-import { newPagesCopy } from "@/content/newPagesCopy";
+import { newPagesShared } from "@/content/newPagesShared";
 
 export const Route = createFileRoute("/off-plan-turkey-vs-dubai")({
   head: ({ params }) => {
-    const m = newPagesCopy((params as { locale?: string }).locale).meta.offplan;
-    return {
-      meta: [
-        { title: m.title },
-        { name: "description", content: m.description },
-        { property: "og:title", content: m.title },
-        { property: "og:description", content: m.description },
-        { property: "og:type", content: "article" },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
-    };
+    const locale = (params as { locale?: string }).locale;
+    const m = newPagesShared(locale).meta.offplan;
+    return buildRouteSeoHead({ locale, path: "/off-plan-turkey-vs-dubai", title: m.title, description: m.description, type: "article" });
   },
   component: Page,
 });

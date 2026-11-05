@@ -1,6 +1,7 @@
 import { ExternalLink, Landmark } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { newPagesCopy, type NewPagesCopy } from "@/content/newPagesCopy";
+import type { NewPagesCopy } from "@/content/newPagesCopy";
+import { newPagesShared } from "@/content/newPagesShared";
 
 type SourceKey = keyof Omit<NewPagesCopy["sources"], "title">;
 export type OfficialSource = { label: string; href: string; key: SourceKey };
@@ -21,7 +22,7 @@ export const CITIZENSHIP_SOURCES: OfficialSource[] = [
 
 export function OfficialSources({ sources = TKGM_SOURCES }: { sources?: OfficialSource[] }) {
   const { lang } = useTranslation();
-  const c = newPagesCopy(lang).sources;
+  const c = newPagesShared(lang).sources;
   return (
     <aside className="mt-8 rounded-lg border border-gold/40 bg-ivory p-5 sm:p-6">
       <p className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase text-gold-foreground">

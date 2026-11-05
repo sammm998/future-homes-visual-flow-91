@@ -11,10 +11,6 @@ export const Route = createFileRoute("/$locale/")({
   // City landing slugs (e.g. /alanya-property-for-sale) also match this route; their page sets its own head.
   head: ({ params }) => (getCityLandingConfig(params.locale) ? {} : {
     // Localized title/description/og come from EnhancedSEOHead on the page (one source, all 13 languages).
-    meta: [
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
     links: [homeHeroPreload],
   }),
   component: LocaleHomePage,

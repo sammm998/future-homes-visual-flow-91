@@ -13,7 +13,6 @@ import {
 } from "@tanstack/react-router";
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-import { HelmetProvider } from '@/lib/helmet-compat';
 import { setCurrentLocation } from "@/utils/seoUtils";
 import { resolveUrlLocale } from "@/utils/localeRouting";
 import { ensureLanguage } from "@/utils/translations";
@@ -22,7 +21,7 @@ import { ensureLanguage } from "@/utils/translations";
 import appCss from "../styles.css?url";
 
 import { Toaster } from "@/components/ui/toaster";
-import { capturePartnerRef } from "@/hooks/useMember";
+import { capturePartnerRef } from "@/lib/partnerRef";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
@@ -45,6 +44,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     // Sitewide defaults only — per-page title/description/og live in SEOHead
     meta: [
       { charSet: "UTF-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "Future Homes International" },
       { name: "google-site-verification", content: "tX9miiJWQEEYeB5sWZ8ZeSrcL_RViXlqe_l9fxM7UfQ" },
       { property: "og:site_name", content: "Future Homes International" },
@@ -53,14 +53,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap",
-        media: "print",
-        "data-font-css": "true",
-      } as unknown as { rel: string; href: string },
+      // Self-hosted variable fonts (see @font-face in styles.css): preload the
+      // Latin files every language uses so headings render in Sora on first paint.
+      { rel: "preload", href: "/fonts/manrope-latin-wght-normal.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+      { rel: "preload", href: "/fonts/sora-latin-wght-normal.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
 
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=5" },
       { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png?v=5" },
@@ -72,10 +68,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "dns-prefetch", href: "//kiogiyemoqbnuvclneoe.supabase.co" },
     ],
     scripts: [
-      {
-        children:
-          "(function(){function a(){var l=document.querySelectorAll('link[data-font-css]');for(var i=0;i<l.length;i++){l[i].media='all';}}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',a);}else{a();}window.addEventListener('load',a);})();",
-      },
       {
         // Analytics (GTM + GA4) are loaded lazily — after the page is interactive
         // or on first user interaction — so they no longer block LCP/TBT.
@@ -141,7 +133,6 @@ function RootComponent() {
   );
   return (
     <ErrorBoundary>
-      <HelmetProvider>
         <QueryClientProvider client={queryClient}>
           <CurrencyProvider>
             <TooltipProvider>
@@ -153,7 +144,6 @@ function RootComponent() {
             </TooltipProvider>
           </CurrencyProvider>
         </QueryClientProvider>
-      </HelmetProvider>
     </ErrorBoundary>
   );
 }

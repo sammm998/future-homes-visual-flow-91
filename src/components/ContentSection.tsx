@@ -12,16 +12,20 @@ interface ContentSectionProps {
     [key: string]: any;
   };
   className?: string;
+  /** Render the hero title as the page's main heading (only one per page). */
+  primaryHeading?: boolean;
 }
 export const ContentSection: React.FC<ContentSectionProps> = ({
   section,
-  className = ''
+  className = '',
+  primaryHeading = false
 }) => {
+  const HeroHeading = primaryHeading ? 'h1' : 'h2';
   const renderHeroSection = () => <div className={`text-center mb-16 ${className}`}>
       {section.subtitle && <Badge className="mb-4">{section.subtitle}</Badge>}
-      {section.title && <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+      {section.title && <HeroHeading className="text-4xl md:text-5xl font-bold text-foreground mb-6">
           {section.title}
-        </h2>}
+        </HeroHeading>}
       {section.content && <div className="max-w-4xl mx-auto">
           <p className="text-lg text-muted-foreground leading-relaxed mb-8">{section.content}</p>
         </div>}

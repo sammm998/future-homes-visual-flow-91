@@ -1,6 +1,7 @@
 import { OfficialSources } from '@/components/OfficialSources';
 import React from 'react';
 import Navigation from '@/components/Navigation';
+import ResponsiveImage from '@/components/ResponsiveImage';
 import { EnhancedSEOHead } from '@/components/EnhancedSEOHead';
 import { BreadcrumbNavigation } from '@/components/BreadcrumbNavigation';
 import FAQSchema from '@/components/FAQSchema';
@@ -101,7 +102,7 @@ const PropertyForSaleInTurkey = () => {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://futurehomesturkey.com/"
+          "item": "https://futurehomesinternational.com/"
         },
         {
           "@type": "ListItem",
@@ -204,7 +205,7 @@ const PropertyForSaleInTurkey = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {locations.map((location, index) => (
               <Link key={index} to={location.link} className="group relative aspect-[4/5] overflow-hidden rounded-lg bg-navy shadow-sm">
-                <img src={locationImages[location.name]} alt={location.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <ResponsiveImage src={locationImages[location.name]} alt={location.name} sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 text-navy-foreground">
                   <div><p className="mb-2 text-xs uppercase text-gold">{location.properties}</p><h3 className="text-2xl font-semibold">{location.name}</h3><p className="mt-2 text-sm text-navy-foreground/70">{location.description}</p></div>

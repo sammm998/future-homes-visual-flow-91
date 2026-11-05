@@ -3,7 +3,8 @@
 import { createPublicCloudClient } from "@/integrations/legacy/publicCloud";
 import { SUPPORTED_LOCALES, localizePath } from "@/utils/localeRouting";
 import { PATH_TRANSLATIONS } from "@/utils/slugHelpers";
-import { NORDIC_LANDING_PAGES } from "@/data/nordicLandingPages";
+import { NORDIC_LANDING_PAGES, nordicAlternates } from "@/data/nordicLandingPages";
+import { cityLandingPages } from "@/data/cityLandingPages";
 
 export const SITEMAP_BASE_URL = "https://futurehomesinternational.com";
 
@@ -23,6 +24,8 @@ export interface SitemapEntry {
   onlyLocale?: string;
   /** Absolute image URLs shown for this page in Google results */
   images?: string[];
+  /** hreflang -> absolute URL for single-locale pages that have translated equivalents */
+  alternates?: Record<string, string>;
 }
 
 
@@ -56,6 +59,11 @@ export const STATIC_PAGES: SitemapEntry[] = [
   { path: "/off-plan-turkey-vs-dubai", priority: "0.7", changefreq: "weekly" },
   { path: "/turkish-citizenship-compliance-guide", priority: "0.7", changefreq: "monthly" },
   { path: "/articles/expenses-buying-property-turkey", priority: "0.7", changefreq: "monthly" },
+  { path: "/investment-calculator", priority: "0.7", changefreq: "monthly" },
+  { path: "/where-should-i-buy", priority: "0.6", changefreq: "monthly" },
+  { path: "/viewing-trip", priority: "0.6", changefreq: "monthly" },
+  { path: "/partners", priority: "0.5", changefreq: "monthly" },
+  { path: "/vip", priority: "0.5", changefreq: "monthly" },
 ];
 
 async function fetchAll<T>(
@@ -106,7 +114,12 @@ export async function getSitemapEntries(): Promise<SitemapEntry[]> {
     ),
   ]);
 
-  const entries: SitemapEntry[] = [...STATIC_PAGES];
+  const entries: SitemapEntry[] = [
+    ...STATIC_PAGES,
+    // Keyword city landing pages, e.g. /alanya-property-for-sale
+    // English-only copy, so listed once (onlyLocale "en") rather than in every language sitemap.
+    ...cityLandingPages.map((city) => ({ path: `/${city.slug}`, onlyLocale: "en", priority: "0.8", changefreq: "weekly" })),
+  ];
 
   // Locale-specific Nordic keyword landing pages (sv/no/da only)
   for (const page of NORDIC_LANDING_PAGES) {
@@ -115,6 +128,7 @@ export async function getSitemapEntries(): Promise<SitemapEntry[]> {
       onlyLocale: page.locale,
       changefreq: "weekly",
       priority: "0.8",
+      alternates: nordicAlternates(page),
     });
   }
 
@@ -176,13 +190,19 @@ export function renderLocaleSitemap(entries: SitemapEntry[], locale: string): st
     .filter((entry) => !entry.onlyLocale || entry.onlyLocale === locale)
     .map((entry) => {
       if (entry.onlyLocale) {
+        const nordic = Object.entries(entry.alternates ?? {})
+          .map(([alt, href]) => `    <xhtml:link rel="alternate" hreflang="${alt}" href="${xmlEscape(href)}" />`)
+          .join("\n");
         return [
           "  <url>",
           `    <loc>${xmlEscape(entryUrl(entry, locale))}</loc>`,
           `    <changefreq>${entry.changefreq}</changefreq>`,
           `    <priority>${entry.priority}</priority>`,
+          nordic || null,
           "  </url>",
-        ].join("\n");
+        ]
+          .filter(Boolean)
+          .join("\n");
       }
       const alternates = SITEMAP_LOCALES.map(
         (alt) =>

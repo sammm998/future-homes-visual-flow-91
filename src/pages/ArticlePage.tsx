@@ -204,14 +204,7 @@ const ArticlePage = () => {
       <>
         <meta name="keywords" content={tags.join(', ')} />
 
-        {supportedLanguages.map(lang => {
-          const url = lang.code === 'en'
-            ? `${ORIGIN}${articlePath}`
-            : `${ORIGIN}/${lang.code}${articlePath}`;
-          return <link key={lang.code} rel="alternate" hrefLang={lang.hreflang} href={url} />;
-        })}
-        <link rel="alternate" hrefLang="x-default" href={`${ORIGIN}${articlePath}`} />
-
+        {/* Canonical + hreflang come from the route head() so they are in the server HTML. */}
         {/* Open Graph tags */}
         <meta property="og:locale" content={currentLocale} />
         {supportedLanguages.filter(l => l.ogLocale !== currentLocale).map(l => (
@@ -225,8 +218,7 @@ const ArticlePage = () => {
         {/* Twitter Card tags */}
         
         {/* Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify({
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": (blogPost.title ?? ''),
@@ -251,8 +243,7 @@ const ArticlePage = () => {
               "@type": "WebPage",
               "@id": canonical
             }
-          })}
-        </script>
+          }) }} />
       </>
 
       <ArticleLayout
