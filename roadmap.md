@@ -1,7 +1,7 @@
 # Roadmap
 
 ## CMS customer reviews
-- [ ] Add customer-review management to the CMS menu, including create/edit/delete, photo uploads and all 13 stored language versions; verify authenticated saves and public readback.
+- [x] Add customer-review management to the CMS menu, including create/edit/delete, photo uploads and editing all 13 stored language versions; verified as Batuhan: create, edit, reload persistence, photo HTTP 200, Swedish public readback and deletion. Desktop/mobile checked, 3 tests pass, build OK. Requires publication.
 
 ## Homepage speed
 - [x] Warm translated catalog after homepage load and seed all six city caches; preload destination page code on menu opening, extend intent to touch/focus with correct query locale, remove per-list connection polling. Measured actual Antalya click → cards inserted at 0.78 s locally after warmup (not a cold-load/mobile/live guarantee); all 13 REF 3019 prices correct, back restored scroll 650, 21 tests passed and build OK. Publication and live comparison not performed.
