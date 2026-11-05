@@ -97,6 +97,7 @@ import { Route as AdminLogsRouteImport } from './routes/admin/logs'
 import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminSocialListeningRouteImport } from './routes/admin/social-listening'
+import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
 import { Route as ApiAiSearchRouteImport } from './routes/api/ai-search'
 import { Route as ApiAiTranscribeRouteImport } from './routes/api/ai-transcribe'
 import { Route as ApiTranslationsFillRouteImport } from './routes/api/translations-fill'
@@ -613,6 +614,11 @@ const AdminSocialListeningRoute = AdminSocialListeningRouteImport.update({
   path: '/social-listening',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const ApiAiSearchRoute = ApiAiSearchRouteImport.update({
   id: '/api/ai-search',
   path: '/api/ai-search',
@@ -1012,6 +1018,7 @@ export interface FileRoutesByFullPath {
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/api/ai-search': typeof ApiAiSearchRoute
   '/api/ai-transcribe': typeof ApiAiTranscribeRoute
   '/api/translations-fill': typeof ApiTranslationsFillRoute
@@ -1160,6 +1167,7 @@ export interface FileRoutesByTo {
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/api/ai-search': typeof ApiAiSearchRoute
   '/api/ai-transcribe': typeof ApiAiTranscribeRoute
   '/api/translations-fill': typeof ApiTranslationsFillRoute
@@ -1311,6 +1319,7 @@ export interface FileRoutesById {
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/api/ai-search': typeof ApiAiSearchRoute
   '/api/ai-transcribe': typeof ApiAiTranscribeRoute
   '/api/translations-fill': typeof ApiTranslationsFillRoute
@@ -1463,6 +1472,7 @@ export interface FileRouteTypes {
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/admin/testimonials'
     | '/api/ai-search'
     | '/api/ai-transcribe'
     | '/api/translations-fill'
@@ -1611,6 +1621,7 @@ export interface FileRouteTypes {
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/admin/testimonials'
     | '/api/ai-search'
     | '/api/ai-transcribe'
     | '/api/translations-fill'
@@ -1761,6 +1772,7 @@ export interface FileRouteTypes {
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/admin/testimonials'
     | '/api/ai-search'
     | '/api/ai-transcribe'
     | '/api/translations-fill'
@@ -2504,6 +2516,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSocialListeningRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/testimonials': {
+      id: '/admin/testimonials'
+      path: '/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminTestimonialsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/api/ai-search': {
       id: '/api/ai-search'
       path: '/api/ai-search'
@@ -3052,6 +3071,7 @@ interface AdminRouteRouteChildren {
   AdminSeoRoute: typeof AdminSeoRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSocialListeningRoute: typeof AdminSocialListeningRoute
+  AdminTestimonialsRoute: typeof AdminTestimonialsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminAnalyticsEmailRoute: typeof AdminAnalyticsEmailRoute
   AdminAnalyticsHeatmapRoute: typeof AdminAnalyticsHeatmapRoute
@@ -3092,6 +3112,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminSeoRoute: AdminSeoRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSocialListeningRoute: AdminSocialListeningRoute,
+  AdminTestimonialsRoute: AdminTestimonialsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminAnalyticsEmailRoute: AdminAnalyticsEmailRoute,
   AdminAnalyticsHeatmapRoute: AdminAnalyticsHeatmapRoute,
