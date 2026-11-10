@@ -7,9 +7,9 @@ Deno.serve(async (req) => {
     const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
     if (!GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not configured');
 
-    const { imageUrl, imageBase64, prompt } = await req.json();
-    if (!prompt || (!imageUrl && !imageBase64)) {
-      return new Response(JSON.stringify({ error: 'imageUrl or imageBase64 and prompt are required' }), {
+    const { imageBase64, prompt } = await req.json();
+    if (typeof prompt !== 'string' || !prompt.trim() || prompt.length > 4000 || typeof imageBase64 !== 'string' || !imageBase64 || imageBase64.length > 12 * 1024 * 1024) {
+      return new Response(JSON.stringify({ error: 'An image upload and valid description are required' }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -27,18 +27,8 @@ Deno.serve(async (req) => {
       } else {
         base64Data = imageBase64;
       }
-    } else {
-      const imgResp = await fetch(imageUrl);
-      if (!imgResp.ok) throw new Error(`Failed to fetch source image: ${imgResp.status}`);
-      const buf = new Uint8Array(await imgResp.arrayBuffer());
-      mimeType = imgResp.headers.get('content-type') || 'image/jpeg';
-      let b64 = '';
-      const chunk = 0x8000;
-      for (let i = 0; i < buf.length; i += chunk) {
-        b64 += String.fromCharCode.apply(null, Array.from(buf.subarray(i, i + chunk)) as any);
-      }
-      base64Data = btoa(b64);
     }
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(mimeType) || !/^[A-Za-z0-9+/]+={0,2}$/.test(base64Data)) return Response.json({ error: 'Invalid image' }, { status: 400, headers: corsHeaders });
 
     const systemPrompt = `You are an expert interior and exterior designer for luxury international real estate. Re-design the provided property image according to the user's request. Keep the architectural structure (walls, windows, ceiling, room layout) recognizable so it is clearly the same space, but transform finishes, furniture, lighting, materials, colors and styling. Output a single photorealistic, high-quality redesigned image.`;
 

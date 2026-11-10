@@ -14,6 +14,14 @@ const corsHeaders = {
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 serve(async (req) => {
+  if (req.method !== 'OPTIONS') {
+    const headers = { apikey: 'sb_publishable_hhsY9ChXnw98hh-tr9vm8Q_w49N0ZIs', Authorization: req.headers.get('Authorization') || '' };
+    const url = 'https://slwesocsoncujeghgkzh.supabase.co';
+    const user = await fetch(`${url}/auth/v1/user`, { headers }).then(r => r.ok ? r.json() : null).catch(() => null);
+    if (!user?.id) return new Response('Unauthorized', { status: 401, headers: corsHeaders });
+    const roles = await fetch(`${url}/rest/v1/user_roles?select=role&user_id=eq.${encodeURIComponent(user.id)}&role=eq.admin`, { headers }).then(r => r.ok ? r.json() : []).catch(() => []);
+    if (!Array.isArray(roles) || !roles.some(r => r.role === 'admin')) return new Response('Forbidden', { status: 403, headers: corsHeaders });
+  }
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });

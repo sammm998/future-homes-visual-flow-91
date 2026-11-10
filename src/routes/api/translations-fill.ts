@@ -106,6 +106,9 @@ export const Route = createFileRoute("/api/translations-fill")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const { adminRequestError } = await import('@/lib/adminRequest.server');
+        const denied = await adminRequestError(request);
+        if (denied) return denied;
         let limit = 8;
         let languages = Object.keys(TARGET_LANGUAGES);
         try {

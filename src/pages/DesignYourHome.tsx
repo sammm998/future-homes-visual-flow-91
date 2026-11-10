@@ -117,7 +117,19 @@ const DesignYourHome = () => {
     try {
       const body: any = { prompt };
       if (sourceBase64) body.imageBase64 = sourceBase64;
-      else body.imageUrl = sourceImage;
+      else {
+        // Fetch as the visitor, not as a privileged server.
+        const response = await fetch(sourceImage);
+        if (!response.ok) throw new Error('Could not load the selected image');
+        const blob = await response.blob();
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(blob.type) || blob.size > 8 * 1024 * 1024) throw new Error('Invalid image');
+        body.imageBase64 = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = () => reject(new Error('Could not read image'));
+          reader.readAsDataURL(blob);
+        });
+      }
       const { data, error } = await supabase.functions.invoke("design-home", { body });
       if (error) throw error;
       if ((data as any)?.error) throw new Error((data as any).error);
