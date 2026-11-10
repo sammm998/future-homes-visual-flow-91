@@ -1,5 +1,8 @@
 # Roadmap
 
+## CMS property date and photo uploads
+- [ ] Reproduce and fix completion-date entry/save and property photo upload permissions; verify signed-in cover/gallery uploads and persisted date.
+
 ## Mikail password recovery
 - [x] Logs confirm expired/consumed links. Invalid-link retry and initialization/error guards verified in browser; 3 recovery tests pass, build OK. New email accepted and recovery_sent_at confirmed at 12:50 UTC for Mikail only. Delivery and Mikail's actual password selection unverified; page changes require publication.
 
