@@ -14,6 +14,7 @@ import { ArrowLeft, GripVertical, Plus, Save, Trash2, Upload, X } from "lucide-r
 import { DragDropContext, Draggable, Droppable, type DropResult } from "@hello-pangea/dnd";
 import { translateSavedProperty } from "@/lib/translateSavedProperty";
 import { propertyTranslationSourceChanged } from "@/lib/propertyTranslationRules";
+import { propertyCompletionDate } from "@/admin/propertyCompletionDate";
 
 type ApartmentType = { type?: string; size?: string; price?: string };
 
@@ -85,6 +86,7 @@ export default function PropertyEdit() {
   const [translationProgress, setTranslationProgress] = useState<{ completed: number; total: number } | null>(null);
   const [translationError, setTranslationError] = useState("");
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
   const [taxonomy, setTaxonomy] = useState<{ locations: string[]; countries: string[]; districtsByLocation: Record<string, string[]> }>({ locations: [], countries: [], districtsByLocation: {} });
 
   useEffect(() => {
@@ -214,6 +216,13 @@ export default function PropertyEdit() {
       return;
     }
     if (!isNew && !id) return;
+    let completionDate: string | null;
+    try {
+      completionDate = propertyCompletionDate(form.building_complete_date);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Enter a valid completion date.");
+      return;
+    }
     setSaving(true);
     const payload: any = {
       title: form.title.trim(),
@@ -245,7 +254,7 @@ export default function PropertyEdit() {
       floors: form.floors ? Number(form.floors) : null,
       distance_to_airport_km: form.distance_to_airport_km || null,
       distance_to_beach_km: form.distance_to_beach_km || null,
-      building_complete_date: form.building_complete_date || null,
+      building_complete_date: completionDate,
       agent_name: form.agent_name || null,
       agent_phone_number: form.agent_phone_number || null,
       google_maps_embed: form.google_maps_embed || null,
@@ -291,28 +300,38 @@ export default function PropertyEdit() {
     const extension = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
     const safeName = file.name.replace(/\.[^.]+$/, "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80) || "property-image";
     const path = `${id ?? "new"}/${Date.now()}-${Math.random().toString(36).slice(2)}-${safeName}.${extension}`;
-    const { error } = await supabase.storage.from("property-images").upload(path, file, { upsert: true });
+    const { error } = await supabase.storage.from("property-images").upload(path, file, { upsert: false });
     if (error) { toast.error(error.message); return null; }
     return mediaUrl(path);
   };
 
   const handleCoverUpload = async (file: File) => {
-    const url = await uploadOne(file);
-    if (url) { set("property_image", url); toast.success("Cover uploaded"); }
+    setUploadingCover(true);
+    try {
+      const url = await uploadOne(file);
+      if (url) { set("property_image", url); toast.success("Cover uploaded"); }
+    } catch {
+      toast.error("Could not upload the cover. Please try again.");
+    } finally { setUploadingCover(false); }
   };
 
   const handleGalleryUpload = async (files: FileList) => {
     setUploadingGallery(true);
     const urls: string[] = [];
-    for (const f of Array.from(files)) {
-      const u = await uploadOne(f);
-      if (u) urls.push(u);
+    try {
+      for (const f of Array.from(files)) {
+        const u = await uploadOne(f);
+        if (u) urls.push(u);
+      }
+    } catch {
+      toast.error("Could not upload all images. Please try again.");
+    } finally {
+      if (urls.length) {
+        setForm(previous => ({ ...previous, property_images: [...previous.property_images, ...urls] }));
+        toast.success(`${urls.length} image(s) added`);
+      }
+      setUploadingGallery(false);
     }
-    if (urls.length) {
-      set("property_images", [...form.property_images, ...urls]);
-      toast.success(`${urls.length} image(s) added`);
-    }
-    setUploadingGallery(false);
   };
 
   const handleDragEnd = (result: DropResult) => {
@@ -338,8 +357,8 @@ export default function PropertyEdit() {
           <h1 className="text-2xl font-semibold tracking-tight">{isNew ? "New property" : "Edit property"}</h1>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" disabled={saving} onClick={() => handleSave()}>Save changes</Button>
-          <Button disabled={saving} onClick={() => handleSave()} className="bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90">
+          <Button variant="outline" disabled={saving || uploadingCover || uploadingGallery} onClick={() => handleSave()}>Save changes</Button>
+          <Button disabled={saving || uploadingCover || uploadingGallery} onClick={() => handleSave()} className="bg-admin-sidebar text-admin-sidebar-foreground hover:bg-admin-sidebar/90">
             <Save className="h-4 w-4 mr-1.5" /> {saving ? "Saving & translating…" : "Save changes"}
           </Button>
         </div>
@@ -445,7 +464,7 @@ export default function PropertyEdit() {
               <div className="grid grid-cols-3 gap-3">
                 <div><Label>Year built</Label><Input type="number" value={form.year_built} onChange={(e) => set("year_built", e.target.value)} /></div>
                 <div><Label>Floors</Label><Input type="number" value={form.floors} onChange={(e) => set("floors", e.target.value)} /></div>
-                <div><Label>Building complete date</Label><Input type="month" value={form.building_complete_date?.match(/^\d{4}-\d{2}/)?.[0] ?? ""} onChange={(e) => set("building_complete_date", e.target.value)} /></div>
+                <div><Label htmlFor="building-complete-date">Building complete date</Label><Input id="building-complete-date" type="text" placeholder="YYYY-MM" value={form.building_complete_date} onChange={(e) => set("building_complete_date", e.target.value)} /></div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div><Label>Distance to beach (km)</Label><Input value={form.distance_to_beach_km} onChange={(e) => set("distance_to_beach_km", e.target.value)} /></div>
@@ -462,7 +481,7 @@ export default function PropertyEdit() {
                 <label className="inline-flex items-center gap-1.5 text-xs font-normal text-primary cursor-pointer">
                   <Upload className="h-3.5 w-3.5" />
                   {uploadingGallery ? "Uploading…" : "Add images"}
-                  <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => e.target.files && handleGalleryUpload(e.target.files)} />
+                  <input type="file" accept="image/*" multiple aria-label="Add gallery images" disabled={uploadingGallery || saving} className="hidden" onChange={(e) => { if (e.target.files) handleGalleryUpload(e.target.files); e.target.value = ""; }} />
                 </label>
               </CardTitle>
             </CardHeader>
@@ -625,7 +644,8 @@ export default function PropertyEdit() {
             <CardHeader><CardTitle className="text-base">Cover image</CardTitle></CardHeader>
             <CardContent className="space-y-3">
               {form.property_image && <img src={form.property_image} alt="" className="rounded-md w-full object-cover aspect-video" />}
-              <Input type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleCoverUpload(f); }} />
+              <Input type="file" aria-label="Upload cover image" accept="image/*" disabled={uploadingCover || saving} onChange={(e) => { const f = e.target.files?.[0]; if (f) handleCoverUpload(f); e.target.value = ""; }} />
+              {uploadingCover && <p role="status" className="text-sm text-muted-foreground">Uploading cover…</p>}
               <Input placeholder="Or paste image URL" value={form.property_image} onChange={(e) => set("property_image", e.target.value)} />
               {form.property_images.length > 0 && !form.property_image && (
                 <Button size="sm" variant="outline" className="w-full" onClick={() => set("property_image", form.property_images[0])}>
