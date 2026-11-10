@@ -12,9 +12,24 @@ const legacyFunctions = createClient(LEGACY_SUPABASE_URL, LEGACY_SUPABASE_KEY, {
   auth: { persistSession: false, autoRefreshToken: false, storageKey: "sb-legacy-functions" },
 });
 
+const adminFunctions = new Set(['generate-article', 'generate-article-images', 'translate-blog-posts', 'translate-properties', 'translate-slugs']);
+const functions = new Proxy(legacyFunctions.functions, {
+  get(target, prop) {
+    if (prop === 'invoke') return async (name: string, options?: Parameters<typeof target.invoke>[1]) => {
+      if (!adminFunctions.has(name)) return target.invoke(name, options);
+      const { data: { session } } = await cloud.auth.getSession();
+      const headers = new Headers(options?.headers);
+      if (session?.access_token) headers.set('Authorization', `Bearer ${session.access_token}`);
+      return target.invoke(name, { ...options, headers: Object.fromEntries(headers.entries()) });
+    };
+    const value = Reflect.get(target, prop);
+    return typeof value === 'function' ? value.bind(target) : value;
+  },
+});
+
 export const supabase = new Proxy(cloud as unknown as SupabaseClient<Database>, {
   get(target, prop, receiver) {
-    if (prop === "functions") return legacyFunctions.functions;
+    if (prop === "functions") return functions;
     const value = Reflect.get(target, prop, receiver);
     return typeof value === "function" ? value.bind(target) : value;
   },
