@@ -33,3 +33,6 @@
 - Homepage media uses useMediaVisibility to pause outside the viewport or a hidden tab; below-fold videos acquire sources only on entering view, preserving motion without offscreen decoding.
 - Admin password recovery uses /admin-login?reset=1 and preserves the recovery session until password update succeeds; never redirect recovery straight to the dashboard, enable updates on error-bearing links, or label an initializing session expired. Invalid links offer an email retry.
 - Customer reviews are managed at /admin/testimonials using the Cloud client and existing admin RLS, with photos served through public media and language edits stored in testimonial_translations — keeps CMS edits on the same data visitors read.
+- Legacy content-writing functions verify Cloud bearer identity and protected admin roles; the browser proxy forwards Cloud sessions only to those tools — prevents anonymous writes while preserving CMS access.
+- Retired account-setup, direct password-reset, chat-write and ElevenLabs deletion handlers return Gone without side effects — removes obsolete privilege-escalation paths.
+- Design-home receives image uploads only; selected listing images are read by the browser — prevents server-side arbitrary URL fetching without removing image selection.
