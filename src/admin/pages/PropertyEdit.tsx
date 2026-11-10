@@ -351,7 +351,7 @@ export default function PropertyEdit() {
 
   return (
     <div className="space-y-5 max-w-6xl">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Button asChild variant="ghost" size="sm"><Link to="/admin/properties"><ArrowLeft className="h-4 w-4 mr-1" /> Back</Link></Button>
           <h1 className="text-2xl font-semibold tracking-tight">{isNew ? "New property" : "Edit property"}</h1>
@@ -461,7 +461,7 @@ export default function PropertyEdit() {
                 <div><Label>Size (m²)</Label><Input value={form.sizes_m2} onChange={(e) => set("sizes_m2", e.target.value)} /></div>
                 <div><Label>ROI %</Label><Input value={form.roi_percent} onChange={(e) => set("roi_percent", e.target.value)} type="number" step="0.1" /></div>
               </div>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div><Label>Year built</Label><Input type="number" value={form.year_built} onChange={(e) => set("year_built", e.target.value)} /></div>
                 <div><Label>Floors</Label><Input type="number" value={form.floors} onChange={(e) => set("floors", e.target.value)} /></div>
                 <div><Label htmlFor="building-complete-date">Building complete date</Label><Input id="building-complete-date" type="text" placeholder="YYYY-MM" value={form.building_complete_date} onChange={(e) => set("building_complete_date", e.target.value)} /></div>
