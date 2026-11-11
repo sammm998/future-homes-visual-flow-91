@@ -11,7 +11,6 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { ArrowLeft, GripVertical, Plus, Save, Trash2, Upload, X } from "lucide-react";
-import { DragDropContext, Draggable, Droppable, type DropResult } from "@hello-pangea/dnd";
 import { translateSavedProperty } from "@/lib/translateSavedProperty";
 import { propertyTranslationSourceChanged } from "@/lib/propertyTranslationRules";
 import { propertyCompletionDate } from "@/admin/propertyCompletionDate";
@@ -334,11 +333,12 @@ export default function PropertyEdit() {
     }
   };
 
-  const handleDragEnd = (result: DropResult) => {
-    if (!result.destination) return;
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const moveImage = (from: number, to: number) => {
+    if (from === to || to < 0 || to >= form.property_images.length) return;
     const next = Array.from(form.property_images);
-    const [moved] = next.splice(result.source.index, 1);
-    next.splice(result.destination.index, 0, moved);
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
     set("property_images", next);
   };
 
@@ -491,44 +491,38 @@ export default function PropertyEdit() {
                   No gallery images yet. Add images to show on the property page.
                 </div>
               ) : (
-                <DragDropContext onDragEnd={handleDragEnd}>
-                  <Droppable droppableId="images" direction="horizontal">
-                    {(prov) => (
-                      <div ref={prov.innerRef} {...prov.droppableProps} className="flex flex-wrap gap-3">
-                        {form.property_images.map((url, idx) => (
-                          <Draggable key={url + idx} draggableId={url + idx} index={idx}>
-                            {(p) => (
-                              <div
-                                ref={p.innerRef}
-                                {...p.draggableProps}
-                                className="relative w-32 h-24 rounded-md overflow-hidden border bg-muted group"
-                              >
-                                <img src={url} alt="" className="w-full h-full object-cover" />
-                                <div
-                                  {...p.dragHandleProps}
-                                  className="absolute top-1 left-1 bg-black/60 text-white rounded-sm p-1 cursor-grab active:cursor-grabbing"
-                                >
-                                  <GripVertical className="h-3 w-3" />
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={() => removeImage(idx)}
-                                  className="absolute top-1 right-1 bg-red-600/90 text-white rounded-sm p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                >
-                                  <X className="h-3 w-3" />
-                                </button>
-                                <span className="absolute bottom-1 left-1 text-[10px] bg-black/60 text-white px-1.5 py-0.5 rounded-sm">
-                                  {idx + 1}
-                                </span>
-                              </div>
-                            )}
-                          </Draggable>
-                        ))}
-                        {prov.placeholder}
+                <div className="flex flex-wrap gap-3">
+                  {form.property_images.map((url, idx) => (
+                    <div
+                      key={url + idx}
+                      draggable
+                      onDragStart={(e) => { setDragIndex(idx); e.dataTransfer.effectAllowed = "move"; }}
+                      onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; }}
+                      onDrop={(e) => { e.preventDefault(); if (dragIndex !== null) moveImage(dragIndex, idx); setDragIndex(null); }}
+                      onDragEnd={() => setDragIndex(null)}
+                      className={`relative w-32 h-24 rounded-md overflow-hidden border bg-muted group cursor-grab active:cursor-grabbing ${dragIndex === idx ? "opacity-40" : ""}`}
+                    >
+                      <img src={url} alt="" draggable={false} className="w-full h-full object-cover pointer-events-none" />
+                      <div className="absolute top-1 left-1 bg-black/60 text-white rounded-sm p-1">
+                        <GripVertical className="h-3 w-3" />
                       </div>
-                    )}
-                  </Droppable>
-                </DragDropContext>
+                      <button
+                        type="button"
+                        onClick={() => removeImage(idx)}
+                        className="absolute top-1 right-1 bg-red-600/90 text-white rounded-sm p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                      <span className="absolute bottom-1 left-1 text-[10px] bg-black/60 text-white px-1.5 py-0.5 rounded-sm">
+                        {idx + 1}
+                      </span>
+                      <div className="absolute bottom-1 right-1 flex gap-0.5">
+                        <button type="button" aria-label="Move left" disabled={idx === 0} onClick={() => moveImage(idx, idx - 1)} className="bg-black/60 text-white rounded-sm px-1 text-[10px] disabled:opacity-30">◀</button>
+                        <button type="button" aria-label="Move right" disabled={idx === form.property_images.length - 1} onClick={() => moveImage(idx, idx + 1)} className="bg-black/60 text-white rounded-sm px-1 text-[10px] disabled:opacity-30">▶</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
             </CardContent>
           </Card>
