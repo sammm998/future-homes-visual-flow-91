@@ -36,3 +36,4 @@
 - Maintained content-writing function source verifies Cloud bearer identity and protected admin roles; original external deployments must also receive these changes before they are considered secured — managed deployment does not replace the external host.
 - Retired account-setup, direct password-reset, chat-write and ElevenLabs deletion handlers return Gone without side effects — removes obsolete privilege-escalation paths.
 - Design-home receives image uploads only; selected listing images are read by the browser — prevents server-side arbitrary URL fetching without removing image selection.
+- Team portrait recovery copies apply only to legacy image URLs; newly uploaded CMS photos take precedence — keeps recovered portraits independent of the restricted old host without masking later edits.
