@@ -8,6 +8,9 @@ describe('team portrait recovery', () => {
     expect(result).toContain('/__l5e/assets-v1/');
     expect(result).not.toContain('kiogiyemoqbnuvclneoe');
   });
+  it('keeps the recovered portrait after legacy photos move to own storage', () => {
+    expect(applyTeamImageOverride(saminId, 'https://futurehomesinternational.com/api/public/media/legacy/property-images/property-images/old.png')).toContain('/__l5e/assets-v1/');
+  });
   it('preserves a replacement portrait saved in the CMS', () => {
     expect(applyTeamImageOverride(saminId, '/api/public/media/team/new-photo.jpg')).toBe('/api/public/media/team/new-photo.jpg');
   });
