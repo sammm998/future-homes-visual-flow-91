@@ -28,7 +28,7 @@ import { formatPriceFromString } from '@/utils/priceFormatting';
 import ervinaImage from '@/assets/ervina-koksel.webp';
 import { buildPropertyUrl, PATH_TO_LANG } from "@/utils/slugHelpers";
 // Using Batuhan Kunt's image
-const batuhanImage = 'https://kiogiyemoqbnuvclneoe.supabase.co/storage/v1/object/public/property-images/property-images/ukys641vbp.jpeg';
+const batuhanImage = 'https://futurehomesinternational.com/api/public/media/legacy/property-images/property-images/ukys641vbp.jpeg';
 import { supabase } from '@/integrations/legacy/client';
 import { OptimizedPropertyImage } from '@/components/OptimizedPropertyImage';
 import { t } from '@/utils/translations';
