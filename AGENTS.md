@@ -16,7 +16,7 @@
 - Resolve property map embeds and outbound map links through propertyMapLocation so verified location corrections apply consistently to both.
 - Investment calculator country rates live only in src/lib/investmentCalc.ts (MARKETS) — one place to update indicative fees.
 - Homes, translations, leads, team, blog, CRM and site content live in Lovable Cloud; src/integrations/legacy/client.ts is a Cloud proxy whose `.functions` alone still calls the original project's edge functions (office e-mails, AI helpers) — the original database refused agent writes. Server code reads public data via integrations/legacy/publicCloud.ts.
-- New uploads go to the private property-images bucket and are served through /api/public/media/* — the workspace blocks public buckets; older images stay on the original public storage URLs.
+- New uploads go to the private property-images bucket and are served through /api/public/media/* — the workspace blocks public buckets; all former original-host photos were copied under legacy/<bucket>/… there and the database links point at them, so the old host is no longer needed for images.
 - Admin storage policies include admin-only SELECT alongside writes, and property uploads use unique non-upsert paths — storage upserts require read access even when the filename is new.
 - Property completion-date input uses text with validated ISO normalization before saving — native month inputs are inconsistent in Safari and database date columns require a full day.
 - Visitors see pickPropertyTranslation: a complete original-database translation first, else the Cloud row whose source_hash matches the current English text — stale Cloud copies never show after edits.

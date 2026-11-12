@@ -15,7 +15,8 @@ export const applyTeamImageOverride = (
   imageUrl: string | null | undefined,
 ): string | null | undefined => {
   // A newly uploaded CMS portrait takes precedence over the legacy recovery copy.
-  if (imageUrl && !imageUrl.startsWith('https://kiogiyemoqbnuvclneoe.supabase.co/')) {
+  const isLegacyPhoto = !!imageUrl && (imageUrl.startsWith('https://kiogiyemoqbnuvclneoe.supabase.co/') || imageUrl.includes('/api/public/media/legacy/'));
+  if (imageUrl && !isLegacyPhoto) {
     return imageUrl;
   }
   return TEAM_IMAGE_OVERRIDES[memberId] ?? imageUrl;
