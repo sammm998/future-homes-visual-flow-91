@@ -19,6 +19,7 @@ export const EN = {
   assistant: { intro: "Ask about your homes, documents, the buying process, fees, title deeds, residence permits or citizenship. I can also open a request for your adviser.", placeholder: "Ask anything…", send: "Send", thinking: "Thinking…", ticketCreated: "I opened a request for your adviser.", suggestions: ["What are the next steps in my purchase?", "What costs come on top of the price in Turkey?", "How does citizenship by investment work?", "Book a viewing for my saved homes"] },
   profile: { name: "Full name", phone: "Phone / WhatsApp", language: "Preferred language", budget: "Budget", wishes: "What are you looking for?", save: "Save", saved: "Saved" },
   academy: { tab: "Academy", intro: "Learn everything about buying property abroad – at your own pace.", lessons: "lessons", done: "Done", markDone: "Mark as done", open: "Open lesson", exam: "Final exam", certificate: "Certificate ready – congratulations!", min: "min", continue: "Continue" },
+  portalMore: "More",
   error: "Something went wrong – please try again.",
 };
 

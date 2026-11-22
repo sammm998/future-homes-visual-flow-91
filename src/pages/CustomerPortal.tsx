@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Bot, GraduationCap, CheckCircle2, Award, Calculator, FileText, Heart, Home, LifeBuoy, MessageCircle, Receipt, Send, User as UserIcon } from "lucide-react";
+import { LogOut, Menu, Bot, GraduationCap, CheckCircle2, Award, Calculator, FileText, Heart, Home, LifeBuoy, MessageCircle, Receipt, Send, User as UserIcon } from "lucide-react";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
 import { PublicPageHero } from "@/components/PublicEditorial";
@@ -39,39 +39,91 @@ export default function CustomerPortal() {
 
   const tabs: [Tab, any][] = [["overview", Home], ["messages", MessageCircle], ["tickets", LifeBuoy], ["documents", FileText], ["payments", Receipt], ["saved", Heart], ["analysis", Calculator], ["academy", GraduationCap], ["assistant", Bot], ["profile", UserIcon]];
 
-  return (
+  const [more, setMore] = useState(false);
+  const primary: Tab[] = ["overview", "messages", "documents", "academy"];
+  const current = tabs.find(([k]) => k === tab)!;
+  const CurrentIcon = current[1];
+  const initials = (account?.full_name || user?.email || "?").slice(0, 2).toUpperCase();
+  const pick = (k: Tab) => { setTab(k); setMore(false); if (typeof window !== "undefined") window.scrollTo({ top: 0 }); };
+  const panel = {
+    overview: <Overview c={c} account={account} userId={user?.id ?? ""} go={pick} />,
+    messages: <Messages c={c} userId={user?.id ?? ""} />,
+    tickets: <Tickets c={c} userId={user?.id ?? ""} />,
+    documents: <Documents c={c} />,
+    payments: <Payments c={c} />,
+    saved: <Saved c={c} userId={user?.id ?? ""} onAnalyse={() => pick("analysis")} />,
+    analysis: <Analysis c={c} lang={lang} />,
+    academy: <Academy c={c} userId={user?.id ?? ""} />,
+    assistant: <Assistant c={c} lang={lang} />,
+    profile: <Profile c={c} account={account} onSaved={setAccount} />,
+  } as Record<Tab, React.ReactNode>;
+
+  if (!ready) return <div className="min-h-screen bg-ivory"><Navigation /></div>;
+  if (!user) return (
     <div className="min-h-screen bg-ivory">
       <Navigation />
       <PublicPageHero compact eyebrow={c.hero.eyebrow} title={c.hero.title} description={c.hero.description} image={heroImage} />
-      <main className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
-        {!ready ? null : !user ? (
-          <div className="mx-auto max-w-md"><MemberAuthCard title={c.signInTitle} next="/portal" /></div>
-        ) : (
-          <>
-            <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm text-muted-foreground">{c.signedInAs} <span className="font-medium text-foreground">{user.email}</span></p>
-              <Button variant="outline" size="sm" onClick={signOut}>{c.signOut}</Button>
+      <main className="mx-auto max-w-md px-4 pb-20"><MemberAuthCard title={c.signInTitle} next="/portal" /></main>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-ivory">
+      <Navigation />
+      <div className="mx-auto flex max-w-7xl gap-6 px-3 pb-28 pt-6 sm:px-6 lg:pb-12">
+        <aside className="sticky top-6 hidden h-[calc(100vh-3rem)] w-64 shrink-0 flex-col rounded-2xl bg-navy p-4 text-navy-foreground shadow-xl lg:flex">
+          <div className="mb-5 border-b border-navy-foreground/15 px-2 pb-4">
+            <p className="text-xs uppercase tracking-[0.25em] text-gold">{c.hero.eyebrow}</p>
+            <div className="mt-4 flex items-center gap-3">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gold text-sm font-bold text-gold-foreground">{initials}</div>
+              <div className="min-w-0"><p className="truncate text-sm font-semibold">{account?.full_name || c.signedInAs}</p><p className="truncate text-xs text-navy-foreground/60">{user.email}</p></div>
             </div>
-            <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
-              {tabs.map(([k, Icon]) => (
-                <button key={k} onClick={() => setTab(k)} className={cn("flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-semibold", tab === k ? "border-navy bg-navy text-navy-foreground" : "border-border bg-card text-foreground")}>
-                  <Icon className="h-4 w-4" />{c.tabs[k]}
+          </div>
+          <nav className="flex-1 space-y-1 overflow-y-auto">
+            {tabs.map(([k, Icon]) => (
+              <button key={k} onClick={() => pick(k)} className={cn("flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-colors", tab === k ? "bg-gold text-gold-foreground" : "text-navy-foreground/75 hover:bg-navy-foreground/10 hover:text-navy-foreground")}>
+                <Icon className="h-4 w-4 shrink-0" /><span className="truncate">{c.tabs[k]}</span>
+              </button>
+            ))}
+          </nav>
+          <button onClick={signOut} className="mt-3 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-navy-foreground/70 hover:bg-navy-foreground/10"><LogOut className="h-4 w-4" />{c.signOut}</button>
+        </aside>
+        <main className="min-w-0 flex-1">
+          <header className="mb-5 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-5">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-navy text-gold"><CurrentIcon className="h-5 w-5" /></div>
+              <div className="min-w-0"><p className="text-xs uppercase tracking-widest text-muted-foreground">{c.hero.eyebrow}</p><h1 className="truncate text-xl font-semibold sm:text-2xl">{c.tabs[tab]}</h1></div>
+            </div>
+            <div className="grid h-10 w-10 place-items-center rounded-full bg-gold text-sm font-bold text-gold-foreground lg:hidden">{initials}</div>
+          </header>
+          <div className="rounded-2xl border border-border bg-background/60 p-4 sm:p-6">{panel[tab]}</div>
+        </main>
+      </div>
+
+      {more && (
+        <div className="fixed inset-0 z-40 bg-navy/50 lg:hidden" onClick={() => setMore(false)}>
+          <div className="absolute inset-x-0 bottom-0 rounded-t-3xl bg-card p-5 pb-24 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <p className="mb-3 truncate text-sm text-muted-foreground">{user.email}</p>
+            <div className="grid grid-cols-3 gap-2">
+              {tabs.filter(([k]) => !primary.includes(k)).map(([k, Icon]) => (
+                <button key={k} onClick={() => pick(k)} className={cn("flex flex-col items-center gap-2 rounded-2xl border p-3 text-center text-xs font-medium", tab === k ? "border-navy bg-navy text-navy-foreground" : "border-border")}>
+                  <Icon className="h-5 w-5" />{c.tabs[k]}
                 </button>
               ))}
+              <button onClick={signOut} className="flex flex-col items-center gap-2 rounded-2xl border border-border p-3 text-xs font-medium text-destructive"><LogOut className="h-5 w-5" />{c.signOut}</button>
             </div>
-            {tab === "overview" && <Overview c={c} account={account} userId={user.id} go={setTab} />}
-            {tab === "messages" && <Messages c={c} userId={user.id} />}
-            {tab === "tickets" && <Tickets c={c} userId={user.id} />}
-            {tab === "documents" && <Documents c={c} />}
-            {tab === "payments" && <Payments c={c} />}
-            {tab === "saved" && <Saved c={c} userId={user.id} onAnalyse={() => setTab("analysis")} />}
-            {tab === "analysis" && <Analysis c={c} lang={lang} />}
-            {tab === "academy" && <Academy c={c} userId={user.id} />}
-            {tab === "assistant" && <Assistant c={c} lang={lang} />}
-            {tab === "profile" && <Profile c={c} account={account} onSaved={setAccount} />}
-          </>
-        )}
-      </main>
+          </div>
+        </div>
+      )}
+      <nav data-portal-nav className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-5 border-t border-border bg-card/95 pb-[env(safe-area-inset-bottom)] backdrop-blur lg:hidden">
+        {primary.map((k) => { const Icon = tabs.find(([t]) => t === k)![1]; return (
+          <button key={k} onClick={() => pick(k)} className={cn("flex min-h-16 flex-col items-center justify-center gap-1 px-1 text-[11px] font-medium", tab === k ? "text-navy" : "text-muted-foreground")}>
+            <span className={cn("grid h-8 w-12 place-items-center rounded-full", tab === k && "bg-gold/25")}><Icon className="h-5 w-5" /></span><span className="max-w-full truncate">{c.tabs[k]}</span>
+          </button>); })}
+        <button onClick={() => setMore(!more)} className={cn("flex min-h-16 flex-col items-center justify-center gap-1 text-[11px] font-medium", more || !primary.includes(tab) ? "text-navy" : "text-muted-foreground")}>
+          <span className={cn("grid h-8 w-12 place-items-center rounded-full", (more || !primary.includes(tab)) && "bg-gold/25")}><Menu className="h-5 w-5" /></span>{c.portalMore}
+        </button>
+      </nav>
     </div>
   );
 }
