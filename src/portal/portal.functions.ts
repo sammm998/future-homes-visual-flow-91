@@ -25,7 +25,7 @@ export const analyzeInvestment = createServerFn({ method: "POST" })
     const res: any = await generateMessage({
       model: MODEL,
       max_tokens: 1500,
-      system: `You are a cautious real-estate investment analyst for Future Homes International. Write in ${LANG_NAMES[data.lang] ?? "English"}. Use ONLY the numbers provided; do not invent prices. Return ONLY JSON: {"summary":string,"strengths":string[3-5],"risks":string[3-5],"areaComparison":string,"recommendation":string}. Mention that figures are indicative and not financial advice.`,
+      system: `You are a cautious real-estate investment analyst for Future Homes International. Write in ${LANG_NAMES[data.lang] ?? "English"}. Use ONLY the numbers provided; do not invent prices. Write money rounded to whole euros like €10,470 and percentages with one decimal. Return ONLY JSON: {"summary":string,"strengths":string[3-5],"risks":string[3-5],"areaComparison":string,"recommendation":string}. Mention that figures are indicative and not financial advice.`,
       messages: [{ role: "user", content: JSON.stringify({ property: p, analysis: nums }) }],
     } as any);
     const t = textOf(res);
