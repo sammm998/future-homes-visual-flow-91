@@ -96,20 +96,26 @@ import { Route as AdminAgentsRouteImport } from './routes/admin/agents'
 import { Route as AdminAiInsightsRouteImport } from './routes/admin/ai-insights'
 import { Route as AdminApprovalsRouteImport } from './routes/admin/approvals'
 import { Route as AdminAutomationsRouteImport } from './routes/admin/automations'
+import { Route as AdminBiRouteImport } from './routes/admin/bi'
 import { Route as AdminCalendarRouteImport } from './routes/admin/calendar'
 import { Route as AdminChatRouteImport } from './routes/admin/chat'
 import { Route as AdminCompaniesRouteImport } from './routes/admin/companies'
 import { Route as AdminDocumentsRouteImport } from './routes/admin/documents'
+import { Route as AdminDriveRouteImport } from './routes/admin/drive'
+import { Route as AdminEmployeesRouteImport } from './routes/admin/employees'
 import { Route as AdminFeedRouteImport } from './routes/admin/feed'
 import { Route as AdminInboxRouteImport } from './routes/admin/inbox'
 import { Route as AdminIntegrationsRouteImport } from './routes/admin/integrations'
+import { Route as AdminLeadRoutingRouteImport } from './routes/admin/lead-routing'
 import { Route as AdminLogsRouteImport } from './routes/admin/logs'
+import { Route as AdminMeetingsRouteImport } from './routes/admin/meetings'
 import { Route as AdminProjectsRouteImport } from './routes/admin/projects'
 import { Route as AdminQuotesRouteImport } from './routes/admin/quotes'
 import { Route as AdminReportsRouteImport } from './routes/admin/reports'
 import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminSocialListeningRouteImport } from './routes/admin/social-listening'
+import { Route as AdminTaskChatsRouteImport } from './routes/admin/task-chats'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
 import { Route as AdminTimeRouteImport } from './routes/admin/time'
 import { Route as AdminWikiRouteImport } from './routes/admin/wiki'
@@ -630,6 +636,11 @@ const AdminAutomationsRoute = AdminAutomationsRouteImport.update({
   path: '/automations',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminBiRoute = AdminBiRouteImport.update({
+  id: '/bi',
+  path: '/bi',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminCalendarRoute = AdminCalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
@@ -650,6 +661,16 @@ const AdminDocumentsRoute = AdminDocumentsRouteImport.update({
   path: '/documents',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminDriveRoute = AdminDriveRouteImport.update({
+  id: '/drive',
+  path: '/drive',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminEmployeesRoute = AdminEmployeesRouteImport.update({
+  id: '/employees',
+  path: '/employees',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminFeedRoute = AdminFeedRouteImport.update({
   id: '/feed',
   path: '/feed',
@@ -665,9 +686,19 @@ const AdminIntegrationsRoute = AdminIntegrationsRouteImport.update({
   path: '/integrations',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminLeadRoutingRoute = AdminLeadRoutingRouteImport.update({
+  id: '/lead-routing',
+  path: '/lead-routing',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminLogsRoute = AdminLogsRouteImport.update({
   id: '/logs',
   path: '/logs',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMeetingsRoute = AdminMeetingsRouteImport.update({
+  id: '/meetings',
+  path: '/meetings',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminProjectsRoute = AdminProjectsRouteImport.update({
@@ -698,6 +729,11 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
 const AdminSocialListeningRoute = AdminSocialListeningRouteImport.update({
   id: '/social-listening',
   path: '/social-listening',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminTaskChatsRoute = AdminTaskChatsRouteImport.update({
+  id: '/task-chats',
+  path: '/task-chats',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
@@ -1145,20 +1181,26 @@ export interface FileRoutesByFullPath {
   '/admin/ai-insights': typeof AdminAiInsightsRoute
   '/admin/approvals': typeof AdminApprovalsRoute
   '/admin/automations': typeof AdminAutomationsRoute
+  '/admin/bi': typeof AdminBiRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/companies': typeof AdminCompaniesRoute
   '/admin/documents': typeof AdminDocumentsRoute
+  '/admin/drive': typeof AdminDriveRoute
+  '/admin/employees': typeof AdminEmployeesRoute
   '/admin/feed': typeof AdminFeedRoute
   '/admin/inbox': typeof AdminInboxRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
+  '/admin/lead-routing': typeof AdminLeadRoutingRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/meetings': typeof AdminMeetingsRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/admin/task-chats': typeof AdminTaskChatsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/time': typeof AdminTimeRoute
   '/admin/wiki': typeof AdminWikiRoute
@@ -1315,20 +1357,26 @@ export interface FileRoutesByTo {
   '/admin/ai-insights': typeof AdminAiInsightsRoute
   '/admin/approvals': typeof AdminApprovalsRoute
   '/admin/automations': typeof AdminAutomationsRoute
+  '/admin/bi': typeof AdminBiRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/companies': typeof AdminCompaniesRoute
   '/admin/documents': typeof AdminDocumentsRoute
+  '/admin/drive': typeof AdminDriveRoute
+  '/admin/employees': typeof AdminEmployeesRoute
   '/admin/feed': typeof AdminFeedRoute
   '/admin/inbox': typeof AdminInboxRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
+  '/admin/lead-routing': typeof AdminLeadRoutingRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/meetings': typeof AdminMeetingsRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/admin/task-chats': typeof AdminTaskChatsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/time': typeof AdminTimeRoute
   '/admin/wiki': typeof AdminWikiRoute
@@ -1488,20 +1536,26 @@ export interface FileRoutesById {
   '/admin/ai-insights': typeof AdminAiInsightsRoute
   '/admin/approvals': typeof AdminApprovalsRoute
   '/admin/automations': typeof AdminAutomationsRoute
+  '/admin/bi': typeof AdminBiRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/chat': typeof AdminChatRoute
   '/admin/companies': typeof AdminCompaniesRoute
   '/admin/documents': typeof AdminDocumentsRoute
+  '/admin/drive': typeof AdminDriveRoute
+  '/admin/employees': typeof AdminEmployeesRoute
   '/admin/feed': typeof AdminFeedRoute
   '/admin/inbox': typeof AdminInboxRoute
   '/admin/integrations': typeof AdminIntegrationsRoute
+  '/admin/lead-routing': typeof AdminLeadRoutingRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/meetings': typeof AdminMeetingsRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
+  '/admin/task-chats': typeof AdminTaskChatsRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/time': typeof AdminTimeRoute
   '/admin/wiki': typeof AdminWikiRoute
@@ -1662,20 +1716,26 @@ export interface FileRouteTypes {
     | '/admin/ai-insights'
     | '/admin/approvals'
     | '/admin/automations'
+    | '/admin/bi'
     | '/admin/calendar'
     | '/admin/chat'
     | '/admin/companies'
     | '/admin/documents'
+    | '/admin/drive'
+    | '/admin/employees'
     | '/admin/feed'
     | '/admin/inbox'
     | '/admin/integrations'
+    | '/admin/lead-routing'
     | '/admin/logs'
+    | '/admin/meetings'
     | '/admin/projects'
     | '/admin/quotes'
     | '/admin/reports'
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/admin/task-chats'
     | '/admin/testimonials'
     | '/admin/time'
     | '/admin/wiki'
@@ -1832,20 +1892,26 @@ export interface FileRouteTypes {
     | '/admin/ai-insights'
     | '/admin/approvals'
     | '/admin/automations'
+    | '/admin/bi'
     | '/admin/calendar'
     | '/admin/chat'
     | '/admin/companies'
     | '/admin/documents'
+    | '/admin/drive'
+    | '/admin/employees'
     | '/admin/feed'
     | '/admin/inbox'
     | '/admin/integrations'
+    | '/admin/lead-routing'
     | '/admin/logs'
+    | '/admin/meetings'
     | '/admin/projects'
     | '/admin/quotes'
     | '/admin/reports'
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/admin/task-chats'
     | '/admin/testimonials'
     | '/admin/time'
     | '/admin/wiki'
@@ -2004,20 +2070,26 @@ export interface FileRouteTypes {
     | '/admin/ai-insights'
     | '/admin/approvals'
     | '/admin/automations'
+    | '/admin/bi'
     | '/admin/calendar'
     | '/admin/chat'
     | '/admin/companies'
     | '/admin/documents'
+    | '/admin/drive'
+    | '/admin/employees'
     | '/admin/feed'
     | '/admin/inbox'
     | '/admin/integrations'
+    | '/admin/lead-routing'
     | '/admin/logs'
+    | '/admin/meetings'
     | '/admin/projects'
     | '/admin/quotes'
     | '/admin/reports'
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
+    | '/admin/task-chats'
     | '/admin/testimonials'
     | '/admin/time'
     | '/admin/wiki'
@@ -2768,6 +2840,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAutomationsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/bi': {
+      id: '/admin/bi'
+      path: '/bi'
+      fullPath: '/admin/bi'
+      preLoaderRoute: typeof AdminBiRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/calendar': {
       id: '/admin/calendar'
       path: '/calendar'
@@ -2796,6 +2875,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDocumentsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/drive': {
+      id: '/admin/drive'
+      path: '/drive'
+      fullPath: '/admin/drive'
+      preLoaderRoute: typeof AdminDriveRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/employees': {
+      id: '/admin/employees'
+      path: '/employees'
+      fullPath: '/admin/employees'
+      preLoaderRoute: typeof AdminEmployeesRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/feed': {
       id: '/admin/feed'
       path: '/feed'
@@ -2817,11 +2910,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIntegrationsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/lead-routing': {
+      id: '/admin/lead-routing'
+      path: '/lead-routing'
+      fullPath: '/admin/lead-routing'
+      preLoaderRoute: typeof AdminLeadRoutingRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/logs': {
       id: '/admin/logs'
       path: '/logs'
       fullPath: '/admin/logs'
       preLoaderRoute: typeof AdminLogsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/meetings': {
+      id: '/admin/meetings'
+      path: '/meetings'
+      fullPath: '/admin/meetings'
+      preLoaderRoute: typeof AdminMeetingsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/projects': {
@@ -2864,6 +2971,13 @@ declare module '@tanstack/react-router' {
       path: '/social-listening'
       fullPath: '/admin/social-listening'
       preLoaderRoute: typeof AdminSocialListeningRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/task-chats': {
+      id: '/admin/task-chats'
+      path: '/task-chats'
+      fullPath: '/admin/task-chats'
+      preLoaderRoute: typeof AdminTaskChatsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/testimonials': {
@@ -3476,20 +3590,26 @@ interface AdminRouteRouteChildren {
   AdminAiInsightsRoute: typeof AdminAiInsightsRoute
   AdminApprovalsRoute: typeof AdminApprovalsRoute
   AdminAutomationsRoute: typeof AdminAutomationsRoute
+  AdminBiRoute: typeof AdminBiRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
   AdminChatRoute: typeof AdminChatRoute
   AdminCompaniesRoute: typeof AdminCompaniesRoute
   AdminDocumentsRoute: typeof AdminDocumentsRoute
+  AdminDriveRoute: typeof AdminDriveRoute
+  AdminEmployeesRoute: typeof AdminEmployeesRoute
   AdminFeedRoute: typeof AdminFeedRoute
   AdminInboxRoute: typeof AdminInboxRoute
   AdminIntegrationsRoute: typeof AdminIntegrationsRoute
+  AdminLeadRoutingRoute: typeof AdminLeadRoutingRoute
   AdminLogsRoute: typeof AdminLogsRoute
+  AdminMeetingsRoute: typeof AdminMeetingsRoute
   AdminProjectsRoute: typeof AdminProjectsRoute
   AdminQuotesRoute: typeof AdminQuotesRoute
   AdminReportsRoute: typeof AdminReportsRoute
   AdminSeoRoute: typeof AdminSeoRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSocialListeningRoute: typeof AdminSocialListeningRoute
+  AdminTaskChatsRoute: typeof AdminTaskChatsRoute
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
   AdminTimeRoute: typeof AdminTimeRoute
   AdminWikiRoute: typeof AdminWikiRoute
@@ -3533,20 +3653,26 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAiInsightsRoute: AdminAiInsightsRoute,
   AdminApprovalsRoute: AdminApprovalsRoute,
   AdminAutomationsRoute: AdminAutomationsRoute,
+  AdminBiRoute: AdminBiRoute,
   AdminCalendarRoute: AdminCalendarRoute,
   AdminChatRoute: AdminChatRoute,
   AdminCompaniesRoute: AdminCompaniesRoute,
   AdminDocumentsRoute: AdminDocumentsRoute,
+  AdminDriveRoute: AdminDriveRoute,
+  AdminEmployeesRoute: AdminEmployeesRoute,
   AdminFeedRoute: AdminFeedRoute,
   AdminInboxRoute: AdminInboxRoute,
   AdminIntegrationsRoute: AdminIntegrationsRoute,
+  AdminLeadRoutingRoute: AdminLeadRoutingRoute,
   AdminLogsRoute: AdminLogsRoute,
+  AdminMeetingsRoute: AdminMeetingsRoute,
   AdminProjectsRoute: AdminProjectsRoute,
   AdminQuotesRoute: AdminQuotesRoute,
   AdminReportsRoute: AdminReportsRoute,
   AdminSeoRoute: AdminSeoRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSocialListeningRoute: AdminSocialListeningRoute,
+  AdminTaskChatsRoute: AdminTaskChatsRoute,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
   AdminTimeRoute: AdminTimeRoute,
   AdminWikiRoute: AdminWikiRoute,
