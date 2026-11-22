@@ -8,7 +8,7 @@ import {
 } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
-import { translateAmenity } from "@/utils/amenityTranslations";
+import { translateAmenity } from "@/utils/amenityLabel";
 
 interface TimelineEntry {
   title: string;

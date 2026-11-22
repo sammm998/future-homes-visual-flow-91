@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Share2, Check, Copy } from "lucide-react";
 import { toast } from "sonner";
-import { translateAmenity } from "@/utils/amenityTranslations";
+import { translateAmenity } from "@/utils/amenityLabel";
 
 interface ShareLinkButtonProps {
   refNo?: string | number | null;

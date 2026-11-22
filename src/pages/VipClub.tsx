@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getOptimizedImageUrl } from '@/utils/imageOptimization';
 import { Bell, Heart, Lock, Settings, Sparkles, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
@@ -149,7 +150,7 @@ function EarlyAccess() {
     <div className="grid gap-4 [grid-template-columns:repeat(auto-fill,minmax(16rem,1fr))]">
       {rows.map((p) => (
         <div key={p.id} className="overflow-hidden rounded-lg border border-border bg-card">
-          {p.image_url ? <img src={p.image_url} alt={p.title} className="aspect-[4/3] w-full object-cover" loading="lazy" /> : null}
+          {p.image_url ? <img src={getOptimizedImageUrl(p.image_url, 640, 72)} alt={p.title} decoding="async" className="aspect-[4/3] w-full object-cover" loading="lazy" /> : null}
           <div className="p-4 text-sm">
             <p className="text-xs uppercase text-gold-foreground">{p.location}</p>
             <p className="font-semibold text-foreground">{p.title}</p>

@@ -12,7 +12,7 @@ import {
   useRouterState,
 } from "@tanstack/react-router";
 import type { ErrorComponentProps } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import { setCurrentLocation } from "@/utils/seoUtils";
 import { resolveUrlLocale } from "@/utils/localeRouting";
 import { ensureLanguage } from "@/utils/translations";
@@ -20,9 +20,7 @@ import { ensureLanguage } from "@/utils/translations";
 
 import appCss from "../styles.css?url";
 
-import { Toaster } from "@/components/ui/toaster";
 import { capturePartnerRef } from "@/lib/partnerRef";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
@@ -35,6 +33,27 @@ import { useLanguageUrlSync } from "@/hooks/useLanguageUrlSync";
 import { useAnalyticsTracker } from "@/hooks/useAnalyticsTracker";
 import { reportLovableError } from "@/lib/lovable-error-reporting";
 import PublicSidebarRail from "@/components/PublicSidebarRail";
+
+// Notification UIs only matter after someone acts, so they load once the page
+// is idle instead of adding two toast libraries to every first load.
+const Toaster = lazy(() => import("@/components/ui/toaster").then((m) => ({ default: m.Toaster })));
+const Sonner = lazy(() => import("@/components/ui/sonner").then((m) => ({ default: m.Toaster })));
+
+function DeferredToasters() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(() => setReady(true), { timeout: 2500 });
+    else setTimeout(() => setReady(true), 1200);
+  }, []);
+  if (!ready) return null;
+  return (
+    <Suspense fallback={null}>
+      <Toaster />
+      <Sonner />
+    </Suspense>
+  );
+}
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   beforeLoad: async ({ location }) => {
@@ -137,8 +156,7 @@ function RootComponent() {
           <CurrencyProvider>
             <TooltipProvider>
               <PerformanceMonitor logLevel="none" />
-              <Toaster />
-              <Sonner />
+              <DeferredToasters />
               <ScrollToTop />
               <AppChrome />
             </TooltipProvider>

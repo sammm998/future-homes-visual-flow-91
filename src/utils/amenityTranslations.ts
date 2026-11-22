@@ -1,4 +1,6 @@
-// Auto-generated amenity & misc label translations
+// Auto-generated amenity & misc label translations.
+// The browser reads these from the active language's dictionary (copied there by
+// scripts/build-i18n.ts); import translateAmenity from '@/utils/amenityLabel'.
 export const amenityTranslations: Record<string, Record<string, string>> = {
  "sv": {
   "Parking": "Parkering",
@@ -966,7 +968,7 @@ export const amenityTranslations: Record<string, Record<string, string>> = {
  }
 };
 
-export function translateAmenity(label: string, language: string = 'en'): string {
+export function translateAmenityFromTable(label: string, language: string = 'en'): string {
   if (!label) return label;
   const dict = amenityTranslations[language];
   if (!dict) return label;

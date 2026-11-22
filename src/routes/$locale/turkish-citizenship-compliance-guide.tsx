@@ -1,13 +1,16 @@
 import { buildRouteSeoHead } from "@/lib/seoTags";
 import { createFileRoute } from "@tanstack/react-router";
 import Page from "@/pages/CitizenshipComplianceGuide";
-import { newPagesShared } from "@/content/newPagesShared";
 
 export const Route = createFileRoute("/$locale/turkish-citizenship-compliance-guide")({
-  head: ({ params }) => {
-    const locale = (params as { locale?: string }).locale;
-    const m = newPagesShared(locale).meta.guide;
-    return buildRouteSeoHead({ locale, path: "/turkish-citizenship-compliance-guide", title: m.title, description: m.description, type: "article" });
-  },
+  // English fallback; other languages come from the per-language dictionaries (seoMetaExtra).
+  head: ({ params }) =>
+    buildRouteSeoHead({
+      locale: (params as { locale?: string }).locale,
+      path: "/turkish-citizenship-compliance-guide",
+      title: "Turkish Citizenship Documents Guide | Future Homes",
+      description: "Step-by-step guide from property purchase to Turkish citizenship, with documents and official government links.",
+      type: "article",
+    }),
   component: Page,
 });

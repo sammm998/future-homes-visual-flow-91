@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, Search, ExternalLink, Pencil } from "lucide-react";
 import { useAdminT } from "@/admin/i18n/AdminI18nContext";
 import AdminPropertyTranslator from "@/components/AdminPropertyTranslator";
+import AdminBuilding3dGenerator from "@/admin/AdminBuilding3dGenerator";
 
 interface Row {
   id: string;
@@ -73,6 +74,7 @@ export default function PropertiesList() {
       </div>
 
       <AdminPropertyTranslator />
+      <AdminBuilding3dGenerator />
 
       <Card className="bg-admin-surface">
         <CardContent className="p-3 flex flex-col sm:flex-row gap-2">

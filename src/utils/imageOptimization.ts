@@ -1,8 +1,25 @@
 // Enhanced image optimization utilities for better performance
 
+/** Widths/qualities the /api/public/media endpoint resizes to (others snap to the nearest). */
+export const MEDIA_WIDTHS = [160, 320, 480, 640, 800, 960, 1200, 1600, 2000] as const;
+export const MEDIA_QUALITIES = [50, 60, 70, 72, 75, 80, 85, 90] as const;
+
+const MEDIA_PATH = '/api/public/media/';
+
 export const getOptimizedImageUrl = (url: string, width?: number, quality = 75): string => {
   if (!url) return '/placeholder.svg';
-  
+
+  // Listing photos in the private bucket: ask our media endpoint for a resized
+  // copy instead of the full-size original.
+  if (url.includes(MEDIA_PATH)) {
+    if (!width) return url;
+    const [base, query = ''] = url.split('?');
+    const params = new URLSearchParams(query);
+    params.set('w', String(Math.round(width)));
+    params.set('q', String(quality));
+    return `${base}?${params.toString()}`;
+  }
+
   // If it's already a placeholder or data URL, return as is
   if (url.includes('placeholder.svg') || url.startsWith('data:') || url.startsWith('/')) {
     return url;

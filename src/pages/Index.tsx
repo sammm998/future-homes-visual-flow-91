@@ -3,9 +3,6 @@ import Hero from "@/components/Hero";
 import { useTranslation } from "@/hooks/useTranslation";
 import DeferredSection from "@/components/DeferredSection";
 import SEOHead from "@/components/SEOHead";
-import { useSEO } from "@/hooks/useSEO";
-import { useSEOLanguage } from "@/hooks/useSEOLanguage";
-import OrganizationSchema from "@/components/OrganizationSchema";
 import { lazy, useEffect, useState } from "react";
 import { useCanonicalUrl } from "@/hooks/useCanonicalUrl";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
@@ -27,13 +24,6 @@ const HomeConciergeDialog = lazy(() => import("@/components/HomeConciergeDialog"
 const Index = () => {
   usePropertySearchWarmup();
   const { t } = useTranslation();
-  const {
-    canonicalUrl,
-    hreflangUrls
-  } = useSEOLanguage();
-  const {
-    structuredData
-  } = useSEO();
   const currentCanonicalUrl = useCanonicalUrl();
   const [showPopup, setShowPopup] = useState(false);
   // Removed sync import - database-only approach
@@ -156,7 +146,6 @@ const Index = () => {
   };
   return <div className="min-h-screen overflow-x-clip bg-ivory">
       <SEOHead title={pageTitle || "Property for Sale in Turkey, Dubai, Cyprus & Bali | Future Homes International"} description={metaDescription || "Property for sale in Turkey, Dubai, Cyprus & Bali. Apartments, villas & off-plan homes from leading international agents. Turkish citizenship by investment from $400K."} keywords="property for sale in turkey, homes for sale in turkey, turkey real estate, turkey homes for sale, houses for sale in turkey, apartments for sale in turkey, villas for sale in turkey, property for sale in antalya, apartments for sale in antalya, property for sale in istanbul, homes for sale in istanbul turkey, property for sale in dubai, dubai homes for sale, homes to buy dubai, houses for sale in dubai, dubai apartments for sale, property for sale in cyprus, cyprus real estate, houses for sale in cyprus, property for sale in bali, bali villas for sale, turkish citizenship by investment, buy property in turkey, off plan property turkey, real estate turkey" canonicalUrl={currentCanonicalUrl} structuredData={[homePageStructuredData, faqStructuredData]} />
-      <OrganizationSchema />
       <Navigation gallery />
 
       {/* Hero Section - Database content with fallback */}

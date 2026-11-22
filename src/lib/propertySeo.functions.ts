@@ -164,3 +164,19 @@ export function buildPropertySeoTitle(
   const base = (p.title || "Property").trim();
   return fit(place ? `${base.length > limit - place.length - 3 ? base.slice(0, Math.max(10, limit - place.length - 4)).replace(/\s+\S*$/, "") + "…" : base} – ${place}` : base) + suffix;
 }
+
+/**
+ * Server-render lookup with a time limit: a slow database must never hold the
+ * whole property page. On timeout the page renders its skeleton and the browser
+ * loads the listing as after a client-side navigation.
+ */
+export function getPropertySeoWithin(
+  data: { id: string; lang?: string | null; ref?: string | null },
+  ms = 2500,
+): Promise<Awaited<ReturnType<typeof getPropertySeo>> | null> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<null>((resolve) => {
+    timer = setTimeout(() => resolve(null), ms);
+  });
+  return Promise.race([getPropertySeo({ data }).catch(() => null), timeout]).finally(() => clearTimeout(timer));
+}

@@ -7,3 +7,6 @@ export const normalizeMetaPath = (path: string): string => {
   if (p === '' || p === '/') return '/';
   return ('/' + p.replace(/^\/+/, '').replace(/\/+$/, '')).toLowerCase();
 };
+
+/** Dictionary key for an amenity / misc label translation (exact source label). */
+export const AMENITY_KEY = (label: string) => `__amenity:${label}`;

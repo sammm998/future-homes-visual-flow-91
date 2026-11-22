@@ -585,7 +585,7 @@ export default function PropertyEdit() {
               {form.ref_no && (
                 <Button type="button" variant="outline" size="sm" onClick={async () => {
                   toast3d.info("Building 3D model from photos…");
-                  try { const r = await generateBuilding3d({ data: { ref: form.ref_no } }); toast3d.success(`3D model ready: ${r.floors} floors, ${r.rooms} rooms`); }
+                  try { const r = await generateBuilding3d({ data: { ref: form.ref_no } }); toast3d.success(`3D model ready: ${r.floors} floors, ${r.rooms} rooms${r.photoFacades ? `, ${r.photoFacades} photo facade(s)` : ""}`); }
                   catch (e) { toast3d.error(e instanceof Error ? e.message : "3D generation failed"); }
                 }}>Generate 3D model from photos</Button>
               )}

@@ -1,14 +1,16 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { getCityLandingConfig } from "@/data/cityLandingPages";
+import { lazy, Suspense } from "react";
+import { isCityLandingSlug } from "@/data/cityLandingSlugs";
 import { PREFIXED_LOCALES } from "@/utils/localeRouting";
-import CityLandingPage from "@/pages/CityLandingPage";
 import Index from "@/pages/Index";
 import Newsletter from "@/components/Newsletter";
+
+const CityLandingBySlug = lazy(() => import("@/pages/CityLandingBySlug"));
 
 export const Route = createFileRoute("/$slug")({
   beforeLoad: ({ params }) => {
     const isLocale = (PREFIXED_LOCALES as readonly string[]).includes(params.slug);
-    if (!isLocale && !getCityLandingConfig(params.slug)) {
+    if (!isLocale && !isCityLandingSlug(params.slug)) {
       throw notFound();
     }
   },
@@ -25,7 +27,6 @@ function SlugPage() {
       </>
     );
   }
-  const config = getCityLandingConfig(slug);
-  if (!config) throw notFound();
-  return <CityLandingPage config={config} />;
+  if (!isCityLandingSlug(slug)) throw notFound();
+  return <Suspense fallback={null}><CityLandingBySlug slug={slug} /></Suspense>;
 }

@@ -17,7 +17,7 @@ export async function fetchArticleSeo(slug: string, lang: string): Promise<Artic
   const tries: [string, string][] = lang === "en" ? [[slug, "en"]] : [[`${slug}-${lang}`, lang], [slug, lang], [slug, "en"]];
   for (const [s, l] of tries) {
     try {
-      const res = await fetch(`${CLOUD_URL}/rest/v1/blog_posts?select=${cols}&published=eq.true&slug=eq.${encodeURIComponent(s)}&language_code=eq.${l}&limit=1`, { headers: cloudRestHeaders });
+      const res = await fetch(`${CLOUD_URL}/rest/v1/blog_posts?select=${cols}&published=eq.true&slug=eq.${encodeURIComponent(s)}&language_code=eq.${l}&limit=1`, { headers: cloudRestHeaders, signal: AbortSignal.timeout(2000) });
       if (!res.ok) continue;
       const [row] = (await res.json()) as any[];
       if (!row) continue;

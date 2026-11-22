@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { getOptimizedImageUrl } from '@/utils/imageOptimization';
 import Navigation from "@/components/Navigation";
 import { PublicPageHero } from "@/components/PublicEditorial";
 import LeadCaptureCard from "@/components/LeadCaptureCard";
@@ -66,7 +67,7 @@ export default function ViewingTripPlanner() {
               <div className="mt-3 grid gap-3 [grid-template-columns:repeat(auto-fill,minmax(14rem,1fr))]">
                 {list.map((p) => (
                   <Link key={p.id} to={buildPropertyUrl(p, lang)} className="overflow-hidden rounded-md border border-border bg-background transition-colors hover:border-gold">
-                    <img src={p.property_image || p.property_images?.[0]} alt={p.title} loading="lazy" className="aspect-[4/3] w-full object-cover" />
+                    <img src={getOptimizedImageUrl(p.property_image || p.property_images?.[0] || '', 640, 72)} alt={p.title} loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
                     <div className="p-3 text-sm">
                       <p className="text-xs text-muted-foreground">REF {p.ref_no} · {p.location}</p>
                       <p className="line-clamp-1 font-medium text-foreground">{p.title}</p>

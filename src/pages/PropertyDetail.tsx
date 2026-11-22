@@ -1,7 +1,8 @@
 import { amenityIcon } from "@/lib/amenityIcon";
 import Property3DView from "@/components/property3d/Property3DView";
 import { buildPropertySeoTitle } from '@/lib/propertySeo.functions';
-import React, { useState, useEffect } from "react";
+import React, { lazy, useState, useEffect } from "react";
+import DeferredSection from "@/components/DeferredSection";
 import { useLoaderData } from "@tanstack/react-router";
 import { useParams, Link, useNavigate, useLocation } from "@/lib/router-compat";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MapPin, Phone, Mail, ArrowLeft, ChevronLeft, ChevronRight, Bed, Bath, Square, Calendar, Car, Home, Plane, Waves, CheckCircle, Star, Award, Images, X, Share2, Check } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import SEOHead from "@/components/SEOHead";
-import { translateAmenity } from '@/utils/amenityTranslations';
+import { translateAmenity } from '@/utils/amenityLabel';
 import { propertyTypeLabel } from '@/utils/propertyTypeLabel';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getLocaleFromPathname, localizePath, stripLocale } from "@/utils/localeRouting";
@@ -40,7 +41,8 @@ import PropertySuggestions from '@/components/PropertySuggestions';
 import { PropertyInquiry, PropertyStickyCta } from '@/components/PropertyInquiry';
 import { PropertyHeroGallery } from '@/components/PropertyHeroGallery';
 import PropertyScrollGallery from '@/components/PropertyScrollGallery';
-import PropertyAreaInsights from '@/components/PropertyAreaInsights';
+// Below the fold: downloaded when the visitor scrolls near it.
+const PropertyAreaInsights = lazy(() => import('@/components/PropertyAreaInsights'));
 import { selectSearchPrice } from '@/utils/propertySearchSelection';
 
 const parseCompletionDate = (value: string | null | undefined): Date | null => {
@@ -330,26 +332,76 @@ const PropertyDetail = () => {
           }) : undefined}
         />
         <Navigation />
-        <h1 className="sr-only">{routeSeo?.title || 'Property for sale'}</h1>
-        <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
-          {/* Skeleton loader for faster perceived performance */}
-          <div className="animate-pulse">
-            <div className="h-6 bg-muted rounded-sm w-32 mb-8"></div>
-            <div className="grid lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-8">
-                <div className="space-y-4">
-                  <div className="h-8 bg-muted rounded-sm w-3/4"></div>
-                  <div className="h-6 bg-muted rounded-sm w-1/2"></div>
-                  <div className="h-8 bg-muted rounded-sm w-1/3"></div>
+        {routeSeo ? (
+          // Server-rendered preview from the SEO loader: the real hero photos,
+          // title, price and facts appear immediately (same layout as the full
+          // page) while the complete listing loads in the browser.
+          <div className="container mx-auto max-w-[1440px] px-4 pb-28 pt-6 sm:pt-10 lg:pb-20">
+            <div className="mb-4 h-10" aria-hidden="true" />
+            <div className="mb-8 sm:mb-12">
+              <PropertyHeroGallery
+                images={(routeSeo.images?.length ? routeSeo.images : [routeSeo.image]).filter((src): src is string => !!src)}
+                alt={`${routeSeo.title} (REF ${routeSeo.refNo ?? ''})`}
+                lang={seoLanguage}
+                onOpen={() => undefined}
+              />
+            </div>
+            <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-12 lg:items-start">
+              <div className="space-y-10 sm:space-y-14 lg:col-span-8">
+                <header className="space-y-4 border-b border-border pb-8 sm:space-y-5 sm:pb-10">
+                  <div className="flex flex-wrap items-center gap-3">
+                    {routeSeo.refNo && (
+                      <span className="inline-flex items-center rounded-sm bg-navy px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-navy-foreground">
+                        REF {routeSeo.refNo}
+                      </span>
+                    )}
+                    {routeSeo.propertyType && <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">{propertyTypeLabel(routeSeo.propertyType, seoLanguage)}</span>}
+                  </div>
+                  <h1 className="max-w-4xl text-3xl font-semibold leading-[1.1] text-navy sm:text-4xl md:text-6xl">{routeSeo.title}</h1>
+                  {routeSeo.location && (
+                    <div className="flex items-center text-muted-foreground">
+                      <MapPin className="h-5 w-5 mr-2 text-gold" />
+                      <span className="text-lg">{routeSeo.location}</span>
+                    </div>
+                  )}
+                  <div className="break-words text-2xl font-bold text-primary sm:text-3xl md:text-4xl">
+                    {routeSeo.price ? formatPriceFromString(routeSeo.price, formatPrice) : t('home.price_on_request', seoLanguage)}
+                  </div>
+                </header>
+                {routeSeo.description && <p className="text-lg leading-relaxed text-muted-foreground">{routeSeo.description}</p>}
+                <div className="animate-pulse space-y-3" aria-hidden="true">
+                  <div className="h-4 w-full rounded-sm bg-muted" />
+                  <div className="h-4 w-5/6 rounded-sm bg-muted" />
+                  <div className="h-4 w-2/3 rounded-sm bg-muted" />
                 </div>
-                <div className="aspect-[16/10] bg-muted rounded-lg"></div>
               </div>
-              <div className="space-y-6">
-                <div className="h-64 bg-muted rounded-lg"></div>
-              </div>
+              <div className="lg:col-span-4"><div className="h-64 animate-pulse rounded-lg bg-muted" aria-hidden="true" /></div>
             </div>
           </div>
-        </div>
+        ) : (
+          <>
+            <h1 className="sr-only">Property for sale</h1>
+            <div className="container mx-auto px-4 pt-24 pb-16 max-w-7xl">
+              {/* Skeleton loader for faster perceived performance */}
+              <div className="animate-pulse">
+                <div className="h-6 bg-muted rounded-sm w-32 mb-8"></div>
+                <div className="grid lg:grid-cols-3 gap-8">
+                  <div className="lg:col-span-2 space-y-8">
+                    <div className="space-y-4">
+                      <div className="h-8 bg-muted rounded-sm w-3/4"></div>
+                      <div className="h-6 bg-muted rounded-sm w-1/2"></div>
+                      <div className="h-8 bg-muted rounded-sm w-1/3"></div>
+                    </div>
+                    <div className="aspect-[16/10] bg-muted rounded-lg"></div>
+                  </div>
+                  <div className="space-y-6">
+                    <div className="h-64 bg-muted rounded-lg"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>;
   }
 
@@ -890,7 +942,9 @@ const PropertyDetail = () => {
         </div>
 
         <div className="mx-auto mt-16 max-w-7xl sm:mt-20">
-          <PropertyAreaInsights property={property} lang={language} />
+          <DeferredSection minHeight={520} rootMargin="400px">
+            <PropertyAreaInsights property={property} lang={language} />
+          </DeferredSection>
         </div>
 
         <SEOInternalLinks />

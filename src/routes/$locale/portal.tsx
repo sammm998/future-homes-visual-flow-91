@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Page from "@/pages/CustomerPortal";
-import { portalCopy } from "@/content/portalCopy";
+import { portalMeta } from "@/content/portalMeta.generated";
 
 export const Route = createFileRoute("/$locale/portal")({
   head: ({ params }) => {
     void params;
-    const m = portalCopy((params as { locale?: string }).locale).meta;
+    const m = portalMeta((params as { locale?: string }).locale);
     return { meta: [
       { title: m.title },
       { name: "description", content: m.description },

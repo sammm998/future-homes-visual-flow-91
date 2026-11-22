@@ -47,7 +47,9 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
   // Check if image is already cached - if so, skip loading state entirely
   const isCached = imageCache.isCached(getOptimizedImageUrl(validSrc, width, 72));
   
-  const [isLoading, setIsLoading] = useState(!isCached);
+  // Priority (above-the-fold) photos are visible from the server HTML onward so
+  // they paint as soon as they arrive instead of waiting for hydration.
+  const [isLoading, setIsLoading] = useState(!isCached && !priority);
   const [error, setError] = useState(false);
   const [fallbackAttempts, setFallbackAttempts] = useState(0);
   const [currentSrc, setCurrentSrc] = useState(validSrc);
@@ -134,13 +136,20 @@ export const OptimizedPropertyImage: React.FC<OptimizedPropertyImageProps> = ({
       return;
     }
     
-    setIsLoading(true);
+    setIsLoading(!priority);
     setCurrentSrc(newValidSrc);
   }, [src]);
 
   const handleLoad = () => {
     setIsLoading(false);
   };
+
+  // A photo that finished loading before hydration never fires onLoad in React;
+  // read the element's state instead so it is not left hidden.
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img?.complete && img.naturalWidth > 0) setIsLoading(false);
+  }, [currentSrc]);
 
   const handleError = () => {
     

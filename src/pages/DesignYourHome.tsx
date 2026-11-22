@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { getOptimizedImageUrl } from '@/utils/imageOptimization';
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload, Loader2, Wand2, Image as ImageIcon, ArrowLeft, ArrowRight,
@@ -317,7 +318,7 @@ const DesignYourHome = () => {
                           className="group relative aspect-[4/5] rounded-2xl overflow-hidden border border-border hover:border-primary transition-all disabled:opacity-40 disabled:pointer-events-none"
                         >
                           {p.cover ? (
-                            <img src={p.cover} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+                            <img src={getOptimizedImageUrl(p.cover, 640, 72)} alt={p.title} decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
                           ) : (
                             <div className="w-full h-full bg-muted flex items-center justify-center">
                               <ImageIcon className="w-8 h-8 text-muted-foreground" />
@@ -367,7 +368,7 @@ const DesignYourHome = () => {
                           onClick={() => pickPropertyImage(url)}
                           className="group relative aspect-square rounded-xl overflow-hidden border-2 border-transparent hover:border-primary transition-all"
                         >
-                          <img src={url} alt={`Photo ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
+                          <img src={getOptimizedImageUrl(url, 480, 70)} alt={`Photo ${i + 1}`} decoding="async" className="w-full h-full object-cover" loading="lazy" />
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
                             <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-primary text-primary-foreground px-3 py-1.5 rounded-full text-xs font-semibold inline-flex items-center gap-1">
                               <Wand2 className="w-3 h-3" /> Redesign

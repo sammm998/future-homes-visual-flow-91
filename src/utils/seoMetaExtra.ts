@@ -3,6 +3,8 @@
 // titles <= 60 characters, descriptions <= 160 characters, one entry per locale.
 // After editing, run `bun scripts/build-i18n.ts` (also part of `bun run build`) so the per-language dictionaries the browser reads are regenerated.
 import type { PageMeta } from './seoMetaSource';
+import { EN as NEW_PAGES_EN } from '../content/newPagesCopy';
+import NEW_PAGES_I18N from '../content/newPagesCopy.i18n.json';
 
 type PageMetaByLocale = Record<string, PageMeta>;
 
@@ -198,6 +200,14 @@ const EXPENSES_ARTICLE: PageMetaByLocale = {
   id: { title: 'Biaya Membeli Properti di Turki | Panduan 2026', description: 'Semua biaya membeli properti di Turki: pajak sertifikat (tapu), notaris, penerjemahan, laporan penilaian, utilitas, dan biaya tahunan.' },
 };
 
+/** Meta of the newer content pages, taken from their own copy files (all languages). */
+const newPageMeta = (key: 'yield' | 'offplan' | 'guide'): PageMetaByLocale => {
+  const all = NEW_PAGES_I18N as unknown as Record<string, { meta?: Record<string, PageMeta> }>;
+  const out: PageMetaByLocale = { en: NEW_PAGES_EN.meta[key] };
+  for (const [lang, copy] of Object.entries(all)) if (copy.meta?.[key]) out[lang] = copy.meta[key];
+  return out;
+};
+
 /** Locale-free path -> locale -> localized title/description. */
 export const SEO_META_EXTRA: Record<string, PageMetaByLocale> = {
   '/property-wizard': PROPERTY_WIZARD,
@@ -212,4 +222,7 @@ export const SEO_META_EXTRA: Record<string, PageMetaByLocale> = {
   '/partners': PARTNERS,
   '/vip': VIP,
   '/articles/expenses-buying-property-turkey': EXPENSES_ARTICLE,
+  '/istanbul-rental-yield': newPageMeta('yield'),
+  '/off-plan-turkey-vs-dubai': newPageMeta('offplan'),
+  '/turkish-citizenship-compliance-guide': newPageMeta('guide'),
 };
