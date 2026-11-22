@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "bun:test";
 import { Dumbbell, Car, Waves, CheckCircle } from "lucide-react";
-import { amenityIcon } from "./amenityIcon";
+import { amenityIcon } from "../src/lib/amenityIcon";
 describe("amenityIcon", () => {
   it("gym gets dumbbell", () => expect(amenityIcon("Fitness Center")).toBe(Dumbbell));
   it("parking gets car", () => expect(amenityIcon("Covered Parking")).toBe(Car));
