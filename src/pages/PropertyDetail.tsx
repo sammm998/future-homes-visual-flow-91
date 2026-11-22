@@ -1,3 +1,4 @@
+import { amenityIcon } from "@/lib/amenityIcon";
 import Property3DView from "@/components/property3d/Property3DView";
 import { buildPropertySeoTitle } from '@/lib/propertySeo.functions';
 import React, { useState, useEffect } from "react";
@@ -761,10 +762,10 @@ const PropertyDetail = () => {
             {property.features && property.features.length > 0 && <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">{t('pd.features_amenities', language)}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {property.features.map((feature: string, index: number) => <div key={index} className="flex items-center space-x-3 border-b border-border p-4 transition-colors hover:bg-card">
-                      <CheckCircle className="h-5 w-5 text-gold flex-shrink-0" />
+                  {property.features.map((feature: string, index: number) => { const Icon = amenityIcon(feature); return <div key={index} className="flex items-center space-x-3 border-b border-border p-4 transition-colors hover:bg-card">
+                      <Icon className="h-5 w-5 text-gold flex-shrink-0" />
                       <span className="text-foreground font-medium">{translateAmenity(feature, language)}</span>
-                    </div>)}
+                    </div>; })}
                 </div>
               </div>}
 
