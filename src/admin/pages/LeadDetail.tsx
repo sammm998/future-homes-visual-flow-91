@@ -113,6 +113,7 @@ export default function LeadDetail() {
           {!isNew && <Badge>{form.status}</Badge>}
         </div>
         <div className="flex gap-2">
+          {!isNew && <Button asChild variant="outline"><Link to={`/admin/crm/pipeline?lead=${id}`}>Create deal</Link></Button>}
           {!isNew && <Button variant="outline" onClick={remove}><Trash2 className="h-4 w-4 mr-2" /> Delete</Button>}
           <Button onClick={save} disabled={saving}><Save className="h-4 w-4 mr-2" /> {saving ? "Saving…" : "Save"}</Button>
         </div>

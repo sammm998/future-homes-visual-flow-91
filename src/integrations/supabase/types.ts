@@ -149,6 +149,80 @@ export type Database = {
         }
         Relationships: []
       }
+      automation_rules: {
+        Row: {
+          actions: Json
+          active: boolean
+          conditions: Json
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          trigger_event: string
+          updated_at: string
+        }
+        Insert: {
+          actions?: Json
+          active?: boolean
+          conditions?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          trigger_event: string
+          updated_at?: string
+        }
+        Update: {
+          actions?: Json
+          active?: boolean
+          conditions?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          trigger_event?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      automation_runs: {
+        Row: {
+          created_at: string
+          detail: Json
+          entity_id: string | null
+          event: string
+          id: string
+          rule_id: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          detail?: Json
+          entity_id?: string | null
+          event: string
+          id?: string
+          rule_id?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          detail?: Json
+          entity_id?: string | null
+          event?: string
+          id?: string
+          rule_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_runs_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "automation_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_posts: {
         Row: {
           author_id: string | null
@@ -215,6 +289,77 @@ export type Database = {
         }
         Relationships: []
       }
+      calendar_events: {
+        Row: {
+          client_email: string | null
+          created_at: string
+          created_by: string | null
+          deal_id: string | null
+          ends_at: string | null
+          id: string
+          kind: string
+          lead_id: string | null
+          location: string | null
+          notes: string | null
+          notify_client: boolean
+          owner_id: string | null
+          property_ref: string | null
+          remind_minutes: number
+          reminder_sent_at: string | null
+          starts_at: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          client_email?: string | null
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string | null
+          ends_at?: string | null
+          id?: string
+          kind?: string
+          lead_id?: string | null
+          location?: string | null
+          notes?: string | null
+          notify_client?: boolean
+          owner_id?: string | null
+          property_ref?: string | null
+          remind_minutes?: number
+          reminder_sent_at?: string | null
+          starts_at: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          client_email?: string | null
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string | null
+          ends_at?: string | null
+          id?: string
+          kind?: string
+          lead_id?: string | null
+          location?: string | null
+          notes?: string | null
+          notify_client?: boolean
+          owner_id?: string | null
+          property_ref?: string | null
+          remind_minutes?: number
+          reminder_sent_at?: string | null
+          starts_at?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calendar_events_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaign_recipients: {
         Row: {
           bounced_at: string | null
@@ -253,6 +398,91 @@ export type Database = {
           unsubscribed_at?: string | null
         }
         Relationships: []
+      }
+      chat_channels: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          is_direct: boolean
+          member_ids: string[]
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_direct?: boolean
+          member_ids?: string[]
+          name: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_direct?: boolean
+          member_ids?: string[]
+          name?: string
+        }
+        Relationships: []
+      }
+      chat_messages: {
+        Row: {
+          author_id: string | null
+          body: string
+          channel_id: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          author_id?: string | null
+          body: string
+          channel_id: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          author_id?: string | null
+          body?: string
+          channel_id?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "chat_channels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_reads: {
+        Row: {
+          channel_id: string
+          last_read_at: string
+          user_id: string
+        }
+        Insert: {
+          channel_id: string
+          last_read_at?: string
+          user_id: string
+        }
+        Update: {
+          channel_id?: string
+          last_read_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_reads_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "chat_channels"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       contacts: {
         Row: {
@@ -430,6 +660,98 @@ export type Database = {
         }
         Relationships: []
       }
+      deal_stage_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          deal_id: string
+          from_stage: string | null
+          id: string
+          to_stage: string
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          deal_id: string
+          from_stage?: string | null
+          id?: string
+          to_stage: string
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          deal_id?: string
+          from_stage?: string | null
+          id?: string
+          to_stage?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deal_stage_history_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      deals: {
+        Row: {
+          client_email: string | null
+          client_name: string | null
+          country: string | null
+          created_at: string
+          created_by: string | null
+          expected_close: string | null
+          id: string
+          lead_id: string | null
+          owner_id: string | null
+          position: number
+          property_ref: string | null
+          stage: string
+          stage_changed_at: string
+          title: string
+          updated_at: string
+          value_eur: number
+        }
+        Insert: {
+          client_email?: string | null
+          client_name?: string | null
+          country?: string | null
+          created_at?: string
+          created_by?: string | null
+          expected_close?: string | null
+          id?: string
+          lead_id?: string | null
+          owner_id?: string | null
+          position?: number
+          property_ref?: string | null
+          stage?: string
+          stage_changed_at?: string
+          title: string
+          updated_at?: string
+          value_eur?: number
+        }
+        Update: {
+          client_email?: string | null
+          client_name?: string | null
+          country?: string | null
+          created_at?: string
+          created_by?: string | null
+          expected_close?: string | null
+          id?: string
+          lead_id?: string | null
+          owner_id?: string | null
+          position?: number
+          property_ref?: string | null
+          stage?: string
+          stage_changed_at?: string
+          title?: string
+          updated_at?: string
+          value_eur?: number
+        }
+        Relationships: []
+      }
       early_access_projects: {
         Row: {
           active: boolean
@@ -577,6 +899,77 @@ export type Database = {
           ref_no?: string | null
           title?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      feed_comments: {
+        Row: {
+          author_id: string | null
+          body: string
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          post_id: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          body: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          post_id?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          body?: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          post_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feed_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "feed_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      feed_posts: {
+        Row: {
+          author_id: string | null
+          body: string
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          kind: string
+          likes: string[]
+        }
+        Insert: {
+          author_id?: string | null
+          body: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          kind?: string
+          likes?: string[]
+        }
+        Update: {
+          author_id?: string | null
+          body?: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          kind?: string
+          likes?: string[]
         }
         Relationships: []
       }
@@ -1645,6 +2038,17 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { user_id?: string }; Returns: boolean }
+      list_admin_users: {
+        Args: never
+        Returns: {
+          email: string
+          id: string
+        }[]
+      }
+      run_automations: {
+        Args: { _ctx: Json; _entity_id: string; _event: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "user"

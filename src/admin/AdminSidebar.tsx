@@ -24,6 +24,11 @@ import {
   ScrollText,
   Search,
   MessageSquare,
+  KanbanSquare,
+  MessagesSquare,
+  Rss,
+  CalendarDays,
+  Workflow,
 
 } from "lucide-react";
 import {
@@ -60,9 +65,19 @@ const groups: { label: string; items: Item[] }[] = [
   {
     label: "CRM",
     items: [
+      { to: "/admin/crm/pipeline", label: "Pipeline", icon: KanbanSquare },
       { to: "/admin/crm/leads", label: "Leads", icon: Users },
       { to: "/admin/crm/contacts", label: "Contacts", icon: UserCircle2 },
       { to: "/admin/crm/tasks", label: "Tasks", icon: ListChecks },
+      { to: "/admin/calendar", label: "Calendar", icon: CalendarDays },
+      { to: "/admin/automations", label: "Automations", icon: Workflow },
+    ],
+  },
+  {
+    label: "Team",
+    items: [
+      { to: "/admin/chat", label: "Team chat", icon: MessagesSquare },
+      { to: "/admin/feed", label: "Team feed", icon: Rss },
     ],
   },
   {

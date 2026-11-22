@@ -64,6 +64,13 @@
       "when": 1794286353058,
       "tag": "0008_restrict_selected_course_and_conversation_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795352902981,
+      "tag": "0009_migration",
+      "breakpoints": true
     }
   ]
 }

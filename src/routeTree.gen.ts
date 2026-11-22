@@ -93,6 +93,10 @@ import { Route as LocaleWizardThankYouRouteImport } from './routes/$locale/wizar
 import { Route as SegmentIdRouteImport } from './routes/$segment.$id'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminAiInsightsRouteImport } from './routes/admin/ai-insights'
+import { Route as AdminAutomationsRouteImport } from './routes/admin/automations'
+import { Route as AdminCalendarRouteImport } from './routes/admin/calendar'
+import { Route as AdminChatRouteImport } from './routes/admin/chat'
+import { Route as AdminFeedRouteImport } from './routes/admin/feed'
 import { Route as AdminLogsRouteImport } from './routes/admin/logs'
 import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
@@ -130,6 +134,7 @@ import { Route as AdminBlogAiRouteImport } from './routes/admin/blog.ai'
 import { Route as AdminBlogNewRouteImport } from './routes/admin/blog.new'
 import { Route as AdminCrmIndexRouteImport } from './routes/admin/crm.index'
 import { Route as AdminCrmContactsRouteImport } from './routes/admin/crm.contacts'
+import { Route as AdminCrmPipelineRouteImport } from './routes/admin/crm.pipeline'
 import { Route as AdminCrmTasksRouteImport } from './routes/admin/crm.tasks'
 import { Route as AdminEmailIndexRouteImport } from './routes/admin/email.index'
 import { Route as AdminEmailInboxRouteImport } from './routes/admin/email.inbox'
@@ -157,6 +162,7 @@ import { Route as AdminEmailCampaignsNewRouteImport } from './routes/admin/email
 import { Route as AdminPropertiesIdIndexRouteImport } from './routes/admin/properties.$id.index'
 import { Route as AdminPropertiesIdEditRouteImport } from './routes/admin/properties.$id.edit'
 import { Route as ApiPublicHooksPropertyAlertsRouteImport } from './routes/api/public/hooks/property-alerts'
+import { Route as ApiPublicHooksWorkspaceJobsRouteImport } from './routes/api/public/hooks/workspace-jobs'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -594,6 +600,26 @@ const AdminAiInsightsRoute = AdminAiInsightsRouteImport.update({
   path: '/ai-insights',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminAutomationsRoute = AdminAutomationsRouteImport.update({
+  id: '/automations',
+  path: '/automations',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminCalendarRoute = AdminCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminChatRoute = AdminChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminFeedRoute = AdminFeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminLogsRoute = AdminLogsRouteImport.update({
   id: '/logs',
   path: '/logs',
@@ -782,6 +808,11 @@ const AdminCrmContactsRoute = AdminCrmContactsRouteImport.update({
   path: '/crm/contacts',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminCrmPipelineRoute = AdminCrmPipelineRouteImport.update({
+  id: '/crm/pipeline',
+  path: '/crm/pipeline',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminCrmTasksRoute = AdminCrmTasksRouteImport.update({
   id: '/crm/tasks',
   path: '/crm/tasks',
@@ -925,6 +956,12 @@ const ApiPublicHooksPropertyAlertsRoute =
     path: '/api/public/hooks/property-alerts',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksWorkspaceJobsRoute =
+  ApiPublicHooksWorkspaceJobsRouteImport.update({
+    id: '/api/public/hooks/workspace-jobs',
+    path: '/api/public/hooks/workspace-jobs',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
   id: '/api/public/media/$',
   path: '/api/public/media/$',
@@ -1014,6 +1051,10 @@ export interface FileRoutesByFullPath {
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
+  '/admin/automations': typeof AdminAutomationsRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/chat': typeof AdminChatRoute
+  '/admin/feed': typeof AdminFeedRoute
   '/admin/logs': typeof AdminLogsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -1047,6 +1088,7 @@ export interface FileRoutesByFullPath {
   '/admin/blog/ai': typeof AdminBlogAiRoute
   '/admin/blog/new': typeof AdminBlogNewRoute
   '/admin/crm/contacts': typeof AdminCrmContactsRoute
+  '/admin/crm/pipeline': typeof AdminCrmPipelineRoute
   '/admin/crm/tasks': typeof AdminCrmTasksRoute
   '/admin/email/inbox': typeof AdminEmailInboxRoute
   '/admin/email/subscribers': typeof AdminEmailSubscribersRoute
@@ -1076,6 +1118,7 @@ export interface FileRoutesByFullPath {
   '/admin/email/campaigns/new': typeof AdminEmailCampaignsNewRoute
   '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
+  '/api/public/hooks/workspace-jobs': typeof ApiPublicHooksWorkspaceJobsRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/$locale/courses/$country/': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads/': typeof AdminCrmLeadsIndexRoute
@@ -1163,6 +1206,10 @@ export interface FileRoutesByTo {
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
+  '/admin/automations': typeof AdminAutomationsRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/chat': typeof AdminChatRoute
+  '/admin/feed': typeof AdminFeedRoute
   '/admin/logs': typeof AdminLogsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -1196,6 +1243,7 @@ export interface FileRoutesByTo {
   '/admin/blog/ai': typeof AdminBlogAiRoute
   '/admin/blog/new': typeof AdminBlogNewRoute
   '/admin/crm/contacts': typeof AdminCrmContactsRoute
+  '/admin/crm/pipeline': typeof AdminCrmPipelineRoute
   '/admin/crm/tasks': typeof AdminCrmTasksRoute
   '/admin/email/inbox': typeof AdminEmailInboxRoute
   '/admin/email/subscribers': typeof AdminEmailSubscribersRoute
@@ -1225,6 +1273,7 @@ export interface FileRoutesByTo {
   '/admin/email/campaigns/new': typeof AdminEmailCampaignsNewRoute
   '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
+  '/api/public/hooks/workspace-jobs': typeof ApiPublicHooksWorkspaceJobsRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/$locale/courses/$country': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads': typeof AdminCrmLeadsIndexRoute
@@ -1315,6 +1364,10 @@ export interface FileRoutesById {
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
+  '/admin/automations': typeof AdminAutomationsRoute
+  '/admin/calendar': typeof AdminCalendarRoute
+  '/admin/chat': typeof AdminChatRoute
+  '/admin/feed': typeof AdminFeedRoute
   '/admin/logs': typeof AdminLogsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -1348,6 +1401,7 @@ export interface FileRoutesById {
   '/admin/blog/ai': typeof AdminBlogAiRoute
   '/admin/blog/new': typeof AdminBlogNewRoute
   '/admin/crm/contacts': typeof AdminCrmContactsRoute
+  '/admin/crm/pipeline': typeof AdminCrmPipelineRoute
   '/admin/crm/tasks': typeof AdminCrmTasksRoute
   '/admin/email/inbox': typeof AdminEmailInboxRoute
   '/admin/email/subscribers': typeof AdminEmailSubscribersRoute
@@ -1377,6 +1431,7 @@ export interface FileRoutesById {
   '/admin/email/campaigns/new': typeof AdminEmailCampaignsNewRoute
   '/admin/properties/$id/edit': typeof AdminPropertiesIdEditRoute
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
+  '/api/public/hooks/workspace-jobs': typeof ApiPublicHooksWorkspaceJobsRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/$locale/courses/$country/': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads/': typeof AdminCrmLeadsIndexRoute
@@ -1468,6 +1523,10 @@ export interface FileRouteTypes {
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
     | '/admin/ai-insights'
+    | '/admin/automations'
+    | '/admin/calendar'
+    | '/admin/chat'
+    | '/admin/feed'
     | '/admin/logs'
     | '/admin/seo'
     | '/admin/settings'
@@ -1501,6 +1560,7 @@ export interface FileRouteTypes {
     | '/admin/blog/ai'
     | '/admin/blog/new'
     | '/admin/crm/contacts'
+    | '/admin/crm/pipeline'
     | '/admin/crm/tasks'
     | '/admin/email/inbox'
     | '/admin/email/subscribers'
@@ -1530,6 +1590,7 @@ export interface FileRouteTypes {
     | '/admin/email/campaigns/new'
     | '/admin/properties/$id/edit'
     | '/api/public/hooks/property-alerts'
+    | '/api/public/hooks/workspace-jobs'
     | '/api/public/media/$'
     | '/$locale/courses/$country/'
     | '/admin/crm/leads/'
@@ -1617,6 +1678,10 @@ export interface FileRouteTypes {
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
     | '/admin/ai-insights'
+    | '/admin/automations'
+    | '/admin/calendar'
+    | '/admin/chat'
+    | '/admin/feed'
     | '/admin/logs'
     | '/admin/seo'
     | '/admin/settings'
@@ -1650,6 +1715,7 @@ export interface FileRouteTypes {
     | '/admin/blog/ai'
     | '/admin/blog/new'
     | '/admin/crm/contacts'
+    | '/admin/crm/pipeline'
     | '/admin/crm/tasks'
     | '/admin/email/inbox'
     | '/admin/email/subscribers'
@@ -1679,6 +1745,7 @@ export interface FileRouteTypes {
     | '/admin/email/campaigns/new'
     | '/admin/properties/$id/edit'
     | '/api/public/hooks/property-alerts'
+    | '/api/public/hooks/workspace-jobs'
     | '/api/public/media/$'
     | '/$locale/courses/$country'
     | '/admin/crm/leads'
@@ -1768,6 +1835,10 @@ export interface FileRouteTypes {
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
     | '/admin/ai-insights'
+    | '/admin/automations'
+    | '/admin/calendar'
+    | '/admin/chat'
+    | '/admin/feed'
     | '/admin/logs'
     | '/admin/seo'
     | '/admin/settings'
@@ -1801,6 +1872,7 @@ export interface FileRouteTypes {
     | '/admin/blog/ai'
     | '/admin/blog/new'
     | '/admin/crm/contacts'
+    | '/admin/crm/pipeline'
     | '/admin/crm/tasks'
     | '/admin/email/inbox'
     | '/admin/email/subscribers'
@@ -1830,6 +1902,7 @@ export interface FileRouteTypes {
     | '/admin/email/campaigns/new'
     | '/admin/properties/$id/edit'
     | '/api/public/hooks/property-alerts'
+    | '/api/public/hooks/workspace-jobs'
     | '/api/public/media/$'
     | '/$locale/courses/$country/'
     | '/admin/crm/leads/'
@@ -1895,6 +1968,7 @@ export interface RootRouteChildren {
   CoursesCountryFinalExamRoute: typeof CoursesCountryFinalExamRoute
   CoursesCountryIndexRoute: typeof CoursesCountryIndexRoute
   ApiPublicHooksPropertyAlertsRoute: typeof ApiPublicHooksPropertyAlertsRoute
+  ApiPublicHooksWorkspaceJobsRoute: typeof ApiPublicHooksWorkspaceJobsRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
@@ -2488,6 +2562,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAiInsightsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/automations': {
+      id: '/admin/automations'
+      path: '/automations'
+      fullPath: '/admin/automations'
+      preLoaderRoute: typeof AdminAutomationsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/calendar': {
+      id: '/admin/calendar'
+      path: '/calendar'
+      fullPath: '/admin/calendar'
+      preLoaderRoute: typeof AdminCalendarRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/chat': {
+      id: '/admin/chat'
+      path: '/chat'
+      fullPath: '/admin/chat'
+      preLoaderRoute: typeof AdminChatRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/feed': {
+      id: '/admin/feed'
+      path: '/feed'
+      fullPath: '/admin/feed'
+      preLoaderRoute: typeof AdminFeedRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/logs': {
       id: '/admin/logs'
       path: '/logs'
@@ -2747,6 +2849,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCrmContactsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/crm/pipeline': {
+      id: '/admin/crm/pipeline'
+      path: '/crm/pipeline'
+      fullPath: '/admin/crm/pipeline'
+      preLoaderRoute: typeof AdminCrmPipelineRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/crm/tasks': {
       id: '/admin/crm/tasks'
       path: '/crm/tasks'
@@ -2936,6 +3045,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksPropertyAlertsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/workspace-jobs': {
+      id: '/api/public/hooks/workspace-jobs'
+      path: '/api/public/hooks/workspace-jobs'
+      fullPath: '/api/public/hooks/workspace-jobs'
+      preLoaderRoute: typeof ApiPublicHooksWorkspaceJobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/media/$': {
       id: '/api/public/media/$'
       path: '/api/public/media/$'
@@ -3067,6 +3183,10 @@ const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
 
 interface AdminRouteRouteChildren {
   AdminAiInsightsRoute: typeof AdminAiInsightsRoute
+  AdminAutomationsRoute: typeof AdminAutomationsRoute
+  AdminCalendarRoute: typeof AdminCalendarRoute
+  AdminChatRoute: typeof AdminChatRoute
+  AdminFeedRoute: typeof AdminFeedRoute
   AdminLogsRoute: typeof AdminLogsRoute
   AdminSeoRoute: typeof AdminSeoRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -3083,6 +3203,7 @@ interface AdminRouteRouteChildren {
   AdminBlogAiRoute: typeof AdminBlogAiRoute
   AdminBlogNewRoute: typeof AdminBlogNewRoute
   AdminCrmContactsRoute: typeof AdminCrmContactsRoute
+  AdminCrmPipelineRoute: typeof AdminCrmPipelineRoute
   AdminCrmTasksRoute: typeof AdminCrmTasksRoute
   AdminEmailInboxRoute: typeof AdminEmailInboxRoute
   AdminEmailSubscribersRoute: typeof AdminEmailSubscribersRoute
@@ -3108,6 +3229,10 @@ interface AdminRouteRouteChildren {
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAiInsightsRoute: AdminAiInsightsRoute,
+  AdminAutomationsRoute: AdminAutomationsRoute,
+  AdminCalendarRoute: AdminCalendarRoute,
+  AdminChatRoute: AdminChatRoute,
+  AdminFeedRoute: AdminFeedRoute,
   AdminLogsRoute: AdminLogsRoute,
   AdminSeoRoute: AdminSeoRoute,
   AdminSettingsRoute: AdminSettingsRoute,
@@ -3124,6 +3249,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminBlogAiRoute: AdminBlogAiRoute,
   AdminBlogNewRoute: AdminBlogNewRoute,
   AdminCrmContactsRoute: AdminCrmContactsRoute,
+  AdminCrmPipelineRoute: AdminCrmPipelineRoute,
   AdminCrmTasksRoute: AdminCrmTasksRoute,
   AdminEmailInboxRoute: AdminEmailInboxRoute,
   AdminEmailSubscribersRoute: AdminEmailSubscribersRoute,
@@ -3211,6 +3337,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoursesCountryFinalExamRoute: CoursesCountryFinalExamRoute,
   CoursesCountryIndexRoute: CoursesCountryIndexRoute,
   ApiPublicHooksPropertyAlertsRoute: ApiPublicHooksPropertyAlertsRoute,
+  ApiPublicHooksWorkspaceJobsRoute: ApiPublicHooksWorkspaceJobsRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
