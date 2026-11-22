@@ -48,7 +48,7 @@ export default function LeadRouting() {
         <Button className="w-fit gap-2" onClick={add}><Plus className="h-4 w-4" />Add rule</Button>
       </CardContent></Card>
       <div className="divide-y rounded-md border">{rules.map((r) => <div key={r.id} className="flex flex-wrap items-center gap-3 p-3 text-sm">
-        <Switch checked={r.active} onCheckedChange={() => toggle(r)} aria-label={`Active ${r.name}`} />
+        <Switch isSelected={r.active} onChange={() => void toggle(r)} aria-label={`Active ${r.name}`} />
         <div className="flex-1"><div className="font-medium">{r.name}</div><div className="text-xs text-muted-foreground">Country: {r.match_country || "any"} · Source: {r.match_source || "any"} · Nationality: {r.match_language || "any"} · Priority {r.priority}</div><div className="text-xs">In turn: {r.assignees.map(label).join(" → ")}</div></div>
         <Button size="icon" variant="ghost" aria-label={`Delete ${r.name}`} onClick={() => del(r)}><Trash2 className="h-4 w-4" /></Button></div>)}
         {!rules.length && <p className="p-6 text-center text-sm text-muted-foreground">No rules yet — new leads stay unassigned.</p>}</div>
