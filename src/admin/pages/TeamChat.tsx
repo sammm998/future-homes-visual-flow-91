@@ -1,3 +1,5 @@
+import { createMeeting } from "@/admin/pages/Meetings";
+import { Video } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -121,7 +123,7 @@ export default function TeamChat() {
         </div>
       </aside>
       <section className="flex flex-1 flex-col min-w-0">
-        <header className="border-b px-4 py-3 font-semibold">{current ? (current.is_direct ? label(current) : `# ${current.name}`) : ""}</header>
+        <header className="flex items-center justify-between gap-2 border-b px-4 py-3 font-semibold"><span>{current ? (current.is_direct ? label(current) : `# ${current.name}`) : ""}</span>{current && <Button size="sm" variant="outline" className="gap-2" onClick={async () => { const m = await createMeeting(current.is_direct ? "Team call" : current.name, new Date().toISOString()); if (!m) return; await supabase.from("chat_messages").insert({ channel_id: current.id, author_id: me, body: `📹 Video meeting: ${m.room_url}` }); window.open(m.room_url, "_blank", "noopener"); }}><Video className="h-4 w-4" />Video call</Button>}</header>
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
           {msgs.map((m) => (
             <div key={m.id} className="text-sm">

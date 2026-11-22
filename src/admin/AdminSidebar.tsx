@@ -1,3 +1,4 @@
+import { MessageSquareText, Shuffle, PieChart, Video, Contact, HardDrive } from "lucide-react";
 import { NavLink, useLocation } from "@/lib/router-compat";
 import {
   Bot, Plug, Building2, BadgeCheck, GanttChart, BookOpen, Clock,
@@ -80,12 +81,15 @@ const groups: { label: string; items: Item[] }[] = [
       { to: "/admin/crm/pipeline", label: "Pipeline", icon: KanbanSquare },
       { to: "/admin/quotes", label: "Quotes & agreements", icon: FileSignature },
       { to: "/admin/reports", label: "Sales reports", icon: LineChart },
+      { to: "/admin/bi", label: "BI builder", icon: PieChart },
       { to: "/admin/documents", label: "Document archive", icon: FolderOpen },
       { to: "/admin/crm/leads", label: "Leads", icon: Users },
       { to: "/admin/crm/contacts", label: "Contacts", icon: UserCircle2 },
       { to: "/admin/companies", label: "Companies", icon: Building2 },
       { to: "/admin/approvals", label: "Approvals", icon: BadgeCheck },
       { to: "/admin/crm/tasks", label: "Tasks", icon: ListChecks },
+      { to: "/admin/task-chats", label: "Task chats (AI)", icon: MessageSquareText },
+      { to: "/admin/lead-routing", label: "Lead distribution", icon: Shuffle },
       { to: "/admin/calendar", label: "Calendar", icon: CalendarDays },
       { to: "/admin/automations", label: "Automations", icon: Workflow },
     ],
@@ -95,6 +99,9 @@ const groups: { label: string; items: Item[] }[] = [
     items: [
       { to: "/admin/chat", label: "Team chat", icon: MessagesSquare },
       { to: "/admin/feed", label: "Team feed", icon: Rss },
+      { to: "/admin/meetings", label: "Video meetings", icon: Video },
+      { to: "/admin/employees", label: "Employees", icon: Contact },
+      { to: "/admin/drive", label: "Drive", icon: HardDrive },
       { to: "/admin/projects", label: "Projects", icon: GanttChart },
       { to: "/admin/wiki", label: "Knowledge base", icon: BookOpen },
       { to: "/admin/time", label: "Time & absence", icon: Clock },
