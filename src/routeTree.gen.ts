@@ -177,6 +177,7 @@ import { Route as AdminPropertiesIdEditRouteImport } from './routes/admin/proper
 import { Route as ApiPublicHooksPropertyAlertsRouteImport } from './routes/api/public/hooks/property-alerts'
 import { Route as ApiPublicHooksWorkspaceJobsRouteImport } from './routes/api/public/hooks/workspace-jobs'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
+import { Route as ApiPublicShareTokenRouteImport } from './routes/api/public/share.$token'
 import { Route as ApiPublicWhatsappWebhookRouteImport } from './routes/api/public/whatsapp/webhook'
 
 const IndexRoute = IndexRouteImport.update({
@@ -1046,6 +1047,11 @@ const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
   path: '/api/public/media/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicShareTokenRoute = ApiPublicShareTokenRouteImport.update({
+  id: '/api/public/share/$token',
+  path: '/api/public/share/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicWhatsappWebhookRoute =
   ApiPublicWhatsappWebhookRouteImport.update({
     id: '/api/public/whatsapp/webhook',
@@ -1218,6 +1224,7 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
   '/api/public/hooks/workspace-jobs': typeof ApiPublicHooksWorkspaceJobsRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/share/$token': typeof ApiPublicShareTokenRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
   '/$locale/courses/$country/': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads/': typeof AdminCrmLeadsIndexRoute
@@ -1387,6 +1394,7 @@ export interface FileRoutesByTo {
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
   '/api/public/hooks/workspace-jobs': typeof ApiPublicHooksWorkspaceJobsRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/share/$token': typeof ApiPublicShareTokenRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
   '/$locale/courses/$country': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads': typeof AdminCrmLeadsIndexRoute
@@ -1559,6 +1567,7 @@ export interface FileRoutesById {
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
   '/api/public/hooks/workspace-jobs': typeof ApiPublicHooksWorkspaceJobsRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/share/$token': typeof ApiPublicShareTokenRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
   '/$locale/courses/$country/': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads/': typeof AdminCrmLeadsIndexRoute
@@ -1732,6 +1741,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/property-alerts'
     | '/api/public/hooks/workspace-jobs'
     | '/api/public/media/$'
+    | '/api/public/share/$token'
     | '/api/public/whatsapp/webhook'
     | '/$locale/courses/$country/'
     | '/admin/crm/leads/'
@@ -1901,6 +1911,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/property-alerts'
     | '/api/public/hooks/workspace-jobs'
     | '/api/public/media/$'
+    | '/api/public/share/$token'
     | '/api/public/whatsapp/webhook'
     | '/$locale/courses/$country'
     | '/admin/crm/leads'
@@ -2072,6 +2083,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/property-alerts'
     | '/api/public/hooks/workspace-jobs'
     | '/api/public/media/$'
+    | '/api/public/share/$token'
     | '/api/public/whatsapp/webhook'
     | '/$locale/courses/$country/'
     | '/admin/crm/leads/'
@@ -2141,6 +2153,7 @@ export interface RootRouteChildren {
   ApiPublicHooksPropertyAlertsRoute: typeof ApiPublicHooksPropertyAlertsRoute
   ApiPublicHooksWorkspaceJobsRoute: typeof ApiPublicHooksWorkspaceJobsRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
+  ApiPublicShareTokenRoute: typeof ApiPublicShareTokenRoute
   ApiPublicWhatsappWebhookRoute: typeof ApiPublicWhatsappWebhookRoute
 }
 
@@ -3322,6 +3335,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/share/$token': {
+      id: '/api/public/share/$token'
+      path: '/api/public/share/$token'
+      fullPath: '/api/public/share/$token'
+      preLoaderRoute: typeof ApiPublicShareTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/whatsapp/webhook': {
       id: '/api/public/whatsapp/webhook'
       path: '/api/public/whatsapp/webhook'
@@ -3633,6 +3653,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksPropertyAlertsRoute: ApiPublicHooksPropertyAlertsRoute,
   ApiPublicHooksWorkspaceJobsRoute: ApiPublicHooksWorkspaceJobsRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
+  ApiPublicShareTokenRoute: ApiPublicShareTokenRoute,
   ApiPublicWhatsappWebhookRoute: ApiPublicWhatsappWebhookRoute,
 }
 export const routeTree = rootRouteImport
