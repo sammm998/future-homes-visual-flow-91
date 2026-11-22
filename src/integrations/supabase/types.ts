@@ -512,6 +512,42 @@ export type Database = {
           },
         ]
       }
+      call_logs: {
+        Row: {
+          created_at: string
+          direction: string
+          duration_min: number | null
+          id: string
+          lead_id: string | null
+          notes: string | null
+          outcome: string
+          phone: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          direction?: string
+          duration_min?: number | null
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          outcome?: string
+          phone?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          direction?: string
+          duration_min?: number | null
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          outcome?: string
+          phone?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       campaign_recipients: {
         Row: {
           bounced_at: string | null
@@ -975,6 +1011,30 @@ export type Database = {
           },
         ]
       }
+      departments: {
+        Row: {
+          created_at: string
+          head_id: string | null
+          id: string
+          name: string
+          office: string | null
+        }
+        Insert: {
+          created_at?: string
+          head_id?: string | null
+          id?: string
+          name: string
+          office?: string | null
+        }
+        Update: {
+          created_at?: string
+          head_id?: string | null
+          id?: string
+          name?: string
+          office?: string | null
+        }
+        Relationships: []
+      }
       documents: {
         Row: {
           created_at: string
@@ -1024,6 +1084,79 @@ export type Database = {
             columns: ["deal_id"]
             isOneToOne: false
             referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      drive_files: {
+        Row: {
+          created_at: string
+          filename: string
+          folder_id: string | null
+          id: string
+          mime: string | null
+          path: string
+          size_bytes: number | null
+          uploaded_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          filename: string
+          folder_id?: string | null
+          id?: string
+          mime?: string | null
+          path: string
+          size_bytes?: number | null
+          uploaded_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          filename?: string
+          folder_id?: string | null
+          id?: string
+          mime?: string | null
+          path?: string
+          size_bytes?: number | null
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drive_files_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "drive_folders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      drive_folders: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+          parent_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+          parent_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+          parent_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "drive_folders_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "drive_folders"
             referencedColumns: ["id"]
           },
         ]
@@ -1147,6 +1280,59 @@ export type Database = {
           variables?: Json
         }
         Relationships: []
+      }
+      employee_profiles: {
+        Row: {
+          created_at: string
+          department_id: string | null
+          full_name: string | null
+          languages: string[]
+          manager_id: string | null
+          office: string | null
+          phone: string | null
+          photo_url: string | null
+          scope: string
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          department_id?: string | null
+          full_name?: string | null
+          languages?: string[]
+          manager_id?: string | null
+          office?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          scope?: string
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          department_id?: string | null
+          full_name?: string | null
+          languages?: string[]
+          manager_id?: string | null
+          office?: string | null
+          phone?: string | null
+          photo_url?: string | null
+          scope?: string
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employee_profiles_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       favorites: {
         Row: {
@@ -1580,6 +1766,45 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_routing_rules: {
+        Row: {
+          active: boolean
+          assignees: string[]
+          created_at: string
+          id: string
+          match_country: string | null
+          match_language: string | null
+          match_source: string | null
+          name: string
+          next_index: number
+          priority: number
+        }
+        Insert: {
+          active?: boolean
+          assignees?: string[]
+          created_at?: string
+          id?: string
+          match_country?: string | null
+          match_language?: string | null
+          match_source?: string | null
+          name: string
+          next_index?: number
+          priority?: number
+        }
+        Update: {
+          active?: boolean
+          assignees?: string[]
+          created_at?: string
+          id?: string
+          match_country?: string | null
+          match_language?: string | null
+          match_source?: string | null
+          name?: string
+          next_index?: number
+          priority?: number
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           assigned_to: string | null
@@ -1589,6 +1814,7 @@ export type Database = {
           company_id: string | null
           created_at: string
           email: string | null
+          first_response_at: string | null
           id: string
           message: string | null
           name: string
@@ -1611,6 +1837,7 @@ export type Database = {
           company_id?: string | null
           created_at?: string
           email?: string | null
+          first_response_at?: string | null
           id?: string
           message?: string | null
           name: string
@@ -1633,6 +1860,7 @@ export type Database = {
           company_id?: string | null
           created_at?: string
           email?: string | null
+          first_response_at?: string | null
           id?: string
           message?: string | null
           name?: string
@@ -1656,6 +1884,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      meetings: {
+        Row: {
+          calendar_event_id: string | null
+          created_at: string
+          created_by: string | null
+          deal_id: string | null
+          id: string
+          lead_id: string | null
+          notes: string | null
+          room_url: string
+          starts_at: string
+          summary: string | null
+          title: string
+        }
+        Insert: {
+          calendar_event_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string | null
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          room_url: string
+          starts_at?: string
+          summary?: string | null
+          title: string
+        }
+        Update: {
+          calendar_event_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string | null
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          room_url?: string
+          starts_at?: string
+          summary?: string | null
+          title?: string
+        }
+        Relationships: []
       }
       newsletter_subscriptions: {
         Row: {
@@ -2370,6 +2640,30 @@ export type Database = {
           },
         ]
       }
+      saved_reports: {
+        Row: {
+          config: Json
+          created_at: string
+          created_by: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       saved_searches: {
         Row: {
           active: boolean
@@ -2414,6 +2708,41 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      share_links: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          expires_at: string
+          file_id: string
+          id: string
+          token: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          expires_at: string
+          file_id: string
+          id?: string
+          token?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string
+          file_id?: string
+          id?: string
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "share_links_file_id_fkey"
+            columns: ["file_id"]
+            isOneToOne: false
+            referencedRelation: "drive_files"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       signature_requests: {
         Row: {
@@ -2489,6 +2818,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      task_comments: {
+        Row: {
+          author_id: string | null
+          body: string
+          created_at: string
+          id: string
+          task_id: string
+        }
+        Insert: {
+          author_id?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          task_id: string
+        }
+        Update: {
+          author_id?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          task_id?: string
+        }
+        Relationships: []
       }
       tasks: {
         Row: {
@@ -2955,6 +3308,7 @@ export type Database = {
         Args: { _ctx: Json; _entity_id: string; _event: string }
         Returns: undefined
       }
+      sees_all_crm: { Args: { _uid: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "user"

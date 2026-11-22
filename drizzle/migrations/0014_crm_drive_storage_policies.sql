@@ -1,0 +1,4 @@
+CREATE POLICY "Admins read crm-drive" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'crm-drive' AND public.has_role(auth.uid(),'admin'));
+CREATE POLICY "Admins write crm-drive" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'crm-drive' AND public.has_role(auth.uid(),'admin'));
+CREATE POLICY "Admins update crm-drive" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'crm-drive' AND public.has_role(auth.uid(),'admin'));
+CREATE POLICY "Admins delete crm-drive" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'crm-drive' AND public.has_role(auth.uid(),'admin'));

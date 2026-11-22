@@ -1,3 +1,4 @@
+import { PropertyPicker } from "@/admin/workspace/PropertyPicker";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
@@ -206,6 +207,7 @@ export default function QuotesInvoices() {
           {qEdit && (
             <div className="grid gap-3">
               <Label>{t("Deal")}<select className="mt-1 h-9 w-full rounded border bg-background px-2" value={qEdit.deal_id ?? ""} onChange={(e) => pickDeal(e.target.value)}><option value="">—</option>{deals.map((d) => <option key={d.id} value={d.id}>{d.title}</option>)}</select></Label>
+              <PropertyPicker onPick={(p) => setQEdit({ ...qEdit, property_ref: p.ref, unit_type: p.unit, items: [{ description: `${p.title} — REF ${p.ref} · ${p.unit}`, qty: 1, unit_price: p.price }, ...qEdit.items.slice(1)] })} />
               <div className="grid grid-cols-2 gap-3">
                 <Label>{t("Client")}<Input className="mt-1" value={qEdit.client_name} onChange={(e) => setQEdit({ ...qEdit, client_name: e.target.value })} /></Label>
                 <Label>{t("E-mail")}<Input className="mt-1" value={qEdit.client_email ?? ""} onChange={(e) => setQEdit({ ...qEdit, client_email: e.target.value })} /></Label>

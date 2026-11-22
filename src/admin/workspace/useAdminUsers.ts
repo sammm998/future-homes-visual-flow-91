@@ -21,5 +21,6 @@ export function useAdminUsers() {
     const n = u.email.split("@")[0] ?? u.email;
     return n.charAt(0).toUpperCase() + n.slice(1);
   };
-  return { users, me, name };
+  const label = (id?: string | null) => (id ? name(id) : "Unassigned");
+  return { users, me, name, label };
 }
