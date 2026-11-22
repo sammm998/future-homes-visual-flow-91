@@ -1,3 +1,4 @@
+import Property3DView from "@/components/property3d/Property3DView";
 import { buildPropertySeoTitle } from '@/lib/propertySeo.functions';
 import React, { useState, useEffect } from "react";
 import { useLoaderData } from "@tanstack/react-router";
@@ -217,6 +218,7 @@ const getPropertyData = async (id: string) => {
         facilities: facilities,
         pricing: pricing,
         images: images,
+        tourUrl: dbProperty.tour_url,
         distanceToAirport: dbProperty.distance_to_airport_km ? `${dbProperty.distance_to_airport_km} km` : undefined,
         distanceToBeach: dbProperty.distance_to_beach_km ? `${dbProperty.distance_to_beach_km} km` : undefined,
         agent: "Batuhan Kunt",
@@ -591,6 +593,7 @@ const PropertyDetail = () => {
                 <div className="flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
                   <LiveViewers propertyId={property.refNo || property.id || ''} />
                   <ShareLinkButton refNo={property.refNo || property.ref_no} lang={lang} />
+                  <Property3DView tourUrl={(property as any).tourUrl || (property as any).tour_url} bedrooms={property.bedrooms} images={property.images?.length ? property.images : [property.image].filter(Boolean)} title={property.title} />
                 </div>
               </div>
             </header>
