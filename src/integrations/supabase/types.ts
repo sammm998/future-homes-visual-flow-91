@@ -2255,6 +2255,7 @@ export type Database = {
           location: string
           meta_description: string | null
           meta_title: string | null
+          model_3d: Json | null
           og_image: string | null
           parent_property_id: string | null
           price: string
@@ -2321,6 +2322,7 @@ export type Database = {
           location: string
           meta_description?: string | null
           meta_title?: string | null
+          model_3d?: Json | null
           og_image?: string | null
           parent_property_id?: string | null
           price: string
@@ -2387,6 +2389,7 @@ export type Database = {
           location?: string
           meta_description?: string | null
           meta_title?: string | null
+          model_3d?: Json | null
           og_image?: string | null
           parent_property_id?: string | null
           price?: string

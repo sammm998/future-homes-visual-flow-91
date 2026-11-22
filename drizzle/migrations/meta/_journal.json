@@ -113,6 +113,13 @@
       "when": 1795364041709,
       "tag": "0015_fix_lead_assigned_notification",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1795364559850,
+      "tag": "0016_add_property_model_3d",
+      "breakpoints": true
     }
   ]
 }

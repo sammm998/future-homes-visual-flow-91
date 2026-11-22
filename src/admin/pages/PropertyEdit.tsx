@@ -15,6 +15,8 @@ import { ArrowLeft, GripVertical, Plus, Save, Trash2, Upload, X } from "lucide-r
 import { translateSavedProperty } from "@/lib/translateSavedProperty";
 import { propertyTranslationSourceChanged } from "@/lib/propertyTranslationRules";
 import { propertyCompletionDate } from "@/admin/propertyCompletionDate";
+import { generateBuilding3d } from "@/lib/building3d.functions";
+import { toast as toast3d } from "sonner";
 
 type ApartmentType = { type?: string; size?: string; price?: string };
 
@@ -579,7 +581,14 @@ export default function PropertyEdit() {
             <CardContent className="space-y-3">
               <div><Label>Floor plan URL</Label><Input value={form.floor_plan_url} onChange={(e) => set("floor_plan_url", e.target.value)} /></div>
               <div><Label>Video URL (YouTube/Vimeo)</Label><Input value={form.video_url} onChange={(e) => set("video_url", e.target.value)} /></div>
-              <div><Label>360° tour URL</Label><Input value={form.tour_url} onChange={(e) => set("tour_url", e.target.value)} /></div>
+              <div><Label>360° / Matterport tour URL</Label><Input value={form.tour_url} onChange={(e) => set("tour_url", e.target.value)} /></div>
+              {form.ref_no && (
+                <Button type="button" variant="outline" size="sm" onClick={async () => {
+                  toast3d.info("Building 3D model from photos…");
+                  try { const r = await generateBuilding3d({ data: { ref: form.ref_no } }); toast3d.success(`3D model ready: ${r.floors} floors, ${r.rooms} rooms`); }
+                  catch (e) { toast3d.error(e instanceof Error ? e.message : "3D generation failed"); }
+                }}>Generate 3D model from photos</Button>
+              )}
               <div><Label>Google Maps embed (iframe src)</Label><Textarea rows={2} value={form.google_maps_embed} onChange={(e) => set("google_maps_embed", e.target.value)} /></div>
             </CardContent>
           </Card>
