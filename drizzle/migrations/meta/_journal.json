@@ -78,6 +78,13 @@
       "when": 1795356335674,
       "tag": "0010_crm_inbox_quotes_documents",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1795362378930,
+      "tag": "0011_agents_projects_wiki_time",
+      "breakpoints": true
     }
   ]
 }

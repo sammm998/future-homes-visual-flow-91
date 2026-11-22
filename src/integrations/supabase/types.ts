@@ -44,6 +44,113 @@ export type Database = {
         }
         Relationships: []
       }
+      absences: {
+        Row: {
+          created_at: string
+          decided_by: string | null
+          ends_on: string
+          id: string
+          kind: string
+          note: string | null
+          starts_on: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          decided_by?: string | null
+          ends_on: string
+          id?: string
+          kind?: string
+          note?: string | null
+          starts_on: string
+          status?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          decided_by?: string | null
+          ends_on?: string
+          id?: string
+          kind?: string
+          note?: string | null
+          starts_on?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      agent_conversations: {
+        Row: {
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      agent_messages: {
+        Row: {
+          action_status: string | null
+          actions: Json
+          agent: string
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          pending_action: Json | null
+          role: string
+          user_id: string
+        }
+        Insert: {
+          action_status?: string | null
+          actions?: Json
+          agent?: string
+          content?: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          pending_action?: Json | null
+          role: string
+          user_id?: string
+        }
+        Update: {
+          action_status?: string | null
+          actions?: Json
+          agent?: string
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          pending_action?: Json | null
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "agent_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       alert_cron_config: {
         Row: {
           created_at: string
@@ -146,6 +253,51 @@ export type Database = {
           session_id?: string | null
           ts?: string
           visitor_id?: string | null
+        }
+        Relationships: []
+      }
+      approvals: {
+        Row: {
+          amount_eur: number | null
+          approver_id: string | null
+          created_at: string
+          decided_at: string | null
+          details: string | null
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          kind: string
+          requested_by: string | null
+          status: string
+          title: string
+        }
+        Insert: {
+          amount_eur?: number | null
+          approver_id?: string | null
+          created_at?: string
+          decided_at?: string | null
+          details?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          kind?: string
+          requested_by?: string | null
+          status?: string
+          title: string
+        }
+        Update: {
+          amount_eur?: number | null
+          approver_id?: string | null
+          created_at?: string
+          decided_at?: string | null
+          details?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          kind?: string
+          requested_by?: string | null
+          status?: string
+          title?: string
         }
         Relationships: []
       }
@@ -484,6 +636,66 @@ export type Database = {
           },
         ]
       }
+      companies: {
+        Row: {
+          country: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          owner_id: string | null
+          phone: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          owner_id?: string | null
+          phone?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          owner_id?: string | null
+          phone?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      composio_sessions: {
+        Row: {
+          agent: string
+          created_at: string
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          agent: string
+          created_at?: string
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          agent?: string
+          created_at?: string
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       contacts: {
         Row: {
           collected_at: string | null
@@ -699,6 +911,7 @@ export type Database = {
         Row: {
           client_email: string | null
           client_name: string | null
+          company_id: string | null
           country: string | null
           created_at: string
           created_by: string | null
@@ -717,6 +930,7 @@ export type Database = {
         Insert: {
           client_email?: string | null
           client_name?: string | null
+          company_id?: string | null
           country?: string | null
           created_at?: string
           created_by?: string | null
@@ -735,6 +949,7 @@ export type Database = {
         Update: {
           client_email?: string | null
           client_name?: string | null
+          company_id?: string | null
           country?: string | null
           created_at?: string
           created_by?: string | null
@@ -750,7 +965,15 @@ export type Database = {
           updated_at?: string
           value_eur?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "deals_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       documents: {
         Row: {
@@ -1363,6 +1586,7 @@ export type Database = {
           budget_currency: string | null
           budget_max: number | null
           budget_min: number | null
+          company_id: string | null
           created_at: string
           email: string | null
           id: string
@@ -1384,6 +1608,7 @@ export type Database = {
           budget_currency?: string | null
           budget_max?: number | null
           budget_min?: number | null
+          company_id?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -1405,6 +1630,7 @@ export type Database = {
           budget_currency?: string | null
           budget_max?: number | null
           budget_min?: number | null
+          company_id?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -1421,7 +1647,15 @@ export type Database = {
           tags?: string[] | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "leads_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       newsletter_subscriptions: {
         Row: {
@@ -1450,6 +1684,36 @@ export type Database = {
           source?: string | null
           subscribed_at?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          link: string | null
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          link?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -1586,6 +1850,108 @@ export type Database = {
           slides?: Json
           theme?: Json
           title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      project_tasks: {
+        Row: {
+          assignee_id: string | null
+          checklist: Json
+          created_at: string
+          depends_on: string | null
+          ends_on: string | null
+          id: string
+          position: number
+          project_id: string
+          starts_on: string | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assignee_id?: string | null
+          checklist?: Json
+          created_at?: string
+          depends_on?: string | null
+          ends_on?: string | null
+          id?: string
+          position?: number
+          project_id: string
+          starts_on?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assignee_id?: string | null
+          checklist?: Json
+          created_at?: string
+          depends_on?: string | null
+          ends_on?: string | null
+          id?: string
+          position?: number
+          project_id?: string
+          starts_on?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_tasks_depends_on_fkey"
+            columns: ["depends_on"]
+            isOneToOne: false
+            referencedRelation: "project_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deal_id: string | null
+          description: string | null
+          ends_on: string | null
+          id: string
+          name: string
+          owner_id: string | null
+          starts_on: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string | null
+          description?: string | null
+          ends_on?: string | null
+          id?: string
+          name: string
+          owner_id?: string | null
+          starts_on?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string | null
+          description?: string | null
+          ends_on?: string | null
+          id?: string
+          name?: string
+          owner_id?: string | null
+          starts_on?: string | null
+          status?: string
           updated_at?: string
         }
         Relationships: []
@@ -2339,6 +2705,44 @@ export type Database = {
         }
         Relationships: []
       }
+      time_entries: {
+        Row: {
+          created_at: string
+          ended_at: string | null
+          id: string
+          note: string | null
+          project_task_id: string | null
+          started_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          note?: string | null
+          project_task_id?: string | null
+          started_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          note?: string | null
+          project_task_id?: string | null
+          started_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_entries_project_task_id_fkey"
+            columns: ["project_task_id"]
+            isOneToOne: false
+            referencedRelation: "project_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
@@ -2483,6 +2887,36 @@ export type Database = {
           processed_at?: string | null
           processing_error?: string | null
           received_at?: string
+        }
+        Relationships: []
+      }
+      wiki_pages: {
+        Row: {
+          body: string
+          category: string
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          body?: string
+          category?: string
+          created_at?: string
+          id?: string
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          body?: string
+          category?: string
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
         }
         Relationships: []
       }
