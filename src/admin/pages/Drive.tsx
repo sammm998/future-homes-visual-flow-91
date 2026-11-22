@@ -26,10 +26,10 @@ export default function Drive() {
   const hereFiles = files.filter((f) => f.folder_id === cwd);
   const crumbs: F[] = []; for (let c = folders.find((f) => f.id === cwd); c; c = folders.find((f) => f.id === c!.parent_id)) crumbs.unshift(c);
   const addFolder = async () => { if (!name.trim()) return; const r = await supabase.from("drive_folders").insert({ name, parent_id: cwd }); if (r.error) return toast.error(r.error.message); setName(""); void load(); };
-  const upload = async (list: FileList | null) => {
-    if (!list) return;
+  const upload = async (list: File[]) => {
+    if (!list.length) return;
     const { data: u } = await supabase.auth.getUser();
-    for (const file of Array.from(list)) {
+    for (const file of list) {
       const path = `${cwd ?? "root"}/${crypto.randomUUID()}-${file.name.replace(/[^\w.-]+/g, "_")}`;
       const up = await supabase.storage.from("crm-drive").upload(path, file, { upsert: false, contentType: file.type || undefined });
       if (up.error) { toast.error(up.error.message); continue; }
@@ -58,7 +58,7 @@ export default function Drive() {
         {cwd && <Button variant="ghost" size="sm" onClick={() => setCwd(folders.find((f) => f.id === cwd)?.parent_id ?? null)} className="gap-1"><ChevronLeft className="h-4 w-4" />Up</Button>}
         <Input className="max-w-xs" aria-label="Folder name" placeholder="New folder" value={name} onChange={(e) => setName(e.target.value)} />
         <Button variant="outline" className="gap-2" onClick={addFolder}><FolderPlus className="h-4 w-4" />Create folder</Button>
-        <input ref={input} type="file" multiple hidden aria-label="Upload files" onChange={(e) => { void upload(e.target.files); e.target.value = ""; }} />
+        <input ref={input} type="file" multiple hidden aria-label="Upload files" onChange={(e) => { const picked = Array.from(e.target.files ?? []); e.target.value = ""; void upload(picked); }} />
         <Button className="gap-2" onClick={() => input.current?.click()}><Upload className="h-4 w-4" />Upload</Button>
         <label className="ml-auto flex items-center gap-2 text-sm">Share links valid <Input type="number" min={1} max={90} className="w-20" aria-label="Share days" value={days} onChange={(e) => setDays(Number(e.target.value) || 7)} /> days</label>
       </CardContent></Card>
