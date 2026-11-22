@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Bot, Calculator, FileText, Heart, Home, LifeBuoy, MessageCircle, Receipt, Send, User as UserIcon } from "lucide-react";
+import { Bot, GraduationCap, CheckCircle2, Award, Calculator, FileText, Heart, Home, LifeBuoy, MessageCircle, Receipt, Send, User as UserIcon } from "lucide-react";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
 import { PublicPageHero } from "@/components/PublicEditorial";
@@ -37,7 +37,7 @@ export default function CustomerPortal() {
     cloud.rpc("link_customer_account").then(({ data, error }) => { if (error) toast.error(c.error); setAccount(data); });
   }, [user]);
 
-  const tabs: [Tab, any][] = [["overview", Home], ["messages", MessageCircle], ["tickets", LifeBuoy], ["documents", FileText], ["payments", Receipt], ["saved", Heart], ["analysis", Calculator], ["assistant", Bot], ["profile", UserIcon]];
+  const tabs: [Tab, any][] = [["overview", Home], ["messages", MessageCircle], ["tickets", LifeBuoy], ["documents", FileText], ["payments", Receipt], ["saved", Heart], ["analysis", Calculator], ["academy", GraduationCap], ["assistant", Bot], ["profile", UserIcon]];
 
   return (
     <div className="min-h-screen bg-ivory">
@@ -66,6 +66,7 @@ export default function CustomerPortal() {
             {tab === "payments" && <Payments c={c} />}
             {tab === "saved" && <Saved c={c} userId={user.id} onAnalyse={() => setTab("analysis")} />}
             {tab === "analysis" && <Analysis c={c} lang={lang} />}
+            {tab === "academy" && <Academy c={c} userId={user.id} />}
             {tab === "assistant" && <Assistant c={c} lang={lang} />}
             {tab === "profile" && <Profile c={c} account={account} onSaved={setAccount} />}
           </>
@@ -426,5 +427,63 @@ function Profile({ c, account, onSaved }: { c: PortalCopy; account: any; onSaved
       <div className="sm:col-span-2"><Label>{c.profile.wishes}</Label><Textarea rows={3} value={f.wishes} onChange={(e) => setF({ ...f, wishes: e.target.value })} /></div>
       <Button type="submit" className="sm:col-span-2">{c.profile.save}</Button>
     </form>
+  );
+}
+
+function Academy({ c, userId }: { c: PortalCopy; userId: string }) {
+  const [courses, setCourses] = useState<any[]>([]);
+  const [done, setDone] = useState<Set<string>>(new Set());
+  const [open, setOpen] = useState<string | null>(null);
+  useEffect(() => {
+    (async () => {
+      const [{ data: cs }, { data: pr }] = await Promise.all([
+        cloud.from("courses").select("id,slug,title,description,country_code,hero_image,estimated_minutes,course_modules(id,slug,title,summary,order_index,is_published)").eq("is_published", true).eq("language_code", "en").order("order_index"),
+        cloud.from("course_progress").select("module_id").eq("user_id", userId),
+      ]);
+      setCourses((cs ?? []).map((x: any) => ({ ...x, modules: (x.course_modules ?? []).filter((m: any) => m.is_published).sort((a: any, b: any) => a.order_index - b.order_index) })));
+      setDone(new Set((pr ?? []).map((r: any) => r.module_id)));
+    })();
+  }, [userId]);
+  const toggle = async (id: string) => {
+    const has = done.has(id);
+    const { error } = has
+      ? await cloud.from("course_progress").delete().eq("user_id", userId).eq("module_id", id)
+      : await cloud.from("course_progress").insert({ user_id: userId, module_id: id });
+    if (error) return toast.error(c.error);
+    const n = new Set(done); has ? n.delete(id) : n.add(id); setDone(n);
+  };
+  return (
+    <div className="space-y-4">
+      <p className="text-muted-foreground">{c.academy.intro}</p>
+      <div className="grid gap-4 md:grid-cols-2">
+        {courses.map((co) => {
+          const total = co.modules.length; const n = co.modules.filter((m: any) => done.has(m.id)).length; const pct = total ? Math.round((n / total) * 100) : 0;
+          return (
+            <div key={co.id} className="rounded-2xl border border-border bg-card p-5">
+              <button className="w-full text-left" onClick={() => setOpen(open === co.id ? null : co.id)}>
+                <h3 className="text-lg font-semibold">{co.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{total} {c.academy.lessons}{co.estimated_minutes ? ` · ${co.estimated_minutes} ${c.academy.min}` : ""}</p>
+                <div className="mt-3 h-2 overflow-hidden rounded-full bg-muted"><div className="h-full bg-gold" style={{ width: `${pct}%` }} /></div>
+                <p className="mt-1 text-xs text-muted-foreground">{n}/{total} · {pct}%</p>
+              </button>
+              {pct === 100 && <p className="mt-3 flex items-center gap-2 text-sm font-semibold text-gold"><Award className="h-4 w-4" />{c.academy.certificate}</p>}
+              {open === co.id && (
+                <ul className="mt-4 space-y-2">
+                  {co.modules.map((m: any) => (
+                    <li key={m.id} className="flex items-center justify-between gap-2 rounded-xl border border-border p-3">
+                      <Link to={`/courses/${co.country_code}/${m.slug}`} className="flex-1 text-sm font-medium hover:underline">{m.title}</Link>
+                      <Button size="sm" variant={done.has(m.id) ? "default" : "outline"} onClick={() => toggle(m.id)}>
+                        {done.has(m.id) ? <><CheckCircle2 className="mr-1 h-4 w-4" />{c.academy.done}</> : c.academy.markDone}
+                      </Button>
+                    </li>
+                  ))}
+                  <li><Link to={`/courses/${co.country_code}/final-exam`} className="text-sm font-semibold text-gold hover:underline">{c.academy.exam} →</Link></li>
+                </ul>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }

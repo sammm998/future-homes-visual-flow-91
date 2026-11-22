@@ -854,6 +854,32 @@ export type Database = {
           },
         ]
       }
+      course_progress: {
+        Row: {
+          completed_at: string
+          module_id: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string
+          module_id: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string
+          module_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_progress_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "course_modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       courses: {
         Row: {
           country_code: string

@@ -134,6 +134,13 @@
       "when": 1795365374059,
       "tag": "0018_fix_portal_notify",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1795366210524,
+      "tag": "0019_course_progress",
+      "breakpoints": true
     }
   ]
 }
