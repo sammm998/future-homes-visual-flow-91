@@ -15,7 +15,7 @@ export const analyzeInvestment = createServerFn({ method: "POST" })
   .inputValidator((d: { ref: string; lang?: string; nightly?: number }) => ({ ref: String(d.ref).slice(0, 20), lang: String(d.lang ?? "en").slice(0, 5), nightly: Number(d.nightly) || undefined }))
   .handler(async ({ data, context }) => {
     const { data: p } = await context.supabase.from("properties")
-      .select("ref_no, title, location, district, country, price, starting_price_eur, bedrooms, sizes_m2, property_type, building_complete_date, distance_to_beach_km")
+      .select("ref_no, title, location, country, price, starting_price_eur, bedrooms, sizes_m2, property_type, building_complete_date, distance_to_beach_km")
       .eq("ref_no", data.ref).maybeSingle();
     if (!p) throw new Error("Property not found");
     const price = parsePrice((p as any).starting_price_eur || (p as any).price);
@@ -58,7 +58,7 @@ export const portalAssistant = createServerFn({ method: "POST" })
     ]);
     const ctx = { account: acc.data, savedHomes: favs.data, tickets: tickets.data, sharedDocuments: shared.data, analyses: analyses.data };
     const system = `You are the personal assistant in the Future Homes International customer portal. Answer in ${LANG_NAMES[data.lang] ?? "the customer's language"}.
-Help with the customer's own homes, documents, the buying process in Turkey, Dubai, Northern Cyprus and Bali, fees, title deeds, residence permits and Turkish citizenship by investment. Be concise and practical; say when something needs a lawyer or the sales team. Never invent contract terms, prices or deadlines that are not in the context.
+Help with the customer's own homes, documents, the buying process in Turkey, Dubai, Northern Cyprus and Bali, fees, title deeds, residence permits and Turkish citizenship by investment. Be concise and practical, plain text without markdown; say when something needs a lawyer or the sales team. Never invent contract terms, prices or deadlines that are not in the context.
 If the customer wants a viewing, a call, documents or help from staff, use the create_ticket tool.
 Customer context (only this customer's data): ${JSON.stringify(ctx)}`;
     const tools = [{
