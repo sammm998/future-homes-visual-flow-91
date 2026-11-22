@@ -33,7 +33,8 @@ export default function Drive() {
       const path = `${cwd ?? "root"}/${crypto.randomUUID()}-${file.name.replace(/[^\w.-]+/g, "_")}`;
       const up = await supabase.storage.from("crm-drive").upload(path, file, { upsert: false, contentType: file.type || undefined });
       if (up.error) { toast.error(up.error.message); continue; }
-      await supabase.from("drive_files").insert({ folder_id: cwd, path, filename: file.name, mime: file.type, size_bytes: file.size, uploaded_by: u.user?.id });
+      const ins = await supabase.from("drive_files").insert({ folder_id: cwd, path, filename: file.name, mime: file.type, size_bytes: file.size, uploaded_by: u.user?.id });
+      if (ins.error) { toast.error(ins.error.message); continue; }
     }
     toast.success("Uploaded"); void load();
   };
