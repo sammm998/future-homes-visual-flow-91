@@ -6,11 +6,14 @@
 - [x] Projects (tasks, dependencies, checklist, timeline, time tracking)
 - [x] Knowledge base, time & absence, companies (duplicates/merge), approvals, notifications bell
 
+- [x] Employees, Drive, task chats with AI, BI builder, call log
+
 ## Open
-- [ ] Lead distribution rules (contact center)
-- [ ] Property catalogue picker inside quotes
-- [ ] Departments/offices structure and per-seller permissions
-- [ ] Video meeting button on deals/viewings
-- [ ] Installable mobile admin (home-screen icon)
+- [x] Lead distribution rules (contact center)
+- [x] Property catalogue picker inside quotes
+- [x] Departments/offices structure and per-seller permissions
+- [x] Video meeting button on deals/viewings
+- [x] Installable mobile admin (home-screen icon)
 - [ ] Instagram/Facebook messages into the customer inbox
 - [ ] WhatsApp — waits on the user approving the WhatsApp connection
+- [ ] 3D view of properties — waits on the user's choice of approach
