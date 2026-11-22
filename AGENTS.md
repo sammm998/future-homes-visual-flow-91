@@ -37,3 +37,4 @@
 - Retired account-setup, direct password-reset, chat-write and ElevenLabs deletion handlers return Gone without side effects — removes obsolete privilege-escalation paths.
 - Design-home receives image uploads only; selected listing images are read by the browser — prevents server-side arbitrary URL fetching without removing image selection.
 - Team portrait recovery copies apply only to legacy image URLs; newly uploaded CMS photos take precedence — keeps recovered portraits independent of the restricted old host without masking later edits.
+- Admin workspace (pipeline, chat, feed, calendar, automations) lives in Cloud tables with admin-only RLS; instant rules run in the run_automations DB function via triggers, while emails, reminders and idle-deal rules run in /api/public/hooks/workspace-jobs every 15 minutes — keeps actions atomic with the data change and email keys server-side.
