@@ -908,6 +908,48 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_accounts: {
+        Row: {
+          budget: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          last_seen_at: string | null
+          lead_id: string | null
+          phone: string | null
+          preferred_language: string | null
+          stage: string
+          user_id: string
+          wishes: string | null
+        }
+        Insert: {
+          budget?: string | null
+          created_at?: string
+          email: string
+          full_name?: string | null
+          last_seen_at?: string | null
+          lead_id?: string | null
+          phone?: string | null
+          preferred_language?: string | null
+          stage?: string
+          user_id: string
+          wishes?: string | null
+        }
+        Update: {
+          budget?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          last_seen_at?: string | null
+          lead_id?: string | null
+          phone?: string | null
+          preferred_language?: string | null
+          stage?: string
+          user_id?: string
+          wishes?: string | null
+        }
+        Relationships: []
+      }
       deal_stage_history: {
         Row: {
           changed_by: string | null
@@ -1572,6 +1614,33 @@ export type Database = {
           },
         ]
       }
+      investment_analyses: {
+        Row: {
+          created_at: string
+          id: string
+          property_ref: string
+          result: Json
+          title: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          property_ref: string
+          result: Json
+          title?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          property_ref?: string
+          result?: Json
+          title?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       invoice_payments: {
         Row: {
           amount: number
@@ -2088,6 +2157,36 @@ export type Database = {
           updated_at?: string
           user_id?: string
           website?: string | null
+        }
+        Relationships: []
+      }
+      portal_messages: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          customer_id: string
+          from_staff: boolean
+          id: string
+          read_at: string | null
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          customer_id: string
+          from_staff?: boolean
+          id?: string
+          read_at?: string | null
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          customer_id?: string
+          from_staff?: boolean
+          id?: string
+          read_at?: string | null
         }
         Relationships: []
       }
@@ -2747,6 +2846,36 @@ export type Database = {
           },
         ]
       }
+      shared_items: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          item_id: string
+          kind: string
+          title: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          item_id: string
+          kind: string
+          title?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          item_id?: string
+          kind?: string
+          title?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       signature_requests: {
         Row: {
           body: string
@@ -2821,6 +2950,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      support_tickets: {
+        Row: {
+          assigned_to: string | null
+          category: string
+          created_at: string
+          id: string
+          preferred_at: string | null
+          property_ref: string | null
+          status: string
+          subject: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          category?: string
+          created_at?: string
+          id?: string
+          preferred_at?: string | null
+          property_ref?: string | null
+          status?: string
+          subject: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          category?: string
+          created_at?: string
+          id?: string
+          preferred_at?: string | null
+          property_ref?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       task_comments: {
         Row: {
@@ -3061,6 +3229,41 @@ export type Database = {
         }
         Relationships: []
       }
+      ticket_messages: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          from_staff: boolean
+          id: string
+          ticket_id: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          from_staff?: boolean
+          id?: string
+          ticket_id: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          from_staff?: boolean
+          id?: string
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_messages_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       time_entries: {
         Row: {
           created_at: string
@@ -3300,6 +3503,32 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { user_id?: string }; Returns: boolean }
+      is_shared_with_me: {
+        Args: { _item: string; _kind: string }
+        Returns: boolean
+      }
+      link_customer_account: {
+        Args: never
+        Returns: {
+          budget: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          last_seen_at: string | null
+          lead_id: string | null
+          phone: string | null
+          preferred_language: string | null
+          stage: string
+          user_id: string
+          wishes: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "customer_accounts"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       list_admin_users: {
         Args: never
         Returns: {

@@ -38,6 +38,7 @@ import { Route as OffPlanPropertyTurkeyRouteImport } from './routes/off-plan-pro
 import { Route as OffPlanTurkeyVsDubaiRouteImport } from './routes/off-plan-turkey-vs-dubai'
 import { Route as OurStoryRouteImport } from './routes/our-story'
 import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as PortalRouteImport } from './routes/portal'
 import { Route as PropertyForSaleInTurkeyRouteImport } from './routes/property-for-sale-in-turkey'
 import { Route as PropertyGalleryRouteImport } from './routes/property-gallery'
 import { Route as PropertyWizardRouteImport } from './routes/property-wizard'
@@ -80,6 +81,7 @@ import { Route as LocaleOffPlanPropertyTurkeyRouteImport } from './routes/$local
 import { Route as LocaleOffPlanTurkeyVsDubaiRouteImport } from './routes/$locale/off-plan-turkey-vs-dubai'
 import { Route as LocaleOurStoryRouteImport } from './routes/$locale/our-story'
 import { Route as LocalePartnersRouteImport } from './routes/$locale/partners'
+import { Route as LocalePortalRouteImport } from './routes/$locale/portal'
 import { Route as LocalePropertyForSaleInTurkeyRouteImport } from './routes/$locale/property-for-sale-in-turkey'
 import { Route as LocalePropertyGalleryRouteImport } from './routes/$locale/property-gallery'
 import { Route as LocalePropertyWizardRouteImport } from './routes/$locale/property-wizard'
@@ -109,6 +111,7 @@ import { Route as AdminIntegrationsRouteImport } from './routes/admin/integratio
 import { Route as AdminLeadRoutingRouteImport } from './routes/admin/lead-routing'
 import { Route as AdminLogsRouteImport } from './routes/admin/logs'
 import { Route as AdminMeetingsRouteImport } from './routes/admin/meetings'
+import { Route as AdminPortalRouteImport } from './routes/admin/portal'
 import { Route as AdminProjectsRouteImport } from './routes/admin/projects'
 import { Route as AdminQuotesRouteImport } from './routes/admin/quotes'
 import { Route as AdminReportsRouteImport } from './routes/admin/reports'
@@ -332,6 +335,11 @@ const PartnersRoute = PartnersRouteImport.update({
   path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PropertyForSaleInTurkeyRoute = PropertyForSaleInTurkeyRouteImport.update({
   id: '/property-for-sale-in-turkey',
   path: '/property-for-sale-in-turkey',
@@ -553,6 +561,11 @@ const LocalePartnersRoute = LocalePartnersRouteImport.update({
   path: '/partners',
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const LocalePortalRoute = LocalePortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
+  getParentRoute: () => LocaleRouteRoute,
+} as any)
 const LocalePropertyForSaleInTurkeyRoute =
   LocalePropertyForSaleInTurkeyRouteImport.update({
     id: '/property-for-sale-in-turkey',
@@ -699,6 +712,11 @@ const AdminLogsRoute = AdminLogsRouteImport.update({
 const AdminMeetingsRoute = AdminMeetingsRouteImport.update({
   id: '/meetings',
   path: '/meetings',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminPortalRoute = AdminPortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminProjectsRoute = AdminProjectsRouteImport.update({
@@ -1125,6 +1143,7 @@ export interface FileRoutesByFullPath {
   '/off-plan-turkey-vs-dubai': typeof OffPlanTurkeyVsDubaiRoute
   '/our-story': typeof OurStoryRoute
   '/partners': typeof PartnersRoute
+  '/portal': typeof PortalRoute
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
   '/property-gallery': typeof PropertyGalleryRoute
   '/property-wizard': typeof PropertyWizardRoute
@@ -1166,6 +1185,7 @@ export interface FileRoutesByFullPath {
   '/$locale/off-plan-turkey-vs-dubai': typeof LocaleOffPlanTurkeyVsDubaiRoute
   '/$locale/our-story': typeof LocaleOurStoryRoute
   '/$locale/partners': typeof LocalePartnersRoute
+  '/$locale/portal': typeof LocalePortalRoute
   '/$locale/property-for-sale-in-turkey': typeof LocalePropertyForSaleInTurkeyRoute
   '/$locale/property-gallery': typeof LocalePropertyGalleryRoute
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
@@ -1194,6 +1214,7 @@ export interface FileRoutesByFullPath {
   '/admin/lead-routing': typeof AdminLeadRoutingRoute
   '/admin/logs': typeof AdminLogsRoute
   '/admin/meetings': typeof AdminMeetingsRoute
+  '/admin/portal': typeof AdminPortalRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/reports': typeof AdminReportsRoute
@@ -1301,6 +1322,7 @@ export interface FileRoutesByTo {
   '/off-plan-turkey-vs-dubai': typeof OffPlanTurkeyVsDubaiRoute
   '/our-story': typeof OurStoryRoute
   '/partners': typeof PartnersRoute
+  '/portal': typeof PortalRoute
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
   '/property-gallery': typeof PropertyGalleryRoute
   '/property-wizard': typeof PropertyWizardRoute
@@ -1342,6 +1364,7 @@ export interface FileRoutesByTo {
   '/$locale/off-plan-turkey-vs-dubai': typeof LocaleOffPlanTurkeyVsDubaiRoute
   '/$locale/our-story': typeof LocaleOurStoryRoute
   '/$locale/partners': typeof LocalePartnersRoute
+  '/$locale/portal': typeof LocalePortalRoute
   '/$locale/property-for-sale-in-turkey': typeof LocalePropertyForSaleInTurkeyRoute
   '/$locale/property-gallery': typeof LocalePropertyGalleryRoute
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
@@ -1370,6 +1393,7 @@ export interface FileRoutesByTo {
   '/admin/lead-routing': typeof AdminLeadRoutingRoute
   '/admin/logs': typeof AdminLogsRoute
   '/admin/meetings': typeof AdminMeetingsRoute
+  '/admin/portal': typeof AdminPortalRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/reports': typeof AdminReportsRoute
@@ -1480,6 +1504,7 @@ export interface FileRoutesById {
   '/off-plan-turkey-vs-dubai': typeof OffPlanTurkeyVsDubaiRoute
   '/our-story': typeof OurStoryRoute
   '/partners': typeof PartnersRoute
+  '/portal': typeof PortalRoute
   '/property-for-sale-in-turkey': typeof PropertyForSaleInTurkeyRoute
   '/property-gallery': typeof PropertyGalleryRoute
   '/property-wizard': typeof PropertyWizardRoute
@@ -1521,6 +1546,7 @@ export interface FileRoutesById {
   '/$locale/off-plan-turkey-vs-dubai': typeof LocaleOffPlanTurkeyVsDubaiRoute
   '/$locale/our-story': typeof LocaleOurStoryRoute
   '/$locale/partners': typeof LocalePartnersRoute
+  '/$locale/portal': typeof LocalePortalRoute
   '/$locale/property-for-sale-in-turkey': typeof LocalePropertyForSaleInTurkeyRoute
   '/$locale/property-gallery': typeof LocalePropertyGalleryRoute
   '/$locale/property-wizard': typeof LocalePropertyWizardRoute
@@ -1549,6 +1575,7 @@ export interface FileRoutesById {
   '/admin/lead-routing': typeof AdminLeadRoutingRoute
   '/admin/logs': typeof AdminLogsRoute
   '/admin/meetings': typeof AdminMeetingsRoute
+  '/admin/portal': typeof AdminPortalRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/reports': typeof AdminReportsRoute
@@ -1660,6 +1687,7 @@ export interface FileRouteTypes {
     | '/off-plan-turkey-vs-dubai'
     | '/our-story'
     | '/partners'
+    | '/portal'
     | '/property-for-sale-in-turkey'
     | '/property-gallery'
     | '/property-wizard'
@@ -1701,6 +1729,7 @@ export interface FileRouteTypes {
     | '/$locale/off-plan-turkey-vs-dubai'
     | '/$locale/our-story'
     | '/$locale/partners'
+    | '/$locale/portal'
     | '/$locale/property-for-sale-in-turkey'
     | '/$locale/property-gallery'
     | '/$locale/property-wizard'
@@ -1729,6 +1758,7 @@ export interface FileRouteTypes {
     | '/admin/lead-routing'
     | '/admin/logs'
     | '/admin/meetings'
+    | '/admin/portal'
     | '/admin/projects'
     | '/admin/quotes'
     | '/admin/reports'
@@ -1836,6 +1866,7 @@ export interface FileRouteTypes {
     | '/off-plan-turkey-vs-dubai'
     | '/our-story'
     | '/partners'
+    | '/portal'
     | '/property-for-sale-in-turkey'
     | '/property-gallery'
     | '/property-wizard'
@@ -1877,6 +1908,7 @@ export interface FileRouteTypes {
     | '/$locale/off-plan-turkey-vs-dubai'
     | '/$locale/our-story'
     | '/$locale/partners'
+    | '/$locale/portal'
     | '/$locale/property-for-sale-in-turkey'
     | '/$locale/property-gallery'
     | '/$locale/property-wizard'
@@ -1905,6 +1937,7 @@ export interface FileRouteTypes {
     | '/admin/lead-routing'
     | '/admin/logs'
     | '/admin/meetings'
+    | '/admin/portal'
     | '/admin/projects'
     | '/admin/quotes'
     | '/admin/reports'
@@ -2014,6 +2047,7 @@ export interface FileRouteTypes {
     | '/off-plan-turkey-vs-dubai'
     | '/our-story'
     | '/partners'
+    | '/portal'
     | '/property-for-sale-in-turkey'
     | '/property-gallery'
     | '/property-wizard'
@@ -2055,6 +2089,7 @@ export interface FileRouteTypes {
     | '/$locale/off-plan-turkey-vs-dubai'
     | '/$locale/our-story'
     | '/$locale/partners'
+    | '/$locale/portal'
     | '/$locale/property-for-sale-in-turkey'
     | '/$locale/property-gallery'
     | '/$locale/property-wizard'
@@ -2083,6 +2118,7 @@ export interface FileRouteTypes {
     | '/admin/lead-routing'
     | '/admin/logs'
     | '/admin/meetings'
+    | '/admin/portal'
     | '/admin/projects'
     | '/admin/quotes'
     | '/admin/reports'
@@ -2193,6 +2229,7 @@ export interface RootRouteChildren {
   OffPlanTurkeyVsDubaiRoute: typeof OffPlanTurkeyVsDubaiRoute
   OurStoryRoute: typeof OurStoryRoute
   PartnersRoute: typeof PartnersRoute
+  PortalRoute: typeof PortalRoute
   PropertyForSaleInTurkeyRoute: typeof PropertyForSaleInTurkeyRoute
   PropertyGalleryRoute: typeof PropertyGalleryRoute
   PropertyWizardRoute: typeof PropertyWizardRoute
@@ -2432,6 +2469,13 @@ declare module '@tanstack/react-router' {
       path: '/partners'
       fullPath: '/partners'
       preLoaderRoute: typeof PartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal': {
+      id: '/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof PortalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/property-for-sale-in-turkey': {
@@ -2728,6 +2772,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocalePartnersRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    '/$locale/portal': {
+      id: '/$locale/portal'
+      path: '/portal'
+      fullPath: '/$locale/portal'
+      preLoaderRoute: typeof LocalePortalRouteImport
+      parentRoute: typeof LocaleRouteRoute
+    }
     '/$locale/property-for-sale-in-turkey': {
       id: '/$locale/property-for-sale-in-turkey'
       path: '/property-for-sale-in-turkey'
@@ -2929,6 +2980,13 @@ declare module '@tanstack/react-router' {
       path: '/meetings'
       fullPath: '/admin/meetings'
       preLoaderRoute: typeof AdminMeetingsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/portal': {
+      id: '/admin/portal'
+      path: '/portal'
+      fullPath: '/admin/portal'
+      preLoaderRoute: typeof AdminPortalRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/projects': {
@@ -3498,6 +3556,7 @@ interface LocaleRouteRouteChildren {
   LocaleOffPlanTurkeyVsDubaiRoute: typeof LocaleOffPlanTurkeyVsDubaiRoute
   LocaleOurStoryRoute: typeof LocaleOurStoryRoute
   LocalePartnersRoute: typeof LocalePartnersRoute
+  LocalePortalRoute: typeof LocalePortalRoute
   LocalePropertyForSaleInTurkeyRoute: typeof LocalePropertyForSaleInTurkeyRoute
   LocalePropertyGalleryRoute: typeof LocalePropertyGalleryRoute
   LocalePropertyWizardRoute: typeof LocalePropertyWizardRoute
@@ -3554,6 +3613,7 @@ const LocaleRouteRouteChildren: LocaleRouteRouteChildren = {
   LocaleOffPlanTurkeyVsDubaiRoute: LocaleOffPlanTurkeyVsDubaiRoute,
   LocaleOurStoryRoute: LocaleOurStoryRoute,
   LocalePartnersRoute: LocalePartnersRoute,
+  LocalePortalRoute: LocalePortalRoute,
   LocalePropertyForSaleInTurkeyRoute: LocalePropertyForSaleInTurkeyRoute,
   LocalePropertyGalleryRoute: LocalePropertyGalleryRoute,
   LocalePropertyWizardRoute: LocalePropertyWizardRoute,
@@ -3603,6 +3663,7 @@ interface AdminRouteRouteChildren {
   AdminLeadRoutingRoute: typeof AdminLeadRoutingRoute
   AdminLogsRoute: typeof AdminLogsRoute
   AdminMeetingsRoute: typeof AdminMeetingsRoute
+  AdminPortalRoute: typeof AdminPortalRoute
   AdminProjectsRoute: typeof AdminProjectsRoute
   AdminQuotesRoute: typeof AdminQuotesRoute
   AdminReportsRoute: typeof AdminReportsRoute
@@ -3666,6 +3727,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminLeadRoutingRoute: AdminLeadRoutingRoute,
   AdminLogsRoute: AdminLogsRoute,
   AdminMeetingsRoute: AdminMeetingsRoute,
+  AdminPortalRoute: AdminPortalRoute,
   AdminProjectsRoute: AdminProjectsRoute,
   AdminQuotesRoute: AdminQuotesRoute,
   AdminReportsRoute: AdminReportsRoute,
@@ -3745,6 +3807,7 @@ const rootRouteChildren: RootRouteChildren = {
   OffPlanTurkeyVsDubaiRoute: OffPlanTurkeyVsDubaiRoute,
   OurStoryRoute: OurStoryRoute,
   PartnersRoute: PartnersRoute,
+  PortalRoute: PortalRoute,
   PropertyForSaleInTurkeyRoute: PropertyForSaleInTurkeyRoute,
   PropertyGalleryRoute: PropertyGalleryRoute,
   PropertyWizardRoute: PropertyWizardRoute,

@@ -100,6 +100,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               <Link to={withLang("/vip")} onClick={onClose} className="flex min-h-11 items-center text-sm text-navy-foreground/70 transition-colors hover:text-gold">
                 VIP Club
               </Link>
+              <Link to={withLang("/portal")} onClick={onClose} className="flex min-h-11 items-center text-sm text-navy-foreground/70 transition-colors hover:text-gold">
+                My Future Homes
+              </Link>
               <Link to={withLang("/partners")} onClick={onClose} className="flex min-h-11 items-center text-sm text-navy-foreground/70 transition-colors hover:text-gold">
                 Partner Program
               </Link>
