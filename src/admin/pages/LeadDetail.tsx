@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import DocumentsPanel from "@/admin/crm/DocumentsPanel";
 import { useNavigate, useParams, Link } from "@/lib/router-compat";
 import { supabase } from "@/integrations/legacy/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -189,6 +190,12 @@ export default function LeadDetail() {
               <div><Label>Tags (comma)</Label><Input value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} /></div>
             </CardContent>
           </Card>
+          {!isNew && id && (
+            <Card className="bg-admin-surface">
+              <CardHeader><CardTitle className="text-base">Documents</CardTitle></CardHeader>
+              <CardContent className="pt-0"><DocumentsPanel compact scope={{ leadId: id }} /></CardContent>
+            </Card>
+          )}
           <Card className="bg-admin-surface">
             <CardHeader><CardTitle className="text-base">Budget</CardTitle></CardHeader>
             <CardContent className="space-y-3 pt-0">

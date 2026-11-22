@@ -13,6 +13,8 @@ import { format } from "date-fns";
 import { DEAL_STAGES, summarizeStages, filterDeals } from "@/admin/workspace/model";
 import { useAdminUsers } from "@/admin/workspace/useAdminUsers";
 import { useAdminT } from "@/admin/i18n/AdminI18nContext";
+import DocumentsPanel from "@/admin/crm/DocumentsPanel";
+import { Link } from "@/lib/router-compat";
 
 export type Deal = {
   id: string; title: string; lead_id: string | null; client_name: string | null; client_email: string | null;
@@ -191,6 +193,7 @@ export default function DealsPipeline() {
               <div className="flex gap-2">
                 <Button onClick={save}>{t("Save")}</Button>
                 <Button variant="outline" onClick={() => setForm(null)}>{t("Cancel")}</Button>
+                {editId && <Button asChild variant="outline"><Link to={`/admin/quotes?deal=${editId}`}>{t("Create quote")}</Link></Button>}
                 {editId && <Button variant="ghost" className="ml-auto text-destructive" onClick={remove}><Trash2 className="h-4 w-4" /></Button>}
               </div>
               {editId && (
@@ -206,6 +209,10 @@ export default function DealsPipeline() {
                     {comments.map((c) => <div key={c.id} className="text-sm"><span className="font-medium">{name(c.author_id)}</span> <span className="text-xs text-muted-foreground">{format(new Date(c.created_at), "d MMM HH:mm")}</span><div>{c.body}</div></div>)}
                     <Textarea rows={2} value={comment} onChange={(e) => setComment(e.target.value)} placeholder={t("Write a comment…")} />
                     <Button size="sm" onClick={addComment}>{t("Comment")}</Button>
+                  </div>
+                  <div className="border-t pt-3 space-y-2">
+                    <div className="text-sm font-semibold">{t("Documents")}</div>
+                    <DocumentsPanel compact scope={{ dealId: editId }} />
                   </div>
                 </>
               )}

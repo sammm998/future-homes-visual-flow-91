@@ -96,8 +96,12 @@ import { Route as AdminAiInsightsRouteImport } from './routes/admin/ai-insights'
 import { Route as AdminAutomationsRouteImport } from './routes/admin/automations'
 import { Route as AdminCalendarRouteImport } from './routes/admin/calendar'
 import { Route as AdminChatRouteImport } from './routes/admin/chat'
+import { Route as AdminDocumentsRouteImport } from './routes/admin/documents'
 import { Route as AdminFeedRouteImport } from './routes/admin/feed'
+import { Route as AdminInboxRouteImport } from './routes/admin/inbox'
 import { Route as AdminLogsRouteImport } from './routes/admin/logs'
+import { Route as AdminQuotesRouteImport } from './routes/admin/quotes'
+import { Route as AdminReportsRouteImport } from './routes/admin/reports'
 import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminSocialListeningRouteImport } from './routes/admin/social-listening'
@@ -110,6 +114,7 @@ import { Route as ArticlesIndexRouteImport } from './routes/articles.index'
 import { Route as ArticlesSlugRouteImport } from './routes/articles.$slug'
 import { Route as ArticlesExpensesBuyingPropertyTurkeyRouteImport } from './routes/articles.expenses-buying-property-turkey'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
+import { Route as SignTokenRouteImport } from './routes/sign.$token'
 import { Route as SitemapLocaleDotxmlRouteImport } from './routes/sitemap.$locale[.]xml'
 import { Route as VipIndexRouteImport } from './routes/vip.index'
 import { Route as VipAdminRouteImport } from './routes/vip.admin'
@@ -146,6 +151,7 @@ import { Route as AdminPresentationsIndexRouteImport } from './routes/admin/pres
 import { Route as AdminPresentationsIdRouteImport } from './routes/admin/presentations.$id'
 import { Route as AdminPropertiesIndexRouteImport } from './routes/admin/properties.index'
 import { Route as AdminPropertiesNewRouteImport } from './routes/admin/properties.new'
+import { Route as ApiPublicSignRouteImport } from './routes/api/public/sign'
 import { Route as ApiPublicTeamImageUpdateRouteImport } from './routes/api/public/team-image-update'
 import { Route as ApiPublicTranslateMissingRouteImport } from './routes/api/public/translate-missing'
 import { Route as CoursesCountryIndexRouteImport } from './routes/courses.$country.index'
@@ -164,6 +170,7 @@ import { Route as AdminPropertiesIdEditRouteImport } from './routes/admin/proper
 import { Route as ApiPublicHooksPropertyAlertsRouteImport } from './routes/api/public/hooks/property-alerts'
 import { Route as ApiPublicHooksWorkspaceJobsRouteImport } from './routes/api/public/hooks/workspace-jobs'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
+import { Route as ApiPublicWhatsappWebhookRouteImport } from './routes/api/public/whatsapp/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -615,14 +622,34 @@ const AdminChatRoute = AdminChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminDocumentsRoute = AdminDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminFeedRoute = AdminFeedRouteImport.update({
   id: '/feed',
   path: '/feed',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminInboxRoute = AdminInboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminLogsRoute = AdminLogsRouteImport.update({
   id: '/logs',
   path: '/logs',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminQuotesRoute = AdminQuotesRouteImport.update({
+  id: '/quotes',
+  path: '/quotes',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminSeoRoute = AdminSeoRouteImport.update({
@@ -684,6 +711,11 @@ const ArticlesExpensesBuyingPropertyTurkeyRoute =
 const CoursesIndexRoute = CoursesIndexRouteImport.update({
   id: '/courses/',
   path: '/courses/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignTokenRoute = SignTokenRouteImport.update({
+  id: '/sign/$token',
+  path: '/sign/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapLocaleDotxmlRoute = SitemapLocaleDotxmlRouteImport.update({
@@ -868,6 +900,11 @@ const AdminPropertiesNewRoute = AdminPropertiesNewRouteImport.update({
   path: '/properties/new',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const ApiPublicSignRoute = ApiPublicSignRouteImport.update({
+  id: '/api/public/sign',
+  path: '/api/public/sign',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicTeamImageUpdateRoute =
   ApiPublicTeamImageUpdateRouteImport.update({
     id: '/api/public/team-image-update',
@@ -967,6 +1004,12 @@ const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
   path: '/api/public/media/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWhatsappWebhookRoute =
+  ApiPublicWhatsappWebhookRouteImport.update({
+    id: '/api/public/whatsapp/webhook',
+    path: '/api/public/whatsapp/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -1054,8 +1097,12 @@ export interface FileRoutesByFullPath {
   '/admin/automations': typeof AdminAutomationsRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/chat': typeof AdminChatRoute
+  '/admin/documents': typeof AdminDocumentsRoute
   '/admin/feed': typeof AdminFeedRoute
+  '/admin/inbox': typeof AdminInboxRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/quotes': typeof AdminQuotesRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
@@ -1066,6 +1113,7 @@ export interface FileRoutesByFullPath {
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  '/sign/$token': typeof SignTokenRoute
   '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/vip/admin': typeof VipAdminRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -1097,6 +1145,7 @@ export interface FileRoutesByFullPath {
   '/admin/office/spreadsheet': typeof AdminOfficeSpreadsheetRoute
   '/admin/presentations/$id': typeof AdminPresentationsIdRoute
   '/admin/properties/new': typeof AdminPropertiesNewRoute
+  '/api/public/sign': typeof ApiPublicSignRoute
   '/api/public/team-image-update': typeof ApiPublicTeamImageUpdateRoute
   '/api/public/translate-missing': typeof ApiPublicTranslateMissingRoute
   '/courses/$country/$moduleSlug': typeof CoursesCountryModuleSlugRoute
@@ -1120,6 +1169,7 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
   '/api/public/hooks/workspace-jobs': typeof ApiPublicHooksWorkspaceJobsRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
   '/$locale/courses/$country/': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads/': typeof AdminCrmLeadsIndexRoute
   '/admin/email/campaigns/': typeof AdminEmailCampaignsIndexRoute
@@ -1209,8 +1259,12 @@ export interface FileRoutesByTo {
   '/admin/automations': typeof AdminAutomationsRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/chat': typeof AdminChatRoute
+  '/admin/documents': typeof AdminDocumentsRoute
   '/admin/feed': typeof AdminFeedRoute
+  '/admin/inbox': typeof AdminInboxRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/quotes': typeof AdminQuotesRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
@@ -1221,6 +1275,7 @@ export interface FileRoutesByTo {
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  '/sign/$token': typeof SignTokenRoute
   '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/vip/admin': typeof VipAdminRoute
   '/$locale': typeof LocaleIndexRoute
@@ -1252,6 +1307,7 @@ export interface FileRoutesByTo {
   '/admin/office/spreadsheet': typeof AdminOfficeSpreadsheetRoute
   '/admin/presentations/$id': typeof AdminPresentationsIdRoute
   '/admin/properties/new': typeof AdminPropertiesNewRoute
+  '/api/public/sign': typeof ApiPublicSignRoute
   '/api/public/team-image-update': typeof ApiPublicTeamImageUpdateRoute
   '/api/public/translate-missing': typeof ApiPublicTranslateMissingRoute
   '/courses/$country/$moduleSlug': typeof CoursesCountryModuleSlugRoute
@@ -1275,6 +1331,7 @@ export interface FileRoutesByTo {
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
   '/api/public/hooks/workspace-jobs': typeof ApiPublicHooksWorkspaceJobsRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
   '/$locale/courses/$country': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads': typeof AdminCrmLeadsIndexRoute
   '/admin/email/campaigns': typeof AdminEmailCampaignsIndexRoute
@@ -1367,8 +1424,12 @@ export interface FileRoutesById {
   '/admin/automations': typeof AdminAutomationsRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/chat': typeof AdminChatRoute
+  '/admin/documents': typeof AdminDocumentsRoute
   '/admin/feed': typeof AdminFeedRoute
+  '/admin/inbox': typeof AdminInboxRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/quotes': typeof AdminQuotesRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
@@ -1379,6 +1440,7 @@ export interface FileRoutesById {
   '/article/$id': typeof ArticleIdRoute
   '/articles/$slug': typeof ArticlesSlugRoute
   '/articles/expenses-buying-property-turkey': typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  '/sign/$token': typeof SignTokenRoute
   '/sitemap/$locale.xml': typeof SitemapLocaleDotxmlRoute
   '/vip/admin': typeof VipAdminRoute
   '/$locale/': typeof LocaleIndexRoute
@@ -1410,6 +1472,7 @@ export interface FileRoutesById {
   '/admin/office/spreadsheet': typeof AdminOfficeSpreadsheetRoute
   '/admin/presentations/$id': typeof AdminPresentationsIdRoute
   '/admin/properties/new': typeof AdminPropertiesNewRoute
+  '/api/public/sign': typeof ApiPublicSignRoute
   '/api/public/team-image-update': typeof ApiPublicTeamImageUpdateRoute
   '/api/public/translate-missing': typeof ApiPublicTranslateMissingRoute
   '/courses/$country/$moduleSlug': typeof CoursesCountryModuleSlugRoute
@@ -1433,6 +1496,7 @@ export interface FileRoutesById {
   '/api/public/hooks/property-alerts': typeof ApiPublicHooksPropertyAlertsRoute
   '/api/public/hooks/workspace-jobs': typeof ApiPublicHooksWorkspaceJobsRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
   '/$locale/courses/$country/': typeof LocaleCoursesCountryIndexRoute
   '/admin/crm/leads/': typeof AdminCrmLeadsIndexRoute
   '/admin/email/campaigns/': typeof AdminEmailCampaignsIndexRoute
@@ -1526,8 +1590,12 @@ export interface FileRouteTypes {
     | '/admin/automations'
     | '/admin/calendar'
     | '/admin/chat'
+    | '/admin/documents'
     | '/admin/feed'
+    | '/admin/inbox'
     | '/admin/logs'
+    | '/admin/quotes'
+    | '/admin/reports'
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
@@ -1538,6 +1606,7 @@ export interface FileRouteTypes {
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
+    | '/sign/$token'
     | '/sitemap/$locale.xml'
     | '/vip/admin'
     | '/$locale/'
@@ -1569,6 +1638,7 @@ export interface FileRouteTypes {
     | '/admin/office/spreadsheet'
     | '/admin/presentations/$id'
     | '/admin/properties/new'
+    | '/api/public/sign'
     | '/api/public/team-image-update'
     | '/api/public/translate-missing'
     | '/courses/$country/$moduleSlug'
@@ -1592,6 +1662,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/property-alerts'
     | '/api/public/hooks/workspace-jobs'
     | '/api/public/media/$'
+    | '/api/public/whatsapp/webhook'
     | '/$locale/courses/$country/'
     | '/admin/crm/leads/'
     | '/admin/email/campaigns/'
@@ -1681,8 +1752,12 @@ export interface FileRouteTypes {
     | '/admin/automations'
     | '/admin/calendar'
     | '/admin/chat'
+    | '/admin/documents'
     | '/admin/feed'
+    | '/admin/inbox'
     | '/admin/logs'
+    | '/admin/quotes'
+    | '/admin/reports'
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
@@ -1693,6 +1768,7 @@ export interface FileRouteTypes {
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
+    | '/sign/$token'
     | '/sitemap/$locale.xml'
     | '/vip/admin'
     | '/$locale'
@@ -1724,6 +1800,7 @@ export interface FileRouteTypes {
     | '/admin/office/spreadsheet'
     | '/admin/presentations/$id'
     | '/admin/properties/new'
+    | '/api/public/sign'
     | '/api/public/team-image-update'
     | '/api/public/translate-missing'
     | '/courses/$country/$moduleSlug'
@@ -1747,6 +1824,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/property-alerts'
     | '/api/public/hooks/workspace-jobs'
     | '/api/public/media/$'
+    | '/api/public/whatsapp/webhook'
     | '/$locale/courses/$country'
     | '/admin/crm/leads'
     | '/admin/email/campaigns'
@@ -1838,8 +1916,12 @@ export interface FileRouteTypes {
     | '/admin/automations'
     | '/admin/calendar'
     | '/admin/chat'
+    | '/admin/documents'
     | '/admin/feed'
+    | '/admin/inbox'
     | '/admin/logs'
+    | '/admin/quotes'
+    | '/admin/reports'
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
@@ -1850,6 +1932,7 @@ export interface FileRouteTypes {
     | '/article/$id'
     | '/articles/$slug'
     | '/articles/expenses-buying-property-turkey'
+    | '/sign/$token'
     | '/sitemap/$locale.xml'
     | '/vip/admin'
     | '/$locale/'
@@ -1881,6 +1964,7 @@ export interface FileRouteTypes {
     | '/admin/office/spreadsheet'
     | '/admin/presentations/$id'
     | '/admin/properties/new'
+    | '/api/public/sign'
     | '/api/public/team-image-update'
     | '/api/public/translate-missing'
     | '/courses/$country/$moduleSlug'
@@ -1904,6 +1988,7 @@ export interface FileRouteTypes {
     | '/api/public/hooks/property-alerts'
     | '/api/public/hooks/workspace-jobs'
     | '/api/public/media/$'
+    | '/api/public/whatsapp/webhook'
     | '/$locale/courses/$country/'
     | '/admin/crm/leads/'
     | '/admin/email/campaigns/'
@@ -1957,11 +2042,13 @@ export interface RootRouteChildren {
   ArticleIdRoute: typeof ArticleIdRoute
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   ArticlesExpensesBuyingPropertyTurkeyRoute: typeof ArticlesExpensesBuyingPropertyTurkeyRoute
+  SignTokenRoute: typeof SignTokenRoute
   SitemapLocaleDotxmlRoute: typeof SitemapLocaleDotxmlRoute
   VipAdminRoute: typeof VipAdminRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
   VipIndexRoute: typeof VipIndexRoute
+  ApiPublicSignRoute: typeof ApiPublicSignRoute
   ApiPublicTeamImageUpdateRoute: typeof ApiPublicTeamImageUpdateRoute
   ApiPublicTranslateMissingRoute: typeof ApiPublicTranslateMissingRoute
   CoursesCountryModuleSlugRoute: typeof CoursesCountryModuleSlugRoute
@@ -1970,6 +2057,7 @@ export interface RootRouteChildren {
   ApiPublicHooksPropertyAlertsRoute: typeof ApiPublicHooksPropertyAlertsRoute
   ApiPublicHooksWorkspaceJobsRoute: typeof ApiPublicHooksWorkspaceJobsRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
+  ApiPublicWhatsappWebhookRoute: typeof ApiPublicWhatsappWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -2583,6 +2671,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminChatRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/documents': {
+      id: '/admin/documents'
+      path: '/documents'
+      fullPath: '/admin/documents'
+      preLoaderRoute: typeof AdminDocumentsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/feed': {
       id: '/admin/feed'
       path: '/feed'
@@ -2590,11 +2685,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFeedRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/inbox': {
+      id: '/admin/inbox'
+      path: '/inbox'
+      fullPath: '/admin/inbox'
+      preLoaderRoute: typeof AdminInboxRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/logs': {
       id: '/admin/logs'
       path: '/logs'
       fullPath: '/admin/logs'
       preLoaderRoute: typeof AdminLogsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/quotes': {
+      id: '/admin/quotes'
+      path: '/quotes'
+      fullPath: '/admin/quotes'
+      preLoaderRoute: typeof AdminQuotesRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/seo': {
@@ -2679,6 +2795,13 @@ declare module '@tanstack/react-router' {
       path: '/courses'
       fullPath: '/courses/'
       preLoaderRoute: typeof CoursesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign/$token': {
+      id: '/sign/$token'
+      path: '/sign/$token'
+      fullPath: '/sign/$token'
+      preLoaderRoute: typeof SignTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap/$locale.xml': {
@@ -2933,6 +3056,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPropertiesNewRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/api/public/sign': {
+      id: '/api/public/sign'
+      path: '/api/public/sign'
+      fullPath: '/api/public/sign'
+      preLoaderRoute: typeof ApiPublicSignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/team-image-update': {
       id: '/api/public/team-image-update'
       path: '/api/public/team-image-update'
@@ -3057,6 +3187,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/media/$'
       fullPath: '/api/public/media/$'
       preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/whatsapp/webhook': {
+      id: '/api/public/whatsapp/webhook'
+      path: '/api/public/whatsapp/webhook'
+      fullPath: '/api/public/whatsapp/webhook'
+      preLoaderRoute: typeof ApiPublicWhatsappWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -3186,8 +3323,12 @@ interface AdminRouteRouteChildren {
   AdminAutomationsRoute: typeof AdminAutomationsRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
   AdminChatRoute: typeof AdminChatRoute
+  AdminDocumentsRoute: typeof AdminDocumentsRoute
   AdminFeedRoute: typeof AdminFeedRoute
+  AdminInboxRoute: typeof AdminInboxRoute
   AdminLogsRoute: typeof AdminLogsRoute
+  AdminQuotesRoute: typeof AdminQuotesRoute
+  AdminReportsRoute: typeof AdminReportsRoute
   AdminSeoRoute: typeof AdminSeoRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSocialListeningRoute: typeof AdminSocialListeningRoute
@@ -3232,8 +3373,12 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAutomationsRoute: AdminAutomationsRoute,
   AdminCalendarRoute: AdminCalendarRoute,
   AdminChatRoute: AdminChatRoute,
+  AdminDocumentsRoute: AdminDocumentsRoute,
   AdminFeedRoute: AdminFeedRoute,
+  AdminInboxRoute: AdminInboxRoute,
   AdminLogsRoute: AdminLogsRoute,
+  AdminQuotesRoute: AdminQuotesRoute,
+  AdminReportsRoute: AdminReportsRoute,
   AdminSeoRoute: AdminSeoRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSocialListeningRoute: AdminSocialListeningRoute,
@@ -3326,11 +3471,13 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesSlugRoute: ArticlesSlugRoute,
   ArticlesExpensesBuyingPropertyTurkeyRoute:
     ArticlesExpensesBuyingPropertyTurkeyRoute,
+  SignTokenRoute: SignTokenRoute,
   SitemapLocaleDotxmlRoute: SitemapLocaleDotxmlRoute,
   VipAdminRoute: VipAdminRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,
   CoursesIndexRoute: CoursesIndexRoute,
   VipIndexRoute: VipIndexRoute,
+  ApiPublicSignRoute: ApiPublicSignRoute,
   ApiPublicTeamImageUpdateRoute: ApiPublicTeamImageUpdateRoute,
   ApiPublicTranslateMissingRoute: ApiPublicTranslateMissingRoute,
   CoursesCountryModuleSlugRoute: CoursesCountryModuleSlugRoute,
@@ -3339,6 +3486,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksPropertyAlertsRoute: ApiPublicHooksPropertyAlertsRoute,
   ApiPublicHooksWorkspaceJobsRoute: ApiPublicHooksWorkspaceJobsRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
+  ApiPublicWhatsappWebhookRoute: ApiPublicWhatsappWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

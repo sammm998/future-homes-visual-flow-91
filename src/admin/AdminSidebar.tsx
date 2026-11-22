@@ -29,6 +29,9 @@ import {
   Rss,
   CalendarDays,
   Workflow,
+  FileSignature,
+  LineChart,
+  FolderOpen,
 
 } from "lucide-react";
 import {
@@ -65,7 +68,11 @@ const groups: { label: string; items: Item[] }[] = [
   {
     label: "CRM",
     items: [
+      { to: "/admin/inbox", label: "Customer inbox", icon: MessagesSquare },
       { to: "/admin/crm/pipeline", label: "Pipeline", icon: KanbanSquare },
+      { to: "/admin/quotes", label: "Quotes & agreements", icon: FileSignature },
+      { to: "/admin/reports", label: "Sales reports", icon: LineChart },
+      { to: "/admin/documents", label: "Document archive", icon: FolderOpen },
       { to: "/admin/crm/leads", label: "Leads", icon: Users },
       { to: "/admin/crm/contacts", label: "Contacts", icon: UserCircle2 },
       { to: "/admin/crm/tasks", label: "Tasks", icon: ListChecks },

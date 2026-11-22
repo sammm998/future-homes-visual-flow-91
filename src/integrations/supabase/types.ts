@@ -752,6 +752,59 @@ export type Database = {
         }
         Relationships: []
       }
+      documents: {
+        Row: {
+          created_at: string
+          deal_id: string | null
+          filename: string
+          id: string
+          lead_id: string | null
+          mime: string | null
+          path: string
+          property_ref: string | null
+          size_bytes: number | null
+          tags: string[]
+          updated_at: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          deal_id?: string | null
+          filename: string
+          id?: string
+          lead_id?: string | null
+          mime?: string | null
+          path: string
+          property_ref?: string | null
+          size_bytes?: number | null
+          tags?: string[]
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          deal_id?: string | null
+          filename?: string
+          id?: string
+          lead_id?: string | null
+          mime?: string | null
+          path?: string
+          property_ref?: string | null
+          size_bytes?: number | null
+          tags?: string[]
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       early_access_projects: {
         Row: {
           active: boolean
@@ -1014,6 +1067,211 @@ export type Database = {
           y_pct?: number
         }
         Relationships: []
+      }
+      inbox_conversations: {
+        Row: {
+          assigned_to: string | null
+          channel: string
+          contact_handle: string
+          contact_name: string | null
+          created_at: string
+          id: string
+          last_inbound_at: string | null
+          last_message_at: string
+          lead_id: string | null
+          status: string
+          unread_count: number
+        }
+        Insert: {
+          assigned_to?: string | null
+          channel?: string
+          contact_handle: string
+          contact_name?: string | null
+          created_at?: string
+          id?: string
+          last_inbound_at?: string | null
+          last_message_at?: string
+          lead_id?: string | null
+          status?: string
+          unread_count?: number
+        }
+        Update: {
+          assigned_to?: string | null
+          channel?: string
+          contact_handle?: string
+          contact_name?: string | null
+          created_at?: string
+          id?: string
+          last_inbound_at?: string | null
+          last_message_at?: string
+          lead_id?: string | null
+          status?: string
+          unread_count?: number
+        }
+        Relationships: []
+      }
+      inbox_messages: {
+        Row: {
+          author_id: string | null
+          body: string
+          conversation_id: string
+          created_at: string
+          direction: string
+          error: Json | null
+          id: string
+          media: Json | null
+          provider_message_id: string | null
+          status: string
+          status_at: string | null
+          status_times: Json
+        }
+        Insert: {
+          author_id?: string | null
+          body?: string
+          conversation_id: string
+          created_at?: string
+          direction: string
+          error?: Json | null
+          id?: string
+          media?: Json | null
+          provider_message_id?: string | null
+          status?: string
+          status_at?: string | null
+          status_times?: Json
+        }
+        Update: {
+          author_id?: string | null
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          direction?: string
+          error?: Json | null
+          id?: string
+          media?: Json | null
+          provider_message_id?: string | null
+          status?: string
+          status_at?: string | null
+          status_times?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inbox_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "inbox_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoice_payments: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          invoice_id: string
+          method: string | null
+          note: string | null
+          paid_at: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          invoice_id: string
+          method?: string | null
+          note?: string | null
+          paid_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          invoice_id?: string
+          method?: string | null
+          note?: string | null
+          paid_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          amount: number
+          client_email: string | null
+          client_name: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          deal_id: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          invoice_no: string
+          issue_date: string
+          notes: string | null
+          quote_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          client_email?: string | null
+          client_name?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deal_id?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          invoice_no?: string
+          issue_date?: string
+          notes?: string | null
+          quote_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          client_email?: string | null
+          client_name?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deal_id?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          invoice_no?: string
+          issue_date?: string
+          notes?: string | null
+          quote_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       languages: {
         Row: {
@@ -1643,6 +1901,109 @@ export type Database = {
           },
         ]
       }
+      quote_items: {
+        Row: {
+          description: string
+          id: string
+          position: number
+          qty: number
+          quote_id: string
+          unit_price: number
+        }
+        Insert: {
+          description?: string
+          id?: string
+          position?: number
+          qty?: number
+          quote_id: string
+          unit_price?: number
+        }
+        Update: {
+          description?: string
+          id?: string
+          position?: number
+          qty?: number
+          quote_id?: string
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_items_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quotes: {
+        Row: {
+          client_email: string | null
+          client_name: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          deal_id: string | null
+          discount_pct: number
+          id: string
+          lead_id: string | null
+          notes: string | null
+          payment_plan: string | null
+          property_ref: string | null
+          quote_no: string
+          status: string
+          unit_type: string | null
+          updated_at: string
+          valid_until: string | null
+        }
+        Insert: {
+          client_email?: string | null
+          client_name?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deal_id?: string | null
+          discount_pct?: number
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          payment_plan?: string | null
+          property_ref?: string | null
+          quote_no?: string
+          status?: string
+          unit_type?: string | null
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Update: {
+          client_email?: string | null
+          client_name?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          deal_id?: string | null
+          discount_pct?: number
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          payment_plan?: string | null
+          property_ref?: string | null
+          quote_no?: string
+          status?: string
+          unit_type?: string | null
+          updated_at?: string
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       saved_searches: {
         Row: {
           active: boolean
@@ -1687,6 +2048,81 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      signature_requests: {
+        Row: {
+          body: string
+          created_at: string
+          created_by: string | null
+          deal_id: string | null
+          expires_at: string
+          id: string
+          quote_id: string | null
+          signature_png: string | null
+          signed_at: string | null
+          signed_name: string | null
+          signer_email: string | null
+          signer_ip: string | null
+          signer_name: string
+          signer_ua: string | null
+          status: string
+          title: string
+          token: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string | null
+          expires_at?: string
+          id?: string
+          quote_id?: string | null
+          signature_png?: string | null
+          signed_at?: string | null
+          signed_name?: string | null
+          signer_email?: string | null
+          signer_ip?: string | null
+          signer_name: string
+          signer_ua?: string | null
+          status?: string
+          title: string
+          token?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string | null
+          expires_at?: string
+          id?: string
+          quote_id?: string | null
+          signature_png?: string | null
+          signed_at?: string | null
+          signed_name?: string | null
+          signer_email?: string | null
+          signer_ip?: string | null
+          signer_name?: string
+          signer_ua?: string | null
+          status?: string
+          title?: string
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "signature_requests_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "signature_requests_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "quotes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tasks: {
         Row: {
@@ -2011,6 +2447,42 @@ export type Database = {
           id?: string
           url?: string
           usage_context?: string | null
+        }
+        Relationships: []
+      }
+      whatsapp_webhook_events: {
+        Row: {
+          attempts: number
+          delivery_id: string
+          event: string
+          id: string
+          next_attempt_at: string
+          payload: Json
+          processed_at: string | null
+          processing_error: string | null
+          received_at: string
+        }
+        Insert: {
+          attempts?: number
+          delivery_id: string
+          event: string
+          id?: string
+          next_attempt_at?: string
+          payload: Json
+          processed_at?: string | null
+          processing_error?: string | null
+          received_at?: string
+        }
+        Update: {
+          attempts?: number
+          delivery_id?: string
+          event?: string
+          id?: string
+          next_attempt_at?: string
+          payload?: Json
+          processed_at?: string | null
+          processing_error?: string | null
+          received_at?: string
         }
         Relationships: []
       }

@@ -1,4 +1,5 @@
 import { mediaUrl } from "@/lib/mediaUrl";
+import DocumentsPanel from "@/admin/crm/DocumentsPanel";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "@/lib/router-compat";
 import { supabase } from "@/integrations/legacy/client";
@@ -648,6 +649,13 @@ export default function PropertyEdit() {
               )}
             </CardContent>
           </Card>
+
+          {form.ref_no && (
+            <Card className="bg-admin-surface">
+              <CardHeader><CardTitle className="text-base">Documents</CardTitle></CardHeader>
+              <CardContent><DocumentsPanel compact scope={{ propertyRef: form.ref_no }} /></CardContent>
+            </Card>
+          )}
 
           <Card className="bg-admin-surface">
             <CardHeader><CardTitle className="text-base">SEO</CardTitle></CardHeader>

@@ -71,6 +71,13 @@
       "when": 1795352902981,
       "tag": "0009_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1795356335674,
+      "tag": "0010_crm_inbox_quotes_documents",
+      "breakpoints": true
     }
   ]
 }
