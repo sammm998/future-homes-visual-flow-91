@@ -90,7 +90,7 @@ function Favorites() {
   );
 }
 
-function Alerts({ userId }: { userId: string }) {
+export function Alerts({ userId }: { userId: string }) {
   const [rows, setRows] = useState<any[]>([]);
   const [f, setF] = useState({ city: "Antalya", property_type: "Apartment", max_price: "180000", min_bedrooms: "2", keywords: "sea", notify_whatsapp: false });
   const load = () => cloud.from("saved_searches").select("*").order("created_at", { ascending: false }).then(({ data }) => setRows(data ?? []));

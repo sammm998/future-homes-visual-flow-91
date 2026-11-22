@@ -120,6 +120,20 @@
       "when": 1795364559850,
       "tag": "0016_add_property_model_3d",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1795365351732,
+      "tag": "0017_customer_portal",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1795365374059,
+      "tag": "0018_fix_portal_notify",
+      "breakpoints": true
     }
   ]
 }

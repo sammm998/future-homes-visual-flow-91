@@ -1,4 +1,4 @@
-import { MessageSquareText, Shuffle, PieChart, Video, Contact, HardDrive } from "lucide-react";
+import { UserRoundCheck, MessageSquareText, Shuffle, PieChart, Video, Contact, HardDrive } from "lucide-react";
 import { NavLink, useLocation } from "@/lib/router-compat";
 import {
   Bot, Plug, Building2, BadgeCheck, GanttChart, BookOpen, Clock,
@@ -65,6 +65,7 @@ const groups: { label: string; items: Item[] }[] = [
       { to: "/admin/blog", label: "Blog", icon: Newspaper },
       { to: "/admin/blog/ai", label: "Create with AI", icon: Sparkles },
       { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquare },
+      { to: "/admin/portal", label: "Customer portal", icon: UserRoundCheck },
     ],
   },
   {
