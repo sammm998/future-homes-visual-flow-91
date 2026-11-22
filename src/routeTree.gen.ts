@@ -92,20 +92,27 @@ import { Route as LocaleWhereShouldIBuyRouteImport } from './routes/$locale/wher
 import { Route as LocaleWizardThankYouRouteImport } from './routes/$locale/wizard-thank-you'
 import { Route as SegmentIdRouteImport } from './routes/$segment.$id'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminAgentsRouteImport } from './routes/admin/agents'
 import { Route as AdminAiInsightsRouteImport } from './routes/admin/ai-insights'
+import { Route as AdminApprovalsRouteImport } from './routes/admin/approvals'
 import { Route as AdminAutomationsRouteImport } from './routes/admin/automations'
 import { Route as AdminCalendarRouteImport } from './routes/admin/calendar'
 import { Route as AdminChatRouteImport } from './routes/admin/chat'
+import { Route as AdminCompaniesRouteImport } from './routes/admin/companies'
 import { Route as AdminDocumentsRouteImport } from './routes/admin/documents'
 import { Route as AdminFeedRouteImport } from './routes/admin/feed'
 import { Route as AdminInboxRouteImport } from './routes/admin/inbox'
+import { Route as AdminIntegrationsRouteImport } from './routes/admin/integrations'
 import { Route as AdminLogsRouteImport } from './routes/admin/logs'
+import { Route as AdminProjectsRouteImport } from './routes/admin/projects'
 import { Route as AdminQuotesRouteImport } from './routes/admin/quotes'
 import { Route as AdminReportsRouteImport } from './routes/admin/reports'
 import { Route as AdminSeoRouteImport } from './routes/admin/seo'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminSocialListeningRouteImport } from './routes/admin/social-listening'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
+import { Route as AdminTimeRouteImport } from './routes/admin/time'
+import { Route as AdminWikiRouteImport } from './routes/admin/wiki'
 import { Route as ApiAiSearchRouteImport } from './routes/api/ai-search'
 import { Route as ApiAiTranscribeRouteImport } from './routes/api/ai-transcribe'
 import { Route as ApiTranslationsFillRouteImport } from './routes/api/translations-fill'
@@ -602,9 +609,19 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminAgentsRoute = AdminAgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminAiInsightsRoute = AdminAiInsightsRouteImport.update({
   id: '/ai-insights',
   path: '/ai-insights',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminApprovalsRoute = AdminApprovalsRouteImport.update({
+  id: '/approvals',
+  path: '/approvals',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminAutomationsRoute = AdminAutomationsRouteImport.update({
@@ -622,6 +639,11 @@ const AdminChatRoute = AdminChatRouteImport.update({
   path: '/chat',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminCompaniesRoute = AdminCompaniesRouteImport.update({
+  id: '/companies',
+  path: '/companies',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminDocumentsRoute = AdminDocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
@@ -637,9 +659,19 @@ const AdminInboxRoute = AdminInboxRouteImport.update({
   path: '/inbox',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminIntegrationsRoute = AdminIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminLogsRoute = AdminLogsRouteImport.update({
   id: '/logs',
   path: '/logs',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminProjectsRoute = AdminProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminQuotesRoute = AdminQuotesRouteImport.update({
@@ -670,6 +702,16 @@ const AdminSocialListeningRoute = AdminSocialListeningRouteImport.update({
 const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
   id: '/testimonials',
   path: '/testimonials',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminTimeRoute = AdminTimeRouteImport.update({
+  id: '/time',
+  path: '/time',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminWikiRoute = AdminWikiRouteImport.update({
+  id: '/wiki',
+  path: '/wiki',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const ApiAiSearchRoute = ApiAiSearchRouteImport.update({
@@ -1093,20 +1135,27 @@ export interface FileRoutesByFullPath {
   '/$locale/where-should-i-buy': typeof LocaleWhereShouldIBuyRoute
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
+  '/admin/agents': typeof AdminAgentsRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
+  '/admin/approvals': typeof AdminApprovalsRoute
   '/admin/automations': typeof AdminAutomationsRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/chat': typeof AdminChatRoute
+  '/admin/companies': typeof AdminCompaniesRoute
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/feed': typeof AdminFeedRoute
   '/admin/inbox': typeof AdminInboxRoute
+  '/admin/integrations': typeof AdminIntegrationsRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/projects': typeof AdminProjectsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/time': typeof AdminTimeRoute
+  '/admin/wiki': typeof AdminWikiRoute
   '/api/ai-search': typeof ApiAiSearchRoute
   '/api/ai-transcribe': typeof ApiAiTranscribeRoute
   '/api/translations-fill': typeof ApiTranslationsFillRoute
@@ -1255,20 +1304,27 @@ export interface FileRoutesByTo {
   '/$locale/where-should-i-buy': typeof LocaleWhereShouldIBuyRoute
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
+  '/admin/agents': typeof AdminAgentsRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
+  '/admin/approvals': typeof AdminApprovalsRoute
   '/admin/automations': typeof AdminAutomationsRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/chat': typeof AdminChatRoute
+  '/admin/companies': typeof AdminCompaniesRoute
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/feed': typeof AdminFeedRoute
   '/admin/inbox': typeof AdminInboxRoute
+  '/admin/integrations': typeof AdminIntegrationsRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/projects': typeof AdminProjectsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/time': typeof AdminTimeRoute
+  '/admin/wiki': typeof AdminWikiRoute
   '/api/ai-search': typeof ApiAiSearchRoute
   '/api/ai-transcribe': typeof ApiAiTranscribeRoute
   '/api/translations-fill': typeof ApiTranslationsFillRoute
@@ -1420,20 +1476,27 @@ export interface FileRoutesById {
   '/$locale/where-should-i-buy': typeof LocaleWhereShouldIBuyRoute
   '/$locale/wizard-thank-you': typeof LocaleWizardThankYouRoute
   '/$segment/$id': typeof SegmentIdRoute
+  '/admin/agents': typeof AdminAgentsRoute
   '/admin/ai-insights': typeof AdminAiInsightsRoute
+  '/admin/approvals': typeof AdminApprovalsRoute
   '/admin/automations': typeof AdminAutomationsRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/chat': typeof AdminChatRoute
+  '/admin/companies': typeof AdminCompaniesRoute
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/feed': typeof AdminFeedRoute
   '/admin/inbox': typeof AdminInboxRoute
+  '/admin/integrations': typeof AdminIntegrationsRoute
   '/admin/logs': typeof AdminLogsRoute
+  '/admin/projects': typeof AdminProjectsRoute
   '/admin/quotes': typeof AdminQuotesRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/seo': typeof AdminSeoRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/social-listening': typeof AdminSocialListeningRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/time': typeof AdminTimeRoute
+  '/admin/wiki': typeof AdminWikiRoute
   '/api/ai-search': typeof ApiAiSearchRoute
   '/api/ai-transcribe': typeof ApiAiTranscribeRoute
   '/api/translations-fill': typeof ApiTranslationsFillRoute
@@ -1586,20 +1649,27 @@ export interface FileRouteTypes {
     | '/$locale/where-should-i-buy'
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
+    | '/admin/agents'
     | '/admin/ai-insights'
+    | '/admin/approvals'
     | '/admin/automations'
     | '/admin/calendar'
     | '/admin/chat'
+    | '/admin/companies'
     | '/admin/documents'
     | '/admin/feed'
     | '/admin/inbox'
+    | '/admin/integrations'
     | '/admin/logs'
+    | '/admin/projects'
     | '/admin/quotes'
     | '/admin/reports'
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
     | '/admin/testimonials'
+    | '/admin/time'
+    | '/admin/wiki'
     | '/api/ai-search'
     | '/api/ai-transcribe'
     | '/api/translations-fill'
@@ -1748,20 +1818,27 @@ export interface FileRouteTypes {
     | '/$locale/where-should-i-buy'
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
+    | '/admin/agents'
     | '/admin/ai-insights'
+    | '/admin/approvals'
     | '/admin/automations'
     | '/admin/calendar'
     | '/admin/chat'
+    | '/admin/companies'
     | '/admin/documents'
     | '/admin/feed'
     | '/admin/inbox'
+    | '/admin/integrations'
     | '/admin/logs'
+    | '/admin/projects'
     | '/admin/quotes'
     | '/admin/reports'
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
     | '/admin/testimonials'
+    | '/admin/time'
+    | '/admin/wiki'
     | '/api/ai-search'
     | '/api/ai-transcribe'
     | '/api/translations-fill'
@@ -1912,20 +1989,27 @@ export interface FileRouteTypes {
     | '/$locale/where-should-i-buy'
     | '/$locale/wizard-thank-you'
     | '/$segment/$id'
+    | '/admin/agents'
     | '/admin/ai-insights'
+    | '/admin/approvals'
     | '/admin/automations'
     | '/admin/calendar'
     | '/admin/chat'
+    | '/admin/companies'
     | '/admin/documents'
     | '/admin/feed'
     | '/admin/inbox'
+    | '/admin/integrations'
     | '/admin/logs'
+    | '/admin/projects'
     | '/admin/quotes'
     | '/admin/reports'
     | '/admin/seo'
     | '/admin/settings'
     | '/admin/social-listening'
     | '/admin/testimonials'
+    | '/admin/time'
+    | '/admin/wiki'
     | '/api/ai-search'
     | '/api/ai-transcribe'
     | '/api/translations-fill'
@@ -2643,11 +2727,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/agents': {
+      id: '/admin/agents'
+      path: '/agents'
+      fullPath: '/admin/agents'
+      preLoaderRoute: typeof AdminAgentsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/ai-insights': {
       id: '/admin/ai-insights'
       path: '/ai-insights'
       fullPath: '/admin/ai-insights'
       preLoaderRoute: typeof AdminAiInsightsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/approvals': {
+      id: '/admin/approvals'
+      path: '/approvals'
+      fullPath: '/admin/approvals'
+      preLoaderRoute: typeof AdminApprovalsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/automations': {
@@ -2671,6 +2769,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminChatRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/companies': {
+      id: '/admin/companies'
+      path: '/companies'
+      fullPath: '/admin/companies'
+      preLoaderRoute: typeof AdminCompaniesRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/documents': {
       id: '/admin/documents'
       path: '/documents'
@@ -2692,11 +2797,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminInboxRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/integrations': {
+      id: '/admin/integrations'
+      path: '/integrations'
+      fullPath: '/admin/integrations'
+      preLoaderRoute: typeof AdminIntegrationsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/logs': {
       id: '/admin/logs'
       path: '/logs'
       fullPath: '/admin/logs'
       preLoaderRoute: typeof AdminLogsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/projects': {
+      id: '/admin/projects'
+      path: '/projects'
+      fullPath: '/admin/projects'
+      preLoaderRoute: typeof AdminProjectsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/quotes': {
@@ -2739,6 +2858,20 @@ declare module '@tanstack/react-router' {
       path: '/testimonials'
       fullPath: '/admin/testimonials'
       preLoaderRoute: typeof AdminTestimonialsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/time': {
+      id: '/admin/time'
+      path: '/time'
+      fullPath: '/admin/time'
+      preLoaderRoute: typeof AdminTimeRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/wiki': {
+      id: '/admin/wiki'
+      path: '/wiki'
+      fullPath: '/admin/wiki'
+      preLoaderRoute: typeof AdminWikiRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/api/ai-search': {
@@ -3319,20 +3452,27 @@ const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
 )
 
 interface AdminRouteRouteChildren {
+  AdminAgentsRoute: typeof AdminAgentsRoute
   AdminAiInsightsRoute: typeof AdminAiInsightsRoute
+  AdminApprovalsRoute: typeof AdminApprovalsRoute
   AdminAutomationsRoute: typeof AdminAutomationsRoute
   AdminCalendarRoute: typeof AdminCalendarRoute
   AdminChatRoute: typeof AdminChatRoute
+  AdminCompaniesRoute: typeof AdminCompaniesRoute
   AdminDocumentsRoute: typeof AdminDocumentsRoute
   AdminFeedRoute: typeof AdminFeedRoute
   AdminInboxRoute: typeof AdminInboxRoute
+  AdminIntegrationsRoute: typeof AdminIntegrationsRoute
   AdminLogsRoute: typeof AdminLogsRoute
+  AdminProjectsRoute: typeof AdminProjectsRoute
   AdminQuotesRoute: typeof AdminQuotesRoute
   AdminReportsRoute: typeof AdminReportsRoute
   AdminSeoRoute: typeof AdminSeoRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminSocialListeningRoute: typeof AdminSocialListeningRoute
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
+  AdminTimeRoute: typeof AdminTimeRoute
+  AdminWikiRoute: typeof AdminWikiRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminAnalyticsEmailRoute: typeof AdminAnalyticsEmailRoute
   AdminAnalyticsHeatmapRoute: typeof AdminAnalyticsHeatmapRoute
@@ -3369,20 +3509,27 @@ interface AdminRouteRouteChildren {
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAgentsRoute: AdminAgentsRoute,
   AdminAiInsightsRoute: AdminAiInsightsRoute,
+  AdminApprovalsRoute: AdminApprovalsRoute,
   AdminAutomationsRoute: AdminAutomationsRoute,
   AdminCalendarRoute: AdminCalendarRoute,
   AdminChatRoute: AdminChatRoute,
+  AdminCompaniesRoute: AdminCompaniesRoute,
   AdminDocumentsRoute: AdminDocumentsRoute,
   AdminFeedRoute: AdminFeedRoute,
   AdminInboxRoute: AdminInboxRoute,
+  AdminIntegrationsRoute: AdminIntegrationsRoute,
   AdminLogsRoute: AdminLogsRoute,
+  AdminProjectsRoute: AdminProjectsRoute,
   AdminQuotesRoute: AdminQuotesRoute,
   AdminReportsRoute: AdminReportsRoute,
   AdminSeoRoute: AdminSeoRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminSocialListeningRoute: AdminSocialListeningRoute,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
+  AdminTimeRoute: AdminTimeRoute,
+  AdminWikiRoute: AdminWikiRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminAnalyticsEmailRoute: AdminAnalyticsEmailRoute,
   AdminAnalyticsHeatmapRoute: AdminAnalyticsHeatmapRoute,

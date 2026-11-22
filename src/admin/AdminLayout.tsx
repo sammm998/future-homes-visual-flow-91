@@ -6,7 +6,8 @@ import AdminLanguageSwitcher from "./AdminLanguageSwitcher";
 import { AdminI18nProvider, useAdminT } from "@/admin/i18n/AdminI18nContext";
 import { supabase } from "@/integrations/legacy/client";
 import { Button } from "@/components/ui/button";
-import { LogOut, Bell } from "lucide-react";
+import { LogOut } from "lucide-react";
+import NotificationBell from "./NotificationBell";
 import { toast } from "sonner";
 
 function AdminLayoutInner() {
@@ -38,9 +39,7 @@ function AdminLayoutInner() {
             </div>
             <div className="flex items-center gap-2">
               <AdminLanguageSwitcher />
-              <Button variant="ghost" size="icon" aria-label={t("Notifications")}>
-                <Bell className="h-4 w-4" />
-              </Button>
+              <NotificationBell />
               <span className="text-xs text-muted-foreground hidden md:inline">{email}</span>
               <Button variant="outline" size="sm" onClick={handleLogout}>
                 <LogOut className="h-4 w-4 mr-1.5" /> {t("Sign out")}

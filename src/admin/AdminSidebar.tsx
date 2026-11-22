@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "@/lib/router-compat";
 import {
+  Bot, Plug, Building2, BadgeCheck, GanttChart, BookOpen, Clock,
   LayoutDashboard,
   Home,
   Newspaper,
@@ -66,6 +67,13 @@ const groups: { label: string; items: Item[] }[] = [
     ],
   },
   {
+    label: "AI agents",
+    items: [
+      { to: "/admin/agents", label: "Agents", icon: Bot },
+      { to: "/admin/integrations", label: "Integrations", icon: Plug },
+    ],
+  },
+  {
     label: "CRM",
     items: [
       { to: "/admin/inbox", label: "Customer inbox", icon: MessagesSquare },
@@ -75,6 +83,8 @@ const groups: { label: string; items: Item[] }[] = [
       { to: "/admin/documents", label: "Document archive", icon: FolderOpen },
       { to: "/admin/crm/leads", label: "Leads", icon: Users },
       { to: "/admin/crm/contacts", label: "Contacts", icon: UserCircle2 },
+      { to: "/admin/companies", label: "Companies", icon: Building2 },
+      { to: "/admin/approvals", label: "Approvals", icon: BadgeCheck },
       { to: "/admin/crm/tasks", label: "Tasks", icon: ListChecks },
       { to: "/admin/calendar", label: "Calendar", icon: CalendarDays },
       { to: "/admin/automations", label: "Automations", icon: Workflow },
@@ -85,6 +95,9 @@ const groups: { label: string; items: Item[] }[] = [
     items: [
       { to: "/admin/chat", label: "Team chat", icon: MessagesSquare },
       { to: "/admin/feed", label: "Team feed", icon: Rss },
+      { to: "/admin/projects", label: "Projects", icon: GanttChart },
+      { to: "/admin/wiki", label: "Knowledge base", icon: BookOpen },
+      { to: "/admin/time", label: "Time & absence", icon: Clock },
     ],
   },
   {
